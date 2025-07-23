@@ -272,16 +272,16 @@ namespace Implem.Pleasanter.NetCore
             app.UseHsts();
             app.UseSecurityHeadersMiddleware();
             var cspSettings = Parameters.Security.ContentSecurityPolicy;
-            var nonce = CreateNonceValue();
-            var cspHeaderValues = cspSettings.GetHeaderValues(
-                nonce: nonce,
-                isDevelopment: env.IsDevelopment());
             var cspEnabled = cspSettings.Enabled
                 || cspSettings.ReportOnlyEnabled;
-            if (!cspHeaderValues.IsNullOrEmpty() && cspEnabled)
+            if (cspSettings.IsSettings() && cspEnabled)
             {
                 app.Use(async (context, next) =>
                 {
+                    var nonce = CreateNonceValue();
+                    var cspHeaderValues = cspSettings.GetHeaderValues(
+                        nonce: nonce,
+                        isDevelopment: env.IsDevelopment());
                     context.Items["Nonce"] = nonce;
                     if (cspSettings.Enabled)
                     {

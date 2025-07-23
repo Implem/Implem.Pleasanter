@@ -11,12 +11,13 @@ namespace Implem.ParameterAccessor.Parts
         public bool ReportOnlyEnabled { get; set; } = true;
         public List<ContentSecurityPolicyValues> Values { get; set; }
 
+        public bool IsSettings() => Values?.Count > 0;
+
         public string GetHeaderValues(
             string nonce,
             bool isDevelopment)
         {
-            if (Values == null
-                || Values.Count == 0)
+            if (!IsSettings())
             {
                 return string.Empty;
             }
