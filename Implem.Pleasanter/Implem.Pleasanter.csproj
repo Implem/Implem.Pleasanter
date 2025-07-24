@@ -5,14 +5,14 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.18.0</AssemblyVersion>
-    <FileVersion>1.4.18.0</FileVersion>
-    <Version>1.4.18.0</Version>
+    <AssemblyVersion>1.4.18.1</AssemblyVersion>
+    <FileVersion>1.4.18.1</FileVersion>
+    <Version>1.4.18.1</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-    
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningsAsErrors />
     <NoWarn>NU1605;1701;1702</NoWarn>
@@ -39,7 +39,6 @@
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.5.0" />
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.4.0" />
     <PackageReference Include="Azure.Identity" Version="1.13.2" />
-    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="DiffMatchPatch" Version="3.0.0" />
 	  <PackageReference Include="Fare" Version="2.2.1" />
     <PackageReference Include="MailKit" Version="4.11.0" />
@@ -52,6 +51,7 @@
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.3.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="8.0.17" />
     <PackageReference Include="Microsoft.ClearScript.Complete" Version="7.5.0" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
@@ -165,10 +165,17 @@
     </None>
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(SkipBuildTask)' != 'true'">
+    <Exec Command="npm run build" WorkingDirectory="$(ProjectDir)..\Implem.PleasanterFrontend\wwwroot\" IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="NpmExitCode" />
+    </Exec>
+    <Error Condition="'$(NpmExitCode)' != '0'" Text="❌ 'npm run build' failed.&#xD;&#xA;&#xD;&#xA;It may be due to missing dependencies.&#xD;&#xA;Please make sure you have run the following commands:&#xD;&#xA;&#xD;&#xA;cd $(ProjectDir)..\Implem.PleasanterFrontend\wwwroot&#xD;&#xA;npm install&#xD;&#xA;&#xD;&#xA;Then try building again." />
+  </Target>
+
   <ItemGroup>
-      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-          <_Parameter1>Implem.PleasanterTest</_Parameter1>
-      </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Implem.PleasanterTest</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

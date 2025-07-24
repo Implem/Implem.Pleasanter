@@ -1,0 +1,91 @@
+﻿.nav-site {
+    background-color: white;
+    border: solid 2px silver;
+}
+
+    .nav-site.sites {
+        background-color: white;
+        border: solid 2px silver;
+    }
+
+    .nav-site .heading {
+        background-color: silver;
+        border: solid 1px silver;
+    }
+
+#NavigationMenu .menu > li > a {
+    color: black;
+}
+
+.control-selectable .ui-selecting{
+    background:silver;
+}
+
+.control-selectable .ui-selected{
+    color:white;
+    background:dimgray;
+}
+
+.nav-sites .ui-icon {
+    background-image: url("../../images/ui-icons_222222_256x240.png");
+}
+
+#RecordInfo .ui-icon {
+    background-image: url("../../images/ui-icons_222222_256x240.png");
+}
+
+#EditorComments .ui-icon {
+    background-image: url("../../images/ui-icons_222222_256x240.png");
+}
+
+.ui-icon.ui-icon-pencil.button-edit-markdown {
+    background-image: url("../../images/ui-icons_222222_256x240.png");
+}
+
+.ui-widget-content .control-markup a {
+    color: #383838;
+}
+
+.ui-widget-content .control-text a {
+    color: #383838;
+}
+
+.field-control .control-textbox {
+    color: #383838;
+}
+
+.field-control .already-attachments .file-name {
+    color: #383838;
+}
+
+.field-control .ui-multiselect {
+    color: black;
+}
+
+.field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
+    background-image: url("../../images/ui-icons_222222_256x240.png");
+}
+
+#CopyToClipboards .ui-icon.ui-icon-link {
+    background-image: url("../../images/ui-icons_222222_256x240.png");
+}
+
+.ui-icon.ui-icon-close {
+    background-image: url("../../images/ui-icons_222222_256x240.png");
+}
+
+.ui-button-icon.ui-icon.ui-icon-close {
+    background-image: url("../../images/ui-icons_888888_256x240.png");
+}
+
+#ViewFilters .ui-icon.ui-icon-info {
+    background-image: url("../../images/ui-icons_222222_256x240.png");
+}
+
+#Links .grid-row a {
+    color: #383838;
+}
+
+.grid-row .ui-icon {
+    background-image: url("../../images/ui-icons_222222_256x240.png");
+}

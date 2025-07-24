@@ -5,7 +5,6 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -105,13 +104,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     rel: "shortcut icon")
 
                 .Link(
-                    href: Responses.Locations.Get(
+                    href: Responses.Locations.Raw(
                         context: context,
                         parts: $"components/{json["main"]}"),
                     rel: "modulepreload",
                     crossorigin: true)
                 .Link(
-                    href: Responses.Locations.Get(
+                    href: Responses.Locations.Raw(
                         context: context,
                         parts: $"components/{json["vendor"]}"),
                     rel: "modulepreload",

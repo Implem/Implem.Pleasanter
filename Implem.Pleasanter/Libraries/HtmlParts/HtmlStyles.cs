@@ -115,20 +115,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .LinkStyles(
                     context: context,
                     srcList: [
-                        "Styles/Plugins/Normalize.css",
-                        "Styles/Plugins/lightbox.css",
-                        $"Styles/Plugins/themes/{context.Theme()}/jquery-ui.min.css",
-                        "Styles/Plugins/jquery.datetimepicker.min.css",
-                        "Styles/Plugins/jquery.multiselect.css",
-                        "Styles/Plugins/jquery.multiselect.filter.css",
-                        "Scripts/Plugins/gridstack.js/gridstack.min.css",
-                        "Styles/Plugins/flatpickr.min.css",
-                        "Styles/Plugins/material-symbols-0.31.2/material-symbols/index.css"])
+                        "assets/plugins/Normalize.css",
+                        $"assets/themes/{context.Theme()}/jquery-ui.min.css",
+                        "assets/plugins/material-symbols/index.css"])
                 .Link(
-                    href: context.VirtualPathToAbsolute($"~/content/styles.min.css?v={Environments.BundlesVersions.Get("styles.css")}"),
-                    rel: "stylesheet")
+                    href: context.VirtualPathToAbsolute($"~/assets/css/legacy.min.css?v={cacheBustingCode}"),
+                    rel: "stylesheet",
+                    _using: context.ThemeVersionForCss() < 2.0M)
                 .Link(
-                    href: context.VirtualPathToAbsolute($"~/content/responsive.min.css?v={Environments.BundlesVersions.Get("responsive.css")}"),
+                    href: context.VirtualPathToAbsolute($"~/assets/css/legacy-responsive.min.css?v={cacheBustingCode}"),
                     rel: "stylesheet",
                     _using: Parameters.Mobile.Responsive
                         && context.Mobile
@@ -138,28 +133,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: $"Styles/site.modern.css?v={cacheBustingCode}"),
-                    rel: "stylesheet")
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: $"Styles/responsive.modern.css?v={cacheBustingCode}"),
-                    rel: "stylesheet",
-                    _using: Parameters.Mobile.Responsive
-                        && context.Mobile
-                        && context.Responsive
-                        && context.ThemeVersionForCss() < 2.0M
-                        && (ss == null || ss.Responsive != false))
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: $"Styles/Plugins/themes/themes.custom.css?v={cacheBustingCode}"),
+                        parts: $"assets/css/style.min.css?v={cacheBustingCode}"),
                     rel: "stylesheet",
                     _using: context.ThemeVersionForCss() >= 2.0M)
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: $"Styles/Plugins/themes/responsive.custom.css?v={cacheBustingCode}"),
+                        parts: $"assets/css/style-responsive.min.css?v={cacheBustingCode}"),
                     rel: "stylesheet",
                     _using: Parameters.Mobile.Responsive
                         && context.Mobile
@@ -169,7 +149,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: $"Styles/Plugins/themes/{context.Theme()}/custom.css?v={cacheBustingCode}"),
+                        parts: $"assets/css/style-dark.min.css?v={cacheBustingCode}"),
+                    rel: "stylesheet",
+                    _using: context.Theme() == "midnight").Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: $"assets/themes/{context.Theme()}/custom.css?v={cacheBustingCode}"),
                     rel: "stylesheet");
         }
     }

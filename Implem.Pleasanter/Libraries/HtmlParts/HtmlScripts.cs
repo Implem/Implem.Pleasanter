@@ -1,16 +1,15 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
-using Implem.Pleasanter.App_Start;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Nodes;
+using System.Net;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlScripts
@@ -27,90 +26,81 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 var extendedScripts = ExtendedScripts(context: context);
                 var path = Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json");
                 var json = ManifestLoader(path);
+                var cacheBustingCode = WebUtility.UrlEncode((context.ThemeVersionForCss() + Environments.AssemblyVersion).Split(".").Join(""));
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/jquery-3.6.0.min.js"))
+                        parts: "assets/plugins/jquery-3.6.0.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/jquery-ui.min.js"))
+                        parts: "assets/plugins/jquery-ui.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/jquery.datetimepicker.full.min.js"))
+                        parts: "assets/plugins/jquery.datetimepicker/jquery.datetimepicker.full.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/jquery.multiselect.min.js"))
+                        parts: "assets/plugins/jquery.multiselect/jquery.multiselect.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/jquery.multiselect.filter.min.js"))
+                        parts: "assets/plugins/jquery.multiselect/jquery.multiselect.filter.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/jquery.validate.min.js"))
+                        parts: "assets/plugins/jquery.validate.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/d3.min.js"))
+                        parts: "assets/plugins/d3.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/hogan-3.0.2.min.js"))
+                        parts: "assets/plugins/hogan-3.0.2.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/marked.min.js"))
+                        parts: "assets/plugins/marked.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"))
+                        parts: "assets/Plugins/jQuery-File-Upload/jquery.iframe-transport.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.iframe-transport.js"))
+                        parts: "assets/Plugins/jQuery-File-Upload/jquery.fileupload.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.fileupload.js"))
+                        parts: "assets/Plugins/jQuery-File-Upload/jquery.fileupload-process.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.fileupload-process.js"))
+                        parts: "assets/Plugins/jQuery-File-Upload/jquery.fileupload-image.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.fileupload-image.js"))
+                        parts: "assets/Plugins/jQuery-File-Upload/jquery.fileupload-video.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.fileupload-video.js"))
+                        parts: "assets/Plugins/jQuery-File-Upload/jquery.fileupload-validate.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.fileupload-validate.js"))
+                        parts: "assets/Plugins/md5.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/md5.js"))
+                        parts: "assets/Plugins/moment.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/moment.min.js"))
+                        parts: "assets/Plugins/lightbox/lightbox.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/lightbox.min.js"))
+                        parts: "assets/Plugins/gridstack.js/gridstack-all.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/gridstack.js/gridstack-all.min.js"))
+                        parts: "assets/Plugins/fullcalendar/index.global.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/fullcalendar/index.global.min.js"))
-                    .Script(src: Responses.Locations.Get(
-                        context: context,
-                        parts: "Scripts/Plugins/qrcode.min.js"))
+                        parts: "assets/Plugins/qrcode.min.js"))
                     .Script(src:
                         Responses.Locations.Get(
                             context: context,
                             parts: $"components/{json["main"]}"),
-                            type: "module",
-                            crossorigin: true
+                        type: "module",
+                        crossorigin: true
                     )
-                    .Generals(context: context)
-                    .Script(
-                        src: Responses.Locations.Get(
-                            context: context,
-                            parts: $"resources/scripts?v={extendedScripts.Sha512Cng()}"
-                                + $"&site-id={context.SiteId}"
-                                + $"&id={context.Id}"
-                                + $"&controller={context.Controller}"
-                                + $"&action={context.Action}"),
-                        _using: !extendedScripts.IsNullOrEmpty())
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: $"assets/js/generals.min.js?v={cacheBustingCode}"))
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
                         script: ss.GetScriptBody(
@@ -131,10 +121,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             && context.Action == "index")
                     .Script(script: "$p.setCalendar();",
                         _using: ss.ReferenceType == "Dashboards" &&
-                             ss.DashboardParts?.Any(part => part.Type == DashboardPartType.Calendar) == true)
+                            ss.DashboardParts?.Any(part => part.Type == DashboardPartType.Calendar) == true)
                     .Script(script: "$p.setKamban();",
                         _using: ss.ReferenceType == "Dashboards" &&
-                             ss.DashboardParts?.Any(part => part.Type == DashboardPartType.Kamban) == true)
+                            ss.DashboardParts?.Any(part => part.Type == DashboardPartType.Kamban) == true)
                     .Script(script: "$p.setDashboardAsync();",
                         _using: ss.ReferenceType == "Dashboards")
                     .Script(script: "$p.setDashboardGrid();",
@@ -208,20 +198,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Select(o => o.Script)
                             .Join("\n");
             return scripts;
-        }
-
-        private static HtmlBuilder Generals(this HtmlBuilder hb, Context context)
-        {
-            if (!System.Diagnostics.Debugger.IsAttached)
-            {
-                hb.Script(src: context.VirtualPathToAbsolute($"~/bundles/generals.min.js?v={Environments.BundlesVersions.Get("generals.js")}"));
-            }
-            else
-            {
-                BundleConfig.Generals().ForEach(path =>
-                    hb.Script(src: context.VirtualPathToAbsolute(path)));
-            }
-            return hb;
         }
 
         private static HtmlBuilder OnEditorLoad(this HtmlBuilder hb, Context context)
