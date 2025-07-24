@@ -111,3 +111,4 @@ import './generals/relatingcolumns.js';
 import './generals/fieldselectable.js';
 import './generals/tenants.js';
 import './generals/responsive.js';
+import './generals/ui-dialog/ui-dialog.js';

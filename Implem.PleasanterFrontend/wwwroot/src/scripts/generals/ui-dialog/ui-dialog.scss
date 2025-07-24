@@ -1,0 +1,188 @@
+:host {
+    box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+.modal-dialog {
+    all: initial;
+    position: fixed;
+    inset: 0;
+    box-sizing: border-box;
+    display: none;
+    overflow: auto;
+    font-size: 14px;
+    background-color: transparent;
+    transition: background-color 300ms ease-out;
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        margin: 0;
+    }
+    &::-webkit-scrollbar-track {
+        margin: 4px 0;
+        background-color: transparent;
+    }
+    &::-webkit-scrollbar-corner {
+        background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        box-sizing: content-box;
+        cursor: grab;
+        background: var(--u-modal-scroll, #ccc);
+        border-radius: 8px;
+        &:hover {
+            background-color: var(--u-modal-scroll-hover, #eee);
+        }
+        &:active {
+            cursor: grabbing;
+        }
+    }
+    .dialog-container {
+        display: grid;
+        width: max-content;
+        min-width: 100%;
+        min-height: 100%;
+        padding: 16px 32px;
+    }
+    .dialog-content {
+        position: relative;
+        width: fit-content;
+        min-width: 30vw;
+        margin: auto;
+        color: var(--base-text, #333);
+        user-select: text;
+        background-color: var(--dialog-bg, #fff);
+        border-radius: 5px;
+        box-shadow: 0 2px 4px var(--base-shadow, rgb(0 0 0 / 20%));
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+            opacity 100ms ease-out,
+            transform 300ms ease-out;
+    }
+    .dialog-header {
+        position: sticky;
+        top: -2px;
+        padding: 8px;
+        overflow: auto;
+        color: var(--invert-text, #333);
+        background-color: var(--primaryColor, #eee);
+        border-bottom: 1px solid var(--primaryColor, #ccc);
+        border-radius: 4px 4px 0 0;
+    }
+    .dialog-body {
+        padding: 16px;
+    }
+    .dialog-footer {
+        position: sticky;
+        bottom: -2px;
+        overflow: auto;
+        background-color: var(--footer-command-bg, rgb(0 0 0 / 50%));
+        border-radius: 0 0 4px 4px;
+        slot {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+        }
+    }
+    .dialog-close-icon {
+        button {
+            all: unset;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            z-index: 9;
+            display: inline-block;
+            font-family: 'Material Symbols Outlined', sans-serif;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: normal;
+            font-feature-settings: 'liga';
+            line-height: 1;
+            color: var(--invert-text, #333);
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            cursor: pointer;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizelegibility;
+        }
+    }
+    &::backdrop {
+        display: none;
+    }
+    &[open] {
+        display: block;
+    }
+    &.dialog-active {
+        background-color: var(--dialog-backdrop, rgb(0 0 0 / 50%));
+        .dialog-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    &[no-header-slot] {
+        .dialog-header {
+            display: none;
+        }
+        .dialog-close-icon {
+            button {
+                color: var(--base-text, #333);
+            }
+        }
+    }
+    &[no-footer-slot] {
+        .dialog-footer {
+            display: none;
+        }
+    }
+    &[is-transparent] {
+        .dialog-content {
+            color: var(--invert-text, #fff);
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+        .dialog-header {
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+        }
+        .dialog-body {
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+        }
+        .dialog-footer {
+            slot {
+                padding: 0;
+            }
+        }
+        .dialog-close-icon {
+            button {
+                top: 0;
+                right: -24px;
+                color: var(--invert-text, #fff);
+            }
+        }
+        &.dialog-active {
+            background-color: var(--dialog-backdrop, rgb(0 0 0 / 80%));
+        }
+    }
+
+    @media screen and (width <= 1024px) and (width >= 0) {
+        .dialog-content {
+            min-width: 80vw;
+        }
+    }
+}
