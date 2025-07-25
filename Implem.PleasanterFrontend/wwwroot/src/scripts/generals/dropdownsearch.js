@@ -11,7 +11,7 @@
         $control.removeClass('error');
         $('[id="' + $control.attr('id') + '-error"]').remove();
     }
-}
+};
 
 $p.openDropDownSearchDialog = function ($control) {
     if ($p.data.MainForm === undefined) {
@@ -48,8 +48,8 @@ $p.openDropDownSearchDialog = function ($control) {
     var $target = $('#DropDownSearchTarget');
     var multiple = $control.attr('multiple') === 'multiple';
     $('#DropDownSearchSelectedValues').val(JSON.stringify($control.val()));
-    $('#DropDownSearchParentClass').val($("#" + id).attr('parent-data-class'));
-    $('#DropDownSearchParentDataId').val($("#" + id).attr('parent-data-id'));
+    $('#DropDownSearchParentClass').val($('#' + id).attr('parent-data-class'));
+    $('#DropDownSearchParentDataId').val($('#' + id).attr('parent-data-id'));
     $('#DropDownSearchMultiple').val(multiple);
     $target.val(id);
     var error = $p.syncSend($target);
@@ -60,7 +60,7 @@ $p.openDropDownSearchDialog = function ($control) {
             width: '860px',
             resizable: false,
             close: function () {
-                $('#' + $target.val()).prop("disabled", false);
+                $('#' + $target.val()).prop('disabled', false);
             }
         });
         if (multiple) {
@@ -68,9 +68,9 @@ $p.openDropDownSearchDialog = function ($control) {
         } else {
             $p.setPaging('DropDownSearchResults');
         }
-        $control.prop("disabled", true);
+        $control.prop('disabled', true);
         $('#DropDownSearchText').focus();
     } else {
         $($('#DropDownSearchDialog')).dialog('close');
     }
-}
+};

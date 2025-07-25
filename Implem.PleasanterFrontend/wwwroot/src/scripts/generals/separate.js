@@ -8,20 +8,20 @@
             resizable: false
         });
     }
-}
+};
 
 $p.separateSettings = function () {
     $(function () {
-        $("#SeparateSettings").on('spin', '#SeparateNumber', function (event, ui) {
+        $('#SeparateSettings').on('spin', '#SeparateNumber', function (event, ui) {
             setSeparateNumber($(this), ui.value);
         });
-        $("#SeparateSettings").on('change', '#SeparateNumber', function () {
+        $('#SeparateSettings').on('change', '#SeparateNumber', function () {
             setSeparateNumber($(this), $(this).val());
         });
-        $("#SeparateSettings").on('spin', '[id*="SeparateWorkValue_"]', function (event, ui) {
+        $('#SeparateSettings').on('spin', '[id*="SeparateWorkValue_"]', function (event, ui) {
             return setSource($(this), ui.value);
         });
-        $("#SeparateSettings").on('change', '[id*="SeparateWorkValue_"]', function () {
+        $('#SeparateSettings').on('change', '[id*="SeparateWorkValue_"]', function () {
             setSource($(this), $(this).val());
         });
     });
@@ -47,7 +47,7 @@ $p.separateSettings = function () {
         var $source = $('#SourceWorkValue');
         var source = parseFloat($source.attr('data-value'));
         if (source >= sum) {
-            source = (Math.round((source - sum) * 100) / 100);
+            source = Math.round((source - sum) * 100) / 100;
         } else {
             $sender.val(Math.round((source - getSum($sender, 0)) * 100) / 100);
             ret = false;
@@ -64,6 +64,8 @@ $p.separateSettings = function () {
             return $sender.attr('id') !== control.id
                 ? parseFloat($(control).val())
                 : parseFloat(value);
-        }).reduce(function (x, y) { return x + y; });
+        }).reduce(function (x, y) {
+            return x + y;
+        });
     }
-}
+};

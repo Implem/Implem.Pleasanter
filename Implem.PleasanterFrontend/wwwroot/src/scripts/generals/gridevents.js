@@ -8,25 +8,29 @@
     $(document).on('change', '.grid-check', function () {
         var $control = $(this);
         if ($('#GridCheckAll').prop('checked')) {
-            $p.getData($control).GridUnCheckedItems =
-                $('.grid-check').filter(':not(:checked)')
-                    .map(function () { return $(this).attr('data-id'); })
-                    .get()
-                    .join(',');
+            $p.getData($control).GridUnCheckedItems = $('.grid-check')
+                .filter(':not(:checked)')
+                .map(function () {
+                    return $(this).attr('data-id');
+                })
+                .get()
+                .join(',');
         } else {
-            $p.getData($control).GridCheckedItems =
-                $('.grid-check').filter(':checked')
-                    .map(function () { return $(this).attr('data-id'); })
-                    .get()
-                    .join(',');
+            $p.getData($control).GridCheckedItems = $('.grid-check')
+                .filter(':checked')
+                .map(function () {
+                    return $(this).attr('data-id');
+                })
+                .get()
+                .join(',');
         }
     });
     $(document).on('change', '.grid .select', function () {
-        $p.setData($(this).closest('.grid'))
+        $p.setData($(this).closest('.grid'));
     });
     $(document).on('change', '.grid .select-all', function () {
-        $control = $(this);
-        $grid = $(this).closest('.grid');
+        var $control = $(this);
+        var $grid = $(this).closest('.grid');
         $grid.find('.select').prop('checked', $control.prop('checked'));
         $p.setData($grid);
     });
@@ -37,7 +41,7 @@
             if (!$grid.hasClass('not-link')) {
                 if ($grid.hasClass('history')) {
                     if (!$p.confirmReload()) return false;
-                    var $control = $(this).closest('.grid-row');
+                    let $control = $(this).closest('.grid-row');
                     var data = $p.getData($control);
                     data.Ver = $control.attr('data-ver');
                     data.Latest = $control.attr('data-latest');
@@ -47,7 +51,7 @@
                 } else {
                     var dataId = $(this).closest('.grid-row').attr('data-id');
                     if ($grid.hasClass('new-tab')) {
-                        url = $('#BaseUrl').val() + dataId;
+                        let url = $('#BaseUrl').val() + dataId;
                         window.open(url, '_blank', 'noopener noreferrer');
                     } else {
                         var func = $grid.attr('data-func');
@@ -56,14 +60,12 @@
                         if (func) {
                             $p.getData($grid)[$grid.attr('data-name')] = dataId;
                             $p[func]($grid);
-                        }
-                        else {
+                        } else {
                             var paramVer = dataHistory ? '?ver=' + dataVer : '';
                             if ($('#EditorDialog').length === 1) {
-                                var data = {};
+                                let data = {};
                                 data.EditInDialog = true;
-                                url = $('#BaseUrl').val() + dataId
-                                    + paramVer;
+                                let url = $('#BaseUrl').val() + dataId + paramVer;
                                 $p.ajax(url, 'post', data);
                             } else {
                                 var params = [];
@@ -74,11 +76,14 @@
                                 if (fromTabIndex) {
                                     params.push('FromTabIndex=' + fromTabIndex);
                                 }
-                                $p.transition($('#BaseUrl').val() + dataId
-                                    + paramVer
-                                    + (params.length
-                                        ? (paramVer ? '$' : '?') + params.join('&')
-                                        : ''));
+                                $p.transition(
+                                    $('#BaseUrl').val() +
+                                        dataId +
+                                        paramVer +
+                                        (params.length
+                                            ? (paramVer ? '$' : '?') + params.join('&')
+                                            : '')
+                                );
                             }
                         }
                     }
@@ -97,13 +102,13 @@ $(function () {
     var isRwd = $('head').css('font-family') === 'responsive';
     var spToggle = false;
     var filterHide = function () {
-        if ($(".menu-sort:visible").length) $(".menu-sort:visible").hide();
+        if ($('.menu-sort:visible').length) $('.menu-sort:visible').hide();
         if ($('.ui-multiselect-close:visible').length) $('.ui-multiselect-close:visible').click();
         spToggle = false;
-    }
+    };
 
     var filterShow = function ($control) {
-        filterHide()
+        filterHide();
         var dataName = $control.attr('data-name');
         $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");
         $menuSort.css('width', 'auto');
@@ -115,7 +120,7 @@ $(function () {
                     top: $control.offset().top + $control.outerHeight() - $(window).scrollTop(),
                     left: $control.offset().left - $(window).scrollLeft(),
                     width: Math.max($control.outerWidth(), $menuSort.outerWidth())
-                }
+                };
             } else {
                 var stageWidth = $('#ViewModeContainer').width();
                 var cssWidth = Math.max($control.outerWidth(), $menuSort.outerWidth());
@@ -126,19 +131,23 @@ $(function () {
                     marginTop: $control.outerHeight() - 1,
                     left: cssLeft,
                     width: cssWidth
-                }
+                };
             }
         })();
         $menuSort.css(cssProps).show();
-    }
+    };
 
     $(document).on('mouseenter', '#Grid th.sortable', function () {
         if (isRwd) return false;
         clearTimeout(showTimer);
         clearTimeout(hideTimer);
-        showTimer = setTimeout(function ($control) {
-            filterShow($control)
-        }, 700, $(this));
+        showTimer = setTimeout(
+            function ($control) {
+                filterShow($control);
+            },
+            700,
+            $(this)
+        );
     });
 
     $(document).on('mouseleave', '#Grid th.sortable', function () {
@@ -157,7 +166,7 @@ $(function () {
     });
 
     $(document).on('mouseleave', '#GridHeaderMenus', function () {
-        if (isRwd) return false
+        if (isRwd) return false;
         if ($('.ui-multiselect-menu:visible').length) return false;
         if ($('#GridHeaderMenus .menu-sort input:focus').length) return false;
         filterHide();
@@ -169,17 +178,21 @@ $(function () {
     });
 
     if ($('#GridHeaderMenus .menu-sort input').length) {
-        $('#GridHeaderMenus').find(".menu-sort input").on('blur', function () {
-            if ($('#GridHeaderMenus:hover').length) return false;
-            filterHide();
-        });
-        $('#GridHeaderMenus').find('.menu-sort input').on('keydown', function (e) {
-            if (e.keyCode === 13) {
-                setTimeout(function () {
-                    filterHide();
-                }, 300);
-            }
-        });
+        $('#GridHeaderMenus')
+            .find('.menu-sort input')
+            .on('blur', function () {
+                if ($('#GridHeaderMenus:hover').length) return false;
+                filterHide();
+            });
+        $('#GridHeaderMenus')
+            .find('.menu-sort input')
+            .on('keydown', function (e) {
+                if (e.keyCode === 13) {
+                    setTimeout(function () {
+                        filterHide();
+                    }, 300);
+                }
+            });
     }
 
     $(document).on('click', 'th.sortable', function (e) {
@@ -187,7 +200,10 @@ $(function () {
             var $control = $(this).find('div');
             sort($control, $control.attr('data-order-type'));
         } else {
-            if (!$(".menu-sort[id='GridHeaderMenu__" + $(this).attr('data-name') + "']:visible").length) {
+            if (
+                !$(".menu-sort[id='GridHeaderMenu__" + $(this).attr('data-name') + "']:visible")
+                    .length
+            ) {
                 spToggle = true;
                 filterShow($(this));
             } else {
@@ -199,14 +215,14 @@ $(function () {
 
     // レスポンシブのみ
     document.addEventListener('touchstart', function (e) {
-        if (!isRwd) return false
+        if (!isRwd) return false;
         if (e.target.closest('.ui-multiselect-menu')) {
-            if($(".menu-sort:visible").length){
-                setTimeout( () => {
+            if ($('.menu-sort:visible').length) {
+                setTimeout(() => {
                     filterHide();
-                }, 100)
+                }, 100);
             }
-            return false
+            return false;
         }
         if (!e.target.closest('#GridHeaderMenus')) {
             setTimeout(function () {
@@ -255,19 +271,20 @@ $(function () {
     }
 });
 
-
 $(function () {
     var timer;
     $(document).on('mouseenter', '.grid-row .grid-title-body, .grid-row .comment', function () {
         $(this).addClass('focus-inform');
-        timer = setTimeout(function ($control) {
-            $control.addClass('height-auto');
-        }, 700, $(this));
+        timer = setTimeout(
+            function ($control) {
+                $control.addClass('height-auto');
+            },
+            700,
+            $(this)
+        );
     });
     $(document).on('mouseleave', '.grid-row .grid-title-body, .grid-row .comment', function () {
         clearTimeout(timer);
-        $(this)
-            .removeClass('height-auto')
-            .removeClass('focus-inform');
+        $(this).removeClass('height-auto').removeClass('focus-inform');
     });
 });

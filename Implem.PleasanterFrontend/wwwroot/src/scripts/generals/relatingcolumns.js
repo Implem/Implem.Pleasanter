@@ -1,26 +1,17 @@
 ﻿$(document).ready(function () {
     var methodType = $('#MethodType').val();
     $p.initRelatingColumnWhenViewChanged = function () {
-        initRelatingColumn(
-            $('#TriggerRelatingColumns_Filter'),
-            'ViewFilters_');
+        initRelatingColumn($('#TriggerRelatingColumns_Filter'), 'ViewFilters_');
     };
     $p.initRelatingColumn = function () {
-        initRelatingColumn(
-            $('#TriggerRelatingColumns_Dialog'),
-            $('#TableName').val());
+        initRelatingColumn($('#TriggerRelatingColumns_Dialog'), $('#TableName').val());
     };
     $p.initRelatingColumnEditor = function () {
-        initRelatingColumn(
-            $('#TriggerRelatingColumns_Editor'),
-            $('#TableName').val());
+        initRelatingColumn($('#TriggerRelatingColumns_Editor'), $('#TableName').val());
     };
     // 自動ポストバック時はnoSend:trueを指定しparent-data-classなどの属性のセットのみ行う
     $p.initRelatingColumnEditorNoSend = function () {
-        initRelatingColumn(
-            $('#TriggerRelatingColumns_Editor'),
-            $('#TableName').val(),
-            true);
+        initRelatingColumn($('#TriggerRelatingColumns_Editor'), $('#TableName').val(), true);
     };
     if (methodType === 'edit' || methodType === 'new') {
         $p.initRelatingColumnEditor();
@@ -36,14 +27,19 @@
         for (var k in rcols) {
             var prekey = '';
             for (var k2 in rcols[k].Columns) {
-                if (prekey !== '' && rcols[k].Columns[k2] !== null && rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]] !== null) {
+                if (
+                    prekey !== '' &&
+                    rcols[k].Columns[k2] !== null &&
+                    rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]] !== null
+                ) {
                     applyRelatingColumn(
                         prekey,
                         rcols[k].Columns[k2],
                         rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]],
                         tablename,
                         $trigger,
-                        noSend);
+                        noSend
+                    );
                 }
                 prekey = rcols[k].Columns[k2];
             }
@@ -69,7 +65,8 @@
                     '#' + tablename + '_' + prnt,
                     debounce(function () {
                         c_change(tablename, false);
-                    }, 500));
+                    }, 500)
+                );
             }
         });
         var $parentElement = $('#' + tablename + '_' + prnt);
@@ -85,8 +82,7 @@
                     }
                     parentIds.push(value);
                 });
-            }
-            else {
+            } else {
                 parentIds.push($parentElement.attr('data-value'));
             }
             var childIds = [];

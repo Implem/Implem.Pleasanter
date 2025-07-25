@@ -7,4 +7,4 @@
         appendTo: '.main-form',
         resizable: false
     });
-}
+};

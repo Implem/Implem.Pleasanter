@@ -7,12 +7,16 @@
             $('#TotpRegister').remove();
         }
     });
-}
+};
 
 $p.addAuthenticationByMailParameter = function (url) {
     if ($('#AuthenticationByMail').length) {
-        return $p.addUrlParameter(url, 'isAuthenticationByMail', $('#AuthenticationByMail').data('isauthenticationbymail'));
+        return $p.addUrlParameter(
+            url,
+            'isAuthenticationByMail',
+            $('#AuthenticationByMail').data('isauthenticationbymail')
+        );
     } else {
         return url;
     }
-}
+};

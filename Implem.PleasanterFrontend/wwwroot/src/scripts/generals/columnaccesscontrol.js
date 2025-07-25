@@ -9,16 +9,16 @@
             resizable: false
         });
     }
-}
+};
 
 $p.addColumnAccessControl = function () {
     $('#SourceColumnAccessControl li.ui-selected').appendTo('#CurrentColumnAccessControl');
     $p.setData($('#CurrentColumnAccessControl'));
-}
+};
 
 $p.deleteColumnAccessControl = function () {
     $('#CurrentColumnAccessControl li.ui-selected').appendTo('#SourceColumnAccessControl');
-}
+};
 
 $p.changeColumnAccessControl = function ($control, type) {
     $p.setData($('#' + type + 'ColumnAccessControl'));
@@ -28,4 +28,4 @@ $p.changeColumnAccessControl = function ($control, type) {
     data.ColumnAccessControlAll = mainFormData[type + 'ColumnAccessControlAll'];
     data.ColumnAccessControlType = type;
     $p.send($control);
-}
+};
