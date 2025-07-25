@@ -3027,13 +3027,13 @@ namespace Implem.Pleasanter.Models
                                 userId: recordingData.ToInt());
                             break;
                         case "Comments":
-                            if (AccessStatus != Databases.AccessStatuses.Selected &&
-                                !row[column.Key].IsNullOrEmpty())
+                            if (!row[column.Key].IsNullOrEmpty())
                             {
-                                Comments.Prepend(
+                                Comments.ClearAndSplitPrepend(
                                     context: context,
                                     ss: ss,
-                                    body: row[column.Key]);
+                                    body: row[column.Key],
+                                    update: AccessStatus == Databases.AccessStatuses.Selected);
                             }
                             break;
                         default:

@@ -345,6 +345,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\""),
                 where: where,
+                pageSize: ss.LinkPageSize ?? 0,
                 orderBy: orderBy);
         }
 
@@ -420,6 +421,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "\"Sites\".\"SiteId\"=\"Results\".\"SiteId\""),
                 where: where,
+                pageSize: ss.LinkPageSize ?? 0,
                 orderBy: orderBy);
         }
 
@@ -751,7 +753,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 css: "caption-quantity",
                                                 action: () => hb
                                                     .Text(text: " - {0} ".Params(
-                                                        Displays.Quantity(context: context))))
+                                                        ss.LinkPageSize != null ? Displays.LinkPageSize(context: context) : Displays.Quantity(context: context))))
                                             .Span(
                                                 css: "caption-count",
                                                 action: () => hb
@@ -822,7 +824,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 css: "caption-quantity",
                                                 action: () => hb
                                                     .Text(text: " - {0} ".Params(
-                                                        Displays.Quantity(context: context))))
+                                                        ss.LinkPageSize != null ? Displays.LinkPageSize(context: context) : Displays.Quantity(context: context))))
                                             .Span(
                                                 css: "caption-count",
                                                 action: () => hb

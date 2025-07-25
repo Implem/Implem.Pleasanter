@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Column Column;
         public long? SiteId;
+        public bool ExportJsonFormat = false;
 
         public ExportColumn()
         {
@@ -114,6 +115,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Type != Types.Text)
             {
                 exportColumn.Type = Type;
+            }
+            if (ColumnName == "Comments"
+                && exportColumn.Type == null)
+            {
+                exportColumn.Type = Types.Text;
             }
             if (!Format.IsNullOrEmpty() && Format != Column?.EditorFormat)
             {
