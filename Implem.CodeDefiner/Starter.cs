@@ -69,7 +69,7 @@ namespace Implem.CodeDefiner
                         ConfigureDatabase(
                             factory: factory,
                             force: argHash.ContainsKey("f"),
-                            noInput : argHash.ContainsKey("y"),
+                            noInput: argHash.ContainsKey("y"),
                             checkMigration: argHash.ContainsKey("c"));
                         break;
                     case "rds":
@@ -102,7 +102,9 @@ namespace Implem.CodeDefiner
                         if (CompleteConfigureDatabase) MigrateDatabase(factoryTo: factory);
                         break;
                     case "ConvertTime":
-                        ConvertTime(factory: factory);
+                        ConvertTime(
+                            factory: factory,
+                            hourOffset: int.Parse(argHash.Get("h") ?? "-9"));
                         break;
                     case "merge":
                         MergeParameters(
@@ -152,13 +154,13 @@ namespace Implem.CodeDefiner
                     "InvalidTimeZoneException : " + e.Message,
                     Consoles.Types.Error);
             }
-            catch(InvalidLanguageException e)
+            catch (InvalidLanguageException e)
             {
                 Consoles.Write(
                     "InvalidLanguageException : " + e.Message,
                     Consoles.Types.Error);
             }
-            catch(InvalidVersionException e)
+            catch (InvalidVersionException e)
             {
                 Consoles.Write(
                     "InvalidVersionException : " + e.Message,
@@ -188,6 +190,12 @@ namespace Implem.CodeDefiner
                     "JsonException : " + e.Message + "\n" + e.StackTrace,
                     Consoles.Types.Error);
             }
+            catch (FormatException e)
+            {
+                Consoles.Write(
+                    "FormatException : " + e.Message,
+                    Consoles.Types.Error);
+            }
             catch (Exception e)
             {
                 Consoles.Write(
@@ -205,7 +213,7 @@ namespace Implem.CodeDefiner
             {
                 if (args[i].StartsWith("/"))
                 {
-                    string key = args[i].Replace("/","");
+                    string key = args[i].Replace("/", "");
                     string value = "";
                     if (pathParameters.Any(o => o == key) && i + 1 < args.Length)
                     {
@@ -226,7 +234,7 @@ namespace Implem.CodeDefiner
         }
 
         private static void MergeParameters(
-            string installPath  = "",
+            string installPath = "",
             string backUpPath = "",
             string patchSourceZip = "")
         {
@@ -314,7 +322,7 @@ namespace Implem.CodeDefiner
             return string.Join(".", versionInfo.Split(".").Select(s => ("00" + s)[^2..]));
         }
 
-        private static void CheckVersion(string newVersion,string currentVersion ,string patchSourcePath)
+        private static void CheckVersion(string newVersion, string currentVersion, string patchSourcePath)
         {
             var newVersionObj = new System.Version(newVersion);
             var currentVersionObj = new System.Version(currentVersion);
@@ -429,7 +437,7 @@ namespace Implem.CodeDefiner
                 factory,
                 out number, out message, Parameters.Rds.SaConnectionString))
             {
-                Consoles.Write($"[{number}] {message}",Consoles.Types.Error, true);
+                Consoles.Write($"[{number}] {message}", Consoles.Types.Error, true);
                 return false;
             }
             return true;
@@ -496,19 +504,6 @@ namespace Implem.CodeDefiner
             {
                 throw new JsonException($"The value \"{Parameters.Migration.Dbms}\" cannot be set for \"Dbms\" in Migration.json.");
             }
-            var checkMigrationProvider = false;
-            switch (Parameters.Migration.Provider)
-            {
-                case "Local":
-                    checkMigrationProvider = true;
-                    break;
-                default:
-                    break;
-            }
-            if (!checkMigrationProvider)
-            {
-                throw new JsonException($"The value \"{Parameters.Migration.Provider}\" cannot be set for \"Provider\" in Migration.json.");
-            }
             var checkRdsDbms = false;
             switch (Parameters.Rds.Dbms)
             {
@@ -522,19 +517,6 @@ namespace Implem.CodeDefiner
             if (!checkRdsDbms)
             {
                 throw new JsonException($"The value \"{Parameters.Rds.Dbms}\" cannot be set for \"Dbms\" in Rds.json.");
-            }
-            var checkRdsProvider = false;
-            switch (Parameters.Rds.Provider)
-            {
-                case "Local":
-                    checkRdsProvider = true;
-                    break;
-                default:
-                    break;
-            }
-            if (!checkRdsProvider)
-            {
-                throw new JsonException($"The value \"{Parameters.Rds.Provider}\" cannot be set for \"Provider\" in Rds.json.");
             }
             if (Parameters.Rds.Dbms != Parameters.Migration.Dbms ||
                 Parameters.Rds.Provider != Parameters.Migration.Provider ||
@@ -557,10 +539,14 @@ namespace Implem.CodeDefiner
             }
         }
 
-        private static void ConvertTime(ISqlObjectFactory factory)
+        private static void ConvertTime(
+            ISqlObjectFactory factory,
+            int hourOffset)
         {
             TryOpenConnections(factory);
-            Functions.Rds.TimeConverter.Convert(factory: factory);
+            Functions.Rds.TimeConverter.Convert(
+                factory: factory,
+                hourOffset: hourOffset);
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
                 Consoles.Types.Success);

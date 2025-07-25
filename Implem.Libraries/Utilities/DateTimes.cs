@@ -91,5 +91,8 @@ namespace Implem.Libraries.Utilities
                 ? new DateTime(self.AddYears(-1).Year, FirstMonth, 1)
                 : new DateTime(self.Year, FirstMonth, 1);
         }
+
+        public static bool Between(this TimeSpan source, TimeSpan from, TimeSpan to)
+            => from <= source && source <= to;
     }
 }

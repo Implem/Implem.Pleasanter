@@ -184,6 +184,10 @@ namespace Implem.DefinitionAccessor
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_ConnectionString"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_UserConnectionString"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_ConnectionString"));
+            Parameters.Rds.MySqlConnectingHost = Strings.CoalesceEmpty(
+                Parameters.Rds.MySqlConnectingHost,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Rds_MySqlConnectingHost"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_MySqlConnectingHost"));
             Parameters.Mail.SmtpUserName = Strings.CoalesceEmpty(
                 Parameters.Mail.SmtpUserName,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_SmtpUserName"),

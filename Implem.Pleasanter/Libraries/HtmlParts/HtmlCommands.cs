@@ -374,6 +374,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         method: "delete",
                                                         confirm: "ConfirmDelete",
                                                         _using: context.CanDelete(ss: ss)
+                                                            && ss.ReferenceType != null
                                                             && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
                                                             && !readOnly)
                                                     .Button(
@@ -387,6 +388,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         icon: "ui-icon-arrowreturnthick-1-e",
                                                         selector: "#ImportSettingsDialog",
                                                         _using: context.CanImport(ss: ss)
+                                                            && ss.ReferenceType != null
                                                             && !readOnly)
                                                     .Button(
                                                         serverScriptModelRow: serverScriptModelRow,
@@ -400,6 +402,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         action: "OpenExportSelectorDialog",
                                                         method: "post",
                                                         _using: context.CanExport(ss: ss)
+                                                            && ss.ReferenceType != null
                                                             && ExportUtilities.HasExportableTemplates(
                                                                 context: context,
                                                                 ss: ss))

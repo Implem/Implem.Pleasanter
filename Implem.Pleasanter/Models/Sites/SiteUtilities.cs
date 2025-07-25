@@ -8444,6 +8444,15 @@ namespace Implem.Pleasanter.Models
                                         controlCss: "button-icon",
                                         onClick: "$p.moveColumns(event, $(this),'Link');",
                                         icon: "ui-icon-circle-triangle-w"))))
+                .FieldSpinner(
+                    controlId: "LinkPageSize",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.LinkPageSize(context: context),
+                    value: ss.LinkPageSize.ToInt(),
+                    min: Parameters.General.LinkPageSizeMin.ToDecimal(),
+                    max: Parameters.General.LinkPageSizeMax.ToDecimal(),
+                    step: 1,
+                    width: 25)
                 .FieldDropDown(
                     context: context,
                     controlId: "LinkTableView",
@@ -13544,6 +13553,7 @@ namespace Implem.Pleasanter.Models
                         optionCollection: ss.ReminderColumnOptions(),
                         selectedValue: reminder.GetColumn(ss))
                     .FieldTextBox(
+                        context: context,
                         textType: HtmlTypes.TextTypes.DateTime,
                         controlId: "ReminderStartDateTime",
                         controlCss: " always-send",
@@ -13822,7 +13832,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.EncloseDoubleQuotes(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.ExportExecutionType(context: context)))));
+                        .Text(text: Displays.ExportExecutionType(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ExportCommentsJsonFormat(context: context)))));
         }
 
         /// <summary>
@@ -13869,7 +13881,11 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                  .Text(text: Displays.Get(
                                      context: context,
-                                     id: export.ExecutionType.ToString()))))));
+                                     id: export.ExecutionType.ToString())))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: export.ExportCommentsJsonFormat)))));
         }
 
         /// <summary>
@@ -14106,6 +14122,11 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.OutputHeader(context: context),
                         _checked: export.Header != false)
+                    .FieldCheckBox(
+                        controlId: "ExportCommentsJsonFormat",
+                        controlCss: " always-send",
+                        labelText: Displays.ExportCommentsJsonFormat(context: context),
+                        _checked: export.ExportCommentsJsonFormat)
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.ExportColumns(context: context),
@@ -18260,6 +18281,7 @@ namespace Implem.Pleasanter.Models
             }
             return ApiResults.Get(apiResponse: new
             {
+                StatusCode = 200,
                 SiteId = id,
                 Data = resultCollection
             }.ToJson());
