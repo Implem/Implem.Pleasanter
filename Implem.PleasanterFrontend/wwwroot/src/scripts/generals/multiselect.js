@@ -13,18 +13,21 @@
 $p.setMultiSelectData = function ($control) {
     $p.getData($control)[$control.attr('id')] = JSON.stringify(
         $('[name="multiselect_' + $control.attr('id') + '"]')
-            .filter(function () { return $(this).prop('checked'); })
-            .map(function () { return $(this).val() })
-            .toArray());
+            .filter(function () {
+                return $(this).prop('checked');
+            })
+            .map(function () {
+                return $(this).val();
+            })
+            .toArray()
+    );
 };
 
 $p.selectMultiSelect = function ($control, json) {
     $control.find('option').each(function (index, element) {
         var $element = $(element);
         $element.prop('selected', false);
-        var selected = json
-            ? json
-            : '[]';
+        var selected = json ? json : '[]';
         if (JSON.parse(selected).indexOf($element.val()) > -1) {
             $element.prop('selected', true);
         }
@@ -43,9 +46,7 @@ $p.RefreshMultiSelectRelatingColum = function ($target) {
         $currentOptions.each(function (index, element) {
             curOptions.push($(element).val());
         });
-        var selected = $target.attr('selected-options')
-            ? $target.attr('selected-options')
-            : '[]';
+        var selected = $target.attr('selected-options') ? $target.attr('selected-options') : '[]';
         var oldOptions = JSON.parse(selected);
         if (!Array.isArray(oldOptions)) {
             return false;

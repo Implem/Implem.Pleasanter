@@ -18,7 +18,7 @@
             $header.append(`<div class='bg-overlay'></div>`);
         }
         $('.bg-overlay').css({
-            'display': 'block'
+            display: 'block'
         });
         if ($('.bg-overlay').length) {
             $('.bg-overlay').on('click', function () {
@@ -26,7 +26,7 @@
             });
         }
     }
-}
+};
 
 $(document).ready(function () {
     if ($p.responsive() && screen.width < 1025) {
@@ -40,7 +40,8 @@ $(document).ready(function () {
                 });
             } else if (scrollPosition > heightHeader) {
                 $('#Header').css({
-                    'box-shadow': 'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px'
+                    'box-shadow':
+                        'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px'
                 });
             }
         });
@@ -50,29 +51,34 @@ $(document).ready(function () {
 $p.switchResponsive = function ($control) {
     var redirect = 1;
     var data = {};
-    data.Responsive = $control.data("action");
+    data.Responsive = $control.data('action');
     $p.ajax(
         $('#ApplicationPath').val() + 'Resources/Responsive',
         'POST',
         data,
         undefined,
-        redirect !== 1);
+        redirect !== 1
+    );
     if (redirect === 1) {
         $p.transition(location.href);
     }
-}
+};
 
 var $toggleBtns = $('.sub-menu').children('div');
 $.each($toggleBtns, function (i, el) {
-    el.addEventListener('touchstart', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var $self = $(e.currentTarget);
-        $self.toggleClass('is-open');
-        $self.next().not(':animated').slideToggle(300);
-    }, {
-        passive: false
-    });
+    el.addEventListener(
+        'touchstart',
+        function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var $self = $(e.currentTarget);
+            $self.toggleClass('is-open');
+            $self.next().not(':animated').slideToggle(300);
+        },
+        {
+            passive: false
+        }
+    );
 });
 
 if (screen.width < 1025) {
@@ -90,14 +96,10 @@ $(document).ready(function () {
                     setTimeout(function () {
                         $heightMainCommand = $('#MainCommandsContainer').outerHeight();
                         $heightFooter = $('#Footer').outerHeight();
-                        $('#Message').css(
-                            'bottom', parseInt($heightMainCommand + $heightFooter)
-                        );
+                        $('#Message').css('bottom', parseInt($heightMainCommand + $heightFooter));
                     }, 1);
                 });
-                $('#Message').css(
-                    'bottom', parseInt($heightMainCommand + $heightFooter)
-                );
+                $('#Message').css('bottom', parseInt($heightMainCommand + $heightFooter));
             }
         }
     }
@@ -115,7 +117,7 @@ $(document).ready(function () {
 
 if ($p.responsive() && screen.width < 1025) {
     $('#ViewModeContainer').scroll(function (event) {
-        if(event.target.scrollHeight >= event.target.scrollTop + event.target.clientHeight){
+        if (event.target.scrollHeight >= event.target.scrollTop + event.target.clientHeight) {
             var selector = '#Grid';
             var $control = $(selector);
             var $offset = $(selector + 'Offset');
@@ -131,8 +133,8 @@ if ($p.responsive() && screen.width < 1025) {
 }
 
 // Preventing iOS Textbox Auto Zooming and ViewPort Sizing
-if(navigator.userAgent.indexOf('iPhone') > -1 ) {
+if (navigator.userAgent.indexOf('iPhone') > -1) {
     document
-        .querySelector("[name=viewport]")
-        .setAttribute("content","width=device-width, initial-scale=1, maximum-scale=1");
+        .querySelector('[name=viewport]')
+        .setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');
 }

@@ -1,14 +1,16 @@
 ﻿$p.setGrid = function () {
-    $p.pageObserve('Grid')
-}
+    $p.pageObserve('Grid');
+};
 $p.setDashboardGrid = function () {
     var elementsWithGridId = document.querySelectorAll('[id*="Grid_"]');
     elementsWithGridId.forEach(function (element) {
-        $(element).closest('.grid-stack-item').on('scroll resize', function () {
-            $p.dashboardPaging(element.id, $(element).closest('.grid-stack-item'));
-        });
+        $(element)
+            .closest('.grid-stack-item')
+            .on('scroll resize', function () {
+                $p.dashboardPaging(element.id, $(element).closest('.grid-stack-item'));
+            });
     });
-}
+};
 
 $p.openEditorDialog = function (id) {
     $p.data.DialogEditorForm = {};
@@ -21,7 +23,7 @@ $p.openEditorDialog = function (id) {
             $p.initRelatingColumn();
         }
     });
-}
+};
 
 $p.editOnGrid = function ($control, val) {
     if (val === 0) {
@@ -29,23 +31,23 @@ $p.editOnGrid = function ($control, val) {
     }
     $('#EditOnGrid').val(val);
     $p.send($control);
-}
+};
 
 $p.newOnGrid = function ($control) {
     $p.send($control, 'MainForm');
     $(window).scrollTop(0);
-}
+};
 
 $p.copyRow = function ($control) {
     $p.getData($control).OriginalId = $control.closest('.grid-row').attr('data-id');
     $p.send($control);
     $(window).scrollTop(0);
-}
+};
 
 $p.cancelNewRow = function ($control) {
     $p.getData($control).CancelRowId = $control.closest('.grid-row').attr('data-id');
     $p.send($control);
-}
+};
 
 $p.selectedIds = function () {
     var $form = $('#MainForm');
@@ -69,4 +71,4 @@ $p.selectedIds = function () {
             ret = -1;
         });
     return ret;
-}
+};

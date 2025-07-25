@@ -7,4 +7,4 @@
         passwordElement.attr('type', 'password');
         $(element).text('visibility');
     }
-}
+};

@@ -6,8 +6,9 @@
         'POST',
         data,
         undefined,
-        redirect !== 1);
+        redirect !== 1
+    );
     if (redirect === 1) {
         $p.transition($('#ApplicationPath').val());
     }
-}
+};

@@ -2430,15 +2430,15 @@ label.required::after {
 .check-option .check-add-icon {
     margin-left: -5px;
 }
-.field-normal.right-align .check-option{
+.field-normal.right-align .check-option {
     justify-content: flex-end;
 }
-.field-normal.center-align .check-option{
+.field-normal.center-align .check-option {
     justify-content: center;
 }
 
 .container-radio {
-    padding: 8px 8px 8px 0px;
+    padding: 8px 8px 8px 0;
 }
 
 .container-radio > label {
@@ -2668,7 +2668,7 @@ label.required::after {
 }
 
 .grid > thead > tr:first-child > th:first-child {
-    border-radius: 10px 0 0 0 / 10px 0 0 0;
+    border-radius: 10px 0 0 / 10px 0 0;
 }
 
 .grid > thead > tr:first-child > th:last-child {

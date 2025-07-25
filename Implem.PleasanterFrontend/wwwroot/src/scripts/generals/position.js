@@ -13,13 +13,10 @@
         var top = $element.offset().top;
         var right = left + $element.outerWidth();
         var bottom = top + $element.outerHeight();
-        if ($p.mouseX >= left &&
-            $p.mouseX <= right &&
-            $p.mouseY >= top &&
-            $p.mouseY <= bottom) {
+        if ($p.mouseX >= left && $p.mouseX <= right && $p.mouseY >= top && $p.mouseY <= bottom) {
             return true;
         } else {
-            return false
+            return false;
         }
     }
-}
+};

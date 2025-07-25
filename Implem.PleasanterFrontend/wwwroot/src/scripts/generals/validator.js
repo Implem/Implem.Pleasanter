@@ -1,76 +1,66 @@
 ﻿$(function () {
-    $.validator.addMethod(
-        'c_attachments_required',
-        function (value, element) {
-            var $control = $('[id="' + $(element).data('name') + '.items"]');
-            return $control.find('.control-attachments-item:not(.preparation-delete)').length > 0;
+    $.validator.addMethod('c_attachments_required', function (value, element) {
+        var $control = $('[id="' + $(element).data('name') + '.items"]');
+        return $control.find('.control-attachments-item:not(.preparation-delete)').length > 0;
+    });
+    $.validator.addMethod('c_num', function (value, element) {
+        return this.optional(element) || /^(-)?(¥|\\|\$)?[\d,.]+$/.test(value);
+    });
+    $.validator.addMethod('c_min_num', function (value, element, params) {
+        return (
+            this.optional(element) ||
+            parseFloat(value.replace(/[\uC2A5|\u005C,¥]/g, '')) >= parseFloat(params)
+        );
+    });
+    $.validator.addMethod('c_max_num', function (value, element, params) {
+        return (
+            this.optional(element) ||
+            parseFloat(value.replace(/[\uC2A5|\u005C,¥]/g, '')) <= parseFloat(params)
+        );
+    });
+    $.validator.addMethod('c_regex', function (value, element, params) {
+        try {
+            return this.optional(element) || new RegExp(params).test(value);
+        } catch (e) {
+            return false;
         }
-    );
-    $.validator.addMethod(
-        'c_num',
-        function (value, element) {
-            return this.optional(element) || /^(-)?(¥|\\|\$)?[\d,.]+$/.test(value);
-        }
-    );
-    $.validator.addMethod(
-        'c_min_num',
-        function (value, element, params) {
-            return this.optional(element) ||
-                parseFloat(value.replace(/[\uC2A5|\u005C,¥]/g, '')) >= parseFloat(params);
-        }
-    );
-    $.validator.addMethod(
-        'c_max_num',
-        function (value, element, params) {
-            return this.optional(element) ||
-                parseFloat(value.replace(/[\uC2A5|\u005C,¥]/g, '')) <= parseFloat(params);
-        }
-    );
-    $.validator.addMethod(
-        'c_regex',
-        function (value, element, params) {
-            try{
-                return this.optional(element) || new RegExp(params).test(value);
+    });
+    $.validator.addMethod('maxlength', function (value, element, params) {
+        try {
+            if ($('#data-validation-maxlength-type').val() === 'Regex') {
+                return (
+                    value.length +
+                        value.replace(
+                            new RegExp(
+                                '[' + $('#data-validation-maxlength-regex').val() + ']',
+                                'g'
+                            ),
+                            ''
+                        ).length <=
+                    parseFloat(params)
+                );
+            } else {
+                return value.length <= parseFloat(params);
             }
-            catch(e){
-                return false;
-            }
+        } catch (e) {
+            return false;
         }
-    );
-    $.validator.addMethod(
-        'maxlength',
-        function (value, element, params) {
-            try {
-                if ($('#data-validation-maxlength-type').val() === 'Regex') {
-                    return (value.length
-                        + value.replace(
-                            new RegExp('['
-                                + $('#data-validation-maxlength-regex').val()
-                                + ']', 'g'), '').length) <= parseFloat(params);
-                } else {
-                    return value.length <= parseFloat(params);
-                }
-            }
-            catch(e){
-                return false;
-            }
-        }
-    );
+    });
 
     $p.setValidationError = function ($form) {
         $form.find('.ui-tabs li').each(function () {
             $('.control-markdown.error').each(function () {
                 $p.toggleEditor($(this), true);
             });
-            var $control = $('#' + $(this)
-                .attr('aria-controls'))
-                .find('input.error:first:not(.search)');
+            var $control = $('#' + $(this).attr('aria-controls')).find(
+                'input.error:first:not(.search)'
+            );
             if ($control.length === 1) {
                 $(this).closest('.ui-tabs').tabs('option', 'active', $(this).index());
                 $control.focus();
             }
         });
-    }
+    };
 
     $p.formValidate = function ($form, $control) {
         $('input, select, textarea').each(function () {
@@ -112,17 +102,17 @@
             });
         }
         $form.validate({
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 // 複数選択の分類項目に対応するためエラー表示の位置をフィールドの最下段に移動する
                 // マークダウン項目は画像アイコンなどがあるため、移動しない
-                if(!element.closest('.field-markdown').length){
+                if (!element.closest('.field-markdown').length) {
                     element.closest('.container-normal').append(error);
-                }else{
+                } else {
                     error.insertAfter(element);
                 }
             }
         });
-    }
+    };
     $p.applyValidator();
 });
 $p.applyValidator = function () {
@@ -149,12 +139,12 @@ $p.applyValidator = function () {
     $('form').each(function () {
         $(this).validate({
             ignore: '',
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 // 複数選択の分類項目に対応するためエラー表示の位置をフィールドの最下段に移動する
                 // マークダウン項目は画像アイコンなどがあるため、移動しない
-                if(!element.closest('.field-markdown').length){
+                if (!element.closest('.field-markdown').length) {
                     element.closest('.container-normal').append(error);
-                }else{
+                } else {
                     error.insertAfter(element);
                 }
             }
@@ -187,7 +177,11 @@ $p.applyValidator = function () {
     $('[data-validate-maxlength]').each(function () {
         $(this).rules('add', {
             maxlength: $(this).attr('data-validate-maxlength'),
-            messages: { maxlength: $p.display('ValidateMaxLength').replace('{0}', $(this).attr('data-validate-maxlength')) }
+            messages: {
+                maxlength: $p
+                    .display('ValidateMaxLength')
+                    .replace('{0}', $(this).attr('data-validate-maxlength'))
+            }
         });
     });
     $('[data-validate-regex]').each(function () {
@@ -196,4 +190,4 @@ $p.applyValidator = function () {
             messages: { c_regex: $(this).attr('data-validate-regex-errormessage') }
         });
     });
-}
+};
