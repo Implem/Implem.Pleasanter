@@ -2498,6 +2498,7 @@ namespace Implem.Pleasanter.Models
                                 legendText: Displays.OnlyOnce(context: context),
                                 action: () => hb
                                     .FieldTextBox(
+                                        context: context,
                                         textType: HtmlTypes.TextTypes.DateTime,
                                         controlId: "ServerScriptScheduleOnlyOnceTime",
                                         controlCss: " always-send bgss-schedule-onlyonce",

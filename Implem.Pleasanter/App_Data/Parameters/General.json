@@ -97,6 +97,7 @@
     "MinTime": "1900/1/1",
     "MaxTime": "2100/1/1",
     "DateTimeStep": 10,
+    "UseOldDatepicker": false,
     "HideCurrentTimeIcon": false,
     "HideCurrentUserIcon": false,
     "HideCurrentDeptIcon": false,
@@ -105,5 +106,7 @@
     "GroupsDepthMax": 30,
     "BulkUpsertMax": 0,
     "EnableExpandLinkPath": false,
-    "BlockSiteTaskWhileRunning": false
+    "BlockSiteTaskWhileRunning": false,
+    "LinkPageSizeMin": 0,
+    "LinkPageSizeMax": 100
 }

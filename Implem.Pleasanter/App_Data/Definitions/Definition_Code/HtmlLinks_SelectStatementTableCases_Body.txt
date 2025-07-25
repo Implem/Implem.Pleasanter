@@ -44,6 +44,7 @@
                     joinType: SqlJoin.JoinTypes.Inner,
                     joinExpression: "\"Sites\".\"SiteId\"=\"#TableName#\".\"SiteId\""),
         where: where,
+        pageSize: ss.LinkPageSize ?? 0,
         orderBy: orderBy);
 }
 

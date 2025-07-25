@@ -7129,6 +7129,7 @@ namespace Implem.Pleasanter.Models
                     Export.DelimiterType = (Export.DelimiterTypes)context.Forms.Int("DelimiterType");
                     Export.EncloseDoubleQuotes = context.Forms.Bool("EncloseDoubleQuotes");
                     Export.ExecutionType = (Export.ExecutionTypes)context.Forms.Int("ExecutionType");
+                    Export.ExportCommentsJsonFormat = context.Forms.Bool("ExportCommentsJsonFormat");
                     Export.SetPermissions(permissions: ExportPermissions(context: context));
                     SiteSettings.Exports.Add(Export);
                     SetExportsResponseCollection(context: context, res: res);
@@ -7186,6 +7187,7 @@ namespace Implem.Pleasanter.Models
                         delimiterType: (Export.DelimiterTypes)context.Forms.Int("DelimiterType"),
                         encloseDoubleQuotes: context.Forms.Bool("EncloseDoubleQuotes"),
                         executionType: (Export.ExecutionTypes)context.Forms.Int("ExecutionType"),
+                        exportCommentsJsonFormat: context.Forms.Bool("ExportCommentsJsonFormat"),
                         permissions: ExportPermissions(context: context));
                     SetExportsResponseCollection(context: context, res: res);
                 }

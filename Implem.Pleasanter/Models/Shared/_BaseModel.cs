@@ -868,6 +868,7 @@ namespace Implem.Pleasanter.Models
         public string SavedTitle = string.Empty;
         public string SavedBody = string.Empty;
         public List<string> RecordPermissions;
+        public bool CopiedGrid = false;
 
         public bool SiteId_Updated(Context context, bool copy = false, Column column = null)
         {
