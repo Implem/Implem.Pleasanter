@@ -8,6 +8,8 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +49,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 SiteInfo.UserName(
                     context: context,
                     userId: o.Creator) + "\n" +
+                o.Body).Join("\n\n");
+        }
+
+        private string ToDisplayId(Context context)
+        {
+            return this.Select(o =>
+                o.CreatedTime.ToLocal(context: context).ToViewText(context: context) + " " +
+                o.Creator.ToString() + "\n" +
                 o.Body).Join("\n\n");
         }
 
@@ -116,7 +126,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
-            return ToDisplay(context: context);
+            var type = exportColumn?.Type;
+            if (exportColumn?.ExportJsonFormat == true)
+            {
+                return ToExportJson(
+                    context: context,
+                    type: type ?? ExportColumn.Types.Value);
+            }
+            return (type ?? ExportColumn.Types.Text) == ExportColumn.Types.Text
+                ? ToDisplay(context: context)
+                : ToDisplayId(context: context);
         }
 
         public string ToNotice(
@@ -253,6 +272,174 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 }
             }
             return null;
+        }
+
+        public Comments ClearAndSplitPrepend(
+            Context context,
+            SiteSettings ss,
+            string body,
+            bool update,
+            bool force = false)
+        {
+            if (body.Trim() != string.Empty || force == true)
+            {
+                var splitComments = ToSplitComments(
+                    context: context,
+                    comments: body);
+                if (update
+                    && splitComments.Count == 1
+                    && splitComments.First().Body == body)
+                {
+                    return this;
+                }
+                Clear();
+                foreach (var splitComment in splitComments)
+                {
+                    Insert(0, splitComment);
+                }
+            }
+            return this;
+        }
+
+        private List<Comment> ToSplitComments(
+            Context context,
+            string comments)
+        {
+            var originalComments = new List<Comment>
+            {
+                new Comment
+                {
+                    CommentId = CommentId(),
+                    CreatedTime = DateTime.Now,
+                    Creator = context.UserId,
+                    Body = comments,
+                    Created = true
+                }
+            };
+            if (string.IsNullOrWhiteSpace(comments)
+                || !comments.TrimStart().StartsWith("[")
+                || !comments.TrimEnd().EndsWith("]"))
+            {
+                return originalComments;
+            }
+            try
+            {
+                var commentsJArray = JArray.Parse(comments);
+                var splitComments = commentsJArray
+                    .OfType<JObject>()
+                    .Where(jobject => jobject.TryGetValue("Body", out var bodyToken)
+                    && bodyToken != null)
+                    .Select((token, i) => new Comment
+                    {
+                        CommentId = i + 1,
+                        CreatedTime = ToCreatedTime(
+                            context: context,
+                            jtoken: token["CreatedTime"]),
+                        Creator = ToCreator(
+                            context: context,
+                            jtoken: token["Creator"]),
+                        Body = (string?)token["Body"] ?? string.Empty,
+                        Created = true
+                    })
+                    .ToList();
+                return splitComments.Count == 0
+                    ? originalComments
+                    : splitComments;
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: context,
+                    e: e);
+                return originalComments;
+            }
+        }
+
+        private string ToExportJson(
+            Context context,
+            ExportColumn.Types type)
+        {
+            Reverse();
+            var commentsJson = this.Any()
+                ? ToJson()
+                : string.Empty;
+            return type == ExportColumn.Types.Value
+                ? commentsJson
+                : ConvertedCreatorName(
+                    context: context,
+                    commentsJson: commentsJson);
+        }
+
+        private string ConvertedCreatorName(
+            Context context,
+            string commentsJson)
+        {
+            try
+            {
+                var tenantUsers = SiteInfo.TenantCaches.Get(context.TenantId)
+                    .UserHash
+                    .Values;
+                var commentsJArray = JArray.Parse(commentsJson);
+                foreach (var comment in commentsJArray.OfType<JObject>())
+                {
+                    var creator = comment["Creator"];
+                    if (creator?.Type != JTokenType.Integer)
+                    {
+                        continue;
+                    }
+                    string creatorName = tenantUsers
+                        .FirstOrDefault(o => o.Id == (int)creator)
+                        ?.Name;
+                    if (!string.IsNullOrEmpty(creatorName))
+                    {
+                        comment["Creator"] = creatorName;
+                    }
+                }
+                return Jsons.ToJson(commentsJArray);
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: context,
+                    e: e);
+                return commentsJson;
+            }
+        }
+
+        private DateTime ToCreatedTime(Context context, JToken jtoken)
+        {
+            if (jtoken == null)
+            {
+                return DateTime.Now;
+            }
+            var dateTime = new Time(
+                context: context,
+                value: jtoken.ToDateTime(),
+                byForm: true).Value;
+            if (dateTime == 0.ToDateTime())
+            {
+                return DateTime.Now;
+            }
+            return dateTime;
+        }
+
+        private int ToCreator(
+            Context context,
+            JToken jtoken)
+        {
+            if (jtoken == null)
+            {
+                return context.UserId;
+            }
+            if (jtoken.Type == JTokenType.Integer)
+            {
+                return (int)jtoken;
+            }
+            return SiteInfo.TenantCaches.Get(context.TenantId)
+                .UserHash
+                .Values
+                .FirstOrDefault(o => o.Name == (string)jtoken)
+                ?.Id ?? 0;
         }
     }
 }

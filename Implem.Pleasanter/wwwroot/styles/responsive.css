@@ -993,6 +993,7 @@
     #Editor .field-control .ui-icon.ui-icon-clock.current-time,
     #Editor .field-control .ui-icon.ui-icon-person.current-user {
         top: calc(3vw - 6px);
+        text-align-last: left;
     }
 }
 @media screen and (max-width: 1024px) and (min-width: 768px) {
@@ -2008,8 +2009,7 @@
         .container-normal
         input[type="checkbox"].control-checkbox {
         position: relative;
-        margin-top: 0.3vw;
-        margin-right: 6px;
+        margin-left: 3px;
     }
 }
 @media screen and (max-width: 1024px) and (min-width: 768px) {

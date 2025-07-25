@@ -4,9 +4,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <Year>$([System.DateTime]::Now.Year.ToString())</Year>
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
-    <AssemblyVersion>1.4.17.1</AssemblyVersion>
-    <FileVersion>1.4.17.1</FileVersion>
-    <Version>1.4.17.1</Version>
+    <AssemblyVersion>1.4.18.1</AssemblyVersion>
+    <FileVersion>1.4.18.1</FileVersion>
+    <Version>1.4.18.1</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 

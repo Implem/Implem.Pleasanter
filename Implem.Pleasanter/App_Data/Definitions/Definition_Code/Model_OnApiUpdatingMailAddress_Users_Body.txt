@@ -13,3 +13,7 @@ if (updateMailAddresses &&
         return errorData;
     }
 }
+if (context.UserSettings.EnableManageTenant == true)
+{
+    updateMailAddresses = false;
+}
