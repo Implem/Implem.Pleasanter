@@ -2,4 +2,4 @@
     $(document).on('submit', function () {
         return false;
     });
-})
+});

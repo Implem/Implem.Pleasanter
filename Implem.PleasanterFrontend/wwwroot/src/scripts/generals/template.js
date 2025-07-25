@@ -3,56 +3,48 @@
     if ($p.responsive() && screen.width < 1025) {
         $p.openResponsiveMenu();
     }
-}
+};
 
 $p.setTemplate = function () {
     var selector = '.template-selectable .control-selectable';
-    $('#TemplateTabsContainer:not(.applied)').tabs({
-        beforeActivate: function (event, ui) {
-            $p.setTemplateData(ui.newPanel.find(selector));
-        }
-    }).addClass('applied');
+    $('#TemplateTabsContainer:not(.applied)')
+        .tabs({
+            beforeActivate: function (event, ui) {
+                $p.setTemplateData(ui.newPanel.find(selector));
+            }
+        })
+        .addClass('applied');
     $(selector).selectable({
         selected: function (event, ui) {
             $(ui.selected)
-                .addClass("ui-selected")
+                .addClass('ui-selected')
                 .siblings()
-                .removeClass("ui-selected")
+                .removeClass('ui-selected')
                 .each(function (key, value) {
-                    $(value).find('*').removeClass("ui-selected");
+                    $(value).find('*').removeClass('ui-selected');
                 });
         },
         stop: function () {
             $p.setTemplateData($(this));
         }
     });
-}
+};
 
 $p.setTemplateData = function ($control) {
     var selected = $control.find('li.ui-selected');
     var show = selected.length === 1;
     $p.setData($control);
     $p.send($control);
-    $('#OpenSiteTitleDialog')
-        .removeClass('hidden')
-        .toggle(show);
-    $('#SiteTitle').val(show
-        ? selected[0].innerText
-        : '');
-    $('#TemplateId').val(show
-        ? selected[0].getAttribute('data-value')
-        : '');
-    $('#Template_Title').val(show
-        ? selected[0].innerText
-        : '');
-    $('#Template_Id').val(show
-        ? selected[0].getAttribute('data-value')
-        : '');
-}
+    $('#OpenSiteTitleDialog').removeClass('hidden').toggle(show);
+    $('#SiteTitle').val(show ? selected[0].innerText : '');
+    $('#TemplateId').val(show ? selected[0].getAttribute('data-value') : '');
+    $('#Template_Title').val(show ? selected[0].innerText : '');
+    $('#Template_Id').val(show ? selected[0].getAttribute('data-value') : '');
+};
 
 $p.setTemplateViewer = function () {
     $('.template-tab-container').tabs().addClass('applied');
-}
+};
 
 $p.openSiteTitleDialog = function ($control) {
     if ($('#FieldSetUserTemplate').attr('aria-hidden') === 'false') {
@@ -71,14 +63,14 @@ $p.openSiteTitleDialog = function ($control) {
             resizable: false
         });
     }
-}
+};
 
 $p.refreshTemplateSelector = function () {
-    $('#TemplateTabsContainer').tabs("refresh");
+    $('#TemplateTabsContainer').tabs('refresh');
     if ($('#FieldSetUserTemplate').attr('aria-hidden') === 'false') {
         $p.setTemplateData($('#UserTemplateTemplates'));
     }
-}
+};
 
 $p.openImportUserTemplateDialog = function ($control) {
     $('#ImportUserTemplateForm').validate().resetForm();
@@ -93,7 +85,7 @@ $p.openImportUserTemplateDialog = function ($control) {
     if ($p.responsive() && screen.width < 1025) {
         $p.openResponsiveMenu();
     }
-}
+};
 
 $p.importUserTemplate = function ($control) {
     $form = $('#ImportUserTemplateForm');
@@ -103,7 +95,7 @@ $p.importUserTemplate = function ($control) {
             $p.setValidationError($form);
             $p.setErrorMessage('ValidationError');
             if (!$control.closest('.ui-dialog')) {
-                $("html,body").animate({
+                $('html,body').animate({
                     scrollTop: $('.error:first').offset().top
                 });
             }
@@ -118,9 +110,10 @@ $p.importUserTemplate = function ($control) {
     $p.multiUpload(
         $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
         data,
-        $control);
+        $control
+    );
     return true;
-}
+};
 
 $p.openEditUserTemplateDialog = function () {
     $('#EditUserTemplateDialog').dialog({
@@ -130,5 +123,4 @@ $p.openEditUserTemplateDialog = function () {
     if ($p.responsive() && screen.width < 1025) {
         $p.openResponsiveMenu();
     }
-}
-
+};

@@ -9,7 +9,8 @@
                 $p.ajax(
                     $form.attr('action').replace('_action_', action),
                     'POST',
-                    $p.getData($form));
+                    $p.getData($form)
+                );
             } else {
                 $p.set($(selector), true);
             }

@@ -7,29 +7,31 @@
             $p.setByJsonElement(this, data, $control);
         });
     }
-    if (json.filter(function (d) {
-        return d.Method === 'Html' ||
-            d.Method === 'ReplaceAll' ||
-            d.Method === 'Append' ||
-            d.Method === 'Prepend' ||
-            d.Method === 'After' ||
-            d.Method === 'Before';
-    }).length > 0) {
+    if (
+        json.filter(function (d) {
+            return (
+                d.Method === 'Html' ||
+                d.Method === 'ReplaceAll' ||
+                d.Method === 'Append' ||
+                d.Method === 'Prepend' ||
+                d.Method === 'After' ||
+                d.Method === 'Before'
+            );
+        }).length > 0
+    ) {
         $p.apply();
         $p.applyValidator();
     }
     if (url) {
         $p.after_set($p.eventArgs(url, methodType, data, $control, _async, undefined, json));
     }
-}
+};
 
 $p.setByJsonElement = function (jsonElement, data, $control) {
     var method = jsonElement.Method;
     var target = jsonElement.Target;
     var value = jsonElement.Value;
-    var options = jsonElement.Options !== undefined
-        ? JSON.parse(jsonElement.Options)
-        : {};
+    var options = jsonElement.Options !== undefined ? JSON.parse(jsonElement.Options) : {};
     switch (method) {
         case 'Html':
             $(target).html(value);
@@ -89,17 +91,19 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
         case 'Remove':
             $(target).remove();
             break;
-        case 'Attr':
-            var json = JSON.parse(value);
+        case 'Attr': {
+            let json = JSON.parse(value);
             $(target).attr(json.Name, json.Value);
             break;
+        }
         case 'RemoveAttr':
             $(target).removeAttr(value);
             break;
-        case 'Css':
-            var json = JSON.parse(value);
+        case 'Css': {
+            let json = JSON.parse(value);
             $(target).css(json.Name, json.Value);
             break;
+        }
         case 'Focus':
             if (target === '') {
                 $('#' + data.ControlId).focus();
@@ -116,7 +120,7 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             break;
         case 'CloseDialog':
             $p.clearMessage();
-            if (target !== undefined) { 
+            if (target !== undefined) {
                 if ($(target).hasClass('ui-dialog-content')) {
                     $(target).dialog('close');
                 }
@@ -153,10 +157,11 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             break;
         case 'Disabled':
             $(target).prop('disabled', value);
+            break;
         case 'Log':
             if (value) {
                 console.log(value);
             }
             break;
     }
-}
+};

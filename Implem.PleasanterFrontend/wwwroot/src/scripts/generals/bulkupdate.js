@@ -9,7 +9,7 @@
         });
     }
     $('div.ui-multiselect-menu').css('z-index', 110); // JQueryUIのui-multiselect-menuのz-indexが固定値の為に書き換える。
-}
+};
 
 $p.bulkUpdate = function () {
     var main_data = $p.getData($('.main-form'));
@@ -20,4 +20,4 @@ $p.bulkUpdate = function () {
     }
     $p.setData($('#' + key));
     $p.send($('#BulkUpdate'));
-}
+};

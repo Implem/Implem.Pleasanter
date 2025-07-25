@@ -21,6 +21,7 @@
                     break;
                 case 'SPAN':
                     $control.html(value);
+                    break;
                 case 'TIME':
                     $control.html(value);
                     $control.attr('datetime', value);
@@ -34,4 +35,4 @@
                     break;
             }
     }
-}
+};

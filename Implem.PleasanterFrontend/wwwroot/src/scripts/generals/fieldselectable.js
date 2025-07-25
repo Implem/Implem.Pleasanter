@@ -1,29 +1,37 @@
 ﻿$p.enableColumns = function (event, $control, columnHeader, columnsTypeControl) {
-    if ($('#' + columnsTypeControl + " option:selected").attr("data-type") === 'multiple') {
+    if ($('#' + columnsTypeControl + ' option:selected').attr('data-type') === 'multiple') {
         $p.send($control);
-    }
-    else {
+    } else {
         $p.moveColumns(event, $control, columnHeader);
     }
-}
+};
 $p.moveColumns = function (event, $control, columnHeader, isKeepSource, isJoin, type) {
     if (formId === undefined) return false;
     if (type === undefined) type = 'Columns';
-    return $p.moveColumnsById(event, $control,
+    return $p.moveColumnsById(
+        event,
+        $control,
         columnHeader + type,
         columnHeader + 'Source' + type,
         isKeepSource,
-        isJoin !== undefined && isJoin === true ? columnHeader + 'Join' : undefined);
+        isJoin !== undefined && isJoin === true ? columnHeader + 'Join' : undefined
+    );
 };
 $p.moveAllColumns = function (event, $control, columnHeader, isKeepSource, isJoin, type) {
-    $control.closest('.container-selectable').find('li').removeClass('ui-selected ui-selectee').addClass('ui-selectee').filter(function (index) {
-        return $(this).data('value').toString().trim() != '';
-    }).addClass('ui-selected');
+    $control
+        .closest('.container-selectable')
+        .find('li')
+        .removeClass('ui-selected ui-selectee')
+        .addClass('ui-selectee')
+        .filter(function (index) {
+            return $(this).data('value').toString().trim() != '';
+        })
+        .addClass('ui-selected');
     $p.moveColumns(event, $control, columnHeader, isKeepSource, isJoin, type);
-}
+};
 $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepSource, joinId) {
     if ($p.outsideDialog($control)) {
-        alert("outsideDialog");
+        alert('outsideDialog');
         return false;
     }
     if (formId === undefined) return false;
@@ -31,7 +39,7 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
     $form = $('#' + formId);
     var controlId = $control.attr('id');
     var mode = 0;
-    var keepSource = (isKeepSource !== undefined && isKeepSource === true);
+    var keepSource = isKeepSource !== undefined && isKeepSource === true;
     if (controlId.indexOf('MoveUp') === 0) mode = 1;
     if (controlId.indexOf('MoveDown') === 0) mode = 2;
     if (controlId.indexOf('ToDisable') === 0) mode = 3;
@@ -43,20 +51,21 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
     var afterColumns = [];
     var beforeSourceColumns = [];
     var afterSourceColumns = [];
-    var i = 0; j = 0;
+    var i = 0;
+    var j = 0;
     var o = null;
     var selected = $('#' + columnsId + ' li').map(function (i, elm) {
         if ($(this).hasClass('ui-selected')) return $(this).attr('data-value');
     });
     $('#' + columnsId + ' li').each(function (index, element) {
-        beforeColumns.push($(element).attr("data-value"));
+        beforeColumns.push($(element).attr('data-value'));
     });
     if (srcColumnsId !== '') {
         var srcSelected = $('#' + srcColumnsId + ' li').map(function (i, elm) {
             if ($(this).hasClass('ui-selected')) return $(this).attr('data-value');
         });
         $('#' + srcColumnsId + ' li').each(function (index, element) {
-            beforeSourceColumns.push($(element).attr("data-value"));
+            beforeSourceColumns.push($(element).attr('data-value'));
         });
     }
     afterSourceColumns = [].concat(beforeSourceColumns);
@@ -68,8 +77,7 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
             if (selected.get().indexOf(beforeColumns[i]) >= 0) {
                 // 選択項目をPoolに退避する処理はCTRLキー併用クリック時にはやらず最後に処理する
                 if (!event.ctrlKey) liListPool.push(beforeColumns[i]);
-            }
-            else {
+            } else {
                 afterColumns.push(beforeColumns[i]);
                 if (liListPool.length > 0) {
                     afterColumns = afterColumns.concat(liListPool);
@@ -90,13 +98,11 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
             var toTopOrBottom = [].concat(selected.get());
             if (mode === 1) {
                 afterColumns = toTopOrBottom.concat(afterColumns);
-            }
-            else {
+            } else {
                 afterColumns = afterColumns.concat(toTopOrBottom);
             }
         }
-    }
-    else if (mode === 3) {
+    } else if (mode === 3) {
         $('#' + srcColumnsId + ' li').each(function (i, elm) {
             if ($(this).hasClass('ui-selected')) $(this).removeClass('ui-selected');
         });
@@ -106,8 +112,16 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
                 var nessesaryColumns = JSON.parse(param);
                 for (i = 0; i < selected.length; i++) {
                     if (nessesaryColumns.indexOf(selected[i]) >= 0) {
-                        alert($('#' + columnsId + 'NessesaryMessage').val()
-                            .replace("COLUMNNAME", $('#' + columnsId + ' li[data-value=\'' + selected[i] + '\'').html()));
+                        alert(
+                            $('#' + columnsId + 'NessesaryMessage')
+                                .val()
+                                .replace(
+                                    'COLUMNNAME',
+                                    $(
+                                        '#' + columnsId + " li[data-value='" + selected[i] + "'"
+                                    ).html()
+                                )
+                        );
                         return false;
                     }
                 }
@@ -118,17 +132,39 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
         for (i = 0; i < selected.length; i++) {
             pos = afterSourceColumns.length;
             afterColumns.splice(afterColumns.indexOf(selected[i]), 1);
-            if ((joinId === undefined
-                || ($('#' + joinId + ' option:selected').val() !== '' && selected[i].indexOf($('#' + joinId + ' option:selected').val() + ',') >= 0)
-                || ($('#' + joinId + ' option:selected').val() === '' && selected[i].indexOf(',') < 0))
-                && !keepSource) {
-                if ($('#' + columnsId + ' li[data-value=\'' + selected[i] + '\']').attr('data-order') !== undefined) {
+            if (
+                (joinId === undefined ||
+                    ($('#' + joinId + ' option:selected').val() !== '' &&
+                        selected[i].indexOf($('#' + joinId + ' option:selected').val() + ',') >=
+                            0) ||
+                    ($('#' + joinId + ' option:selected').val() === '' &&
+                        selected[i].indexOf(',') < 0)) &&
+                !keepSource
+            ) {
+                if (
+                    $('#' + columnsId + " li[data-value='" + selected[i] + "']").attr(
+                        'data-order'
+                    ) !== undefined
+                ) {
                     for (j = 0; j < afterSourceColumns.length; j++) {
-                        o = $('#' + columnsId + ' li[data-value=\'' + afterSourceColumns[j] + '\']');
-                        if (!$(o).get(0)) o = $('#' + srcColumnsId + ' li[data-value=\'' + afterSourceColumns[j] + '\']');
+                        o = $('#' + columnsId + " li[data-value='" + afterSourceColumns[j] + "']");
+                        if (!$(o).get(0))
+                            o = $(
+                                '#' +
+                                    srcColumnsId +
+                                    " li[data-value='" +
+                                    afterSourceColumns[j] +
+                                    "']"
+                            );
                         if ($(o).attr('data-order') === undefined) break;
-                        if (parseInt($('#' + columnsId + ' li[data-value=\'' + selected[i] + '\']').attr('data-order'), 10)
-                            < parseInt($(o).attr('data-order'), 10)) {
+                        if (
+                            parseInt(
+                                $('#' + columnsId + " li[data-value='" + selected[i] + "']").attr(
+                                    'data-order'
+                                ),
+                                10
+                            ) < parseInt($(o).attr('data-order'), 10)
+                        ) {
                             pos = j;
                             break;
                         }
@@ -137,33 +173,33 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
                 afterSourceColumns.splice(pos, 0, selected[i]);
             }
         }
-    }
-    else if (mode === 4) {
+    } else if (mode === 4) {
         $('#' + columnsId + ' li').each(function (i, elm) {
             if ($(this).hasClass('ui-selected')) $(this).removeClass('ui-selected');
         });
         afterColumns = [].concat(beforeColumns);
         for (i = 0; i < srcSelected.length; i++) {
             afterColumns.push(srcSelected[i]);
-            if (!keepSource) afterSourceColumns.splice(afterSourceColumns.indexOf(srcSelected[i]), 1);
+            if (!keepSource)
+                afterSourceColumns.splice(afterSourceColumns.indexOf(srcSelected[i]), 1);
         }
     }
     var html = '';
     var srchtml = '';
     o = null;
     for (i = 0; i < afterColumns.length; i++) {
-        o = $('#' + columnsId + ' li[data-value=\'' + afterColumns[i] + '\']');
+        o = $('#' + columnsId + " li[data-value='" + afterColumns[i] + "']");
         if (!$(o).get(0)) {
-            o = $('#' + srcColumnsId + ' li[data-value=\'' + afterColumns[i] + '\']');
+            o = $('#' + srcColumnsId + " li[data-value='" + afterColumns[i] + "']");
         }
         if ($(o).get(0)) {
             html += $(o).get(0).outerHTML;
         }
     }
     for (i = 0; i < afterSourceColumns.length; i++) {
-        o = $('#' + columnsId + ' li[data-value=\'' + afterSourceColumns[i] + '\']');
+        o = $('#' + columnsId + " li[data-value='" + afterSourceColumns[i] + "']");
         if (!$(o).get(0)) {
-            o = $('#' + srcColumnsId + ' li[data-value=\'' + afterSourceColumns[i] + '\']');
+            o = $('#' + srcColumnsId + " li[data-value='" + afterSourceColumns[i] + "']");
         }
         if ($(o).get(0)) {
             srchtml += $(o).get(0).outerHTML;
