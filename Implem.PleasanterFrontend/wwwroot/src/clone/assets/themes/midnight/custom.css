@@ -158,10 +158,12 @@
     /* WebComponents  ---------------------------------------------------------- */
 
     /* modal */
-    --u-modal-bg: rgb(25 10 35 / 60%);
+    --u-modal-bg: rgb(25 10 35 / 75%);
     --u-modal-close: var(--nonColor16);
     --u-modal-scroll: var(--nonColor10);
     --u-modal-scroll-hover: var(--nonColor09);
+    --u-modal-body-bg: var(--nonColor04);
+    --u-modal-footer-bg: rgb(0 0 0 / 50%);
 
     /* SmartDesign  ---------------------------------------------------------- */
     --sd-base-text: var(--base-text);
