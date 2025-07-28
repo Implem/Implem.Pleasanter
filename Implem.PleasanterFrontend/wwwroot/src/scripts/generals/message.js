@@ -1,33 +1,35 @@
 ﻿$p.setMessage = function (target, value) {
     var message = JSON.parse(value);
-    var $control = target !== undefined
-        ? target.split('_')[0] === 'row'
-            ? $('[data-id="' + target.split('_')[1] + '"]')
-            : $(target)
-        : $('.message-dialog:visible');
+    var $control =
+        target !== undefined
+            ? target.split('_')[0] === 'row'
+                ? $('[data-id="' + target.split('_')[1] + '"]')
+                : $(target)
+            : $('.message-dialog:visible');
     if ($control.prop('tagName') === 'TR') {
-        var $body = $($('<tr/>')
-            .addClass("message-row")
-            .append($('<td/>')
-                .attr('colspan', $control.find('td').length)
-                .append($('<span/>')
-                    .addClass('body')
-                    .addClass(message.Css)
-                    .text(message.Text))));
+        let $body = $(
+            $('<tr/>')
+                .addClass('message-row')
+                .append(
+                    $('<td/>')
+                        .attr('colspan', $control.find('td').length)
+                        .append(
+                            $('<span/>').addClass('body').addClass(message.Css).text(message.Text)
+                        )
+                )
+        );
         $control.after($body);
         $('html,body').animate({
             scrollTop: $control.offset().top - 50
         });
-    }
-    else {
-        var $body = $($('<div/>')
-            .append($('<span/>')
-                .addClass('body')
-                .addClass(message.Css)
-                .text(message.Text)));
+    } else {
+        let $body = $(
+            $('<div/>').append(
+                $('<span/>').addClass('body').addClass(message.Css).text(message.Text)
+            )
+        );
         if ($control.length === 0 || target == '#Message') {
-            $body.find('span').append($('<span/>')
-                .addClass('ui-icon ui-icon-close close'));
+            $body.find('span').append($('<span/>').addClass('ui-icon ui-icon-close close'));
         }
         if ($control.length === 0) {
             $('#Message').append($body);
@@ -35,7 +37,7 @@
             $control.append($body);
         }
     }
-}
+};
 
 $p.setErrorMessage = function (error, target) {
     var data = {};
@@ -43,11 +45,11 @@ $p.setErrorMessage = function (error, target) {
     data.Text = $p.display(error);
     $p.clearMessage();
     $p.setMessage(target, JSON.stringify(data));
-}
+};
 
 $p.clearMessage = function () {
     $('[class*="message"]').html('');
-}
+};
 
 $p.setServerErrorMessage = function (responseJSON) {
     $p.clearMessage();
@@ -69,4 +71,4 @@ $p.setServerErrorMessage = function (responseJSON) {
         return false;
     }
     return true;
-}
+};

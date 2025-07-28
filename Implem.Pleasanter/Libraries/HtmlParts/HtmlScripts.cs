@@ -100,7 +100,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     )
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: $"assets/js/generals.min.js?v={cacheBustingCode}"))
+                        parts: $"assets/js/app.min.js?v={cacheBustingCode}"))
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
                         script: ss.GetScriptBody(

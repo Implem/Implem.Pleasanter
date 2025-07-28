@@ -9,7 +9,7 @@
         $p.toggleEditor($control, false);
         $p.setTargetBlank();
     }
-}
+};
 
 $p.editMarkdown = function ($control) {
     if ($control.is(':visible')) {
@@ -22,7 +22,7 @@ $p.editMarkdown = function ($control) {
         $p.toggleEditor($control, true);
         $($control).focus();
     }
-}
+};
 
 $p.toggleEditor = function ($control, edit) {
     var id = $control.attr('id');
@@ -33,16 +33,15 @@ $p.toggleEditor = function ($control, edit) {
         $('[id="' + id + '.viewer"]').toggle(!edit);
         $('[id="' + id + '"]').toggle(edit);
     }
-}
+};
 
 $p.resizeEditor = function ($control, $viewer) {
     if ($viewer.height() <= 300) {
         $control.height($viewer.height());
-    }
-    else {
+    } else {
         $control.height(300);
     }
-}
+};
 
 $p.markup = function (markdownValue, enableLightBox, encoded, dataId) {
     var text = markdownValue;
@@ -53,7 +52,7 @@ $p.markup = function (markdownValue, enableLightBox, encoded, dataId) {
         : markedUp(replaceUrl(text, enableLightBox, dataId));
 
     function markedUp(text) {
-        var $html = $('<pre/>')
+        var $html = $('<pre/>');
         text.split(/\r\n|\r|\n/).forEach(function (line) {
             if (line !== '') {
                 $html.append($('<span/>').append(line));
@@ -83,7 +82,8 @@ $p.markup = function (markdownValue, enableLightBox, encoded, dataId) {
     }
 
     function replaceUnc(text) {
-        var regex_t = /(\[[^\]]+\]\(\B\\\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\))/gi;
+        var regex_t =
+            /(\[[^\]]+\]\(\B\\\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\))/gi;
         var regex = /(\B\\\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
         return text
             .replace(regex_t, function ($1) {
@@ -107,12 +107,20 @@ $p.markup = function (markdownValue, enableLightBox, encoded, dataId) {
     }
 
     function getEncordedImgTag(url, text, enableLightBox, dataId) {
-        let $tag = $('<a/>').attr('href', url).attr('target', '_blank')
-            .append($('<img/>').attr('src', url + '?thumbnail=1').attr('alt', text));
+        let $tag = $('<a/>')
+            .attr('href', url)
+            .attr('target', '_blank')
+            .append(
+                $('<img/>')
+                    .attr('src', url + '?thumbnail=1')
+                    .attr('alt', text)
+            );
         if (enableLightBox) {
-            dataId
-                ? $tag.attr('data-lightbox', text + '_' + dataId)
-                : $tag.attr('data-lightbox', text);
+            if (dataId) {
+                $tag.attr('data-lightbox', text + '_' + dataId);
+            } else {
+                $tag.attr('data-lightbox', text);
+            }
         }
         return $tag.prop('outerHTML');
     }
@@ -130,18 +138,18 @@ $p.markup = function (markdownValue, enableLightBox, encoded, dataId) {
     function decode($1) {
         return $1.replace(/&amp;/g, '&');
     }
-}
+};
 
 $p.setInputGuide = function (id, text, markup) {
     if (text.length === 0) {
-        $('[id="' + id + '.viewer"]').css("color", "darkgray");
+        $('[id="' + id + '.viewer"]').css('color', 'darkgray');
         var placeholder = $('[id="' + id + '"]').attr('placeholder');
-        return (!placeholder) ? '' : placeholder;
+        return !placeholder ? '' : placeholder;
     } else {
-        $('[id="' + id + '.viewer"]').css("color", "black");
+        $('[id="' + id + '.viewer"]').css('color', 'black');
         return markup;
     }
-}
+};
 
 $p.insertText = function ($control, value) {
     var body = $control.get(0);
@@ -155,31 +163,28 @@ $p.insertText = function ($control, value) {
     if (!$control.is(':visible')) {
         $p.showMarkDownViewer($control);
     }
-}
+};
 
 $p.selectImage = function (controlId) {
     $('[id="' + controlId + '.upload-image-file"]').click();
-}
+};
 
 $p.uploadImage = function (controlId, file) {
     var $tr = $('[id="' + controlId + '"]').closest('tr');
     var $editorInDialogRecordId = $('#EditorInDialogRecordId');
     var url;
     if ($tr.length) {
-        url = $('#BaseUrl').val() + $tr.data('id') + '/binaries/uploadimage'
+        url = $('#BaseUrl').val() + $tr.data('id') + '/binaries/uploadimage';
     } else if ($editorInDialogRecordId.length) {
-        url = $('#BaseUrl').val() + $editorInDialogRecordId.val() + '/binaries/uploadimage'
-    }
-    else {
-        url = $('.main-form')
-            .attr('action')
-            .replace('_action_', 'binaries/uploadimage');
+        url = $('#BaseUrl').val() + $editorInDialogRecordId.val() + '/binaries/uploadimage';
+    } else {
+        url = $('.main-form').attr('action').replace('_action_', 'binaries/uploadimage');
     }
     var data = new FormData();
     data.append('ControlId', controlId);
     data.append('file', file);
     $p.multiUpload(url, data);
-}
+};
 
 $p.setTargetBlank = function () {
     if ($('#AnchorTargetBlank').length === 1) {
@@ -188,4 +193,4 @@ $p.setTargetBlank = function () {
             $(this).attr('target', '_blank');
         });
     }
-}
+};
