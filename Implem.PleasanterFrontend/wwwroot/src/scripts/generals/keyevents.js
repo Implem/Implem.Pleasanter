@@ -42,9 +42,11 @@
                 $p.toggleAnchor($control, true);
                 $('#' + $control.attr('id')).focus();
                 return 2;
-            } else if ($control.is(':hidden') ||
+            } else if (
+                $control.is(':hidden') ||
                 $control.hasClass('control-text') ||
-                $control.hasClass('control-markup')) {
+                $control.hasClass('control-markup')
+            ) {
                 return 0;
             }
             return 1;

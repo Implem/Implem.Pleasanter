@@ -4,7 +4,7 @@
         $p.data[formId] = {};
     }
     return $p.data[formId];
-}
+};
 
 $p.set = function ($control, val) {
     if ($control.length === 1) {
@@ -21,7 +21,9 @@ $p.set = function ($control, val) {
                     case 'SELECT':
                         if ($control.hasClass('search') && val) {
                             var $form = $('#MainForm');
-                            var url = $form.attr('action').replace('_action_', 'SelectSearchDropDown');
+                            var url = $form
+                                .attr('action')
+                                .replace('_action_', 'SelectSearchDropDown');
                             var arr = $control.attr('multiple')
                                 ? JSON.parse(val)
                                 : new Array(val.toString());
@@ -34,12 +36,7 @@ $p.set = function ($control, val) {
                                 } else {
                                     data.DropDownSearchResults = JSON.stringify(arr);
                                 }
-                                $p.ajax(
-                                    url,
-                                    'post',
-                                    data,
-                                    $form,
-                                    false);
+                                $p.ajax(url, 'post', data, $form, false);
                             }
                         }
                         if ($control.attr('multiple')) {
@@ -64,7 +61,7 @@ $p.set = function ($control, val) {
         }
         $p.setData($control);
     }
-}
+};
 
 $p.setData = function ($control, data) {
     var controlId = $control.attr('id');
@@ -94,9 +91,10 @@ $p.setData = function ($control, data) {
             default:
                 switch ($control.prop('tagName')) {
                     case 'SPAN':
-                        data[controlId] = $control.attr('data-value') !== undefined
-                            ? $control.attr('data-value')
-                            : $control.text();
+                        data[controlId] =
+                            $control.attr('data-value') !== undefined
+                                ? $control.attr('data-value')
+                                : $control.text();
                         break;
                     case 'SELECT':
                         if ($control.attr('multiple')) {
@@ -116,13 +114,15 @@ $p.setData = function ($control, data) {
                         }
                         break;
                     case 'TABLE':
-                        data[controlId] = JSON.stringify($control
-                            .find('.select')
-                            .filter(':checked')
-                            .map(function () {
-                                return $(this).closest('.grid-row').attr('data-id');
-                            })
-                            .toArray());
+                        data[controlId] = JSON.stringify(
+                            $control
+                                .find('.select')
+                                .filter(':checked')
+                                .map(function () {
+                                    return $(this).closest('.grid-row').attr('data-id');
+                                })
+                                .toArray()
+                        );
                         break;
                     case 'P':
                         if ($control.hasClass('control-slider')) {
@@ -138,19 +138,19 @@ $p.setData = function ($control, data) {
                 break;
         }
     }
-}
+};
 
 $p.setGridTimestamp = function ($control, data) {
     var timestamp = $control.closest('.grid-row').find('.timestamp');
     if (timestamp.length === 1) {
         data[timestamp.attr('id')] = timestamp.val();
     }
-}
+};
 
 $p.setAndSend = function (selector, $control) {
     $p.setData($(selector));
     $p.send($control);
-}
+};
 
 $p.setMustData = function ($form, action) {
     if (action !== undefined && action.toLowerCase() === 'create') {
@@ -166,13 +166,17 @@ $p.setMustData = function ($form, action) {
     } else {
         $form.find('.always-send,[data-always-send="1"]').each(function () {
             var $control = $(this);
-            if (!($control.attr('data-readonly') === '1'
-                && $control.attr('id').indexOf($p.tableName() + '_') === 0)) {
+            if (
+                !(
+                    $control.attr('data-readonly') === '1' &&
+                    $control.attr('id').indexOf($p.tableName() + '_') === 0
+                )
+            ) {
                 $p.setData($(this));
             }
         });
     }
-}
+};
 
 $p.clearData = function (target, data, type) {
     if (!data) {
@@ -208,9 +212,13 @@ $p.clearData = function (target, data, type) {
 };
 
 $p.toJson = function ($control) {
-    return JSON.stringify($control.map(function () {
-        return $(this).attr('data-value') === undefined
-            ? $(this).text()
-            : $(this).attr('data-value')
-    }).toArray());
-}
+    return JSON.stringify(
+        $control
+            .map(function () {
+                return $(this).attr('data-value') === undefined
+                    ? $(this).text()
+                    : $(this).attr('data-value');
+            })
+            .toArray()
+    );
+};

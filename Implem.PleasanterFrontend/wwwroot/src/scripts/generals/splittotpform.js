@@ -3,18 +3,11 @@
         var totpForm = $('.totp-authentication-code');
         var columnNum = totpForm.index(this);
         var selectedForm = totpForm.eq(columnNum).get(0);
-        if (
-            e.code === 'ArrowLeft' &&
-            selectedForm.selectionStart === 0 &&
-            columnNum !== 0
-        ) {
+        if (e.code === 'ArrowLeft' && selectedForm.selectionStart === 0 && columnNum !== 0) {
             totpForm.eq(columnNum - 1).focus();
         } else if (
             e.code === 'ArrowRight' &&
-            (
-                selectedForm.selectionStart === 1 ||
-                totpForm.eq(columnNum).val() === ''
-            ) &&
+            (selectedForm.selectionStart === 1 || totpForm.eq(columnNum).val() === '') &&
             columnNum !== 5
         ) {
             totpForm.eq(columnNum + 1).focus();
@@ -27,21 +20,15 @@
         var selectedForm = totpForm.eq(columnNum).get(0);
         var totpCode = $('#SecondaryAuthenticationCode').val();
         var isDeleted = false;
-        if (
-            e.code === 'Backspace' &&
-            selectedForm.selectionStart === 0 &&
-            columnNum !== 0
-        ) {
+        if (e.code === 'Backspace' && selectedForm.selectionStart === 0 && columnNum !== 0) {
             columnNum = columnNum - 1;
             totpForm.eq(columnNum).focus();
             isDeleted = true;
         } else if (
             e.code === 'Delete' &&
-            (
-                selectedForm.selectionStart === 1 ||
-                totpForm.eq(columnNum).val() === ''
-            ) &&
-            columnNum !== 5) {
+            (selectedForm.selectionStart === 1 || totpForm.eq(columnNum).val() === '') &&
+            columnNum !== 5
+        ) {
             columnNum = columnNum + 1;
             isDeleted = true;
         }
@@ -81,11 +68,14 @@
             } else if (newTotpCode.length <= columnNum + 1) {
                 totpForm.eq(newTotpCode.length).focus();
             } else if (newTotpCode.length === columnNum + 2) {
-                totpForm.eq(columnNum + 2).get(0).focus();
+                totpForm
+                    .eq(columnNum + 2)
+                    .get(0)
+                    .focus();
             }
         }
     });
-    
+
     function setCodeSepalateForm(totpForm, totpCode) {
         for (var i = 0; i < 6; i++) {
             totpForm.eq(i).val(totpCode.charAt(i));

@@ -8,21 +8,24 @@
             $icon
                 .attr('data-css', $icon.prop('class'))
                 .prop('class', 'ui-icon')
-                .css('background-image', 'url(' + $('#ApplicationPath').val() + 'assets/themes/' + themeName + '/images/loading.gif)');
+                .css(
+                    'background-image',
+                    'url(' +
+                        $('#ApplicationPath').val() +
+                        'assets/themes/' +
+                        themeName +
+                        '/images/loading.gif)'
+                );
         }
     }
-}
+};
 
 $p.loaded = function () {
     $('#LoaderContainer').css('display', 'none');
     $('button.loading').each(function () {
         var $control = $(this);
-        $control
-            .removeClass('loading')
-            .prop('disabled', false);
+        $control.removeClass('loading').prop('disabled', false);
         var $icon = $control.find('.ui-icon');
-        $icon
-            .removeAttr('style')
-            .prop('class', $icon.attr('data-css'));
+        $icon.removeAttr('style').prop('class', $icon.attr('data-css'));
     });
-}
+};

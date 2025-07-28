@@ -49,9 +49,11 @@
     $(document).on('change', '#NotificationType', function () {
         //Tokenの表示、非表示
         $('#NotificationTokenField').toggle(
-            $('#NotificationTokenEnableList').val()
+            $('#NotificationTokenEnableList')
+                .val()
                 .split(',')
-                .indexOf($('#NotificationType').val()) !== -1);
+                .indexOf($('#NotificationType').val()) !== -1
+        );
         let type = $(this).val();
         //type:1 Mailのみ表示
         $('#NotificationCcAddressField').toggle(type === '1');
@@ -102,33 +104,31 @@
     });
     $(document).on('change', '#ProcessNotificationType', function () {
         $('#ProcessNotificationTokenField').toggle(
-            $('#ProcessNotificationTokenEnableList').val()
+            $('#ProcessNotificationTokenEnableList')
+                .val()
                 .split(',')
-                .indexOf($('#ProcessNotificationType').val()) !== -1);
+                .indexOf($('#ProcessNotificationType').val()) !== -1
+        );
         let type = $('#ProcessNotificationType').val();
         //type:1 Mailのみ表示
         $('#ProcessNotificationCcAddressField').toggle(type === '1');
         $('#ProcessNotificationBccAddressField').toggle(type === '1');
     });
     $(document).on('change', '#ReminderType', function () {
-        var reminderFromVisible = $('#ReminderFromEnableList').val()
-            .split(',')
-            .indexOf($('#ReminderType').val()) !== -1;
-        $('#ReminderFromField').toggle(reminderFromVisible)
-        $('#ReminderFrom').attr('data-validate-required', reminderFromVisible
-            ? '1'
-            : '0');
+        var reminderFromVisible =
+            $('#ReminderFromEnableList').val().split(',').indexOf($('#ReminderType').val()) !== -1;
+        $('#ReminderFromField').toggle(reminderFromVisible);
+        $('#ReminderFrom').attr('data-validate-required', reminderFromVisible ? '1' : '0');
         $('#ReminderTokenField').toggle(
-            $('#ReminderTokenEnableList').val()
-                .split(',')
-                .indexOf($('#ReminderType').val()) !== -1);
+            $('#ReminderTokenEnableList').val().split(',').indexOf($('#ReminderType').val()) !== -1
+        );
     });
     $(document).on('change', '#NotificationUseCustomFormat', function () {
         $('#NotificationFormatField').toggle($('#NotificationUseCustomFormat').prop('checked'));
     });
     $(document).on('click', '#SummarySettings .grid-row button', function () {
-        var $control = $($(this).attr('data-selector'))
-        $p.getData($control)[$control.attr('id') + "Id"] = $(this).attr('data-id');
+        var $control = $($(this).attr('data-selector'));
+        $p.getData($control)[$control.attr('id') + 'Id'] = $(this).attr('data-id');
         $p.send($control);
     });
     $(document).on('change', '#SummaryDestinationCondition', function () {
@@ -154,42 +154,28 @@
         $p.addBasket(
             $('#' + prefix + 'ViewSorters'),
             $dataViewSorter.text() + orderText,
-            $dataViewSorter.val() + '&' + orderType);
+            $dataViewSorter.val() + '&' + orderType
+        );
     });
     $(document).on('change', '#StyleAll', function () {
         if ($('#StyleAll').prop('checked')) {
-            $('.output-destination-style')
-                .addClass('hidden')
-                .find('input')
-                .prop('checked', false);
+            $('.output-destination-style').addClass('hidden').find('input').prop('checked', false);
         } else {
-            $('.output-destination-style')
-                .removeClass('hidden')
-                .find('input');
+            $('.output-destination-style').removeClass('hidden').find('input');
         }
     });
     $(document).on('change', '#ScriptAll', function () {
         if ($('#ScriptAll').prop('checked')) {
-            $('.output-destination-script')
-                .addClass('hidden')
-                .find('input')
-                .prop('checked', false);
+            $('.output-destination-script').addClass('hidden').find('input').prop('checked', false);
         } else {
-            $('.output-destination-script')
-                .removeClass('hidden')
-                .find('input');
+            $('.output-destination-script').removeClass('hidden').find('input');
         }
     });
     $(document).on('change', '#HtmlAll', function () {
         if ($('#HtmlAll').prop('checked')) {
-            $('.output-destination-html')
-                .addClass('hidden')
-                .find('input')
-                .prop('checked', false);
+            $('.output-destination-html').addClass('hidden').find('input').prop('checked', false);
         } else {
-            $('.output-destination-html')
-                .removeClass('hidden')
-                .find('input');
+            $('.output-destination-html').removeClass('hidden').find('input');
         }
     });
     $(document).on('change', '#DateFilterSetMode', function () {
@@ -215,7 +201,7 @@
     });
     $(document).on('change', '#DashboardPartType', function () {
         let $control = $(this);
-        let selected = $control.val();        
+        let selected = $control.val();
         //selected==0: QuickAccess のみ表示
         $('#DashboardPartQuickAccessSitesField').toggle(selected === '0');
         $('#DashboardPartQuickAccessLayoutField').toggle(selected === '0');
@@ -232,13 +218,15 @@
         //selected==4: Calendarのみ表示
         $('#DashboardPartCalendarSitesField').toggle(selected === '4');
         $('#DashboardPartCalendarTypeField').toggle(selected === '4');
-        $('#DashboardPartCalendarGroupByField').toggle(selected === '4'
-            && $("#DashboardPartCalendarType").val() === '1');
-        $('#DashboardPartCalendarTimePeriodField').toggle(selected === '4'
-            && $("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarGroupByField').toggle(
+            selected === '4' && $('#DashboardPartCalendarType').val() === '1'
+        );
+        $('#DashboardPartCalendarTimePeriodField').toggle(
+            selected === '4' && $('#DashboardPartCalendarType').val() === '1'
+        );
         $('#DashboardPartCalendarFromToField').toggle(selected === '4');
         $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');
-        //selected==5: Kambanのみ表示 
+        //selected==5: Kambanのみ表示
         $('#DashboardPartKambanSitesField').toggle(selected === '5');
         $('#DashboardPartKambanGroupByXField').toggle(selected === '5');
         $('#DashboardPartKambanGroupByYField').toggle(selected === '5');
@@ -251,23 +239,24 @@
         $('#DashboardPartIndexSitesField').toggle(selected === '6');
         $('#DashboardPartViewIndexTabControl').toggle(selected === '6');
         //selected==1||selected==4|| select==5 ||selected==6: TimeLineとCalendarとKambanとIndexのみ表示
-        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1'
-            || selected === '4'
-            || selected === '5'
-            || selected === '6');
+        $('#DashboardPartViewFiltersTabControl').toggle(
+            selected === '1' || selected === '4' || selected === '5' || selected === '6'
+        );
         //selected==1||selected==6: TimeLineとIndexのみ表示
         $('#DashboardPartViewSortersTabControl').toggle(selected === '1' || selected === '6');
     });
-    $(document).on('change','#DashboardPartCalendarType',function () {
-        
-        $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '1');
-        $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '1');
-
+    $(document).on('change', '#DashboardPartCalendarType', function () {
+        $('#DashboardPartCalendarGroupByField').toggle(
+            $('#DashboardPartCalendarType').val() === '1'
+        );
+        $('#DashboardPartCalendarTimePeriodField').toggle(
+            $('#DashboardPartCalendarType').val() === '1'
+        );
     });
     $(document).on('change', '#DashboardPartKambanAggregateType', function () {
-
-        $('#DashboardPartKambanValueField').toggle($('#DashboardPartKambanAggregateType').val() !== 'Count');
-
+        $('#DashboardPartKambanValueField').toggle(
+            $('#DashboardPartKambanAggregateType').val() !== 'Count'
+        );
     });
     $(document).on('change', '#GuideAllowExpand', function () {
         var visibility = $(this).prop('checked');

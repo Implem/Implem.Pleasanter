@@ -1,24 +1,29 @@
 ﻿$p.openVideo = function (controlId) {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(function (stream) {
-        $('#VideoTarget').val(controlId);
-        $('#VideoDialog').dialog({
-            modal: true,
-            width: '680px',
-            appendTo: '#Application',
-            resizable: false,
-            close: function () {
-                $p.videoTracks.forEach(function (track) { track.stop() });
-            }
+    navigator.mediaDevices
+        .getUserMedia({ video: true, audio: false })
+        .then(function (stream) {
+            $('#VideoTarget').val(controlId);
+            $('#VideoDialog').dialog({
+                modal: true,
+                width: '680px',
+                appendTo: '#Application',
+                resizable: false,
+                close: function () {
+                    $p.videoTracks.forEach(function (track) {
+                        track.stop();
+                    });
+                }
+            });
+            $p.video = document.getElementById('Video');
+            $p.video.srcObject = stream;
+            $p.videoTracks = stream.getVideoTracks();
+            $p.video.play();
+        })
+        .catch(function (error) {
+            $p.setErrorMessage('CanNotConnectCamera');
+            return;
         });
-        $p.video = document.getElementById('Video');
-        $p.video.srcObject = stream;
-        $p.videoTracks = stream.getVideoTracks();
-        $p.video.play();
-    }).catch(function (error) {
-        $p.setErrorMessage('CanNotConnectCamera');
-        return;
-    });
-}
+};
 
 $p.toShoot = function ($control) {
     var canvas = document.getElementById('Canvas');
@@ -27,8 +32,12 @@ $p.toShoot = function ($control) {
     canvas.setAttribute('width', width);
     canvas.setAttribute('height', height);
     canvas.getContext('2d').drawImage($p.video, 0, 0, width, height);
-    canvas.toBlob(function (blob) {
-        $p.uploadImage($('#VideoTarget').val(), blob);
-    }, 'image/jpeg', 0.95);
+    canvas.toBlob(
+        function (blob) {
+            $p.uploadImage($('#VideoTarget').val(), blob);
+        },
+        'image/jpeg',
+        0.95
+    );
     $p.closeDialog($control);
-}
+};

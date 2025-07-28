@@ -7,71 +7,86 @@ $p.apply = function () {
         $(element).removeClass('ui-menu-item');
         $($(element).children()[0]).removeClass('ui-menu-item-wrapper');
     });
-    $('.tab-container:not(.applied)').tabs({
-        beforeActivate: function (event, ui) {
-            if (ui.newPanel.attr('data-action')) {
-                $p.send(ui.newPanel);
-            }
-        },
-        active: $('#EditorTabsContainer').attr("tab-active"),
-        items: "> ul > li:not(.ignore-tab)"
-    }).addClass('applied')
-    .each(function () {
-        if ($(this).attr('id') === 'EditorTabsContainer'
-            && $('#SimpleModeEnabled').length > 0) {
-            SimpleMode.init();
-        }
-    });
-    $('.button-icon:not(.applied)').each(function () {
-        var $control = $(this);
-        var icon = $control.attr('data-icon');
-        $control.button({ icon: icon });
-    }).addClass('applied');
-    $('.button-icon.hidden').toggle(false);
-    $('select[multiple]:not(.applied)').multiselect({
-        buttonWidth: 'auto',
-        menuWidth: 225,
-        selectedList: 100,
-        linkInfo: {
-            checkAll: {
-                text: $p.display('CheckAll'),
-                title: $p.display('CheckAll')
+    $('.tab-container:not(.applied)')
+        .tabs({
+            beforeActivate: function (event, ui) {
+                if (ui.newPanel.attr('data-action')) {
+                    $p.send(ui.newPanel);
+                }
             },
-            uncheckAll: {
-                text: $p.display('UncheckAll'),
-                title: $p.display('UncheckAll')
+            active: $('#EditorTabsContainer').attr('tab-active'),
+            items: '> ul > li:not(.ignore-tab)'
+        })
+        .addClass('applied')
+        .each(function () {
+            if (
+                $(this).attr('id') === 'EditorTabsContainer' &&
+                $('#SimpleModeEnabled').length > 0
+            ) {
+                SimpleMode.init();
             }
-        },
-        noneSelectedText: '',
-        beforeopen: function () {
-            if ($(this).hasClass('search')) {
-                $p.openDropDownSearchDialog($(this));
-                return false;
+        });
+    $('.button-icon:not(.applied)')
+        .each(function () {
+            var $control = $(this);
+            var icon = $control.attr('data-icon');
+            $control.button({ icon: icon });
+        })
+        .addClass('applied');
+    $('.button-icon.hidden').toggle(false);
+    $('select[multiple]:not(.applied)')
+        .multiselect({
+            buttonWidth: 'auto',
+            menuWidth: 225,
+            selectedList: 100,
+            linkInfo: {
+                checkAll: {
+                    text: $p.display('CheckAll'),
+                    title: $p.display('CheckAll')
+                },
+                uncheckAll: {
+                    text: $p.display('UncheckAll'),
+                    title: $p.display('UncheckAll')
+                }
+            },
+            noneSelectedText: '',
+            beforeopen: function () {
+                if ($(this).hasClass('search')) {
+                    $p.openDropDownSearchDialog($(this));
+                    return false;
+                }
+            },
+            click: function () {
+                $p.changeMultiSelect($(this));
+            },
+            checkAll: function () {
+                $p.changeMultiSelect($(this));
+            },
+            uncheckAll: function () {
+                $p.changeMultiSelect($(this));
             }
-        },
-        click: function () {
-            $p.changeMultiSelect($(this))
-        },
-        checkAll: function () {
-            $p.changeMultiSelect($(this))
-        },
-        uncheckAll: function () {
-            $p.changeMultiSelect($(this))
-        }
-    }).addClass('applied');
-    $('.field-normal .ui-widget.ui-state-default.ui-multiselect').css('width', '100%').removeAttr('title');
-    $('.field-wide .ui-widget.ui-state-default.ui-multiselect').css('width', '100%').removeAttr('title');
-    $('.field-auto-thin .ui-widget.ui-state-default.ui-multiselect').css('width', '140px').removeAttr('title');
+        })
+        .addClass('applied');
+    $('.field-normal .ui-widget.ui-state-default.ui-multiselect')
+        .css('width', '100%')
+        .removeAttr('title');
+    $('.field-wide .ui-widget.ui-state-default.ui-multiselect')
+        .css('width', '100%')
+        .removeAttr('title');
+    $('.field-auto-thin .ui-widget.ui-state-default.ui-multiselect')
+        .css('width', '140px')
+        .removeAttr('title');
     $('.datepicker:not(.applied)').each(function () {
         var $control = $(this);
         var $step = parseInt($control.attr('data-step'), 10);
-        $control.datetimepicker({
-            format: $control.attr('data-format'),
-            timepicker: $control.attr('data-timepicker') === '1',
-            step: isNaN($step) ? 10 : $step,
-            dayOfWeekStart: 1,
-            scrollInput: false
-        })
+        $control
+            .datetimepicker({
+                format: $control.attr('data-format'),
+                timepicker: $control.attr('data-timepicker') === '1',
+                step: isNaN($step) ? 10 : $step,
+                dayOfWeekStart: 1,
+                scrollInput: false
+            })
             .addClass('applied');
     });
     switch ($('#Language').val()) {
@@ -80,23 +95,25 @@ $p.apply = function () {
             break;
     }
     $('.radio:not(.applied)').buttonset().addClass('applied');
-    $('.control-selectable:not(.applied)').selectable({
-        selected: function (event, ui) {
-            if ($(this).hasClass('single')) {
-                $(ui.selected)
-                    .addClass("ui-selected")
-                    .siblings()
-                    .removeClass("ui-selected")
-                    .each(function (key, value) {
-                        $(value).find('*').removeClass("ui-selected");
-                    });
+    $('.control-selectable:not(.applied)')
+        .selectable({
+            selected: function (event, ui) {
+                if ($(this).hasClass('single')) {
+                    $(ui.selected)
+                        .addClass('ui-selected')
+                        .siblings()
+                        .removeClass('ui-selected')
+                        .each(function (key, value) {
+                            $(value).find('*').removeClass('ui-selected');
+                        });
+                }
+            },
+            filter: '.ui-widget-content',
+            stop: function () {
+                $p.setData($(this));
             }
-        },
-        filter: ".ui-widget-content",
-        stop: function () {
-            $p.setData($(this));
-        }
-    }).addClass('applied');
+        })
+        .addClass('applied');
     $('.control-slider-ui').each(function () {
         var $control = $('#' + $(this).attr('id').split(',')[0]);
         $(this).slider({
@@ -118,18 +135,20 @@ $p.apply = function () {
     });
     $('.control-spinner:not(.applied)').each(function () {
         var $control = $(this);
-        $control.spinner({
-            min: $control.attr('data-min'),
-            max: $control.attr('data-max'),
-            step: $control.attr('data-step'),
-            spin: function (event, ui) {
-                if ($(this).hasClass('control-auto-postback')) {
-                    $p.controlAutoPostBack($(this));
+        $control
+            .spinner({
+                min: $control.attr('data-min'),
+                max: $control.attr('data-max'),
+                step: $control.attr('data-step'),
+                spin: function (event, ui) {
+                    if ($(this).hasClass('control-auto-postback')) {
+                        $p.controlAutoPostBack($(this));
+                    }
                 }
-            }
-        }).css('width', function () {
-            return $control.attr('data-width');
-        });
+            })
+            .css('width', function () {
+                return $control.attr('data-width');
+            });
         $control.addClass('applied');
     });
     $('[class*="enclosed"] .legend:not(.applied)').each(function (e) {
@@ -143,9 +162,7 @@ $p.apply = function () {
         var $control = $(this);
         var selectedCss = $control.find('option:selected').attr('data-class');
         if (selectedCss !== undefined) {
-            $control
-                .addClass(selectedCss)
-                .addClass('applied');
+            $control.addClass(selectedCss).addClass('applied');
         }
     });
     $('.control-markdown:not(.applied)').each(function () {
@@ -171,16 +188,20 @@ $p.apply = function () {
     if ($('#Publish').length === 1) {
         $('a').each(function () {
             var $control = $(this);
-            if ($control.attr('href')
-                && $control.attr('href').indexOf('/binaries/') !== -1) {
-                $control.attr('href', $control.attr('href').replace('/binaries/', '/publishbinaries/'))
+            if ($control.attr('href') && $control.attr('href').indexOf('/binaries/') !== -1) {
+                $control.attr(
+                    'href',
+                    $control.attr('href').replace('/binaries/', '/publishbinaries/')
+                );
             }
         });
         $('img').each(function () {
             var $control = $(this);
-            if ($control.attr('src')
-                && $control.attr('src').indexOf('/binaries/') !== -1) {
-                $control.attr('src', $control.attr('src').replace('/binaries/', '/publishbinaries/'))
+            if ($control.attr('src') && $control.attr('src').indexOf('/binaries/') !== -1) {
+                $control.attr(
+                    'src',
+                    $control.attr('src').replace('/binaries/', '/publishbinaries/')
+                );
             }
         });
     }
@@ -195,8 +216,8 @@ function replaceMenu() {
     var dataName = $menu.attr('id').replace('GridHeaderMenu__', '');
     $header = $("body > thead:visible > tr > th.sortable[data-name='" + dataName + "']");
     if ($header.length) {
-        if ($(".menu-sort:visible").length) {
-            $(".menu-sort:visible").hide();
+        if ($('.menu-sort:visible').length) {
+            $('.menu-sort:visible').hide();
         }
         if ($('.ui-multiselect-close:visible').length) {
             $('.ui-multiselect-close:visible').click();
@@ -207,12 +228,15 @@ function replaceMenu() {
             return;
         }
         $menu.css('width', '');
-        $menu.css('position', 'fixed')
+        $menu
+            .css('position', 'fixed')
             .css('top', $header.offset().top + $header.outerHeight())
             .css('left', $header.offset().left)
-            .outerWidth($header.outerWidth() > $menuSort.outerWidth()
-                ? $header.outerWidth()
-                : $menuSort.outerWidth());
+            .outerWidth(
+                $header.outerWidth() > $menuSort.outerWidth()
+                    ? $header.outerWidth()
+                    : $menuSort.outerWidth()
+            );
     }
     var $multiSelect = $('.ui-multiselect-menu:visible');
     var $control = $("[id='ViewFiltersOnGridHeader__" + dataName + "_ms']");
@@ -222,7 +246,6 @@ function replaceMenu() {
             .css('left', $control.offset().left);
     }
 }
-
 
 // シンプルモード管理オブジェクト（即時実行関数式でカプセル化）
 const SimpleMode = (function () {
@@ -249,46 +272,46 @@ const SimpleMode = (function () {
 
     // タブIDとタブ名のマッピング
     const _tabMapping = {
-        'General': '#FieldSetGeneral',
-        'Guide': '#GuideEditor',
-        'SiteImageSettingsEditor': '#SiteImageSettingsEditor',
-        'Styles': '#StylesSettingsEditor',
-        'Scripts': '#ScriptsSettingsEditor',
-        'Html': '#HtmlsSettingsEditor',
-        'DashboardParts': '#DashboardPartSettingsEditor',
-        'DataView': '#ViewsSettingsEditor',
-        'Notifications': '#NotificationsSettingsEditor',
-        'Mail': '#MailSettingsEditor',
-        'Publish': '#PublishSettingsEditor',
-        'Grid': '#GridSettingsEditor',
-        'Filters': '#FiltersSettingsEditor',
-        'Aggregations': '#AggregationsSettingsEditor',
-        'Editor': '#EditorSettingsEditor',
-        'Links': '#LinksSettingsEditor',
-        'Histories': '#HistoriesSettingsEditor',
-        'Move': '#MoveSettingsEditor',
-        'Summaries': '#SummariesSettingsEditor',
-        'Formulas': '#FormulasSettingsEditor',
-        'Processes': '#ProcessesSettingsEditor',
-        'StatusControls': '#StatusControlsSettingsEditor',
-        'Reminders': '#RemindersSettingsEditor',
-        'Import': '#ImportsSettingsEditor',
-        'Export': '#ExportsSettingsEditor',
-        'Calendar': '#CalendarSettingsEditor',
-        'Crosstab': '#CrosstabSettingsEditor',
-        'Gantt': '#GanttSettingsEditor',
-        'BurnDown': '#BurnDownSettingsEditor',
-        'TimeSeries': '#TimeSeriesSettingsEditor',
-        'Analy': '#AnalySettingsEditor',
-        'Kanban': '#KambanSettingsEditor',
-        'ImageLib': '#ImageLibSettingsEditor',
-        'Search': '#SearchSettingsEditor',
-        'SiteIntegration': '#SiteIntegrationEditor',
-        'ServerScript': '#ServerScriptsSettingsEditor',
-        'SiteAccessControl': '#FieldSetSiteAccessControl',
-        'RecordAccessControl': '#FieldSetRecordAccessControl',
-        'ColumnAccessControl': '#FieldSetColumnAccessControl',
-        'ChangeHistoryList': '#FieldSetHistories'
+        General: '#FieldSetGeneral',
+        Guide: '#GuideEditor',
+        SiteImageSettingsEditor: '#SiteImageSettingsEditor',
+        Styles: '#StylesSettingsEditor',
+        Scripts: '#ScriptsSettingsEditor',
+        Html: '#HtmlsSettingsEditor',
+        DashboardParts: '#DashboardPartSettingsEditor',
+        DataView: '#ViewsSettingsEditor',
+        Notifications: '#NotificationsSettingsEditor',
+        Mail: '#MailSettingsEditor',
+        Publish: '#PublishSettingsEditor',
+        Grid: '#GridSettingsEditor',
+        Filters: '#FiltersSettingsEditor',
+        Aggregations: '#AggregationsSettingsEditor',
+        Editor: '#EditorSettingsEditor',
+        Links: '#LinksSettingsEditor',
+        Histories: '#HistoriesSettingsEditor',
+        Move: '#MoveSettingsEditor',
+        Summaries: '#SummariesSettingsEditor',
+        Formulas: '#FormulasSettingsEditor',
+        Processes: '#ProcessesSettingsEditor',
+        StatusControls: '#StatusControlsSettingsEditor',
+        Reminders: '#RemindersSettingsEditor',
+        Import: '#ImportsSettingsEditor',
+        Export: '#ExportsSettingsEditor',
+        Calendar: '#CalendarSettingsEditor',
+        Crosstab: '#CrosstabSettingsEditor',
+        Gantt: '#GanttSettingsEditor',
+        BurnDown: '#BurnDownSettingsEditor',
+        TimeSeries: '#TimeSeriesSettingsEditor',
+        Analy: '#AnalySettingsEditor',
+        Kanban: '#KambanSettingsEditor',
+        ImageLib: '#ImageLibSettingsEditor',
+        Search: '#SearchSettingsEditor',
+        SiteIntegration: '#SiteIntegrationEditor',
+        ServerScript: '#ServerScriptsSettingsEditor',
+        SiteAccessControl: '#FieldSetSiteAccessControl',
+        RecordAccessControl: '#FieldSetRecordAccessControl',
+        ColumnAccessControl: '#FieldSetColumnAccessControl',
+        ChangeHistoryList: '#FieldSetHistories'
     };
 
     /**
@@ -433,7 +456,7 @@ const SimpleMode = (function () {
         $tabs.each(function () {
             if (!simpleModeTabs.has(this)) {
                 allTabsIncluded = false;
-                return false; 
+                return false;
             }
         });
 
@@ -451,10 +474,15 @@ const SimpleMode = (function () {
             if (_initialized) return;
 
             // 設定値を取得
-            _enabled = $('#SimpleModeEnabled').length > 0 && $('#SimpleModeEnabled').val() === 'true';
-            _default = $('#SimpleModeDefault').length > 0 && $('#SimpleModeDefault').val() === 'true';
-            _displaySwitch = $('#SimpleModeDisplaySwitch').length > 0 && $('#SimpleModeDisplaySwitch').val() === 'true';
-            _simpleModeTabNames = $('#SimpleModeTabs').length > 0 ? $('#SimpleModeTabs').val().split(',') : [];
+            _enabled =
+                $('#SimpleModeEnabled').length > 0 && $('#SimpleModeEnabled').val() === 'true';
+            _default =
+                $('#SimpleModeDefault').length > 0 && $('#SimpleModeDefault').val() === 'true';
+            _displaySwitch =
+                $('#SimpleModeDisplaySwitch').length > 0 &&
+                $('#SimpleModeDisplaySwitch').val() === 'true';
+            _simpleModeTabNames =
+                $('#SimpleModeTabs').length > 0 ? $('#SimpleModeTabs').val().split(',') : [];
 
             // シンプルモード機能が無効の場合は何もしない
             if (!_enabled) {
@@ -491,6 +519,5 @@ const SimpleMode = (function () {
                 _applySimpleMode();
             }
         }
-
     };
 })();

@@ -4,15 +4,15 @@ $p.pageObserve = function (selector) {
     const contents = document.getElementById(selector);
     const mutationObserver = new MutationObserver(() => {
         observerTarget.style.width = `${contents.scrollWidth}px`;
-        if(!document.querySelector(`#${selector}`)){
+        if (!document.querySelector(`#${selector}`)) {
             intersectionObserver.disconnect();
             mutationObserver.disconnect();
         }
     });
-    const intersectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
+    const intersectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
-                $p.paging (`#${selector}`);
+                $p.paging(`#${selector}`);
             }
         });
     });
@@ -23,6 +23,10 @@ $p.pageObserve = function (selector) {
         observerTarget.style.height = `1px`;
         contents.parentNode.insertBefore(observerTarget, contents.nextSibling);
         intersectionObserver.observe(observerTarget);
-        mutationObserver.observe(document.getElementById('ViewModeContainer'),{ attributes: false, childList: true, subtree: true });
+        mutationObserver.observe(document.getElementById('ViewModeContainer'), {
+            attributes: false,
+            childList: true,
+            subtree: true
+        });
     }
-}
+};

@@ -39,11 +39,10 @@
                 document.getElementById(id).style.visibility = 'hidden';
             });
         // 削除機能を実装した×ボタン要素を実装
-        div
-            .append('span')
+        div.append('span')
             .attr('id', 'DeleteChartIcon_' + pieChart.Setting.Id)
             .attr('class', 'material-symbols-outlined')
-            .attr('onclick', '$p.send($(\'#DeleteAnalyPart_' + pieChart.Setting.Id + '\'));')
+            .attr('onclick', "$p.send($('#DeleteAnalyPart_" + pieChart.Setting.Id + "'));")
             .style('margin-top', '5%')
             .style('margin-right', '5%')
             .style('cursor', 'pointer')
@@ -65,7 +64,8 @@
             .attr('data-method', 'post')
             .attr(
                 'transform',
-                'translate(' + ((chartWidth / 2) + 1) + ',' + ((chartHeight / 2) + 1) + ')');
+                'translate(' + (chartWidth / 2 + 1) + ',' + (chartHeight / 2 + 1) + ')'
+            );
         // データが抽出できない場合
         if (!pieChart.Elements.length) {
             // データがない旨画面に表示
@@ -96,8 +96,8 @@
                     .attr('dy', settingFontHeight)
                     .text(
                         $p.display(pieChart.Setting.TimePeriodValue) +
-                        '' +
-                        $p.display(pieChart.Setting.TimePeriod)
+                            '' +
+                            $p.display(pieChart.Setting.TimePeriod)
                     );
                 // 条件「集計対象」を画面に表示
                 g.append('text')
@@ -106,7 +106,7 @@
                     .attr('text-anchor', 'middle')
                     .attr('dy', settingFontHeight + 25)
                     .text(function () {
-                        if (!pieChart.Setting.AggregationTarget) return "";
+                        if (!pieChart.Setting.AggregationTarget) return '';
                         var targetColumnData = columnDataArray.filter(function (columnData) {
                             return columnData.ColumnName === pieChart.Setting.AggregationTarget;
                         });
@@ -123,7 +123,7 @@
                             return $p.display('Creator');
                         } else {
                             var targetColumnData = columnDataArray.filter(function (columnData) {
-                                return columnData.ColumnName === pieChart.Setting.GroupBy
+                                return columnData.ColumnName === pieChart.Setting.GroupBy;
                             });
                             return targetColumnData[0].LabelText;
                         }
@@ -146,9 +146,10 @@
                 // 円グラフの半径を設定
                 var arc = d3.arc().outerRadius(radius).innerRadius(130);
                 // 円グラフの各要素に対して色を設定
-                var color = (pieChart.Elements.length <= 10)
-                    ? d3.scaleOrdinal(d3.schemeCategory10)
-                    : d3.scaleSequential(d3.interpolateRainbow).domain([0, 20]);
+                var color =
+                    pieChart.Elements.length <= 10
+                        ? d3.scaleOrdinal(d3.schemeCategory10)
+                        : d3.scaleSequential(d3.interpolateRainbow).domain([0, 20]);
                 // 初期値設定と円グラフ表示処理
                 // メモリにデータが設定されていない場合
                 if (!colorLabelMemorys.length) {
@@ -179,7 +180,7 @@
                     });
             }
         }
-    };
+    }
 
     // データが取得できなかった際の画面表示処理
     // 引数を「$p.display()」の引数に渡し、引数を表示
@@ -216,7 +217,9 @@
             .attr('fill', function (d) {
                 // メモリに登録されているラベル名の情報を設定
                 // メモリに登録されていないラベル名はnullが設定される
-                var filterResults = colorLabelMemorys.find(colorLabelMemory => d.data.GroupTitle === colorLabelMemory.labelName);
+                var filterResults = colorLabelMemorys.find(
+                    colorLabelMemory => d.data.GroupTitle === colorLabelMemory.labelName
+                );
                 // ラベル名がメモリに登録されていない場合
                 if (!filterResults) {
                     // 初期値としてメモリに登録
@@ -246,15 +249,15 @@
             .attr('opacity', 0.85)
             .attr('stroke', 'white');
     }
-}
+};
 
 $p.openAnalyPartDialog = function ($control) {
-    error = $p.syncSend($control);
+    var error = $p.syncSend($control);
     if (error === 0) {
         $('#AnalyPartDialog').dialog({
             modal: true,
             width: '420px',
-            resizable: false,
+            resizable: false
         });
     }
 };

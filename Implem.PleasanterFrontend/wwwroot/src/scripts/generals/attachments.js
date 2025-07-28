@@ -1,12 +1,14 @@
 ﻿$p.uploadAttachments = function (control, filesList) {
     var createUuid = function () {
-        var uuid = "", i, random;
+        var uuid = '',
+            i,
+            random;
         for (i = 0; i < 32; i++) {
-            random = Math.random() * 16 | 0;
+            random = (Math.random() * 16) | 0;
             if (i === 8 || i === 12 || i === 16 || i === 20) {
-                uuid += "";
+                uuid += '';
             }
-            uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);
+            uuid += (i === 12 ? 4 : i === 16 ? (random & 3) | 8 : random).toString(16);
         }
         return uuid.toUpperCase();
     };
@@ -31,7 +33,7 @@
         };
         this.updateTime = new Date().getTime();
         this.setProgress = function () {
-            if ((this.updateTime + 250) > new Date().getTime()) return;
+            if (this.updateTime + 250 > new Date().getTime()) return;
             this.updateTime = new Date().getTime();
             var uploaded = 0;
             for (var index = 0; index < progresses.length; ++index) {
@@ -104,8 +106,8 @@
                 formData[key] = $p.data.MainForm[key];
             }
         }
-        if ($("#IsNew").length) {
-            sendData.formData.IsNew = $("#IsNew").val();
+        if ($('#IsNew').length) {
+            sendData.formData.IsNew = $('#IsNew').val();
         }
         var ldata = jQuery.extend(true, {}, sendData);
         ldata.formData.uuid = uuid;
@@ -116,8 +118,7 @@
         controls.statusBar.setAbort(jqXHR, uuid);
     }
 
-
-    var dones = new Array();
+    var dones = [];
     var fileIndex = 0;
     for (fileIndex = 0; fileIndex < filesList.length; fileIndex++) {
         dones.push(false);
@@ -127,21 +128,27 @@
     var success = true;
     var isAborted = false;
     var isSending = false;
-    var progresses = new Array();
+    var progresses = [];
     var controls = new Object();
     var columnName = control.attr('data-name');
     var dataName = control.attr('data-name');
-    var uuids = new Array();
+    var uuids = [];
     for (fileIndex = 0; fileIndex < filesList.length; fileIndex++) {
         uuids.push(createUuid());
     }
     var fieldControl = control.closest('.field-control');
-    var siteId = fieldControl.closest("#EditorTabsContainer").attr("site-id");
-    var url = $('.main-form').attr('action').replace('_action_', 'upload').replace('items', 'binaries');
+    var siteId = fieldControl.closest('#EditorTabsContainer').attr('site-id');
+    var url = $('.main-form')
+        .attr('action')
+        .replace('_action_', 'upload')
+        .replace('items', 'binaries');
     var deleteUrl = $('.main-form').attr('action').replace('_action_', 'binaries/deletetemp');
     if (siteId) {
-        url = url.replace(/\/binaries\/[0-9]+\/upload/g, "/binaries/" + siteId + "/upload");
-        deleteUrl = deleteUrl.replace(/\/items\/[0-9]+\/binaries\/deletetemp/g, "/items/" + siteId + "/binaries/deletetemp");
+        url = url.replace(/\/binaries\/[0-9]+\/upload/g, '/binaries/' + siteId + '/upload');
+        deleteUrl = deleteUrl.replace(
+            /\/items\/[0-9]+\/binaries\/deletetemp/g,
+            '/items/' + siteId + '/binaries/deletetemp'
+        );
     }
     var controlId = control.parent().find('.control-attachments').attr('id');
     var token = $('#Token').val();
@@ -161,9 +168,9 @@
     sendData.dataType = dataType;
     sendData.maxChunkSize = maxChunkSize;
     sendData.files = filesList;
-    var fileNameArray = new Array();
-    var fileSizeArray = new Array();
-    var fileTypeArray = new Array();
+    var fileNameArray = [];
+    var fileSizeArray = [];
+    var fileTypeArray = [];
     for (fileIndex = 0; fileIndex < filesList.length; fileIndex++) {
         fileNameArray.push(filesList[fileIndex].name);
         fileSizeArray.push(filesList[fileIndex].size);
@@ -178,7 +185,8 @@
     var statusBar = new createStatusbar(
         $status,
         control.parent().find('[id="' + columnName + '.progress"]'),
-        control.parent().find('[id="' + columnName + '.abort"]'));
+        control.parent().find('[id="' + columnName + '.abort"]')
+    );
     controls.statusBar = statusBar;
     controls.statusBar.abort.click();
     controls.statusBar.abort.off('click.n1');
@@ -187,10 +195,11 @@
     statusBar.resetProgress();
     $status.show();
 
-    var input = fieldControl.find("#" + columnName + "\\.input");
-    input.fileupload({
-        dropZone: $(".control-attachments-upload")
-    })
+    var input = fieldControl.find('#' + columnName + '\\.input');
+    input
+        .fileupload({
+            dropZone: $('.control-attachments-upload')
+        })
         .on('fileuploadprogress', function (e, data) {
             progresses[data.formData.FileIndex] = data.total + data.loaded;
             controls.statusBar.setProgress();
@@ -221,7 +230,12 @@
                 return false;
             }
             dones[fileIndex] = true;
-            if (dones.filter(function (value) { return !value; }).length > 0) return;
+            if (
+                dones.filter(function (value) {
+                    return !value;
+                }).length > 0
+            )
+                return;
             var json = data.result.ResponseJson;
             var url = data.url;
             var methodType = 'POST';
@@ -276,13 +290,18 @@
 
 $p.deleteAttachment = function ($control, $data) {
     var json = JSON.parse($control.val());
-    var target = json.find(v => v.Guid == $data.attr('data-id') && v.Overwritten && v.Added != true);
+    var target = json.find(
+        v => v.Guid == $data.attr('data-id') && v.Overwritten && v.Added != true
+    );
     json = json.filter(function (item, index, array) {
         if (item.Added === true) {
-            if (item.Guid === $data.attr('data-id') || (target != null && item.Name == target.Name)) {
+            if (
+                item.Guid === $data.attr('data-id') ||
+                (target != null && item.Name == target.Name)
+            ) {
                 var data = {};
                 data.Guid = item.Guid;
-                url = $('.main-form')
+                var url = $('.main-form')
                     .attr('action')
                     .replace('_action_', $data.attr('data-action'));
                 $p.ajax(url, 'post', data);

@@ -8,7 +8,10 @@
         $p.generatePasswordButton('#Users_ChangedPassword', '#Users_ChangedPasswordValidator');
     }
     if ($('input#Users_AfterResetPasswordValidator').length) {
-        $p.generatePasswordButton('#Users_AfterResetPassword', '#Users_AfterResetPasswordValidator');
+        $p.generatePasswordButton(
+            '#Users_AfterResetPassword',
+            '#Users_AfterResetPasswordValidator'
+        );
     }
 });
 
@@ -27,7 +30,7 @@ $p.generatePasswordButton = function (passwordObject, passwordValidateObject) {
     $(document).on('click', '#passwordGenerateicon', function () {
         $p.generatePassword($(this), passwordObject, passwordValidateObject);
     });
-}
+};
 
 $p.generatePassword = function ($control, passwordObject, passwordValidateObject) {
     var action = $control.attr('data-action');
@@ -39,4 +42,4 @@ $p.generatePassword = function ($control, passwordObject, passwordValidateObject
         passwordValidateObject: passwordValidateObject
     };
     $p.ajax(url, 'post', data, $control);
-}
+};
