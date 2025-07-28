@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ClassAndDescription",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Classification, Description, etc."
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "分类、描述等"
+        },
+        {
+            "Language": "ja",
+            "Body": "分類、説明等"
+        },
+        {
+            "Language": "de",
+            "Body": "Klassifizierung, Beschreibung usw."
+        },
+        {
+            "Language": "ko",
+            "Body": "분류, 설명 등"
+        },
+        {
+            "Language": "es",
+            "Body": "Clasificación, descripción, etc."
+        },
+        {
+            "Language": "vi",
+            "Body": "Phân loại, Mô tả, v.v."
+        }
+    ]
+}

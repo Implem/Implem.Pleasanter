@@ -1477,7 +1477,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static List<Permission> PermissionForCreating(SiteSettings ss)
+        internal static List<Permission> PermissionForCreating(SiteSettings ss)
         {
             var type = (Permissions.Types)Parameters.Permissions.General;
             var permissions = new List<Permission>
@@ -1496,7 +1496,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static List<Permission> PermissionForUpdating(SiteSettings ss)
+        internal static List<Permission> PermissionForUpdating(SiteSettings ss)
         {
             var type = (Permissions.Types)Parameters.Permissions.General;
             var permissions = new List<Permission>

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ColumnName",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Column Name"
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "項目名"
+        },
+        {
+            "Language": "ja",
+            "Body": "項目名"
+        },
+        {
+            "Language": "de",
+            "Body": "Spaltenname"
+        },
+        {
+            "Language": "ko",
+            "Body": "열 이름"
+        },
+        {
+            "Language": "es",
+            "Body": "Nombre de la columna"
+        },
+        {
+            "Language": "vi",
+            "Body": "Tên cột"
+        }
+    ]
+}
