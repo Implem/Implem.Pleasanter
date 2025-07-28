@@ -55,7 +55,7 @@
         color: var(--base-text, #333);
         user-select: text;
         background-color: var(--dialog-bg, #fff);
-        border-radius: 5px;
+        border-radius: 4px;
         box-shadow: 0 2px 4px var(--base-shadow, rgb(0 0 0 / 20%));
         opacity: 0;
         transform: translateY(20px);
@@ -123,7 +123,7 @@
         display: block;
     }
     &.dialog-active {
-        background-color: var(--dialog-backdrop, rgb(0 0 0 / 50%));
+        background-color: var(--dialog-backdrop, rgb(0 0 0 / 40%));
         .dialog-content {
             opacity: 1;
             transform: translateY(0);
