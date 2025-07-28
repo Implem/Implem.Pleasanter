@@ -99,8 +99,9 @@ class UiDialog extends HTMLElement {
                 await this.waitTransitionEnd('background-color');
             } catch (e) {
                 console.warn('Transition wait failed', e);
+            } finally {
+                this.dialogElem?.close();
             }
-            this.dialogElem?.close();
         }
 
         this.documentBodyUnlock();
