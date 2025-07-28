@@ -140,8 +140,8 @@ class UiDialog extends HTMLElement {
                 if (event.propertyName === targetProp && !resolved) {
                     resolved = true;
                     this.dialogElem?.removeEventListener('transitionend', onEnd);
-                    this.transitionPromise = null;
                     resolve();
+                    this.transitionPromise = null;
                 }
             };
             this.dialogElem?.addEventListener('transitionend', onEnd);
@@ -150,8 +150,8 @@ class UiDialog extends HTMLElement {
                 if (!resolved) {
                     resolved = true;
                     this.dialogElem?.removeEventListener('transitionend', onEnd);
-                    this.transitionPromise = null;
                     resolve();
+                    this.transitionPromise = null;
                 }
             }, 400);
         });
@@ -164,7 +164,7 @@ class UiDialog extends HTMLElement {
             !event.target.closest('ui-dialog') &&
             !event.target.closest('.dialog-content')
         ) {
-            this.outerClickTarget = event.target;
+            this.outerClickTarget = event.target as Element;
         }
     };
 
