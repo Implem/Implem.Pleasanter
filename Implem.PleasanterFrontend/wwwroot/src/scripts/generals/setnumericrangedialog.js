@@ -11,12 +11,12 @@
             position: { of: window }
         });
     }
-}
+};
 $p.openSiteSetNumericRangeDialog = function ($control) {
     $control.blur();
     if (!$('#SetNumericRangeDialog').hasClass('loop')) {
         $p.openSiteSettingsDialog($control, '#SetNumericRangeDialog', 'auto');
-        $target = $('[id="' + $control.attr('id').replace('_NumericRange', '') + '"]');
+        var $target = $('[id="' + $control.attr('id').replace('_NumericRange', '') + '"]');
         var initValue = JSON.parse($target.val() || 'null');
         var startValue = '';
         var endValue = '';
@@ -31,22 +31,21 @@ $p.openSiteSetNumericRangeDialog = function ($control) {
         }
         $('#NumericRangeStart').val(startValue);
         $('#NumericRangeEnd').val(endValue);
-    }
-    else {
+    } else {
         $('#SetNumericRangeDialog').removeClass('loop');
     }
-}
+};
 $p.openSetNumericRangeOK = function ($controlID) {
-    $start = $('#NumericRangeStart');
-    $end = $('#NumericRangeEnd');
+    var $start = $('#NumericRangeStart');
+    var $end = $('#NumericRangeEnd');
     $start.validate();
     $end.validate();
     if (!$start.valid() || !$end.valid()) {
         $p.setErrorMessage('ValidationError');
         return false;
     }
-    $control = $('[id="' + $controlID + '"]');
-    $target = $('[id="' + $controlID.replace('_NumericRange', '') + '"]');
+    var $control = $('[id="' + $controlID + '"]');
+    var $target = $('[id="' + $controlID.replace('_NumericRange', '') + '"]');
     var sdval = $('#NumericRangeStart').val();
     var edval = $('#NumericRangeEnd').val();
     var setval = '';
@@ -61,7 +60,7 @@ $p.openSetNumericRangeOK = function ($controlID) {
     if ($('#UseFilterButton').length === 0) {
         $p.send($target);
     }
-}
+};
 $p.closeSiteSetNumericRangeDialog = function ($controlID) {
     $p.clearMessage();
     $('#SetNumericRangeDialog').addClass('loop');
@@ -69,9 +68,9 @@ $p.closeSiteSetNumericRangeDialog = function ($controlID) {
     if ($(document.activeElement).attr('id') != $controlID) {
         $('#SetNumericRangeDialog').removeClass('loop');
     }
-}
+};
 $p.openSetNumericRangeClear = function ($control) {
     $('#NumericRangeStart').val('');
     $('#NumericRangeEnd').val('');
     $p.clearMessage();
-}
+};

@@ -1,5 +1,5 @@
 ﻿$p.openExportSelectorDialog = function ($control) {
-    error = $p.syncSend($control);
+    var error = $p.syncSend($control);
     if (error === 0) {
         $p.changeExportIdSelector($control);
         $('#ExportSelectorDialog').dialog({
@@ -8,15 +8,15 @@
             resizable: false
         });
     }
-}
+};
 
 $p.export = function () {
     var data = $p.getData($('.main-form'));
     var exp = JSON.parse($('#ExportId').val());
     var encoding = $('#ExportEncoding').val();
     if (exp.mailNotify === true) {
-        data["ExportId"] = exp.id;
-        $p.send($("#DoExport"), "MainForm");
+        data['ExportId'] = exp.id;
+        $p.send($('#DoExport'), 'MainForm');
     } else {
         var addInput = function (form, name, value) {
             if (!name) return;
@@ -25,7 +25,7 @@ $p.export = function () {
             input.setAttribute('name', name);
             input.setAttribute('value', value);
             form.appendChild(input);
-        }
+        };
         var form = document.createElement('form');
         form.style.display = 'none';
         var action = $('.main-form').attr('action').replace('_action_', 'export');
@@ -41,7 +41,7 @@ $p.export = function () {
             addInput(form, 'Token', $('#Token').val());
         }
         if ($('#DoExport').hasClass('save-view-types-none')) {
-            (Object.keys(data)).forEach(function (e) {
+            Object.keys(data).forEach(function (e) {
                 if (e.match(/(^ViewFilters_|^ViewSorters_|^ViewSelector$)/)) {
                     addInput(form, e, data[e]);
                 }
@@ -51,20 +51,20 @@ $p.export = function () {
         form.submit();
     }
     $p.closeDialog($('#ExportSelectorDialog'));
-}
+};
 
 $p.exportCrosstab = function () {
     $p.transition($('.main-form').attr('action').replace('_action_', 'exportcrosstab'));
-}
+};
 
 $p.addExportAccessControl = function () {
     $('#SourceExportAccessControl li.ui-selected').appendTo('#CurrentExportAccessControl');
     $p.setData($('#CurrentExportAccessControl'));
-}
+};
 
 $p.deleteExportAccessControl = function () {
     $('#CurrentExportAccessControl li.ui-selected').appendTo('#SourceExportAccessControl');
-}
+};
 
 $p.changeExportIdSelector = function ($control) {
     const $exportCommentsCheckbox = $('#ExportCommentsJsonFormat');
@@ -77,4 +77,4 @@ $p.changeExportIdSelector = function ($control) {
     } else {
         $exportCommentsField.hide();
     }
-}
+};

@@ -1,7 +1,11 @@
 ﻿$(function () {
     $(window).on('popstate', function (e) {
-        if (e.originalEvent.currentTarget.location.pathname !== $('#BaseUrl').val() + $('#Id').val()
-            || e.originalEvent.state === "History" || urlParams()["ver"]) {
+        if (
+            e.originalEvent.currentTarget.location.pathname !==
+                $('#BaseUrl').val() + $('#Id').val() ||
+            e.originalEvent.state === 'History' ||
+            urlParams()['ver']
+        ) {
             $p.ajax(e.originalEvent.currentTarget.location, 'post');
         }
     });
@@ -16,7 +20,7 @@
         var paramArray = [];
         if (urlParam) {
             var param = urlParam.split('&');
-            for (i = 0; i < param.length; i++) {
+            for (var i = 0; i < param.length; i++) {
                 var paramItem = param[i].split('=');
                 paramArray[paramItem[0]] = paramItem[1];
             }

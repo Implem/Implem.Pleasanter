@@ -1,6 +1,6 @@
 ﻿$p.getFormId = function ($control) {
     return $control.closest('form').attr('id');
-}
+};
 
 $p.clear = function ($control) {
     var controlId = $control.attr('id');
@@ -20,7 +20,7 @@ $p.clear = function ($control) {
             if ($control.attr('multiple')) {
                 $control
                     .addClass('no-postback')
-                    .multiselect("uncheckAll")
+                    .multiselect('uncheckAll')
                     .removeClass('no-postback');
             } else {
                 $control.val('');
@@ -28,7 +28,7 @@ $p.clear = function ($control) {
             break;
     }
     $p.clearData(controlId, data);
-}
+};
 
 $p.outsideDialog = function ($control) {
     if (!$control.attr('accesskey')) {
@@ -37,22 +37,22 @@ $p.outsideDialog = function ($control) {
     var dialogs = $('.ui-dialog:visible').map(function (i, e) {
         return $('#' + e.getAttribute('aria-describedby'));
     });
-    return dialogs.length !== 0 &&
+    return (
+        dialogs.length !== 0 &&
         dialogs.filter(function (i, e) {
-            return $control.closest(e).length === 1
-        }).length === 0;
-}
+            return $control.closest(e).length === 1;
+        }).length === 0
+    );
+};
 
 $p.syncSend = function ($control, formId) {
     return $p.send($control, formId, false);
-}
+};
 
 $p.send = function ($control, formId, _async, clearMessage) {
     if ($p.outsideDialog($control)) return false;
     if ($control.hasClass('no-send')) return false;
-    $form = formId !== undefined
-        ? $('#' + formId)
-        : $control.closest('form');
+    $form = formId !== undefined ? $('#' + formId) : $control.closest('form');
     var action = $control.attr('data-action');
     var methodType = $control.attr('data-method');
     if ($p.before_setData($p.eventArgs(null, methodType, null, $control, _async)) === false) {
@@ -62,9 +62,10 @@ $p.send = function ($control, formId, _async, clearMessage) {
     if ($p.after_setData($p.eventArgs(null, methodType, data, $control, _async)) === false) {
         return false;
     }
-    var url = action !== undefined
-        ? $form.attr('action').replace('_action_', action.toLowerCase())
-        : location.href;
+    var url =
+        action !== undefined
+            ? $form.attr('action').replace('_action_', action.toLowerCase())
+            : location.href;
     url = $p.addAuthenticationByMailParameter(url);
     var fieldSetTab = $('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]');
     var selectedTabIndex = fieldSetTab.parent().children().index(fieldSetTab);
@@ -84,7 +85,7 @@ $p.send = function ($control, formId, _async, clearMessage) {
             $p.setValidationError($form);
             $p.setErrorMessage('ValidationError');
             if (!$control.closest('.ui-dialog')) {
-                $("html,body").animate({
+                $('html,body').animate({
                     scrollTop: $('.error:first').offset().top
                 });
             }
@@ -104,19 +105,20 @@ $p.send = function ($control, formId, _async, clearMessage) {
             methodType !== 'get' ? data : null,
             $control,
             _async,
-            clearMessage);
+            clearMessage
+        );
     }
-}
+};
 
 $p.setFormChanged = function ($control) {
     if (!$control.hasClass('not-set-form-changed')) {
         $p.formChanged = true;
     }
-}
+};
 
 $p.addUrlParameter = function (url, key, value) {
-    return url + ((url + '').indexOf('?') > -1 ? '&' : '?') + key + "=" + value;
-}
+    return url + ((url + '').indexOf('?') > -1 ? '&' : '?') + key + '=' + value;
+};
 
 $p.throttle = (function () {
     var lastTime = 0;
