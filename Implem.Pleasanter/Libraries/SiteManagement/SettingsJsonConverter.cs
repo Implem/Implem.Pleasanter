@@ -102,7 +102,6 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
 
         public class FileInfoData
         {
-            // TODO 出力した日など出力する
             public DateTime CreateDate = DateTime.Now;
             public List<Log> Logs;
         }
@@ -263,14 +262,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
             };
-
-            string json = JsonConvert.SerializeObject(this, settings);
-            {
-                // TODO Debug 後で削除
-                var x = SettingsJsonConverter.Deserialize(json: json);
-            }
-            return json;
-            //return this.ToJson(formatting: Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, settings);
         }
 
         public static SettingsJsonConverter Deserialize(string json)
