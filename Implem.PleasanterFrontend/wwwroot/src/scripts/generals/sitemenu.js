@@ -17,7 +17,7 @@
             $p.send($('#SortSiteMenu'));
         }
     });
-}
+};
 
 $p.openLinkDialog = function () {
     $('#LinkDialog').dialog({
@@ -26,4 +26,4 @@ $p.openLinkDialog = function () {
         appendTo: '.main-form',
         resizable: false
     });
-}
+};

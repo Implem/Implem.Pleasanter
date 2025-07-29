@@ -4,4 +4,4 @@
     } else {
         return true;
     }
-}
+};

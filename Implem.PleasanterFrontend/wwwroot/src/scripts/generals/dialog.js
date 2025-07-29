@@ -5,13 +5,13 @@
         appendTo: appendTo,
         resizable: false
     });
-}
+};
 
 $p.closeDialog = function ($control) {
     $p.clearMessage();
     $control.closest('.ui-dialog-content').dialog('close');
-}
+};
 
 $p.clearDialogs = function () {
     $('body > .ui-dialog').remove();
-}
+};

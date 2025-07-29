@@ -15,25 +15,33 @@
     var axisPadding = 70;
     var width = parseInt(svg.style('width'));
     var height = parseInt(svg.style('height'));
-    var bodyWidth = width - axisPadding - (padding);
-    var bodyHeight = height - axisPadding - (padding);
-    var minDate = new Date(d3.min(json, function (d) { return d.Day; }));
-    var maxDate = new Date(d3.max(json, function (d) { return d.Day; }));
+    var bodyWidth = width - axisPadding - padding;
+    var bodyHeight = height - axisPadding - padding;
+    var minDate = new Date(
+        d3.min(json, function (d) {
+            return d.Day;
+        })
+    );
+    var maxDate = new Date(
+        d3.max(json, function (d) {
+            return d.Day;
+        })
+    );
     var dayWidth = (bodyWidth - padding) / $p.dateDiff('d', maxDate, minDate);
-    var xScale = d3.scaleTime()
-        .domain([minDate, maxDate])
-        .range([padding, bodyWidth]);
-    var yScale = d3.scaleLinear()
-        .domain([d3.max(json, function (d) {
-            return d.Total !== undefined || d.Earned !== undefined
-                ? Math.max.apply(null, [d.Total, d.Planned, d.Earned])
-                : d.Planned;
-        }), 0])
+    var xScale = d3.scaleTime().domain([minDate, maxDate]).range([padding, bodyWidth]);
+    var yScale = d3
+        .scaleLinear()
+        .domain([
+            d3.max(json, function (d) {
+                return d.Total !== undefined || d.Earned !== undefined
+                    ? Math.max.apply(null, [d.Total, d.Planned, d.Earned])
+                    : d.Planned;
+            }),
+            0
+        ])
         .range([padding, bodyHeight])
         .nice();
-    var xAxis = d3.axisBottom(xScale)
-        .tickFormat(d3.timeFormat('%m/%d'))
-        .tickSizeInner(10);
+    var xAxis = d3.axisBottom(xScale).tickFormat(d3.timeFormat('%m/%d')).tickSizeInner(10);
     var yAxis = d3.axisLeft(yScale);
     svg.append('g')
         .attr('class', 'axis')
@@ -52,20 +60,46 @@
     var now = axisPadding + xScale(new $p.shortDate());
     var nowLineData = [
         [now, axisPadding - 40],
-        [now, yScale(0) + 20]];
-    var nowLine = d3.line()
-        .x(function (d) { return d[0]; })
-        .y(function (d) { return d[1]; });
+        [now, yScale(0) + 20]
+    ];
+    var nowLine = d3
+        .line()
+        .x(function (d) {
+            return d[0];
+        })
+        .y(function (d) {
+            return d[1];
+        });
     svg.append('g').attr('class', 'now').append('path').attr('d', nowLine(nowLineData));
-    draw('total', 0, json.filter(function (d) { return d.Total !== undefined; }));
-    draw('planned', 1, json.filter(function (d) { return d.Planned !== undefined; }));
-    draw('earned', 2, json.filter(function (d) { return d.Earned !== undefined; }));
+    draw(
+        'total',
+        0,
+        json.filter(function (d) {
+            return d.Total !== undefined;
+        })
+    );
+    draw(
+        'planned',
+        1,
+        json.filter(function (d) {
+            return d.Planned !== undefined;
+        })
+    );
+    draw(
+        'earned',
+        2,
+        json.filter(function (d) {
+            return d.Earned !== undefined;
+        })
+    );
 
     function draw(css, n, ds) {
-        var line = d3.line()
+        var line = d3
+            .line()
             .x(function (d) {
-                return ($p.dateDiff('d', new Date(d.Day), minDate) * dayWidth)
-                    + axisPadding + padding;
+                return (
+                    $p.dateDiff('d', new Date(d.Day), minDate) * dayWidth + axisPadding + padding
+                );
             })
             .y(function (d) {
                 return yScale(prop(d));
@@ -76,18 +110,27 @@
             .data(ds)
             .enter()
             .append('circle')
-            .attr('cx', function (d, i) { return i * dayWidth + axisPadding + padding })
-            .attr('cy', function (d) { return yScale(prop(d)); })
+            .attr('cx', function (d, i) {
+                return i * dayWidth + axisPadding + padding;
+            })
+            .attr('cy', function (d) {
+                return yScale(prop(d));
+            })
             .attr('r', 4)
             .append('title')
-            .text(function (d) { return prop(d); });
+            .text(function (d) {
+                return prop(d);
+            });
 
         function prop(d) {
             switch (n) {
-                case 0: return d.Total;
-                case 1: return d.Planned;
-                case 2: return d.Earned;
+                case 0:
+                    return d.Total;
+                case 1:
+                    return d.Planned;
+                case 2:
+                    return d.Earned;
             }
         }
     }
-}
+};

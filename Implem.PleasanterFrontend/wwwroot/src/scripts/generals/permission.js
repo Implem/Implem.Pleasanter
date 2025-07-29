@@ -1,13 +1,13 @@
 ﻿$p.setPermissionEvents = function () {
     $p.setPaging('SourcePermissions');
-}
+};
 
 $p.setPermissions = function ($control) {
     $p.setData($('#CurrentPermissions'));
     $p.setData($('#SourcePermissions'));
     $p.setData($('#SearchPermissionElements'));
     $p.send($control);
-}
+};
 
 $p.openPermissionsDialog = function ($control) {
     $p.data.PermissionsForm = {};
@@ -20,7 +20,7 @@ $p.openPermissionsDialog = function ($control) {
             resizable: false
         });
     }
-}
+};
 
 $p.changePermissions = function ($control) {
     $p.setData($('#CurrentPermissions'));
@@ -29,13 +29,13 @@ $p.changePermissions = function ($control) {
     data.CurrentPermissions = mainFormData.CurrentPermissions;
     data.CurrentPermissionsAll = mainFormData.CurrentPermissionsAll;
     $p.send($control);
-}
+};
 
 $p.setPermissionForCreating = function ($control) {
     $p.setData($('#CurrentPermissionForCreating'));
     $p.setData($('#SourcePermissionForCreating'));
     $p.send($control);
-}
+};
 
 $p.openPermissionForCreatingDialog = function ($control) {
     $p.data.PermissionForCreatingForm = {};
@@ -48,13 +48,13 @@ $p.openPermissionForCreatingDialog = function ($control) {
             resizable: false
         });
     }
-}
+};
 
 $p.setPermissionForUpdating = function ($control) {
     $p.setData($('#CurrentPermissionForUpdating'));
     $p.setData($('#SourcePermissionForUpdating'));
     $p.send($control);
-}
+};
 
 $p.openPermissionForUpdatingDialog = function ($control) {
     $p.data.PermissionForUpdatingForm = {};
@@ -67,7 +67,7 @@ $p.openPermissionForUpdatingDialog = function ($control) {
             resizable: false
         });
     }
-}
+};
 
 $p.changePermissionForCreating = function ($control) {
     $p.setData($('#CurrentPermissionForCreating'));
@@ -76,7 +76,7 @@ $p.changePermissionForCreating = function ($control) {
     data.CurrentPermissionForCreating = mainFormData.CurrentPermissionForCreating;
     data.CurrentPermissionForCreatingAll = mainFormData.CurrentPermissionForCreatingAll;
     $p.send($control);
-}
+};
 
 $p.changePermissionForUpdating = function ($control) {
     $p.setData($('#CurrentPermissionForUpdating'));
@@ -85,4 +85,4 @@ $p.changePermissionForUpdating = function ($control) {
     data.CurrentPermissionForUpdating = mainFormData.CurrentPermissionForUpdating;
     data.CurrentPermissionForUpdatingAll = mainFormData.CurrentPermissionForUpdatingAll;
     $p.send($control);
-}
+};

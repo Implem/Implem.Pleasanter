@@ -6,10 +6,10 @@
 
     connectedCallback() {
         this.shadowRoot.innerHTML = this.render();
-        if(this.dataset.hideCurrent){
-            this.shadowRoot.querySelector('.current-date').remove()
+        if (this.dataset.hideCurrent) {
+            this.shadowRoot.querySelector('.current-date').remove();
         }
-        if(!this.querySelector('input')) return;
+        if (!this.querySelector('input')) return;
 
         const params = {
             isRwd: $('head').css('font-family') === 'responsive',
@@ -17,11 +17,11 @@
             inputElm: this.querySelector('input'),
             dateFormat: this.querySelector('input').dataset.format
                 ? this.querySelector('input').dataset.format.replace(/s/g, 'S')
-                : "Y/m/d H:i",
+                : 'Y/m/d H:i',
             dateFnsFormat: null,
             language: document.getElementById('Language').value,
             currentElem: this.shadowRoot.querySelector('.current-date'),
-            timeZoneOffset: document.getElementById('TimeZoneOffset').value,
+            timeZoneOffset: document.getElementById('TimeZoneOffset').value
         };
 
         const init = () => {
@@ -32,11 +32,11 @@
             setDateFormat();
 
             // current-dateボタンのイベントを追加
-            if(params.currentElem) params.currentElem.addEventListener('click', onCurrent);
+            if (params.currentElem) params.currentElem.addEventListener('click', onCurrent);
         };
 
         const initDatePicker = () => {
-            const dialog = params.inputElm.closest('.ui-dialog')
+            const dialog = params.inputElm.closest('.ui-dialog');
             this.dataPicker = flatpickr(params.inputElm, {
                 locale: Object.assign(
                     {},
@@ -47,33 +47,43 @@
                 appendTo: dialog ? dialog : document.body,
                 positionElement: params.inputElm,
                 enableTime: params.inputElm.dataset.timepicker === '1',
-                enableSeconds: params.inputElm.dataset.format && params.inputElm.dataset.format.includes(':s') || false,
+                enableSeconds:
+                    (params.inputElm.dataset.format &&
+                        params.inputElm.dataset.format.includes(':s')) ||
+                    false,
                 minuteIncrement: Number(params.inputElm.dataset.step || 1),
                 allowInput: !params.isRwd ? true : false,
                 disableMobile: true,
                 dateFormat: params.dateFormat,
-                onOpen: function(selectedDates, dateStr, instance) {
-                    if(dialog){
+                onOpen: function (selectedDates, dateStr, instance) {
+                    if (dialog) {
                         requestAnimationFrame(() => {
                             const cal = instance.calendarContainer;
                             const dialogRect = dialog.getBoundingClientRect();
-                            const top = parseFloat(cal.style.top) - parseFloat(dialogRect.top)  - window.scrollY
-                            const left = parseFloat(cal.style.left) - parseFloat(dialogRect.left)  - window.scrollX
-                            cal.style.top  = `${top}px`;
-                            cal.style.left  = `${left}px`;
+                            const top =
+                                parseFloat(cal.style.top) -
+                                parseFloat(dialogRect.top) -
+                                window.scrollY;
+                            const left =
+                                parseFloat(cal.style.left) -
+                                parseFloat(dialogRect.left) -
+                                window.scrollX;
+                            cal.style.top = `${top}px`;
+                            cal.style.left = `${left}px`;
                         });
                     }
                 },
-                onReady: function(selectedDates, dateStr, instance) {
-                    if(!instance.timeContainer) return false
-                    const timeInputs = instance.timeContainer.querySelectorAll("input[type='number']");
+                onReady: function (selectedDates, dateStr, instance) {
+                    if (!instance.timeContainer) return false;
+                    const timeInputs =
+                        instance.timeContainer.querySelectorAll("input[type='number']");
                     if (timeInputs) {
                         timeInputs.forEach(input => {
-                            input.addEventListener("focus", function (e) {
-                                input.type = "text";
+                            input.addEventListener('focus', function (e) {
+                                input.type = 'text';
                                 const val = input.value;
                                 input.setSelectionRange(val.length, val.length);
-                                input.type = "number";
+                                input.type = 'number';
                             });
                         });
                     }
@@ -82,11 +92,18 @@
         };
 
         const onCurrent = () => {
-            params.inputElm.value = moment().utcOffset(params.timeZoneOffset).format(params.dateFnsFormat);
+            params.inputElm.value = moment()
+                .utcOffset(params.timeZoneOffset)
+                .format(params.dateFnsFormat);
             $p.set($(params.inputElm), params.inputElm.value);
             this.dataPicker.setDate(params.inputElm.value, false);
-            params.inputElm.dispatchEvent(new Event('change'));
-        }
+            params.inputElm.dispatchEvent(
+                new Event('change', {
+                    bubbles: true,
+                    cancelable: true
+                })
+            );
+        };
 
         const setDateFormat = () => {
             let dateFnsFormat;
@@ -131,11 +148,11 @@
             params.dateFnsFormat = dateFnsFormat;
         };
 
-        if (typeof flatpickr !== 'undefined' ){
+        if (typeof flatpickr !== 'undefined') {
             setTimeout(() => {
                 return init();
-            })
-        }else{
+            });
+        } else {
             window.addEventListener('load', () => {
                 return init();
             });
@@ -173,7 +190,6 @@
                 height: 100%;
                 margin: 0;
                 padding: 0;
-                padding 0;
                 background: transparent;
                 border: none;
                 outline: none;
