@@ -97,7 +97,12 @@
                 .format(params.dateFnsFormat);
             $p.set($(params.inputElm), params.inputElm.value);
             this.dataPicker.setDate(params.inputElm.value, false);
-            params.inputElm.dispatchEvent(new Event('change'));
+            params.inputElm.dispatchEvent(
+                new Event('change', {
+                    bubbles: true,
+                    cancelable: true
+                })
+            );
         };
 
         const setDateFormat = () => {
@@ -185,7 +190,6 @@
                 height: 100%;
                 margin: 0;
                 padding: 0;
-                padding 0;
                 background: transparent;
                 border: none;
                 outline: none;
