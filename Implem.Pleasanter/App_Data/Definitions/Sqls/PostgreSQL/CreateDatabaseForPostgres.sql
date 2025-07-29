@@ -8,4 +8,4 @@ begin
 end $$ ;
 
 grant all privileges on database "#InitialCatalog#" to "#Uid_Owner#";
-grant connect on database "#InitialCatalog#" to "#Uid_User#";
+grant connect, temporary on database "#InitialCatalog#" to "#Uid_User#";
