@@ -779,5 +779,14 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes Nonce(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("nonce");
+                Add(value);
+            }
+            return this;
+        }
     }
 }

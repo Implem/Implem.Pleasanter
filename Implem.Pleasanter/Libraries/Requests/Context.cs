@@ -122,6 +122,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string IdentityType { get; set; }
         public bool Request { get; set; }
         public bool BackgroundServerScript { get; set; }
+        public string Nonce { get; set; }
 
         public Context(
             bool request = true,
@@ -261,6 +262,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 UserHostName = AspNetCoreHttpContext.Current?.Connection?.RemoteIpAddress?.ToString();
                 UserHostAddress = GetUserHostAddress();
                 UserAgent = CreateUserAgent(AspNetCoreHttpContext.Current.Request);
+                Nonce = AspNetCoreHttpContext.Current.Items["Nonce"]?.ToString() ?? string.Empty;
             }
         }
 

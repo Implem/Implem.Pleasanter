@@ -117,5 +117,27 @@
         "HealthQuery": null,
         "RequireHosts": null,
         "EnableDetailedResponse": false
+    },
+    "ContentSecurityPolicy": {
+        "Enabled": false,
+        "ReportOnlyEnabled": true,
+        "Values": [
+            {
+                "default-src": "'self'",
+                "script-src": "'self' 'strict-dynamic'",
+                "script-src-attr": "'self' 'unsafe-inline'",
+                "style-src": "'self'",
+                "style-src-attr": "'self' 'unsafe-inline'",
+                "style-src-elem": "'self' 'unsafe-inline'",
+                "img-src": "'self' data:",
+                "font-src": "'self' data:",
+                "object-src": "'none'",
+                "connect-src": "'self'",
+                "frame-src": "'none'",
+                "base-uri": "'self'",
+                "form-action": "'self'",
+                "report-uri": "/CspReport/Report"
+            }
+        ]
     }
 }
