@@ -21,32 +21,54 @@
         }
     });
     $(document).on('dblclick', '.Calendar .ui-droppable', function (event) {
-        var calendarSuffix = $(this).parents('div[id^="Calendar"]').attr("id").substring($(this).parents('div[id^="Calendar"]').attr("id").indexOf("_"));
+        var calendarSuffix = $(this)
+            .parents('div[id^="Calendar"]')
+            .attr('id')
+            .substring($(this).parents('div[id^="Calendar"]').attr('id').indexOf('_'));
         calendarSuffix = calendarSuffix.indexOf('_') === -1 ? '' : calendarSuffix;
         var addDate = function (baseDate, add) {
             if (add === '') return '';
             var date = new Date(baseDate.getTime());
             date.setDate(date.getDate() + parseInt(add, 10));
             return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
-        }
+        };
         var addInput = function (form, name, value) {
             if (!name) return;
             var input = document.createElement('input');
             input.setAttribute('type', 'hidden');
-            input.setAttribute('name', $('#CalendarReferenceType' + calendarSuffix).val() + '_' + name);
+            input.setAttribute(
+                'name',
+                $('#CalendarReferenceType' + calendarSuffix).val() + '_' + name
+            );
             input.setAttribute('value', value);
             form.appendChild(input);
-        }
+        };
         if ($(event.target).is('.title')) return;
         var baseDate = new Date($(this).attr('data-id'));
-        var names = $('#CalendarFromTo' + calendarSuffix).val().split('-');
-        var form = document.createElement("form");
-        form.setAttribute("action", $('#ApplicationPath').val() + 'items/' + $('#CalendarSiteData' + calendarSuffix).val() + '/new');
-        form.setAttribute("method", "post");
-        form.style.display = "none";
+        var names = $('#CalendarFromTo' + calendarSuffix)
+            .val()
+            .split('-');
+        var form = document.createElement('form');
+        form.setAttribute(
+            'action',
+            $('#ApplicationPath').val() +
+                'items/' +
+                $('#CalendarSiteData' + calendarSuffix).val() +
+                '/new'
+        );
+        form.setAttribute('method', 'post');
+        form.style.display = 'none';
         document.body.appendChild(form);
-        addInput(form, names[0], addDate(baseDate, $('#CalendarFromDefaultInput' + calendarSuffix).val()));
-        addInput(form, names[1], addDate(baseDate, $('#CalendarToDefaultInput' + calendarSuffix).val()));
+        addInput(
+            form,
+            names[0],
+            addDate(baseDate, $('#CalendarFromDefaultInput' + calendarSuffix).val())
+        );
+        addInput(
+            form,
+            names[1],
+            addDate(baseDate, $('#CalendarToDefaultInput' + calendarSuffix).val())
+        );
         if ($('#Token').length) {
             var input = document.createElement('input');
             input.setAttribute('type', 'hidden');
@@ -56,10 +78,11 @@
         }
         form.submit();
     });
-    $(document).on('click', '.calendar-to-monthly', function () {
+    $(document).on('click', '.calendar-to-monthly', function (e) {
+        e.preventDefault();
         var data = {
-            'CalendarTimePeriod': 'Monthly',
-            'CalendarDate': $(this).attr('data-id')
+            CalendarTimePeriod: 'Monthly',
+            CalendarDate: $(this).attr('data-id')
         };
         $p.ajax(location.href, 'post', data);
     });

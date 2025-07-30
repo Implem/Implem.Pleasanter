@@ -1,11 +1,11 @@
 ﻿$p.addProcessAccessControl = function () {
     $('#SourceProcessAccessControl li.ui-selected').appendTo('#CurrentProcessAccessControl');
     $p.setData($('#CurrentProcessAccessControl'));
-}
+};
 
 $p.deleteProcessAccessControl = function () {
     $('#CurrentProcessAccessControl li.ui-selected').appendTo('#SourceProcessAccessControl');
-}
+};
 
 $p.setProcessValidateInputDialog = function (onChange) {
     var $control = $('#ProcessValidateInputColumnName :selected');
@@ -19,8 +19,8 @@ $p.setProcessValidateInputDialog = function (onChange) {
         $('#ProcessValidateInputMin').val('');
         $('#ProcessValidateInputMax').val('');
     }
-}
+};
 
 $p.execProcess = function ($control) {
     $p.send($control);
-}
+};

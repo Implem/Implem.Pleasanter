@@ -15,7 +15,7 @@
             resizable: false
         });
     }
-}
+};
 
 $p.openOutgoingMailReplyDialog = function ($control) {
     var data = $p.getData($('#OutgoingMailsForm'));
@@ -32,7 +32,7 @@ $p.openOutgoingMailReplyDialog = function ($control) {
             resizable: false
         });
     }
-}
+};
 
 $p.sendMail = function ($control) {
     var data = $p.getData($('#OutgoingMailForm'));
@@ -40,7 +40,7 @@ $p.sendMail = function ($control) {
     data.Controller = $('#Controller').val();
     data.Id = $('#Id').val();
     $p.send($control);
-}
+};
 
 $p.initOutgoingMailDialog = function () {
     var body = $('#' + $p.tableName() + '_Body').val();
@@ -52,14 +52,19 @@ $p.initOutgoingMailDialog = function () {
     $p.addMailAddress($('#OutgoingMails_To'), $('#To').val());
     $p.addMailAddress($('#OutgoingMails_Cc'), $('#Cc').val());
     $p.addMailAddress($('#OutgoingMails_Bcc'), $('#Bcc').val());
-}
+};
 
 $p.addMailAddress = function ($control, defaultMailAddresses) {
-    var mailAddresses = defaultMailAddresses !== undefined
-        ? defaultMailAddresses
-        : $('#OutgoingMails_MailAddresses').find('.ui-selected').map(function () {
-            return unescape($(this).text());
-        }).get().join(';');
+    var mailAddresses =
+        defaultMailAddresses !== undefined
+            ? defaultMailAddresses
+            : $('#OutgoingMails_MailAddresses')
+                  .find('.ui-selected')
+                  .map(function () {
+                      return unescape($(this).text());
+                  })
+                  .get()
+                  .join(';');
     if (mailAddresses) {
         mailAddresses.split(';').forEach(function (mailAddress) {
             if (mailAddress) {
@@ -68,4 +73,4 @@ $p.addMailAddress = function ($control, defaultMailAddresses) {
         });
     }
     $p.setData($control);
-}
+};

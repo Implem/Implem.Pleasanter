@@ -4,9 +4,11 @@
         if ($control.hasClass('control-spinner')) {
             if ($control.val() === '' && $control.hasClass('allow-blank')) {
                 $control.val('');
-            } else if ($control.val() === '' ||
-                $control.val().match(/[^-|^0-9\.]/g) ||
-                parseInt($control.val()) < parseInt($control.attr('data-min'))) {
+            } else if (
+                $control.val() === '' ||
+                $control.val().match(/[^-|^0-9.]/g) ||
+                parseInt($control.val()) < parseInt($control.attr('data-min'))
+            ) {
                 $control.val($control.attr('data-min'));
             } else if (parseInt($control.val()) > parseInt($control.attr('data-max'))) {
                 $control.val($control.attr('data-max'));
@@ -27,8 +29,7 @@
         function show(selector, value) {
             if (value) {
                 $(selector).show();
-            }
-            else {
+            } else {
                 $(selector).hide();
             }
         }
@@ -66,11 +67,13 @@
             id = $('#EditorInDialogRecordId').val();
             action = 'edit';
         }
-        var url = $('#BaseUrl').val()
-            + id
-            + '/'
-            + action
-            + '/?control-auto-postback=1&TabIndex=' + selectedTabIndex;
+        var url =
+            $('#BaseUrl').val() +
+            id +
+            '/' +
+            action +
+            '/?control-auto-postback=1&TabIndex=' +
+            selectedTabIndex;
         var data = $p.getData($form);
         $p.setMustData($form);
         data.ControlId = $control.attr('id');
@@ -81,6 +84,7 @@
             data,
             $control,
             false,
-            !$control.hasClass('not-set-form-changed'));
-    }
+            !$control.hasClass('not-set-form-changed')
+        );
+    };
 });

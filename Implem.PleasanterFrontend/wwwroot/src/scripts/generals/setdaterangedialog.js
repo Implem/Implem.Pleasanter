@@ -16,12 +16,12 @@
         });
         $('#SetDateRangeDialog').dialog('open');
     }
-}
+};
 $p.openSiteSetDateRangeDialog = function ($control, timepicker) {
     $control.blur();
     if (!$('#SetDateRangeDialog').hasClass('loop')) {
         $p.openSiteSettingsDialog($control, '#SetDateRangeDialog', 'auto');
-        $target = $('[id="' + $control.attr('id').replace('_DateRange', '') + '"]');
+        var $target = $('[id="' + $control.attr('id').replace('_DateRange', '') + '"]');
         var initValue = JSON.parse($target.val() || 'null');
         var startValue = '';
         var endValue = '';
@@ -36,12 +36,10 @@ $p.openSiteSetDateRangeDialog = function ($control, timepicker) {
         }
         $('#DateRangeStart').val(startValue);
         $('#DateRangeEnd').val(endValue);
-    }
-    else
-    {
+    } else {
         $('#SetDateRangeDialog').removeClass('loop');
     }
-}
+};
 $p.openSetDateRangeOK = function (controlId, type) {
     var sdval = $('#DateRangeStart').val();
     var edval = $('#DateRangeEnd').val();
@@ -57,21 +55,25 @@ $p.openSetDateRangeOK = function (controlId, type) {
         default:
             if (sdval || edval) {
                 dispval = sdval + ' - ' + edval;
-                if (type !== 'DateTimepicker' && sdval) { sdval += ' 00:00:00.000'; }
-                if (type !== 'DateTimepicker' && edval) { edval += ' 23:59:59.997'; }
+                if (type !== 'DateTimepicker' && sdval) {
+                    sdval += ' 00:00:00.000';
+                }
+                if (type !== 'DateTimepicker' && edval) {
+                    edval += ' 23:59:59.997';
+                }
                 setval = '["' + sdval + ',' + edval + '"]';
             }
             break;
     }
-    $control = $('[id="' + controlId + '"]');
-    $target = $('[id="' + controlId.replace('_DateRange', '') + '"]');
+    var $control = $('[id="' + controlId + '"]');
+    var $target = $('[id="' + controlId.replace('_DateRange', '') + '"]');
     $control.val(dispval);
     $p.set($target, setval);
     $p.closeSiteSetDateRangeDialog(controlId);
     if ($('#UseFilterButton').length === 0) {
         $p.send($target);
     }
-}
+};
 $p.closeSiteSetDateRangeDialog = function (controlId) {
     $p.clearMessage();
     $('#SetDateRangeDialog').addClass('loop');
@@ -79,8 +81,8 @@ $p.closeSiteSetDateRangeDialog = function (controlId) {
     if ($(document.activeElement).attr('id') != controlId) {
         $('#SetDateRangeDialog').removeClass('loop');
     }
-}
+};
 $p.openSetDateRangeClear = function () {
     $('#DateRangeStart').val('');
     $('#DateRangeEnd').val('');
-}
+};

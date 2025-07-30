@@ -1,13 +1,11 @@
 ﻿$p.currentIndex = function (array) {
-    return array.indexOf($('#Id').val())
-}
+    return array.indexOf($('#Id').val());
+};
 
 $p.switchTargets = function () {
     var $control = $('#SwitchTargets');
-    return $control.length === 1
-        ? $control.val().split(',')
-        : [];
-}
+    return $control.length === 1 ? $control.val().split(',') : [];
+};
 
 $p.setSwitchTargets = function () {
     var $control = $('#SwitchTargets');
@@ -15,7 +13,7 @@ $p.setSwitchTargets = function () {
         $control.appendTo('body');
         $p.setCurrentIndex();
     }
-}
+};
 
 $p.setCurrentIndex = function () {
     var array = $p.switchTargets();
@@ -27,14 +25,14 @@ $p.setCurrentIndex = function () {
         $('#CurrentIndex').hide();
         $('#Next').hide();
     }
-}
+};
 
 $p.back = function () {
     var $control = $('#BackUrl');
     if ($control.length === 1) {
         $p.transition($control.val());
     }
-}
+};
 
 $p.transition = function (url) {
     try {
@@ -54,3 +52,14 @@ $p.ssoLogin = function ($control) {
     var url = $form.attr('action').replace('_action_', action.toLowerCase());
     $p.transition(url);
 };
+
+$(function () {
+    const basicConditions = 'a[href="#"][onclick]';
+    const targetClasses = ['void-zero', 'menulabel'];
+    const targetSelector = targetClasses
+        .map(className => `${basicConditions}.${className}`)
+        .join(', ');
+    $(targetSelector).on('click', function (e) {
+        e.preventDefault();
+    });
+});

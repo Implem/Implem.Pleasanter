@@ -2,9 +2,15 @@
     if (!$p.confirmReload()) return false;
     if ($p.outsideDialog($control)) return false;
     switch ($control.attr('id')) {
-        case 'Reload': move(0, ajax); break;
-        case 'Previous': move(-1, ajax); break;
-        case 'Next': move(1, ajax); break;
+        case 'Reload':
+            move(0, ajax);
+            break;
+        case 'Previous':
+            move(-1, ajax);
+            break;
+        case 'Next':
+            move(1, ajax);
+            break;
     }
 
     function move(additional, ajax) {
@@ -21,32 +27,36 @@
             }
         }
     }
-}
+};
 
 $p.new = function ($control) {
-    $p.transition($('#BaseUrl').val() +
-        $control.attr('data-to-site-id') + '/new' +
-        '?FromSiteId=' + $control.attr('data-from-site-id') +
-        '&LinkId=' + $control.attr('data-id') +
-        ($control.attr('from-tab-index')
-            ? '&FromTabIndex=' + $control.attr('from-tab-index')
-            : '') +
-        '&NotReturnParentRecord=' + $control.attr('do-not-return-parent')
+    $p.transition(
+        $('#BaseUrl').val() +
+            $control.attr('data-to-site-id') +
+            '/new' +
+            '?FromSiteId=' +
+            $control.attr('data-from-site-id') +
+            '&LinkId=' +
+            $control.attr('data-id') +
+            ($control.attr('from-tab-index')
+                ? '&FromTabIndex=' + $control.attr('from-tab-index')
+                : '') +
+            '&NotReturnParentRecord=' +
+            $control.attr('do-not-return-parent')
     );
-}
+};
 
 $p.copy = function ($control) {
     var error = $p.syncSend($control);
     if (error === 0) {
         history.pushState(null, null, $('#BaseUrl').val() + $('#Id').val());
     }
-}
+};
 
 $p.search = function (searchWord, redirect, offset) {
     offset = offset !== undefined ? offset : 0;
     if ($p.searchWord !== searchWord + offset) {
-        var url = $('#ApplicationPath').val() +
-            'items/search?text=' + escape(searchWord)
+        var url = $('#ApplicationPath').val() + 'items/search?text=' + escape(searchWord);
         if (offset > 0) url += '&offset=' + offset;
         if (redirect) {
             $p.transition(url);
@@ -56,4 +66,4 @@ $p.search = function (searchWord, redirect, offset) {
         }
         $p.searchWord = searchWord + offset;
     }
-}
+};

@@ -4,7 +4,7 @@
         width: '520px',
         resizable: false
     });
-}
+};
 
 $p.import = function ($control) {
     var data = new FormData();
@@ -13,12 +13,13 @@ $p.import = function ($control) {
     data.append('UpdatableImport', $('#UpdatableImport').prop('checked'));
     data.append('Key', $('#Key').val());
     data.append('ReplaceAllGroupMembers', $('#ReplaceAllGroupMembers').prop('checked'));
-    data.append('MigrationMode', $('#MigrationMode').prop('checked'))
+    data.append('MigrationMode', $('#MigrationMode').prop('checked'));
     $p.multiUpload(
         $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
         data,
-        $control);
-}
+        $control
+    );
+};
 
 $(function () {
     $(document).on('change', '#UpdatableImport', function () {

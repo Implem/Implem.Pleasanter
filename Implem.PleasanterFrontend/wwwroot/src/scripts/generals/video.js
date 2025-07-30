@@ -46,9 +46,13 @@ $p.toShoot = function ($control) {
     canvas.setAttribute('width', width);
     canvas.setAttribute('height', height);
     canvas.getContext('2d').drawImage($p.video, 0, 0, width, height);
-    canvas.toBlob(function (blob) {
-        $p.uploadImage($('#VideoTarget').val(), blob);
-    }, 'image/jpeg', 0.95);
+    canvas.toBlob(
+        function (blob) {
+            $p.uploadImage($('#VideoTarget').val(), blob);
+        },
+        'image/jpeg',
+        0.95
+    );
     $p.closeDialog($control);
 }
 

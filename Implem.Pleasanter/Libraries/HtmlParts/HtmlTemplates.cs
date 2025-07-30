@@ -402,6 +402,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return hb.Div(id: "SwitchUserInfo", action: () => hb
                     .A(
                         href: "#",
+                        css: "void-zero",
                         attributes: new HtmlAttributes()
                             .OnClick("location.href='{0}'; ".Params(
                                 Locations.Get(
@@ -417,7 +418,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return context.SwitchUser
                     ? hb.Div(id: "SwitchUserInfo", action: () => hb
                         .A(
-                            href: "javascript:void(0);",
+                            href: "#",
+                            css: "void-zero",
                             attributes: new HtmlAttributes()
                                 .OnClick("$p.ajax('{0}','post',null,$('#SwitchUserInfo a'));".Params(
                                     Locations.Get(

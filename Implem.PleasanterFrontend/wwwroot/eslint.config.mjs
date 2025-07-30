@@ -11,8 +11,21 @@ export default defineConfig([
             sourceType: 'commonjs',
             globals: {
                 ...globals.browser,
+                $: 'readonly',
+                jQuery: 'readonly',
+                marked: 'readonly',
+                d3: 'readonly',
+                md5: 'readonly',
+                moment: 'readonly',
+                FullCalendar: 'readonly',
+                GridStack: 'readonly',
+                flatpickr: 'readonly',
+                QRCode: 'readonly',
                 $p: 'readonly',
-                $: 'readonly'
+                formId: 'writable',
+                controlId: 'writable',
+                $form: 'writable',
+                $menuSort: 'writable'
             }
         },
         plugins: {
