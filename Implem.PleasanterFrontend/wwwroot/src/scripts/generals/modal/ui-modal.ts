@@ -43,6 +43,7 @@ export class UiModal extends HTMLElement {
 
         const id = this.id?.trim();
         if (id) {
+            window.$p ??= {};
             window.$p.modal ??= {};
             if (!(id in window.$p.modal)) {
                 window.$p.modal[id] = this;
