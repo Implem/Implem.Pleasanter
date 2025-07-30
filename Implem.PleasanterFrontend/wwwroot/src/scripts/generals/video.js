@@ -35,7 +35,7 @@ $p.playVideo = function (controlId, videoDeviceList, maxDeviceIdIndexNo, deviceI
         };
     }).catch(function (error) {
         $p.setErrorMessage('CanNotGetMediaInformation');
-        reject(error);
+        return;
     });
 }
 
@@ -46,13 +46,9 @@ $p.toShoot = function ($control) {
     canvas.setAttribute('width', width);
     canvas.setAttribute('height', height);
     canvas.getContext('2d').drawImage($p.video, 0, 0, width, height);
-    canvas.toBlob(
-        function (blob) {
-            $p.uploadImage($('#VideoTarget').val(), blob);
-        },
-        'image/jpeg',
-        0.95
-    );
+    canvas.toBlob(function (blob) {
+        $p.uploadImage($('#VideoTarget').val(), blob);
+    }, 'image/jpeg', 0.95);
     $p.closeDialog($control);
 }
 
@@ -67,10 +63,10 @@ $p.changeCamera = function (controlId, videoDeviceList, $videoTracks, maxDeviceI
 }
 
 $p.getVideoDeviceList = function () {
-    return new Promise((resolve, reject) => navigator.mediaDevices.enumerateDevices().then((devices) => {
-        resolve(devices.filter((device) => device.kind === "videoinput"));
+    return navigator.mediaDevices.enumerateDevices().then(function (devices) {
+        return devices.filter((device) => device.kind === "videoinput");
     }).catch(function (error) {
         $p.setErrorMessage('CanNotGetMediaInformation');
-        reject(error);
-    }));
+        throw error;
+    });
 }
