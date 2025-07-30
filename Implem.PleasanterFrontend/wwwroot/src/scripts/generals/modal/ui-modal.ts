@@ -90,7 +90,7 @@ export class UiModal extends HTMLElement {
         this.modalElem?.showModal();
         this.isOpen = true;
         this.modalElem?.classList.add('modal-active');
-        if (this.onOpened) this.onOpened();
+        this.onOpened?.();
         this.documentBodyLock();
     };
 
@@ -106,7 +106,7 @@ export class UiModal extends HTMLElement {
                 console.warn('Transition wait failed', e);
             } finally {
                 this.modalElem?.close();
-                if (this.onClosed) this.onClosed();
+                this.onClosed?.();
             }
         }
 
