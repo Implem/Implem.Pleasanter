@@ -105,8 +105,8 @@ export class UiModal extends HTMLElement {
             } catch (e) {
                 console.warn('Transition wait failed', e);
             } finally {
-                if (this.onClosed) this.onClosed();
                 this.modalElem?.close();
+                if (this.onClosed) this.onClosed();
             }
         }
 
