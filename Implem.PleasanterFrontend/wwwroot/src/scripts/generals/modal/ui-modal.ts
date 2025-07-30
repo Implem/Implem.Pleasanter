@@ -9,13 +9,13 @@ declare global {
 }
 
 export class UiModal extends HTMLElement {
+    static hasActiveModalCount: number = 0;
     private shadow: ShadowRoot;
     private isOpen: boolean = false;
     private modalElem: HTMLDialogElement | null = null;
     private outerClickTarget?: Element;
     private docScrollY: number = 0;
     private transitionPromise: Promise<void> | null = null;
-    static hasActiveDialogCount: number = 0;
     onOpened?: () => void;
     onClosed?: () => void;
 
@@ -114,8 +114,8 @@ export class UiModal extends HTMLElement {
     };
 
     private documentBodyLock() {
-        UiModal.hasActiveDialogCount++;
-        if (UiModal.hasActiveDialogCount === 1) {
+        UiModal.hasActiveModalCount++;
+        if (UiModal.hasActiveModalCount === 1) {
             this.docScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
             const scrollWidth = window.innerWidth - document.documentElement.clientWidth;
             const bodyStyle = window.getComputedStyle(document.body);
@@ -128,8 +128,8 @@ export class UiModal extends HTMLElement {
     }
 
     private documentBodyUnlock() {
-        UiModal.hasActiveDialogCount = Math.max(0, UiModal.hasActiveDialogCount - 1);
-        if (UiModal.hasActiveDialogCount === 0) {
+        UiModal.hasActiveModalCount = Math.max(0, UiModal.hasActiveModalCount - 1);
+        if (UiModal.hasActiveModalCount === 0) {
             document.body.style.removeProperty('overflow');
             document.body.style.removeProperty('position');
             document.body.style.removeProperty('top');
