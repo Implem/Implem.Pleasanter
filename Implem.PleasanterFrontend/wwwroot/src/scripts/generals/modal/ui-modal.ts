@@ -90,7 +90,11 @@ export class UiModal extends HTMLElement {
         this.modalElem?.showModal();
         this.isOpen = true;
         this.modalElem?.classList.add('modal-active');
-        this.onOpened?.();
+        try {
+            this.onOpened?.();
+        } catch (error) {
+            console.error('Error in onOpened callback:', error);
+        }
         this.documentBodyLock();
     };
 
