@@ -111,4 +111,4 @@ import './relatingcolumns.js';
 import './fieldselectable.js';
 import './tenants.js';
 import './responsive.js';
-import './ui-dialog/ui-dialog.js';
+import './modial/ui-modal.js';
