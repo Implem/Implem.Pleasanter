@@ -50,7 +50,7 @@
     .modal-content {
         position: relative;
         width: fit-content;
-        min-width: var(--u-modal-min-width, 30vw);
+        min-width: var(--modal-min-width, 30vw);
         margin: auto;
         color: var(--base-text, #333);
         user-select: text;
@@ -66,7 +66,7 @@
     .modal-header {
         position: sticky;
         top: -2px;
-        padding: 8px;
+        padding: 8px 40px 8px 8px;
         overflow: auto;
         color: var(--invert-text, #333);
         background-color: var(--primaryColor, #eee);
@@ -74,7 +74,7 @@
         border-radius: 4px 4px 0 0;
     }
     .modal-body {
-        padding: 16px;
+        padding: var(--modal-body-padding, 16px);
     }
     .modal-footer {
         position: sticky;
@@ -159,7 +159,7 @@
             border-radius: 0;
         }
         .modal-body {
-            padding: 0;
+            padding: var(--modal-body-padding, 0);
             background-color: transparent;
             border-radius: 0;
         }

@@ -16,8 +16,8 @@ export class UiModal extends HTMLElement {
     private docScrollY: number = 0;
     private transitionPromise: Promise<void> | null = null;
     static hasActiveDialogCount: number = 0;
-    onOpened?: () => void = undefined;
-    onClosed?: () => void = undefined;
+    onOpened?: () => void;
+    onClosed?: () => void;
 
     constructor() {
         super();
