@@ -61,6 +61,7 @@
     </PackageReference>
     <PackageReference Include="MimeKit" Version="4.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog.Extensions.AzureDataTables" Version="4.5.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.4.0" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
     <PackageReference Include="Npgsql" Version="8.0.7" />
@@ -158,6 +159,12 @@
 
   <ItemGroup>
     <Folder Include="App_Data\UserPlugins\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="NLog.CspReport.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
