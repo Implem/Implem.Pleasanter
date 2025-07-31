@@ -36,9 +36,9 @@
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="8.0.2" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
     <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
-    <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.5.0" />
-    <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.4.0" />
-    <PackageReference Include="Azure.Identity" Version="1.13.2" />
+    <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.5.1" />
+    <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.6.1" />
+    <PackageReference Include="Azure.Identity" Version="1.14.2" />
     <PackageReference Include="DiffMatchPatch" Version="3.0.0" />
 	  <PackageReference Include="Fare" Version="2.2.1" />
     <PackageReference Include="MailKit" Version="4.11.0" />
@@ -54,13 +54,13 @@
     <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="8.0.17" />
     <PackageReference Include="Microsoft.ClearScript.Complete" Version="7.5.0" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.8" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="2.0.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="MimeKit" Version="4.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NLog.Extensions.AzureDataTables" Version="4.5.0" />
+    <PackageReference Include="NLog.Extensions.AzureDataTables" Version="4.6.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.4.0" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
     <PackageReference Include="Npgsql" Version="8.0.7" />
@@ -68,8 +68,8 @@
     <PackageReference Include="Otp.NET" Version="1.4.0" />
     <PackageReference Include="Sendgrid" Version="9.29.3" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.4.6" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
-    <PackageReference Include="StackExchange.Redis" Version="2.8.31" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.58" />
     <PackageReference Include="Sustainsys.Saml2" Version="2.11.0" />
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.11.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
