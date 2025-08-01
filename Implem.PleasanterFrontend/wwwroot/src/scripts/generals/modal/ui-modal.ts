@@ -1,19 +1,23 @@
-import css from './ui-dialog.scss?inline';
+import css from './ui-modal.scss?inline';
 
 declare global {
     interface Window {
-        dialog?: Record<string, UiDialog>;
+        $p: {
+            modal?: Record<string, UiModal>;
+        };
     }
 }
 
-class UiDialog extends HTMLElement {
+export class UiModal extends HTMLElement {
+    static hasActiveModalCount: number = 0;
     private shadow: ShadowRoot;
     private isOpen: boolean = false;
-    private dialogElem: HTMLDialogElement | null = null;
+    private modalElem: HTMLDialogElement | null = null;
     private outerClickTarget?: Element;
     private docScrollY: number = 0;
-    static hasActiveDialogCount: number = 0;
     private transitionPromise: Promise<void> | null = null;
+    onOpened?: () => void;
+    onClosed?: () => void;
 
     constructor() {
         super();
@@ -23,50 +27,51 @@ class UiDialog extends HTMLElement {
     }
 
     connectedCallback() {
-        this.dialogElem = this.shadow.querySelector('#dialog');
+        this.modalElem = this.shadow.querySelector('#modal');
         const headerSlot = this.shadow.querySelector('slot[name=header]') as HTMLSlotElement;
         const footerSlot = this.shadow.querySelector('slot[name=footer]') as HTMLSlotElement;
 
         if (!headerSlot.assignedNodes({ flatten: true }).length) {
-            this.dialogElem?.setAttribute('no-header-slot', '');
+            this.modalElem?.setAttribute('no-header-slot', '');
         }
         if (!footerSlot.assignedNodes({ flatten: true }).length) {
-            this.dialogElem?.setAttribute('no-footer-slot', '');
+            this.modalElem?.setAttribute('no-footer-slot', '');
         }
         if (this.hasAttribute('data-transparent')) {
-            this.dialogElem?.setAttribute('is-transparent', '');
+            this.modalElem?.setAttribute('is-transparent', '');
         }
 
         const id = this.id?.trim();
         if (id) {
-            window.dialog ??= {};
-            if (!(id in window.dialog)) {
-                window.dialog[id] = this;
+            window.$p ??= {};
+            window.$p.modal ??= {};
+            if (!(id in window.$p.modal)) {
+                window.$p.modal[id] = this;
             }
         }
 
-        this.shadow.querySelector('.dialog-close-icon')?.addEventListener('click', this.dialogClose);
-        this.dialogElem?.addEventListener('pointerdown', this.outerDownHandler);
-        this.dialogElem?.addEventListener('scroll', this.outerScrollHandler);
-        this.dialogElem?.addEventListener('pointerup', this.outerUpHandler);
-        this.dialogElem?.addEventListener('close', this.dialogClose);
+        this.shadow.querySelector('.modal-close-icon')?.addEventListener('click', this.modalClose);
+        this.modalElem?.addEventListener('pointerdown', this.outerDownHandler);
+        this.modalElem?.addEventListener('scroll', this.outerScrollHandler);
+        this.modalElem?.addEventListener('pointerup', this.outerUpHandler);
+        this.modalElem?.addEventListener('close', this.modalClose);
     }
 
     private render() {
         this.shadow.innerHTML = /* html */ `
-            <dialog id="dialog" class="modal-dialog">
-                <div class="dialog-container">
-                    <div class="dialog-content">
-                        <header class="dialog-header">
+            <dialog id="modal" class="ui-modal">
+                <div class="modal-container">
+                    <div class="modal-content">
+                        <header class="modal-header">
                             <slot name="header"></slot>
                         </header>
-                        <div class="dialog-body">
+                        <div class="modal-body">
                             <slot></slot>
                         </div>
-                        <footer class="dialog-footer">
+                        <footer class="modal-footer">
                             <slot name="footer"></slot>
                         </footer>
-                        <div class="dialog-close-icon">
+                        <div class="modal-close-icon">
                             <button type="button">close</button>
                         </div>
                     </div>
@@ -81,26 +86,36 @@ class UiDialog extends HTMLElement {
         this.shadow.prepend(styleElem);
     }
 
-    private dialogOpen = () => {
+    private modalOpen = () => {
         if (this.isOpen) return;
-        this.dialogElem?.showModal();
+        this.modalElem?.showModal();
         this.isOpen = true;
-        this.dialogElem?.classList.add('dialog-active');
+        this.modalElem?.classList.add('modal-active');
+        try {
+            this.onOpened?.();
+        } catch (error) {
+            console.error('Error in onOpened callback:', error);
+        }
         this.documentBodyLock();
     };
 
-    private dialogClose = async () => {
+    private modalClose = async () => {
         if (!this.isOpen) return;
         this.isOpen = false;
-        this.dialogElem?.classList.remove('dialog-active');
+        this.modalElem?.classList.remove('modal-active');
 
-        if (this.dialogElem?.open) {
+        if (this.modalElem?.open) {
             try {
                 await this.waitTransitionEnd('background-color');
             } catch (e) {
                 console.warn('Transition wait failed', e);
             } finally {
-                this.dialogElem?.close();
+                this.modalElem?.close();
+                try {
+                    this.onClosed?.();
+                } catch (e) {
+                    console.error('Error in onClosed callback:', e);
+                }
             }
         }
 
@@ -108,8 +123,8 @@ class UiDialog extends HTMLElement {
     };
 
     private documentBodyLock() {
-        UiDialog.hasActiveDialogCount++;
-        if (UiDialog.hasActiveDialogCount === 1) {
+        UiModal.hasActiveModalCount++;
+        if (UiModal.hasActiveModalCount === 1) {
             this.docScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
             const scrollWidth = window.innerWidth - document.documentElement.clientWidth;
             const bodyStyle = window.getComputedStyle(document.body);
@@ -122,8 +137,8 @@ class UiDialog extends HTMLElement {
     }
 
     private documentBodyUnlock() {
-        UiDialog.hasActiveDialogCount = Math.max(0, UiDialog.hasActiveDialogCount - 1);
-        if (UiDialog.hasActiveDialogCount === 0) {
+        UiModal.hasActiveModalCount = Math.max(0, UiModal.hasActiveModalCount - 1);
+        if (UiModal.hasActiveModalCount === 0) {
             document.body.style.removeProperty('overflow');
             document.body.style.removeProperty('position');
             document.body.style.removeProperty('top');
@@ -140,17 +155,17 @@ class UiDialog extends HTMLElement {
             const onEnd = (event: TransitionEvent) => {
                 if (event.propertyName === targetProp && !resolved) {
                     resolved = true;
-                    this.dialogElem?.removeEventListener('transitionend', onEnd);
+                    this.modalElem?.removeEventListener('transitionend', onEnd);
                     resolve();
                     this.transitionPromise = null;
                 }
             };
-            this.dialogElem?.addEventListener('transitionend', onEnd);
+            this.modalElem?.addEventListener('transitionend', onEnd);
 
             setTimeout(() => {
                 if (!resolved) {
                     resolved = true;
-                    this.dialogElem?.removeEventListener('transitionend', onEnd);
+                    this.modalElem?.removeEventListener('transitionend', onEnd);
                     resolve();
                     this.transitionPromise = null;
                 }
@@ -162,8 +177,8 @@ class UiDialog extends HTMLElement {
     private outerDownHandler = (event: PointerEvent) => {
         if (
             event.target instanceof Element &&
-            !event.target.closest('ui-dialog') &&
-            !event.target.closest('.dialog-content')
+            !event.target.closest('ui-modal') &&
+            !event.target.closest('.modal-content')
         ) {
             this.outerClickTarget = event.target as Element;
         }
@@ -171,7 +186,7 @@ class UiDialog extends HTMLElement {
 
     private outerUpHandler = (event: PointerEvent) => {
         if (this.outerClickTarget) {
-            if (event.target === this.outerClickTarget) this.dialogClose();
+            if (event.target === this.outerClickTarget) this.modalClose();
             this.outerClickTarget = undefined;
         }
     };
@@ -183,11 +198,11 @@ class UiDialog extends HTMLElement {
     };
 
     disconnectedCallback() {
-        this.shadow.querySelector('.dialog-close-icon')?.removeEventListener('click', this.dialogClose);
-        this.dialogElem?.removeEventListener('pointerdown', this.outerDownHandler);
-        this.dialogElem?.removeEventListener('scroll', this.outerScrollHandler);
-        this.dialogElem?.removeEventListener('pointerup', this.outerUpHandler);
-        this.dialogElem?.removeEventListener('close', this.dialogClose);
+        this.shadow.querySelector('.modal-close-icon')?.removeEventListener('click', this.modalClose);
+        this.modalElem?.removeEventListener('pointerdown', this.outerDownHandler);
+        this.modalElem?.removeEventListener('scroll', this.outerScrollHandler);
+        this.modalElem?.removeEventListener('pointerup', this.outerUpHandler);
+        this.modalElem?.removeEventListener('close', this.modalClose);
     }
 
     get open(): boolean {
@@ -196,11 +211,11 @@ class UiDialog extends HTMLElement {
 
     set open(val: boolean) {
         if (val) {
-            this.dialogOpen();
+            this.modalOpen();
         } else {
-            this.dialogClose();
+            this.modalClose();
         }
     }
 }
 
-customElements.define('ui-dialog', UiDialog);
+customElements.define('ui-modal', UiModal);
