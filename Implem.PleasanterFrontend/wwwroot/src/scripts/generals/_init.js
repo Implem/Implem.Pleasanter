@@ -1,5 +1,6 @@
 ﻿﻿window.$p = {
     data: {},
     events: {},
-    ex: {}
+    ex: {},
+    modal: {}
 };
