@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <PackageReference Include="ConsoleAppFramework" Version="4.2.4" />
-    <PackageReference Include="JsonDiffPatch.Net" Version="2.3.0" />
+    <PackageReference Include="JsonDiffPatch.Net" Version="2.5.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
