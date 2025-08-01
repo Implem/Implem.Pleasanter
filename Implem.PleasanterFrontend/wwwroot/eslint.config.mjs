@@ -16,6 +16,7 @@ export default defineConfig([
                 marked: 'readonly',
                 d3: 'readonly',
                 md5: 'readonly',
+                moment: 'readonly',
                 FullCalendar: 'readonly',
                 GridStack: 'readonly',
                 flatpickr: 'readonly',

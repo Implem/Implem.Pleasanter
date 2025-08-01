@@ -767,7 +767,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string script = null,
             bool _using = true,
             string type = null,
-            bool crossorigin = false)
+            bool crossorigin = false,
+            string nonce = null)
         {
             return _using
                 ? hb.Append(
@@ -777,6 +778,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: new HtmlAttributes()
                         .Src(src)
                         .Type(type)
+                        .Nonce(nonce)
                         .Crossorigin(crossorigin),
                     action: () => hb
                         .Raw(text: script))

@@ -211,6 +211,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Add(attributes),
                         text: text);
                 case HtmlTypes.TextTypes.Password:
+                    var isDummyField = controlCss
+                        ?.Split(' ')
+                        .Contains("dummy") == true;
                     return hb.Input(
                         attributes: new HtmlAttributes()
                             .Id(controlId)
@@ -236,7 +239,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new HtmlAttributes()
                                 .Class("material-symbols-outlined show-password")
                                 .OnClick("$p.showPassword(this)"),
-                            action: () => hb.Text("visibility"));
+                            action: () => hb.Text("visibility"),
+                            _using: !isDummyField);
                 case HtmlTypes.TextTypes.File:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)

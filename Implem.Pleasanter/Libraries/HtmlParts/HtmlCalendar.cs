@@ -419,7 +419,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 hb.Th(action: () => hb
                                     .A(
                                         css: "calendar-to-monthly",
-                                        href: "javascript:void(0);",
+                                        href: "#",
                                         attributes: new HtmlAttributes()
                                             .DataId(currentDate.ToString()),
                                         action: () => hb
