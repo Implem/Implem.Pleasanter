@@ -97,7 +97,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column value,
             bool historyHorizontalAxis,
             IEnumerable<DataRow> dataRows,
-            bool inRange)
+            bool inRange,
+            string horizontalAxis = null)
         {
             if (inRange && dataRows != null && dataRows.Any())
             {
@@ -107,7 +108,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
-                    historyHorizontalAxis: historyHorizontalAxis,
+                    historyHorizontalAxis: historyHorizontalAxis,                   
+                    horizontalAxis: horizontalAxis,
                     dataRows: dataRows);
                 return hb
                     .Svg(id: "TimeSeries")
