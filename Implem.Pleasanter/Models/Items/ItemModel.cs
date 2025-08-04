@@ -3229,6 +3229,27 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public ResponseFile VisualizeSettings(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                    return Libraries.SiteManagement.Utilities.VisualizeSettings(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return null;
+            }
+        }
+
         public string ImportUserTemplate(Context context)
         {
             SetSite(
