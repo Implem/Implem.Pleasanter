@@ -52,3 +52,14 @@ $p.ssoLogin = function ($control) {
     var url = $form.attr('action').replace('_action_', action.toLowerCase());
     $p.transition(url);
 };
+
+$(function () {
+    const basicConditions = 'a[href="#"][onclick]';
+    const targetClasses = ['void-zero', 'menulabel'];
+    const targetSelector = targetClasses
+        .map(className => `${basicConditions}.${className}`)
+        .join(', ');
+    $(targetSelector).on('click', function (e) {
+        e.preventDefault();
+    });
+});

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SettingValue",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Setting value"
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "设定值"
+        },
+        {
+            "Language": "ja",
+            "Body": "設定値"
+        },
+        {
+            "Language": "de",
+            "Body": "Einstellwert"
+        },
+        {
+            "Language": "ko",
+            "Body": "설정 값"
+        },
+        {
+            "Language": "es",
+            "Body": "Valor de ajuste"
+        },
+        {
+            "Language": "vi",
+            "Body": "Giá trị thiết lập"
+        }
+    ]
+}

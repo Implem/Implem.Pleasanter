@@ -1101,7 +1101,7 @@ namespace Implem.Pleasanter.Models
                         referenceType: referenceType)));
         }
 
-        private static string ReferenceTypeDisplayName(Context context, string referenceType)
+        internal static string ReferenceTypeDisplayName(Context context, string referenceType)
         {
             switch (referenceType)
             {

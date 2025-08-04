@@ -6,7 +6,7 @@
 *::after {
     box-sizing: inherit;
 }
-.modal-dialog {
+.ui-modal {
     all: initial;
     position: fixed;
     inset: 0;
@@ -40,17 +40,17 @@
             cursor: grabbing;
         }
     }
-    .dialog-container {
+    .modal-container {
         display: grid;
         width: max-content;
         min-width: 100%;
         min-height: 100%;
         padding: 16px 32px;
     }
-    .dialog-content {
+    .modal-content {
         position: relative;
         width: fit-content;
-        min-width: 30vw;
+        min-width: var(--modal-min-width, 30vw);
         margin: auto;
         color: var(--base-text, #333);
         user-select: text;
@@ -63,20 +63,20 @@
             opacity 100ms ease-out,
             transform 300ms ease-out;
     }
-    .dialog-header {
+    .modal-header {
         position: sticky;
         top: -2px;
-        padding: 8px;
+        padding: 8px 40px 8px 8px;
         overflow: auto;
         color: var(--invert-text, #333);
         background-color: var(--primaryColor, #eee);
         border-bottom: 1px solid var(--primaryColor, #ccc);
         border-radius: 4px 4px 0 0;
     }
-    .dialog-body {
-        padding: 16px;
+    .modal-body {
+        padding: var(--modal-body-padding, 16px);
     }
-    .dialog-footer {
+    .modal-footer {
         position: sticky;
         bottom: -2px;
         overflow: auto;
@@ -90,7 +90,7 @@
             padding: 8px;
         }
     }
-    .dialog-close-icon {
+    .modal-close-icon {
         button {
             all: unset;
             position: absolute;
@@ -122,67 +122,67 @@
     &[open] {
         display: block;
     }
-    &.dialog-active {
+    &.modal-active {
         background-color: var(--u-modal-bg, rgb(0 0 0 / 40%));
-        .dialog-content {
+        .modal-content {
             opacity: 1;
             transform: translateY(0);
         }
     }
 
     &[no-header-slot] {
-        .dialog-header {
+        .modal-header {
             display: none;
         }
-        .dialog-close-icon {
+        .modal-close-icon {
             button {
                 color: var(--base-text, #333);
             }
         }
     }
     &[no-footer-slot] {
-        .dialog-footer {
+        .modal-footer {
             display: none;
         }
     }
     &[is-transparent] {
-        .dialog-content {
+        .modal-content {
             color: var(--invert-text, #fff);
             background: transparent;
             border: none;
             border-radius: 0;
             box-shadow: none;
         }
-        .dialog-header {
+        .modal-header {
             padding: 0;
             background-color: transparent;
             border-radius: 0;
         }
-        .dialog-body {
-            padding: 0;
+        .modal-body {
+            padding: var(--modal-body-padding, 0);
             background-color: transparent;
             border-radius: 0;
         }
-        .dialog-footer {
+        .modal-footer {
             background-color: transparent;
             slot {
                 padding: 0;
             }
         }
-        .dialog-close-icon {
+        .modal-close-icon {
             button {
                 top: 0;
                 right: -24px;
                 color: var(--invert-text, #fff);
             }
         }
-        &.dialog-active {
+        &.modal-active {
             background-color: var(--u-modal-bg, rgb(0 0 0 / 80%));
         }
     }
 
     @media screen and (width <= 1024px) and (width >= 0) {
-        .dialog-content {
+        .modal-content {
             min-width: 80vw;
         }
     }

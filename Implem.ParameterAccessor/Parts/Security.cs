@@ -25,5 +25,6 @@ namespace Implem.ParameterAccessor.Parts
         public HttpStrictTransportSecurity HttpStrictTransportSecurity;
         public SecureCacheControl SecureCacheControl;
         public HealthCheck HealthCheck;
+        public ContentSecurityPolicy ContentSecurityPolicy;
     }
 }

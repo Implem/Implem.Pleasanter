@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Authority",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Authority"
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "权威"
+        },
+        {
+            "Language": "ja",
+            "Body": "権限"
+        },
+        {
+            "Language": "de",
+            "Body": "Behörde"
+        },
+        {
+            "Language": "ko",
+            "Body": "권한"
+        },
+        {
+            "Language": "es",
+            "Body": "Autoridad"
+        },
+        {
+            "Language": "vi",
+            "Body": "Thẩm quyền"
+        }
+    ]
+}
