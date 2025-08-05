@@ -145,7 +145,13 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                 "Extensions",
                 "smt-json-to-table.html");
             var text = System.IO.File.ReadAllText(path);
-            text = text.Replace("{{ApplicationPath}}", context.ApplicationPath);
+            text = text
+                .Replace("{{ApplicationPath}}", context.ApplicationPath)
+                .Replace(
+                    "{{nonce}}",
+                    context.Nonce.IsNullOrEmpty()
+                        ? string.Empty
+                        : $"nonce=\"{context.Nonce}\"");
             var bytes = text.ToBytes();
             return new ResponseFile(
                 fileContent: new MemoryStream(bytes, false),
