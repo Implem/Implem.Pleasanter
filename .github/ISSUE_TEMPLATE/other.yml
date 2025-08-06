@@ -1,0 +1,24 @@
+﻿name: その他
+description: 不具合報告、機能リクエスト以外の問題
+labels: ["other"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ⚠ご注意ください
+        
+        このテンプレートは「不具合報告」や「機能リクエスト」に該当しないご連絡用です。
+        ただし、以下のような内容は GitHub Issues では受け付けておりません：
+          - 製品・サービスの利用方法に関するご質問
+          - 個別の環境やケースに依存する問題のご相談
+          - サポート対応を必要とするお問い合わせ
+        
+        これらについては、[お問い合わせ窓口](https://pleasanter.org/contact) よりご連絡ください。
+        
+        GitHub Issues は、製品の改善に関する技術的な報告・提案を目的としています。
+        ご理解とご協力のほど、よろしくお願いいたします。
+  - type: textarea
+    attributes:
+      label: 内容
+    validations:
+      required: true
