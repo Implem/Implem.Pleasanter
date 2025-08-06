@@ -74,10 +74,12 @@ $.each($toggleBtns, function (i, el) {
     });
 });
 
-if (screen.width < 1025) {
-    $p.send($('#ReduceViewFilters'));
-    $p.send($('#ReduceAggregations'));
-}
+$(document).ready(function () {
+    if (screen.width < 1025) {
+        $p.send($('#ReduceViewFilters'));
+        $p.send($('#ReduceAggregations'));
+    }
+});
 
 $(document).ready(function () {
     function handleSMobileViewport() {
