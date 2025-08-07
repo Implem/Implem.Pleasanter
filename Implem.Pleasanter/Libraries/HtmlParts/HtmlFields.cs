@@ -200,7 +200,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 + (column.NoWrap == true
                     ? " both"
                     : string.Empty)
-                + (column.GetHide() || column.GetEmpty() || controlConstraintsType == StatusControl.ControlConstraintsTypes.Hidden
+                + (column.GetHide() || column.GetSoftHide() || controlConstraintsType == StatusControl.ControlConstraintsTypes.Hidden
                     ? " hidden"
                     : string.Empty)
                 + (column.TextAlign switch

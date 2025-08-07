@@ -201,8 +201,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             private bool _readOnlyChanged;
             private bool _hide;
             private bool _hideChanged;
-            private bool _empty;
-            private bool _emptyChanged;
+            private bool _softHide;
+            private bool _softHideChanged;
             private bool _validateRequired;
             private bool _validateRequiredChanged;
             private string _extendedFieldCss;
@@ -228,7 +228,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public string RawText { get { return _rawText; } set { _rawText = value; _rawTextChanged = true; } }
             public bool ReadOnly { get { return _readOnly; } set { _readOnly = value; _readOnlyChanged = true; } }
             public bool Hide { get { return _hide; } set { _hide = value; _hideChanged = true; } }
-            public bool Empty { get { return _empty; } set { _empty = value; _emptyChanged = true; } }
+            public bool SoftHide { get { return _softHide; } set { _softHide = value; _softHideChanged = true; } }
             public bool ValidateRequired { get { return _validateRequired; } set { _validateRequired = value; _validateRequiredChanged = true; } }
             public string ExtendedFieldCss { get { return _extendedFieldCss; } set { _extendedFieldCss = value; _extendedFieldCssChanged = true; } }
             public string ExtendedControlCss { get { return _extendedControlCss; } set { _extendedControlCss = value; _extendedControlCssChanged = true; } }
@@ -246,7 +246,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 string rawText,
                 bool readOnly,
                 bool hide,
-                bool empty,
+                bool softHide,
                 bool validateRequired,
                 string extendedFieldCss,
                 string extendedControlCss,
@@ -262,7 +262,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 _rawText = rawText;
                 _readOnly = readOnly;
                 _hide = hide;
-                _empty = empty;
+                _softHide = softHide;
                 _validateRequired = validateRequired;
                 _extendedFieldCss = extendedFieldCss;
                 _extendedControlCss = extendedControlCss;
@@ -301,7 +301,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     || _rawTextChanged
                     || _readOnlyChanged
                     || _hideChanged
-                    || _emptyChanged
+                    || _softHideChanged
                     || _validateRequiredChanged
                     || _extendedFieldCssChanged
                     || _extendedControlCssChanged
@@ -335,15 +335,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     : null;
             }
 
-            public bool? GetEmpty()
+            public bool? GetSoftHide()
             {
-                return _empty
-                    ? (bool?)Empty
+                return _softHide
+                    ? (bool?)SoftHide
                     : null;
             }
 
             public bool HideChanged => _hideChanged;
-            public bool EmptyChanged => _emptyChanged;
+            public bool SoftHideChanged => _softHideChanged;
         }
 
         public class ServerScriptModelRow

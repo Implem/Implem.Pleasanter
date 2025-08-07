@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Models
             {
                 return hb.Td();
             }
-            if (serverScriptModelColumn?.EmptyChanged == true && serverScriptModelColumn?.Empty == true)
+            if (serverScriptModelColumn?.SoftHideChanged == true && serverScriptModelColumn?.SoftHide == true)
             {
                 return hb.Td(
                     action:

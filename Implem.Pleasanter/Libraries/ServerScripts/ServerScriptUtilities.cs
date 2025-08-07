@@ -575,7 +575,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 rawText: string.Empty,
                                 readOnly: column?.EditorReadOnly == true,
                                 hide: column?.Hide == true,
-                                empty: column?.Empty == true,
+                                softHide: column?.SoftHide == true,
                                 validateRequired: column?.ValidateRequired == true,
                                 extendedFieldCss: column?.ExtendedFieldCss,
                                 extendedControlCss: column?.ExtendedControlCss,
