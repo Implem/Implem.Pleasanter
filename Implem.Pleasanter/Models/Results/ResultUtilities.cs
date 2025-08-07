@@ -772,6 +772,15 @@ namespace Implem.Pleasanter.Models
             {
                 return hb.Td();
             }
+            if (serverScriptModelColumn?.EmptyChanged == true && serverScriptModelColumn?.Empty == true)
+            {
+                return hb.Td(
+                    action:
+                        serverScriptModelColumn?.RawText.IsNullOrEmpty() == false
+                        ? () => hb.Raw(serverScriptModelColumn?.RawText)
+                        : null,
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss));
+            }
             if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
             {
                 return hb.Td(

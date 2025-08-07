@@ -93,6 +93,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Format;
         public bool? NoWrap;
         public bool? Hide;
+        public bool? Empty;
         public string AutoNumberingFormat;
         public AutoNumberingResetTypes? AutoNumberingResetType;
         public int? AutoNumberingDefault;
