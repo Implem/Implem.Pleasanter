@@ -113,7 +113,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         parts: "assets/Plugins/qrcode.min.js"),
                         nonce: context.Nonce)
                     .Script(src:
-                        Responses.Locations.Get(
+                        Responses.Locations.Raw(
                             context: context,
                             parts: $"components/{json["main"]}"),
                         type: "module",
