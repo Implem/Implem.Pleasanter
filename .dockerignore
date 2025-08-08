@@ -25,35 +25,12 @@
 **/secrets.dev.yaml
 **/values.dev.yaml
 
-# Test projects and test data (High Priority)
-**/Implem.PleasanterTest/**
-**/Implem.TestAutomation/**
 **/TestResults/**
 **/*.trx
 **/*.coverage
 
-# Frontend development files (Selective exclusion)
-# Keep main frontend package files for Docker build
-**/Implem.PleasanterTest/**/package.json
-**/Implem.PleasanterTest/**/package-lock.json
-**/Implem.TestAutomation/**/package.json
-**/Implem.TestAutomation/**/package-lock.json
 **/yarn.lock
-# Keep main tsconfig.json for frontend build
-**/Implem.PleasanterTest/**/tsconfig.json
-### **/tsconfig.*.json
-# Exclude prettier/stylelint/eslint from test projects only
-**/Implem.PleasanterTest/**/.prettierrc*
-**/Implem.PleasanterTest/**/.stylelintrc*
-**/Implem.PleasanterTest/**/eslint.config.*
-**/Implem.TestAutomation/**/.prettierrc*
-**/Implem.TestAutomation/**/.stylelintrc*
-**/Implem.TestAutomation/**/eslint.config.*
-# Keep main vite.config for build, exclude dev configs
 **/vite.config.dev.*
-# Exclude vita.config from test projects only
-**/Implem.PleasanterTest/**/vita.config.*
-**/Implem.TestAutomation/**/vita.config.*
 **/webpack.config.*
 **/dist/**
 **/build/**
