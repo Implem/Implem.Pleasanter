@@ -10019,6 +10019,7 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
+                    horizontalAxis: horizontalAxis,
                     historyHorizontalAxis: historyHorizontalAxis,
                     dataRows: dataRows,
                     inRange: inRange);

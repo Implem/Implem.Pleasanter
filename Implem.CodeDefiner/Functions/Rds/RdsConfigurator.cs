@@ -21,6 +21,7 @@ namespace Implem.CodeDefiner.Functions.Rds
         private static void CreateDatabase(ISqlObjectFactory factory, string databaseName)
         {
             Consoles.Write(Environments.ServiceName, Consoles.Types.Info);
+            var scn = new TextData(Parameters.Rds.SaConnectionString, ';', '=');
             var ocn = new TextData(Parameters.Rds.OwnerConnectionString, ';', '=');
             var ucn = new TextData(Parameters.Rds.UserConnectionString, ';', '=');
             Def.SqlIoBySa(factory).ExecuteNonQuery(
@@ -34,6 +35,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                 dbTransaction: null,
                 dbConnection: null,
                 commandText: Def.Sql.CreateUserForPostgres
+                    .Replace("#Uid_Sa#", scn["uid"])
                     .Replace("#Uid_Owner#", ocn["uid"])
                     .Replace("#Pwd_Owner#", ocn["pwd"])
                     .Replace("#Uid_User#", ucn["uid"])
@@ -45,7 +47,9 @@ namespace Implem.CodeDefiner.Functions.Rds
                 dbConnection: null,
                 commandText: Def.Sql.CreateDatabaseForPostgres
                     .Replace("#InitialCatalog#", databaseName)
-                    .Replace("#Uid_Owner#", ocn["uid"]));
+                    .Replace("#Uid_Owner#", ocn["uid"])
+                    .Replace("#Uid_User#", ucn["uid"])
+                    .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName));
         }
 
         private static void UpdateDatabase(ISqlObjectFactory factory, string databaseName)

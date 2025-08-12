@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_SetByApi_ImageHash",
     "Indent": "3",
-    "Include": "Issues,Results"
+    "Include": "Issues,Results,Wikis"
 }

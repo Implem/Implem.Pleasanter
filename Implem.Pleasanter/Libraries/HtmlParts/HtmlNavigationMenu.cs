@@ -243,7 +243,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                 ss: ss,
                                                                 siteId: siteId,
                                                                 menu: menu)
-                                                            ?? "javascript:void(0);",
+                                                            ?? "#",
+                                                        css: "void-zero",
                                                         action: () => hb
                                                             .Span(
                                                                 action: () => hb
@@ -311,7 +312,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                             ss: ss,
                                                             siteId: siteId,
                                                             menu: menu)
-                                                        ?? "javascript:void(0);",
+                                                        ?? "#",
                                                     action: () => hb
                                                         .Span(
                                                             action: () => hb
@@ -466,7 +467,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: ss,
                                 siteId: siteId,
                                 menu: menu)
-                            ?? "javascript:void(0);",
+                            ?? "#",
+                        css: "void-zero",
                         target: menu.Target,
                         attributes: Attributes(
                             context: context,
@@ -488,8 +490,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     return hb.SmartDesignLink(
                         action: () => hb.A(
-                            href: "javascript: $p.closeSideMenu();",
-                            action: () => hb.Text(text: Displays.SmartDesign(context: context))
+                            href: "#",
+                            css: "void-zero",
+                            text: Displays.SmartDesign(context: context),
+                            attributes: new HtmlAttributes().OnClick("$p.closeSideMenu();")
                         ));
                 }
             }
@@ -975,7 +979,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 && context.Responsive
                     ? hb.A(
                         id: "navtgl",
-                        href: "javascript:void(0);",
+                        href: "#",
+                        css: "void-zero",
                         attributes: new HtmlAttributes()
                             .OnClick("$p.openResponsiveMenu();")
                             .DataAction("OpenResponsiveMenu"),

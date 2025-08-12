@@ -1,0 +1,939 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Pleasanter Site Visualizer</title>
+    <style>
+        table { border-collapse: collapse; margin-top: 1em; min-width: max-content; }
+        th, td { border: 1px solid #888; padding: 4px 8px; background: #fff; }
+        textarea { width: 100%; height: 120px; }
+        th { background: #e6f2ff; }
+        td.missing { background: #f2f2f2; }
+        td.changed { background: #fffbe6; }
+        .scroll-table-wrapper {
+            width: 100%;
+            max-width: 100vw;
+            max-height: none;
+            overflow: auto;
+            position: relative;
+        }
+        thead tr:nth-child(1) th.sticky-col,
+        thead tr:nth-child(2) th.sticky-col {
+            z-index: 6;
+        }
+        thead tr:nth-child(1) th {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+        thead tr:nth-child(2) th {
+            position: sticky;
+            top: 38px;
+            z-index: 5;
+        }
+        .sticky-col {
+            position: sticky;
+            left: 0;
+            z-index: 4;
+            /*background: #e6f2ff;*/
+        }
+        tbody td.sticky-col {
+            background: #f6faff;
+            z-index: 2;
+        }
+        tbody th.sticky-col {
+            background: #f6faff;
+        }
+        .tab-btn {
+            margin: 2px;
+            padding: 4px 12px;
+            border: 1px solid #888;
+            background: #f8f8f8;
+            cursor: pointer;
+        }
+        .tab-btn.active {
+            background: #e6f2ff;
+            font-weight: bold;
+        }
+        .table-title {
+            font-weight: bold;
+            margin: 12px 0 4px 0;
+        }
+        /* Array */
+        span.item-pair {
+            border: solid 1px #8f8f8f;
+            padding: 2px;
+            margin: 2px;
+            border-radius: 6px;
+            span {
+                margin: 2px;
+            }
+            span.DbColumnName {
+                display: none;
+                color: #888;
+            }
+            span.DbColumnName:before {
+                content:"(";
+            }
+            span.DbColumnName:after {
+                content:")";
+            }
+            span.Value {
+                background-color: #f5d9ae;
+            }
+            span.Type {
+                display: none;
+                background-color: #efbbaa;
+            }
+            span.Order{
+                background-color: #f5d9ae;
+            }
+        }
+        span.item-single {
+            border: solid 1px #8f8f8f;
+            padding: 2px;
+            margin: 2px;
+            border-radius: 6px;
+        }
+        /* ギアアイコンとメニュー用追加CSS */
+        .settings-gear {
+            position: fixed;
+            top: 12px;
+            right: 18px;
+            z-index: 100;
+            width: 28px;
+            height: 28px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        .settings-gear svg {
+            width: 100%;
+            height: 100%;
+            fill: #666;
+            transition: fill 0.2s;
+        }
+        .settings-gear:hover svg {
+            fill: #2196f3;
+        }
+        .settings-menu-popup {
+            position: fixed;
+            top: 48px;
+            right: 18px;
+            z-index: 200;
+            background: #fff;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            min-width: 140px;
+            padding: 4px 0;
+            font-size: 15px;
+        }
+        .settings-menu-item {
+            padding: 8px 18px 8px 16px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .settings-menu-item:hover {
+            background: #e6f2ff;
+        }
+        .settings-dialog-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.18);
+            z-index: 300;
+        }
+        .settings-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+            min-width: 320px;
+            max-width: 90vw;
+            max-height: 80vh;
+            overflow: auto;
+            z-index: 301;
+            padding: 18px 24px 18px 24px;
+        }
+        .settings-dialog-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .settings-dialog-close {
+            position: absolute;
+            top: 10px;
+            right: 16px;
+            font-size: 20px;
+            color: #888;
+            cursor: pointer;
+        }
+        .settings-dialog-content pre {
+            background: #f8f8f8;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+        .settings-gear-error-indicator {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 16px;
+            height: 16px;
+            z-index: 110;
+            pointer-events: none;
+        }
+        .settings-gear-error-indicator svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h2>Pleasanter Site Visualizer</h2>
+    <div class="user-input">
+        <textarea id="jsonInput" placeholder="ここにJSONを貼り付けてください"></textarea>
+        <br>
+        <button id="convertBtn">変換</button>
+    </div>
+    <div id="siteSelectorWrapper" style="margin: 10px 0;">
+        <select id="siteSelector"></select>
+    </div>
+    <div id="tabButtons" style="margin: 10px 0;"></div>
+    <div id="tableContainer"></div>
+    <!-- ギアアイコン -->
+    <button class="settings-gear" id="settingsGearBtn" title="設定" style="position:fixed;">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7zm7.43-2.06c.04-.31.07-.63.07-.94s-.03-.63-.07-.94l2.11-1.65a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.6-.23l-2.49 1a7.03 7.03 0 0 0-1.63-.94l-.38-2.65A.5.5 0 0 0 13 2h-4a.5.5 0 0 0-.5.42l-.38 2.65c-.6.23-1.17.54-1.7.9l-2.49-1a.5.5 0 0 0-.6.23l-2 3.46a.5.5 0 0 0 .12.64l2.11 1.65c-.04.31-.07.63-.07.94s.03.63.07.94l-2.11 1.65a.5.5 0 0 0-.12.64l2 3.46a.5.5 0 0 0 .6.23l2.49-1c.51.36 1.06.67 1.63.94l.38 2.65A.5.5 0 0 0 9 22h4a.5.5 0 0 0 .5-.42l.38-2.65c.6-.23 1.17-.54 1.7-.9l2.49 1a.5.5 0 0 0 .6-.23l2-3.46a.5.5 0 0 0-.12-.64l-2.11-1.65z"/>
+        </svg>
+    </button>
+    <span id="settingsGearErrorIndicator" class="settings-gear-error-indicator" style="display:none;">
+        <svg viewBox="0 0 20 20">
+            <circle cx="10" cy="10" r="10" fill="#e53935"/>
+            <text x="10" y="15" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial" font-weight="bold">i</text>
+        </svg>
+    </span>
+    <!-- ポップアップメニュー・ダイアログはJSで動的生成 -->
+    <script {{nonce}}>
+        // サンプルJSON（初期表示用）
+        const sampleJson = ``;
+        const textarea = document.getElementById('jsonInput');
+        if (!textarea.value) textarea.value = sampleJson;
+
+        let allSites = [];
+        let currentSiteIdx = 0;
+        let tabKeys = [];
+        let currentTab = '';
+
+        // --- エラーログ検出・iアイコン制御 ---
+        function updateGearErrorIndicator() {
+            let hasError = false;
+            try {
+                const data = JSON.parse(document.getElementById('jsonInput').value);
+                // SiteSetting.Info.Logs
+                const logs = ((data.SiteSetting||{}).Info||{}).Logs;
+                if (Array.isArray(logs)) {
+                    hasError = logs.some(log => log.Level === "Error");
+                }
+            } catch {}
+            const indicator = document.getElementById('settingsGearErrorIndicator');
+            indicator.style.display = hasError ? '' : 'none';
+        }
+        function positionGearErrorIndicator() {
+            const gear = document.getElementById('settingsGearBtn');
+            const indicator = document.getElementById('settingsGearErrorIndicator');
+            if (!gear || !indicator) return;
+            const rect = gear.getBoundingClientRect();
+            indicator.style.top = (rect.top + 2) + 'px';
+            indicator.style.left = (rect.right - 18) + 'px';
+        }
+        window.addEventListener('resize', positionGearErrorIndicator);
+        window.addEventListener('DOMContentLoaded', function(){
+            updateGearErrorIndicator();
+            positionGearErrorIndicator();
+        });
+
+        // サイト選択プルダウン生成
+        function renderSiteSelector(sites) {
+            const isShowVer = sites.length !=  new Set(sites.map(v=>v.Info.SiteId)).length;
+            const sel = document.getElementById('siteSelector');
+            sel.innerHTML = '';
+            sites.forEach((site, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = (site.Info && site.Info.Title) ? `${site.Info.Title} - [ ${site.Info.SiteId}${isShowVer?"(Ver="+site.Info.Ver+")":""} / ${site.Info.ReferenceType}]` : `Site${idx+1}`;
+                sel.appendChild(opt);
+            });
+            sel.selectedIndex = currentSiteIdx;
+            sel.onchange = function() {
+                currentSiteIdx = parseInt(sel.value, 10) || 0;
+                updateTabKeysAndButtons();
+                renderTable();
+                // タイトル変更
+                const selectedText = sel.options[sel.selectedIndex]?.textContent || '';
+                document.title = `${selectedText} - Pleasanter Site Visualizer`;
+            };
+            // タイトル変更（初期表示時も反映）
+            if (sites.length > 0 && sel.selectedIndex >= 0) {
+                const selectedText = sel.options[sel.selectedIndex]?.textContent || '';
+                document.title = `${selectedText} - Pleasanter Site Visualizer`;
+            }
+            updateGearErrorIndicator();
+            positionGearErrorIndicator();
+        }
+
+        // タブボタン生成
+        function renderTabButtons(keys,site) {
+            const tabDiv = document.getElementById('tabButtons');
+            tabDiv.innerHTML = '';
+            keys.forEach(tab => {
+                const btn = document.createElement('button');
+                btn.className = 'tab-btn' + (tab === currentTab ? ' active' : '');
+                btn.textContent = site.Tabs[tab]?.ButtonLabel ?? tab;
+                btn.onclick = function() {
+                    currentTab = tab;
+                    renderTabButtons(tabKeys, site);
+                    renderTable();
+                };
+                tabDiv.appendChild(btn);
+            });
+        }
+
+        // サイト選択時のタブ配列更新とボタン描画
+        function updateTabKeysAndButtons() {
+            if (!allSites.length) return;
+            const site = allSites[currentSiteIdx] || {};
+            tabKeys = Object.keys((site.Tabs) || {});
+            if (!tabKeys.includes(currentTab)) currentTab = tabKeys[0] || '';
+            renderTabButtons(tabKeys, site);
+        }
+
+        // location.hrefがfile://以外の場合の処理
+        window.addEventListener('DOMContentLoaded', function() {
+            if (!location.href.startsWith('file://')) {
+                // 入力欄を非表示
+                const userInputDiv = document.querySelector('.user-input');
+                if (userInputDiv) userInputDiv.style.display = 'none';
+                // サーバからデータ取得
+                fetch(location.href.replace('Viewer=html','Viewer=none'))
+                    .then(res => {
+                        if (!res.ok) throw new Error('データ取得失敗');
+                        return res.json();
+                    })
+                    .then(json => {
+                        textarea.value = JSON.stringify(json, null, 2);
+                        allSites = (json.SiteSetting && Array.isArray(json.SiteSetting.Sites)) ? json.SiteSetting.Sites : [];
+                        currentSiteIdx = 0;
+                        renderSiteSelector(allSites);
+                        updateTabKeysAndButtons();
+                        renderTable();
+                    })
+                    .catch(e => {
+                        document.getElementById('tableContainer').innerHTML = `<span style="color:red;">データの取得に失敗しました: ${e.message}</span>`;
+                    });
+            } else {
+                // file://時も初期化
+                try {
+                    const data = JSON.parse(textarea.value || '{}');
+                    allSites = (data.SiteSetting && Array.isArray(data.SiteSetting.Sites)) ? data.SiteSetting.Sites : [];
+                    currentSiteIdx = 0;
+                    renderSiteSelector(allSites);
+                    updateTabKeysAndButtons();
+                } catch {}
+            }
+        });
+
+        document.getElementById('convertBtn').onclick = function() {
+            try {
+                const data = JSON.parse(textarea.value || '{}');
+                allSites = (data.SiteSetting && Array.isArray(data.SiteSetting.Sites)) ? data.SiteSetting.Sites : [];
+                currentSiteIdx = 0;
+                renderSiteSelector(allSites);
+                updateTabKeysAndButtons();
+            } catch {}
+            renderTable();
+            updateGearErrorIndicator();
+            positionGearErrorIndicator();
+            // タイトルを初期化
+            document.title = "Pleasanter Site Visualizer";
+        };
+
+        function renderTable() {
+            let data;
+            try {
+                data = JSON.parse(document.getElementById('jsonInput').value);
+            } catch (e) {
+                document.getElementById('tableContainer').innerHTML = `<span style="color:red;">JSONの形式が正しくありません。(${e.message})</span>`;
+                return;
+            }
+            allSites = (data.SiteSetting && Array.isArray(data.SiteSetting.Sites)) ? data.SiteSetting.Sites : [];
+            if (!allSites.length) {
+                document.getElementById('tableContainer').innerHTML = `<span style="color:red;">サイト情報が見つかりません。</span>`;
+                renderSiteSelector([]);
+                renderTabButtons([]);
+                return;
+            }
+            // サイト選択
+            if (currentSiteIdx >= allSites.length) currentSiteIdx = 0;
+            renderSiteSelector(allSites);
+            const site = allSites[currentSiteIdx] || {};
+            tabKeys = Object.keys((site.Tabs) || {});
+            if (!tabKeys.includes(currentTab)) currentTab = tabKeys[0] || '';
+            renderTabButtons(tabKeys, site);
+
+            try {
+                const tab = site.Tabs && site.Tabs[currentTab];
+                if (!tab || !Array.isArray(tab.Tables) || tab.Tables.length === 0) {
+                    document.getElementById('tableContainer').innerHTML = `<span style="color:red;">${currentTab}が見つかりません。</span>`
+                    return;
+                }
+                let html = '';
+                tab.Tables.forEach((table, tIdx) => {
+                    if (isTableTypeKeyValue(table)) html += makeTableTypeKeyValue(table, tIdx);
+                    else if (isTableTypeList(table)) html += makeTableTypeList(table, tIdx);
+                    else if (isTableTypeOneLineHeaderTable(table)) html += makeTableTypeOneLineHeaderTable(table, tIdx);
+                    else if (isTableTypeTwoLineHeaderTable(table))html += makeTableTypeTwoLineHeaderTable(table);
+                    else html += `<span style="color:red;">${currentTab}のTableTypeが不明です: ${table.TableType}</span>`;
+                });
+                document.getElementById('tableContainer').innerHTML = html;
+            } catch (e){
+                document.getElementById('tableContainer').innerHTML = `<span style="color:red;">${currentTab}の表示に失敗しました。</span>`;
+            }
+            return;
+        }
+
+        // --- テーブル種別判定関数 ---
+        function isTableTypeKeyValue(table) {
+            return table.TableType === "KeyValue";
+        }
+        function isTableTypeList(table) {
+            return table.TableType === "List";
+        }
+        function isTableTypeOneLineHeaderTable(table) {
+            return table.TableType === "OneLineHeaderTable";
+        }
+        function isTableTypeTwoLineHeaderTable(table) {
+            return table.TableType === "TwoLineHeaderTable";
+        }
+
+        // --- テーブル変換関数群 ---
+        function makeTableTypeKeyValue(table, tIdx) {
+            if (!isTableTypeKeyValue(table)) {
+                return `<span style="color:red;">TableTypeがKeyValueではありません。TableType: ${table.TableType}</span>`;
+            }
+            const gridName = table.Label || '';
+            let html = '';
+            // Nameプロパティを表の前に表示
+            if (gridName) {
+                html += `<div class="table-title">${gridName}</div>`;
+            }
+            html += `<div class="scroll-table-wrapper"><table>`;
+            // ヘッダ
+            if (Array.isArray(table.Header.Labels)) {
+                html += '<thead><tr>';
+                table.Header.Labels.forEach((h, idx) => {
+                    html += `<th${idx === 0 ? ' class="sticky-col"' : ''}>${h}</th>`;
+                });
+                html += '</tr></thead>';
+            }
+            // データ行
+            html += '<tbody>';
+            if (Array.isArray(table.Columns)) {
+                table.Columns.forEach((col, idx) => {
+                    let tdClass = '';
+                    if (col.ReadOnly === true) tdClass = ' class="missing"';
+                    if (col.Changed === true) tdClass = ' class="changed"';
+                    if (col.ReadOnly === true && col.Changed === true) tdClass = ' class="changed"';
+                    let tdStyle = '';
+                    if (col.Type === 'int' || col.Type === 'long') {
+                        tdStyle = ' style="text-align:right;"';
+                    } else if (col.Type === 'string') {
+                        tdStyle = ' style="white-space:pre-wrap;"';
+                    }
+                    html += `<tr><th class="sticky-col">${col.Label ?? ''}</th><td${tdClass}${tdStyle}>${col.Value ?? ''}</td></tr>`;
+                });
+            }
+            html += '</tbody></table></div>';
+            return html;
+        }
+
+        function makeTableTypeList(table, tIdx) {
+            if (!isTableTypeList(table)) {
+                return `<span style="color:red;">TableTypeがListではありません。TableType: ${table.TableType}</span>`;
+            }
+            const gridName = table.Label || '';
+            let html = '';
+            // Nameプロパティを表の前に表示
+            if (gridName) {
+                html += `<div class="table-title">${gridName}</div>`;
+            }
+            // 通常は1列ヘッダ＋1列データ
+            html += '<div class="scroll-table-wrapper"><table>';
+            if (Array.isArray(table.Header.Labels)) {
+                html += '<thead><tr>';
+                table.Header.Labels.forEach(h => html += `<th>${h}</th>`);
+                html += '</tr></thead>';
+            }
+            if (Array.isArray(table.Columns)) {
+                html += '<tbody>';
+                table.Columns.forEach(col => {
+                    html += '<tr>';
+                    if (Array.isArray(col)) {
+                        col.forEach(cell => html += `<td>${cell}</td>`);
+                    } else {
+                        html += `<td>${col}</td>`;
+                    }
+                    html += '</tr>';
+                });
+                html += '</tbody>';
+            }
+            html += '</table></div>';
+            return html;
+        }
+
+        // 汎用テーブル表示（TableTypeが無い場合や特殊なケース用）
+        function makeGenericTable(table, tIdx) {
+            const gridName = table.Label || '';
+            let html = '';
+            // Nameプロパティを表の前に表示
+            if (gridName) {
+                html += `<div class="table-title">${gridName}</div>`;
+            }
+            html += '<div class="scroll-table-wrapper"><table>';
+            if (Array.isArray(table.Header.Labels)) {
+                html += '<thead><tr>';
+                table.Header.Labels.forEach(h => html += `<th>${h}</th>`);
+                html += '</tr></thead>';
+            }
+            if (Array.isArray(table.Columns)) {
+                html += '<tbody>';
+                table.Columns.forEach(col => {
+                    html += '<tr>';
+                    if (Array.isArray(col)) {
+                        col.forEach(cell => html += `<td>${cell}</td>`);
+                    } else {
+                        html += `<td>${col}</td>`;
+                    }
+                    html += '</tr>';
+                });
+                html += '</tbody>';
+            }
+            html += '</table></div>';
+            return html;
+        }
+
+        // --- TwoLineHeaderTableタブ用テーブル生成 ---
+        function makeTableTypeTwoLineHeaderTable(table, tIdx) {
+            table.Columns = table.Columns || [];
+            if (table.TableType !== "TwoLineHeaderTable" || !Array.isArray(table.Columns) || !table.Header || !Array.isArray(table.Header.Labels)) {
+                return '<span style="color:red;">TwoLineHeaderTableテーブル形式に未対応です。</span>';
+            }
+            // グループ化
+            let groups = [];
+            let readonyRow = [];
+            table.Header.Labels.forEach(tab => {
+                if (tab.TabName && Array.isArray(tab.Labels)) {
+                    groups.push({
+                        groupName: tab.TabName.Value,
+                        keys: tab.Labels.map(l => l.Key),
+                        headers: tab.Labels.map(l => l.Text)
+                    });
+                    readonyRow.push(tab.Labels.filter(v => v.ReadOnly).map(v=>v.Key));
+                }
+            });
+            readonyRow = readonyRow.flat();
+            const allKeys = groups.flatMap(g => g.keys);
+            const columns = table.Columns;
+            if (!Array.isArray(columns)) {
+                return '<span style="color:red;">TwoLineHeaderTableカラム情報がありません。</span>';
+            }
+            const firstColIdx = 0;
+            // グループヘッダ行
+            let groupHeaderRow = '<tr>';
+            let colIdx = 0;
+            groups.forEach((g, groupIdx) => {
+                const groupName = g.groupName !== '' ? g.groupName : '&nbsp;';
+                const thClass = colIdx === firstColIdx ? ' class="sticky-col"' : '';
+                groupHeaderRow += `<th${thClass} colspan="${g.keys.length}">${groupName}</th>`;
+                colIdx += g.keys.length;
+            });
+            groupHeaderRow += '</tr>';
+            let itemHeaderRow = '<tr>';
+            let headerColIdx = 0;
+            groups.forEach(g => {
+                g.headers.forEach((h, i) => {
+                    const thClass = headerColIdx === firstColIdx ? ' class="sticky-col"' : '';
+                    itemHeaderRow += `<th${thClass}>${h}</th>`;
+                    headerColIdx++;
+                });
+            });
+            itemHeaderRow += '</tr>';
+
+            // --- ネスト配列の区切りごとにrowspanを適用 ---
+            function splitKeysByNest(keys) {
+                let result = [];
+                let current = { type: null, keys: [] };
+                for (let i = 0; i < keys.length; i++) {
+                    const k = keys[i];
+                    const isNest = k && k.includes('.');
+                    const type = isNest ? k.split('.', 2)[0] : '';
+                    if (current.type === null) {
+                        current.type = isNest ? type : '';
+                        current.keys.push(k);
+                    } else if ((isNest ? type : '') === current.type) {
+                        current.keys.push(k);
+                    } else {
+                        result.push(current);
+                        current = { type: isNest ? type : '', keys: [k] };
+                    }
+                }
+                if (current.keys.length) result.push(current);
+                return result;
+            }
+
+            let keyBlocks = splitKeysByNest(allKeys);
+
+            let bodyRows = '';
+            columns.forEach(col => {
+                // 各ネスト配列の最大行数を計算
+                let nestRowCounts = {};
+                keyBlocks.forEach(block => {
+                    if (block.type && block.type.length > 0) {
+                        if (Array.isArray(col[block.type])) {
+                            nestRowCounts[block.type] = col[block.type].length;
+                        } else {
+                            nestRowCounts[block.type] = 0;
+                        }
+                    }
+                });
+                // ネスト区間の最大行数
+                let maxNestRows = 1;
+                keyBlocks.forEach(block => {
+                    if (block.type && block.type.length > 0) {
+                        maxNestRows = Math.max(maxNestRows, nestRowCounts[block.type] || 0);
+                    }
+                });
+
+                // 各行を出力
+                for (let rowIdx = 0; rowIdx < maxNestRows; rowIdx++) {
+                    bodyRows += '<tr>';
+                    for (let b = 0; b < keyBlocks.length; b++) {
+                        const block = keyBlocks[b];
+                        const keys = block.keys;
+                        const isNest = block.type && block.type.length > 0;
+                        if (!isNest) {
+                            // 通常カラム（まとめ表示）: 1行目のみrowspan
+                            if (rowIdx === 0) {
+                                keys.forEach((k, idx) => {
+                                    let tdClass = '';
+                                    let value = col[k];
+                                    const changed = Array.isArray(col.ChangedColumns) ? col.ChangedColumns : [];
+                                    const readOnly = Array.isArray(col.ReadOnlyColumns) ? col.ReadOnlyColumns : [];
+                                    if (readonyRow.includes(k) || readOnly.includes(k) ||  value === undefined || value === null) {
+                                        tdClass = ' class="missing' + (idx === firstColIdx ? ' sticky-col' : '') + '"';
+                                    } else if (changed.includes(k)) {
+                                        tdClass = ' class="changed' + (idx === firstColIdx ? ' sticky-col' : '') + '"';
+                                    } else if (idx === firstColIdx) {
+                                        tdClass = ' class="sticky-col"';
+                                    }
+                                    let rowspan = maxNestRows > 1 ? ` rowspan="${maxNestRows}"` : '';
+                                    if (typeof value === 'object' && value !== null) {
+                                        if (Array.isArray(value)) {
+                                            value = convJson2Html(value, k, table);
+                                        } else {
+                                            value = JSON.stringify(value);
+                                        }
+                                    }
+                                    bodyRows += `<td${tdClass}${rowspan}>${value !== undefined ? value : ''}</td>`;
+                                });
+                            }
+                        } else {
+                            // ネスト配列カラム
+                            let nestLen = nestRowCounts[block.type] || 0;
+                            if (rowIdx < nestLen) {
+                                // データあり
+                                keys.forEach((k, idx) => {
+                                    let tdClass = '';
+                                    let value = '';
+                                    const [parent, child] = k.split('.', 2);
+                                    const readOnly = Array.isArray(col[parent][rowIdx].ReadOnlyColumns) ? col[parent][rowIdx].ReadOnlyColumns : [];
+                                    const changed = Array.isArray(col[parent][rowIdx].ChangedColumns) ? col[parent][rowIdx].ChangedColumns : [];
+                                    if (Array.isArray(col[parent]) && col[parent][rowIdx] && col[parent][rowIdx][child] !== undefined) {
+                                        value = col[parent][rowIdx][child];
+                                    } else {
+                                      value = undefined;
+                                        //value = '';
+                                    }
+                                    if (typeof value === 'object' && value !== null) {
+                                        if (Array.isArray(value)) {
+                                            value = convJson2Html(value, k, table);
+                                        } else {
+                                            value = JSON.stringify(value);
+                                        }
+                                    }
+                                    if (readonyRow.includes(k) || readOnly.includes(child) ||  value === undefined || value === null) {
+                                      tdClass = ' class="missing"';
+                                    } else if (changed.includes(child)){
+                                      tdClass = ' class="changed"';
+                                    }
+                                    bodyRows += `<td${tdClass}>${value !== undefined ? value : ''}</td>`;
+                                });
+                            } else if (rowIdx === nestLen && nestLen < maxNestRows) {
+                                // 空白セルをrowspanでまとめて出す（残り行数分）
+                                let tdClass = ' class="missing"';
+                                let rowspan = (maxNestRows - nestLen) > 1 ? ` rowspan="${maxNestRows - nestLen}"` : '';
+                                keys.forEach((k, idx) => {
+                                    bodyRows += `<td${tdClass}${rowspan}></td>`;
+                                });
+                            }
+                            // それ以外（空白セルは既にrowspanで出しているので何もしない）
+                        }
+                    }
+                    bodyRows += '</tr>';
+                }
+            });
+
+            const gridName = table.Label || '';
+            let html = '';
+            if (gridName) {
+                html += `<div class="table-title">${gridName}</div>`;
+            }
+            html += `<div class="scroll-table-wrapper"><table><thead>${groupHeaderRow}${itemHeaderRow}</thead><tbody>${bodyRows}</tbody></table></div>`;
+            return html;
+        }
+
+        // --- Notificationsタブ用テーブル生成 ---
+        function makeTableTypeOneLineHeaderTable(table, tIdx) {
+            table.Columns = table.Columns || [];
+            if (table.TableType !== "OneLineHeaderTable" || !Array.isArray(table.Header.Labels) || !Array.isArray(table.Columns)) {
+                return '<span style="color:red;">OneLineHeaderTableテーブル形式に未対応です。</span>';
+            }
+            // ヘッダ行
+            let headerRow = '<tr>';
+            table.Header.Labels.forEach((h, idx) => {
+                const thClass = idx === 0 ? ' class="sticky-col"' : '';
+                headerRow += `<th${thClass}>${h.Text ?? h.Key ?? ''}</th>`;
+            });
+            headerRow += '</tr>';
+            // データ行
+            let bodyRows = '';
+            table.Columns.forEach(col => {
+                const changed = Array.isArray(col.ChangedColumns) ? col.ChangedColumns : [];
+                bodyRows += '<tr>';
+                table.Header.Labels.forEach((h, idx) => {
+                    const key = h.Key;
+                    let tdClass = '';
+                    let value = (key && col[key] !== undefined) ? col[key] : '';
+                    if (typeof value === 'object' && value !== null) {
+                        if (Array.isArray(value)) {
+                            value = convJson2Html(value, key, table);
+                        } else {
+                            value = JSON.stringify(value);
+                        }
+                    }
+                    if (changed.includes(key)) {
+                        tdClass = idx === 0 ? ' class="changed sticky-col"' : ' class="changed"';
+                    } else if (key && col[key] === undefined) {
+                        tdClass = idx === 0 ? ' class="missing sticky-col"' : ' class="missing"';
+                    } else if (idx === 0) {
+                        tdClass = ' class="sticky-col"';
+                    }
+                    bodyRows += `<td${tdClass}>${value}</td>`;
+                });
+                bodyRows += '</tr>';
+            });
+            const gridName = table.Label || '';
+            let html = '';
+            // Nameプロパティを表の前に表示
+            if (gridName) {
+                html += `<div class="table-title">${gridName}</div>`;
+            }
+            html += `<div class="scroll-table-wrapper"><table><thead>${headerRow}</thead><tbody>${bodyRows}</tbody></table></div>`;
+            return html;
+        }
+
+        function makeCalendarTable(table, tIdx) {
+            // TableTypeで判定し既存関数を利用
+            if (isTableTypeKeyValue(table)) return makeTableTypeKeyValue(table, tIdx);
+            if (isTableTypeList(table)) return makeTableTypeList(table, tIdx);
+            // その他は汎用
+            return makeGenericTable(table, tIdx);
+        }
+ 
+        function convJson2Html(value, k, table) {
+            if (Array.isArray(value)) {
+                if (value.length == 0) return '';
+                var item = value[0];
+                if (typeof item === 'object'){
+                    let keys = Object.keys(item);
+                    let html = '<div class="array">';
+                    value.forEach(row => {
+                        html += '<span class="item-pair">';
+                        keys.forEach(k => html += `<span class="${k}">${row[k]}</span>`);
+                        html += '</span>';
+                    });
+                    html += '</div>';
+                    return html;
+                } else {
+                    let html = '<div class="array">';
+                    value.forEach(row => {
+                        html += `<span class="item-single">${row}</span>`;
+                    });
+                    html += '</div>';
+                    return html;
+                }
+            }
+            return JSON.stringify(value);
+        }
+
+
+        // --- ギアアイコン・メニュー・ダイアログ制御 ---
+        (function(){
+            let menuPopup = null;
+            let dialogBg = null;
+
+            // ギアクリックでメニュー表示
+            document.getElementById('settingsGearBtn').addEventListener('click', function(e){
+                e.stopPropagation();
+                closeSettingsMenu();
+                showSettingsMenu();
+            });
+
+            // メニュー生成
+            function showSettingsMenu() {
+                if (menuPopup) return;
+                menuPopup = document.createElement('div');
+                menuPopup.className = 'settings-menu-popup';
+                // File Infoメニュー
+                const fileInfoItem = document.createElement('div');
+                fileInfoItem.className = 'settings-menu-item';
+                fileInfoItem.textContent = 'File Info';
+                fileInfoItem.onclick = function(e) {
+                    closeSettingsMenu();
+                    showFileInfoDialog();
+                };
+                menuPopup.appendChild(fileInfoItem);
+                // --- ログ表示メニュー追加（英語表記） ---
+                const logViewItem = document.createElement('div');
+                logViewItem.className = 'settings-menu-item';
+                logViewItem.textContent = 'Show Logs';
+                logViewItem.onclick = function(e) {
+                    closeSettingsMenu();
+                    showLogsDialog();
+                };
+                menuPopup.appendChild(logViewItem);
+                document.body.appendChild(menuPopup);
+                // 外側クリックで閉じる
+                setTimeout(() => {
+                    document.addEventListener('mousedown', onMenuOutsideClick, {capture:true});
+                }, 0);
+            }
+            function closeSettingsMenu() {
+                if (menuPopup) {
+                    menuPopup.remove();
+                    menuPopup = null;
+                    document.removeEventListener('mousedown', onMenuOutsideClick, {capture:true});
+                }
+            }
+            function onMenuOutsideClick(e) {
+                if (menuPopup && !menuPopup.contains(e.target) && e.target.id !== 'settingsGearBtn') {
+                    closeSettingsMenu();
+                }
+            }
+
+            // File Infoダイアログ表示
+            function showFileInfoDialog() {
+                // JSON取得
+                let data = {};
+                try {
+                    data = JSON.parse(document.getElementById('jsonInput').value);
+                } catch {}
+                let info = data.Info || {};
+                let siteInfo = (data.SiteSetting && data.SiteSetting.Info) ? data.SiteSetting.Info : {};
+                // 表示内容生成
+                let html = '<div class="settings-dialog-title">File Info</div>';
+                html += '<div class="settings-dialog-content">';
+                html += '<b>Info:</b><br><pre>' + escapeHtml(JSON.stringify(info, null, 2)) + '</pre>';
+                html += '<b>SiteSetting.Info:</b><br><pre>' + escapeHtml(JSON.stringify(siteInfo, null, 2)) + '</pre>';
+                html += '</div>';
+                showSettingsDialog(html);
+            }
+
+            // --- ログ表示ダイアログ ---
+            function showLogsDialog() {
+                let data = {};
+                try {
+                    data = JSON.parse(document.getElementById('jsonInput').value);
+                } catch {}
+                // SiteSetting.Info.Logs
+                let logs = ((data.SiteSetting||{}).Info||{}).Logs;
+                let html = '<div class="settings-dialog-title">Show Logs</div>';
+                html += '<div class="settings-dialog-content">';
+                if (Array.isArray(logs) && logs.length > 0) {
+                    html += '<table style="border-collapse:collapse;width:100%;font-size:13px;">';
+                    html += '<thead><tr>';
+                    const columns = Object.keys(logs[0]);
+                    columns.forEach(col => {
+                        html += `<th style="border:1px solid #888;padding:4px 8px;background:#e6f2ff;">${escapeHtml(col)}</th>`;
+                    });
+                    html += '</tr></thead><tbody>';
+                    logs.forEach(log => {
+                        html += '<tr>';
+                        columns.forEach(col => {
+                            let style = 'border:1px solid #888;padding:4px 8px;';
+                            if (log.Level === 'Error') style += 'background:#ffeaea;color:#c00;';
+                            else if (log.Level === 'Warning') style += 'background:#fffbe6;color:#b8860b;';
+                            html += `<td style="${style}">${escapeHtml(log[col])}</td>`;
+                        });
+                        html += '</tr>';
+                    });
+                    html += '</tbody></table>';
+                } else {
+                    html += '<span style="color:#888;">No logs available.</span>';
+                }
+                html += '</div>';
+                showSettingsDialog(html);
+            }
+
+            // 汎用ダイアログ表示
+            function showSettingsDialog(innerHtml) {
+                closeSettingsDialog();
+                dialogBg = document.createElement('div');
+                dialogBg.className = 'settings-dialog-bg';
+                dialogBg.onclick = closeSettingsDialog;
+                const dialog = document.createElement('div');
+                dialog.className = 'settings-dialog';
+                dialog.innerHTML = innerHtml + '<span class="settings-dialog-close" title="Close" onclick="this.closest(\'.settings-dialog\').parentNode.remove();event.stopPropagation();">&times;</span>';
+                dialogBg.appendChild(dialog);
+                document.body.appendChild(dialogBg);
+            }
+            function closeSettingsDialog() {
+                if (dialogBg) {
+                    dialogBg.remove();
+                    dialogBg = null;
+                }
+            }
+            // HTMLエスケープ
+            function escapeHtml(str) {
+                if (!str) return '';
+                return str.replace(/[&<>"']/g, function(m){
+                    return ({
+                        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+                    })[m];
+                });
+            }
+            // ESCキーでダイアログ閉じる
+            document.addEventListener('keydown', function(e){
+                if (e.key === 'Escape') closeSettingsDialog();
+            });
+        })();
+
+    </script>
+</body>
+</html>

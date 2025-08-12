@@ -2,7 +2,6 @@
     "ServerScript": true,
     "BackgroundServerScript": false,
     "DisableServerScriptHttpClient": false,
-    "ServerScriptHttpClientTimeOut": 100,
     "ServerScriptTimeOut": 10000,
     "ServerScriptTimeOutChangeable": false,
     "ServerScriptTimeOutMin": 0,

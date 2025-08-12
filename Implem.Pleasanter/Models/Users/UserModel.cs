@@ -4845,7 +4845,8 @@ namespace Implem.Pleasanter.Models
                     action: isAuthenticationByMail
                         ? null
                         : () => hb.A(
-                            href: "javascript:void(0)",
+                            href: "#",
+                            css: "void-zero",
                             text: Displays.RequireSecondAuthenticationByMail(context: context)))
                                 .Div(
                                     id: "SecondaryAuthenticationCommands",
@@ -4923,7 +4924,8 @@ namespace Implem.Pleasanter.Models
                             attributes: new HtmlAttributes().Add(
                                 "data-isAuthenticationByMail", "0"),
                             action: () => hb.A(
-                                href: "javascript:void(0)",
+                                href: "#",
+                                css: "void-zero",
                                 text: Displays.RequireSecondAuthenticationByMail(context: context)))
                                     .Div(
                                         id: "SecondaryAuthenticationCommands",

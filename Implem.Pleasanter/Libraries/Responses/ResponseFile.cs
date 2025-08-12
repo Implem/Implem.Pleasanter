@@ -1,4 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Web;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,6 +18,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public string Encoding;
         public FileInfo FileInfo;
         public long FileLength;
+        public int ErrorStatusCode;
+        public string ErrorMessage;
 
         public ResponseFile(
             string fileContent,
@@ -45,6 +49,12 @@ namespace Implem.Pleasanter.Libraries.Responses
             ContentType = Strings.CoalesceEmpty(contentType, Mime.Type(FileDownloadName));
             StreamLength = fileContent.Length;
             FileLength = fileContent.Length;
+        }
+
+        public ResponseFile(int errorStatusCode, string errorMessage)
+        {
+            ErrorStatusCode = errorStatusCode;
+            ErrorMessage = errorMessage;
         }
 
         public FileContentResult ToFile()
@@ -145,6 +155,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         public bool IsFileInfo()
         {
             return FileInfo != null;
+        }
+
+        public bool IsError()
+        {
+            return ErrorMessage != null;
+        }
+
+        public static ResponseFile Get(ApiResponse apiResponse)
+        {
+            return new ResponseFile(apiResponse.StatusCode, apiResponse.Message);
         }
     }
 }

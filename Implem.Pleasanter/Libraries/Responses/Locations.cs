@@ -201,7 +201,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ItemIndexAbsoluteUri(Context context, long id)
         {
             return Parameters.Service.AbsoluteUri != null
-                ? Parameters.Service.AbsoluteUri + "/items/" + id + ""
+                ? Parameters.Service.AbsoluteUri + "/items/" + id + "/index"
                 : context.AbsoluteUri.Replace(
                     context.AbsolutePath,
                     ItemIndex(

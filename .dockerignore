@@ -24,6 +24,40 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+
+**/TestResults/**
+**/*.trx
+**/*.coverage
+
+**/yarn.lock
+**/vite.config.dev.*
+**/webpack.config.*
+**/dist/**
+**/build/**
+**/node_modules/**
+
+# Development settings (High Priority)
+**/launchSettings.json
+**/appsettings.Development.json
+**/appsettings.Local.json
+
+# Logs and temporary files (Medium Priority)
+**/*.log
+**/logs/**
+**/Log/**
+**/temp/**
+**/tmp/**
+**/*.tmp
+**/*.temp
+**/*.bak
+**/*.backup
+**/*~
+**/.cache/**
+**/cache/**
+
+# Documentation and licenses
 LICENSE
 README.md
 README_Pleasanter.md
+**/CONTRIBUTING*
+**/LICENSES/**

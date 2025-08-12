@@ -163,6 +163,10 @@ You can learn installation procedures, parameter settings, operation methods, et
 Introduction to large companies, local governments, financial institutions, etc. is increasing.
 [User case studies](https://pleasanter.org/cases) (Japanese only)
 
+## Contributing
+
+For instructions on setting up the development environment, please see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 This program is under the terms of the [AGPL-3.0 license.](https://github.com/Implem/Implem.Pleasanter/blob/main/LICENSE)
 

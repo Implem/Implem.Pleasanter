@@ -166,6 +166,33 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return ret;
         }
 
+        public bool CopyFile(
+            ScriptObject callback,
+            string section,
+            string sourcePath,
+            string destPath)
+        {
+            var ret = false;
+            CallbackHandler(
+                log: $"$ps.file.copyFile(\"*\",\"{sourcePath}\",\"{destPath}\")",
+                callback: callback,
+                code: () =>
+                {
+                    var sourceName = NormalizePath(
+                        section: section,
+                        path: sourcePath);
+                    var destName = NormalizePath(
+                        section: section,
+                        path: destPath);
+                    if (!File.Exists(sourceName) || File.Exists(destName)) return;
+                    var basePath = Path.GetDirectoryName(destName);
+                    if (!Directory.Exists(basePath)) Directory.CreateDirectory(basePath);
+                    File.Copy(sourceName, destName);
+                    ret = true;
+                });
+            return ret;
+        }
+
         public bool CreateDirectory(
             ScriptObject callback,
             string section,
@@ -394,6 +421,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     moveFile: function(section, old_name, new_name)
                     {
                         return $ps._utils._f0((cb) => _file_cs.MoveFile(cb, section, old_name, new_name));
+                    },
+                    copyFile: function(section, source_name, dest_name)
+                    {
+                        return $ps._utils._f0((cb) => _file_cs.CopyFile(cb, section, source_name, dest_name));
                     },
                     removeDirectory: function(section, path)
                     {

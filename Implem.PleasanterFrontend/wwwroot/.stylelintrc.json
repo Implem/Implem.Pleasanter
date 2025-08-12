@@ -1,0 +1,30 @@
+{
+    "extends": [
+        "stylelint-config-recess-order",
+        "stylelint-config-standard",
+        "stylelint-config-recommended-scss"
+    ],
+    "plugins": [
+        "stylelint-order",
+        "stylelint-prettier",
+        "stylelint-declaration-block-no-ignored-properties"
+    ],
+    "rules": {
+        "prettier/prettier": true,
+        "selector-id-pattern": null,
+        "custom-property-pattern": null,
+        "rule-empty-line-before": null,
+        "font-family-no-missing-generic-family-keyword": [
+            true,
+            {
+                "ignoreFontFamilies": [
+                    "Material Symbols Sharp",
+                    "responsive"
+                ]
+            }
+        ],
+        "no-descending-specificity": null,
+        "no-duplicate-selectors": null,
+        "selector-class-pattern": null
+    }
+}

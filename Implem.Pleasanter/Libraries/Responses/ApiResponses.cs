@@ -136,6 +136,14 @@ namespace Implem.Pleasanter.Libraries.Responses
                 message: Displays.Unauthorized(context: context));
         }
 
+        public static ApiResponse InvalidRequest(Context context)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 403,
+                message: Displays.InvalidRequest(context: context));
+        }
+
         public static ApiResponse NotFound(Context context)
         {
             return new ApiResponse(

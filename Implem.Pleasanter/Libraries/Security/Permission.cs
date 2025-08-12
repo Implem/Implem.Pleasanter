@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public ControlData ControlData(Context context, SiteSettings ss, bool withType = true)
         {
             var typeName = withType
-                ? DisplayTypeName(context: context)
+                ? $" - [{DisplayTypeName(context: context)}]"
                 : null;
             switch (Name)
             {
@@ -138,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.Security
             }
         }
 
-        private string DisplayTypeName(Context context)
+        internal string DisplayTypeName(Context context)
         {
             var permissionType = Type.ToLong();
             var typeName = Parameters.Permissions.Pattern.ContainsValue(permissionType)
@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     id: Parameters.Permissions.Pattern.First(o =>
                         o.Value == permissionType).Key)
                 : Displays.Special(context: context);
-            return $" - [{typeName}]";
+            return typeName;
         }
     }
 }
