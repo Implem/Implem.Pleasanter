@@ -37,6 +37,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.NetCore
@@ -270,6 +271,29 @@ namespace Implem.Pleasanter.NetCore
             }
             app.UseHsts();
             app.UseSecurityHeadersMiddleware();
+            var cspSettings = Parameters.Security.ContentSecurityPolicy;
+            var cspEnabled = cspSettings.Enabled
+                || cspSettings.ReportOnlyEnabled;
+            if (cspSettings.IsSettings() && cspEnabled)
+            {
+                app.Use(async (context, next) =>
+                {
+                    var nonce = CreateNonceValue();
+                    var cspHeaderValues = cspSettings.GetHeaderValues(
+                        nonce: nonce,
+                        isDevelopment: env.IsDevelopment());
+                    context.Items["Nonce"] = nonce;
+                    if (cspSettings.Enabled)
+                    {
+                        context.Response.Headers.ContentSecurityPolicy = cspHeaderValues;
+                    }
+                    if (cspSettings.ReportOnlyEnabled)
+                    {
+                        context.Response.Headers.ContentSecurityPolicyReportOnly = cspHeaderValues;
+                    }
+                    await next();
+                });
+            }
             app.Use(async (context, next) => await Invoke(context, next));
             app.UseStatusCodePages(context =>
             {
@@ -478,6 +502,16 @@ namespace Implem.Pleasanter.NetCore
             SiteInfo.Refresh(context: context);
             log.Finish(context: context);
         }
+
+        private string CreateNonceValue()
+        {
+            var nonceBytes = new byte[16];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(nonceBytes);
+            }
+            return Convert.ToBase64String(nonceBytes);
+        }
     }
 
     public class SessionMiddleware
@@ -497,7 +531,18 @@ namespace Implem.Pleasanter.NetCore
                 AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current.Session.Set("SessionGuid", System.Text.Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(Strings.NewGuid())));
                 SetClientId();
                 httpContext.Session.Set(enabled, new byte[] { 1 });
-                var context = SessionStartContext();
+
+                Context context = null;
+                try
+                {
+                    context = SessionStartContext();
+                }
+                catch (InvalidDataException ex)
+                {
+                    httpContext.Response.StatusCode = 400;
+                    await httpContext.Response.WriteAsJsonAsync(new { ex.Message });
+                    return;
+                }
                 SessionUtilities.SetStartTime(context: context);
                 if (WindowsAuthenticated(context))
                 {

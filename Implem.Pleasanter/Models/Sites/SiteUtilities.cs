@@ -1028,7 +1028,7 @@ namespace Implem.Pleasanter.Models
                         referenceType: referenceType)));
         }
 
-        private static string ReferenceTypeDisplayName(Context context, string referenceType)
+        internal static string ReferenceTypeDisplayName(Context context, string referenceType)
         {
             switch (referenceType)
             {
@@ -12229,7 +12229,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string DisplayOrder(
+        internal static string DisplayOrder(
             Context context, KeyValuePair<string, SqlOrderBy.Types> type)
         {
             return Displays.Get(
@@ -12679,7 +12679,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, string> GetDisplayTypeOptionCollection(Context context)
+        internal static Dictionary<string, string> GetDisplayTypeOptionCollection(Context context)
         {
             return new Dictionary<string, string>()
             {
@@ -12705,7 +12705,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, string> GetCommandDisplayTypeOptionCollection(Context context)
+        internal static Dictionary<string, string> GetCommandDisplayTypeOptionCollection(Context context)
         {
             return new Dictionary<string, string>()
             {
@@ -12731,7 +12731,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, string> GetViewTypeOptionCollection(Context context, SiteSettings ss)
+        internal static Dictionary<string, string> GetViewTypeOptionCollection(Context context, SiteSettings ss)
         {
             return Def.ViewModeDefinitionCollection
                 .Where(o => o.ReferenceType == ss.ReferenceType)
@@ -13569,6 +13569,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ReminderStartDateTime",
                         controlCss: " always-send",
                         labelText: Displays.StartDateTime(context: context),
+                        format: Displays.YmdhmDatePickerFormat(context: context),
                         text: reminder.StartDateTime.InRange()
                             ? reminder.StartDateTime.ToString(Displays.Get(
                                 context: context,

@@ -1013,6 +1013,35 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult VisualizeSettings(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var responseFile = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .VisualizeSettings(context: context);
+            if (responseFile != null)
+            {
+                if (!responseFile.IsError())
+                {
+                    log.Finish(context: context, responseSize: responseFile.Length);
+                    return responseFile.FileStream();
+                }
+                else
+                {
+                    log.Finish(context: context, responseSize: responseFile.ErrorMessage.Length);
+                    return StatusCode(responseFile.ErrorStatusCode, responseFile.ErrorMessage);
+                }
+            }
+            else
+            {
+                log.Finish(context: context);
+                return null;
+            }
+        }
+
         [HttpPost]
         public string RebuildSearchIndexes(long id)
         {

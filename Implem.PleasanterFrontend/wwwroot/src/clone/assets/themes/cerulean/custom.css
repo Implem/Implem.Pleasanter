@@ -1,0 +1,253 @@
+﻿:root {
+    /* ColorScheme ---------------------------------------------------------- */
+    --primaryColor: #106ebe;
+    --primaryDark: #005a9e;
+    --primarySub01: #90caff;
+    --primarySub02: #c1e1ff;
+    --primarySub03: #deecf9;
+    --primarySub04: #eff6fc;
+    --commonColor01: #e03e3e;
+    --commonColor02: #e16a6a;
+    --commonColor03: #ffccd5;
+    --commonColor04: #ffe1e1;
+    --commonColor05: #fff9e3;
+    --commonColor06: #ffa500;
+    --commonColor07: rgb(0 159 124 / 90%);
+    --nonColor01: #1f1f1f;
+    --nonColor02: #222;
+    --nonColor03: #333;
+    --nonColor04: #3c3c3c;
+    --nonColor05: #444;
+    --nonColor06: #515151;
+    --nonColor07: #666;
+    --nonColor08: #8f8f8f;
+    --nonColor09: #aeaeae;
+    --nonColor10: #c0c0c0;
+    --nonColor11: #cecece;
+    --nonColor12: #e7e7e7;
+    --nonColor13: #ececec;
+    --nonColor14: #f5f5f5;
+    --nonColor15: #f8f8f8;
+    --nonColor16: #fff;
+
+    /* BaseSetting ---------------------------------------------------------- */
+    --page-bg: var(--nonColor12);
+    --base-text: var(--nonColor02);
+    --base-bg: var(--nonColor16);
+    --base-bg-light: var(--nonColor15);
+    --base-border: var(--nonColor11);
+    --base-dark-layer: rgb(0 0 0 / 10%);
+    --base-shadow: rgb(0 0 0 / 20%);
+    --invert-text: var(--nonColor16);
+    --invert-border: var(--nonColor16);
+    --link-text: var(--primaryColor);
+    --success-color: var(--commonColor07);
+    --warning-color: var(--commonColor01);
+    --defaultIconUrl: url('../images/ui-icons_3d3d3d_256x240.png');
+
+    /* Buttons ---------------------------------------------------------- */
+
+    /* normal */
+    --btn-normal-label: var(--base-text);
+    --btn-normal-bg: var(--nonColor16);
+    --btn-normal-hover: var(--nonColor15);
+    --btn-normal-border: var(--base-border);
+
+    /* neutral */
+    --btn-neutral-label: var(--nonColor16);
+    --btn-neutral-bg: var(--nonColor05);
+    --btn-neutral-border: transparent;
+    --btn-neutral-hover: var(--nonColor03);
+
+    /* positive */
+    --btn-positive-label: var(--nonColor16);
+    --btn-positive-bg: var(--primaryColor);
+    --btn-positive-border: transparent;
+    --btn-positive-hover: var(--primaryDark);
+
+    /* negative */
+    --btn-negative-label: var(--nonColor16);
+    --btn-negative-bg: var(--commonColor02);
+    --btn-negative-border: transparent;
+    --btn-negative-hover: var(--commonColor01);
+
+    /* jQueryUI Custom ---------------------------------------------------------------- */
+    --ui-tabs-bg: var(--primarySub03);
+    --ui-tabs-btn: var(--btn-normal-bg);
+    --ui-tabs-btn-border: var(--primarySub01);
+    --ui-multiselect-header-bg: var(--nonColor13);
+    --ui-multiselect-header-border: var(--base-border);
+
+    /* FormController ---------------------------------------------------------- */
+    --control-text: var(--base-text);
+    --control-text-read: var(--base-text);
+    --control-border: var(--base-border);
+    --control-border-focus: var(--nonColor07);
+    --control-bg: var(--nonColor16);
+    --control-bg-focus: var(--commonColor05);
+    --control-bg-read: var(--nonColor14);
+    --control-error: var(--commonColor01);
+
+    /* Module  ---------------------------------------------------------- */
+    --site-panal-bg: var(--base-bg);
+
+    /* selectable */
+    --selectable-bg: var(--base-bg);
+    --selectable-border: var(--base-border);
+    --selectable-btn-bg: var(--nonColor14);
+    --selectable-btn-border: var(--nonColor09);
+
+    /* grid */
+    --grid-cell-bg: var(--nonColor16);
+    --grid-cell-hover: var(--nonColor14);
+    --grid-cell-border: var(--nonColor08);
+    --grid-cell-vborder: var(--nonColor12);
+    --grid-cell-heading: var(--nonColor14);
+    --grid-comment-bg: var(--primarySub04);
+    --grid-comment-border: var(--primarySub02);
+    --grid-focus-inform-bg: var(--nonColor16);
+    --grid-focus-inform-border: var(--commonColor06);
+
+    /* editer */
+    --editor-bg: var(--base-bg);
+    --editer-comment-bg: var(--primarySub03);
+
+    /* layout  ---------------------------------------------------------- */
+
+    /* header */
+    --hamburger-trigger-icon: var(--nonColor07);
+    --hamburger-outer-bg: rgb(3 3 3 / 20%);
+    --hamburger-opener-icon: var(--nonColor08);
+    --hamburger-subnavi-bg: var(--nonColor14);
+    --hamburger-subnavi-hover: var(--nonColor12);
+
+    /* breadcrumb */
+    --breadcrumb-bg: var(--base-bg);
+
+    /* guide */
+    --guide-bg: var(--commonColor05);
+    --guide-text: var(--nonColor05);
+
+    /* footer */
+    --footer-command-bg: rgb(0 0 0 / 50%);
+
+    /* Page & Dialog  ---------------------------------------------------------- */
+
+    /* template */
+    --template-viewer-bg: var(--nonColor15);
+    --template-viewer-detail: var(--nonColor16);
+    --template-description-bg: var(--commonColor05);
+    --template-warning-text: var(--commonColor01);
+    --template-warning-bg: var(--commonColor04);
+
+    /* fieldsetGroup */
+    --fieldset-group-border: var(--base-border);
+    --fieldset-group-header--text: var(--base-text);
+    --fieldset-group-header-bg: #efefef;
+    --fieldset-group-header-border: var(--base-border);
+    --fieldset-group-header-featured-text: var(--invert-text);
+    --fieldset-group-header-featured-bg: var(--primaryColor);
+    --fieldset-group-header-featured-border: var(--primaryColor);
+
+    /* parts  ---------------------------------------------------------- */
+    --start-guide-hover: var(--primarySub04);
+    --password-tool-icon: var(--nonColor07);
+    --tooltip-text: var(--nonColor16);
+    --tooltip-bg: rgb(0 0 0 / 70%);
+
+    /* WebComponents  ---------------------------------------------------------- */
+
+    /* modal */
+    --u-modal-bg: rgb(0 0 0 / 75%);
+    --u-modal-close: var(--nonColor16);
+    --u-modal-scroll: var(--nonColor10);
+    --u-modal-scroll-hover: var(--nonColor09);
+    --u-modal-body-bg: var(--nonColor16);
+    --u-modal-footer-bg: rgb(0 0 0 / 50%);
+
+    /* SmartDesign  ---------------------------------------------------------- */
+    --sd-base-text: var(--base-text);
+    --sd-base-bg: var(--base-bg);
+    --sd-base-shadow: var(--base-shadow);
+    --sd-base-border: var(--base-border);
+    --sd-base-outer: rgb(255 255 255 / 20%);
+    --sd-base-stage: rgb(255 255 255 / 60%);
+    --sd-base-loader: var(--primaryColor);
+    --sd-body-border: var(--nonColor11);
+    --sd-body-inner: var(--primarySub03);
+    --sd-header-bg: var(--sd-base-bg);
+    --sd-header-border: var(--sd-base-border);
+    --sd-header-icon: var(--nonColor08);
+    --sd-header-close: var(--nonColor08);
+    --sd-footer-command: var(--footer-command-bg);
+    --sd-tab-label: var(--btn-normal-label);
+    --sd-tab-bg: var(--btn-normal-bg);
+    --sd-tab-border: var(--btn-normal-border);
+    --sd-tab-hover: var(--btn-normal-hover);
+    --sd-tab-active-label: var(--btn-positive-label);
+    --sd-tab-active-bg: var(--btn-positive-bg);
+    --sd-tab-active-border: var(--btn-positive-border);
+    --sd-tab-active-hover: var(--btn-positive-hover);
+    --sd-resource-bg: var(--nonColor13);
+    --sd-resource-border: var(--sd-base-border);
+    --sd-resource-scroll: var(--nonColor10);
+    --sd-resource-category-bg: var(--sd-base-bg);
+    --sd-resource-category-border: var(--sd-base-border);
+    --sd-resource-category-icon-open: var(--nonColor09);
+    --sd-resource-category-icon-close: var(--primaryColor);
+    --sd-resource-remove-text: var(--nonColor07);
+    --sd-resource-remove-bg: var(--sd-base-bg);
+    --sd-resource-remove-border: var(--sd-base-border);
+    --sd-resource-remove-hover: var(--commonColor01);
+    --sd-resource-remove-outer: rgb(0 0 0 / 30%);
+    --sd-sortable-scroll: var(--nonColor08);
+    --sd-sortable-scroll-hover: var(--nonColor09);
+    --sd-sortable-empty-bg: rgb(255 255 255 / 80%);
+    --sd-sortable-empty-text: var(--nonColor03);
+    --sd-sortable-empty-border: var(--primarySub01);
+    --sd-unit-resource-bg: var(--nonColor14);
+    --sd-unit-sortable-bg: var(--sd-base-bg);
+    --sd-unit-border: var(--sd-base-border);
+    --sd-unit-icon-symbol: var(--nonColor16);
+    --sd-unit-icon-bg: var(--primaryColor);
+    --sd-unit-icon-setting: var(--nonColor07);
+    --sd-unit-handler: var(--nonColor07);
+    --sd-unit-filter-opacity: 0.5;
+    --sd-unit-ghost-border: var(--primaryDark);
+    --sd-unit-ghost-opacity: 0.8;
+    --sd-unit-edit-count-text: var(--nonColor16);
+    --sd-unit-edit-count-bg: var(--nonColor09);
+    --sd-unit-edit-tag-text: var(--sd-base-text);
+    --sd-unit-edit-tag-bg: var(--nonColor14);
+    --sd-unit-edit-tag-border: var(--nonColor10);
+    --sd-unit-edit-tag-required-text: var(--primaryDark);
+    --sd-unit-edit-tag-required-bg: var(--primarySub03);
+    --sd-unit-edit-tag-required-border: var(--primaryColor);
+    --sd-unit-edit-tag-readonly-text: var(--nonColor14);
+    --sd-unit-edit-tag-readonly-bg: var(--nonColor08);
+    --sd-unit-edit-tag-readonly-border: var(--nonColor08);
+    --sd-unit-edit-section-text: var(--nonColor16);
+    --sd-unit-edit-section-bg: var(--primaryColor);
+    --sd-unit-edit-break-border: var(--nonColor09);
+    --sd-unit-edit-delete-icon: var(--btn-negative-label);
+    --sd-unit-edit-delete-bg: var(--btn-negative-bg);
+    --sd-unit-grid-header-text: var(--nonColor16);
+    --sd-unit-grid-header-bg: var(--primaryColor);
+    --sd-unit-grid-cell-bg: var(--grid-cell-bg);
+    --sd-unit-grid-cell-border: var(--grid-cell-border);
+    --sd-unit-grid-cell-vborder: var(--grid-cell-vborder);
+    --sd-unit-grid-shadow-color: var(--nonColor12);
+    --sd-modal-bg: var(--sd-base-bg);
+    --sd-modal-text: var(--sd-base-text);
+    --sd-modal-border: var(--sd-base-border);
+    --sd-modal-header-text: var(--nonColor16);
+    --sd-modal-header-bg: var(--primaryColor);
+    --sd-modal-header-sub: var(--primaryDark);
+    --sd-modal-heading-border: var(--sd-base-border);
+    --sd-modal-required-text: #f00;
+    --sd-modal-preview-bg01: rgb(238 238 238 / 50%);
+    --sd-modal-preview-bg02: rgb(255 255 255 / 0%);
+    --sd-modal-preview-controller-bg: rgb(0 0 0 / 60%);
+    --sd-modal-preview-controller-text: var(--nonColor16);
+    --sd-modal-delete-warning: var(--commonColor01);
+}

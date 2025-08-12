@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Dept12",
+    "Language": "ja",
+    "Type": "Depts",
+    "ParentId": "Dept1",
+    "Title": "組織12（一括削除用）",
+    "ClassA": "999999",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

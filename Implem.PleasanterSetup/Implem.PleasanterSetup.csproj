@@ -13,20 +13,21 @@
     <PackageProjectUrl>https://github.com/Implem/Implem.Pleasanter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Implem/Implem.Pleasanter</RepositoryUrl>
     <ToolCommandName>pleasanter-setup</ToolCommandName>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1</FileVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <FileVersion>1.1.0</FileVersion>
     <PackageOutputPath>$(OutPutpath)</PackageOutputPath>
     <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>[1.0.1]
-- Modified to create a temporary folder and deploy new resources within it.
-</PackageReleaseNotes>
-    <Version>1.0.1</Version>
+    <PackageReleaseNotes>
+        [1.1.0]
+        - Added the ability to specify a custom host when connecting to MySQL.
+    </PackageReleaseNotes>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ConsoleAppFramework" Version="4.2.4" />
-    <PackageReference Include="JsonDiffPatch.Net" Version="2.3.0" />
+    <PackageReference Include="JsonDiffPatch.Net" Version="2.5.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

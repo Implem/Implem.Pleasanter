@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SettingItems",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Setting items"
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "设置项目"
+        },
+        {
+            "Language": "ja",
+            "Body": "設定項目"
+        },
+        {
+            "Language": "de",
+            "Body": "Einstellungselemente"
+        },
+        {
+            "Language": "ko",
+            "Body": "설정 항목"
+        },
+        {
+            "Language": "es",
+            "Body": "Elementos de configuración"
+        },
+        {
+            "Language": "vi",
+            "Body": "Thiết lập các mục"
+        }
+    ]
+}

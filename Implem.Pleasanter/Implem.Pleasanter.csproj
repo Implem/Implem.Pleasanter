@@ -5,14 +5,14 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.18.1</AssemblyVersion>
-    <FileVersion>1.4.18.1</FileVersion>
-    <Version>1.4.18.1</Version>
+    <AssemblyVersion>1.4.19.0</AssemblyVersion>
+    <FileVersion>1.4.19.0</FileVersion>
+    <Version>1.4.19.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-    
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningsAsErrors />
     <NoWarn>NU1605;1701;1702</NoWarn>
@@ -36,10 +36,10 @@
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="8.0.2" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
     <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
-    <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.5.0" />
-    <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.4.0" />
-    <PackageReference Include="Azure.Identity" Version="1.13.2" />
-    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.5.1" />
+    <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.6.1" />
+    <PackageReference Include="Azure.Identity" Version="1.14.2" />
+    <PackageReference Include="ClosedXML" Version="0.102.3" />
     <PackageReference Include="DiffMatchPatch" Version="3.0.0" />
 	  <PackageReference Include="Fare" Version="2.2.1" />
     <PackageReference Include="MailKit" Version="4.11.0" />
@@ -52,14 +52,16 @@
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.3.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="8.0.17" />
     <PackageReference Include="Microsoft.ClearScript.Complete" Version="7.5.0" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.8" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="2.0.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="MimeKit" Version="4.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog.Extensions.AzureDataTables" Version="4.6.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.4.0" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
     <PackageReference Include="Npgsql" Version="8.0.7" />
@@ -67,8 +69,8 @@
     <PackageReference Include="Otp.NET" Version="1.4.0" />
     <PackageReference Include="Sendgrid" Version="9.29.3" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.4.6" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
-    <PackageReference Include="StackExchange.Redis" Version="2.8.31" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.58" />
     <PackageReference Include="Sustainsys.Saml2" Version="2.11.0" />
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.11.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
@@ -160,15 +162,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="App_Data\Definitions\Definition_Code\Model_SysLogLogger.json">
+    <None Include="NLog.CspReport.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
-      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-          <_Parameter1>Implem.PleasanterTest</_Parameter1>
-      </AssemblyAttribute>
+    <None Update="App_Data\Definitions\Definition_Code\Model_SysLogLogger.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(SkipBuildTask)' != 'true'">
+    <Exec Command="npm run build" WorkingDirectory="$(ProjectDir)..\Implem.PleasanterFrontend\wwwroot\" IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="NpmExitCode" />
+    </Exec>
+    <Error Condition="'$(NpmExitCode)' != '0'" Text="❌ 'npm run build' failed.&#xD;&#xA;&#xD;&#xA;It may be due to missing dependencies.&#xD;&#xA;Please make sure you have run the following commands:&#xD;&#xA;&#xD;&#xA;cd $(ProjectDir)..\Implem.PleasanterFrontend\wwwroot&#xD;&#xA;npm install&#xD;&#xA;&#xD;&#xA;Then try building again." />
+  </Target>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Implem.PleasanterTest</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

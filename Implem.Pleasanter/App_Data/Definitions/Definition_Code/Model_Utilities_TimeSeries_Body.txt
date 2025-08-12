@@ -171,6 +171,7 @@ private static HtmlBuilder TimeSeries(
             groupBy: groupBy,
             aggregationType: aggregationType,
             value: value,
+            horizontalAxis: horizontalAxis,
             historyHorizontalAxis: historyHorizontalAxis,
             dataRows: dataRows,
             inRange: inRange);

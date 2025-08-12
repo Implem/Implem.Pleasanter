@@ -959,6 +959,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Authority(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Authority",
+                data: data);
+        }
+
         public static string Auto(
             Context context,
             params string[] data)
@@ -1959,6 +1969,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ClassAndDescription(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ClassAndDescription",
+                data: data);
+        }
+
         public static string Classification(
             Context context,
             params string[] data)
@@ -2306,6 +2326,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ColumnList",
+                data: data);
+        }
+
+        public static string ColumnName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ColumnName",
                 data: data);
         }
 
@@ -9656,6 +9686,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Setting",
+                data: data);
+        }
+
+        public static string SettingItems(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SettingItems",
+                data: data);
+        }
+
+        public static string SettingValue(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SettingValue",
                 data: data);
         }
 
