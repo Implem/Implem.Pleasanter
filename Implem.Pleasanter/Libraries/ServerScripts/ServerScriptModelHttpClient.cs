@@ -24,28 +24,30 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             _httpClient = new HttpClient()
             {
-                //キャンセルトークンでキャンセル処理をおこなうためHttpClientでのデフォルトでのタイムアウト制御はおこなわない
+                //キャンセルトークンでキャンセル処理をおこなうため
+                //HttpClientでのデフォルトでのタイムアウト制御はおこなわない
                 Timeout = Timeout.InfiniteTimeSpan
             };
         }
 
         public string Get() => Core(HttpMethod.Get);
 
-        public string Post() => Core(HttpMethod.Post);
+        public string Post() => Core(HttpMethod.Post, CreateContent());
 
-        public string Put() => Core(HttpMethod.Put);
+        public string Put() => Core(HttpMethod.Put, CreateContent());
 
-        public string Patch() => Core(HttpMethod.Patch);
+        public string Patch() => Core(HttpMethod.Patch, CreateContent());
 
         public string Delete() => Core(HttpMethod.Delete);
 
-        private string Core(HttpMethod method)
+        private string Core(HttpMethod method, HttpContent content = null)
         {
             try
             {
-                using var cts = new CancellationTokenSource(GetTimeOut());
-                var request = CreateHttpRequest(method);
-                var response = _httpClient.SendAsync(request, cts.Token).GetAwaiter().GetResult();
+                using var cts = new CancellationTokenSource();
+                cts.CancelAfter(GetTimeOut());
+                var request = CreateHttpRequest(method, content);
+                var response = _httpClient.SendAsync(request, cts.Token).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
                 ResponseHeaders.Clear();
@@ -53,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     ResponseHeaders.Add(header.Key, header.Value.ToArray());
                 }
-                var responseContent = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
             catch (Exception)
@@ -62,31 +64,25 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
         }
 
-        private HttpRequestMessage CreateHttpRequest(HttpMethod method)
+        private HttpRequestMessage CreateHttpRequest(HttpMethod method, HttpContent content = null)
         {
             var request = new HttpRequestMessage();
             request.Method = method;
             request.RequestUri = new Uri(RequestUri);
-            if ((method == HttpMethod.Post
-                || method == HttpMethod.Put
-                || method == HttpMethod.Patch)
-                && !Content.IsNullOrEmpty())
-            {
-                request.Content = new StringContent(
-                    content: Content,
-                    encoding: System.Text.Encoding.GetEncoding(Encoding),
-                    mediaType: MediaType);
-            }
-            else
-            {
-                request.Content = null;
-            }
+            request.Content = content;
             foreach (var header in RequestHeaders)
             {
                 request.Headers.Add(header.Key, header.Value);
             }
             return request;
         }
+
+        private HttpContent CreateContent() => Content.IsNullOrEmpty()
+            ? null
+            : new StringContent(
+                content: Content,
+                encoding: System.Text.Encoding.GetEncoding(Encoding),
+                mediaType: MediaType);
 
         private TimeSpan GetTimeOut()
         {
