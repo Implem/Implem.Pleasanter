@@ -77,12 +77,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return request;
         }
 
-        private HttpContent CreateContent() => Content.IsNullOrEmpty()
-            ? null
-            : new StringContent(
+        private HttpContent CreateContent()
+        {
+            if (Content.IsNullOrEmpty())
+            {
+                return null;
+            }
+            return new StringContent(
                 content: Content,
                 encoding: System.Text.Encoding.GetEncoding(Encoding),
                 mediaType: MediaType);
+        }
 
         private TimeSpan GetTimeOut()
         {
