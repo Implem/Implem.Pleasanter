@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection.Metadata;
 using System.Threading;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
@@ -63,11 +62,24 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
         }
 
-        private HttpRequestMessage CreateHttpRequest(HttpMethod method, HttpContent content = null)
+        private HttpRequestMessage CreateHttpRequest(HttpMethod method)
         {
             var request = new HttpRequestMessage();
             request.Method = method;
             request.RequestUri = new Uri(RequestUri);
+            if(method == HttpMethod.Post
+                || method == HttpMethod.Put
+                || method == HttpMethod.Patch)
+            {
+                request.Content = new StringContent(
+                    content: Content,
+                    encoding: System.Text.Encoding.GetEncoding(Encoding),
+                    mediaType: MediaType);
+            }
+            else
+            {
+                request.Content = null;
+            }
             request.Content = content;
             foreach (var header in RequestHeaders)
             {
