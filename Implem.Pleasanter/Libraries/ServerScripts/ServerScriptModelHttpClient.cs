@@ -44,7 +44,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             try
             {
                 var request = CreateHttpRequest(method);
-                _httpClient.Timeout = GetTimeOut();
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
@@ -72,19 +71,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 request.Headers.Add(header.Key, header.Value);
             }
             return request;
-        }
-
-        private TimeSpan GetTimeOut()
-        {
-            var timeOut = TimeSpan.FromMilliseconds(TimeOut);
-            var timeOutMax = TimeSpan.FromMilliseconds(Parameters.Script.ServerScriptHttpClientTimeOutMax);
-            var timeOutMin = TimeSpan.FromMilliseconds(Parameters.Script.ServerScriptHttpClientTimeOutMin);
-
-            timeOut = timeOut.Between(timeOutMin, timeOutMax)
-                ? timeOut
-                : TimeSpan.FromSeconds(100);
-
-            return timeOut == TimeSpan.Zero ? Timeout.InfiniteTimeSpan : timeOut;
         }
     }
 }
