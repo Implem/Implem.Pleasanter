@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 using var cts = new CancellationTokenSource(GetTimeOut());
                 var request = CreateHttpRequest(method);
-                var response = _httpClient.SendAsync(request, cts.Token).Result;
+                var response = _httpClient.SendAsync(request, cts.Token).GetAwaiter().GetResult();
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
                 ResponseHeaders.Clear();
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     ResponseHeaders.Add(header.Key, header.Value.ToArray());
                 }
-                var responseContent = response.Content.ReadAsStringAsync().Result;
+                var responseContent = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 return responseContent;
             }
             catch (Exception)
@@ -67,13 +67,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var request = new HttpRequestMessage();
             request.Method = method;
             request.RequestUri = new Uri(RequestUri);
-            if (Content.IsNullOrEmpty())
-            {
-                request.Content = null;
-            }
-            else if (method == HttpMethod.Post
+            if ((method == HttpMethod.Post
                 || method == HttpMethod.Put
                 || method == HttpMethod.Patch)
+                && !Content.IsNullOrEmpty())
             {
                 request.Content = new StringContent(
                     content: Content,
