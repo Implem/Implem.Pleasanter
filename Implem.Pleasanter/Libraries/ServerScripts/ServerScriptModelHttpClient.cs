@@ -67,7 +67,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var request = new HttpRequestMessage();
             request.Method = method;
             request.RequestUri = new Uri(RequestUri);
-            if(method == HttpMethod.Post
+            if (Content.IsNullOrEmpty())
+            {
+                request.Content = null;
+            }
+            else if (method == HttpMethod.Post
                 || method == HttpMethod.Put
                 || method == HttpMethod.Patch)
             {
