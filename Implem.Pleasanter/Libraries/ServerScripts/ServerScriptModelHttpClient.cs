@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             try
             {
-                using var cts = new CancellationTokenSource(GetTimeOut()));
+                using var cts = new CancellationTokenSource(GetTimeOut());
                 var request = CreateHttpRequest(method);
                 var response = _httpClient.SendAsync(request, cts.Token).Result;
                 StatusCode = (int)response.StatusCode;
