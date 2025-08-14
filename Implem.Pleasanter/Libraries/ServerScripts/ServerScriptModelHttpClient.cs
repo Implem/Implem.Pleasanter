@@ -25,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             _httpClient = new HttpClient()
             {
+                //キャンセルトークンでキャンセル処理をおこなうためHttpClientでのデフォルトでのタイムアウト制御はおこなわない
                 Timeout = Timeout.InfiniteTimeSpan
             };
         }
@@ -43,8 +44,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             try
             {
+                using var cts = new CancellationTokenSource(GetTimeOut()));
                 var request = CreateHttpRequest(method);
-                var response = _httpClient.SendAsync(request).Result;
+                var response = _httpClient.SendAsync(request, cts.Token).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
                 foreach (var header in response.Headers)
@@ -71,6 +73,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 request.Headers.Add(header.Key, header.Value);
             }
             return request;
+        }
+
+        private TimeSpan GetTimeOut()
+        {
+            var timeOut = TimeSpan.FromMilliseconds(TimeOut);
+            var timeOutMax = TimeSpan.FromMilliseconds(Parameters.Script.ServerScriptHttpClientTimeOutMax);
+            var timeOutMin = TimeSpan.FromMilliseconds(Parameters.Script.ServerScriptHttpClientTimeOutMin);
+
+            timeOut = timeOut.Between(timeOutMin, timeOutMax)
+                ? timeOut
+                : TimeSpan.FromSeconds(100);
+
+            return timeOut == TimeSpan.Zero ? Timeout.InfiniteTimeSpan : timeOut;
         }
     }
 }
