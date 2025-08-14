@@ -80,7 +80,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 request.Content = null;
             }
-            request.Content = content;
             foreach (var header in RequestHeaders)
             {
                 request.Headers.Add(header.Key, header.Value);
