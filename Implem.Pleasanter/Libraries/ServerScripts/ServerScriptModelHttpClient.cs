@@ -49,6 +49,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var response = _httpClient.SendAsync(request, cts.Token).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
+                ResponseHeaders.Clear();
                 foreach (var header in response.Headers)
                 {
                     ResponseHeaders.Add(header.Key, header.Value.ToArray());
