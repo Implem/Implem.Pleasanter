@@ -23,114 +23,27 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         static ServerScriptModelHttpClient()
         {
-            _httpClient = new HttpClient();
+            _httpClient = new HttpClient()
+            {
+                Timeout = Timeout.InfiniteTimeSpan
+            };
         }
 
-        public string Get()
+        public string Get() => Core(HttpMethod.Get);
+
+        public string Post() => Core(HttpMethod.Post);
+
+        public string Put() => Core(HttpMethod.Put);
+
+        public string Patch() => Core(HttpMethod.Patch);
+
+        public string Delete() => Core(HttpMethod.Delete);
+
+        private string Core(HttpMethod method)
         {
             try
             {
-                var request = CreateHttpRequest(HttpMethod.Get);
-                _httpClient.Timeout = GetTimeOut();
-                var response = _httpClient.SendAsync(request).Result;
-                StatusCode = (int)response.StatusCode;
-                IsSuccess = response.IsSuccessStatusCode;
-                foreach (var header in response.Headers)
-                {
-                    ResponseHeaders.Add(header.Key, header.Value.ToArray());
-                }
-                var responseContent = response.Content.ReadAsStringAsync().Result;
-                return responseContent;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public string Post()
-        {
-            try
-            {
-                var content = new StringContent(
-                    content: Content,
-                    encoding: System.Text.Encoding.GetEncoding(Encoding),
-                    mediaType: MediaType);
-                var request = CreateHttpRequest(HttpMethod.Post, content);
-                _httpClient.Timeout = GetTimeOut();
-                var response = _httpClient.SendAsync(request).Result;
-                StatusCode = (int)response.StatusCode;
-                IsSuccess = response.IsSuccessStatusCode;
-                foreach (var header in response.Headers)
-                {
-                    ResponseHeaders.Add(header.Key, header.Value.ToArray());
-                }
-                var responseContent = response.Content.ReadAsStringAsync().Result;
-                return responseContent;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public string Put()
-        {
-            try
-            {
-                var content = new StringContent(
-                    content: Content,
-                    encoding: System.Text.Encoding.GetEncoding(Encoding),
-                    mediaType: MediaType);
-                var request = CreateHttpRequest(HttpMethod.Put, content);
-                _httpClient.Timeout = GetTimeOut();
-                var response = _httpClient.SendAsync(request).Result;
-                StatusCode = (int)response.StatusCode;
-                IsSuccess = response.IsSuccessStatusCode;
-                foreach (var header in response.Headers)
-                {
-                    ResponseHeaders.Add(header.Key, header.Value.ToArray());
-                }
-                var responseContent = response.Content.ReadAsStringAsync().Result;
-                return responseContent;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public string Patch()
-        {
-            try
-            {
-                var content = new StringContent(
-                    content: Content,
-                    encoding: System.Text.Encoding.GetEncoding(Encoding),
-                    mediaType: MediaType);
-                var request = CreateHttpRequest(HttpMethod.Patch, content);
-                _httpClient.Timeout = GetTimeOut();
-                var response = _httpClient.SendAsync(request).Result;
-                StatusCode = (int)response.StatusCode;
-                IsSuccess = response.IsSuccessStatusCode;
-                foreach (var header in response.Headers)
-                {
-                    ResponseHeaders.Add(header.Key, header.Value.ToArray());
-                }
-                var responseContent = response.Content.ReadAsStringAsync().Result;
-                return responseContent;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public string Delete()
-        {
-            try
-            {
-                var request = CreateHttpRequest(HttpMethod.Delete);
+                var request = CreateHttpRequest(method);
                 _httpClient.Timeout = GetTimeOut();
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
