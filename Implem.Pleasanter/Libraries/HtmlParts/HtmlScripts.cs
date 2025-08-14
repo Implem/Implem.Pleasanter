@@ -125,6 +125,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         parts: $"assets/js/app.min.js?v={cacheBustingCode}"),
                         nonce: context.Nonce)
                     .Script(script: script, _using: !script.IsNullOrEmpty(), nonce: context.Nonce)
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: $"resources/scripts?v={extendedScripts.Sha512Cng()}"
+                            + $"&site-id={context.SiteId}"
+                            + $"&id={context.Id}"
+                            + $"&controller={context.Controller}"
+                            + $"&action={context.Action}"),
+                        nonce: context.Nonce,
+                        _using: !extendedScripts.IsNullOrEmpty())
                     .Script(
                         script: ss.GetScriptBody(
                             context: context,
