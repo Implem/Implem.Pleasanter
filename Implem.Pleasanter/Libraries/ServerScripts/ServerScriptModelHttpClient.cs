@@ -82,10 +82,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private HttpRequestMessage CreateHttpRequest(HttpMethod method, HttpContent content = null)
         {
-            var request = new HttpRequestMessage();
-            request.Method = method;
-            request.RequestUri = new Uri(RequestUri);
-            request.Content = content;
+            var request = new HttpRequestMessage()
+            {
+                Method = method,
+                RequestUri = new Uri(RequestUri),
+                Content = content
+            };
             foreach (var header in RequestHeaders)
             {
                 request.Headers.Add(header.Key, header.Value);
