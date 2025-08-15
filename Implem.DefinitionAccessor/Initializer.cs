@@ -145,6 +145,21 @@ namespace Implem.DefinitionAccessor
             Parameters.Dashboard = Read<Dashboard>();
             Parameters.GroupChildren = Read<GroupChildren>();
             Parameters.OutputCache = Read<OutputCache>();
+            if (Parameters.Authentication.LdapParameters != null)
+            {
+                for (var i = 0; i < Parameters.Authentication.LdapParameters.Count; i++)
+                {
+                    Parameters.Authentication.LdapParameters[i].LdapSyncUser = Strings.CoalesceEmpty(
+                        Parameters.Authentication.LdapParameters[i].LdapSyncUser,
+                        Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Authentication_LdapParameters_{i}_LdapSyncUser"),
+                        Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Authentication_LdapParameters_{i}_LdapSyncUser"));
+
+                    Parameters.Authentication.LdapParameters[i].LdapSyncPassword = Strings.CoalesceEmpty(
+                        Parameters.Authentication.LdapParameters[i].LdapSyncPassword,
+                        Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Authentication_LdapParameters_{i}_LdapSyncPassword"),
+                        Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Authentication_LdapParameters_{i}_LdapSyncPassword"));
+                }
+            }
             Parameters.Rds.SaConnectionString = Strings.CoalesceEmpty(
                 Parameters.Rds.SaConnectionString,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Rds_SaConnectionString"),
