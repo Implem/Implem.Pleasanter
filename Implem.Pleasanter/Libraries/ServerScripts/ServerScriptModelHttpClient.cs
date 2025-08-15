@@ -51,20 +51,20 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 StatusCode = default;
                 IsSuccess = false;
                 IsTimeOut = false;
-                HttpResponseMessage response = null;
                 using var cts = new CancellationTokenSource();
                 cts.CancelAfter(GetTimeOut());
                 var request = CreateHttpRequest(method, content);
+                HttpResponseMessage response;
                 try
                 {
                     response = _httpClient.SendAsync(request, cts.Token).Result;
                 }
                 catch (OperationCanceledException ex) when (ex.CancellationToken == cts.Token)
                 {
-                    IsSuccess = false;
                     IsTimeOut = true;
                     return default;
                 }
+                //ここまで処理がおこなわれている場合はresponseがNULLなことはないのでNULLチェックはおこなわない
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
                 foreach (var header in response.Headers)
