@@ -6,9 +6,9 @@
     <Year>$([System.DateTime]::Now.Year.ToString())</Year>
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>This program does the automatic code creation and merging of existing code based on the definition. Also it will make the configuration change of sql server database.</Description>
-    <AssemblyVersion>1.4.19.0</AssemblyVersion>
-    <FileVersion>1.4.19.0</FileVersion>
-    <Version>1.4.19.0</Version>
+    <AssemblyVersion>1.4.19.2</AssemblyVersion>
+    <FileVersion>1.4.19.2</FileVersion>
+    <Version>1.4.19.2</Version>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
