@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 namespace Implem.Pleasanter.Libraries.ServerScripts
@@ -19,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public int TimeOut { get; set; } = Parameters.Script.ServerScriptHttpClientTimeOut;
         public int StatusCode { get; private set; }
         public bool IsSuccess { get; private set; }
+        public bool IsTimeOut { get; private set; }
 
         static ServerScriptModelHttpClient()
         {
@@ -44,13 +46,27 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             try
             {
+                //実行前にレスポンスが格納されるものについては初期化する
+                ResponseHeaders.Clear();
+                StatusCode = default;
+                IsSuccess = false;
+                IsTimeOut = false;
+                HttpResponseMessage response = null;
                 using var cts = new CancellationTokenSource();
                 cts.CancelAfter(GetTimeOut());
                 var request = CreateHttpRequest(method, content);
-                var response = _httpClient.SendAsync(request, cts.Token).Result;
+                try
+                {
+                    response = _httpClient.SendAsync(request, cts.Token).Result;
+                }
+                catch (OperationCanceledException ex) when (ex.CancellationToken == cts.Token)
+                {
+                    IsSuccess = false;
+                    IsTimeOut = true;
+                    return default;
+                }
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
-                ResponseHeaders.Clear();
                 foreach (var header in response.Headers)
                 {
                     ResponseHeaders.Add(header.Key, header.Value.ToArray());
