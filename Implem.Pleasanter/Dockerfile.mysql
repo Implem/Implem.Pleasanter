@@ -1,10 +1,12 @@
-﻿FROM domjtalbot/volta:latest AS frontend-build
+﻿FROM node:22-alpine AS frontend-build
 WORKDIR /app
+# Copy package files for dependency installation
 COPY Implem.PleasanterFrontend/wwwroot/package*.json ./
-RUN volta install node@latest \
-    && npm install
+RUN npm ci
+RUN npm audit --audit-level high || true
+# Copy all necessary files for frontend build
 COPY Implem.PleasanterFrontend/wwwroot/ ./
-RUN npm run build -- --outDir=/app/wwwroot
+RUN npm run build -- --outDir=/app/dist/assets
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
@@ -50,10 +52,10 @@ EXPOSE 8080
 
 FROM base AS testing
 COPY --from=settings /app/publish .
-COPY --from=frontend-build /app/wwwroot wwwroot
+COPY --from=frontend-build /app/dist /Implem.Pleasanter/wwwroot wwwroot/
 ENTRYPOINT ["dotnet", "Implem.Pleasanter.dll"]
 
 FROM base AS final
 COPY --from=publish /app/publish .
-COPY --from=frontend-build /app/wwwroot wwwroot
+COPY --from=frontend-build /app/dist /Implem.Pleasanter/wwwroot wwwroot/
 ENTRYPOINT ["dotnet", "Implem.Pleasanter.dll"]
