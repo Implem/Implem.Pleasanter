@@ -1522,6 +1522,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.Section = column.Section;
                     }
+                    if (column.CellSticky != null)
+                    {
+                        enabled = true;
+                        newColumn.CellSticky = column.CellSticky;
+                    }
+                    if (column.CellWidth != null)
+                    {
+                        enabled = true;
+                        newColumn.CellWidth = column.CellWidth;
+                    }
                     if (column.GridDesign != null &&
                         column.GridDesign != LabelTextBracket(column))
                     {
@@ -4212,6 +4222,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ExtendedFieldCss": column.ExtendedFieldCss = value; break;
                 case "ExtendedControlCss": column.ExtendedControlCss = value; break;
                 case "Section": column.Section = value; break;
+                case "CellSticky": column.CellSticky = value.ToBool(); break;
+                case "CellWidth": column.CellWidth = value.ToInt(); break;
                 case "GridDesign":
                     column.GridDesign = LabelTextToColumnName(
                         column: column,

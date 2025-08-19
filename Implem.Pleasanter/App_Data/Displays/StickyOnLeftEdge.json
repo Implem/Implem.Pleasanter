@@ -1,0 +1,33 @@
+﻿{
+    "Id": "StickyOnLeftEdge",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Sticky on left edge"
+        },
+        {
+            "Language": "zh",
+            "Body": "在左侧边缘固定"
+        },
+        {
+            "Language": "ja",
+            "Body": "左端でスクロール固定"
+        },
+        {
+            "Language": "de",
+            "Body": "Am linken Rand fixieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "왼쪽 가장자리에 고정"
+        },
+        {
+            "Language": "es",
+            "Body": "Fijar en el borde izquierdo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cố định ở cạnh trái"
+        }
+    ]
+}

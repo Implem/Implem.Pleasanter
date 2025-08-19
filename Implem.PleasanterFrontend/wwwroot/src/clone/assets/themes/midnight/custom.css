@@ -44,6 +44,8 @@
     --success-color: var(--commonColor07);
     --warning-color: var(--commonColor01);
     --defaultIconUrl: url('../images/ui-icons_ffffff_256x240.png');
+    --scrollbar-thumb: var(--nonColor08);
+    --scrollbar-thumb-hover: var(--nonColor09);
 
     /* Buttons ---------------------------------------------------------- */
 

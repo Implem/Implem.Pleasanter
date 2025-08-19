@@ -231,12 +231,14 @@ namespace Implem.Pleasanter.Models
                 checkPermission: true);
             return hb
                 .GridTable(
+                    context: context,
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
                         .DataMethod("post"),
+                    scrollable: ss.DashboardParts.Count == 1 ? false : true,
                     action: () => hb
                         .GridRows(
                             context: context,
@@ -1596,6 +1598,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .GridTable(
+                        context: context,
                         css: "history",
                         action: () => hb
                             .THead(action: () => hb
@@ -6078,6 +6081,18 @@ namespace Implem.Pleasanter.Models
                             labelText: Displays.ExtendedCellCss(context: context),
                             text: column.ExtendedCellCss)
                         .FieldCheckBox(
+                            controlId: "CellSticky",
+                            labelText: Displays.StickyOnLeftEdge(context: context),
+                            _checked: column.CellSticky)
+                        .FieldSpinner(
+                            controlId: "CellWidth",
+                            fieldCss: "field-normal", 
+                            labelText: Displays.SetCellWidth(context: context),
+                            placeholder: Displays.CellWidthMinPx(context: context, data: "50"),
+                            value: column.CellWidth >= 50 ? column.CellWidth : null,
+                            unit: "px",
+                            step: 10)
+                        .FieldCheckBox(
                             controlId: "UseGridDesign",
                             labelText: Displays.UseCustomDesign(context: context),
                             _checked: !column.GridDesign.IsNullOrEmpty())
@@ -6126,6 +6141,7 @@ namespace Implem.Pleasanter.Models
             var selected = context.Forms.Data("EditBulkUpdateColumns")
                 .Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditBulkUpdateColumns",
                 attributes: new HtmlAttributes()
                     .DataName("BulkUpdateColumnId")
@@ -8693,6 +8709,7 @@ namespace Implem.Pleasanter.Models
             var selected = context.Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
             return hb
                 .GridTable(
+                    context: context,
                     id: "EditSummary",
                     attributes: new HtmlAttributes()
                         .DataName("SummaryId")
@@ -9149,6 +9166,7 @@ namespace Implem.Pleasanter.Models
             var selected = context.Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
             return hb
                 .GridTable(
+                    context: context,
                     id: "EditFormula",
                     attributes: new HtmlAttributes()
                         .DataName("FormulaId")
@@ -9482,6 +9500,7 @@ namespace Implem.Pleasanter.Models
             var selected = context.Forms.Data("EditProcess").Deserialize<IEnumerable<int>>();
             return hb
                 .GridTable(
+                    context: context,
                     id: "EditProcess",
                     attributes: new HtmlAttributes()
                         .DataName("ProcessId")
@@ -9974,6 +9993,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditProcessValidateInput").Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditProcessValidateInput",
                 attributes: new HtmlAttributes()
                     .DataName("ProcessValidateInputId")
@@ -10357,6 +10377,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditProcessDataChange").Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditProcessDataChange",
                 attributes: new HtmlAttributes()
                     .DataName("ProcessDataChangeId")
@@ -10745,6 +10766,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditProcessNotification").Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditProcessNotification",
                 attributes: new HtmlAttributes()
                     .DataName("ProcessNotificationId")
@@ -11007,6 +11029,7 @@ namespace Implem.Pleasanter.Models
             var selected = context.Forms.Data("EditStatusControl").Deserialize<IEnumerable<int>>();
             return hb
                 .GridTable(
+                    context: context,
                     id: "EditStatusControl",
                     attributes: new HtmlAttributes()
                         .DataName("StatusControlId")
@@ -12801,6 +12824,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditNotification",
                 attributes: new HtmlAttributes()
                     .DataName("NotificationId")
@@ -13324,6 +13348,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditReminder").Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditReminder",
                 attributes: new HtmlAttributes()
                     .DataName("ReminderId")
@@ -13798,6 +13823,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditExport").Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditExport",
                 attributes: new HtmlAttributes()
                     .DataName("ExportId")
@@ -14688,6 +14714,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditStyle").Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditStyle",
                 attributes: new HtmlAttributes()
                     .DataName("StyleId")
@@ -15089,6 +15116,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditScript").Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditScript",
                 attributes: new HtmlAttributes()
                     .DataName("ScriptId")
@@ -15492,6 +15520,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditHtml").Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditHtml",
                 attributes: new HtmlAttributes()
                     .DataName("HtmlId")
@@ -15948,6 +15977,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditServerScript").Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditServerScript",
                 attributes: new HtmlAttributes()
                     .DataName("ServerScriptId")
@@ -16504,6 +16534,7 @@ namespace Implem.Pleasanter.Models
             var selected = context.Forms.Data("EditRelatingColumns")
                 .Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditRelatingColumns",
                 attributes: new HtmlAttributes()
                     .DataName("RelatingColumnId")
@@ -16630,6 +16661,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditDashboardPart").Deserialize<IEnumerable<int>>();
             return hb.GridTable(
+                context: context,
                 id: "EditDashboardPart",
                 attributes: new HtmlAttributes()
                     .DataName("DashboardPartId")
