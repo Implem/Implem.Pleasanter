@@ -1598,6 +1598,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .GridTable(
+                        context: context,
                         css: "history",
                         action: () => hb
                             .THead(action: () => hb
@@ -2119,6 +2120,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.IntList("EditServerScript");
             return hb.GridTable(
+                context: context,
                 id: "EditServerScript",
                 attributes: new HtmlAttributes()
                     .DataName("ServerScriptId")
@@ -2297,6 +2299,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.IntList("EditServerScriptSchedules");
             return hb.GridTable(
+                context: context,
                 id: "EditServerScriptSchedules",
                 attributes: new HtmlAttributes()
                     .DataName("ServerScriptScheduleId")
