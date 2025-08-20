@@ -43,33 +43,3 @@
 networks:
   default:
     name: pleasanternetwork
-
-x-bake:
-  group:
-    default:
-      targets:
-        - Implem.CodeDefiner
-        - Implem.Pleasanter
-        - Implem.PleasanterTest
-  target:
-    Implem.CodeDefiner:
-      context: .
-      dockerfile: ./Implem.CodeDefiner/Dockerfile
-      cache-from:
-        - type=local,src=/tmp/.buildx-cache
-      cache-to:
-        - type=local,dest=/tmp/.buildx-cache
-    Implem.Pleasanter:
-      context: .
-      dockerfile: ./Implem.Pleasanter/Dockerfile
-      cache-from:
-        - type=local,src=/tmp/.buildx-cache
-      cache-to:
-        - type=local,dest=/tmp/.buildx-cache
-    Implem.PleasanterTest:
-      context: .
-      dockerfile: ./Implem.PleasanterTest/Dockerfile
-      cache-from:
-        - type=local,src=/tmp/.buildx-cache
-      cache-to:
-        - type=local,dest=/tmp/.buildx-cache

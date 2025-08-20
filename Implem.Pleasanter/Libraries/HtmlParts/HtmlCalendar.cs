@@ -401,6 +401,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> choices)
         {
             return hb.GridTable(
+                context: context,
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",
@@ -463,6 +464,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> choices)
         {
             return hb.GridTable(
+                context: context,
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",
@@ -537,6 +539,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> choices)
         {
             return hb.GridTable(
+                context: context,
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",

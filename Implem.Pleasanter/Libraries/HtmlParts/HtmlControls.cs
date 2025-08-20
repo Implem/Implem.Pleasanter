@@ -621,6 +621,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             decimal step = -1,
             int width = -1,
             string unit = null,
+            string placeholder = null,
             bool alwaysSend = false,
             bool allowBalnk = false,
             string onChange = null,
@@ -647,6 +648,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             value != null
                                 ? value.ToString()
                                 : string.Empty)
+                        .Placeholder(placeholder)
                         .DataMin(min, _using: min != -1)
                         .DataMax(max, _using: max != -1)
                         .DataStep(step, _using: step != -1)

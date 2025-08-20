@@ -34,7 +34,11 @@
         $grid.find('.select').prop('checked', $control.prop('checked'));
         $p.setData($grid);
     });
-    $(document).on('click', '.grid-row td', function () {
+    $(document).on('click', '.grid-row td', function (e) {
+        if (!e.target) return false;
+        var container = e.target.closest('grid-container');
+        if (container && container.isKeyHeld) return false;
+
         var $control = $(this).find('.grid-check,.select');
         if ($control.length === 0) {
             var $grid = $(this).closest('.grid');

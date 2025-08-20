@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SetCellWidth",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Cell width"
+        },
+        {
+            "Language": "zh",
+            "Body": "单元格宽度"
+        },
+        {
+            "Language": "ja",
+            "Body": "セルの横幅"
+        },
+        {
+            "Language": "de",
+            "Body": "Zellenbreite"
+        },
+        {
+            "Language": "ko",
+            "Body": "셀 너비"
+        },
+        {
+            "Language": "es",
+            "Body": "Ancho de celda"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chiều rộng ô"
+        }
+    ]
+}
