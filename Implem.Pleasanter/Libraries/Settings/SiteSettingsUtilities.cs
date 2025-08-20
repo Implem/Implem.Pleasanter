@@ -431,8 +431,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss.CreateColumnAccessControls.Add(columnAccessControl);
                 ss.ReadColumnAccessControls.Add(columnAccessControl);
                 ss.UpdateColumnAccessControls.Add(columnAccessControl);
+                return ss;
             }
-            else if (context.UserSettings?.EnableManageTenant == true)
+            if (context.UserSettings?.EnableManageTenant == true)
             {
                 var column = ss.GetColumn(
                     context: context,
@@ -449,6 +450,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss.CreateColumnAccessControls.Add(columnAccessControl);
                 ss.ReadColumnAccessControls.Add(columnAccessControl);
                 ss.UpdateColumnAccessControls.Add(columnAccessControl);
+                return ss;
             }
             return ss;
         }
