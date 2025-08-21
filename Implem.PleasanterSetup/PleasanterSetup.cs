@@ -115,153 +115,150 @@ namespace Implem.PleasanterSetup
             bool force = false,
             bool noinput = false)
         {
-            Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelHandler);
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            if (!NetworkInterface.GetIsNetworkAvailable() && setUpState)
+            try
             {
-                if (string.IsNullOrEmpty(releasezip))
+                Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelHandler);
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                if (!NetworkInterface.GetIsNetworkAvailable() && setUpState)
                 {
-                    logger.LogError("\"-r\" is required");
-                    Environment.Exit(0);
-                }
-            }
-            if (versionUp && !NetworkInterface.GetIsNetworkAvailable() && setUpState)
-            {
-                if (string.IsNullOrEmpty(patchPath))
-                {
-                    logger.LogError("\"-patch\" is required");
-                    Environment.Exit(0);
-                }
-            }
-            if (!string.IsNullOrEmpty(releasezip))
-            {
-                releasezip = Path.GetFullPath(releasezip);
-                if (!File.Exists(releasezip))
-                {
-                    logger.LogError($"{releasezip} does not exist.");
-                    Environment.Exit(0);
-                }
-            }
-            if (!string.IsNullOrEmpty(patchPath))
-            {
-                patchPath = Path.GetFullPath(patchPath);
-                if (!File.Exists(patchPath))
-                {
-                    logger.LogError($"{patchPath} does not exist.");
-                    Environment.Exit(0);
-                }
-            }
-            // ユーザにセットアップに必要な情報を入力してもらう
-            SetSummary(
-            directory: directory,
-            releasezip: releasezip,
-            patchPath: patchPath);
-            // 新規インストールまたはバージョンアップを行うかをユーザに確認する
-            var doNext = AskForInstallOrVersionUp();
-            if (doNext)
-            {
-                var backupDir = Path.Combine(
-                    Path.GetDirectoryName(installDir),
-                    $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
-                var guid = Guid.NewGuid();
-                var guidDir = Path.Combine(
-                    Path.GetDirectoryName(installDir),
-                    guid.ToString());
-                Directory.CreateDirectory(guidDir);                
-                
-                // バージョンアップの場合は既存資源のバックアップを行う
-                if (versionUp)
-                {
-                    CopyResourceDirectory(
-                        installDir: installDir,
-                        destDir: backupDir,
-                        guidDir: guidDir);
-                }
-                if (!Directory.Exists(installDir))
-                {
-                    if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                    if (string.IsNullOrEmpty(releasezip))
                     {
-                        if (!isProviderAzure)
-                        {
-                            Directory.CreateDirectory(installDir);
-                        }
-                    }
-                    else
-                    {
-                        await ExecuteCreateDirectory();
+                        logger.LogError("\"-r\" is required");
+                        Environment.Exit(0);
                     }
                 }
-                if (string.IsNullOrEmpty(releasezip))
-                {
-                    releasezip = await DownloadNewResource(
-                        guidDir,
-                        "Pleasanter");
-                }
-                SetNewResource(
-                installDir: installDir,
-                releaseZip: releasezip,
-                guidDir: guidDir);
-                //バージョンアップ時マージ
-                if (versionUp)
+                if (versionUp && !NetworkInterface.GetIsNetworkAvailable() && setUpState)
                 {
                     if (string.IsNullOrEmpty(patchPath))
                     {
-                        patchPath = await DownloadNewResource(
-                        isProviderAzure
-                        ? unzipDirPath
-                        : installDir,
-                        "ParametersPatch");
+                        logger.LogError("\"-patch\" is required");
+                        Environment.Exit(0);
                     }
-                    //ParametersPatchの配置処理
-                    SetParametersPatch(
-                        isProviderAzure
-                        ? unzipDirPath
-                        : installDir,
-                        patchPath);
-                    //backupの絶対パスと新資源の絶対パスが必要
+                }
+                if (!string.IsNullOrEmpty(releasezip))
+                {
+                    releasezip = Path.GetFullPath(releasezip);
+                    if (!File.Exists(releasezip))
+                    {
+                        logger.LogError($"{releasezip} does not exist.");
+                        Environment.Exit(0);
+                    }
+                }
+                if (!string.IsNullOrEmpty(patchPath))
+                {
+                    patchPath = Path.GetFullPath(patchPath);
+                    if (!File.Exists(patchPath))
+                    {
+                        logger.LogError($"{patchPath} does not exist.");
+                        Environment.Exit(0);
+                    }
+                }
+                // ユーザにセットアップに必要な情報を入力してもらう
+                SetSummary(
+                    directory: directory,
+                    releasezip: releasezip,
+                    patchPath: patchPath);
+                // 新規インストールまたはバージョンアップを行うかをユーザに確認する
+                var doNext = AskForInstallOrVersionUp();
+                if (doNext)
+                {
+                    if (!isProviderAzure && !Directory.Exists(installDir))
+                    {
+                        await CreateDirectoryCrossPlatform(installDir);
+                    }
+                    var backupDir = Path.Combine(
+                        Path.GetDirectoryName(installDir),
+                        $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
+                    var guid = Guid.NewGuid();
+                    var guidDir = Path.Combine(
+                        Path.GetDirectoryName(installDir),
+                        guid.ToString());
+                    await CreateDirectoryCrossPlatform(guidDir);
+                    // バージョンアップの場合は既存資源のバックアップを行う
+                    if (versionUp)
+                    {
+                        CopyResourceDirectory(
+                            installDir: installDir,
+                            destDir: backupDir,
+                            guidDir: guidDir);
+                    }
+                    if (string.IsNullOrEmpty(releasezip))
+                    {
+                        releasezip = await DownloadNewResource(
+                            guidDir,
+                            "Pleasanter");
+                    }
+                    SetNewResource(
+                        installDir: installDir,
+                        releaseZip: releasezip,
+                        guidDir: guidDir);
+                    //バージョンアップ時マージ
+                    if (versionUp)
+                    {
+                        if (string.IsNullOrEmpty(patchPath))
+                        {
+                            patchPath = await DownloadNewResource(
+                                isProviderAzure
+                                    ? unzipDirPath
+                                    : installDir,
+                                "ParametersPatch");
+                        }
+                        //ParametersPatchの配置処理
+                        SetParametersPatch(
+                            isProviderAzure
+                                ? unzipDirPath
+                                : installDir,
+                            patchPath);
+                        //backupの絶対パスと新資源の絶対パスが必要
+                        if (isProviderAzure)
+                        {
+                            await Merge(
+                                releaseZip: unzipDirPath,
+                                previous: temporaryPath,
+                                patchPath: patchPath,
+                                setUpState: setUpState);
+                        }
+                        else
+                        {
+                            await Merge(
+                                releaseZip: installDir,
+                                previous: backupDir,
+                                patchPath: patchPath,
+                                setUpState: setUpState);
+                        }
+                    }
                     if (isProviderAzure)
                     {
-                        await Merge(
-                        releaseZip: unzipDirPath,
-                        previous: temporaryPath,
-                        patchPath: patchPath,
-                        setUpState: setUpState);
+                        MoveResource(
+                            installDir,
+                            unzipDirPath,
+                            guidDir);
                     }
-                    else
+                    // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
+                    SetParameters();
+                    if (!enterpriseEdition && versionUp)
                     {
-                        await Merge(
-                        releaseZip: installDir,
-                        previous: backupDir,
-                        patchPath: patchPath,
-                        setUpState: setUpState);
+                        ExistingCopyLicense(
+                            installDir: installDir,
+                            backupDir: backupDir);
                     }
+                    // データベースの作成(スキーマ更新)を行う
+                    await Rds(
+                        directory: installDir,
+                        setUpState: setUpState,
+                        force: force,
+                        noinput: noinput);
                 }
-                if (isProviderAzure)
+                else
                 {
-                    MoveResource(
-                        installDir,
-                        unzipDirPath,
-                        guidDir);
+                    logger.LogInformation("Finishes processing the setup command.");
+                    return;
                 }
-                // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
-                SetParameters();
-                if (!enterpriseEdition && versionUp)
-                {
-                    ExistingCopyLicense(
-                        installDir: installDir,
-                        backupDir: backupDir);
-                }
-                // データベースの作成(スキーマ更新)を行う
-                await Rds(
-                    directory: installDir,
-                    setUpState: setUpState,
-                    force: force,
-                    noinput: noinput);
             }
-            else
+            catch (Exception e)
             {
-                logger.LogInformation("Finishes processing the setup command.");
-                return;
+                logger.LogError(e.ToString());
+                Environment.Exit(1);
             }
         }
 
@@ -955,15 +952,13 @@ namespace Implem.PleasanterSetup
             }
         }
 
-        private async Task ExecuteCreateDirectory()
+        private async Task ExecuteCreateDirectory(string dir)
         {
             try
             {
-                //Linux環境でmkdirコマンドの実行
-                var createCommand = $"mkdir -p {installDir}";
+                var createCommand = $"mkdir -p {dir}";
                 await ExecuteCommands(createCommand);
-                ////Linux環境でchownコマンドの実行
-                var permissionDirectory = Directory.GetParent(installDir);
+                var permissionDirectory = Directory.GetParent(dir);
                 var permissionCommand = $"chown -R {userName} {permissionDirectory}";
                 await ExecuteCommands(permissionCommand);
             }
@@ -971,6 +966,19 @@ namespace Implem.PleasanterSetup
             {
                 logger.LogError(ex.Message);
                 Environment.Exit(0);
+            }
+        }
+
+        // OSごとにディレクトリ作成を分岐する共通メソッド
+        private async Task CreateDirectoryCrossPlatform(string dir)
+        {
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                Directory.CreateDirectory(dir);
+            }
+            else
+            {
+                await ExecuteCreateDirectory(dir);
             }
         }
 
@@ -993,8 +1001,8 @@ namespace Implem.PleasanterSetup
             else
             {
                 return Environment.OSVersion.Platform == PlatformID.Win32NT
-                ? installDir = DefaultParameters.InstallDirForWindows
-                : installDir = DefaultParameters.InstallDirForLinux;
+                    ? installDir = DefaultParameters.InstallDirForWindows
+                    : installDir = DefaultParameters.InstallDirForLinux;
             }
         }
 
@@ -1531,7 +1539,6 @@ namespace Implem.PleasanterSetup
         {
             try
             {
-                //var releaseZipDir = Path.GetDirectoryName(releaseZip);
                 ZipFile.ExtractToDirectory(
                     releaseZip,
                     guidDir,
@@ -1593,7 +1600,7 @@ namespace Implem.PleasanterSetup
             }
             catch (Exception e)
             {
-                logger.LogInformation($"{e.Message}");
+                logger.LogError($"{e.Message}");
                 Environment.Exit(0);
             }
         }
@@ -1625,7 +1632,7 @@ namespace Implem.PleasanterSetup
                     }
                     catch (Exception ex)
                     {
-                        logger.LogInformation(ex.Message);
+                        logger.LogError(ex.Message);
                         Environment.Exit(0);
                     }
                 }
