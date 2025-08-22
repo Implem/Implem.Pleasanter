@@ -1,10 +1,12 @@
-﻿FROM domjtalbot/volta:latest AS frontend-build
+﻿FROM node:22-alpine AS frontend-build
 WORKDIR /app
+# Copy package files for dependency installation
 COPY Implem.PleasanterFrontend/wwwroot/package*.json ./
-RUN volta install node@latest \
-    && npm install
+RUN npm ci
+RUN npm audit --audit-level high || true
+# Copy all necessary files for frontend build
 COPY Implem.PleasanterFrontend/wwwroot/ ./
-RUN npm run build -- --outDir=/app/wwwroot
+RUN npm run build -- --outDir=/app/dist/assets
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 RUN apt-get update && apt-get install -y \
@@ -30,7 +32,8 @@ COPY . .
 RUN cat Implem.Pleasanter/App_Data/Parameters/Rds.json | jq '.Dbms|="PostgreSQL"' > /tmp/Rds.json \
  && cp /tmp/Rds.json Implem.Pleasanter/App_Data/Parameters/Rds.json \
  && rm -f /tmp/Rds.json
-COPY --from=frontend-build /app/wwwroot Implem.Pleasanter/wwwroot
+COPY --from=frontend-build /app/dist /Implem.Pleasanter/wwwroot Implem.Pleasanter/wwwroot/
+
 RUN dotnet build --no-restore Implem.PleasanterTest -p:SkipBuildTask=true
 
 FROM build AS testrunner
