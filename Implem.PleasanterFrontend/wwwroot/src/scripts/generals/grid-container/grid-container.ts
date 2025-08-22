@@ -37,20 +37,18 @@ export class GridContainerElement extends HTMLElement {
                 this.init();
             }, 100);
         } else {
-            window.addEventListener('load', () => {
-                this.init();
-            });
+            window.addEventListener('load', this.init);
         }
     }
 
-    private init() {
+    private init = () => {
         if (this.gridEl?.id === 'Grid') {
             this.classList.add('app-is-index');
         }
         this.checkCanScroll();
         this.addObserver();
         this.addScrollEvents();
-    }
+    };
 
     private checkCanScroll() {
         if (!this.flameEl) return;
@@ -253,6 +251,7 @@ export class GridContainerElement extends HTMLElement {
             document.removeEventListener('mousedown', this.handleScrollStart);
             document.removeEventListener('mouseup', this.handleScrollEnd);
             document.removeEventListener('mousemove', this.handleScrollAction);
+            window.removeEventListener('load', this.init);
             this.stageEl = null;
             this.flameEl = null;
         }
