@@ -27,17 +27,27 @@ export class GridContainerElement extends HTMLElement {
             this.flameEl = this.shadow.querySelector('.app-grid-frame')!;
             this.gridEl?.classList.add(this.hash);
             this.initShadowStyle();
-            setTimeout(() => {
-                if (this.gridEl?.id === 'Grid') {
-                    this.classList.add('app-is-index');
-                }
-                this.checkCanScroll();
-            }, 10);
         }
     }
 
     connectedCallback() {
         if (!this.isScrollable || !this.gridEl) return;
+        if (document.readyState === 'complete') {
+            setTimeout(() => {
+                this.init();
+            }, 100);
+        } else {
+            window.addEventListener('load', () => {
+                this.init();
+            });
+        }
+    }
+
+    private init() {
+        if (this.gridEl?.id === 'Grid') {
+            this.classList.add('app-is-index');
+        }
+        this.checkCanScroll();
         this.addObserver();
         this.addScrollEvents();
     }
