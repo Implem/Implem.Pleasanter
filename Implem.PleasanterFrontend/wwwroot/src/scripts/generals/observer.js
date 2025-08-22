@@ -3,6 +3,7 @@ $p.pageObserve = function (selector) {
     const observerTargetName = `${selector}Observer`;
     const contents = document.getElementById(selector);
     const mutationObserver = new MutationObserver(() => {
+        observerTarget.style.width = 'auto';
         observerTarget.style.width = `${contents.scrollWidth}px`;
         if (!document.querySelector(`#${selector}`)) {
             intersectionObserver.disconnect();
@@ -17,6 +18,15 @@ $p.pageObserve = function (selector) {
         });
     });
 
+    let resizeTimeID;
+    const resizeObserver = new ResizeObserver(() => {
+        clearTimeout(resizeTimeID);
+        resizeTimeID = setTimeout(() => {
+            observerTarget.style.width = 'auto';
+            observerTarget.style.width = `${contents.scrollWidth}px`;
+        }, 200);
+    });
+
     if (contents && contents.parentNode) {
         observerTarget.setAttribute('id', observerTargetName);
         observerTarget.style.width = `${contents.scrollWidth}px`;
@@ -28,5 +38,6 @@ $p.pageObserve = function (selector) {
             childList: true,
             subtree: true
         });
+        resizeObserver.observe(contents);
     }
 };

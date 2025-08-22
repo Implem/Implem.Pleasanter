@@ -48,6 +48,7 @@ import './ganttevents.js';
 import './generatepassword.js';
 import './grid.js';
 import './gridevents.js';
+import './grid-container/grid-container';
 import './group.js';
 import './imagelib.js';
 import './import.js';

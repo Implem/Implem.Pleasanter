@@ -167,6 +167,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return !Anonymous()
                 ? hb.Td(
                     css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                    attributes: new HtmlAttributes()
+                        .DataCellSticky(column.CellSticky)
+                        .DataCellWidth(column.CellWidth),
                     action: () => hb
                         .HtmlUser(
                             context: context,
@@ -176,6 +179,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                     userId: Id)))
                 : hb.Td(
                     css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                    attributes: new HtmlAttributes()
+                        .DataCellSticky(column.CellSticky)
+                        .DataCellWidth(column.CellWidth),
                     action: () => { });
         }
 
