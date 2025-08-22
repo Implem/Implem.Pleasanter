@@ -57,6 +57,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return hb.Td(
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                attributes: new HtmlAttributes()
+                    .DataCellSticky(column.CellSticky)
+                    .DataCellWidth(column.CellWidth),
                 action: () => hb
                     .Ol(action: () => ForEach(item => hb
                         .Li(action: context.Action switch

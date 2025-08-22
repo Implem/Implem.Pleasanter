@@ -855,5 +855,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         : () => hb.Text(text))
                 : hb;
         }
+
+        public static HtmlBuilder GridContainer(
+            this HtmlBuilder hb,
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
+            bool scrollable = false,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "grid-container",
+                    id: id,
+                    css: css,
+                    attributes: (attributes ?? new HtmlAttributes())
+                        .DataScrollable(scrollable),
+                    action: action)
+                : hb;
+        }
+
     }
 }
