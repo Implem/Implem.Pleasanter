@@ -6083,7 +6083,7 @@ namespace Implem.Pleasanter.Models
                         .FieldCheckBox(
                             controlId: "CellSticky",
                             labelText: Displays.StickyOnLeftEdge(context: context),
-                            _checked: column.CellSticky)
+                            _checked: column.CellSticky == true)
                         .FieldSpinner(
                             controlId: "CellWidth",
                             fieldCss: "field-normal", 

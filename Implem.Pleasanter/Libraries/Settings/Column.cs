@@ -101,7 +101,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ExtendedFieldCss;
         public string ExtendedControlCss;
         public string Section;
-        public bool CellSticky;
+        public bool? CellSticky;
         public int? CellWidth;
         public string GridDesign;
         public bool? ValidateRequired;
