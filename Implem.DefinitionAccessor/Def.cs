@@ -3953,6 +3953,10 @@ namespace Implem.DefinitionAccessor
                     case "PermissionSite5703": Demo.PermissionSite5703 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionSite5703, definitionRow, DemoXls); break;
                     case "Site57": Demo.Site57 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site57, definitionRow, DemoXls); break;
                     case "Site57_en": Demo.Site57_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site57_en, definitionRow, DemoXls); break;
+                    case "Site58": Demo.Site58 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site58, definitionRow, DemoXls); break;
+                    case "Site58_en": Demo.Site58_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site58_en, definitionRow, DemoXls); break;
+                    case "Site59": Demo.Site59 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site59, definitionRow, DemoXls); break;
+                    case "Site59_en": Demo.Site59_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site59_en, definitionRow, DemoXls); break;
                     default: break;
                 }
             });
@@ -11740,6 +11744,10 @@ namespace Implem.DefinitionAccessor
         public string PermissionSite5703;
         public string Site57;
         public string Site57_en;
+        public string Site58;
+        public string Site58_en;
+        public string Site59;
+        public string Site59_en;
     }
 
     public class DemoTable
@@ -12594,6 +12602,10 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition PermissionSite5703 = new DemoDefinition();
         public DemoDefinition Site57 = new DemoDefinition();
         public DemoDefinition Site57_en = new DemoDefinition();
+        public DemoDefinition Site58 = new DemoDefinition();
+        public DemoDefinition Site58_en = new DemoDefinition();
+        public DemoDefinition Site59 = new DemoDefinition();
+        public DemoDefinition Site59_en = new DemoDefinition();
     }
 
     public class TemplateDefinition
