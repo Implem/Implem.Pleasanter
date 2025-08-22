@@ -167,7 +167,8 @@ namespace Implem.PleasanterSetup
                 SetParameters();
                 await SetupDatabase(
                     force,
-                    noinput);
+                    noinput,
+                    setUpState);
             }
             else
             {
@@ -326,11 +327,14 @@ namespace Implem.PleasanterSetup
             }
         }
 
-        private async Task SetupDatabase(bool force, bool noinput)
+        private async Task SetupDatabase(
+            bool setUpState,
+            bool force,
+            bool noinput)
         {
             await Rds(
                 directory: installDir,
-                setUpState: true,
+                setUpState: setUpState,
                 force: force,
                 noinput: noinput);
         }
@@ -1032,6 +1036,11 @@ namespace Implem.PleasanterSetup
                 var createCommand = $"mkdir -p {dir}";
                 await ExecuteCommands(createCommand);
                 var permissionDirectory = Directory.GetParent(dir);
+                if (permissionDirectory == null)
+                {
+                    logger.LogError($"Failed to get parent directory for '{dir}'. It may be a root directory.");
+                    Environment.Exit(0);
+                }
                 var permissionCommand = $"chown -R {userName} {permissionDirectory}";
                 await ExecuteCommands(permissionCommand);
             }
