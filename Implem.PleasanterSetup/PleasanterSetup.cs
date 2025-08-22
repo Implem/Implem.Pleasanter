@@ -115,6 +115,73 @@ namespace Implem.PleasanterSetup
             bool force = false,
             bool noinput = false)
         {
+            try
+            {
+                await SetupMain(
+                    releasezip,
+                    directory,
+                    patchPath,
+                    setUpState,
+                    force,
+                    noinput);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.ToString());
+                Environment.Exit(1);
+            }
+        }
+
+        private async Task SetupMain(
+            string releasezip,
+            string directory,
+            string patchPath,
+            bool setUpState,
+            bool force,
+            bool noinput)
+        {
+            PrepareEnvironment(
+                releasezip,
+                patchPath,
+                setUpState);
+            SetSummaryAndAsk(
+                directory,
+                releasezip,
+                patchPath);
+            var doNext = AskForInstallOrVersionUp();
+            if (doNext)
+            {
+                await PrepareInstallDirectory();
+                var (backupDir, guidDir) = await PrepareBackupAndGuidDir();
+                await HandleVersionUpIfNeeded(
+                    releasezip,
+                    patchPath,
+                    backupDir,
+                    guidDir);
+                await PlaceAndSetupResources(
+                    releasezip,
+                    patchPath,
+                    backupDir,
+                    guidDir,
+                    setUpState);
+                SetParameters();
+                await SetupDatabase(
+                    force,
+                    noinput,
+                    setUpState);
+            }
+            else
+            {
+                logger.LogInformation("Finishes processing the setup command.");
+                return;
+            }
+        }
+
+        private void PrepareEnvironment(
+            string releasezip,
+            string patchPath,
+            bool setUpState)
+        {
             Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelHandler);
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             if (!NetworkInterface.GetIsNetworkAvailable() && setUpState)
@@ -151,118 +218,125 @@ namespace Implem.PleasanterSetup
                     Environment.Exit(0);
                 }
             }
-            // ユーザにセットアップに必要な情報を入力してもらう
+        }
+
+        private void SetSummaryAndAsk(
+            string directory,
+            string releasezip,
+            string patchPath)
+        {
             SetSummary(
-            directory: directory,
-            releasezip: releasezip,
-            patchPath: patchPath);
-            // 新規インストールまたはバージョンアップを行うかをユーザに確認する
-            var doNext = AskForInstallOrVersionUp();
-            if (doNext)
+                directory: directory,
+                releasezip: releasezip,
+                patchPath: patchPath);
+        }
+
+        private async Task PrepareInstallDirectory()
+        {
+            if (!isProviderAzure && !Directory.Exists(installDir))
             {
-                var backupDir = Path.Combine(
-                    Path.GetDirectoryName(installDir),
-                    $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
-                var guid = Guid.NewGuid();
-                var guidDir = Path.Combine(
-                    Path.GetDirectoryName(installDir),
-                    guid.ToString());
-                Directory.CreateDirectory(guidDir);                
-                
-                // バージョンアップの場合は既存資源のバックアップを行う
-                if (versionUp)
-                {
-                    CopyResourceDirectory(
-                        installDir: installDir,
-                        destDir: backupDir,
-                        guidDir: guidDir);
-                }
-                if (!Directory.Exists(installDir))
-                {
-                    if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                    {
-                        if (!isProviderAzure)
-                        {
-                            Directory.CreateDirectory(installDir);
-                        }
-                    }
-                    else
-                    {
-                        await ExecuteCreateDirectory();
-                    }
-                }
-                if (string.IsNullOrEmpty(releasezip))
-                {
-                    releasezip = await DownloadNewResource(
-                        guidDir,
-                        "Pleasanter");
-                }
-                SetNewResource(
+                await CreateDirectoryCrossPlatform(installDir);
+            }
+        }
+
+        private async Task<(string backupDir, string guidDir)> PrepareBackupAndGuidDir()
+        {
+            var backupDir = Path.Combine(
+                Path.GetDirectoryName(installDir),
+                $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
+            var guid = Guid.NewGuid();
+            var guidDir = Path.Combine(
+                Path.GetDirectoryName(installDir),
+                guid.ToString());
+            await CreateDirectoryCrossPlatform(guidDir);
+            return (backupDir, guidDir);
+        }
+
+        private async Task HandleVersionUpIfNeeded(string releasezip, string patchPath, string backupDir, string guidDir)
+        {
+            if (versionUp)
+            {
+                CopyResourceDirectory(
+                    installDir: installDir,
+                    destDir: backupDir,
+                    guidDir: guidDir);
+            }
+        }
+
+        private async Task PlaceAndSetupResources(
+            string releasezip,
+            string patchPath,
+            string backupDir,
+            string guidDir,
+            bool setUpState)
+        {
+            if (string.IsNullOrEmpty(releasezip))
+            {
+                releasezip = await DownloadNewResource(
+                    guidDir,
+                    "Pleasanter");
+            }
+            SetNewResource(
                 installDir: installDir,
                 releaseZip: releasezip,
                 guidDir: guidDir);
-                //バージョンアップ時マージ
-                if (versionUp)
+            if (versionUp)
+            {
+                if (string.IsNullOrEmpty(patchPath))
                 {
-                    if (string.IsNullOrEmpty(patchPath))
-                    {
-                        patchPath = await DownloadNewResource(
+                    patchPath = await DownloadNewResource(
                         isProviderAzure
-                        ? unzipDirPath
-                        : installDir,
+                            ? unzipDirPath
+                            : installDir,
                         "ParametersPatch");
-                    }
-                    //ParametersPatchの配置処理
-                    SetParametersPatch(
-                        isProviderAzure
+                }
+                SetParametersPatch(
+                    isProviderAzure
                         ? unzipDirPath
                         : installDir,
-                        patchPath);
-                    //backupの絶対パスと新資源の絶対パスが必要
-                    if (isProviderAzure)
-                    {
-                        await Merge(
+                    patchPath);
+                if (isProviderAzure)
+                {
+                    await Merge(
                         releaseZip: unzipDirPath,
                         previous: temporaryPath,
                         patchPath: patchPath,
                         setUpState: setUpState);
-                    }
-                    else
-                    {
-                        await Merge(
+                }
+                else
+                {
+                    await Merge(
                         releaseZip: installDir,
                         previous: backupDir,
                         patchPath: patchPath,
                         setUpState: setUpState);
-                    }
                 }
-                if (isProviderAzure)
-                {
-                    MoveResource(
-                        installDir,
-                        unzipDirPath,
-                        guidDir);
-                }
-                // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
-                SetParameters();
-                if (!enterpriseEdition && versionUp)
-                {
-                    ExistingCopyLicense(
-                        installDir: installDir,
-                        backupDir: backupDir);
-                }
-                // データベースの作成(スキーマ更新)を行う
-                await Rds(
-                    directory: installDir,
-                    setUpState: setUpState,
-                    force: force,
-                    noinput: noinput);
             }
-            else
+            if (isProviderAzure)
             {
-                logger.LogInformation("Finishes processing the setup command.");
-                return;
+                MoveResource(
+                    installDir,
+                    unzipDirPath,
+                    guidDir);
             }
+            if (!enterpriseEdition && versionUp)
+            {
+                ExistingCopyLicense(
+                    installDir: installDir,
+                    backupDir: backupDir);
+            }
+        }
+
+        private async Task SetupDatabase(
+            bool setUpState,
+            bool force,
+            bool noinput)
+        {
+            await Rds(
+                directory: installDir,
+                setUpState: setUpState,
+                force: force,
+                noinput: noinput);
         }
 
         public async Task Merge(
@@ -955,15 +1029,18 @@ namespace Implem.PleasanterSetup
             }
         }
 
-        private async Task ExecuteCreateDirectory()
+        private async Task ExecuteCreateDirectory(string dir)
         {
             try
             {
-                //Linux環境でmkdirコマンドの実行
-                var createCommand = $"mkdir -p {installDir}";
+                var createCommand = $"mkdir -p {dir}";
                 await ExecuteCommands(createCommand);
-                ////Linux環境でchownコマンドの実行
-                var permissionDirectory = Directory.GetParent(installDir);
+                var permissionDirectory = Directory.GetParent(dir);
+                if (permissionDirectory == null)
+                {
+                    logger.LogError($"Failed to get parent directory for '{dir}'. It may be a root directory.");
+                    Environment.Exit(0);
+                }
                 var permissionCommand = $"chown -R {userName} {permissionDirectory}";
                 await ExecuteCommands(permissionCommand);
             }
@@ -971,6 +1048,19 @@ namespace Implem.PleasanterSetup
             {
                 logger.LogError(ex.Message);
                 Environment.Exit(0);
+            }
+        }
+
+        // OSごとにディレクトリ作成を分岐する共通メソッド
+        private async Task CreateDirectoryCrossPlatform(string dir)
+        {
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                Directory.CreateDirectory(dir);
+            }
+            else
+            {
+                await ExecuteCreateDirectory(dir);
             }
         }
 
@@ -993,8 +1083,8 @@ namespace Implem.PleasanterSetup
             else
             {
                 return Environment.OSVersion.Platform == PlatformID.Win32NT
-                ? installDir = DefaultParameters.InstallDirForWindows
-                : installDir = DefaultParameters.InstallDirForLinux;
+                    ? installDir = DefaultParameters.InstallDirForWindows
+                    : installDir = DefaultParameters.InstallDirForLinux;
             }
         }
 
@@ -1531,7 +1621,6 @@ namespace Implem.PleasanterSetup
         {
             try
             {
-                //var releaseZipDir = Path.GetDirectoryName(releaseZip);
                 ZipFile.ExtractToDirectory(
                     releaseZip,
                     guidDir,
@@ -1593,7 +1682,7 @@ namespace Implem.PleasanterSetup
             }
             catch (Exception e)
             {
-                logger.LogInformation($"{e.Message}");
+                logger.LogError($"{e.Message}");
                 Environment.Exit(0);
             }
         }
@@ -1625,7 +1714,7 @@ namespace Implem.PleasanterSetup
                     }
                     catch (Exception ex)
                     {
-                        logger.LogInformation(ex.Message);
+                        logger.LogError(ex.Message);
                         Environment.Exit(0);
                     }
                 }
