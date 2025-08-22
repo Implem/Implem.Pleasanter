@@ -799,9 +799,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataCellSticky(bool value, bool _using = true)
+        public HtmlAttributes DataCellSticky(bool? value, bool _using = true)
         {
-            if (value && _using)
+            if (value == true && _using)
             {
                 Add("data-cell-sticky");
                 Add("1");

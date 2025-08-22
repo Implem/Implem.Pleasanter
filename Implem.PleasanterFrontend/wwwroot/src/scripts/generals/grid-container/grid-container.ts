@@ -27,20 +27,28 @@ export class GridContainerElement extends HTMLElement {
             this.flameEl = this.shadow.querySelector('.app-grid-frame')!;
             this.gridEl?.classList.add(this.hash);
             this.initShadowStyle();
-            setTimeout(() => {
-                if (this.gridEl?.id === 'Grid') {
-                    this.classList.add('app-is-index');
-                }
-                this.checkCanScroll();
-            }, 10);
         }
     }
 
     connectedCallback() {
         if (!this.isScrollable || !this.gridEl) return;
+        if (document.readyState === 'complete') {
+            setTimeout(() => {
+                this.init();
+            }, 100);
+        } else {
+            window.addEventListener('load', this.init);
+        }
+    }
+
+    private init = () => {
+        if (this.gridEl?.id === 'Grid') {
+            this.classList.add('app-is-index');
+        }
+        this.checkCanScroll();
         this.addObserver();
         this.addScrollEvents();
-    }
+    };
 
     private checkCanScroll() {
         if (!this.flameEl) return;
@@ -132,11 +140,11 @@ export class GridContainerElement extends HTMLElement {
     };
     private handleScrollEnd = () => {
         this.isMouseHeld = false;
-        this.stageEl!.classList.remove('app-dragging');
+        this.stageEl?.classList.remove('app-dragging');
     };
     private handleScrollAction = (e: MouseEvent) => {
         if (!this.isKeyHeld && this.isMouseHeld) {
-            this.stageEl!.classList.add('app-dragging');
+            this.stageEl?.classList.add('app-dragging');
             e.preventDefault();
             if (this.isEntered) {
                 const dx = e.movementX;
@@ -243,10 +251,9 @@ export class GridContainerElement extends HTMLElement {
             document.removeEventListener('mousedown', this.handleScrollStart);
             document.removeEventListener('mouseup', this.handleScrollEnd);
             document.removeEventListener('mousemove', this.handleScrollAction);
+            window.removeEventListener('load', this.init);
             this.stageEl = null;
             this.flameEl = null;
-            this.shadowRoot!.innerHTML = '';
-            this.shadow = undefined;
         }
     }
 }
