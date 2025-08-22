@@ -142,11 +142,11 @@ export class GridContainerElement extends HTMLElement {
     };
     private handleScrollEnd = () => {
         this.isMouseHeld = false;
-        this.stageEl!.classList.remove('app-dragging');
+        this.stageEl?.classList.remove('app-dragging');
     };
     private handleScrollAction = (e: MouseEvent) => {
         if (!this.isKeyHeld && this.isMouseHeld) {
-            this.stageEl!.classList.add('app-dragging');
+            this.stageEl?.classList.add('app-dragging');
             e.preventDefault();
             if (this.isEntered) {
                 const dx = e.movementX;
@@ -255,8 +255,6 @@ export class GridContainerElement extends HTMLElement {
             document.removeEventListener('mousemove', this.handleScrollAction);
             this.stageEl = null;
             this.flameEl = null;
-            this.shadowRoot!.innerHTML = '';
-            this.shadow = undefined;
         }
     }
 }
