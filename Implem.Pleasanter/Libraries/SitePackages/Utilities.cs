@@ -127,6 +127,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             bool includeNotifications = true,
             bool includeReminders = true)
         {
+            context.ServerScriptDisabled = true;
             if (sitePackage == null)
             {
                 return Messages.ResponseInvalidRequest(context: context).ToJson();
@@ -945,6 +946,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
 
         public static ResponseFile ExportSitePackage(Context context, SiteSettings ss)
         {
+            context.ServerScriptDisabled = true;
             var sitePackage = GetSitePackage(
                 context: context,
                 ss: ss);
