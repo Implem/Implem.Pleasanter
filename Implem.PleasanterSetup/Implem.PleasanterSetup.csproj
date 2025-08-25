@@ -13,16 +13,16 @@
     <PackageProjectUrl>https://github.com/Implem/Implem.Pleasanter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Implem/Implem.Pleasanter</RepositoryUrl>
     <ToolCommandName>pleasanter-setup</ToolCommandName>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <FileVersion>1.1.0</FileVersion>
+    <AssemblyVersion>1.1.1</AssemblyVersion>
+    <FileVersion>1.1.1</FileVersion>
     <PackageOutputPath>$(OutPutpath)</PackageOutputPath>
     <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-        [1.1.0]
-        - Added the ability to specify a custom host when connecting to MySQL.
+        [1.1.1]
+        - Fixed an issue where an error occurred when creating a directory depending on the executing user in a Linux environment.
     </PackageReleaseNotes>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
