@@ -76,6 +76,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return hb.Td(
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                attributes: new HtmlAttributes()
+                    .DataCellSticky(column.CellSticky)
+                    .DataCellWidth(column.CellWidth),
                 action: () =>
                 {
                     StyleBody(

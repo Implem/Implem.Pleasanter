@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Extensions;
@@ -20,12 +21,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder GridTable(
             this HtmlBuilder hb,
+            Context context,
             string id = null,
             string css = null,
             HtmlAttributes attributes = null,
+            bool scrollable = true,
             bool _using = true,
             Action action = null)
         {
+            bool isOldTheme = context.ThemeVersionForCss() < 2.0M;
+            bool isResponsiveForMobile = Parameters.Mobile.Responsive &&
+                context.Mobile &&
+                context.Responsive;
             if (attributes != null && _using) {
                 var index = attributes.FindIndex(n => n == "class");
                 if(index != -1)
@@ -33,12 +40,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes[index + 1] = "grid " + attributes[index + 1];
                 }
             }
+            if ((scrollable && isResponsiveForMobile) || isOldTheme)
+            {
+                scrollable = false;
+            }
             return _using
-                ? hb.Div(
+                ? hb.GridContainer(
                     id: !id.IsNullOrEmpty()
                         ? id + "Wrap"
                         : string.Empty,
                     css: "grid-wrap",
+                    scrollable: scrollable,
                     action: () => hb.Table(
                         id: id,
                         css: css.IsNullOrEmpty()
@@ -110,7 +122,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? column.CellCss(css: "sortable")
                                     : null,
                                 attributes: new HtmlAttributes()
-                                    .DataName(column.ColumnName),
+                                    .DataName(column.ColumnName)
+                                    .DataCellSticky(column.CellSticky)
+                                    .DataCellWidth(column.CellWidth)
+                                    .Style($"--cell-width: {column.CellWidth}px;", column.CellWidth != null && column.CellWidth != 0),
                                 action: () => hb
                                     .Div(
                                         attributes: new HtmlAttributes()
@@ -566,6 +581,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 _ => string.Empty
                                             }
                                             + $" {serverScriptModelColumn?.ExtendedCellCss}",
+                                        attributes: new HtmlAttributes()
+                                		    .DataCellSticky(column.CellSticky)
+                                            .DataCellWidth(column.CellWidth),
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,
@@ -634,6 +652,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 _ => string.Empty
                                             }
                                             + $" {serverScriptModelColumn?.ExtendedCellCss}",
+                                        attributes: new HtmlAttributes()
+                                		    .DataCellSticky(column.CellSticky)
+                                            .DataCellWidth(column.CellWidth),
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,

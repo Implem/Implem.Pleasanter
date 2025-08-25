@@ -482,6 +482,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     dataRows: dataRows);
             }
             return hb.GridTable(
+                context: context,
                 id: dataTableName,
                 css: ss.GetNoDisplayIfReadOnly(context: context)
                     ? " not-link"

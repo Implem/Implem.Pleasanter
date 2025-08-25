@@ -263,12 +263,14 @@ namespace Implem.Pleasanter.Models
                 checkPermission: true);
             return hb
                 .GridTable(
+                    context: context,
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
                         .DataMethod("post"),
+                    scrollable: ss.DashboardParts.Count == 1 ? false : true,
                     action: () => hb
                         .GridRows(
                             context: context,
@@ -771,6 +773,15 @@ namespace Implem.Pleasanter.Models
             if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
+            }
+            if (serverScriptModelColumn?.SoftHideChanged == true && serverScriptModelColumn?.SoftHide == true)
+            {
+                return hb.Td(
+                    action:
+                        serverScriptModelColumn?.RawText.IsNullOrEmpty() == false
+                        ? () => hb.Raw(serverScriptModelColumn?.RawText)
+                        : null,
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss));
             }
             if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
             {
@@ -1738,7 +1749,7 @@ namespace Implem.Pleasanter.Models
                     .TabsPanelField(
                         id: name + "Grid",
                         action: () => hb
-                            .GridTable(action: () => hb
+                            .GridTable(context: context, action: () => hb
                                 .THead(action: () => hb
                                     .GridHeader(
                                         context: context,
@@ -5878,6 +5889,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .GridTable(
+                        context: context,
                         css: "history",
                         action: () => hb
                             .THead(action: () => hb

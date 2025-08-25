@@ -40,6 +40,15 @@ namespace Implem.Pleasanter.Models
             {
                 return hb.Td();
             }
+            if (serverScriptModelColumn?.SoftHideChanged == true && serverScriptModelColumn?.SoftHide == true)
+            {
+                return hb.Td(
+                    action:
+                        serverScriptModelColumn?.RawText.IsNullOrEmpty() == false
+                        ? () => hb.Raw(serverScriptModelColumn?.RawText)
+                        : null,
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss));
+            }
             if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
             {
                 return hb.Td(
@@ -2791,6 +2800,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .GridTable(
+                        context: context,
                         css: "history",
                         action: () => hb
                             .THead(action: () => hb

@@ -788,5 +788,36 @@ namespace Implem.Pleasanter.Libraries.Html
             }
             return this;
         }
+
+        public HtmlAttributes DataScrollable(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("data-scrollable");
+                Add("1");
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataCellSticky(bool? value, bool _using = true)
+        {
+            if (value == true && _using)
+            {
+                Add("data-cell-sticky");
+                Add("1");
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataCellWidth(int? value, bool _using = true)
+        {
+            if (value != null && value >= 50 && _using)
+            {
+                Add("data-cell-width");
+                Add(value.ToString());
+            }
+            return this;
+        }
+
     }
 }
