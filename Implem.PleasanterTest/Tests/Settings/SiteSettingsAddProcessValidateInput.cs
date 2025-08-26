@@ -47,7 +47,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditProcessValidateInput"),
+                            target: "#EditProcessValidateInputWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),

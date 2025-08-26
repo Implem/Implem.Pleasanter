@@ -49,8 +49,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("ProcessValidateInputs", "[{\"Id\":1,\"ColumnName\":\"Title\",\"Required\":false,\"ClientRegexValidation\":\"\",\"ServerRegexValidation\":\"\",\"RegexValidationMessage\":\"\"}]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditProcessValidateInput"),
+                            method: "ReplaceAll",
+                            target: "#EditProcessValidateInputWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),

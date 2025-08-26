@@ -47,7 +47,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditProcessDataChange"),
+                            target: "#EditProcessDataChangeWrap"),
                         JsonData.ExistsOne(
                             method: "SetValue",
                             target: "#ProcessDataChanges")),

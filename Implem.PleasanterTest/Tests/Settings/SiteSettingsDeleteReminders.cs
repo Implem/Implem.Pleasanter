@@ -70,13 +70,13 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditReminder"),
+                            target: "#EditReminderWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.TextCountOf(
                             method: "ReplaceAll",
-                            target: "#EditReminder",
+                            target: "#EditReminderWrap",
                             value: "<td>テスト用リマインダー1</td>",
                             estimate: 0)),
                     userType: UserData.UserTypes.Privileged)

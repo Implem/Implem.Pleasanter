@@ -69,14 +69,14 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditReminder", @"[""2""]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditReminder"),
+                            method: "ReplaceAll",
+                            target: "#EditReminderWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.TextCheckOrder(
-                            method: "Html",
-                            target: "#EditReminder",
+                            method: "ReplaceAll",
+                            target: "#EditReminderWrap",
                             wordArray: new string[]
                             {
                                 "<td>テスト用リマインダー2</td>",
@@ -90,14 +90,14 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditReminder", @"[""2""]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditReminder"),
+                            method: "ReplaceAll",
+                            target: "#EditReminderWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.TextCheckOrder(
-                            method: "Html",
-                            target: "#EditReminder",
+                            method: "ReplaceAll",
+                            target: "#EditReminderWrap",
                             wordArray: new string[]
                             {
                                 "<td>テスト用リマインダー1</td>",

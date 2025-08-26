@@ -57,7 +57,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: $"#{tableId}")));
+                            target: $"#{tableId}Wrap")));
             }
         }
 

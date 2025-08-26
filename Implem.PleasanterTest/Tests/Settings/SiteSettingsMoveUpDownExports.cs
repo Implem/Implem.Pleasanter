@@ -47,14 +47,14 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditExport", @"[""2""]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditExport"),
+                            method: "ReplaceAll",
+                            target: "#EditExportWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.TextCheckOrder(
-                            method: "Html",
-                            target: "#EditExport",
+                            method: "ReplaceAll",
+                            target: "#EditExportWrap",
                             wordArray: new string[]
                             {
                                 "<td>テストエクスポート2</td>",
@@ -68,14 +68,14 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditExport", @"[""2""]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditExport"),
+                            method: "ReplaceAll",
+                            target: "#EditExportWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.TextCheckOrder(
-                            method: "Html",
-                            target: "#EditExport",
+                            method: "ReplaceAll",
+                            target: "#EditExportWrap",
                             wordArray: new string[]
                             {
                                 "<td>テストエクスポート1</td>",

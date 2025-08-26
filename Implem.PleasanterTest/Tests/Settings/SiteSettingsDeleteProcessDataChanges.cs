@@ -49,8 +49,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("ProcessDataChanges", "[{\"Id\":1,\"Type\":\"CopyValue\",\"ColumnName\":\"Title\",\"Value\":\"Title\",\"ValueFormulaNotUseDisplayName\":false,\"ValueFormulaIsDisplayError\":false}]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditProcessDataChange"),
+                            method: "ReplaceAll",
+                            target: "#EditProcessDataChangeWrap"),
                         JsonData.ExistsOne(
                             method: "SetValue",
                             target: "#ProcessDataChanges")),
