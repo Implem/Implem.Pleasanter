@@ -1218,7 +1218,7 @@ body {
 /* #MainContainer */
 #MainContainer {
     #BottomMargin {
-        height: 80px;
+        height: 72px;
     }
 }
 
@@ -2501,23 +2501,96 @@ body:not(:has(#Editor)) {
 }
 
 /* gridTable */
+#Grid {
+    .grid-row,
+    tr {
+        > :last-child {
+            border-right: solid 1px transparent;
+        }
+    }
+}
 .grid {
-    > thead {
-        > tr:first-child {
-            th,
-            th:first-child,
-            th:last-child {
-                border-right: 1px solid var(--grid-cell-vborder);
-                border-bottom: 1px solid var(--grid-cell-border);
-                border-left: 1px solid var(--grid-cell-vborder);
-                border-radius: 0;
+    margin: 0;
+    border-spacing: 0;
+    border-collapse: separate;
+    &:has(tbody:not(:empty)) {
+        border-bottom: 1px solid var(--grid-cell-border);
+    }
+    thead tr:first-child {
+        th:first-child,
+        th:last-child {
+            border-radius: 0;
+        }
+    }
+
+    thead,
+    tbody {
+        th,
+        td {
+            &:has(#GridCheckAll),
+            &:has(.select-all),
+            &:has(.grid-check) {
+                width: 36px;
             }
         }
     }
-    > thead,
-    > tbody {
-        > th,
-        > td {
+
+    thead {
+        top: 0;
+        tr {
+            th {
+                width: var(--cell-width, auto);
+                min-width: var(--cell-width, 0);
+                max-width: var(--cell-width, 320px);
+                padding: 8px 16px;
+                color: var(--invert-text);
+                background-color: var(--primaryColor);
+                border-top: none;
+                border-right: 1px solid var(--grid-cell-vborder);
+                border-bottom: 1px solid var(--grid-cell-vborder);
+                border-left: none;
+                box-shadow: 1px 0 0 var(--primaryColor);
+                &:first-child,
+                &:last-child {
+                    border-radius: 0;
+                }
+                div[data-order-type] {
+                    display: flex;
+                    width: fit-content;
+                }
+                &[data-cell-width] {
+                    overflow: hidden;
+                }
+            }
+            th:first-child {
+                border-left: 1px solid var(--primaryColor);
+            }
+            th:last-child {
+                border-right: 1px solid var(--primaryColor);
+            }
+            &:last-of-type {
+                th {
+                    border-bottom: none;
+                }
+            }
+        }
+        th[data-name='Status'] {
+            width: 60px;
+        }
+    }
+    .grid-row {
+        th {
+            background-color: var(--grid-cell-heading);
+            border-bottom: solid 1px var(--base-border);
+        }
+        th,
+        td {
+            background-color: var(--grid-cell-bg);
+            border-top: none;
+            border-right: solid 1px var(--grid-cell-vborder);
+            border-bottom: solid 1px var(--grid-cell-border);
+            border-left: none;
+            box-shadow: 1px 0 0 var(--grid-cell-bg);
             & {
                 input {
                     width: 100%;
@@ -2529,42 +2602,41 @@ body:not(:has(#Editor)) {
                     padding: 4px 4px 0;
                 }
             }
-        }
-    }
-    > thead {
-        > td,
-        > th {
-            color: var(--invert-text);
-            border-right: 1px solid var(--grid-cell-vborder);
-            border-left: 1px solid var(--grid-cell-vborder);
-        }
-    }
-    > tbody {
-        > tr {
-            > th {
-                background-color: var(--grid-cell-heading);
-                border-bottom: solid 1px var(--base-border);
+            &:first-child {
+                border-left: 1px solid var(--grid-cell-vborder);
             }
-            > th,
-            > td {
-                border-right: solid 1px var(--grid-cell-vborder);
-                border-left: solid 1px var(--grid-cell-vborder);
+        }
+        .comment {
+            padding: 4px 4px 4px 16px;
+            margin-bottom: 4px;
+            background: var(--grid-comment-bg);
+            border: 1px solid var(--grid-comment-border);
+        }
+        &[data-history] {
+            td {
+                background-color: var(--base-dark-layer);
             }
         }
     }
-    &:not(.not-link) {
-        .grid-row {
-            &:hover {
-                background-color: var(--grid-cell-hover);
-                .comment {
-                    background: var(--grid-comment-bg);
+    tbody {
+        &:last-child {
+            .grid-row:last-child {
+                th,
+                td {
+                    border-bottom: none;
                 }
             }
         }
     }
-    .grid-row[data-history] {
-        td {
-            background-color: var(--base-dark-layer);
+
+    &:not(.not-link) {
+        .grid-row {
+            &:hover {
+                th,
+                td {
+                    background-color: var(--grid-cell-hover);
+                }
+            }
         }
     }
 
@@ -2579,13 +2651,14 @@ body:not(:has(#Editor)) {
             display: none;
         }
     }
-    .comment {
-        padding: 4px 4px 4px 16px;
-        margin-bottom: 0;
-        margin-bottom: 4px;
-        background: var(--grid-comment-bg);
-        border: 1px solid var(--grid-comment-border);
+
+    th,
+    td {
+        position: relative;
+        z-index: 1;
+        padding: 8px 16px;
     }
+
     .grid-title-body {
         padding: 8px;
         margin-bottom: 4px;
@@ -2640,17 +2713,62 @@ body:not(:has(#Editor)) {
     }
 }
 .grid-row {
-    background-color: var(--grid-cell-bg);
-    td {
-        border-top: solid 1px var(--grid-cell-border);
-        border-bottom: solid 1px var(--grid-cell-border);
-    }
-
     /* 一括編集設定 */
     .ui-widget.ui-state-default.ui-multiselect {
         width: 100%;
         max-width: 200px;
         white-space: nowrap;
+    }
+}
+
+.grid-wrap {
+    display: block;
+    &.app-scrollable {
+        th,
+        td {
+            white-space: nowrap;
+        }
+        #Grid {
+            tr {
+                th,
+                td {
+                    &:last-child {
+                        border-right: solid 1px var(--grid-cell-border);
+                    }
+                }
+            }
+        }
+    }
+    &.app-held-key {
+        table {
+            th,
+            td {
+                cursor: auto;
+            }
+        }
+    }
+    &.app-x-scroll {
+        th,
+        td {
+            &:has(#GridCheckAll),
+            &:has(.select-all),
+            &:has(.grid-check),
+            &[data-cell-sticky] {
+                &:not(:has(+ [data-cell-sticky])) {
+                    border-right-style: double;
+                    border-right-width: 3px;
+                }
+            }
+        }
+    }
+    &.app-x-scroll,
+    &.app-y-scroll {
+        th,
+        td {
+            &:active {
+                cursor: grabbing;
+            }
+        }
     }
 }
 

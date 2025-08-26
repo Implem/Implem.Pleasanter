@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CellWidthMinPx",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0}px or more"
+        },
+        {
+            "Language": "zh",
+            "Body": "大于等于 {0}px"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}px以上"
+        },
+        {
+            "Language": "de",
+            "Body": "{0}px oder mehr"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}px 이상"
+        },
+        {
+            "Language": "es",
+            "Body": "{0}px o más"
+        },
+        {
+            "Language": "vn",
+            "Body": "{0}px trở lên"
+        }
+    ]
+}

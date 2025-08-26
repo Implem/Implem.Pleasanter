@@ -63,19 +63,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Sum())
                     .Distinct()
                     .ToList();
-                hb.GridTable(id: "BurnDownDetails", css: "not-link", action: () => hb
-                    .THead(action: () => hb.DetailsHeader(
-                        context: context,
-                        burnDown: burnDown,
-                        updators: updators,
-                        ownerLabelText: ownerLabelText,
-                        column: column))
-                    .DetailsBody(
-                        context: context,
-                        ss: ss,
-                        burnDown: burnDown,
-                        updators: updators,
-                        column: column));
+                hb.GridTable(
+                    context: context,
+                    id: "BurnDownDetails",
+                    css: "not-link",
+                    action: () => hb
+                        .THead(action: () => hb.DetailsHeader(
+                            context: context,
+                            burnDown: burnDown,
+                            updators: updators,
+                            ownerLabelText: ownerLabelText,
+                            column: column))
+                        .DetailsBody(
+                            context: context,
+                            ss: ss,
+                            burnDown: burnDown,
+                            updators: updators,
+                            column: column));
             }
             return hb;
         }

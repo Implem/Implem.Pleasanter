@@ -1809,6 +1809,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CellWidthMinPx(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CellWidthMinPx",
+                data: data);
+        }
+
         public static string CenterAlignment(
             Context context,
             params string[] data)
@@ -9679,6 +9689,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SetCellWidth(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SetCellWidth",
+                data: data);
+        }
+
         public static string Setting(
             Context context,
             params string[] data)
@@ -10096,6 +10116,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Step",
+                data: data);
+        }
+
+        public static string StickyOnLeftEdge(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "StickyOnLeftEdge",
                 data: data);
         }
 

@@ -38,11 +38,11 @@
     <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.5.1" />
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.6.1" />
-    <PackageReference Include="Azure.Identity" Version="1.14.2" />
-    <PackageReference Include="ClosedXML" Version="0.102.3" />
+    <PackageReference Include="Azure.Identity" Version="1.15.0" />
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="DiffMatchPatch" Version="3.0.0" />
 	  <PackageReference Include="Fare" Version="2.2.1" />
-    <PackageReference Include="MailKit" Version="4.11.0" />
+    <PackageReference Include="MailKit" Version="4.13.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
@@ -59,18 +59,18 @@
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="2.0.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="MimeKit" Version="4.11.0" />
+    <PackageReference Include="MimeKit" Version="4.13.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog.Extensions.AzureDataTables" Version="4.6.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.4.0" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
     <PackageReference Include="Npgsql" Version="8.0.7" />
-    <PackageReference Include="Quartz.AspNetCore" Version="3.14.0" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.15.0" />
     <PackageReference Include="Otp.NET" Version="1.4.0" />
     <PackageReference Include="Sendgrid" Version="9.29.3" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.4.6" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
-    <PackageReference Include="StackExchange.Redis" Version="2.8.58" />
+    <PackageReference Include="StackExchange.Redis" Version="2.9.11" />
     <PackageReference Include="Sustainsys.Saml2" Version="2.11.0" />
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.11.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />

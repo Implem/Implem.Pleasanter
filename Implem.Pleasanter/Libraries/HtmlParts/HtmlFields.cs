@@ -200,7 +200,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 + (column.NoWrap == true
                     ? " both"
                     : string.Empty)
-                + (column.GetHide() || controlConstraintsType == StatusControl.ControlConstraintsTypes.Hidden
+                + (column.GetHide() || column.GetSoftHide() || controlConstraintsType == StatusControl.ControlConstraintsTypes.Hidden
                     ? " hidden"
                     : string.Empty)
                 + (column.TextAlign switch
@@ -1857,6 +1857,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelRaw = null,
             string labelTitle = null,
             string labelIcon = null,
+            string placeholder = null,
             bool controlOnly = false,
             decimal? value = 0,
             decimal min = -1,
@@ -1906,6 +1907,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             step: step,
                             width: width,
                             unit:unit,
+                            placeholder: placeholder,
                             alwaysSend: alwaysSend,
                             allowBalnk: allowBlank,
                             onChange: onChange,
