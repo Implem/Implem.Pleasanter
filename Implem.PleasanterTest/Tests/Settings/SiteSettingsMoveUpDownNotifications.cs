@@ -61,14 +61,14 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditNotification", @"[""2""]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditNotification"),
+                            method: "ReplaceAll",
+                            target: "#EditNotificationWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.TextCheckOrder(
-                            method: "Html",
-                            target: "#EditNotification",
+                            method: "ReplaceAll",
+                            target: "#EditNotificationWrap",
                             wordArray: new string[]
                             {
                                 "<td>implem.dummy.xunit2@implem.dummy.co.jp</td>",
@@ -82,14 +82,14 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditNotification", @"[""2""]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditNotification"),
+                            method: "ReplaceAll",
+                            target: "#EditNotificationWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.TextCheckOrder(
-                            method: "Html",
-                            target: "#EditNotification",
+                            method: "ReplaceAll",
+                            target: "#EditNotificationWrap",
                             wordArray: new string[]
                             {
                                 "<td>implem.dummy.xunit1@implem.dummy.co.jp</td>",

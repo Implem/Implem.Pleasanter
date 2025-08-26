@@ -67,11 +67,11 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditFormula"),
+                            target: "#EditFormulaWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.ReplaceAll("#EditFormula","#EditFormulaWrap")),
+                        JsonData.ReplaceAll("#EditFormulaWrap","#EditFormulaWrap")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "商談",
@@ -100,12 +100,12 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("FormulaOutOfCondition", "")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditFormula"),
+                            method: "ReplaceAll",
+                            target: "#EditFormulaWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.Html("#EditFormula","#EditFormulaWrap")),
+                        JsonData.ReplaceAll("#EditFormulaWrap","#EditFormulaWrap")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "商談",
@@ -115,11 +115,11 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditFormula"),
+                            target: "#EditFormulaWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.ReplaceAll("#EditFormula","#EditFormulaWrap")),
+                        JsonData.ReplaceAll("#EditFormulaWrap","#EditFormulaWrap")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "商談",
@@ -129,11 +129,11 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditFormula"),
+                            target: "#EditFormulaWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.ReplaceAll("#EditFormula","#EditFormulaWrap")),
+                        JsonData.ReplaceAll("#EditFormulaWrap","#EditFormulaWrap")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "商談",
@@ -142,12 +142,12 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditFormula","[\"2\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditFormula"),
+                            method: "ReplaceAll",
+                            target: "#EditFormulaWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.Html("#EditFormula","#EditFormulaWrap")),
+                        JsonData.ReplaceAll("#EditFormulaWrap","#EditFormulaWrap")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "商談",
@@ -156,12 +156,12 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditFormula","[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditFormula"),
+                            method: "ReplaceAll",
+                            target: "#EditFormulaWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.Html("#EditFormula","#EditFormulaWrap")),
+                        JsonData.ReplaceAll("#EditFormulaWrap","#EditFormulaWrap")),
                     userType: UserData.UserTypes.Privileged)
             };
             foreach (var testPart in testParts)

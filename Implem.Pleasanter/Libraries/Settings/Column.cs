@@ -93,6 +93,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Format;
         public bool? NoWrap;
         public bool? Hide;
+        public bool? SoftHide;
         public string AutoNumberingFormat;
         public AutoNumberingResetTypes? AutoNumberingResetType;
         public int? AutoNumberingDefault;
@@ -101,7 +102,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ExtendedFieldCss;
         public string ExtendedControlCss;
         public string Section;
-        public bool CellSticky;
+        public bool? CellSticky;
         public int? CellWidth;
         public string GridDesign;
         public bool? ValidateRequired;
@@ -982,6 +983,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 return hide == true;
             }
             return Hide == true;
+        }
+
+        public bool GetSoftHide()
+        {
+            var softHide = ServerScriptModelColumn?.GetSoftHide();
+            if (softHide != null)
+            {
+                return softHide == true;
+            }
+            return SoftHide == true;
         }
 
         public bool GetValidateRequired()

@@ -88,7 +88,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditNotification"),
+                            target: "#EditNotificationWrap"),
                         JsonData.ExistsOne(
                             method: "CloseDialog"),
                         JsonData.ExistsOne(
@@ -96,11 +96,11 @@ namespace Implem.PleasanterTest.Tests.Settings
                             target: "formChanged"),
                         JsonData.TextContains(
                             method: "ReplaceAll",
-                            target: "#EditNotification",
+                            target: "#EditNotificationWrap",
                             value: "通知の変更"),
                         JsonData.TextContains(
                             method: "ReplaceAll",
-                            target: "#EditNotification",
+                            target: "#EditNotificationWrap",
                             value: "updated.dummy.xunit@implem.dummy.co.jp")),
                     userType: UserData.UserTypes.Privileged)
             };

@@ -47,8 +47,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditStatusControl", "[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditStatusControl"),
+                            method: "ReplaceAll",
+                            target: "#EditStatusControlWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -60,8 +60,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditStatusControl", "[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditStatusControl"),
+                            method: "ReplaceAll",
+                            target: "#EditStatusControlWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),

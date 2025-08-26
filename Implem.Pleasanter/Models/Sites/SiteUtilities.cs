@@ -538,6 +538,15 @@ namespace Implem.Pleasanter.Models
             {
                 return hb.Td();
             }
+            if (serverScriptModelColumn?.SoftHideChanged == true && serverScriptModelColumn?.SoftHide == true)
+            {
+                return hb.Td(
+                    action:
+                        serverScriptModelColumn?.RawText.IsNullOrEmpty() == false
+                        ? () => hb.Raw(serverScriptModelColumn?.RawText)
+                        : null,
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss));
+            }
             if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
             {
                 return hb.Td(
@@ -6083,7 +6092,7 @@ namespace Implem.Pleasanter.Models
                         .FieldCheckBox(
                             controlId: "CellSticky",
                             labelText: Displays.StickyOnLeftEdge(context: context),
-                            _checked: column.CellSticky)
+                            _checked: column.CellSticky == true)
                         .FieldSpinner(
                             controlId: "CellWidth",
                             fieldCss: "field-normal", 

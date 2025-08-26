@@ -47,8 +47,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditScript", "[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditScript"),
+                            method: "ReplaceAll",
+                            target: "#EditScriptWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -59,9 +59,9 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("ControlId", "MoveDownScripts"),
                         new KeyValue("EditScript", "[\"1\"]")),
                     baseTests: BaseData.Tests(
-                        JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditScript"),
+                       JsonData.ExistsOne(
+                            method: "ReplaceAll",
+                            target: "#EditScriptWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -102,7 +102,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditScript"),
+                            target: "#EditScriptWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -116,8 +116,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("ScriptBody", "alert('この画面のアクションの種類は [' + $p.action() + '] です。');")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditScript"),
+                            method: "ReplaceAll",
+                            target: "#EditScriptWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -131,7 +131,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditScript"),
+                            target: "#EditScriptWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -145,7 +145,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditScript"),
+                            target: "#EditScriptWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),

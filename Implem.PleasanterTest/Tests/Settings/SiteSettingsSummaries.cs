@@ -67,11 +67,11 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditSummary"),
+                            target: "#EditSummaryWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.ReplaceAll("#EditSummary","#EditSummaryWrap")),
+                        JsonData.ReplaceAll("#EditSummaryWrap","#EditSummaryWrap")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "仕入",
@@ -99,12 +99,12 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("SummaryType", "Sum")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditSummary"),
+                            method: "ReplaceAll",
+                            target: "#EditSummaryWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.Html("#EditSummary","#EditSummaryWrap")),
+                        JsonData.ReplaceAll("#EditSummaryWrap","#EditSummaryWrap")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "仕入",
@@ -114,11 +114,11 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditSummary"),
+                            target: "#EditSummaryWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.ReplaceAll("#EditSummary","#EditSummaryWrap")),
+                        JsonData.ReplaceAll("#EditSummaryWrap","#EditSummaryWrap")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "仕入",
@@ -128,11 +128,11 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditSummary"),
+                            target: "#EditSummaryWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.ReplaceAll("#EditSummary","#EditSummaryWrap")),
+                        JsonData.ReplaceAll("#EditSummaryWrap","#EditSummaryWrap")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "仕入",
@@ -141,12 +141,12 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditSummary","[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditSummary"),
+                            method: "ReplaceAll",
+                            target: "#EditSummaryWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.Html("#EditSummary","#EditSummaryWrap")),
+                        JsonData.ReplaceAll("#EditSummaryWrap","#EditSummaryWrap")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "仕入",
@@ -155,12 +155,12 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditSummary","[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditSummary"),
+                            method: "ReplaceAll",
+                            target: "#EditSummaryWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.Html("#EditSummary","#EditSummaryWrap")),
+                        JsonData.ReplaceAll("#EditSummaryWrap","#EditSummaryWrap")),
                     userType: UserData.UserTypes.Privileged)
             };
             foreach (var testPart in testParts)

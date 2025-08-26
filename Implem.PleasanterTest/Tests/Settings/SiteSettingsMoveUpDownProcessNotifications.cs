@@ -49,8 +49,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("ProcessNotifications", "[{\"Type\":1,\"Subject\":\"test\",\"Address\":\"sample@sample.com\",\"CcAddress\":\"\",\"BccAddress\":\"\",\"Token\":\"\",\"MediaType\":\"application/json\",\"Body\":\"test\",\"BeforeCondition\":0,\"AfterCondition\":0,\"Expression\":0,\"Id\":1}]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditProcessNotification"),
+                            method: "ReplaceAll",
+                            target: "#EditProcessNotificationWrap"),
                         JsonData.ExistsOne(
                             method: "SetValue",
                             target: "#ProcessNotifications")),
@@ -64,8 +64,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("ProcessNotifications", "[{\"Type\":1,\"Subject\":\"test\",\"Address\":\"sample@sample.com\",\"CcAddress\":\"\",\"BccAddress\":\"\",\"Token\":\"\",\"MediaType\":\"application/json\",\"Body\":\"test\",\"BeforeCondition\":0,\"AfterCondition\":0,\"Expression\":0,\"Id\":1}]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditProcessNotification"),
+                            method: "ReplaceAll",
+                            target: "#EditProcessNotificationWrap"),
                         JsonData.ExistsOne(
                             method: "SetValue",
                             target: "#ProcessNotifications")),

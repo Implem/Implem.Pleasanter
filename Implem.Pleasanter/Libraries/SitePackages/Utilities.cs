@@ -127,170 +127,174 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             bool includeNotifications = true,
             bool includeReminders = true)
         {
-            if (sitePackage == null)
+            var originalServerScriptDisabled = context.ServerScriptDisabled;
+            context.ServerScriptDisabled = true;
+            try
             {
-                return Messages.ResponseInvalidRequest(context: context).ToJson();
-            }
-            if (context.ContractSettings.SitesLimit(
-                context: context,
-                number: sitePackage.Sites.Count()))
-            {
-                return Messages.ResponseSitesLimit(context: context).ToJson();
-            }
-            if (includeData)
-            {
-                if (Parameters.General.ImportMax > 0
-                    && Parameters.General.ImportMax < sitePackage.Data
-                        .SelectMany(o => o.Body)
-                        .Count())
+                if (sitePackage == null)
                 {
-                    return Messages.ResponseImportMax(
-                        context: context,
-                        data: Parameters.General.ImportMax.ToString())
-                            .ToJson();
+                    return Messages.ResponseInvalidRequest(context: context).ToJson();
                 }
-                if (sitePackage.Data.Any(o => o.Header.Any(p =>
-                    context.ContractSettings.ItemsLimit(
-                        context: context,
-                        siteId: p.SiteId,
-                        number: o.Body.Count()))))
+                if (context.ContractSettings.SitesLimit(
+                    context: context,
+                    number: sitePackage.Sites.Count()))
                 {
-                    return Messages.ResponseItemsLimit(
-                        context: context,
-                        data: Parameters.General.ImportMax.ToString())
-                            .ToJson();
+                    return Messages.ResponseSitesLimit(context: context).ToJson();
                 }
-            }
-            sitePackage.ConvertInheritPermissionInNotIncluded();
-            sitePackage.HeaderInfo.SavedBaseSiteId = apiData?.TargetSiteId
-                ?? context.SiteId;
-            sitePackage.HeaderInfo.SavedInheritPermission = ss.InheritPermission;
-            foreach (var conv in sitePackage.HeaderInfo.Convertors)
-            {
-                conv.SiteTitle = conv.SiteId == sitePackage.HeaderInfo.BaseSiteId
-                    && !String.IsNullOrEmpty(apiData?.SiteTitle)
-                        ? apiData.SiteTitle
-                        : conv.SiteTitle;
-                var response = Repository.ExecuteScalar_response(
-                    context: context,
-                    transactional: true,
-                    selectIdentity: true,
-                    statements: new SqlStatement[]
-                    {
-                        Rds.InsertItems(
-                            selectIdentity: true,
-                            param: Rds.ItemsParam()
-                                .ReferenceType("Sites")
-                                .Title(conv.SiteTitle)),
-                        Rds.UpdateItems(
-                            where: Rds.ItemsWhere().ReferenceId(raw: Def.Sql.Identity),
-                            param: Rds.ItemsParam().SiteId(raw: Def.Sql.Identity)),
-                    });
-                conv.SavedSiteId = response.Id;
-            }
-            foreach (var conv in sitePackage.HeaderInfo.Convertors)
-            {
-                var packageSiteModel = sitePackage.Sites
-                    .Where(e => e.SiteId == conv.SiteId)
-                    .FirstOrDefault();
-                packageSiteModel.SetSavedIds(
-                    context: context,
-                    ss: ss,
-                    sitePackage: sitePackage,
-                    savedSiteId: conv.SavedSiteId.ToLong(),
-                    includeSitePermission: includeSitePermission
-                        && sitePackage.HeaderInfo.IncludeSitePermission);
-                packageSiteModel.SiteSettings = packageSiteModel.GetSavedSiteSettings(
-                    context: context,
-                    header: sitePackage.HeaderInfo,
-                    includeColumnPermission: includeColumnPermission,
-                    permissionIdList: sitePackage.PermissionIdList,
-                    includeNotifications: includeNotifications,
-                    includeReminders: includeReminders);
-                conv.SiteSettings = packageSiteModel.SiteSettings;
-                Repository.ExecuteScalar_response(
-                    context: context,
-                    transactional: true,
-                    statements: new SqlStatement[]
-                    {
-                        Rds.InsertSites(param: Rds.SitesParam()
-                            .SiteId(packageSiteModel.SavedSiteId)
-                            .TenantId(packageSiteModel.SavedTenantId)
-                            .Title(conv.SiteTitle)
-                            .SiteName(packageSiteModel.SiteName)
-                            .SiteGroupName(packageSiteModel.SiteGroupName)
-                            .Body(packageSiteModel.Body)
-                            .GridGuide(packageSiteModel.GridGuide)
-                            .EditorGuide(packageSiteModel.EditorGuide)
-                            .CalendarGuide(packageSiteModel.CalendarGuide)
-                            .CrosstabGuide(packageSiteModel.CrosstabGuide)
-                            .GanttGuide(packageSiteModel.GanttGuide)
-                            .BurnDownGuide(packageSiteModel.BurnDownGuide)
-                            .TimeSeriesGuide(packageSiteModel.TimeSeriesGuide)
-                            .AnalyGuide(packageSiteModel.AnalyGuide)
-                            .KambanGuide(packageSiteModel.KambanGuide)
-                            .ImageLibGuide(packageSiteModel.ImageLibGuide)
-                            .ReferenceType(packageSiteModel.ReferenceType.MaxLength(32))
-                            .ParentId(packageSiteModel.SavedParentId)
-                            .InheritPermission(packageSiteModel.SavedInheritPermission)
-                            .SiteSettings(packageSiteModel.SiteSettings.ToJson())
-                            .Publish(packageSiteModel.Publish)
-                            .DisableCrossSearch(packageSiteModel.DisableCrossSearch)
-                            .Comments(packageSiteModel.Comments.ToJson())),
-                        Rds.PhysicalDeleteLinks(
-                            where: Rds.LinksWhere().SourceId(packageSiteModel.SavedSiteId)),
-                        LinkUtilities.Insert(link: packageSiteModel.SiteSettings.Links
-                            ?.Where(o => o.SiteId > 0)
-                            .Select(o => o.SiteId)
-                            .Distinct()
-                            .ToDictionary(o => o, o => packageSiteModel.SavedSiteId)
-                                ?? new Dictionary<long, long>() ),
-                        Rds.InsertPermissions(
-                            param: Rds.PermissionsParam()
-                                .ReferenceId(packageSiteModel.SavedSiteId)
-                                .DeptId(0)
-                                .UserId(context.UserId)
-                                .PermissionType(Permissions.Manager()),
-                            _using: packageSiteModel.SavedInheritPermission == packageSiteModel.SavedSiteId),
-                    });
-                var siteModel = new SiteModel(
-                    context: context,
-                    siteId: packageSiteModel.SavedSiteId);
-                var fullText = siteModel.FullText(
-                    context: context,
-                    ss: siteModel.SiteSettings);
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: Rds.UpdateItems(
-                        where: Rds.ItemsWhere()
-                            .ReferenceId(packageSiteModel.SavedSiteId),
-                        param: Rds.ItemsParam()
-                            .FullText(fullText, _using: fullText != null)
-                            .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null)));
-                var statements = siteModel.GetReminderSchedulesStatements(context: context);
-                Repository.ExecuteScalar_response(
-                    context: context,
-                    transactional: true,
-                    statements: statements.ToArray());
-            }
-            var idHash = sitePackage.GetIdHashFromConverters();
-            foreach (var conv in sitePackage.HeaderInfo.Convertors)
-            {
-                var siteModel = new SiteModel(
-                    context: context,
-                    siteId: conv.SavedSiteId.ToLong());
-                switch (siteModel.ReferenceType)
+                if (includeData)
                 {
-                    case "Wikis":
-                        var wikiModel = new WikiModel(
+                    if (Parameters.General.ImportMax > 0
+                        && Parameters.General.ImportMax < sitePackage.Data
+                            .SelectMany(o => o.Body)
+                            .Count())
+                    {
+                        return Messages.ResponseImportMax(
                             context: context,
-                            ss: siteModel.SiteSettings)
+                            data: Parameters.General.ImportMax.ToString())
+                                .ToJson();
+                    }
+                    if (sitePackage.Data.Any(o => o.Header.Any(p =>
+                        context.ContractSettings.ItemsLimit(
+                            context: context,
+                            siteId: p.SiteId,
+                            number: o.Body.Count()))))
+                    {
+                        return Messages.ResponseItemsLimit(
+                            context: context,
+                            data: Parameters.General.ImportMax.ToString())
+                                .ToJson();
+                    }
+                }
+                sitePackage.ConvertInheritPermissionInNotIncluded();
+                sitePackage.HeaderInfo.SavedBaseSiteId = apiData?.TargetSiteId
+                    ?? context.SiteId;
+                sitePackage.HeaderInfo.SavedInheritPermission = ss.InheritPermission;
+                foreach (var conv in sitePackage.HeaderInfo.Convertors)
+                {
+                    conv.SiteTitle = conv.SiteId == sitePackage.HeaderInfo.BaseSiteId
+                        && !String.IsNullOrEmpty(apiData?.SiteTitle)
+                            ? apiData.SiteTitle
+                            : conv.SiteTitle;
+                    var response = Repository.ExecuteScalar_response(
+                        context: context,
+                        transactional: true,
+                        selectIdentity: true,
+                        statements: new SqlStatement[]
                         {
-                            SiteId = siteModel.SiteId,
-                            Title = siteModel.Title,
-                            Body = siteModel.Body,
-                            Comments = siteModel.Comments
+                            Rds.InsertItems(
+                                selectIdentity: true,
+                                param: Rds.ItemsParam()
+                                    .ReferenceType("Sites")
+                                    .Title(conv.SiteTitle)),
+                            Rds.UpdateItems(
+                                where: Rds.ItemsWhere().ReferenceId(raw: Def.Sql.Identity),
+                                param: Rds.ItemsParam().SiteId(raw: Def.Sql.Identity)),
+                        });
+                    conv.SavedSiteId = response.Id;
+                }
+                foreach (var conv in sitePackage.HeaderInfo.Convertors)
+                {
+                    var packageSiteModel = sitePackage.Sites
+                        .Where(e => e.SiteId == conv.SiteId)
+                        .FirstOrDefault();
+                    packageSiteModel.SetSavedIds(
+                        context: context,
+                        ss: ss,
+                        sitePackage: sitePackage,
+                        savedSiteId: conv.SavedSiteId.ToLong(),
+                        includeSitePermission: includeSitePermission
+                            && sitePackage.HeaderInfo.IncludeSitePermission);
+                    packageSiteModel.SiteSettings = packageSiteModel.GetSavedSiteSettings(
+                        context: context,
+                        header: sitePackage.HeaderInfo,
+                        includeColumnPermission: includeColumnPermission,
+                        permissionIdList: sitePackage.PermissionIdList,
+                        includeNotifications: includeNotifications,
+                        includeReminders: includeReminders);
+                    conv.SiteSettings = packageSiteModel.SiteSettings;
+                    Repository.ExecuteScalar_response(
+                        context: context,
+                        transactional: true,
+                        statements: new SqlStatement[]
+                        {
+                            Rds.InsertSites(param: Rds.SitesParam()
+                                .SiteId(packageSiteModel.SavedSiteId)
+                                .TenantId(packageSiteModel.SavedTenantId)
+                                .Title(conv.SiteTitle)
+                                .SiteName(packageSiteModel.SiteName)
+                                .SiteGroupName(packageSiteModel.SiteGroupName)
+                                .Body(packageSiteModel.Body)
+                                .GridGuide(packageSiteModel.GridGuide)
+                                .EditorGuide(packageSiteModel.EditorGuide)
+                                .CalendarGuide(packageSiteModel.CalendarGuide)
+                                .CrosstabGuide(packageSiteModel.CrosstabGuide)
+                                .GanttGuide(packageSiteModel.GanttGuide)
+                                .BurnDownGuide(packageSiteModel.BurnDownGuide)
+                                .TimeSeriesGuide(packageSiteModel.TimeSeriesGuide)
+                                .AnalyGuide(packageSiteModel.AnalyGuide)
+                                .KambanGuide(packageSiteModel.KambanGuide)
+                                .ImageLibGuide(packageSiteModel.ImageLibGuide)
+                                .ReferenceType(packageSiteModel.ReferenceType.MaxLength(32))
+                                .ParentId(packageSiteModel.SavedParentId)
+                                .InheritPermission(packageSiteModel.SavedInheritPermission)
+                                .SiteSettings(packageSiteModel.SiteSettings.ToJson())
+                                .Publish(packageSiteModel.Publish)
+                                .DisableCrossSearch(packageSiteModel.DisableCrossSearch)
+                                .Comments(packageSiteModel.Comments.ToJson())),
+                            Rds.PhysicalDeleteLinks(
+                                where: Rds.LinksWhere().SourceId(packageSiteModel.SavedSiteId)),
+                            LinkUtilities.Insert(link: packageSiteModel.SiteSettings.Links
+                                ?.Where(o => o.SiteId > 0)
+                                .Select(o => o.SiteId)
+                                .Distinct()
+                                .ToDictionary(o => o, o => packageSiteModel.SavedSiteId)
+                                    ?? new Dictionary<long, long>() ),
+                            Rds.InsertPermissions(
+                                param: Rds.PermissionsParam()
+                                    .ReferenceId(packageSiteModel.SavedSiteId)
+                                    .DeptId(0)
+                                    .UserId(context.UserId)
+                                    .PermissionType(Permissions.Manager()),
+                                _using: packageSiteModel.SavedInheritPermission == packageSiteModel.SavedSiteId),
+                        });
+                    var siteModel = new SiteModel(
+                        context: context,
+                        siteId: packageSiteModel.SavedSiteId);
+                    var fullText = siteModel.FullText(
+                        context: context,
+                        ss: siteModel.SiteSettings);
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.UpdateItems(
+                            where: Rds.ItemsWhere()
+                                .ReferenceId(packageSiteModel.SavedSiteId),
+                            param: Rds.ItemsParam()
+                                .FullText(fullText, _using: fullText != null)
+                                .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null)));
+                    var statements = siteModel.GetReminderSchedulesStatements(context: context);
+                    Repository.ExecuteScalar_response(
+                        context: context,
+                        transactional: true,
+                        statements: statements.ToArray());
+                }
+                var idHash = sitePackage.GetIdHashFromConverters();
+                foreach (var conv in sitePackage.HeaderInfo.Convertors)
+                {
+                    var siteModel = new SiteModel(
+                        context: context,
+                        siteId: conv.SavedSiteId.ToLong());
+                    switch (siteModel.ReferenceType)
+                    {
+                        case "Wikis":
+                            var wikiModel = new WikiModel(
+                                context: context,
+                                ss: siteModel.SiteSettings)
+                            {
+                                SiteId = siteModel.SiteId,
+                                Title = siteModel.Title,
+                                Body = siteModel.Body,
+                                Comments = siteModel.Comments
                         };
                         wikiModel.Create(
                             context: context,
@@ -310,173 +314,178 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             ss: siteModel.SiteSettings,
                             id: siteModel.SiteId);
                         break;
-                }
-            }
-            SiteInfo.Refresh(context: context);
-            int dataCount = 0;
-            if (includeData)
-            {
-                if (sitePackage.Data.Any())
-                {
-                    ImportItems(
-                        context: context,
-                        sitePackage: sitePackage,
-                        idHash: idHash);
-                    sitePackage.ConvertDataId(
-                        context: context,
-                        idHash: idHash);
-                    dataCount = ImportData(
-                        context: context,
-                        sitePackage: sitePackage,
-                        idHash: idHash);
-                }
-            }
-            if (sitePackage.HeaderInfo.Convertors.Any())
-            {
-                foreach (var conv in sitePackage.HeaderInfo.Convertors)
-                {
-                    if (conv.ReferenceType == "Sites")
-                    {
-                        if ((!conv.Order.IsNullOrEmpty() && conv.Order.Equals("[]") == false))
-                        {
-                            var newOrders = new List<long>();
-                            var orders = conv.Order.Deserialize<List<long>>()?.ToList()
-                                ?? new List<long>();
-                            orders.ForEach(e => newOrders.Add(idHash.Get(e)));
-                            if (newOrders.Any())
-                            {
-                                new OrderModel()
-                                {
-                                    ReferenceId = conv.SavedSiteId.ToLong(),
-                                    ReferenceType = "Sites",
-                                    OwnerId = 0,
-                                    Data = newOrders
-                                }.UpdateOrCreate(
-                                    context: context,
-                                    ss: ss);
-                            }
-                        }
                     }
-                    conv.Updated |= ConvertScriptDataId(
-                        ss: conv.SiteSettings,
-                        idHash: idHash);
-                    if (conv.Updated)
+                }
+                SiteInfo.Refresh(context: context);
+                int dataCount = 0;
+                if (includeData)
+                {
+                    if (sitePackage.Data.Any())
                     {
-                        conv.SiteSettings.Init(context: context);
-                        Repository.ExecuteNonQuery(
+                        ImportItems(
                             context: context,
-                            statements: Rds.UpdateSites(
-                                where: Rds.SitesWhere()
-                                    .TenantId(context.TenantId)
-                                    .SiteId(conv.SavedSiteId),
-                                param: Rds.SitesParam()
-                                    .SiteSettings(conv.SiteSettings.RecordingJson(
-                                        context: context))));
+                            sitePackage: sitePackage,
+                            idHash: idHash);
+                        sitePackage.ConvertDataId(
+                            context: context,
+                            idHash: idHash);
+                        dataCount = ImportData(
+                            context: context,
+                            sitePackage: sitePackage,
+                            idHash: idHash);
                     }
                 }
-                var response = Repository.ExecuteScalar_response(
-                    context: context,
-                    transactional: true);
-            }
-            if (sitePackage.Permissions.Any())
-            {
-                foreach (var conv in sitePackage.HeaderInfo.Convertors)
+                if (sitePackage.HeaderInfo.Convertors.Any())
                 {
-                    var packageSiteModel = sitePackage.Sites
-                        .Where(e => e.SiteId == conv.SiteId)
-                        .FirstOrDefault();
-                    var packagePermissionModel = sitePackage.Permissions
-                        .Where(e => e.SiteId == conv.SiteId)
-                        .FirstOrDefault();
-                    if (packagePermissionModel == null)
+                    foreach (var conv in sitePackage.HeaderInfo.Convertors)
                     {
-                        continue;
+                        if (conv.ReferenceType == "Sites")
+                        {
+                            if ((!conv.Order.IsNullOrEmpty() && conv.Order.Equals("[]") == false))
+                            {
+                                var newOrders = new List<long>();
+                                var orders = conv.Order.Deserialize<List<long>>()?.ToList()
+                                    ?? new List<long>();
+                                orders.ForEach(e => newOrders.Add(idHash.Get(e)));
+                                if (newOrders.Any())
+                                {
+                                    new OrderModel()
+                                    {
+                                        ReferenceId = conv.SavedSiteId.ToLong(),
+                                        ReferenceType = "Sites",
+                                        OwnerId = 0,
+                                        Data = newOrders
+                                    }.UpdateOrCreate(
+                                        context: context,
+                                        ss: ss);
+                                }
+                            }
+                        }
+                        conv.Updated |= ConvertScriptDataId(
+                            ss: conv.SiteSettings,
+                            idHash: idHash);
+                        if (conv.Updated)
+                        {
+                            conv.SiteSettings.Init(context: context);
+                            Repository.ExecuteNonQuery(
+                                context: context,
+                                statements: Rds.UpdateSites(
+                                    where: Rds.SitesWhere()
+                                        .TenantId(context.TenantId)
+                                        .SiteId(conv.SavedSiteId),
+                                    param: Rds.SitesParam()
+                                        .SiteSettings(conv.SiteSettings.RecordingJson(
+                                            context: context))));
+                        }
                     }
-                    foreach (var permissionShortModel in packagePermissionModel.Permissions)
+                    var response = Repository.ExecuteScalar_response(
+                        context: context,
+                        transactional: true);
+                }
+                if (sitePackage.Permissions.Any())
+                {
+                    foreach (var conv in sitePackage.HeaderInfo.Convertors)
                     {
-                        if (includeSitePermission == false)
+                        var packageSiteModel = sitePackage.Sites
+                            .Where(e => e.SiteId == conv.SiteId)
+                            .FirstOrDefault();
+                        var packagePermissionModel = sitePackage.Permissions
+                            .Where(e => e.SiteId == conv.SiteId)
+                            .FirstOrDefault();
+                        if (packagePermissionModel == null)
                         {
-                            if (permissionShortModel.ReferenceId == packagePermissionModel.SiteId)
-                            {
-                                continue;
-                            }
+                            continue;
                         }
-                        if ((includeRecordPermission == false) || (dataCount == 0))
+                        foreach (var permissionShortModel in packagePermissionModel.Permissions)
                         {
-                            if (permissionShortModel.ReferenceId != packagePermissionModel.SiteId)
+                            if (includeSitePermission == false)
                             {
-                                continue;
+                                if (permissionShortModel.ReferenceId == packagePermissionModel.SiteId)
+                                {
+                                    continue;
+                                }
                             }
-                        }
-                        var referenceId = idHash.Get(permissionShortModel.ReferenceId);
-                        if (referenceId > 0)
-                        {
-                            var idConverter = new IdConverter(
-                                context: context,
-                                siteId: packageSiteModel.SavedSiteId,
-                                permissionShortModel: permissionShortModel,
-                                permissionIdList: sitePackage.PermissionIdList,
-                                convertSiteId: referenceId);
-                            var exists = Rds.ExecuteScalar_int(
-                                context: context,
-                                statements: Rds.SelectPermissions(
-                                    column: Rds.PermissionsColumn().ReferenceId(),
-                                    where: Rds.PermissionsWhere()
-                                        .ReferenceId(referenceId)
-                                        .DeptId(idConverter.ConvertDeptId)
-                                        .GroupId(idConverter.ConvertGroupId)
-                                        .UserId(idConverter.ConvertUserId))) > 0;
-                            if (idConverter.Convert == true && !exists)
+                            if ((includeRecordPermission == false) || (dataCount == 0))
                             {
-                                Repository.ExecuteNonQuery(
+                                if (permissionShortModel.ReferenceId != packagePermissionModel.SiteId)
+                                {
+                                    continue;
+                                }
+                            }
+                            var referenceId = idHash.Get(permissionShortModel.ReferenceId);
+                            if (referenceId > 0)
+                            {
+                                var idConverter = new IdConverter(
                                     context: context,
-                                    transactional: true,
-                                    statements: Rds.InsertPermissions(
-                                        param: Rds.PermissionsParam()
+                                    siteId: packageSiteModel.SavedSiteId,
+                                    permissionShortModel: permissionShortModel,
+                                    permissionIdList: sitePackage.PermissionIdList,
+                                    convertSiteId: referenceId);
+                                var exists = Rds.ExecuteScalar_int(
+                                    context: context,
+                                    statements: Rds.SelectPermissions(
+                                        column: Rds.PermissionsColumn().ReferenceId(),
+                                        where: Rds.PermissionsWhere()
                                             .ReferenceId(referenceId)
                                             .DeptId(idConverter.ConvertDeptId)
                                             .GroupId(idConverter.ConvertGroupId)
-                                            .UserId(idConverter.ConvertUserId)
-                                            .PermissionType(permissionShortModel.PermissionType)));
+                                            .UserId(idConverter.ConvertUserId))) > 0;
+                                if (idConverter.Convert == true && !exists)
+                                {
+                                    Repository.ExecuteNonQuery(
+                                        context: context,
+                                        transactional: true,
+                                        statements: Rds.InsertPermissions(
+                                            param: Rds.PermissionsParam()
+                                                .ReferenceId(referenceId)
+                                                .DeptId(idConverter.ConvertDeptId)
+                                                .GroupId(idConverter.ConvertGroupId)
+                                                .UserId(idConverter.ConvertUserId)
+                                                .PermissionType(permissionShortModel.PermissionType)));
+                                }
                             }
                         }
                     }
                 }
-            }
-            Repository.ExecuteNonQuery(
-                context: context,
-                statements: StatusUtilities.UpdateStatus(
-                    tenantId: context.TenantId,
-                    type: StatusUtilities.Types.UsersUpdated));
-            SiteInfo.Refresh(context: context);
-            if (apiData == null)
-            {
-                SessionUtilities.Set(
+                Repository.ExecuteNonQuery(
                     context: context,
-                    message: Messages.SitePackageImported(
+                    statements: StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.UsersUpdated));
+                SiteInfo.Refresh(context: context);
+                if (apiData == null)
+                {
+                    SessionUtilities.Set(
                         context: context,
-                        data: new string[]
+                        message: Messages.SitePackageImported(
+                            context: context,
+                            data: new string[]
+                            {
+                                sitePackage.HeaderInfo.Convertors.Count().ToString(),
+                                dataCount.ToString()
+                            }));
+                    return new ResponseCollection(context: context)
+                        .Href(url: Locations.ItemIndex(
+                            context: context,
+                            id: ss.SiteId))
+                        .ToJson();
+                }
+                else
+                {
+                    return sitePackage.HeaderInfo.Convertors
+                        .Select(o => new
                         {
-                            sitePackage.HeaderInfo.Convertors.Count().ToString(),
-                            dataCount.ToString()
-                        }));
-                return new ResponseCollection(context: context)
-                    .Href(url: Locations.ItemIndex(
-                        context: context,
-                        id: ss.SiteId))
-                    .ToJson();
+                            OldSiteId = o.SiteId,
+                            NewSiteId = o.SavedSiteId,
+                            ReferenceType = o.ReferenceType,
+                            Title = o.SiteTitle
+                        })
+                        .ToJson();
+                }
             }
-            else
+            finally
             {
-                return sitePackage.HeaderInfo.Convertors
-                    .Select(o => new
-                    {
-                        OldSiteId = o.SiteId,
-                        NewSiteId = o.SavedSiteId,
-                        ReferenceType = o.ReferenceType,
-                        Title = o.SiteTitle
-                    })
-                    .ToJson();
+                context.ServerScriptDisabled = originalServerScriptDisabled;
             }
         }
 
@@ -945,26 +954,35 @@ namespace Implem.Pleasanter.Libraries.SitePackages
 
         public static ResponseFile ExportSitePackage(Context context, SiteSettings ss)
         {
-            var sitePackage = GetSitePackage(
-                context: context,
-                ss: ss);
-            if (sitePackage == null)
+            var originalServerScriptDisabled = context.ServerScriptDisabled;
+            context.ServerScriptDisabled = true;
+            try
             {
-                return null;
+                var sitePackage = GetSitePackage(
+                    context: context,
+                    ss: ss);
+                if (sitePackage == null)
+                {
+                    return null;
+                }
+                var useIndentOption = Parameters.SitePackage.UseIndentOptionOnExport != OptionTypes.Disabled
+                    && context.QueryStrings.Bool("UseIndentOption");
+                var file = new ResponseFile(
+                    fileContent: sitePackage.RecordingJson(
+                        context: context,
+                        formatting: useIndentOption
+                            ? Formatting.Indented
+                            : Formatting.None),
+                    fileDownloadName: ExportUtilities.FileName(
+                        context: context,
+                        sitePackage.Sites.FirstOrDefault()?.Title,
+                        extension: "json"));
+                return file;
             }
-            var useIndentOption = Parameters.SitePackage.UseIndentOptionOnExport != OptionTypes.Disabled
-                && context.QueryStrings.Bool("UseIndentOption");
-            var file = new ResponseFile(
-                fileContent: sitePackage.RecordingJson(
-                    context: context,
-                    formatting: useIndentOption
-                        ? Formatting.Indented
-                        : Formatting.None),
-                fileDownloadName: ExportUtilities.FileName(
-                    context: context,
-                    sitePackage.Sites.FirstOrDefault()?.Title,
-                    extension: "json"));
-            return file;
+            finally
+            {
+                context.ServerScriptDisabled = originalServerScriptDisabled;
+            }
         }
 
         public static SitePackage GetSitePackage(Context context, SiteSettings ss, SitePackageApiModel apiData = null)

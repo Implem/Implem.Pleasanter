@@ -49,8 +49,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditBulkUpdateColumns", "[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditBulkUpdateColumns"),
+                            method: "ReplaceAll",
+                            target: "#EditBulkUpdateColumnsWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -62,8 +62,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditBulkUpdateColumns", "[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditBulkUpdateColumns"),
+                            method: "ReplaceAll",
+                            target: "#EditBulkUpdateColumnsWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -124,14 +124,14 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditBulkUpdateColumns"),
+                            target: "#EditBulkUpdateColumnsWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.HtmlTextContains(
                             method : "ReplaceAll",
-                            target : "#EditBulkUpdateColumns",
-                            selector : "#EditBulkUpdateColumns",
+                            target : "#EditBulkUpdateColumnsWrap",
+                            selector : "#EditBulkUpdateColumnsWrap",
                             value : "test")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
@@ -142,15 +142,15 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("BulkUpdateColumnId",  "1")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditBulkUpdateColumns"),
+                            method: "ReplaceAll",
+                            target: "#EditBulkUpdateColumnsWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.HtmlTextContains(
-                            method : "Html",
-                            target : "#EditBulkUpdateColumns",
-                            selector : "#EditBulkUpdateColumns",
+                            method : "ReplaceAll",
+                            target : "#EditBulkUpdateColumnsWrap",
+                            selector : "#EditBulkUpdateColumnsWrap",
                             value : "bulkupdatesetting-chage")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
@@ -161,14 +161,14 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditBulkUpdateColumns"),
+                            target: "#EditBulkUpdateColumnsWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.HtmlTextContains(
                             method : "ReplaceAll",
-                            target : "#EditBulkUpdateColumns",
-                            selector : "#EditBulkUpdateColumns",
+                            target : "#EditBulkUpdateColumnsWrap",
+                            selector : "#EditBulkUpdateColumnsWrap",
                             value : "bulkupdatesetting")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
@@ -197,7 +197,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditBulkUpdateColumns"),
+                            target: "#EditBulkUpdateColumnsWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
