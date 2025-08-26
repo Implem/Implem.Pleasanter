@@ -1967,7 +1967,7 @@ namespace Implem.Pleasanter.Models
                 .FirstOrDefault(o => o.Id == schedule.Id)?
                 .UpdateFromRecode(schedule: schedule);
             res
-                .Html("#EditServerScriptSchedulesWrap", new HtmlBuilder()
+                .ReplaceAll("#EditServerScriptSchedulesWrap", new HtmlBuilder()
                     .EditServerScriptSchedules(
                         context: context,
                         backgoundSchedules: schedules))

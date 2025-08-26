@@ -195,7 +195,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                             new KeyValue("EditServerScriptScheduleList", scheduleList)),
                         baseTests: BaseData.Tests(
                             JsonData.HtmlTextContains(
-                                method: "Html",
+                                method: "ReplaceAll",
                                 target: "#EditServerScriptSchedulesWrap",
                                 selector: "#EditServerScriptSchedulesWrap",
                                 value: "<td>スケジュール1-update</td>"),
