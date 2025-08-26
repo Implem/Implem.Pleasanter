@@ -1781,7 +1781,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 value: TenantSettings.RecordingJson(context: context));
             res
-                .ReplaceAll("#EditServerScript", new HtmlBuilder()
+                .ReplaceAll("#EditServerScriptWrap", new HtmlBuilder()
                     .EditServerScript(
                         context: context,
                         tenantModel: this))
@@ -1818,7 +1818,7 @@ namespace Implem.Pleasanter.Models
                     tryCatch: script.TryCatch,
                     backgoundSchedules: script.backgoundSchedules);
             res
-                .Html("#EditServerScript", new HtmlBuilder()
+                .ReplaceAll("#EditServerScriptWrap", new HtmlBuilder()
                     .EditServerScript(
                         context: context,
                         tenantModel: this))
@@ -1862,7 +1862,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     value: TenantSettings.RecordingJson(context: context));
                 res
-                    .ReplaceAll("#EditServerScript", new HtmlBuilder()
+                    .ReplaceAll("#EditServerScriptWrap", new HtmlBuilder()
                         .EditServerScript(
                             context: context,
                             tenantModel: this));
@@ -1938,7 +1938,7 @@ namespace Implem.Pleasanter.Models
             schedule.Id = schedules.MaxOrDefault(o => o.Id) + 1;
             schedules.Add(schedule);
             res
-                .ReplaceAll("#EditServerScriptSchedules", new HtmlBuilder()
+                .ReplaceAll("#EditServerScriptSchedulesWrap", new HtmlBuilder()
                     .EditServerScriptSchedules(
                         context: context,
                         backgoundSchedules: schedules))
@@ -1967,7 +1967,7 @@ namespace Implem.Pleasanter.Models
                 .FirstOrDefault(o => o.Id == schedule.Id)?
                 .UpdateFromRecode(schedule: schedule);
             res
-                .Html("#EditServerScriptSchedules", new HtmlBuilder()
+                .Html("#EditServerScriptSchedulesWrap", new HtmlBuilder()
                     .EditServerScriptSchedules(
                         context: context,
                         backgoundSchedules: schedules))
@@ -2013,7 +2013,7 @@ namespace Implem.Pleasanter.Models
                 var schedules = context.Forms.Data("BackgroundSchedule").Deserialize<SettingList<BackgroundSchedule>>();
                 action(selected, schedules);
                 res
-                    .ReplaceAll("#EditServerScriptSchedules", new HtmlBuilder()
+                    .ReplaceAll("#EditServerScriptSchedulesWrap", new HtmlBuilder()
                     .EditServerScriptSchedules(
                         context: context,
                         backgoundSchedules: schedules))
