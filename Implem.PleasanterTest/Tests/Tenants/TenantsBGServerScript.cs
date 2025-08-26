@@ -176,7 +176,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                     baseTests: BaseData.Tests(
                         JsonData.HtmlTextContains(
                             method: "ReplaceAll",
-                            target: "#EditServerScript",
+                            target: "#EditServerScriptWrap",
                             selector: "#EditServerScriptWrap",
                             value: "<td>3</td><td>AddServerScript-xUnit</td>"),
                         JsonData.ExistsOne(
@@ -192,8 +192,8 @@ namespace Implem.PleasanterTest.Tests.Tenants
                         new KeyValue("EditServerScript", "[\"2\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.HtmlTextContains(
-                            method: "Html",
-                            target: "#EditServerScript",
+                            method: "ReplaceAll",
+                            target: "#EditServerScriptWrap",
                             selector: "#EditServerScriptWrap",
                             value: "<td>2</td><td>BGServerScript:Test2-update</td>"),
                         JsonData.ExistsOne(
@@ -208,7 +208,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                     baseTests: BaseData.Tests(
                         JsonData.TextCheckOrder(
                             method: "ReplaceAll",
-                            target: "#EditServerScript",
+                            target: "#EditServerScriptWrap",
                             wordArray: new string[]
                             {
                                 "<td>BGServerScript:Test2</td>",
@@ -226,7 +226,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                     baseTests: BaseData.Tests(
                         JsonData.TextCheckOrder(
                             method: "ReplaceAll",
-                            target: "#EditServerScript",
+                            target: "#EditServerScriptWrap",
                             wordArray: new string[]
                             {
                                 "<td>BGServerScript:Test2</td>",
@@ -244,7 +244,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                     baseTests: BaseData.Tests(
                         JsonData.TextCountOf(
                             method: "ReplaceAll",
-                            target: "#EditServerScript",
+                            target: "#EditServerScriptWrap",
                             value: "<td>BGServerScript:Test2</td>",
                             estimate: 2),
                         JsonData.ExistsOne(
@@ -259,7 +259,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                     baseTests: BaseData.Tests(
                         JsonData.TextCountOf(
                             method: "ReplaceAll",
-                            target: "#EditServerScript",
+                            target: "#EditServerScriptWrap",
                             value: "<td>BGServerScript:Test2</td>",
                             estimate: 0),
                         JsonData.ExistsOne(

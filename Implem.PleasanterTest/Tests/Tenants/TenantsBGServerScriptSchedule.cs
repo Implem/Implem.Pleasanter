@@ -87,7 +87,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                     baseTests: BaseData.Tests(
                         JsonData.TextCheckOrder(
                             method: "ReplaceAll",
-                            target: "#EditServerScriptSchedules",
+                            target: "#EditServerScriptSchedulesWrap",
                             wordArray: new string[] {
                                 "<td>スケジュール2</td>",
                                 "<td>スケジュール1</td>" }), 
@@ -104,7 +104,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                     baseTests: BaseData.Tests(
                         JsonData.TextCheckOrder(
                             method: "ReplaceAll",
-                            target: "#EditServerScriptSchedules",
+                            target: "#EditServerScriptSchedulesWrap",
                             wordArray: new string[] {
                                 "<td>スケジュール2</td>",
                                 "<td>スケジュール1</td>" }),
@@ -135,7 +135,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                         baseTests: BaseData.Tests(
                             JsonData.HtmlTextContains(
                                 method:"ReplaceAll",
-                                target: "#EditServerScriptSchedules",
+                                target: "#EditServerScriptSchedulesWrap",
                                 selector: "#EditServerScriptSchedulesWrap",
                                 value: "</td><td>3</td><td>スケジュール2</td>"),
                             JsonData.ExistsOne(
@@ -151,7 +151,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                         baseTests: BaseData.Tests(
                             JsonData.TextCountOf(
                                 method:"ReplaceAll",
-                                target: "#EditServerScriptSchedules",
+                                target: "#EditServerScriptSchedulesWrap",
                                 value: "<td>スケジュール1</td>",
                                 estimate: 0),
                             JsonData.ExistsOne(
@@ -196,7 +196,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                         baseTests: BaseData.Tests(
                             JsonData.HtmlTextContains(
                                 method: "Html",
-                                target: "#EditServerScriptSchedules",
+                                target: "#EditServerScriptSchedulesWrap",
                                 selector: "#EditServerScriptSchedulesWrap",
                                 value: "<td>スケジュール1-update</td>"),
                             JsonData.ExistsOne(
