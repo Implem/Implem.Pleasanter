@@ -1,18 +1,18 @@
-{
+﻿{
     "Version": 1.017,
     "ReferenceType": "Dashboards",
     "DashboardParts": [
         {
             "Id": 1,
-            "Title": "📝 各種申請",
+            "Title": "📝営業・顧客管理アプリ",
             "ShowTitle": true,
             "DisableAsynchronousLoading": false,
             "Type": 0,
-            "X": 17,
+            "X": 6,
             "Y": 0,
-            "Width": 3,
-            "Height": 21,
-            "QuickAccessSites": "#Site18#,#Site57#",
+            "Width": 4,
+            "Height": 23,
+            "QuickAccessSites": "#Site6#,#Site7#,#Site8#,#Site23#",
             "QuickAccessLayout": 1,
             "TimeLineItemCount": 0,
             "CalendarShowStatus": false,
@@ -29,10 +29,10 @@
             "Type": 3,
             "X": 0,
             "Y": 0,
-            "Width": 7,
-            "Height": 21,
+            "Width": 6,
+            "Height": 23,
             "TimeLineItemCount": 0,
-            "HtmlContent": "プリザンターのユーザマニュアル\n<a href=\"https://pleasanter.org/ja/manual\">マニュアルサイト</a>\n\n<br>↓動画でも確認できます↓<br>\n\n<div class=\"youtube\">\n\n<iframe width=\"360\" height=\"215\" src=\"https://www.youtube.com/embed/-ClJGmoK7WA?si=dBIW74uMGwl4y7VZ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>\n\n</div>\n\n",
+            "HtmlContent": "プリザンターのユーザマニュアル\n<a href=\"https://pleasanter.org/ja/manual\">マニュアルサイト</a>\n<br>\n<a href=\"https://pleasanter.org/contact\">お問い合わせ</a>\n\n<br>↓動画でも確認できます↓<br>\n\n<div class=\"youtube\">\n\n<iframe width=\"360\" height=\"215\" src=\"https://www.youtube.com/embed/-ClJGmoK7WA?si=dBIW74uMGwl4y7VZ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>\n\n</div>\n\n",
             "CalendarShowStatus": false,
             "KambanAggregationView": false,
             "KambanShowStatus": false,
@@ -41,13 +41,14 @@
         },
         {
             "Id": 3,
-            "Title": "カレンダー例",
+            "Title": "📅スケジュール",
+            "ShowTitle": true,
             "DisableAsynchronousLoading": false,
             "Type": 4,
-            "X": 0,
-            "Y": 21,
-            "Width": 11,
-            "Height": 29,
+            "X": 10,
+            "Y": 0,
+            "Width": 10,
+            "Height": 44,
             "View": {
                 "Id": 0,
                 "GridColumns": [
@@ -85,20 +86,30 @@
         },
         {
             "Id": 4,
-            "Title": "⚠️クレーム⚠️",
+            "Title": "💼商談管理",
             "ShowTitle": true,
             "DisableAsynchronousLoading": false,
             "Type": 6,
-            "X": 7,
-            "Y": 0,
-            "Width": 10,
-            "Height": 21,
+            "X": 0,
+            "Y": 44,
+            "Width": 20,
+            "Height": 41,
             "View": {
                 "Id": 0,
                 "GridColumns": [
+                    "ClassA",
                     "TitleBody",
+                    "Comments",
+                    "ClassB",
+                    "CompletionTime",
                     "Status",
-                    "ClassA"
+                    "ClassC",
+                    "NumA",
+                    "NumB",
+                    "NumC",
+                    "NumD",
+                    "Manager",
+                    "Owner"
                 ],
                 "ApiColumnKeyDisplayType": 0,
                 "ApiColumnValueDisplayType": 0,
@@ -113,25 +124,25 @@
             },
             "TimeLineItemCount": 0,
             "CalendarShowStatus": false,
-            "IndexSites": "#Site39#",
+            "IndexSites": "#Site7#",
             "IndexSitesData": [
-                "#Site39#"
+                "#Site7#"
             ],
             "KambanAggregationView": false,
             "KambanShowStatus": false,
-            "SiteId": #Site39#,
+            "SiteId": #Site7#,
             "ExtendedCss": ""
         },
         {
             "Id": 5,
-            "Title": "📆営業日報",
+            "Title": "📰営業日報",
             "ShowTitle": true,
             "DisableAsynchronousLoading": false,
             "Type": 1,
-            "X": 11,
-            "Y": 21,
-            "Width": 9,
-            "Height": 29,
+            "X": 0,
+            "Y": 23,
+            "Width": 10,
+            "Height": 21,
             "TimeLineSites": "#Site16#",
             "View": {
                 "Id": 0,
@@ -164,13 +175,14 @@
         },
         {
             "Id": 6,
-            "Title": "カンバン",
+            "Title": "🪧作業進捗確認（担当者別）",
+            "ShowTitle": true,
             "DisableAsynchronousLoading": false,
             "Type": 5,
             "X": 0,
-            "Y": 50,
+            "Y": 85,
             "Width": 20,
-            "Height": 29,
+            "Height": 28,
             "View": {
                 "Id": 0,
                 "GridColumns": [
@@ -208,6 +220,5 @@
             "ExtendedCss": ""
         }
     ],
-    "NoDisplayIfReadOnly": false,
-    "NotInheritPermissionsWhenCreatingSite": false
+    "NoDisplayIfReadOnly": false
 }
