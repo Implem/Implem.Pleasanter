@@ -75,15 +75,15 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("RelatingColumnTitle", "RelatingColumn-cahnge")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditRelatingColumns"),
+                            method: "ReplaceAll",
+                            target: "#EditRelatingColumnsWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.HtmlTextContains(
-                            method : "Html",
-                            target : "#EditRelatingColumns",
-                            selector : "#EditRelatingColumns",
+                            method : "ReplaceAll",
+                            target : "#EditRelatingColumnsWrap",
+                            selector : "#EditRelatingColumnsWrap",
                             value : "RelatingColumn-cahnge")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
@@ -94,14 +94,14 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditRelatingColumns"),
+                            target: "#EditRelatingColumnsWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.HtmlTextContains(
                             method : "ReplaceAll",
-                            target : "#EditRelatingColumns",
-                            selector : "#EditRelatingColumns",
+                            target : "#EditRelatingColumnsWrap",
+                            selector : "#EditRelatingColumnsWrap",
                             value : "test")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
@@ -113,13 +113,13 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditRelatingColumns"),
+                            target: "#EditRelatingColumnsWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.Value(
                             method: "ReplaceAll",
-                            target:"#EditRelatingColumns",
+                            target:"#EditRelatingColumnsWrap",
                             value: "<grid-container data-scrollable=\"1\" id=\"EditRelatingColumnsWrap\" class=\"grid-wrap\"><table data-name=\"RelatingColumnId\" data-func=\"openRelatingColumnDialog\" data-action=\"SetSiteSettings\" data-method=\"post\" id=\"EditRelatingColumns\" class=\"grid\"><thead><tr class=\"ui-widget-header\"><th><label class=\"check-option\"><span class=\"check-icon\"><input class=\"select-all\" type=\"checkbox\" /></span><span class=\"check-text\"></span></label></th><th>タイトル</th><th>リンク</th></tr></thead><tbody></tbody></table></grid-container>")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
@@ -129,8 +129,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditRelatingColumns", "[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditRelatingColumns"),
+                            method: "ReplaceAll",
+                            target: "#EditRelatingColumnsWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -142,8 +142,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditRelatingColumns", "[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditRelatingColumns"),
+                            method: "ReplaceAll",
+                            target: "#EditRelatingColumnsWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),

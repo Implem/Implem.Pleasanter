@@ -49,8 +49,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditDashboardPart","[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditDashboardPart"),
+                            method: "ReplaceAll",
+                            target: "#EditDashboardPartWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -62,8 +62,8 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("EditDashboardPart","[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditDashboardPart"),
+                            method: "ReplaceAll",
+                            target: "#EditDashboardPartWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -103,15 +103,15 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("DashboardPartTitle","DashboardParts-chage")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditDashboardPart"),
+                            method: "ReplaceAll",
+                            target: "#EditDashboardPartWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.HtmlTextContains(
-                            method: "Html",
-                            target: "#EditDashboardPart",
-                            selector: "#EditDashboardPart",
+                            method: "ReplaceAll",
+                            target: "#EditDashboardPartWrap",
+                            selector: "#EditDashboardPartWrap",
                             value: "DashboardParts-chage")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
@@ -122,14 +122,14 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditDashboardPart"),
+                            target: "#EditDashboardPartWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.HtmlTextContains(
                             method: "ReplaceAll",
-                            target: "#EditDashboardPart",
-                            selector: "#EditDashboardPart",
+                            target: "#EditDashboardPartWrap",
+                            selector: "#EditDashboardPartWrap",
                             value: "DashboardParts-test")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
@@ -141,14 +141,14 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditDashboardPart"),
+                            target: "#EditDashboardPartWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.HtmlTextContains(
                             method: "ReplaceAll",
-                            target: "#EditDashboardPart",
-                            selector: "#EditDashboardPart",
+                            target: "#EditDashboardPartWrap",
+                            selector: "#EditDashboardPartWrap",
                             value: "DashboardParts")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
@@ -159,7 +159,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditDashboardPart"),
+                            target: "#EditDashboardPartWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),

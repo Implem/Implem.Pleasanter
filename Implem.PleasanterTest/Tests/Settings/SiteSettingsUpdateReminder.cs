@@ -86,7 +86,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditReminder"),
+                            target: "#EditReminderWrap"),
                         JsonData.ExistsOne(
                             method: "CloseDialog"),
                         JsonData.ExistsOne(
@@ -94,7 +94,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                             target: "formChanged"),
                         JsonData.TextContains(
                             method: "ReplaceAll",
-                            target: "#EditReminder",
+                            target: "#EditReminderWrap",
                             value: "<td>更新リマインダー</td>")),
                     userType: UserData.UserTypes.Privileged)
             };

@@ -48,13 +48,13 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditExport"),
+                            target: "#EditExportWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.TextCountOf(
                             method: "ReplaceAll",
-                            target: "#EditExport",
+                            target: "#EditExportWrap",
                             value: "<td>テストエクスポート1</td>",
                             estimate: 2)),
                     userType: UserData.UserTypes.Privileged)

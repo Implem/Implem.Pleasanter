@@ -47,18 +47,18 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditStatusControl"),
+                            target: "#EditStatusControlWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.TextCountOf(
                             method: "ReplaceAll",
-                            target: "#EditStatusControl",
+                            target: "#EditStatusControlWrap",
                             value: "<td>test1</td>",
                             estimate: 0),
                         JsonData.TextCountOf(
                             method: "ReplaceAll",
-                            target: "#EditStatusControl",
+                            target: "#EditStatusControlWrap",
                             value: "<td>test2</td>",
                             estimate: 1)),
                     userType: UserData.UserTypes.Privileged)
