@@ -1,4 +1,8 @@
 ﻿$p.openVideo = function (controlId) {
+    $p.video = document.getElementById('Video');
+    $p.video.autoplay = true;
+    $p.video.muted = true;
+    $p.video.playsinline = true;
     $p.getVideoDeviceList().then(function (videoDeviceList) {
         var maxDeviceIdIndexNo = videoDeviceList.length - 1;
         if (maxDeviceIdIndexNo === 0) {
@@ -24,7 +28,6 @@ $p.playVideo = function (controlId, videoDeviceList, maxDeviceIdIndexNo, deviceI
                 $p.videoTracks.forEach(function (track) { track.stop() });
             }
         });
-        $p.video = document.getElementById('Video');
         $p.video.srcObject = stream;
         $p.video.onloadedmetadata = function (e) {
             $p.videoTracks = stream.getVideoTracks();
