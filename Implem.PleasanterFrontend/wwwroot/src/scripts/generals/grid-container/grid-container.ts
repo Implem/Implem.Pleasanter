@@ -23,8 +23,6 @@ export class GridContainerElement extends HTMLElement {
             this.shadow = this.attachShadow({ mode: 'open' });
             this.shadow.append(this.htmlRender());
             this.gridEl = this.querySelector('.grid');
-            this.stageEl = this.shadow.querySelector('.app-grid-inner')!;
-            this.flameEl = this.shadow.querySelector('.app-grid-frame')!;
             this.gridEl?.classList.add(this.hash);
             this.initShadowStyle();
         }
@@ -42,9 +40,12 @@ export class GridContainerElement extends HTMLElement {
     }
 
     private init = () => {
+        if (!this.shadow) return;
         if (this.gridEl?.id === 'Grid') {
             this.classList.add('app-is-index');
         }
+        this.stageEl = this.shadow.querySelector('.app-grid-inner');
+        this.flameEl = this.shadow.querySelector('.app-grid-frame');
         this.checkCanScroll();
         this.addObserver();
         this.addScrollEvents();
