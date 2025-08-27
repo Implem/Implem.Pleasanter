@@ -2165,7 +2165,12 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
+            var readOnly = resultModel.GetStatusControl(
+                context: context,
+                ss: ss,
+                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
             return (column.GetEditorReadOnly()
+                || readOnly
                 || Permissions.ColumnPermissionType(
                     context: context,
                     ss: ss,

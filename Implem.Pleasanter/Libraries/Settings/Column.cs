@@ -972,7 +972,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return readOnly == true;
             }
-            return StatusReadOnly || EditorReadOnly == true;
+            return EditorReadOnly == true;
         }
 
         public bool GetHide()

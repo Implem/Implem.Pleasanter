@@ -2270,7 +2270,12 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
+            var readOnly = issueModel.GetStatusControl(
+                context: context,
+                ss: ss,
+                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
             return (column.GetEditorReadOnly()
+                || readOnly
                 || Permissions.ColumnPermissionType(
                     context: context,
                     ss: ss,
@@ -2286,10 +2291,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column)
         {
-            column.StatusReadOnly = issueModel.GetStatusControl(
-                context: context,
-                ss: ss,
-                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
             switch (column.Name)
             {
                 case "IssueId":
