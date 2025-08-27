@@ -787,6 +787,10 @@ pre {
     table-layout: fixed;
 }
 
+.CalendarBody table tbody {
+    position: static;
+}
+
 div.Calendar > .CalendarBody > .grid > thead > tr > th {
     padding: 5px;
     text-align: center;
@@ -1112,6 +1116,10 @@ th.calendar-header {
 
 #TimeSeries .index {
     fill: black;
+}
+
+.kambanbody table tbody {
+    position: static;
 }
 
 .kambanbody .kamban-row {
