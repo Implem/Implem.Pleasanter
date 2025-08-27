@@ -3649,6 +3649,7 @@ body:has(input#Controller[value='syslogs']) {
         width: 100%;
     }
     .kamban-container {
+        white-space: normal;
         background-color: var(--grid-cell-bg);
         &.hover {
             background-color: var(--grid-cell-hover);
