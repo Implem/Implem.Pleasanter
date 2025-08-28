@@ -1,18 +1,18 @@
-{
+﻿{
     "Version": 1.017,
     "ReferenceType": "Dashboards",
     "DashboardParts": [
         {
             "Id": 1,
-            "Title": "📝 Requests",
+            "Title": "📝Sales・CRM",
             "ShowTitle": true,
             "DisableAsynchronousLoading": false,
             "Type": 0,
-            "X": 17,
+            "X": 6,
             "Y": 0,
-            "Width": 3,
-            "Height": 21,
-            "QuickAccessSites": "#Site18_en#,#Site57_en#",
+            "Width": 4,
+            "Height": 23,
+            "QuickAccessSites": "#Site6_en#,#Site7_en#,#Site8_en#,#Site23_en#",
             "QuickAccessLayout": 1,
             "TimeLineItemCount": 0,
             "CalendarShowStatus": false,
@@ -29,10 +29,10 @@
             "Type": 3,
             "X": 0,
             "Y": 0,
-            "Width": 7,
-            "Height": 21,
+            "Width": 6,
+            "Height": 23,
             "TimeLineItemCount": 0,
-            "HtmlContent": "プリザンターのユーザマニュアル\n<a href=\"https://pleasanter.org/ja/manual\">マニュアルサイト</a>\n\n<br>↓動画でも確認できます↓<br>\n\n<div class=\"youtube\">\n\n<iframe width=\"360\" height=\"215\" src=\"https://www.youtube.com/embed/-ClJGmoK7WA?si=dBIW74uMGwl4y7VZ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>\n\n</div>\n\n",
+            "HtmlContent": "Pleasanter User Manual\n<a href=\"https://pleasanter.org/ja/manual\">Manual Page</a>\n<br>\n<a href=\"https://pleasanter.org/contact\">Contact</a>\n\n<br>↓Check out the video↓<br>\n\n<div class=\"youtube\">\n\n<iframe width=\"360\" height=\"215\" src=\"https://www.youtube.com/embed/-ClJGmoK7WA?si=dBIW74uMGwl4y7VZ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>\n\n</div>\n\n",
             "CalendarShowStatus": false,
             "KambanAggregationView": false,
             "KambanShowStatus": false,
@@ -41,13 +41,14 @@
         },
         {
             "Id": 3,
-            "Title": "Calendar Example",
+            "Title": "📅Schedule",
+            "ShowTitle": true,
             "DisableAsynchronousLoading": false,
             "Type": 4,
-            "X": 0,
-            "Y": 21,
-            "Width": 11,
-            "Height": 29,
+            "X": 10,
+            "Y": 0,
+            "Width": 10,
+            "Height": 44,
             "View": {
                 "Id": 0,
                 "GridColumns": [
@@ -80,25 +81,35 @@
             "CalendarShowStatus": true,
             "KambanAggregationView": false,
             "KambanShowStatus": false,
-            "SiteId": #Site2_en#,
+            "SiteId": "#Site2_en#",
             "ExtendedCss": ""
         },
         {
             "Id": 4,
-            "Title": "⚠️Claim⚠️",
+            "Title": "💼Sales Management",
             "ShowTitle": true,
             "DisableAsynchronousLoading": false,
             "Type": 6,
-            "X": 7,
-            "Y": 0,
-            "Width": 10,
-            "Height": 21,
+            "X": 0,
+            "Y": 44,
+            "Width": 20,
+            "Height": 41,
             "View": {
                 "Id": 0,
                 "GridColumns": [
+                    "ClassA",
                     "TitleBody",
+                    "Comments",
+                    "ClassB",
+                    "CompletionTime",
                     "Status",
-                    "ClassA"
+                    "ClassC",
+                    "NumA",
+                    "NumB",
+                    "NumC",
+                    "NumD",
+                    "Manager",
+                    "Owner"
                 ],
                 "ApiColumnKeyDisplayType": 0,
                 "ApiColumnValueDisplayType": 0,
@@ -113,26 +124,26 @@
             },
             "TimeLineItemCount": 0,
             "CalendarShowStatus": false,
-            "IndexSites": "#Site39_en#",
+            "IndexSites": "#Site7_en#",
             "IndexSitesData": [
-                "#Site39_en#"
+                "#Site7_en#"
             ],
             "KambanAggregationView": false,
             "KambanShowStatus": false,
-            "SiteId": #Site39_en#,
+            "SiteId": "#Site7_en#",
             "ExtendedCss": ""
         },
         {
             "Id": 5,
-            "Title": "📆Daily Sales Report",
+            "Title": "📰Sales Daily Report",
             "ShowTitle": true,
             "DisableAsynchronousLoading": false,
             "Type": 1,
-            "X": 11,
-            "Y": 21,
-            "Width": 9,
-            "Height": 29,
-            "TimeLineSites": "#Site16#",
+            "X": 0,
+            "Y": 23,
+            "Width": 10,
+            "Height": 21,
+            "TimeLineSites": "#Site16_en#",
             "View": {
                 "Id": 0,
                 "GridColumns": [
@@ -159,18 +170,19 @@
             "CalendarShowStatus": false,
             "KambanAggregationView": false,
             "KambanShowStatus": false,
-            "SiteId": #Site16_en#,
+            "SiteId": "#Site16_en#",
             "ExtendedCss": ""
         },
         {
             "Id": 6,
-            "Title": "Kanban",
+            "Title": "🪧Progress Report",
+            "ShowTitle": true,
             "DisableAsynchronousLoading": false,
             "Type": 5,
             "X": 0,
-            "Y": 50,
+            "Y": 85,
             "Width": 20,
-            "Height": 29,
+            "Height": 28,
             "View": {
                 "Id": 0,
                 "GridColumns": [
@@ -204,10 +216,9 @@
             "KambanColumns": "10",
             "KambanAggregationView": false,
             "KambanShowStatus": true,
-            "SiteId": #Site2_en#,
+            "SiteId": "#Site2_en#",
             "ExtendedCss": ""
         }
     ],
-    "NoDisplayIfReadOnly": false,
-    "NotInheritPermissionsWhenCreatingSite": false
+    "NoDisplayIfReadOnly": false
 }
