@@ -2157,8 +2157,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: tenantModel.TenantSettings.BackgroundServerScripts?.Scripts.All(o =>
-                                selected?.Contains(o.Id) == true) == true))
+                            _checked: tenantModel.TenantSettings.BackgroundServerScripts?.Scripts?.Any() == true
+                                && tenantModel.TenantSettings.BackgroundServerScripts?.Scripts.All(o =>
+                                    selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
                     .Th(action: () => hb
@@ -2336,7 +2337,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: schedules.All(o =>
+                            _checked: schedules?.Any() == true && schedules?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
