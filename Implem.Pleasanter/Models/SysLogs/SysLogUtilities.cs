@@ -2476,6 +2476,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             SysLogModel sysLogModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new SysLogCollection(
                 context: context,
                 ss: ss,

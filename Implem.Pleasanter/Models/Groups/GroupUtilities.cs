@@ -1969,6 +1969,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             GroupModel groupModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new GroupCollection(
                 context: context,
                 ss: ss,

@@ -1,4 +1,5 @@
-﻿if (!#modelName#Model.Locked
+﻿column.ControlType = column.FieldCss == "field-rte" ? "RTEditor" : column.ControlType;
+if (!#modelName#Model.Locked
     && !#modelName#Model.ReadOnly
     && !isHistory
     && EditColumn(
@@ -6,6 +7,7 @@
         ss: ss,
         column: column,
         mine: #modelName#Model.Mine(context: context))
+    && column.ControlType != "RTEditor"
     && column.CanEdit(
         context: context,
         ss: ss,

@@ -43,6 +43,10 @@ private static void HistoriesTableBody(
     List<Column> columns,
     #ModelName#Model #modelName#Model)
 {
+    if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+    {
+        ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+    }
     new #ModelName#Collection(
         context: context,
 

@@ -187,3 +187,9 @@
         }
     }
 }
+
+:host([no-display-close]) {
+    .modal-close-icon {
+        display: none;
+    }
+}

@@ -1639,6 +1639,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             SiteModel siteModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new SiteCollection(
                 context: context,
                 column: HistoryColumn(columns),
@@ -7990,8 +7994,9 @@ namespace Implem.Pleasanter.Models
                     {
                         { "field-normal", Displays.Normal(context: context) },
                         { "field-wide", Displays.Wide(context: context) },
-                        { "field-markdown", Displays.MarkDown(context: context) }
-                    };
+                        { "field-markdown", Displays.MarkDown(context: context) },
+                        { "field-rte", Displays.RichTextEditor(context: context) }
+                    }; 
                 case "Attachment":
                     return null;
                 default:

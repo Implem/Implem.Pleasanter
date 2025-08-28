@@ -320,6 +320,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var dashboards = new Dictionary<string, DashboardModel>();
             var issues = new Dictionary<string, IssueModel>();
             var results = new Dictionary<string, ResultModel>();
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             switch (ss.ReferenceType)
             {
                 case "Issues":
@@ -560,6 +564,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     issues.Add(key, issueModel);
                                     ss.ClearColumnAccessControlCaches(baseModel: issueModel);
                                 }
+                                column.ControlType = column.FieldCss == "field-rte" ? "RTEditor" : column.ControlType;
                                 if (!issueModel.Locked
                                     && !issueModel.ReadOnly
                                     && !isHistory
@@ -568,6 +573,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: ss,
                                         column: column,
                                         mine: issueModel.Mine(context: context))
+                                    && column.ControlType != "RTEditor"
                                     && column.CanEdit(
                                         context: context,
                                         ss: ss,
@@ -631,6 +637,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     results.Add(key, resultModel);
                                     ss.ClearColumnAccessControlCaches(baseModel: resultModel);
                                 }
+                                column.ControlType = column.FieldCss == "field-rte" ? "RTEditor" : column.ControlType;
                                 if (!resultModel.Locked
                                     && !resultModel.ReadOnly
                                     && !isHistory
@@ -639,6 +646,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: ss,
                                         column: column,
                                         mine: resultModel.Mine(context: context))
+                                    && column.ControlType != "RTEditor"
                                     && column.CanEdit(
                                         context: context,
                                         ss: ss,

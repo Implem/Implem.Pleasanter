@@ -3799,6 +3799,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string EditModeToggle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EditModeToggle",
+                data: data);
+        }
+
         public static string Editor(
             Context context,
             params string[] data)
@@ -9196,6 +9206,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ResultId",
+                data: data);
+        }
+
+        public static string RichTextEditor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RichTextEditor",
                 data: data);
         }
 

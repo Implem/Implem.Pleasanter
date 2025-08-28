@@ -196,12 +196,12 @@ export class GridContainerElement extends HTMLElement {
                     ${stickyIndexes
                         .map((cellIndex, index) => {
                             return /* css */ `
-                                .${this.hash} tr:first-child th:nth-child(${cellIndex + 1}) {
+                                .${this.hash} > thead > tr:first-child > th:nth-child(${cellIndex + 1}) {
                                     position: sticky;
                                     z-index: 2;
                                     left: ${lefts[index]}px;
                                 }
-                                .${this.hash} tr td:nth-child(${cellIndex + 1}) {
+                                .${this.hash} > tbody > tr > td:nth-child(${cellIndex + 1}) {
                                     position: sticky;
                                     z-index: 2;
                                     left: ${lefts[index]}px;

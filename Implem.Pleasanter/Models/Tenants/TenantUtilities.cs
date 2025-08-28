@@ -1639,6 +1639,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             TenantModel tenantModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new TenantCollection(
                 context: context,
                 ss: ss,

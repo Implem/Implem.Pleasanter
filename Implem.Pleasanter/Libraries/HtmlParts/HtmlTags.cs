@@ -418,6 +418,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string css = null,
             string placeholder = null,
             HtmlAttributes attributes = null,
+            bool disabled = false,
             bool _using = true,
             string text = null)
         {
@@ -428,6 +429,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Id(id)
                         .Name(name)
                         .Class(css)
+                        .Disabled(disabled)
                         .Placeholder(placeholder),
                     action: () => hb
                         .Text(text: "\n" + text))
@@ -829,6 +831,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Text(text: text))
                 : hb;
         }
+
+
+        public static HtmlBuilder RichTextEditor(
+            this HtmlBuilder hb,
+            HtmlAttributes attributes = null,
+            string text = null,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "rt-editor",
+                    attributes: (attributes ?? new HtmlAttributes()),
+                    action: action)
+                : hb;
+        }
+
 
         public static HtmlBuilder SmartDesignLink(
             this HtmlBuilder hb,

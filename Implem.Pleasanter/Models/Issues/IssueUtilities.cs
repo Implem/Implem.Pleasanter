@@ -3091,6 +3091,10 @@ namespace Implem.Pleasanter.Models
             IssueModel issueModel,
             long newRowId)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             return hb.Tr(
                 attributes: new HtmlAttributes()
                     .Class("grid-row new")
@@ -3112,6 +3116,7 @@ namespace Implem.Pleasanter.Models
                             alwaysSend: true));
                     columns.ForEach(column =>
                     {
+                        column.ControlType = column.FieldCss == "field-rte" ? "RTEditor" : column.ControlType;
                         if (!column.Joined
                             && column.CanCreate(
                                 context: context,
@@ -3119,6 +3124,7 @@ namespace Implem.Pleasanter.Models
                                 mine: null)
                             && !column.Id_Ver
                             && column.EditorColumn
+                            && column.ControlType != "RTEditor"
                             && column.GridDesign.IsNullOrEmpty())
                         {
                             hb.Td(action: () => hb
@@ -6139,6 +6145,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             IssueModel issueModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new IssueCollection(
                 context: context,
                 ss: ss,

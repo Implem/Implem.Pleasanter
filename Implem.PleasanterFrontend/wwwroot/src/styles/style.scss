@@ -122,6 +122,7 @@ html .ui-button.ui-state-disabled:active {
     }
     .ui-dialog-titlebar-close {
         right: 16px;
+        background: var(--dialog-close-bg);
         border: none;
         box-shadow: none;
         &:hover {
@@ -909,7 +910,7 @@ input {
     background: #00f;
 }
 .status-rejected {
-    background: #808080;
+    background: var(--status-rejected-bg, #808080);
 }
 
 /* user */
@@ -2502,10 +2503,12 @@ body:not(:has(#Editor)) {
 
 /* gridTable */
 #Grid {
-    .grid-row,
-    tr {
-        > :last-child {
-            border-right: solid 1px transparent;
+    > thead,
+    > tbody {
+        > tr {
+            > :last-child {
+                border-right: solid 1px transparent;
+            }
         }
     }
 }
@@ -2516,29 +2519,27 @@ body:not(:has(#Editor)) {
     &:has(tbody:not(:empty)) {
         border-bottom: 1px solid var(--grid-cell-border);
     }
-    thead tr:first-child {
-        th:first-child,
-        th:last-child {
-            border-radius: 0;
-        }
-    }
-
-    thead,
-    tbody {
-        th,
-        td {
-            &:has(#GridCheckAll),
-            &:has(.select-all),
-            &:has(.grid-check) {
-                width: 36px;
+    > thead,
+    > tbody {
+        > tr {
+            > th,
+            > td {
+                position: relative;
+                z-index: 1;
+                padding: 8px 16px;
+                &:has(#GridCheckAll),
+                &:has(.select-all),
+                &:has(.grid-check) {
+                    width: 36px;
+                }
             }
         }
     }
 
-    thead {
+    > thead {
         top: 0;
-        tr {
-            th {
+        > tr {
+            > th {
                 width: var(--cell-width, auto);
                 min-width: var(--cell-width, 0);
                 max-width: var(--cell-width, 320px);
@@ -2561,30 +2562,32 @@ body:not(:has(#Editor)) {
                 &[data-cell-width] {
                     overflow: hidden;
                 }
+                &:first-child {
+                    border-left: 1px solid var(--primaryColor);
+                }
+                &:last-child {
+                    border-right: 1px solid var(--primaryColor);
+                }
+                &[data-name='Status'] {
+                    width: 60px;
+                }
             }
-            th:first-child {
-                border-left: 1px solid var(--primaryColor);
-            }
-            th:last-child {
-                border-right: 1px solid var(--primaryColor);
+            &:first-child {
+                > th:first-child,
+                > th:last-child {
+                    border-radius: 0;
+                }
             }
             &:last-of-type {
-                th {
+                > th {
                     border-bottom: none;
                 }
             }
         }
-        th[data-name='Status'] {
-            width: 60px;
-        }
     }
     .grid-row {
-        th {
-            background-color: var(--grid-cell-heading);
-            border-bottom: solid 1px var(--base-border);
-        }
-        th,
-        td {
+        > th,
+        > td {
             background-color: var(--grid-cell-bg);
             border-top: none;
             border-right: solid 1px var(--grid-cell-vborder);
@@ -2606,6 +2609,10 @@ body:not(:has(#Editor)) {
                 border-left: 1px solid var(--grid-cell-vborder);
             }
         }
+        > th {
+            background-color: var(--grid-cell-heading);
+            border-bottom: solid 1px var(--base-border);
+        }
         .comment {
             padding: 4px 4px 4px 16px;
             margin-bottom: 4px;
@@ -2613,16 +2620,16 @@ body:not(:has(#Editor)) {
             border: 1px solid var(--grid-comment-border);
         }
         &[data-history] {
-            td {
+            > td {
                 background-color: var(--base-dark-layer);
             }
         }
     }
-    tbody {
+    > tbody {
         &:last-child {
             .grid-row:last-child {
-                th,
-                td {
+                > th,
+                > td {
                     border-bottom: none;
                 }
             }
@@ -2632,8 +2639,8 @@ body:not(:has(#Editor)) {
     &:not(.not-link) {
         .grid-row {
             &:hover {
-                th,
-                td {
+                > th,
+                > td {
                     background-color: var(--grid-cell-hover);
                 }
             }
@@ -2652,17 +2659,32 @@ body:not(:has(#Editor)) {
         }
     }
 
-    th,
-    td {
-        position: relative;
-        z-index: 1;
-        padding: 8px 16px;
-    }
-
     .grid-title-body {
         padding: 8px;
         margin-bottom: 4px;
         background-color: transparent;
+        &:has(rt-editor) {
+            background: var(--nonColor16);
+            .title {
+                color: var(--nonColor02);
+                a {
+                    color: var(--primaryColor);
+                }
+            }
+            &.focus-inform {
+                background-color: var(--nonColor16) !important;
+                border: solid 1px var(--commonColor06) !important;
+            }
+        }
+    }
+
+    /* IssuesTableItem */
+    svg.svg-work-value text,
+    svg.svg-progress-rate text {
+        fill: var(--base-text);
+    }
+    .svg-progress-rate.warning text {
+        fill: var(--control-error);
     }
 }
 .menu-sort {
@@ -2727,13 +2749,20 @@ body:not(:has(#Editor)) {
         th,
         td {
             white-space: nowrap;
+            th,
+            td {
+                white-space: initial;
+            }
         }
-        #Grid {
-            tr {
-                th,
-                td {
-                    &:last-child {
-                        border-right: solid 1px var(--grid-cell-border);
+        > #Grid {
+            > thead,
+            > tbody {
+                > tr {
+                    > th,
+                    > td {
+                        &:last-child {
+                            border-right: solid 1px var(--grid-cell-border);
+                        }
                     }
                 }
             }
@@ -3048,11 +3077,11 @@ body:has(#TableName[value='Tenants']) {
         color: var(--base-text);
     }
     .dashboard-timeline-item {
-        background-color: var(--base-bg);
+        background-color: var(--dashboard-timeline-bg, var(--base-bg));
     }
     .dashboard-timeline-header {
         a {
-            color: var(--primaryColor);
+            color: var(--dashboard-timeline-color, var(--primaryColor));
             text-decoration: none;
         }
     }
@@ -3068,7 +3097,7 @@ body:has(#TableName[value='Tenants']) {
         display: flex;
         gap: 2px;
         align-items: center;
-        background-color: var(--base-bg);
+        background-color: var(--dashboard-timeline-bg, var(--base-bg));
     }
     .dashboard-part-nav-link,
     .material-symbols-outlined {
@@ -3525,7 +3554,7 @@ body:has(input#Controller[value='syslogs']) {
             color: var(--base-text);
         }
         &.fc-day-today {
-            background-color: var(--primarySub04);
+            background-color: var(--fullcalendar-today-bg, var(--primarySub04));
         }
     }
     .fc-day-other {
@@ -3774,7 +3803,7 @@ body:has(input#Controller[value='syslogs']) {
 }
 
 #LoaderContainer {
-    background-color: rgb(255 255 255 / 50%);
+    background-color: var(--loader-stage-bg, rgb(255 255 255 / 50%));
     .loader {
         border-color: var(--primaryColor);
         border-right-color: transparent;

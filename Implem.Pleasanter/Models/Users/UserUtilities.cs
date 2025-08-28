@@ -2987,6 +2987,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             UserModel userModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new UserCollection(
                 context: context,
                 ss: ss,

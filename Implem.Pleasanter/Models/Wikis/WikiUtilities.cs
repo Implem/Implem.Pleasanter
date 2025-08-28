@@ -2832,6 +2832,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             WikiModel wikiModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new WikiCollection(
                 context: context,
                 ss: ss,
