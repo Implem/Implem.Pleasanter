@@ -975,6 +975,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             return StatusReadOnly || EditorReadOnly == true;
         }
 
+        public bool GetReadOnly()
+        {
+            var readOnly = ServerScriptModelColumn?.GetReadOnly();
+            if (readOnly != null)
+            {
+                return readOnly == true;
+            }
+            return EditorReadOnly == true;
+        }
+
         public bool GetHide()
         {
             var hide = ServerScriptModelColumn?.GetHide();

@@ -621,7 +621,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column);
-                            if(value != null)
+                            if (value != null)
                             {
                                 //数値項目の場合、「単位」を値に連結する
                                 value += issueModel.NumUnit(
