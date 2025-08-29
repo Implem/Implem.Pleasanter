@@ -568,6 +568,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 if (!issueModel.Locked
                                     && !issueModel.ReadOnly
                                     && !isHistory
+                                    && !column.GetReadOnly()
                                     && EditColumn(
                                         context: context,
                                         ss: ss,
@@ -641,6 +642,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 if (!resultModel.Locked
                                     && !resultModel.ReadOnly
                                     && !isHistory
+                                    && !column.GetReadOnly()
                                     && EditColumn(
                                         context: context,
                                         ss: ss,
@@ -721,10 +723,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss,
                 mine: mine))
-            {
-                return false;
-            }
-            if (column.GetEditorReadOnly())
             {
                 return false;
             }

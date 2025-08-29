@@ -621,7 +621,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column);
-                            if(value != null)
+                            if (value != null)
                             {
                                 //数値項目の場合、「単位」を値に連結する
                                 value += issueModel.NumUnit(
@@ -2270,12 +2270,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            var readOnly = issueModel.GetStatusControl(
-                context: context,
-                ss: ss,
-                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
             return (column.GetEditorReadOnly()
-                || readOnly
                 || Permissions.ColumnPermissionType(
                     context: context,
                     ss: ss,
@@ -2291,6 +2286,10 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column)
         {
+            column.StatusReadOnly = issueModel.GetStatusControl(
+                context: context,
+                ss: ss,
+                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
             switch (column.Name)
             {
                 case "IssueId":
