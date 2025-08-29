@@ -135,6 +135,7 @@ export class GridContainerElement extends HTMLElement {
     };
 
     private handleScrollStart = (e: MouseEvent) => {
+        if (this.contains(e.target as Node)) this.isEntered = true;
         if (this.isEntered && !this.isKeyHeld && e.button === 0) {
             this.isMouseHeld = true;
         }

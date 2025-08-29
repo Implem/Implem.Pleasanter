@@ -1841,6 +1841,7 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             Column column,
             bool controlOnly = false,
+            bool gridEditMode = false,
             bool alwaysSend = false,
             bool disableAutoPostBack = false,
             string idSuffix = null,
@@ -1886,6 +1887,7 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         baseModel: resultModel),
                     controlOnly: controlOnly,
+                    gridEditMode: gridEditMode,
                     alwaysSend: alwaysSend,
                     disableAutoPostBack: disableAutoPostBack,
                     idSuffix: idSuffix,
@@ -2905,7 +2907,6 @@ namespace Implem.Pleasanter.Models
                             alwaysSend: true));
                     columns.ForEach(column =>
                     {
-                        column.ControlType = column.FieldCss == "field-rte" ? "RTEditor" : column.ControlType;
                         if (!column.Joined
                             && column.CanCreate(
                                 context: context,
@@ -2913,7 +2914,6 @@ namespace Implem.Pleasanter.Models
                                 mine: null)
                             && !column.Id_Ver
                             && column.EditorColumn
-                            && column.ControlType != "RTEditor"
                             && column.GridDesign.IsNullOrEmpty())
                         {
                             hb.Td(action: () => hb
@@ -2923,6 +2923,7 @@ namespace Implem.Pleasanter.Models
                                     resultModel: resultModel,
                                     column: column,
                                     controlOnly: true,
+                                    gridEditMode: true,
                                     alwaysSend: resultModel.CopiedGrid,
                                     idSuffix: $"_{ss.SiteId}_{newRowId}"));
                         }

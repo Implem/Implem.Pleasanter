@@ -31,7 +31,6 @@
                     alwaysSend: true));
             columns.ForEach(column =>
             {
-                column.ControlType = column.FieldCss == "field-rte" ? "RTEditor" : column.ControlType;
                 if (!column.Joined
                     && column.CanCreate(
                         context: context,
@@ -39,7 +38,6 @@
                         mine: null)
                     && !column.Id_Ver
                     && column.EditorColumn
-                    && column.ControlType != "RTEditor"
                     && column.GridDesign.IsNullOrEmpty())
                 {
                     hb.Td(action: () => hb
@@ -49,6 +47,7 @@
                             #modelName#Model: #modelName#Model,
                             column: column,
                             controlOnly: true,
+                            gridEditMode: true,
                             alwaysSend: #modelName#Model.CopiedGrid,
                             idSuffix: $"_{ss.SiteId}_{newRowId}"));
                 }

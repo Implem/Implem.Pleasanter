@@ -564,7 +564,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     issues.Add(key, issueModel);
                                     ss.ClearColumnAccessControlCaches(baseModel: issueModel);
                                 }
-                                column.ControlType = column.FieldCss == "field-rte" ? "RTEditor" : column.ControlType;
                                 if (!issueModel.Locked
                                     && !issueModel.ReadOnly
                                     && !isHistory
@@ -574,7 +573,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: ss,
                                         column: column,
                                         mine: issueModel.Mine(context: context))
-                                    && column.ControlType != "RTEditor"
                                     && column.CanEdit(
                                         context: context,
                                         ss: ss,
@@ -597,6 +595,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             issueModel: issueModel,
                                             ss: column.SiteSettings,
                                             controlOnly: true,
+                                            gridEditMode: true,
                                             idSuffix: issueModel.IdSuffix()));
                                 }
                                 else if (column.ColumnName.Contains("~")
@@ -638,7 +637,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     results.Add(key, resultModel);
                                     ss.ClearColumnAccessControlCaches(baseModel: resultModel);
                                 }
-                                column.ControlType = column.FieldCss == "field-rte" ? "RTEditor" : column.ControlType;
                                 if (!resultModel.Locked
                                     && !resultModel.ReadOnly
                                     && !isHistory
@@ -648,7 +646,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: ss,
                                         column: column,
                                         mine: resultModel.Mine(context: context))
-                                    && column.ControlType != "RTEditor"
                                     && column.CanEdit(
                                         context: context,
                                         ss: ss,
@@ -671,6 +668,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             resultModel: resultModel,
                                             ss: column.SiteSettings,
                                             controlOnly: true,
+                                            gridEditMode: true,
                                             idSuffix: resultModel.IdSuffix()));
                                 }
                                 else if (column.ColumnName.Contains("~")

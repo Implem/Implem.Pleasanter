@@ -87,6 +87,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             bool controlOnly = false,
+            bool gridEditMode = false,
             bool alwaysSend = false,
             bool disableAutoPostBack = false,
             string idSuffix = null,
@@ -164,6 +165,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: value),
                     mobile: context.Mobile,
                     controlOnly: controlOnly,
+                    gridEditMode: gridEditMode,
                     alwaysSend: alwaysSend,
                     required: column.Required
                         || column.GetValidateRequired()
@@ -396,6 +398,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: value),
                 mobile: context.Mobile,
                 controlOnly: false,
+                gridEditMode: false,
                 alwaysSend: false,
                 required: column.Required
                     || column.GetValidateRequired(),
@@ -434,6 +437,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> optionCollection,
             bool mobile,
             bool controlOnly,
+            bool gridEditMode,
             bool alwaysSend,
             bool required,
             bool preview,
@@ -511,6 +515,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
+                                disabled: gridEditMode,
                                 labelText: labelText,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
@@ -526,7 +531,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
-
                         case ControlTypes.Attachments:
                             return hb.FieldAttachments(
                                 context: context,
@@ -589,6 +593,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: labelText,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
+                                gridEditMode: gridEditMode,
                                 text: value.ToDisplay(
                                     context: context,
                                     ss: ss,
@@ -763,6 +768,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 text: value,
+                                disabled: gridEditMode,
                                 readOnly: column.GetEditorReadOnly(),
                                 allowBulkUpdate: column.AllowBulkUpdate == true,
                                 allowImage: column.AllowImage == true,
@@ -1253,6 +1259,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelTitle = null,
             string labelIcon = null,
             bool controlOnly = false,
+            bool gridEditMode = false,
             string text = null,
             string dataValue = null,
             string dataRaw = null,
