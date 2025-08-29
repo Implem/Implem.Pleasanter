@@ -2,6 +2,7 @@
 if (!#modelName#Model.Locked
     && !#modelName#Model.ReadOnly
     && !isHistory
+    && !column.GetReadOnly()
     && EditColumn(
         context: context,
         ss: ss,
