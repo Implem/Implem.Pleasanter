@@ -1,34 +1,34 @@
 ﻿{
-    "Id": "Edit",
+    "Id": "EditModeToggle",
     "Type": 110,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "Edit"
+            "Body": "Edit mode toggle"
         },
         {
             "Language": "zh",
-            "Body": "编辑"
+            "Body": "编辑模式切换"
         },
         {
             "Language": "ja",
-            "Body": "編集"
+            "Body": "編集モードの切り替え"
         },
         {
             "Language": "de",
-            "Body": "Bearbeiten"
+            "Body": "Bearbeitungsmodus umschalten"
         },
         {
             "Language": "ko",
-            "Body": "편집"
+            "Body": "편집 모드 전환"
         },
         {
             "Language": "es",
-            "Body": "Editar"
+            "Body": "Alternar modo de edición"
         },
         {
             "Language": "vn",
-            "Body": "Chỉnh sửa"
+            "Body": "Chuyển đổi chế độ chỉnh sửa"
         }
     ]
 }

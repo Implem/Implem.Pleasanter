@@ -1639,6 +1639,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             SiteModel siteModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new SiteCollection(
                 context: context,
                 column: HistoryColumn(columns),
@@ -7990,8 +7994,9 @@ namespace Implem.Pleasanter.Models
                     {
                         { "field-normal", Displays.Normal(context: context) },
                         { "field-wide", Displays.Wide(context: context) },
-                        { "field-markdown", Displays.MarkDown(context: context) }
-                    };
+                        { "field-markdown", Displays.MarkDown(context: context) },
+                        { "field-rte", Displays.RichTextEditor(context: context) }
+                    }; 
                 case "Attachment":
                     return null;
                 default:
@@ -8752,7 +8757,7 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .CheckBox(
                                 controlCss: "select-all",
-                                _checked: ss.Summaries?.All(o =>
+                                _checked: ss.Summaries?.Any() == true && ss.Summaries?.All(o =>
                                     selected?.Contains(o.Id) == true) == true))
                     .Th(attributes: new HtmlAttributes()
                             .Rowspan(2),
@@ -9204,7 +9209,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Formulas?.All(o =>
+                            _checked: ss.Formulas?.Any() == true && ss.Formulas?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                             .Text(text: Displays.Id(context: context)))
@@ -9538,7 +9543,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Processes?.All(o =>
+                            _checked: ss.Processes?.Any() == true && ss.Processes?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -10035,7 +10040,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Summaries?.All(o =>
+                            _checked: ss.Summaries?.Any() == true && ss.Summaries?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -10419,7 +10424,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Summaries?.All(o =>
+                            _checked: ss.Summaries?.Any() == true && ss.Summaries?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -10808,7 +10813,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Summaries?.All(o =>
+                            _checked: ss.Summaries?.Any() == true && ss.Summaries?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -11067,7 +11072,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.StatusControls?.All(o =>
+                            _checked: ss.StatusControls?.Any() == true && ss.StatusControls?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -12865,7 +12870,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Summaries?.All(o =>
+                            _checked: ss.Summaries?.Any() == true && ss.Summaries?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -13389,7 +13394,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Summaries?.All(o =>
+                            _checked: ss.Summaries?.Any() == true && ss.Summaries?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -13864,7 +13869,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Summaries?.All(o =>
+                            _checked: ss.Summaries?.Any() == true && ss.Summaries?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -14749,7 +14754,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Styles?.All(o =>
+                            _checked: ss.Styles?.Any() == true && ss.Styles?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -15153,7 +15158,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Scripts?.All(o =>
+                            _checked: ss.Scripts?.Any() == true && ss.Scripts?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -15558,7 +15563,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Htmls?.All(o =>
+                            _checked: ss.Htmls?.Any() == true && ss.Htmls?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -16014,7 +16019,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.ServerScripts?.All(o =>
+                            _checked: ss.ServerScripts?.Any() == true && ss.ServerScripts?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
@@ -16699,7 +16704,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .CheckBox(
                             controlCss: "select-all",
-                            _checked: ss.Scripts?.All(o =>
+                            _checked: ss.Scripts?.Any() == true && ss.Scripts?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
