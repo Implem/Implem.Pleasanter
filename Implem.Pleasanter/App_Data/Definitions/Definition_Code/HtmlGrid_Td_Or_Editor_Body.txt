@@ -1,5 +1,4 @@
-﻿column.ControlType = column.FieldCss == "field-rte" ? "RTEditor" : column.ControlType;
-if (!#modelName#Model.Locked
+﻿if (!#modelName#Model.Locked
     && !#modelName#Model.ReadOnly
     && !isHistory
     && !column.GetReadOnly()
@@ -8,7 +7,6 @@ if (!#modelName#Model.Locked
         ss: ss,
         column: column,
         mine: #modelName#Model.Mine(context: context))
-    && column.ControlType != "RTEditor"
     && column.CanEdit(
         context: context,
         ss: ss,
@@ -31,6 +29,7 @@ if (!#modelName#Model.Locked
             #modelName#Model: #modelName#Model,
             ss: column.SiteSettings,
             controlOnly: true,
+            gridEditMode: true,
             idSuffix: <!--HtmlGrid_Td_IdSuffix--><!--HtmlGrid_Td_IdSuffixNull-->));
 }
 else if (column.ColumnName.Contains("~")
