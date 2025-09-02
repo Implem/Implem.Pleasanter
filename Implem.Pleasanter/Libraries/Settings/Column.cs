@@ -93,7 +93,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Format;
         public bool? NoWrap;
         public bool? Hide;
-        public bool? SoftHide;
+        public bool? Empty;
         public string AutoNumberingFormat;
         public AutoNumberingResetTypes? AutoNumberingResetType;
         public int? AutoNumberingDefault;
@@ -995,14 +995,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Hide == true;
         }
 
-        public bool GetSoftHide()
+        public bool GetEmpty()
         {
-            var softHide = ServerScriptModelColumn?.GetSoftHide();
-            if (softHide != null)
+            var empty = ServerScriptModelColumn?.GetEmpty();
+            if (empty != null)
             {
-                return softHide == true;
+                return empty == true;
             }
-            return SoftHide == true;
+            return Empty == true;
         }
 
         public bool GetValidateRequired()
