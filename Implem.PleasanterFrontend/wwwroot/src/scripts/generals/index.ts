@@ -31,7 +31,7 @@ import './confirmevents.js';
 import './controloptionevents.js';
 import './crosstab.js';
 import './dashboard.js';
-import './datefield.js';
+import './datefield.ts';
 import './dialog.js';
 import './dialogevents.js';
 import './display.js';
