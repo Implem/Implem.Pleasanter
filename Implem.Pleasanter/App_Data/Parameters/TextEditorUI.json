@@ -1,0 +1,32 @@
+﻿{
+    "RichTextEditor": {
+        "DefaultFont": [
+            "Meiryo",
+            "Hiragino Kaku Gothic Pro",
+            "Yu Gothic",
+            "Helvetica Neue",
+            "Helvetica",
+            "Arial",
+            "sans-serif"
+        ],
+        "FontList": [
+            "游ゴシック",
+            "BIZ UDPゴシック",
+            "Noto Sans",
+            "游明朝",
+            "BIZ UDP明朝",
+            "Noto Serif JP",
+            "Arial",
+            "Segoe UI",
+            "Calibri",
+            "Helvetica",
+            "Impact",
+            "Times New Roman",
+            "ＭＳ ゴシック",
+            "ＭＳ Ｐゴシック",
+            "ＭＳ 明朝",
+            "ＭＳ Ｐ明朝"
+        ],
+        "FontSize": [ 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 ]
+    }
+}

@@ -787,6 +787,10 @@ pre {
     table-layout: fixed;
 }
 
+.CalendarBody table tbody {
+    position: static;
+}
+
 div.Calendar > .CalendarBody > .grid > thead > tr > th {
     padding: 5px;
     text-align: center;
@@ -1112,6 +1116,10 @@ th.calendar-header {
 
 #TimeSeries .index {
     fill: black;
+}
+
+.kambanbody table tbody {
+    position: static;
 }
 
 .kambanbody .kamban-row {
@@ -2719,7 +2727,7 @@ label.required::after {
     border-bottom: solid 1px silver;
 }
 
-.grid-row td {
+.grid-row > td {
     overflow: hidden;
 }
 
@@ -2774,12 +2782,24 @@ label.required::after {
     border: solid 1px transparent;
 }
 
+.grid-title-body > .title {
+    float: none;
+}
+
 .grid-title-body > .body {
     width: 100%;
 }
 
 .grid-title-body > .title + .body {
     padding: 8px 0 0 10px;
+}
+
+.grid .grid-title-body:has(rt-editor textarea:not(:empty)) {
+    background-color: #fff;
+}
+
+.grid .grid-title-body:has(rt-editor) .body {
+    padding: 8px 0 0;
 }
 
 .dashboard-grid-header {

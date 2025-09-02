@@ -490,15 +490,6 @@ namespace Implem.Pleasanter.Models
             {
                 return hb.Td();
             }
-            if (serverScriptModelColumn?.SoftHideChanged == true && serverScriptModelColumn?.SoftHide == true)
-            {
-                return hb.Td(
-                    action:
-                        serverScriptModelColumn?.RawText.IsNullOrEmpty() == false
-                        ? () => hb.Raw(serverScriptModelColumn?.RawText)
-                        : null,
-                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss));
-            }
             if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
             {
                 return hb.Td(
@@ -1833,6 +1824,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             DeptModel deptModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new DeptCollection(
                 context: context,
                 ss: ss,

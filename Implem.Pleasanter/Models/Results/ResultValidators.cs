@@ -1235,11 +1235,14 @@ namespace Implem.Pleasanter.Models
                     }
                     if (!value.IsNullOrEmpty())
                     {
-                        Validators.ValidateMaxLength(
-                            columnName: column.ColumnName,
-                            maxLength: column.MaxLength,
-                            errors: errors,
-                            value: value);
+                        if (column.FieldCss != "field-rte")
+                        {
+                            Validators.ValidateMaxLength(
+                                columnName: column.ColumnName,
+                                maxLength: column.MaxLength,
+                                errors: errors,
+                                value: value);
+                        }
                         var validationType = ss.Processes
                             ?.FirstOrDefault(o => $"Process_{o.Id}" == context.Forms.ControlId())
                             ?.ValidationType;

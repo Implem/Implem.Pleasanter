@@ -1,0 +1,146 @@
+:host {
+    box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+ui-modal {
+    #loading {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-content: center;
+        padding: 0;
+        overflow: visible;
+        outline: none;
+        background-color: transparent;
+        border: none;
+        opacity: 0;
+        transition: opacity 200ms ease-out;
+    }
+    .loader {
+        display: block;
+        width: 48px;
+        height: 48px;
+        border: 5px solid #fff;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        animation: rotation 1000ms linear infinite;
+        animation-play-state: paused;
+        will-change: transform;
+    }
+
+    .viewer-stage {
+        display: block;
+        margin: 0 8px;
+        opacity: 1;
+        transition: opacity 200ms ease-out;
+    }
+    .stage-body {
+        figure {
+            all: unset;
+            display: block;
+            width: fit-content;
+            margin: auto;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+        img {
+            display: block;
+            max-width: 90vw;
+            max-height: 90vh;
+            margin: auto;
+        }
+    }
+    .counter {
+        position: relative;
+        z-index: 1;
+        display: none;
+    }
+    .counter-inner {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        justify-content: flex-end;
+        margin: 12px 0 0;
+        font-family: Verdana, Courier, monospace;
+        font-size: 14px;
+        color: #ccc;
+        white-space: nowrap;
+        .navi {
+            all: unset;
+            display: block;
+            padding: 4px 8px;
+            color: #333;
+            cursor: pointer;
+            background: rgb(255 255 255 / 80%);
+            border: 1px solid #000;
+            border-radius: 4px;
+            box-shadow: 0 2px #000;
+            transition: background 200ms ease-out;
+            .icon {
+                display: block;
+                font-family: 'Material Symbols Outlined', sans-serif;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 600;
+                font-feature-settings: 'liga';
+                line-height: 1;
+                text-transform: none;
+                letter-spacing: normal;
+                word-wrap: normal;
+                white-space: nowrap;
+                direction: ltr;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                text-rendering: optimizelegibility;
+            }
+            &.prev {
+                margin-right: 8px;
+            }
+            &.next {
+                margin-left: 8px;
+            }
+            &:hover {
+                background: rgb(255 255 255 / 100%);
+            }
+        }
+    }
+    &[is-loading] {
+        #loading {
+            opacity: 1;
+            .loader {
+                animation-play-state: running;
+            }
+        }
+        .viewer-stage {
+            opacity: 0;
+        }
+    }
+    &[has-collection] {
+        .counter {
+            display: block;
+        }
+    }
+
+    @media screen and (width <= 1024px) and (width >= 0) {
+        .stage-body {
+            img {
+                max-width: 80vw;
+                max-height: 80vh;
+            }
+        }
+    }
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

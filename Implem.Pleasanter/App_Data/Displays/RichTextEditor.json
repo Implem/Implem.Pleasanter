@@ -1,34 +1,34 @@
 ﻿{
-    "Id": "Edit",
+    "Id": "RichTextEditor",
     "Type": 110,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "Edit"
+            "Body": "Rich text editor"
         },
         {
             "Language": "zh",
-            "Body": "编辑"
+            "Body": "富文本编辑器"
         },
         {
             "Language": "ja",
-            "Body": "編集"
+            "Body": "リッチテキストエディタ"
         },
         {
             "Language": "de",
-            "Body": "Bearbeiten"
+            "Body": "Rich-Text-Editor"
         },
         {
             "Language": "ko",
-            "Body": "편집"
+            "Body": "리치 텍스트 편집기"
         },
         {
             "Language": "es",
-            "Body": "Editar"
+            "Body": "Editor de texto enriquecido"
         },
         {
             "Language": "vn",
-            "Body": "Chỉnh sửa"
+            "Body": "Trình soạn thảo Rich Text"
         }
     ]
 }

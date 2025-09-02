@@ -135,6 +135,7 @@ export class GridContainerElement extends HTMLElement {
     };
 
     private handleScrollStart = (e: MouseEvent) => {
+        if (this.contains(e.target as Node)) this.isEntered = true;
         if (this.isEntered && !this.isKeyHeld && e.button === 0) {
             this.isMouseHeld = true;
         }
@@ -196,12 +197,12 @@ export class GridContainerElement extends HTMLElement {
                     ${stickyIndexes
                         .map((cellIndex, index) => {
                             return /* css */ `
-                                .${this.hash} tr:first-child th:nth-child(${cellIndex + 1}) {
+                                .${this.hash} > thead > tr:first-child > th:nth-child(${cellIndex + 1}) {
                                     position: sticky;
                                     z-index: 2;
                                     left: ${lefts[index]}px;
                                 }
-                                .${this.hash} tr td:nth-child(${cellIndex + 1}) {
+                                .${this.hash} > tbody > tr > td:nth-child(${cellIndex + 1}) {
                                     position: sticky;
                                     z-index: 2;
                                     left: ${lefts[index]}px;
