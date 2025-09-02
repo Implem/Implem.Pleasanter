@@ -995,16 +995,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Hide == true;
         }
 
-        public bool GetEmpty()
-        {
-            var empty = ServerScriptModelColumn?.GetEmpty();
-            if (empty != null)
-            {
-                return empty == true;
-            }
-            return Empty == true;
-        }
-
         public bool GetValidateRequired()
         {
             var validateRequired = ServerScriptModelColumn?.GetValidateRequired();

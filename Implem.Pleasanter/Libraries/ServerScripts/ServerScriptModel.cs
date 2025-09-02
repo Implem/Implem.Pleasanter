@@ -335,13 +335,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     : null;
             }
 
-            public bool? GetEmpty()
-            {
-                return _empty
-                    ? (bool?)Empty
-                    : null;
-            }
-
             public bool HideChanged => _hideChanged;
             public bool EmptyChanged => _emptyChanged;
         }
