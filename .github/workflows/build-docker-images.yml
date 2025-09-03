@@ -2,7 +2,7 @@
 
 on:
   release:
-    types: [edited]
+    types: [published, edited]
 
 jobs:
   push_to_registry:
