@@ -8,14 +8,14 @@ declare const $: JQueryStatic;
 declare let $p: { set: (target: JQuery<HTMLElement>, value: string) => void };
 
 class InputDate extends HTMLElement {
-    static isRwd: boolean = $('head').css('font-family') === 'responsive';
+    static isRwd: boolean;
+    static language: string;
+    static timeZoneOffset: string;
     private dataPicker?: Instance;
     private inputElm: HTMLInputElement | null = null;
     private currentElem: HTMLElement | null = null;
     private dateFormat: string = 'Y/m/d H:i';
     private dateFnsFormat?: string | null;
-    private language: string = 'ja';
-    private timeZoneOffset: string = '0';
 
     constructor() {
         super();
@@ -28,17 +28,24 @@ class InputDate extends HTMLElement {
         this.inputElm = this.querySelector('input');
         if (!this.inputElm) return;
 
+        if (InputDate.isRwd === undefined) {
+            InputDate.isRwd = $('head').css('font-family') === 'responsive';
+        }
+        if (InputDate.language === undefined) {
+            InputDate.language = (document.getElementById('Language') as HTMLInputElement)?.value ?? 'ja';
+        }
+        if (InputDate.timeZoneOffset === undefined) {
+            InputDate.timeZoneOffset = (document.getElementById('TimeZoneOffset') as HTMLInputElement)?.value ?? '0';
+        }
+
         this.currentElem = this.shadowRoot.querySelector('.current-date');
         if (this.dataset.hideCurrent) {
             const currentDateElem = this.shadowRoot.querySelector('.current-date');
             currentDateElem?.remove();
         }
-
         if (this.inputElm.dataset.format) {
             this.dateFormat = this.inputElm.dataset.format.replace(/s/g, 'S');
         }
-        this.language = (document.getElementById('Language') as HTMLInputElement)?.value ?? 'ja';
-        this.timeZoneOffset = (document.getElementById('TimeZoneOffset') as HTMLInputElement)?.value ?? '0';
 
         this.init();
     }
@@ -54,7 +61,7 @@ class InputDate extends HTMLElement {
         if (this.currentElem) this.currentElem.addEventListener('click', this.onCurrent);
     }
 
-    private setDateFormat = () => {
+    private setDateFormat() {
         let dateFnsFormat: string | undefined;
         switch (this.inputElm?.dataset.format) {
             case 'Y/m/d':
@@ -95,11 +102,11 @@ class InputDate extends HTMLElement {
                 break;
         }
         this.dateFnsFormat = dateFnsFormat;
-    };
+    }
 
     private onCurrent = () => {
         if (!this.inputElm || !this.dateFnsFormat) return;
-        this.inputElm.value = moment().utcOffset(this.timeZoneOffset).format(this.dateFnsFormat);
+        this.inputElm.value = moment().utcOffset(InputDate.timeZoneOffset).format(this.dateFnsFormat);
         $p.set($(this.inputElm), this.inputElm.value);
         if (this.dataPicker) this.dataPicker.setDate(this.inputElm.value, false);
         this.inputElm.dispatchEvent(
@@ -110,11 +117,11 @@ class InputDate extends HTMLElement {
         );
     };
 
-    private initDatePicker = () => {
+    private initDatePicker() {
         if (!this.inputElm) return;
         const dialog = this.inputElm.closest('.ui-dialog');
         const fpOptions: Options = {
-            locale: Object.assign({}, flatpickr.l10ns.default, this.language === 'ja' ? Japanese : {}, {
+            locale: Object.assign({}, flatpickr.l10ns.default, InputDate.language === 'ja' ? Japanese : {}, {
                 firstDayOfWeek: 1
             }),
             appendTo: dialog ? (dialog as HTMLElement) : document.body,
@@ -157,7 +164,7 @@ class InputDate extends HTMLElement {
         };
 
         this.dataPicker = flatpickr(this.inputElm as HTMLElement, fpOptions);
-    };
+    }
 
     render(): string {
         return `

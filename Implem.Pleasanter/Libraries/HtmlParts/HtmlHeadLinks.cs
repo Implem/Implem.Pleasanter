@@ -122,7 +122,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder EsModuleLinks(
-            this HtmlBuilder hb, List<ResultEntry> entries, string path , Context context)
+            this HtmlBuilder hb, List<ResultEntry> entries, string path, Context context)
         {
             var linkedFiles = new HashSet<string>();
             foreach (var entry in entries)
