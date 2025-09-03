@@ -1,15 +1,15 @@
-﻿declare const $: JQueryStatic;
+﻿import flatpickr from 'flatpickr';
+import { Japanese } from 'flatpickr/dist/l10n/ja.js';
+import type { Options } from 'flatpickr/dist/types/options';
+import type { Instance } from 'flatpickr/dist/types/instance';
+import moment from 'moment';
+
+declare const $: JQueryStatic;
 declare let $p: { set: (target: JQuery<HTMLElement>, value: string) => void };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare let flatpickr: any;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare let moment: any;
-
 class InputDate extends HTMLElement {
-    private static isRwd: boolean = $('head').css('font-family') === 'responsive';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private dataPicker: any;
+    static isRwd: boolean = $('head').css('font-family') === 'responsive';
+    private dataPicker?: Instance;
     private inputElm: HTMLInputElement | null = null;
     private currentElem: HTMLElement | null = null;
     private dateFormat: string = 'Y/m/d H:i';
@@ -113,12 +113,11 @@ class InputDate extends HTMLElement {
     private initDatePicker = () => {
         if (!this.inputElm) return;
         const dialog = this.inputElm.closest('.ui-dialog');
-
-        this.dataPicker = flatpickr(this.inputElm, {
-            locale: Object.assign({}, flatpickr.l10ns.default, this.language === 'ja' ? flatpickr.l10ns.ja : {}, {
+        const fpOptions: Options = {
+            locale: Object.assign({}, flatpickr.l10ns.default, this.language === 'ja' ? Japanese : {}, {
                 firstDayOfWeek: 1
             }),
-            appendTo: dialog ? dialog : document.body,
+            appendTo: dialog ? (dialog as HTMLElement) : document.body,
             positionElement: this.inputElm,
             enableTime: this.inputElm.dataset.timepicker === '1',
             enableSeconds: (this.inputElm.dataset.format && this.inputElm.dataset.format.includes(':s')) || false,
@@ -126,8 +125,7 @@ class InputDate extends HTMLElement {
             allowInput: !InputDate.isRwd ? true : false,
             disableMobile: true,
             dateFormat: this.dateFormat,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onOpen: function (_selectedDates: Date[], _dateStr: string, instance: any) {
+            onOpen: function (_selectedDates: Date[], _dateStr: string, instance: Instance) {
                 if (dialog) {
                     requestAnimationFrame(() => {
                         const cal = instance.calendarContainer as HTMLElement;
@@ -140,10 +138,11 @@ class InputDate extends HTMLElement {
                     });
                 }
             },
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onReady: function (_selectedDates: Date[], _dateStr: string, instance: any) {
+
+            onReady: function (_selectedDates: Date[], _dateStr: string, instance: Instance) {
                 if (!instance.timeContainer) return false;
-                const timeInputs = instance.timeContainer.querySelectorAll("input[type='number']");
+                const timeInputs: NodeListOf<HTMLInputElement> =
+                    instance.timeContainer.querySelectorAll("input[type='number']");
                 if (timeInputs) {
                     timeInputs.forEach((input: HTMLInputElement) => {
                         input.addEventListener('focus', function () {
@@ -155,7 +154,9 @@ class InputDate extends HTMLElement {
                     });
                 }
             }
-        });
+        };
+
+        this.dataPicker = flatpickr(this.inputElm as HTMLElement, fpOptions);
     };
 
     render(): string {
@@ -185,6 +186,7 @@ class InputDate extends HTMLElement {
                 height: 100%;
                 margin: 0;
                 padding: 0;
+                color: var(--base-text);
                 background: transparent;
                 border: none;
                 outline: none;

@@ -8,8 +8,9 @@ using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json.Nodes;
 using System.Net;
+using System.Text.Json.Nodes;
+using static Implem.Pleasanter.Libraries.HtmlParts.HtmlHeadLink;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlScripts
@@ -24,9 +25,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (!context.Ajax)
             {
                 var extendedScripts = ExtendedScripts(context: context);
-                var path = Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json");
-                var json = ManifestLoader(path);
-                var cacheBustingCode = WebUtility.UrlEncode((context.ThemeVersionForCss() + Environments.AssemblyVersion).Split(".").Join(""));
+
+
+                var componentsJson = ManifestLoader(
+                    Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json"));
+
+                var assetsJson = ManifestLoader(
+                    Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "assets", "manifest.json"));
+
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,
@@ -112,18 +118,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         parts: "assets/Plugins/qrcode.min.js"),
                         nonce: context.Nonce)
-                    .Script(src:
-                        Responses.Locations.Raw(
-                            context: context,
-                            parts: $"components/{json["main"]}"),
-                        type: "module",
-                        crossorigin: true,
-                        nonce: context.Nonce
-                    )
-                    .Script(src: Responses.Locations.Get(
-                        context: context,
-                        parts: $"assets/js/app.min.js?v={cacheBustingCode}"),
-                        nonce: context.Nonce)
+                    .ManifestScripts(ManifestLoader(
+                        Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json")
+                    ), "components", context)
+                    .ManifestScripts(ManifestLoader(
+                        Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "assets", "manifest.json")
+                    ), "assets", context)
                     .Script(script: script, _using: !script.IsNullOrEmpty(), nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
@@ -190,24 +190,73 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action: context.Action);
         }
 
-        public static Dictionary<string, string> ManifestLoader(string fileName)
+        public class ResultEntry
+        {
+            public string File { get; set; } = "";
+            public List<string>? Imports { get; set; }
+        }
+
+        public static List<ResultEntry> ManifestLoader(string fileName)
         {
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("manifest.json not found", fileName);
+
             var json = File.ReadAllText(fileName);
             var manifest = JsonNode.Parse(json)?.AsObject();
-            var result = new Dictionary<string, string>();
+            var result = new List<ResultEntry>();
             if (manifest == null) return result;
+
             foreach (var entry in manifest)
             {
-                var name = entry.Value?["name"]?.ToString();
+                if (entry.Value?["isEntry"]?.GetValue<bool>() != true) continue;
                 var file = entry.Value?["file"]?.ToString();
-                if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(file))
+                if (string.IsNullOrEmpty(file)) continue;
+                if (file.StartsWith("css/")) continue;
+
+                List<string>? imports = null;
+                if (entry.Value?["imports"] is JsonArray importArray && importArray.Count > 0)
                 {
-                    result[name] = file;
+                    imports = new List<string>();
+                    foreach (var import in importArray)
+                    {
+                        var importKey = import?.ToString();
+                        if (importKey != null && manifest.ContainsKey(importKey))
+                        {
+                            var importFile = manifest[importKey]?["file"]?.ToString();
+                            if (!string.IsNullOrEmpty(importFile))
+                            {
+                                imports.Add(importFile);
+                            }
+                        }
+                    }
+                    if (imports.Count == 0) imports = null;
                 }
+                result.Add(new ResultEntry
+                {
+                    File = file,
+                    Imports = imports
+                });
             }
             return result;
+        }
+
+        public static HtmlBuilder ManifestScripts(
+            this HtmlBuilder hb,
+            List<ResultEntry> entries,
+            string path,
+            Context context)
+        {
+            foreach (var entry in entries)
+            {
+                var src = Responses.Locations.Raw(context, parts: $"{path}/{entry.File}");
+                hb.Script(
+                    src: src,
+                    type: entry.Imports != null && entry.Imports.Count > 0 ? "module" : null,
+                    crossorigin: entry.Imports != null && entry.Imports.Count > 0 ? true : false,
+                    nonce: context.Nonce
+                );
+            }
+            return hb;
         }
 
         public static string ExtendedScripts(
