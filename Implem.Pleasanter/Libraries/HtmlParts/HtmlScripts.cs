@@ -25,14 +25,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (!context.Ajax)
             {
                 var extendedScripts = ExtendedScripts(context: context);
-
-
-                var componentsJson = ManifestLoader(
-                    Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json"));
-
-                var assetsJson = ManifestLoader(
-                    Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "assets", "manifest.json"));
-
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,
