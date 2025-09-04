@@ -1,15 +1,15 @@
 {
-  "_vendor_DbR9X0si.js": {
-    "file": "vendor_DbR9X0si.js",
+  "_vendor_CH0ta7ux.js": {
+    "file": "vendor_CH0ta7ux.js",
     "name": "vendor"
   },
   "src/main.ts": {
-    "file": "components_VOtS9K0a.js",
+    "file": "components_CTUDAwFd.js",
     "name": "main",
     "src": "src/main.ts",
     "isEntry": true,
     "imports": [
-      "_vendor_DbR9X0si.js"
+      "_vendor_CH0ta7ux.js"
     ]
   }
 }

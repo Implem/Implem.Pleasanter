@@ -2,9 +2,8 @@ import css from './ui-modal.scss?inline';
 
 declare global {
     interface Window {
-        $p: {
-            modal?: Record<string, UiModal>;
-        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        $p: any;
     }
 }
 

@@ -38,7 +38,9 @@
         "npm": "11.4.2"
     },
     "dependencies": {
+        "dompurify": "^3.2.6",
         "flatpickr": "^4.6.13",
-        "moment": "^2.30.1"
+        "moment": "^2.30.1",
+        "suneditor": "^2.47.7"
     }
 }
