@@ -189,27 +189,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         text: text);
                 case HtmlTypes.TextTypes.CodeEditor:
                     return hb.CodeEditor(
-                        attributes: new HtmlAttributes()
-                            .Id(controlId)
-                            .Name(controlId)
-                            .Class(controlCss)
-                            .Placeholder(placeholder)
-                            .Disabled(disabled)
-                            .DataAlwaysSend(alwaysSend)
-                            .DataId(dataId)
-                            .OnChange(onChange)
-                            .AutoComplete(autoComplete)
-                            .DataValidateRequired(validateRequired)
-                            .DataValidateNumber(validateNumber)
-                            .DataValidateDate(validateDate)
-                            .DataValidateEmail(validateEmail)
-                            .DataValidateEqualTo(validateEqualTo)
-                            .DataValidateMaxLength(validateMaxLength)
-                            .DataAction(action)
-                            .DataMethod(method)
-                            .DataLang(dataLang)
-                            .Add(attributes),
-                        text: text);
+                       action: () => hb.TextArea(
+                            attributes: new HtmlAttributes()
+                                .Id(controlId)
+                                .Name(controlId)
+                                .Class(controlCss)
+                                .Placeholder(placeholder)
+                                .Disabled(disabled)
+                                .DataAlwaysSend(alwaysSend)
+                                .DataId(dataId)
+                                .OnChange(onChange)
+                                .AutoComplete(autoComplete)
+                                .DataValidateRequired(validateRequired)
+                                .DataValidateNumber(validateNumber)
+                                .DataValidateDate(validateDate)
+                                .DataValidateEmail(validateEmail)
+                                .DataValidateEqualTo(validateEqualTo)
+                                .DataValidateMaxLength(validateMaxLength)
+                                .DataAction(action)
+                                .DataMethod(method)
+                                .DataLang(dataLang)
+                                .Add(attributes),
+                            text: text)
+                       );
                 case HtmlTypes.TextTypes.Password:
                     var isDummyField = controlCss
                         ?.Split(' ')
@@ -768,7 +770,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     }
                                 }
                                 hb.Text(text: labelText);
-                            }));
+                            },
+                            _using: !controlOnly));
             }
             return hb;
         }

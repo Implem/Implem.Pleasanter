@@ -7866,10 +7866,12 @@ namespace Implem.Pleasanter.Models
                                 {
                                     case "ChoicesText":
                                         hb
-                                            .FieldTextBox(
-                                                textType: HtmlTypes.TextTypes.MultiLine,
+                                            .FieldCodeEditor(
+                                                context: context,
                                                 controlId: "ChoicesText",
                                                 fieldCss: "field-wide",
+                                                controlCss: "o-low",
+                                                dataLang: "json",
                                                 labelText: Displays.OptionList(context: context),
                                                 text: column.ChoicesText)
                                             .FieldDropDown(
