@@ -13,16 +13,16 @@
     <PackageProjectUrl>https://github.com/Implem/Implem.Pleasanter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Implem/Implem.Pleasanter</RepositoryUrl>
     <ToolCommandName>pleasanter-setup</ToolCommandName>
-    <AssemblyVersion>1.1.1</AssemblyVersion>
-    <FileVersion>1.1.1</FileVersion>
+    <AssemblyVersion>1.1.2</AssemblyVersion>
+    <FileVersion>1.1.2</FileVersion>
     <PackageOutputPath>$(OutPutpath)</PackageOutputPath>
     <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-        [1.1.1]
-        - Fixed an issue where an error occurred when creating a directory depending on the executing user in a Linux environment.
+        [1.1.2]
+        - Fixed an issue where language and time zone settings were not being properly applied.
     </PackageReleaseNotes>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
