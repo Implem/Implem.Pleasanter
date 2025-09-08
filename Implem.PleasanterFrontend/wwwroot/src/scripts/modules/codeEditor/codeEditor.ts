@@ -43,6 +43,7 @@ class CodeEditorElement extends HTMLElement {
 
     private editorInit() {
         if (!this.controller || !this.editorWrapElem) return;
+        const value = this.controller.value;
         const getLang = this.controller.dataset.lang || 'javascript';
         const Keymap = keymap.of([
             {
@@ -58,7 +59,7 @@ class CodeEditorElement extends HTMLElement {
         ]);
 
         this.editor = new EditorView({
-            doc: this.controller.value,
+            doc: value,
             extensions: [
                 basicSetup,
                 autocompletion(),
@@ -66,8 +67,8 @@ class CodeEditorElement extends HTMLElement {
                 oneDark,
                 Keymap,
                 this.onChange,
-                indentUnit.of('    '),
-                EditorState.tabSize.of(4)
+                indentUnit.of('  '),
+                EditorState.tabSize.of(2)
             ],
             parent: this.editorWrapElem
         });
@@ -100,13 +101,7 @@ class CodeEditorElement extends HTMLElement {
 
     private optionStyle() {
         if (this.controller && this.controller.classList.contains('o-low')) {
-            const style = document.createElement('style');
-            style.textContent = /*css*/ `
-                .editor-container{
-                    --codeEditorMinHeight: 20vh;
-                }
-            `;
-            this.shadow.appendChild(style);
+            this.classList.add('o-low');
         }
     }
 

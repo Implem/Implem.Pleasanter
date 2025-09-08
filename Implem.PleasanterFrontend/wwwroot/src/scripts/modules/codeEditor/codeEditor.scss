@@ -1,3 +1,7 @@
+:host(.o-low) {
+    --codeEditorMinHeight: 20vh;
+}
+
 .editor-container {
     min-height: var(--codeEditorMinHeight, 40vh);
     max-height: 70vh;
