@@ -1,15 +1,15 @@
 {
-  "_vendor_BCp7mdQ2.js": {
-    "file": "vendor_BCp7mdQ2.js",
+  "_vendor_CWICD93Y.js": {
+    "file": "vendor_CWICD93Y.js",
     "name": "vendor"
   },
   "src/main.ts": {
-    "file": "components_CQFfEZkD.js",
+    "file": "components_DFPY8SQM.js",
     "name": "main",
     "src": "src/main.ts",
     "isEntry": true,
     "imports": [
-      "_vendor_BCp7mdQ2.js"
+      "_vendor_CWICD93Y.js"
     ]
   }
 }

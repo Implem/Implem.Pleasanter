@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.19.2</AssemblyVersion>
-    <FileVersion>1.4.19.2</FileVersion>
-    <Version>1.4.19.2</Version>
+    <AssemblyVersion>1.4.20.0</AssemblyVersion>
+    <FileVersion>1.4.20.0</FileVersion>
+    <Version>1.4.20.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -39,7 +39,7 @@
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.5.1" />
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.6.1" />
     <PackageReference Include="Azure.Identity" Version="1.15.0" />
-    <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="ClosedXML" Version="0.97.0" />
     <PackageReference Include="DiffMatchPatch" Version="3.0.0" />
 	  <PackageReference Include="Fare" Version="2.2.1" />
     <PackageReference Include="MailKit" Version="4.13.0" />
