@@ -84,6 +84,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             var css = GridCss(context: context);
             return hb.Td(
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                attributes: new HtmlAttributes()
+                    .DataCellSticky(column.CellSticky)
+                    .DataCellWidth(column.CellWidth),
                 action: () => this?
                     .Take(DisplayCount(context: context))
                     .ForEach(comment => comment

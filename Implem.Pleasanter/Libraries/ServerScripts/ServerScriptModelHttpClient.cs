@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 namespace Implem.Pleasanter.Libraries.ServerScripts
@@ -19,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public int TimeOut { get; set; } = Parameters.Script.ServerScriptHttpClientTimeOut;
         public int StatusCode { get; private set; }
         public bool IsSuccess { get; private set; }
+        public bool IsTimeOut { get; private set; }
 
         static ServerScriptModelHttpClient()
         {
@@ -42,13 +44,25 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             try
             {
+                ResponseHeaders.Clear();
+                StatusCode = default;
+                IsSuccess = false;
+                IsTimeOut = false;
                 using var cts = new CancellationTokenSource();
                 cts.CancelAfter(GetTimeOut());
                 var request = CreateHttpRequest(method, content);
-                var response = _httpClient.SendAsync(request, cts.Token).Result;
+                HttpResponseMessage response;
+                try
+                {
+                    response = _httpClient.SendAsync(request, cts.Token).Result;
+                }
+                catch (OperationCanceledException ex) when (ex.CancellationToken == cts.Token)
+                {
+                    IsTimeOut = true;
+                    return default;
+                }
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
-                ResponseHeaders.Clear();
                 foreach (var header in response.Headers)
                 {
                     ResponseHeaders.Add(header.Key, header.Value.ToArray());
@@ -64,10 +78,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private HttpRequestMessage CreateHttpRequest(HttpMethod method, HttpContent content = null)
         {
-            var request = new HttpRequestMessage();
-            request.Method = method;
-            request.RequestUri = new Uri(RequestUri);
-            request.Content = content;
+            var request = new HttpRequestMessage()
+            {
+                Method = method,
+                RequestUri = new Uri(RequestUri),
+                Content = content
+            };
             foreach (var header in RequestHeaders)
             {
                 request.Headers.Add(header.Key, header.Value);

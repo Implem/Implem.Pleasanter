@@ -228,6 +228,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Max()
                 : 0;
             return hb.GridTable(
+                context: context,
+                scrollable: false,
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",

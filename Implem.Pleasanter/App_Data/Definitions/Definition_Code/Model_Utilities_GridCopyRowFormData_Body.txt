@@ -29,7 +29,7 @@
                         context: context,
                         ss: ss,
                         column: column);
-                    if(value != null)
+                    if (value != null)
                     {
                         value += #modelName#Model.NumUnit(
                             context: context,

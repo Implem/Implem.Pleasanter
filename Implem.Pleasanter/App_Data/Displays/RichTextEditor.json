@@ -1,0 +1,34 @@
+﻿{
+    "Id": "RichTextEditor",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Rich text editor"
+        },
+        {
+            "Language": "zh",
+            "Body": "富文本编辑器"
+        },
+        {
+            "Language": "ja",
+            "Body": "リッチテキストエディタ"
+        },
+        {
+            "Language": "de",
+            "Body": "Rich-Text-Editor"
+        },
+        {
+            "Language": "ko",
+            "Body": "리치 텍스트 편집기"
+        },
+        {
+            "Language": "es",
+            "Body": "Editor de texto enriquecido"
+        },
+        {
+            "Language": "vn",
+            "Body": "Trình soạn thảo Rich Text"
+        }
+    ]
+}

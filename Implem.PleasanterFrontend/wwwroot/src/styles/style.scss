@@ -122,6 +122,7 @@ html .ui-button.ui-state-disabled:active {
     }
     .ui-dialog-titlebar-close {
         right: 16px;
+        background: var(--dialog-close-bg);
         border: none;
         box-shadow: none;
         &:hover {
@@ -909,7 +910,7 @@ input {
     background: #00f;
 }
 .status-rejected {
-    background: #808080;
+    background: var(--status-rejected-bg, #808080);
 }
 
 /* user */
@@ -1218,7 +1219,7 @@ body {
 /* #MainContainer */
 #MainContainer {
     #BottomMargin {
-        height: 80px;
+        height: 72px;
     }
 }
 
@@ -2501,23 +2502,98 @@ body:not(:has(#Editor)) {
 }
 
 /* gridTable */
-.grid {
-    > thead {
-        > tr:first-child {
-            th,
-            th:first-child,
-            th:last-child {
-                border-right: 1px solid var(--grid-cell-vborder);
-                border-bottom: 1px solid var(--grid-cell-border);
-                border-left: 1px solid var(--grid-cell-vborder);
-                border-radius: 0;
+#Grid {
+    > thead,
+    > tbody {
+        > tr {
+            > :last-child {
+                border-right: solid 1px transparent;
             }
         }
     }
+}
+.grid {
+    margin: 0;
+    border-spacing: 0;
+    border-collapse: separate;
+    &:has(tbody:not(:empty)) {
+        border-bottom: 1px solid var(--grid-cell-border);
+    }
     > thead,
     > tbody {
+        > tr {
+            > th,
+            > td {
+                position: relative;
+                z-index: 1;
+                padding: 8px 16px;
+                &:has(#GridCheckAll),
+                &:has(.select-all),
+                &:has(.grid-check) {
+                    width: 36px;
+                }
+            }
+        }
+    }
+
+    > thead {
+        top: 0;
+        > tr {
+            > th {
+                width: var(--cell-width, auto);
+                min-width: var(--cell-width, 0);
+                max-width: var(--cell-width, 320px);
+                padding: 8px 16px;
+                color: var(--invert-text);
+                background-color: var(--primaryColor);
+                border-top: none;
+                border-right: 1px solid var(--grid-cell-vborder);
+                border-bottom: 1px solid var(--grid-cell-vborder);
+                border-left: none;
+                box-shadow: 1px 0 0 var(--primaryColor);
+                &:first-child,
+                &:last-child {
+                    border-radius: 0;
+                }
+                div[data-order-type] {
+                    display: flex;
+                    width: fit-content;
+                }
+                &[data-cell-width] {
+                    overflow: hidden;
+                }
+                &:first-child {
+                    border-left: 1px solid var(--primaryColor);
+                }
+                &:last-child {
+                    border-right: 1px solid var(--primaryColor);
+                }
+                &[data-name='Status'] {
+                    width: 60px;
+                }
+            }
+            &:first-child {
+                > th:first-child,
+                > th:last-child {
+                    border-radius: 0;
+                }
+            }
+            &:last-of-type {
+                > th {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+    .grid-row {
         > th,
         > td {
+            background-color: var(--grid-cell-bg);
+            border-top: none;
+            border-right: solid 1px var(--grid-cell-vborder);
+            border-bottom: solid 1px var(--grid-cell-border);
+            border-left: none;
+            box-shadow: 1px 0 0 var(--grid-cell-bg);
             & {
                 input {
                     width: 100%;
@@ -2529,42 +2605,45 @@ body:not(:has(#Editor)) {
                     padding: 4px 4px 0;
                 }
             }
+            &:first-child {
+                border-left: 1px solid var(--grid-cell-vborder);
+            }
         }
-    }
-    > thead {
-        > td,
         > th {
-            color: var(--invert-text);
-            border-right: 1px solid var(--grid-cell-vborder);
-            border-left: 1px solid var(--grid-cell-vborder);
+            background-color: var(--grid-cell-heading);
+            border-bottom: solid 1px var(--base-border);
+        }
+        .comment {
+            padding: 4px 4px 4px 16px;
+            margin-bottom: 4px;
+            background: var(--grid-comment-bg);
+            border: 1px solid var(--grid-comment-border);
+        }
+        &[data-history] {
+            > td {
+                background-color: var(--base-dark-layer);
+            }
         }
     }
     > tbody {
-        > tr {
-            > th {
-                background-color: var(--grid-cell-heading);
-                border-bottom: solid 1px var(--base-border);
-            }
-            > th,
-            > td {
-                border-right: solid 1px var(--grid-cell-vborder);
-                border-left: solid 1px var(--grid-cell-vborder);
-            }
-        }
-    }
-    &:not(.not-link) {
-        .grid-row {
-            &:hover {
-                background-color: var(--grid-cell-hover);
-                .comment {
-                    background: var(--grid-comment-bg);
+        &:last-child {
+            .grid-row:last-child {
+                > th,
+                > td {
+                    border-bottom: none;
                 }
             }
         }
     }
-    .grid-row[data-history] {
-        td {
-            background-color: var(--base-dark-layer);
+
+    &:not(.not-link) {
+        .grid-row {
+            &:hover {
+                > th,
+                > td {
+                    background-color: var(--grid-cell-hover);
+                }
+            }
         }
     }
 
@@ -2579,17 +2658,33 @@ body:not(:has(#Editor)) {
             display: none;
         }
     }
-    .comment {
-        padding: 4px 4px 4px 16px;
-        margin-bottom: 0;
-        margin-bottom: 4px;
-        background: var(--grid-comment-bg);
-        border: 1px solid var(--grid-comment-border);
-    }
+
     .grid-title-body {
         padding: 8px;
         margin-bottom: 4px;
         background-color: transparent;
+        &:has(rt-editor) {
+            background: var(--nonColor16);
+            .title {
+                color: var(--nonColor02);
+                a {
+                    color: var(--primaryColor);
+                }
+            }
+            &.focus-inform {
+                background-color: var(--nonColor16) !important;
+                border: solid 1px var(--commonColor06) !important;
+            }
+        }
+    }
+
+    /* IssuesTableItem */
+    svg.svg-work-value text,
+    svg.svg-progress-rate text {
+        fill: var(--base-text);
+    }
+    .svg-progress-rate.warning text {
+        fill: var(--control-error);
     }
 }
 .menu-sort {
@@ -2640,17 +2735,69 @@ body:not(:has(#Editor)) {
     }
 }
 .grid-row {
-    background-color: var(--grid-cell-bg);
-    td {
-        border-top: solid 1px var(--grid-cell-border);
-        border-bottom: solid 1px var(--grid-cell-border);
-    }
-
     /* 一括編集設定 */
     .ui-widget.ui-state-default.ui-multiselect {
         width: 100%;
         max-width: 200px;
         white-space: nowrap;
+    }
+}
+
+.grid-wrap {
+    display: block;
+    &.app-scrollable {
+        th,
+        td {
+            white-space: nowrap;
+            th,
+            td {
+                white-space: initial;
+            }
+        }
+        > #Grid {
+            > thead,
+            > tbody {
+                > tr {
+                    > th,
+                    > td {
+                        &:last-child {
+                            border-right: solid 1px var(--grid-cell-border);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &.app-held-key {
+        table {
+            th,
+            td {
+                cursor: auto;
+            }
+        }
+    }
+    &.app-x-scroll {
+        th,
+        td {
+            &:has(#GridCheckAll),
+            &:has(.select-all),
+            &:has(.grid-check),
+            &[data-cell-sticky] {
+                &:not(:has(+ [data-cell-sticky])) {
+                    border-right-style: double;
+                    border-right-width: 3px;
+                }
+            }
+        }
+    }
+    &.app-x-scroll,
+    &.app-y-scroll {
+        th,
+        td {
+            &:active {
+                cursor: grabbing;
+            }
+        }
     }
 }
 
@@ -2930,11 +3077,11 @@ body:has(#TableName[value='Tenants']) {
         color: var(--base-text);
     }
     .dashboard-timeline-item {
-        background-color: var(--base-bg);
+        background-color: var(--dashboard-timeline-bg, var(--base-bg));
     }
     .dashboard-timeline-header {
         a {
-            color: var(--primaryColor);
+            color: var(--dashboard-timeline-color, var(--primaryColor));
             text-decoration: none;
         }
     }
@@ -2950,7 +3097,7 @@ body:has(#TableName[value='Tenants']) {
         display: flex;
         gap: 2px;
         align-items: center;
-        background-color: var(--base-bg);
+        background-color: var(--dashboard-timeline-bg, var(--base-bg));
     }
     .dashboard-part-nav-link,
     .material-symbols-outlined {
@@ -3308,6 +3455,7 @@ body:has(input#Controller[value='syslogs']) {
         }
     }
     td {
+        position: static;
         padding: 4px;
         border: 1px solid var(--base-border);
         &.hover {
@@ -3407,7 +3555,7 @@ body:has(input#Controller[value='syslogs']) {
             color: var(--base-text);
         }
         &.fc-day-today {
-            background-color: var(--primarySub04);
+            background-color: var(--fullcalendar-today-bg, var(--primarySub04));
         }
     }
     .fc-day-other {
@@ -3531,6 +3679,7 @@ body:has(input#Controller[value='syslogs']) {
         width: 100%;
     }
     .kamban-container {
+        white-space: normal;
         background-color: var(--grid-cell-bg);
         &.hover {
             background-color: var(--grid-cell-hover);
@@ -3541,6 +3690,14 @@ body:has(input#Controller[value='syslogs']) {
         border-bottom: solid 1px var(--grid-cell-border);
         th {
             border-bottom: solid 1px var(--grid-cell-border);
+        }
+        td {
+            position: static;
+        }
+        + .kamban-row {
+            td {
+                border-top: solid 1px var(--grid-cell-border);
+            }
         }
     }
     .kamban-item {
@@ -3655,7 +3812,7 @@ body:has(input#Controller[value='syslogs']) {
 }
 
 #LoaderContainer {
-    background-color: rgb(255 255 255 / 50%);
+    background-color: var(--loader-stage-bg, rgb(255 255 255 / 50%));
     .loader {
         border-color: var(--primaryColor);
         border-right-color: transparent;

@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Extensions;
@@ -20,12 +21,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder GridTable(
             this HtmlBuilder hb,
+            Context context,
             string id = null,
             string css = null,
             HtmlAttributes attributes = null,
+            bool scrollable = true,
             bool _using = true,
             Action action = null)
         {
+            bool isOldTheme = context.ThemeVersionForCss() < 2.0M;
+            bool isResponsiveForMobile = Parameters.Mobile.Responsive &&
+                context.Mobile &&
+                context.Responsive;
             if (attributes != null && _using) {
                 var index = attributes.FindIndex(n => n == "class");
                 if(index != -1)
@@ -33,12 +40,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes[index + 1] = "grid " + attributes[index + 1];
                 }
             }
+            if ((scrollable && isResponsiveForMobile) || isOldTheme)
+            {
+                scrollable = false;
+            }
             return _using
-                ? hb.Div(
+                ? hb.GridContainer(
                     id: !id.IsNullOrEmpty()
                         ? id + "Wrap"
                         : string.Empty,
                     css: "grid-wrap",
+                    scrollable: scrollable,
                     action: () => hb.Table(
                         id: id,
                         css: css.IsNullOrEmpty()
@@ -110,7 +122,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? column.CellCss(css: "sortable")
                                     : null,
                                 attributes: new HtmlAttributes()
-                                    .DataName(column.ColumnName),
+                                    .DataName(column.ColumnName)
+                                    .DataCellSticky(column.CellSticky)
+                                    .DataCellWidth(column.CellWidth)
+                                    .Style($"--cell-width: {column.CellWidth}px;", column.CellWidth != null && column.CellWidth != 0),
                                 action: () => hb
                                     .Div(
                                         attributes: new HtmlAttributes()
@@ -305,6 +320,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var dashboards = new Dictionary<string, DashboardModel>();
             var issues = new Dictionary<string, IssueModel>();
             var results = new Dictionary<string, ResultModel>();
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             switch (ss.ReferenceType)
             {
                 case "Issues":
@@ -548,6 +567,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 if (!issueModel.Locked
                                     && !issueModel.ReadOnly
                                     && !isHistory
+                                    && !column.GetReadOnly()
                                     && EditColumn(
                                         context: context,
                                         ss: ss,
@@ -566,12 +586,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 _ => string.Empty
                                             }
                                             + $" {serverScriptModelColumn?.ExtendedCellCss}",
+                                        attributes: new HtmlAttributes()
+                                		    .DataCellSticky(column.CellSticky)
+                                            .DataCellWidth(column.CellWidth),
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,
                                             issueModel: issueModel,
                                             ss: column.SiteSettings,
                                             controlOnly: true,
+                                            gridEditMode: true,
                                             idSuffix: issueModel.IdSuffix()));
                                 }
                                 else if (column.ColumnName.Contains("~")
@@ -616,6 +640,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 if (!resultModel.Locked
                                     && !resultModel.ReadOnly
                                     && !isHistory
+                                    && !column.GetReadOnly()
                                     && EditColumn(
                                         context: context,
                                         ss: ss,
@@ -634,12 +659,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 _ => string.Empty
                                             }
                                             + $" {serverScriptModelColumn?.ExtendedCellCss}",
+                                        attributes: new HtmlAttributes()
+                                		    .DataCellSticky(column.CellSticky)
+                                            .DataCellWidth(column.CellWidth),
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,
                                             resultModel: resultModel,
                                             ss: column.SiteSettings,
                                             controlOnly: true,
+                                            gridEditMode: true,
                                             idSuffix: resultModel.IdSuffix()));
                                 }
                                 else if (column.ColumnName.Contains("~")
@@ -692,10 +721,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss,
                 mine: mine))
-            {
-                return false;
-            }
-            if (column.GetEditorReadOnly())
             {
                 return false;
             }

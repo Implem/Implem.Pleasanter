@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -124,7 +125,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             TenantId = tenantId;
             SiteId = siteId;
             Id = id;
-            Groups = groupIds?.ToArray() ?? new int[0];
+            Groups = groupIds?.Distinct()?.ToArray() ?? Array.Empty<int>();
             TenantTitle = tenantTitle;
             SiteTitle = siteTitle;
             RecordTitle = recordTitle;

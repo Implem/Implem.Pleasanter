@@ -1,0 +1,60 @@
+:host {
+    position: relative;
+    display: block;
+}
+:host(.app-x-scroll),
+:host(.app-y-scroll) {
+    .app-scroll-layer {
+        cursor: grabbing;
+    }
+}
+:host(.app-is-index) {
+    .app-grid-frame {
+        max-height: calc(100vh - 72px);
+    }
+}
+
+.app-grid-inner {
+    position: relative;
+}
+.app-grid-frame {
+    max-height: calc(70vh);
+    overflow: auto;
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        margin: 0;
+    }
+    &::-webkit-scrollbar-track {
+        margin: 0;
+    }
+    &::-webkit-scrollbar-thumb {
+        cursor: grab;
+        background-color: var(--scrollbar-thumb);
+        border: 2px solid var(--page-bg);
+        border-radius: 8px;
+        &:hover {
+            background-color: var(--scrollbar-thumb-hover);
+        }
+        &:active {
+            cursor: grabbing;
+        }
+    }
+    &::-webkit-scrollbar-corner {
+        background-color: var(--page-bg);
+    }
+}
+.app-scroll-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: none;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    background: transparent;
+}
+.app-dragging .app-scroll-layer {
+    display: block;
+}

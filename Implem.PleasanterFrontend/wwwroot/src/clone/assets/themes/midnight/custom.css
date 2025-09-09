@@ -44,6 +44,8 @@
     --success-color: var(--commonColor07);
     --warning-color: var(--commonColor01);
     --defaultIconUrl: url('../images/ui-icons_ffffff_256x240.png');
+    --scrollbar-thumb: var(--nonColor08);
+    --scrollbar-thumb-hover: var(--nonColor09);
 
     /* Buttons ---------------------------------------------------------- */
 
@@ -250,4 +252,13 @@
     --sd-modal-preview-controller-bg: rgb(0 0 0 / 60%);
     --sd-modal-preview-controller-text: var(--nonColor16);
     --sd-modal-delete-warning: var(--commonColor01);
+
+    /* DarkTheme */
+    --grid-svg-text: var(--nonColor16);
+    --status-rejected-bg: var(--nonColor02);
+    --dialog-close-bg: transparent;
+    --dashboard-timeline-color: var(--base-text);
+    --dashboard-timeline-bg: var(--nonColor06);
+    --fullcalendar-today-bg: var(--primaryDark);
+    --loader-stage-bg: rgb(0 0 0 / 30%);
 }

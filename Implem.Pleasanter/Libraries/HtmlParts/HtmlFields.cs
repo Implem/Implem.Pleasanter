@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             TextBoxDateTime,
             TextBoxMultiLine,
             MarkDown,
+            RTEditor,
             DropDown,
             Radio,
             CheckBox,
@@ -86,6 +87,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             bool controlOnly = false,
+            bool gridEditMode = false,
             bool alwaysSend = false,
             bool disableAutoPostBack = false,
             string idSuffix = null,
@@ -163,6 +165,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: value),
                     mobile: context.Mobile,
                     controlOnly: controlOnly,
+                    gridEditMode: gridEditMode,
                     alwaysSend: alwaysSend,
                     required: column.Required
                         || column.GetValidateRequired()
@@ -394,6 +397,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: value),
                 mobile: context.Mobile,
                 controlOnly: false,
+                gridEditMode: false,
                 alwaysSend: false,
                 required: column.Required
                     || column.GetValidateRequired(),
@@ -432,6 +436,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> optionCollection,
             bool mobile,
             bool controlOnly,
+            bool gridEditMode,
             bool alwaysSend,
             bool required,
             bool preview,
@@ -483,6 +488,33 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
+                                labelText: labelText,
+                                labelRaw: labelRaw,
+                                controlOnly: controlOnly,
+                                text: value,
+                                readOnly: true,
+                                allowImage: column.AllowImage == true,
+                                mobile: mobile,
+                                alwaysSend: alwaysSend,
+                                preview: preview,
+                                validateMaxLength: column.MaxLength.ToInt(),
+                                validateRegex: column.ClientRegexValidation,
+                                validateRegexErrorMessage: column.RegexValidationMessage,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
+                        case ControlTypes.RTEditor:
+                            return hb.FieldRTEditor(
+                                context: context,
+                                ss: ss,
+                                fieldId: controlId + "Field",
+                                controlId: controlId,
+                                fieldCss: fieldCss,
+                                fieldDescription: column.Description,
+                                labelCss: labelCss,
+                                controlContainerCss: controlContainerCss,
+                                controlCss: controlCss,
+                                disabled: gridEditMode,
                                 labelText: labelText,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
@@ -560,6 +592,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: labelText,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
+                                gridEditMode: gridEditMode,
                                 text: value.ToDisplay(
                                     context: context,
                                     ss: ss,
@@ -704,6 +737,37 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 text: value,
+                                readOnly: column.GetEditorReadOnly(),
+                                allowBulkUpdate: column.AllowBulkUpdate == true,
+                                allowImage: column.AllowImage == true,
+                                mobile: mobile,
+                                alwaysSend: alwaysSend,
+                                validateRequired: required,
+                                viewerSwitchingTypes: (Column.ViewerSwitchingTypes)column.ViewerSwitchingType,
+                                preview: preview,
+                                validateMaxLength: column.MaxLength.ToInt(),
+                                validateRegex: column.ClientRegexValidation,
+                                validateRegexErrorMessage: column.RegexValidationMessage,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
+                        case ControlTypes.RTEditor:
+                            return hb.FieldRTEditor(
+                                context: context,
+                                ss: ss,
+                                fieldId: controlId + "Field",
+                                controlId: controlId,
+                                fieldCss: fieldCss,
+                                fieldDescription: column.Description,
+                                labelCss: labelCss,
+                                controlContainerCss: controlContainerCss,
+                                controlCss: controlCss,
+                                labelText: labelText,
+                                placeholder: placeholder,
+                                labelRaw: labelRaw,
+                                controlOnly: controlOnly,
+                                text: value,
+                                disabled: gridEditMode,
                                 readOnly: column.GetEditorReadOnly(),
                                 allowBulkUpdate: column.AllowBulkUpdate == true,
                                 allowImage: column.AllowImage == true,
@@ -940,9 +1004,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         switch (column.ControlType)
                         {
                             case "MarkDown":
-                                return column.FieldCss == "field-markdown"
-                                    ? ControlTypes.MarkDown
-                                    : ControlTypes.Text;
+                                switch (column.FieldCss)
+                                {
+                                    case "field-markdown":
+                                        return ControlTypes.MarkDown;
+                                    case "field-rte":
+                                        return ControlTypes.RTEditor;
+                                    default:
+                                        return ControlTypes.Text;
+                                }
                             case "Attachments":
                                 return ControlTypes.Attachments;
                             default:
@@ -999,6 +1069,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return ControlTypes.TextBox;
                 case "field-markdown":
                     return ControlTypes.MarkDown;
+                case "field-rte":
+                    return ControlTypes.RTEditor;
                 default:
                     return
                         column.Max.ToInt() == -1 ||
@@ -1186,6 +1258,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelTitle = null,
             string labelIcon = null,
             bool controlOnly = false,
+            bool gridEditMode = false,
             string text = null,
             string dataValue = null,
             string dataRaw = null,
@@ -1416,6 +1489,84 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             preview: preview))
                 : hb;
         }
+
+        public static HtmlBuilder FieldRTEditor(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string fieldDescription = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
+            string labelRaw = null,
+            string labelTitle = null,
+            string placeholder = null,
+            string labelIcon = null,
+            int validateMaxLength = 0,
+            string validateRegex = null,
+            string validateRegexErrorMessage = null,
+            bool controlOnly = false,
+            string text = null,
+            bool readOnly = false,
+            bool disabled = false,
+            bool allowImage = true,
+            bool allowBulkUpdate = false,
+            bool mobile = false,
+            bool alwaysSend = false,
+            bool validateRequired = false,
+            Column.ViewerSwitchingTypes viewerSwitchingTypes = Column.ViewerSwitchingTypes.Auto,
+            Dictionary<string, string> attributes = null,
+            bool preview = false,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
+            bool _using = true)
+        {
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss + " field-wide",
+                    fieldDescription: fieldDescription,
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: labelText,
+                    labelRaw: labelRaw,
+                    labelTitle: labelTitle,
+                    labelIcon: labelIcon,
+                    controlOnly: controlOnly,
+                    validateRequired: validateRequired,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
+                    controlAction: () => hb
+                        .RTEditor(
+                            context: context,
+                            ss: ss,
+                            controlId: controlId,
+                            controlCss: controlCss,
+                            validateMaxLength: validateMaxLength,
+                            validateRegex: validateRegex,
+                            validateRegexErrorMessage: validateRegexErrorMessage,
+                            text: text,
+                            placeholder: placeholder,
+                            readOnly: readOnly,
+                            disabled: disabled,
+                            allowImage: allowImage,
+                            allowBulkUpdate: allowBulkUpdate,
+                            mobile: mobile,
+                            alwaysSend: alwaysSend,
+                            validateRequired: validateRequired,
+                            viewerSwitchingTypes: viewerSwitchingTypes,
+                            attributes: attributes,
+                            preview: preview))
+                : hb;
+        }
+
 
         public static HtmlBuilder FieldMarkUp(
             this HtmlBuilder hb,
@@ -1856,6 +2007,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelRaw = null,
             string labelTitle = null,
             string labelIcon = null,
+            string placeholder = null,
             bool controlOnly = false,
             decimal? value = 0,
             decimal min = -1,
@@ -1905,6 +2057,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             step: step,
                             width: width,
                             unit:unit,
+                            placeholder: placeholder,
                             alwaysSend: alwaysSend,
                             allowBalnk: allowBlank,
                             onChange: onChange,

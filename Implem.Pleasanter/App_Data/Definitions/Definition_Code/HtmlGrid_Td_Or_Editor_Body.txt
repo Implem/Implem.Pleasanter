@@ -1,6 +1,7 @@
 ﻿if (!#modelName#Model.Locked
     && !#modelName#Model.ReadOnly
     && !isHistory
+    && !column.GetReadOnly()
     && EditColumn(
         context: context,
         ss: ss,
@@ -19,12 +20,16 @@
                 _ => string.Empty
             }
             + $" {serverScriptModelColumn?.ExtendedCellCss}",
+        attributes: new HtmlAttributes()
+		    .DataCellSticky(column.CellSticky)
+            .DataCellWidth(column.CellWidth),
         action: () => hb.Field(
             context: context,
             column: column,
             #modelName#Model: #modelName#Model,
             ss: column.SiteSettings,
             controlOnly: true,
+            gridEditMode: true,
             idSuffix: <!--HtmlGrid_Td_IdSuffix--><!--HtmlGrid_Td_IdSuffixNull-->));
 }
 else if (column.ColumnName.Contains("~")

@@ -427,6 +427,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss.CreateColumnAccessControls.Add(columnAccessControl);
                 ss.ReadColumnAccessControls.Add(columnAccessControl);
                 ss.UpdateColumnAccessControls.Add(columnAccessControl);
+                return ss;
+            }
+            if (context.UserSettings?.EnableManageTenant == true)
+            {
+                var column = ss.GetColumn(
+                    context: context,
+                    columnName: "AllowApi");
+                var columnAccessControl = new ColumnAccessControl()
+                {
+                    No = column.No,
+                    ColumnName = column.ColumnName,
+                    Type = Permissions.Types.NotSet
+                };
+                ss.CreateColumnAccessControls = ss.CreateColumnAccessControls ?? new List<ColumnAccessControl>();
+                ss.ReadColumnAccessControls = ss.ReadColumnAccessControls ?? new List<ColumnAccessControl>();
+                ss.UpdateColumnAccessControls = ss.UpdateColumnAccessControls ?? new List<ColumnAccessControl>();
+                ss.CreateColumnAccessControls.Add(columnAccessControl);
+                ss.ReadColumnAccessControls.Add(columnAccessControl);
+                ss.UpdateColumnAccessControls.Add(columnAccessControl);
+                return ss;
             }
             return ss;
         }

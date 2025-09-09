@@ -101,6 +101,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ExtendedFieldCss;
         public string ExtendedControlCss;
         public string Section;
+        public bool? CellSticky;
+        public int? CellWidth;
         public string GridDesign;
         public bool? ValidateRequired;
         public bool? ValidateNumber;
@@ -967,6 +969,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 return readOnly == true;
             }
             return StatusReadOnly || EditorReadOnly == true;
+        }
+
+        public bool GetReadOnly()
+        {
+            var readOnly = ServerScriptModelColumn?.GetReadOnly();
+            if (readOnly != null)
+            {
+                return readOnly == true;
+            }
+            return EditorReadOnly == true;
         }
 
         public bool GetHide()

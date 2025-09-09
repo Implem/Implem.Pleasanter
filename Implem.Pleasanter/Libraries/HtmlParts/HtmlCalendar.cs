@@ -401,10 +401,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> choices)
         {
             return hb.GridTable(
+                context: context,
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",
                 css: "fixed",
+                scrollable: false,
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(action: () =>
@@ -463,10 +465,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> choices)
         {
             return hb.GridTable(
+                context: context,
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",
                 css: "fixed",
+                scrollable: false,
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(action: () =>
@@ -537,10 +541,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> choices)
         {
             return hb.GridTable(
+                context: context,
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",
                 css: "fixed",
+                scrollable: false,
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(action: () =>

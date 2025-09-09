@@ -58,6 +58,7 @@ $p.setAggregationDetails = function ($control) {
 
 $p.openEditorColumnDialog = function ($control) {
     $p.data.EditorColumnForm = {};
+    $p.data.SectionForm = {};
     $p.openSiteSettingsDialog($control, '#EditorColumnDialog');
 };
 

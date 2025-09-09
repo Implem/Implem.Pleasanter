@@ -263,12 +263,14 @@ namespace Implem.Pleasanter.Models
                 checkPermission: true);
             return hb
                 .GridTable(
+                    context: context,
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
                         .DataMethod("post"),
+                    scrollable: ss.DashboardParts.Count == 1 ? false : true,
                     action: () => hb
                         .GridRows(
                             context: context,
@@ -618,7 +620,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column);
-                            if(value != null)
+                            if (value != null)
                             {
                                 value += resultModel.NumUnit(
                                     context: context,
@@ -1736,7 +1738,7 @@ namespace Implem.Pleasanter.Models
                     .TabsPanelField(
                         id: name + "Grid",
                         action: () => hb
-                            .GridTable(action: () => hb
+                            .GridTable(context: context, action: () => hb
                                 .THead(action: () => hb
                                     .GridHeader(
                                         context: context,
@@ -1828,6 +1830,7 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             Column column,
             bool controlOnly = false,
+            bool gridEditMode = false,
             bool alwaysSend = false,
             bool disableAutoPostBack = false,
             string idSuffix = null,
@@ -1872,6 +1875,7 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         baseModel: resultModel),
                     controlOnly: controlOnly,
+                    gridEditMode: gridEditMode,
                     alwaysSend: alwaysSend,
                     disableAutoPostBack: disableAutoPostBack,
                     idSuffix: idSuffix,
@@ -2865,6 +2869,10 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             long newRowId)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             return hb.Tr(
                 attributes: new HtmlAttributes()
                     .Class("grid-row new")
@@ -2902,6 +2910,7 @@ namespace Implem.Pleasanter.Models
                                     resultModel: resultModel,
                                     column: column,
                                     controlOnly: true,
+                                    gridEditMode: true,
                                     alwaysSend: resultModel.CopiedGrid,
                                     idSuffix: $"_{ss.SiteId}_{newRowId}"));
                         }
@@ -5850,6 +5859,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .GridTable(
+                        context: context,
                         css: "history",
                         action: () => hb
                             .THead(action: () => hb
@@ -5881,6 +5891,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             ResultModel resultModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new ResultCollection(
                 context: context,
                 ss: ss,

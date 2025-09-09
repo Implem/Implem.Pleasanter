@@ -856,6 +856,7 @@ namespace Implem.Pleasanter.Models
             WikiModel wikiModel,
             Column column,
             bool controlOnly = false,
+            bool gridEditMode = false,
             bool alwaysSend = false,
             bool disableAutoPostBack = false,
             string idSuffix = null,
@@ -896,6 +897,7 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         baseModel: wikiModel),
                     controlOnly: controlOnly,
+                    gridEditMode: gridEditMode,
                     alwaysSend: alwaysSend,
                     disableAutoPostBack: disableAutoPostBack,
                     idSuffix: idSuffix,
@@ -2789,6 +2791,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .GridTable(
+                        context: context,
                         css: "history",
                         action: () => hb
                             .THead(action: () => hb
@@ -2820,6 +2823,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             WikiModel wikiModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new WikiCollection(
                 context: context,
                 ss: ss,

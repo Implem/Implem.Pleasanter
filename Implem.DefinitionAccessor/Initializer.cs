@@ -137,6 +137,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Site = Read<Site>();
             Parameters.SitePackage = Read<SitePackage>();
             Parameters.SysLog = Read<SysLog>();
+            Parameters.TextEditorUI = Read<TextEditorUI>();
             Parameters.User = Read<User>();
             Parameters.UserTemplate = Read<CustomApps>();
             Parameters.Parameter = Read<Parameter>();

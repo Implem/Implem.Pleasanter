@@ -14,7 +14,6 @@ export class UiModal extends HTMLElement {
     private isOpen: boolean = false;
     private modalElem: HTMLDialogElement | null = null;
     private outerClickTarget?: Element;
-    private docScrollY: number = 0;
     private transitionPromise: Promise<void> | null = null;
     onOpened?: () => void;
     onClosed?: () => void;
@@ -125,12 +124,9 @@ export class UiModal extends HTMLElement {
     private documentBodyLock() {
         UiModal.hasActiveModalCount++;
         if (UiModal.hasActiveModalCount === 1) {
-            this.docScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
             const scrollWidth = window.innerWidth - document.documentElement.clientWidth;
             const bodyStyle = window.getComputedStyle(document.body);
             document.body.style.overflow = 'hidden';
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${this.docScrollY}px`;
             document.body.style.width = `calc(100% - ${bodyStyle.getPropertyValue('margin-left')})`;
             document.body.style.paddingRight = `${scrollWidth}px`;
         }
@@ -140,11 +136,8 @@ export class UiModal extends HTMLElement {
         UiModal.hasActiveModalCount = Math.max(0, UiModal.hasActiveModalCount - 1);
         if (UiModal.hasActiveModalCount === 0) {
             document.body.style.removeProperty('overflow');
-            document.body.style.removeProperty('position');
-            document.body.style.removeProperty('top');
             document.body.style.removeProperty('width');
             document.body.style.removeProperty('padding-right');
-            window.scrollTo(0, this.docScrollY);
         }
     }
 

@@ -29,6 +29,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     serverScriptModelColumn: serverScriptModelColumn)
                 : hb.Td(
                     css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                    attributes: new HtmlAttributes()
+                        .DataCellSticky(column.CellSticky)
+                        .DataCellWidth(column.CellWidth),
                     action: () => hb
                         .Text(string.Empty));
         }
@@ -43,6 +46,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             return hb.Td(
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                attributes: new HtmlAttributes()
+                    .DataCellSticky(column.CellSticky)
+                    .DataCellWidth(column.CellWidth),
                 action: () => hb
                     .Text(text: value?.StandardName));
         }
@@ -57,6 +63,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
             {
+                if (column.FieldCss == "field-rte")
+                {
+                    column.ControlType = "RTEditor";
+                }
                 return hb.Td(
                     context: context,
                     column: column,
@@ -71,6 +81,14 @@ namespace Implem.Pleasanter.Libraries.Extensions
                                     action: () => hb
                                         .Raw(serverScriptModelColumn?.RawText)));
                         }
+                        else if (column.ControlType == "RTEditor")
+                        {
+                            hb.Div(css: "grid-rte grid-title-body", action: () => hb
+                                .RichTextEditor(action: () => hb.TextArea(
+                                    disabled: true,
+                                    attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
+                                    text: value)));
+                    }
                         else
                         {
                             hb.Raw(serverScriptModelColumn?.RawText);
@@ -89,6 +107,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
                         type: ExportColumn.Types.TextMini);
                     return hb.Td(
                         css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                        attributes: new HtmlAttributes()
+                            .DataCellSticky(column.CellSticky)
+                            .DataCellWidth(column.CellWidth),
                         action: () => hb
                             .P(action: () => hb
                                 .Text(text: column.MultipleSelections == true
@@ -107,6 +128,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
                             : "? " + value);
                     return hb.Td(
                         css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                        attributes: new HtmlAttributes()
+                            .DataCellSticky(column.CellSticky)
+                            .DataCellWidth(column.CellWidth),
                         action: () => hb.P(
                             attributes: new HtmlAttributes()
                                 .Class(choice.CssClass)
@@ -119,8 +143,15 @@ namespace Implem.Pleasanter.Libraries.Extensions
             {
                 return hb.Td(
                     css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                    attributes: new HtmlAttributes()
+                        .DataCellSticky(column.CellSticky)
+                        .DataCellWidth(column.CellWidth),
                     action: () =>
                     {
+                        if (column.FieldCss == "field-rte")
+                        {
+                            column.ControlType = "RTEditor";
+                        }
                         if (column.Anchor == true && !column.AnchorFormat.IsNullOrEmpty())
                         {
                             hb.A(
@@ -138,6 +169,14 @@ namespace Implem.Pleasanter.Libraries.Extensions
                                     attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
                                     action: () => hb
                                         .Text(text: value)));
+                        }
+                        else if (column.ControlType == "RTEditor")
+                        {
+                            hb.Div(css: "grid-rte grid-title-body", action: () => hb
+                                .RichTextEditor(action: () => hb.TextArea(
+                                    disabled: true,
+                                    attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
+                                    text: value)));
                         }
                         else
                         {
@@ -157,6 +196,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             return hb.Td(
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                attributes: new HtmlAttributes()
+                    .DataCellSticky(column.CellSticky)
+                    .DataCellWidth(column.CellWidth),
                 action: () => hb
                     .Text(text: value.ToString(column.StringFormat) + column.Unit));
         }
@@ -171,6 +213,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             return hb.Td(
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                attributes: new HtmlAttributes()
+                    .DataCellSticky(column.CellSticky)
+                    .DataCellWidth(column.CellWidth),
                 action: () => hb
                     .Text(text: value.ToString(column.StringFormat) + column.Unit));
         }
@@ -185,6 +230,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             return hb.Td(
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                attributes: new HtmlAttributes()
+                    .DataCellSticky(column.CellSticky)
+                    .DataCellWidth(column.CellWidth),
                 action: () => hb
                     .Text(text: value.ToString(column.StringFormat) + column.Unit));
         }
@@ -199,6 +247,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             return hb.Td(
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                attributes: new HtmlAttributes()
+                    .DataCellSticky(column.CellSticky)
+                    .DataCellWidth(column.CellWidth),
                 action: () => hb
                     .Text(text: column.DisplayGrid(
                         context: context,
@@ -217,14 +268,23 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 ? value
                     ? hb.Td(
                         css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                        attributes: new HtmlAttributes()
+                            .DataCellSticky(column.CellSticky)
+                            .DataCellWidth(column.CellWidth),
                         action: () => hb
                             .Text(text: column.ChoicesText.SplitReturn()._1st()))
                     : hb.Td(
                         css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                        attributes: new HtmlAttributes()
+                            .DataCellSticky(column.CellSticky)
+                            .DataCellWidth(column.CellWidth),
                         action: () => hb
                             .Text(text: column.ChoicesText.SplitReturn()._2nd()))
                 : hb.Td(
                     css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                    attributes: new HtmlAttributes()
+                        .DataCellSticky(column.CellSticky)
+                        .DataCellWidth(column.CellWidth),
                     action: () => hb
                         .Span(css: "ui-icon ui-icon-circle-check", _using: value));
         }
@@ -239,6 +299,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             return hb.Td(
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                attributes: new HtmlAttributes()
+                    .DataCellSticky(column.CellSticky)
+                    .DataCellWidth(column.CellWidth),
                 action: () => hb
                     .Text(text: value.ToString()));
         }
@@ -253,6 +316,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             return hb.Td(
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                attributes: new HtmlAttributes()
+                    .DataCellSticky(column.CellSticky)
+                    .DataCellWidth(column.CellWidth),
                 action: action);
         }
     }

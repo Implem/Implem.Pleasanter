@@ -229,12 +229,14 @@ namespace Implem.Pleasanter.Models
                 checkPermission: true);
             return hb
                 .GridTable(
+                    context: context,
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
                         .DataMethod("post"),
+                    scrollable: ss.DashboardParts.Count == 1 ? false : true,
                     action: () => hb
                         .GridRows(
                             context: context,
@@ -2032,6 +2034,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .GridTable(
+                        context: context,
                         css: "history",
                         action: () => hb
                             .THead(action: () => hb
@@ -2063,6 +2066,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             RegistrationModel registrationModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new RegistrationCollection(
                 context: context,
                 ss: ss,

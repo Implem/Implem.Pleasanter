@@ -22,6 +22,10 @@
 
 <!--HtmlGrid_ModelHash-->
 
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             switch (ss.ReferenceType)
             {
 
