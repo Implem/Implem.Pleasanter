@@ -3455,6 +3455,7 @@ body:has(input#Controller[value='syslogs']) {
         }
     }
     td {
+        position: static;
         padding: 4px;
         border: 1px solid var(--base-border);
         &.hover {
@@ -3689,6 +3690,14 @@ body:has(input#Controller[value='syslogs']) {
         border-bottom: solid 1px var(--grid-cell-border);
         th {
             border-bottom: solid 1px var(--grid-cell-border);
+        }
+        td {
+            position: static;
+        }
+        + .kamban-row {
+            td {
+                border-top: solid 1px var(--grid-cell-border);
+            }
         }
     }
     .kamban-item {

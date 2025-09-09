@@ -2,13 +2,13 @@
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Manifests;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json.Nodes;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlHeadLink
@@ -71,50 +71,52 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return styles;
         }
 
-        public static Dictionary<string, string> ManifestLoader(string fileName)
+        public static HtmlBuilder EsModuleLinks(
+            this HtmlBuilder hb, List<ManifestLoader.ResultEntry> entries, string path, Context context)
         {
-            if (!File.Exists(fileName))
-                throw new FileNotFoundException("manifest.json not found", fileName);
-            var json = File.ReadAllText(fileName);
-            var manifest = JsonNode.Parse(json)?.AsObject();
-            var result = new Dictionary<string, string>();
-            if (manifest == null) return result;
-            foreach (var entry in manifest)
+            var linkedFiles = new HashSet<string>();
+            foreach (var entry in entries)
             {
-                var name = entry.Value?["name"]?.ToString();
-                var file = entry.Value?["file"]?.ToString();
-                if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(file))
+                if (entry.Imports != null && entry.Imports.Count > 0)
                 {
-                    result[name] = file;
+                    foreach (var importFile in entry.Imports)
+                    {
+                        if (linkedFiles.Add(importFile))
+                        {
+                            hb.Link(
+                                href: Responses.Locations.Raw(context, parts: $"{path}/{importFile}"),
+                                rel: "modulepreload",
+                                crossorigin: true);
+                        }
+                    }
+                    if (linkedFiles.Add(entry.File))
+                    {
+                        hb.Link(
+                            href: Responses.Locations.Raw(context, parts: $"{path}/{entry.File}"),
+                            rel: "modulepreload",
+                            crossorigin: true);
+                    }
                 }
             }
-            return result;
+            return hb;
         }
+
 
         public static HtmlBuilder LinkedHeadLink(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var path = Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json");
-            var json = ManifestLoader(path);
             return hb
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
                         parts: "favicon.ico"),
                     rel: "shortcut icon")
-
-                .Link(
-                    href: Responses.Locations.Raw(
-                        context: context,
-                        parts: $"components/{json["main"]}"),
-                    rel: "modulepreload",
-                    crossorigin: true)
-                .Link(
-                    href: Responses.Locations.Raw(
-                        context: context,
-                        parts: $"components/{json["vendor"]}"),
-                    rel: "modulepreload",
-                    crossorigin: true);
+                .EsModuleLinks(ManifestLoader.Load(
+                    Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json")
+                ), "components", context)
+                .EsModuleLinks(ManifestLoader.Load(
+                    Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "assets", "manifest.json")
+                ), "assets", context);
         }
     }
 }
