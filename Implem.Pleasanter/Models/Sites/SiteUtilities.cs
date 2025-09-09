@@ -538,15 +538,6 @@ namespace Implem.Pleasanter.Models
             {
                 return hb.Td();
             }
-            if (serverScriptModelColumn?.SoftHideChanged == true && serverScriptModelColumn?.SoftHide == true)
-            {
-                return hb.Td(
-                    action:
-                        serverScriptModelColumn?.RawText.IsNullOrEmpty() == false
-                        ? () => hb.Raw(serverScriptModelColumn?.RawText)
-                        : null,
-                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss));
-            }
             if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
             {
                 return hb.Td(
@@ -7866,10 +7857,12 @@ namespace Implem.Pleasanter.Models
                                 {
                                     case "ChoicesText":
                                         hb
-                                            .FieldTextBox(
-                                                textType: HtmlTypes.TextTypes.MultiLine,
+                                            .FieldCodeEditor(
+                                                context: context,
                                                 controlId: "ChoicesText",
                                                 fieldCss: "field-wide",
+                                                controlCss: "o-low",
+                                                dataLang: "json",
                                                 labelText: Displays.OptionList(context: context),
                                                 text: column.ChoicesText)
                                             .FieldDropDown(

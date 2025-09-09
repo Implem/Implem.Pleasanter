@@ -1,15 +1,15 @@
 {
-  "_vendor_CH0ta7ux.js": {
-    "file": "vendor_CH0ta7ux.js",
+  "_vendor_kWzUC-If.js": {
+    "file": "vendor_kWzUC-If.js",
     "name": "vendor"
   },
   "src/main.ts": {
-    "file": "components_CTUDAwFd.js",
+    "file": "components_FFRnmFoD.js",
     "name": "main",
     "src": "src/main.ts",
     "isEntry": true,
     "imports": [
-      "_vendor_CH0ta7ux.js"
+      "_vendor_kWzUC-If.js"
     ]
   }
 }

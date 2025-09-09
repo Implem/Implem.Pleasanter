@@ -406,6 +406,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? "Grid"
                     : "",
                 css: "fixed",
+                scrollable: false,
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(action: () =>
@@ -469,6 +470,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? "Grid"
                     : "",
                 css: "fixed",
+                scrollable: false,
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(action: () =>
@@ -544,6 +546,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? "Grid"
                     : "",
                 css: "fixed",
+                scrollable: false,
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(action: () =>
