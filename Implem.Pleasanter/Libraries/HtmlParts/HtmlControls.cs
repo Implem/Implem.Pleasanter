@@ -770,8 +770,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     }
                                 }
                                 hb.Text(text: labelText);
-                            },
-                            _using: !controlOnly));
+                            }));
             }
             return hb;
         }
