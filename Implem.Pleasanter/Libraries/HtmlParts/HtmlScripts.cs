@@ -2,14 +2,13 @@
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Manifests;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json.Nodes;
-using System.Net;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlScripts
@@ -24,9 +23,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (!context.Ajax)
             {
                 var extendedScripts = ExtendedScripts(context: context);
-                var path = Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json");
-                var json = ManifestLoader(path);
-                var cacheBustingCode = WebUtility.UrlEncode((context.ThemeVersionForCss() + Environments.AssemblyVersion).Split(".").Join(""));
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,
@@ -112,18 +108,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         parts: "assets/Plugins/qrcode.min.js"),
                         nonce: context.Nonce)
-                    .Script(src:
-                        Responses.Locations.Raw(
-                            context: context,
-                            parts: $"components/{json["main"]}"),
-                        type: "module",
-                        crossorigin: true,
-                        nonce: context.Nonce
-                    )
-                    .Script(src: Responses.Locations.Get(
-                        context: context,
-                        parts: $"assets/js/app.min.js?v={cacheBustingCode}"),
-                        nonce: context.Nonce)
+                    .ManifestScripts(ManifestLoader.Load(
+                        Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json")
+                    ), "components", context)
+                    .ManifestScripts(ManifestLoader.Load(
+                        Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "assets", "manifest.json")
+                    ), "assets", context)
                     .Script(script: script, _using: !script.IsNullOrEmpty(), nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
@@ -190,24 +180,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action: context.Action);
         }
 
-        public static Dictionary<string, string> ManifestLoader(string fileName)
+        public static HtmlBuilder ManifestScripts(
+            this HtmlBuilder hb,
+            List<ManifestLoader.ResultEntry> entries,
+            string path,
+            Context context)
         {
-            if (!File.Exists(fileName))
-                throw new FileNotFoundException("manifest.json not found", fileName);
-            var json = File.ReadAllText(fileName);
-            var manifest = JsonNode.Parse(json)?.AsObject();
-            var result = new Dictionary<string, string>();
-            if (manifest == null) return result;
-            foreach (var entry in manifest)
+            foreach (var entry in entries)
             {
-                var name = entry.Value?["name"]?.ToString();
-                var file = entry.Value?["file"]?.ToString();
-                if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(file))
-                {
-                    result[name] = file;
-                }
+                var src = Responses.Locations.Raw(context, parts: $"{path}/{entry.File}");
+                hb.Script(
+                    src: src,
+                    type: entry.Imports != null && entry.Imports.Count > 0 ? "module" : null,
+                    crossorigin: entry.Imports != null && entry.Imports.Count > 0 ? true : false,
+                    nonce: context.Nonce
+                );
             }
-            return result;
+            return hb;
         }
 
         public static string ExtendedScripts(

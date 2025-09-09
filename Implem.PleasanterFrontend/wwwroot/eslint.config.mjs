@@ -19,7 +19,6 @@ export default defineConfig([
                 moment: 'readonly',
                 FullCalendar: 'readonly',
                 GridStack: 'readonly',
-                flatpickr: 'readonly',
                 QRCode: 'readonly',
                 $p: 'readonly',
                 formId: 'writable',
