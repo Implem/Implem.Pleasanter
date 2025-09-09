@@ -108,7 +108,7 @@
     return ret;
 };
 
-$p.multiUpload = function (url, data, $control, statusBar) {
+$p.multiUpload = function (url, data, $control, statusBar, callback) {
     $p.loading($control);
     $p.clearMessage();
     var methodType = 'post';
@@ -150,7 +150,11 @@ $p.multiUpload = function (url, data, $control, statusBar) {
         }
     })
         .done(function (json, textStatus, jqXHR) {
-            $p.setByJson(url, methodType, data, $control, true, JSON.parse(json));
+            if (callback) {
+                callback(json);
+            } else {
+                $p.setByJson(url, methodType, data, $control, true, JSON.parse(json));
+            }
             return true;
         })
         .fail(function (jqXHR, textStatus, errorThrown) {

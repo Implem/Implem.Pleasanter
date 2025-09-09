@@ -63,7 +63,14 @@
     };
 
     $p.formValidate = function ($form, $control) {
-        $('input, select, textarea').each(function () {
+        $form.find('input, select, textarea').each(function () {
+            // SunEditor 関連要素は即スキップ
+            if ($(this).is('[class^="se-"]')) return;
+            // type 属性のない input もスキップ
+            if (this.tagName.toLowerCase() === 'input' && !$(this).attr('type')) return;
+            // フォームに属していない or バリデーション未初期化もスキップ
+            if (!this.form || !$(this.form).data('validator')) return;
+
             $(this).rules('remove');
         });
         if (!$control.data('validations') || $control.hasClass('merge-validations')) {
@@ -138,7 +145,7 @@ $p.applyValidator = function () {
     });
     $('form').each(function () {
         $(this).validate({
-            ignore: '',
+            ignore: '[class^="se-"]', // SunEditor 関連要素は除外
             errorPlacement: function (error, element) {
                 // 複数選択の分類項目に対応するためエラー表示の位置をフィールドの最下段に移動する
                 // マークダウン項目は画像アイコンなどがあるため、移動しない

@@ -320,6 +320,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var dashboards = new Dictionary<string, DashboardModel>();
             var issues = new Dictionary<string, IssueModel>();
             var results = new Dictionary<string, ResultModel>();
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             switch (ss.ReferenceType)
             {
                 case "Issues":
@@ -563,6 +567,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 if (!issueModel.Locked
                                     && !issueModel.ReadOnly
                                     && !isHistory
+                                    && !column.GetReadOnly()
                                     && EditColumn(
                                         context: context,
                                         ss: ss,
@@ -590,6 +595,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             issueModel: issueModel,
                                             ss: column.SiteSettings,
                                             controlOnly: true,
+                                            gridEditMode: true,
                                             idSuffix: issueModel.IdSuffix()));
                                 }
                                 else if (column.ColumnName.Contains("~")
@@ -634,6 +640,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 if (!resultModel.Locked
                                     && !resultModel.ReadOnly
                                     && !isHistory
+                                    && !column.GetReadOnly()
                                     && EditColumn(
                                         context: context,
                                         ss: ss,
@@ -661,6 +668,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             resultModel: resultModel,
                                             ss: column.SiteSettings,
                                             controlOnly: true,
+                                            gridEditMode: true,
                                             idSuffix: resultModel.IdSuffix()));
                                 }
                                 else if (column.ColumnName.Contains("~")
@@ -713,10 +721,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss,
                 mine: mine))
-            {
-                return false;
-            }
-            if (column.GetEditorReadOnly())
             {
                 return false;
             }

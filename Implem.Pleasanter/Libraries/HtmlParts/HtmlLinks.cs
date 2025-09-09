@@ -705,6 +705,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     context: context,
                     dataRows: dataRows);
             }
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             return hb.GridTable(
                 context: context,
                 id: dataTableName,

@@ -34,9 +34,9 @@
         $grid.find('.select').prop('checked', $control.prop('checked'));
         $p.setData($grid);
     });
-    $(document).on('click', '.grid-row td', function (e) {
-        if (!e.target) return false;
-        var container = e.target.closest('grid-container');
+    $(document).on('click', '.grid-row td', function (event) {
+        if (!event.target) return false;
+        var container = event.target.closest('grid-container');
         if (container && container.isKeyHeld) return false;
 
         var $control = $(this).find('.grid-check,.select');
@@ -53,6 +53,12 @@
                     $p.syncSend($control);
                     $p.setCurrentIndex();
                 } else {
+                    if (
+                        event.target.tagName === 'IMAGE-VIEWER-MODAL' ||
+                        (event.target.tagName === 'IMG' && event.target.closest('rt-editor'))
+                    ) {
+                        return false;
+                    }
                     var dataId = $(this).closest('.grid-row').attr('data-id');
                     if ($grid.hasClass('new-tab')) {
                         let url = $('#BaseUrl').val() + dataId;

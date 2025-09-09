@@ -347,6 +347,49 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb;
         }
 
+        public static HtmlBuilder RTEditor(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string controlId = null,
+            string controlCss = null,
+            string text = null,
+            string placeholder = null,
+            bool readOnly = false,
+            bool disabled = false,
+            bool allowImage = true,
+            bool allowBulkUpdate = false,
+            bool mobile = false,
+            bool alwaysSend = false,
+            bool validateRequired = false,
+            Column.ViewerSwitchingTypes viewerSwitchingTypes = Column.ViewerSwitchingTypes.Auto,
+            Dictionary<string, string> attributes = null,
+            bool preview = false,
+            bool _using = true,
+            int validateMaxLength = 0,
+            string validateRegex = null,
+            string validateRegexErrorMessage = null)
+        {
+            if (!_using) return hb;
+            hb.RichTextEditor(
+                action: () => hb.TextArea(
+                    attributes: new HtmlAttributes()
+                        .Id(controlId)
+                        .Name(controlId)
+                        .Placeholder(placeholder)
+                        .Disabled(disabled)
+                        .DataAlwaysSend(alwaysSend)
+                        .DataValidateRequired(validateRequired, _using: !readOnly)
+                        .DataValidateRegex(validateRegex)
+                        .DataValidateRegexErrorMessage(validateRegexErrorMessage)
+                        .DataReadOnly(readOnly)
+                        .Add(attributes)
+                        .Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
+                    text: text)
+            );
+            return hb;
+        }
+
         public static HtmlBuilder MarkDownCommands(
             this HtmlBuilder hb,
             Context context,

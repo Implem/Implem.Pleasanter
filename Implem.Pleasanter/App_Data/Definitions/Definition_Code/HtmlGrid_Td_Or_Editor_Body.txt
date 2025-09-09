@@ -1,6 +1,7 @@
 ﻿if (!#modelName#Model.Locked
     && !#modelName#Model.ReadOnly
     && !isHistory
+    && !column.GetReadOnly()
     && EditColumn(
         context: context,
         ss: ss,
@@ -28,6 +29,7 @@
             #modelName#Model: #modelName#Model,
             ss: column.SiteSettings,
             controlOnly: true,
+            gridEditMode: true,
             idSuffix: <!--HtmlGrid_Td_IdSuffix--><!--HtmlGrid_Td_IdSuffixNull-->));
 }
 else if (column.ColumnName.Contains("~")

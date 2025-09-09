@@ -23,8 +23,6 @@ export class GridContainerElement extends HTMLElement {
             this.shadow = this.attachShadow({ mode: 'open' });
             this.shadow.append(this.htmlRender());
             this.gridEl = this.querySelector('.grid');
-            this.stageEl = this.shadow.querySelector('.app-grid-inner')!;
-            this.flameEl = this.shadow.querySelector('.app-grid-frame')!;
             this.gridEl?.classList.add(this.hash);
             this.initShadowStyle();
         }
@@ -42,9 +40,12 @@ export class GridContainerElement extends HTMLElement {
     }
 
     private init = () => {
+        if (!this.shadow) return;
         if (this.gridEl?.id === 'Grid') {
             this.classList.add('app-is-index');
         }
+        this.stageEl = this.shadow.querySelector('.app-grid-inner');
+        this.flameEl = this.shadow.querySelector('.app-grid-frame');
         this.checkCanScroll();
         this.addObserver();
         this.addScrollEvents();
@@ -134,6 +135,7 @@ export class GridContainerElement extends HTMLElement {
     };
 
     private handleScrollStart = (e: MouseEvent) => {
+        if (this.contains(e.target as Node)) this.isEntered = true;
         if (this.isEntered && !this.isKeyHeld && e.button === 0) {
             this.isMouseHeld = true;
         }
@@ -195,12 +197,12 @@ export class GridContainerElement extends HTMLElement {
                     ${stickyIndexes
                         .map((cellIndex, index) => {
                             return /* css */ `
-                                .${this.hash} tr:first-child th:nth-child(${cellIndex + 1}) {
+                                .${this.hash} > thead > tr:first-child > th:nth-child(${cellIndex + 1}) {
                                     position: sticky;
                                     z-index: 2;
                                     left: ${lefts[index]}px;
                                 }
-                                .${this.hash} tr td:nth-child(${cellIndex + 1}) {
+                                .${this.hash} > tbody > tr > td:nth-child(${cellIndex + 1}) {
                                     position: sticky;
                                     z-index: 2;
                                     left: ${lefts[index]}px;

@@ -698,6 +698,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(
                         controlId: "data-validation-maxlength-regex",
                         value: Parameters.Validation.SingleByteCharactorRegexClient)
+                    .Hidden(
+                        controlId: "RteDefaultFont",
+                        value: Parameters.TextEditorUI.RichTextEditor.DefaultFont?.Join(","),
+                        _using: Parameters.TextEditorUI.RichTextEditor.DefaultFont != null)
+                    .Hidden(
+                        controlId: "RteFontList",
+                        value: Parameters.TextEditorUI.RichTextEditor.FontList?.Join(","),
+                        _using: Parameters.TextEditorUI.RichTextEditor.FontList != null)
+                    .Hidden(
+                        controlId: "RteFontSize",
+                        value: Parameters.TextEditorUI.RichTextEditor.FontSize?.Join(","),
+                        _using: Parameters.TextEditorUI.RichTextEditor.FontSize != null)
                 : hb;
         }
 

@@ -4845,7 +4845,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.Summaries.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
-                res.Html("#EditSummary", new HtmlBuilder()
+                res.ReplaceAll("#EditSummaryWrap", new HtmlBuilder()
                     .EditSummary(context: context, ss: SiteSettings));
             }
         }
@@ -4961,7 +4961,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .ReplaceAll("#EditSummary", new HtmlBuilder()
+                    .ReplaceAll("#EditSummaryWrap", new HtmlBuilder()
                         .EditSummary(context: context, ss: SiteSettings))
                     .CloseDialog();
             }
@@ -4995,7 +4995,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .Html("#EditSummary", new HtmlBuilder()
+                    .ReplaceAll("#EditSummaryWrap", new HtmlBuilder()
                         .EditSummary(context: context, ss: SiteSettings))
                     .CloseDialog();
             }
@@ -5014,7 +5014,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Summaries.Copy(selected);
-                res.ReplaceAll("#EditSummary", new HtmlBuilder()
+                res.ReplaceAll("#EditSummaryWrap", new HtmlBuilder()
                     .EditSummary(context: context, ss: SiteSettings));
             }
         }
@@ -5032,7 +5032,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Summaries.Delete(selected);
-                res.ReplaceAll("#EditSummary", new HtmlBuilder()
+                res.ReplaceAll("#EditSummaryWrap", new HtmlBuilder()
                     .EditSummary(context: context, ss: SiteSettings));
             }
         }
@@ -5051,7 +5051,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.Formulas.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
-                res.Html("#EditFormula", new HtmlBuilder()
+                res.ReplaceAll("#EditFormulaWrap", new HtmlBuilder()
                     .EditFormula(context: context, ss: SiteSettings));
             }
         }
@@ -5124,7 +5124,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .ReplaceAll("#EditFormula", new HtmlBuilder()
+                    .ReplaceAll("#EditFormulaWrap", new HtmlBuilder()
                         .EditFormula(context: context, ss: SiteSettings))
                     .CloseDialog();
             }
@@ -5155,7 +5155,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .Html("#EditFormula", new HtmlBuilder()
+                    .ReplaceAll("#EditFormulaWrap", new HtmlBuilder()
                         .EditFormula(context: context, ss: SiteSettings))
                     .CloseDialog();
             }
@@ -5174,7 +5174,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Formulas.Copy(selected);
-                res.ReplaceAll("#EditFormula", new HtmlBuilder()
+                res.ReplaceAll("#EditFormulaWrap", new HtmlBuilder()
                     .EditFormula(context: context, ss: SiteSettings));
             }
         }
@@ -5192,7 +5192,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Formulas.Delete(selected);
-                res.ReplaceAll("#EditFormula", new HtmlBuilder()
+                res.ReplaceAll("#EditFormulaWrap", new HtmlBuilder()
                     .EditFormula(context: context, ss: SiteSettings));
             }
         }
@@ -5212,7 +5212,7 @@ namespace Implem.Pleasanter.Models
                 SiteSettings.Processes.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
                 SiteSettings.GetColumn(context, "Status").SetChoiceHash(context, SiteSettings.SiteId);
-                res.Html("#EditProcess", new HtmlBuilder()
+                res.ReplaceAll("#EditProcessWrap", new HtmlBuilder()
                     .EditProcess(
                         context: context,
                         ss: SiteSettings));
@@ -5308,7 +5308,7 @@ namespace Implem.Pleasanter.Models
                 notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
             SiteSettings.Processes.Add(process);
             res
-                .ReplaceAll("#EditProcess", new HtmlBuilder()
+                .ReplaceAll("#EditProcessWrap", new HtmlBuilder()
                     .EditProcess(
                         context: context,
                         ss: SiteSettings))
@@ -5364,7 +5364,7 @@ namespace Implem.Pleasanter.Models
                     },
                     notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
                 res
-                    .ReplaceAll("#EditProcess", new HtmlBuilder()
+                    .ReplaceAll("#EditProcessWrap", new HtmlBuilder()
                         .EditProcess(
                             context: context,
                             ss: SiteSettings))
@@ -5385,7 +5385,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Processes.Copy(selected);
-                res.ReplaceAll("#EditProcess", new HtmlBuilder()
+                res.ReplaceAll("#EditProcessWrap", new HtmlBuilder()
                     .EditProcess(
                         context: context,
                         ss: SiteSettings));
@@ -5405,7 +5405,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Processes.Delete(selected);
-                res.ReplaceAll("#EditProcess", new HtmlBuilder()
+                res.ReplaceAll("#EditProcessWrap", new HtmlBuilder()
                     .EditProcess(
                         context: context,
                         ss: SiteSettings));
@@ -5428,7 +5428,7 @@ namespace Implem.Pleasanter.Models
                 var validateInputs = context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>();
                 validateInputs.MoveUpOrDown(ColumnUtilities.ChangeCommand(controlId), selected);
                 res
-                    .Html("#EditProcessValidateInput", new HtmlBuilder()
+                    .ReplaceAll("#EditProcessValidateInputWrap", new HtmlBuilder()
                         .EditProcessValidateInput(
                             context: context,
                             ss: SiteSettings,
@@ -5511,7 +5511,7 @@ namespace Implem.Pleasanter.Models
                     nullable: true)
             });
             res
-                .ReplaceAll("#EditProcessValidateInput", new HtmlBuilder()
+                .ReplaceAll("#EditProcessValidateInputWrap", new HtmlBuilder()
                     .EditProcessValidateInput(
                         context: context,
                         ss: SiteSettings,
@@ -5543,7 +5543,7 @@ namespace Implem.Pleasanter.Models
                 key: "ProcessValidateInputMax",
                 nullable: true);
             res
-                .ReplaceAll("#EditProcessValidateInput", new HtmlBuilder()
+                .ReplaceAll("#EditProcessValidateInputWrap", new HtmlBuilder()
                     .EditProcessValidateInput(
                         context: context,
                         ss: SiteSettings,
@@ -5569,7 +5569,7 @@ namespace Implem.Pleasanter.Models
                 var validateInputs = context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>();
                 validateInputs.Delete(selected);
                 res
-                    .Html("#EditProcessValidateInput", new HtmlBuilder()
+                    .ReplaceAll("#EditProcessValidateInputWrap", new HtmlBuilder()
                         .EditProcessValidateInput(
                             context: context,
                             ss: SiteSettings,
@@ -5636,7 +5636,7 @@ namespace Implem.Pleasanter.Models
                 var dataChanges = context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>();
                 dataChanges.MoveUpOrDown(ColumnUtilities.ChangeCommand(controlId), selected);
                 res
-                    .Html("#EditProcessDataChange", new HtmlBuilder()
+                    .ReplaceAll("#EditProcessDataChangeWrap", new HtmlBuilder()
                         .EditProcessDataChange(
                             context: context,
                             ss: SiteSettings,
@@ -5708,7 +5708,7 @@ namespace Implem.Pleasanter.Models
                 valueFormulaNotUseDisplayName: context.Forms.Bool("ProcessDataChangeValueFormulaNotUseDisplayName"),
                 valueFormulaIsDisplayError: context.Forms.Bool("ProcessDataChangeValueFormulaIsDisplayError")));
             res
-                .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
+                .ReplaceAll("#EditProcessDataChangeWrap", new HtmlBuilder()
                     .EditProcessDataChange(
                         context: context,
                         ss: SiteSettings,
@@ -5734,7 +5734,7 @@ namespace Implem.Pleasanter.Models
                 valueFormulaNotUseDisplayName: context.Forms.Bool("ProcessDataChangeValueFormulaNotUseDisplayName"),
                 valueFormulaIsDisplayError: context.Forms.Bool("ProcessDataChangeValueFormulaIsDisplayError"));
             res
-                .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
+                .ReplaceAll("#EditProcessDataChangeWrap", new HtmlBuilder()
                     .EditProcessDataChange(
                         context: context,
                         ss: SiteSettings,
@@ -5794,7 +5794,7 @@ namespace Implem.Pleasanter.Models
                 var dataChanges = context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>();
                 dataChanges.Copy(selected);
                 res
-                    .Html("#EditProcessDataChange", new HtmlBuilder()
+                    .ReplaceAll("#EditProcessDataChangeWrap", new HtmlBuilder()
                         .EditProcessDataChange(
                             context: context,
                             ss: SiteSettings,
@@ -5820,7 +5820,7 @@ namespace Implem.Pleasanter.Models
                 var dataChanges = context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>();
                 dataChanges.Delete(selected);
                 res
-                    .Html("#EditProcessDataChange", new HtmlBuilder()
+                    .ReplaceAll("#EditProcessDataChangeWrap", new HtmlBuilder()
                         .EditProcessDataChange(
                             context: context,
                             ss: SiteSettings,
@@ -5853,7 +5853,7 @@ namespace Implem.Pleasanter.Models
                     var notifications = context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>();
                     notifications.MoveUpOrDown(ColumnUtilities.ChangeCommand(controlId), selected);
                     res
-                        .Html("#EditProcessNotification", new HtmlBuilder()
+                        .ReplaceAll("#EditProcessNotificationWrap", new HtmlBuilder()
                             .EditProcessNotification(
                                 context: context,
                                 ss: SiteSettings,
@@ -5950,7 +5950,7 @@ namespace Implem.Pleasanter.Models
                         Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"))
                     });
                     res
-                        .ReplaceAll("#EditProcessNotification", new HtmlBuilder()
+                        .ReplaceAll("#EditProcessNotificationWrap", new HtmlBuilder()
                             .EditProcessNotification(
                                 context: context,
                                 ss: SiteSettings,
@@ -5989,7 +5989,7 @@ namespace Implem.Pleasanter.Models
                     notification.Token = context.Forms.Data("ProcessNotificationToken");
                     notification.Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"));
                     res
-                        .ReplaceAll("#EditProcessNotification", new HtmlBuilder()
+                        .ReplaceAll("#EditProcessNotificationWrap", new HtmlBuilder()
                             .EditProcessNotification(
                                 context: context,
                                 ss: SiteSettings,
@@ -6028,7 +6028,7 @@ namespace Implem.Pleasanter.Models
                     var notifications = context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>();
                     notifications.Delete(selected);
                     res
-                        .Html("#EditProcessNotification", new HtmlBuilder()
+                        .ReplaceAll("#EditProcessNotificationWrap", new HtmlBuilder()
                             .EditProcessNotification(
                                 context: context,
                                 ss: SiteSettings,
@@ -6055,7 +6055,7 @@ namespace Implem.Pleasanter.Models
                 SiteSettings.StatusControls.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
                 SiteSettings.GetColumn(context, "Status").SetChoiceHash(context, SiteSettings.SiteId);
-                res.Html("#EditStatusControl", new HtmlBuilder()
+                res.ReplaceAll("#EditStatusControlWrap", new HtmlBuilder()
                     .EditStatusControl(
                         context: context,
                         ss: SiteSettings));
@@ -6129,7 +6129,7 @@ namespace Implem.Pleasanter.Models
                 permissions: StatusControlPermissions(context: context));
             SiteSettings.StatusControls.Add(statusControl);
             res
-                .ReplaceAll("#EditStatusControl", new HtmlBuilder()
+                .ReplaceAll("#EditStatusControlWrap", new HtmlBuilder()
                     .EditStatusControl(
                         context: context,
                         ss: SiteSettings))
@@ -6163,7 +6163,7 @@ namespace Implem.Pleasanter.Models
                     view: view,
                     permissions: StatusControlPermissions(context: context));
                 res
-                    .ReplaceAll("#EditStatusControl", new HtmlBuilder()
+                    .ReplaceAll("#EditStatusControlWrap", new HtmlBuilder()
                         .EditStatusControl(
                             context: context,
                             ss: SiteSettings))
@@ -6185,7 +6185,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.SetChoiceHash(context: context);
                 SiteSettings.StatusControls.Copy(selected);
-                res.ReplaceAll("#EditStatusControl", new HtmlBuilder()
+                res.ReplaceAll("#EditStatusControlWrap", new HtmlBuilder()
                     .EditStatusControl(
                         context: context,
                         ss: SiteSettings));
@@ -6206,7 +6206,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.SetChoiceHash(context: context);
                 SiteSettings.StatusControls.Delete(selected);
-                res.ReplaceAll("#EditStatusControl", new HtmlBuilder()
+                res.ReplaceAll("#EditStatusControlWrap", new HtmlBuilder()
                     .EditStatusControl(
                         context: context,
                         ss: SiteSettings));
@@ -6685,7 +6685,7 @@ namespace Implem.Pleasanter.Models
                 {
                     SiteSettings.Notifications.MoveUpOrDown(
                         ColumnUtilities.ChangeCommand(controlId), selected);
-                    res.Html("#EditNotification", new HtmlBuilder()
+                    res.ReplaceAll("#EditNotificationWrap", new HtmlBuilder()
                         .EditNotification(context: context, ss: SiteSettings));
                 }
             }
@@ -6703,7 +6703,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .ReplaceAll("#EditNotification", new HtmlBuilder()
+                    .ReplaceAll("#EditNotificationWrap", new HtmlBuilder()
                         .EditNotification(context: context, ss: SiteSettings))
                     .CloseDialog();
             }
@@ -6728,7 +6728,7 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     SiteSettings.Notifications.Copy(selected);
-                    res.ReplaceAll("#EditNotification", new HtmlBuilder()
+                    res.ReplaceAll("#EditNotificationWrap", new HtmlBuilder()
                         .EditNotification(context: context, ss: SiteSettings));
                 }
             }
@@ -6753,7 +6753,7 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     SiteSettings.Notifications.Delete(selected);
-                    res.ReplaceAll("#EditNotification", new HtmlBuilder()
+                    res.ReplaceAll("#EditNotificationWrap", new HtmlBuilder()
                         .EditNotification(context: context, ss: SiteSettings));
                 }
             }
@@ -6943,7 +6943,7 @@ namespace Implem.Pleasanter.Models
                 {
                     SiteSettings.Reminders.MoveUpOrDown(
                         ColumnUtilities.ChangeCommand(controlId), selected);
-                    res.Html("#EditReminder", new HtmlBuilder()
+                    res.ReplaceAll("#EditReminderWrap", new HtmlBuilder()
                         .EditReminder(context: context, ss: SiteSettings));
                 }
             }
@@ -6961,7 +6961,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .ReplaceAll("#EditReminder", new HtmlBuilder()
+                    .ReplaceAll("#EditReminderWrap", new HtmlBuilder()
                         .EditReminder(context: context, ss: SiteSettings))
                     .CloseDialog();
             }
@@ -6986,7 +6986,7 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     SiteSettings.Reminders.Copy(selected);
-                    res.ReplaceAll("#EditReminder", new HtmlBuilder()
+                    res.ReplaceAll("#EditReminderWrap", new HtmlBuilder()
                         .EditReminder(context: context, ss: SiteSettings));
                 }
             }
@@ -7011,7 +7011,7 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     SiteSettings.Reminders.Delete(selected);
-                    res.ReplaceAll("#EditReminder", new HtmlBuilder()
+                    res.ReplaceAll("#EditReminderWrap", new HtmlBuilder()
                         .EditReminder(context: context, ss: SiteSettings));
                 }
             }
@@ -7231,7 +7231,7 @@ namespace Implem.Pleasanter.Models
                 {
                     SiteSettings.Exports.MoveUpOrDown(
                         ColumnUtilities.ChangeCommand(controlId), selected);
-                    res.Html("#EditExport", new HtmlBuilder()
+                    res.ReplaceAll("#EditExportWrap", new HtmlBuilder()
                         .EditExport(context: context, ss: SiteSettings));
                 }
             }
@@ -7249,7 +7249,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .ReplaceAll("#EditExport", new HtmlBuilder()
+                    .ReplaceAll("#EditExportWrap", new HtmlBuilder()
                         .EditExport(context: context, ss: SiteSettings))
                     .CloseDialog();
             }
@@ -7289,7 +7289,7 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     SiteSettings.Exports.Copy(selected);
-                    res.ReplaceAll("#EditExport", new HtmlBuilder()
+                    res.ReplaceAll("#EditExportWrap", new HtmlBuilder()
                         .EditExport(context: context, ss: SiteSettings));
                 }
             }
@@ -7314,7 +7314,7 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     SiteSettings.Exports.Delete(selected);
-                    res.ReplaceAll("#EditExport", new HtmlBuilder()
+                    res.ReplaceAll("#EditExportWrap", new HtmlBuilder()
                         .EditExport(context: context, ss: SiteSettings));
                 }
             }
@@ -7494,7 +7494,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.Styles.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
-                res.Html("#EditStyle", new HtmlBuilder()
+                res.ReplaceAll("#EditStyleWrap", new HtmlBuilder()
                     .EditStyle(
                         context: context,
                         ss: SiteSettings));
@@ -7570,7 +7570,7 @@ namespace Implem.Pleasanter.Models
                 disabled: context.Forms.Bool("StyleDisabled"),
                 body: context.Forms.Data("StyleBody")));
             res
-                .ReplaceAll("#EditStyle", new HtmlBuilder()
+                .ReplaceAll("#EditStyleWrap", new HtmlBuilder()
                     .EditStyle(
                         context: context,
                         ss: SiteSettings))
@@ -7601,7 +7601,7 @@ namespace Implem.Pleasanter.Models
                     disabled: context.Forms.Bool("StyleDisabled"),
                     body: context.Forms.Data("StyleBody"));
             res
-                .Html("#EditStyle", new HtmlBuilder()
+                .ReplaceAll("#EditStyleWrap", new HtmlBuilder()
                     .EditStyle(
                         context: context,
                         ss: SiteSettings))
@@ -7621,7 +7621,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Styles.Copy(selected);
-                res.ReplaceAll("#EditStyle", new HtmlBuilder()
+                res.ReplaceAll("#EditStyleWrap", new HtmlBuilder()
                     .EditStyle(
                         context: context,
                         ss: SiteSettings));
@@ -7641,7 +7641,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Styles.Delete(selected);
-                res.ReplaceAll("#EditStyle", new HtmlBuilder()
+                res.ReplaceAll("#EditStyleWrap", new HtmlBuilder()
                     .EditStyle(
                         context: context,
                         ss: SiteSettings));
@@ -7662,7 +7662,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.Scripts.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
-                res.Html("#EditScript", new HtmlBuilder()
+                res.ReplaceAll("#EditScriptWrap", new HtmlBuilder()
                     .EditScript(
                         context: context,
                         ss: SiteSettings));
@@ -7738,7 +7738,7 @@ namespace Implem.Pleasanter.Models
                 disabled: context.Forms.Bool("ScriptDisabled"),
                 body: context.Forms.Data("ScriptBody")));
             res
-                .ReplaceAll("#EditScript", new HtmlBuilder()
+                .ReplaceAll("#EditScriptWrap", new HtmlBuilder()
                     .EditScript(
                         context: context,
                         ss: SiteSettings))
@@ -7769,7 +7769,7 @@ namespace Implem.Pleasanter.Models
                     disabled: context.Forms.Bool("ScriptDisabled"),
                     body: context.Forms.Data("ScriptBody"));
             res
-                .Html("#EditScript", new HtmlBuilder()
+                .ReplaceAll("#EditScriptWrap", new HtmlBuilder()
                     .EditScript(
                         context: context,
                         ss: SiteSettings))
@@ -7789,7 +7789,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Scripts.Copy(selected);
-                res.ReplaceAll("#EditScript", new HtmlBuilder()
+                res.ReplaceAll("#EditScriptWrap", new HtmlBuilder()
                     .EditScript(
                         context: context,
                         ss: SiteSettings));
@@ -7809,7 +7809,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Scripts.Delete(selected);
-                res.ReplaceAll("#EditScript", new HtmlBuilder()
+                res.ReplaceAll("#EditScriptWrap", new HtmlBuilder()
                     .EditScript(
                         context: context,
                         ss: SiteSettings));
@@ -7830,7 +7830,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.Htmls.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
-                res.Html("#EditHtml", new HtmlBuilder()
+                res.ReplaceAll("#EditHtmlWrap", new HtmlBuilder()
                     .EditHtml(
                         context: context,
                         ss: SiteSettings));
@@ -7907,7 +7907,7 @@ namespace Implem.Pleasanter.Models
                 disabled: context.Forms.Bool("HtmlDisabled"),
                 body: context.Forms.Data("HtmlBody")));
             res
-                .ReplaceAll("#EditHtml", new HtmlBuilder()
+                .ReplaceAll("#EditHtmlWrap", new HtmlBuilder()
                     .EditHtml(
                         context: context,
                         ss: SiteSettings))
@@ -7939,7 +7939,7 @@ namespace Implem.Pleasanter.Models
                     disabled: context.Forms.Bool("HtmlDisabled"),
                     body: context.Forms.Data("HtmlBody"));
             res
-                .Html("#EditHtml", new HtmlBuilder()
+                .ReplaceAll("#EditHtmlWrap", new HtmlBuilder()
                     .EditHtml(
                         context: context,
                         ss: SiteSettings))
@@ -7959,7 +7959,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Htmls.Copy(selected);
-                res.ReplaceAll("#EditHtml", new HtmlBuilder()
+                res.ReplaceAll("#EditHtmlWrap", new HtmlBuilder()
                     .EditHtml(
                         context: context,
                         ss: SiteSettings));
@@ -7979,7 +7979,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Htmls.Delete(selected);
-                res.ReplaceAll("#EditHtml", new HtmlBuilder()
+                res.ReplaceAll("#EditHtmlWrap", new HtmlBuilder()
                     .EditHtml(
                         context: context,
                         ss: SiteSettings));
@@ -8000,7 +8000,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.ServerScripts.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
-                res.Html("#EditServerScript", new HtmlBuilder()
+                res.ReplaceAll("#EditServerScriptWrap", new HtmlBuilder()
                     .EditServerScript(
                         context: context,
                         ss: SiteSettings));
@@ -8121,7 +8121,7 @@ namespace Implem.Pleasanter.Models
                 disabled: script.Disabled,
                 timeOut: script.TimeOut));
             res
-                .ReplaceAll("#EditServerScript", new HtmlBuilder()
+                .ReplaceAll("#EditServerScriptWrap", new HtmlBuilder()
                     .EditServerScript(
                         context: context,
                         ss: SiteSettings))
@@ -8197,7 +8197,7 @@ namespace Implem.Pleasanter.Models
                     disabled: script.Disabled,
                     timeOut: script.TimeOut);
             res
-                .Html("#EditServerScript", new HtmlBuilder()
+                .ReplaceAll("#EditServerScriptWrap", new HtmlBuilder()
                     .EditServerScript(
                         context: context,
                         ss: SiteSettings))
@@ -8229,7 +8229,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.ServerScripts.Copy(selected);
-                res.ReplaceAll("#EditServerScript", new HtmlBuilder()
+                res.ReplaceAll("#EditServerScriptWrap", new HtmlBuilder()
                     .EditServerScript(
                         context: context,
                         ss: SiteSettings));
@@ -8249,7 +8249,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.ServerScripts.Delete(selected);
-                res.ReplaceAll("#EditServerScript", new HtmlBuilder()
+                res.ReplaceAll("#EditServerScriptWrap", new HtmlBuilder()
                     .EditServerScript(
                         context: context,
                         ss: SiteSettings));
@@ -8307,7 +8307,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.BulkUpdateColumns.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
-                res.Html("#EditBulkUpdateColumns", new HtmlBuilder()
+                res.ReplaceAll("#EditBulkUpdateColumnsWrap", new HtmlBuilder()
                     .EditBulkUpdateColumns(
                         context: context,
                         ss: SiteSettings));
@@ -8371,7 +8371,7 @@ namespace Implem.Pleasanter.Models
                 columns: context.Forms.List("BulkUpdateColumnColumnsAll"),
                 details: context.Forms.Data("BulkUpdateColumnDetails")?.Deserialize<Dictionary<string, BulkUpdateColumnDetail>>()));
             res
-                .ReplaceAll("#EditBulkUpdateColumns", new HtmlBuilder()
+                .ReplaceAll("#EditBulkUpdateColumnsWrap", new HtmlBuilder()
                     .EditBulkUpdateColumns(
                         context: context,
                         ss: SiteSettings))
@@ -8391,7 +8391,7 @@ namespace Implem.Pleasanter.Models
                     columns: context.Forms.List("BulkUpdateColumnColumnsAll"),
                     details: context.Forms.Data("BulkUpdateColumnDetails")?.Deserialize<Dictionary<string, BulkUpdateColumnDetail>>());
             res
-                .Html("#EditBulkUpdateColumns", new HtmlBuilder()
+                .ReplaceAll("#EditBulkUpdateColumnsWrap", new HtmlBuilder()
                     .EditBulkUpdateColumns(
                         context: context,
                         ss: SiteSettings))
@@ -8411,7 +8411,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.BulkUpdateColumns.Copy(selected);
-                res.ReplaceAll("#EditBulkUpdateColumns", new HtmlBuilder()
+                res.ReplaceAll("#EditBulkUpdateColumnsWrap", new HtmlBuilder()
                     .EditBulkUpdateColumns(
                         context: context,
                         ss: SiteSettings));
@@ -8431,7 +8431,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.BulkUpdateColumns.Delete(selected);
-                res.ReplaceAll("#EditBulkUpdateColumns", new HtmlBuilder()
+                res.ReplaceAll("#EditBulkUpdateColumnsWrap", new HtmlBuilder()
                     .EditBulkUpdateColumns(
                         context: context,
                         ss: SiteSettings));
@@ -8510,7 +8510,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.RelatingColumns.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
-                res.Html("#EditRelatingColumns", new HtmlBuilder()
+                res.ReplaceAll("#EditRelatingColumnsWrap", new HtmlBuilder()
                     .EditRelatingColumns(
                         context: context,
                         ss: SiteSettings));
@@ -8573,7 +8573,7 @@ namespace Implem.Pleasanter.Models
                 title: context.Forms.Data("RelatingColumnTitle"),
                 columns: context.Forms.List("RelatingColumnColumnsAll")));
             res
-                .ReplaceAll("#EditRelatingColumns", new HtmlBuilder()
+                .ReplaceAll("#EditRelatingColumnsWrap", new HtmlBuilder()
                     .EditRelatingColumns(
                         context: context,
                         ss: SiteSettings))
@@ -8592,7 +8592,7 @@ namespace Implem.Pleasanter.Models
                     title: context.Forms.Data("RelatingColumnTitle"),
                     columns: context.Forms.List("RelatingColumnColumnsAll"));
             res
-                .Html("#EditRelatingColumns", new HtmlBuilder()
+                .ReplaceAll("#EditRelatingColumnsWrap", new HtmlBuilder()
                     .EditRelatingColumns(
                         context: context,
                         ss: SiteSettings))
@@ -8612,7 +8612,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.RelatingColumns.Delete(selected);
-                res.ReplaceAll("#EditRelatingColumns", new HtmlBuilder()
+                res.ReplaceAll("#EditRelatingColumnsWrap", new HtmlBuilder()
                     .EditRelatingColumns(
                         context: context,
                         ss: SiteSettings));
@@ -8633,7 +8633,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.DashboardParts.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
-                res.Html("#EditDashboardPart", new HtmlBuilder()
+                res.ReplaceAll("#EditDashboardPartWrap", new HtmlBuilder()
                     .EditDashboardPart(
                         context: context,
                         ss: SiteSettings));
@@ -8779,7 +8779,7 @@ namespace Implem.Pleasanter.Models
                 permissions: DashboardPartPermissions(context: context));
             SiteSettings.DashboardParts.Add(dashboardPart);
             res
-                .ReplaceAll("#EditDashboardPart", new HtmlBuilder()
+                .ReplaceAll("#EditDashboardPartWrap", new HtmlBuilder()
                     .EditDashboardPart(
                         context: context,
                         ss: SiteSettings))
@@ -8856,7 +8856,7 @@ namespace Implem.Pleasanter.Models
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
             res
-                .Html("#EditDashboardPart", new HtmlBuilder()
+                .ReplaceAll("#EditDashboardPartWrap", new HtmlBuilder()
                     .EditDashboardPart(
                         context: context,
                         ss: SiteSettings))
@@ -8936,7 +8936,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.DashboardParts.Copy(selected);
-                res.ReplaceAll("#EditDashboardPart", new HtmlBuilder()
+                res.ReplaceAll("#EditDashboardPartWrap", new HtmlBuilder()
                     .EditDashboardPart(
                         context: context,
                         ss: SiteSettings));
@@ -8956,7 +8956,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.DashboardParts.Delete(selected);
-                res.ReplaceAll("#EditDashboardPart", new HtmlBuilder()
+                res.ReplaceAll("#EditDashboardPartWrap", new HtmlBuilder()
                     .EditDashboardPart(
                         context: context,
                         ss: SiteSettings));

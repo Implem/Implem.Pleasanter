@@ -149,11 +149,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: $"assets/css/style-dark.min.css?v={cacheBustingCode}"),
-                    rel: "stylesheet",
-                    _using: context.Theme() == "midnight").Link(
-                    href: Responses.Locations.Get(
-                        context: context,
                         parts: $"assets/themes/{context.Theme()}/custom.css?v={cacheBustingCode}"),
                     rel: "stylesheet");
         }

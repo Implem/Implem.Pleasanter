@@ -65,11 +65,26 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     context: context,
                     column: column,
                     tabIndex: tabIndex))
-                .P(
-                    css: "body markup",
-                    attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
-                    action: () => hb
-                        .Text(text: Body)));
+                .Div(
+                    css: "body",
+                    action: () => {
+                        switch (column.ControlType)
+                        {
+                            case "RTEditor":
+                                hb.RichTextEditor(action: () => hb.TextArea(
+                                    disabled: true,
+                                    attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
+                                    text: Body));
+                                break;
+                            default:
+                                hb.Div(
+                                    css: "markup",
+                                    attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
+                                    action: () => hb.Text(text: Body)
+                                );
+                                break;
+                        }
+                    }));
         }
 
         public override string GridText(Context context, Column column)

@@ -621,7 +621,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column);
-                            if(value != null)
+                            if (value != null)
                             {
                                 //数値項目の場合、「単位」を値に連結する
                                 value += resultModel.NumUnit(
@@ -773,15 +773,6 @@ namespace Implem.Pleasanter.Models
             if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
-            }
-            if (serverScriptModelColumn?.SoftHideChanged == true && serverScriptModelColumn?.SoftHide == true)
-            {
-                return hb.Td(
-                    action:
-                        serverScriptModelColumn?.RawText.IsNullOrEmpty() == false
-                        ? () => hb.Raw(serverScriptModelColumn?.RawText)
-                        : null,
-                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss));
             }
             if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
             {
@@ -1841,6 +1832,7 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             Column column,
             bool controlOnly = false,
+            bool gridEditMode = false,
             bool alwaysSend = false,
             bool disableAutoPostBack = false,
             string idSuffix = null,
@@ -1886,6 +1878,7 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         baseModel: resultModel),
                     controlOnly: controlOnly,
+                    gridEditMode: gridEditMode,
                     alwaysSend: alwaysSend,
                     disableAutoPostBack: disableAutoPostBack,
                     idSuffix: idSuffix,
@@ -2880,6 +2873,10 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             long newRowId)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             return hb.Tr(
                 attributes: new HtmlAttributes()
                     .Class("grid-row new")
@@ -2917,6 +2914,7 @@ namespace Implem.Pleasanter.Models
                                     resultModel: resultModel,
                                     column: column,
                                     controlOnly: true,
+                                    gridEditMode: true,
                                     alwaysSend: resultModel.CopiedGrid,
                                     idSuffix: $"_{ss.SiteId}_{newRowId}"));
                         }
@@ -5921,6 +5919,10 @@ namespace Implem.Pleasanter.Models
             List<Column> columns,
             ResultModel resultModel)
         {
+            if (ss.ColumnHash.ContainsKey("TitleBody") && ss.ColumnHash.ContainsKey("Body"))
+            {
+                ss.ColumnHash["TitleBody"].ControlType = ss.ColumnHash["Body"].FieldCss == "field-rte" ? "RTEditor" : "MarkDown";
+            }
             new ResultCollection(
                 context: context,
                 ss: ss,

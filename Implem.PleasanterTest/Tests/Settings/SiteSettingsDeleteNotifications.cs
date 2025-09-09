@@ -62,18 +62,18 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditNotification"),
+                            target: "#EditNotificationWrap"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
                         JsonData.TextCountOf(
                             method: "ReplaceAll",
-                            target: "#EditNotification",
+                            target: "#EditNotificationWrap",
                             value: "<td>implem.dummy.xunit1@implem.dummy.co.jp</td>",
                             estimate: 0),
                         JsonData.TextCountOf(
                             method: "ReplaceAll",
-                            target: "#EditNotification",
+                            target: "#EditNotificationWrap",
                             value: "<td>implem.dummy.xunit2@implem.dummy.co.jp</td>",
                             estimate: 1)),
                     userType: UserData.UserTypes.Privileged)

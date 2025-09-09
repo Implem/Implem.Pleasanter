@@ -69,7 +69,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#EditExport"),
+                            target: "#EditExportWrap"),
                         JsonData.ExistsOne(
                             method: "CloseDialog"),
                         JsonData.ExistsOne(
@@ -77,7 +77,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                             target: "formChanged"),
                         JsonData.TextContains(
                             method: "ReplaceAll",
-                            target: "#EditExport",
+                            target: "#EditExportWrap",
                             value: "<td>エクスポート更新テスト</td>")),
                     userType: UserData.UserTypes.Privileged)
             };
