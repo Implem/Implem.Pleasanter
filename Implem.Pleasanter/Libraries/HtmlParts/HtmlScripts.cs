@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.Json.Nodes;
-using static Implem.Pleasanter.Libraries.HtmlParts.HtmlHeadLink;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlScripts
