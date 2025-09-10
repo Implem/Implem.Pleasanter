@@ -1,5 +1,10 @@
 import SunEditor from 'suneditor';
 import DOMPurify from 'dompurify';
+import $ from 'jquery';
+
+import SunEditorCore, { Core } from 'suneditor/src/lib/core';
+import { Lang } from 'suneditor/src/lang/Lang';
+import plugins from 'suneditor/src/plugins';
 import zh_cn from 'suneditor/src/lang/zh_cn';
 import en from 'suneditor/src/lang/en';
 import ja from 'suneditor/src/lang/ja';
@@ -7,22 +12,8 @@ import de from 'suneditor/src/lang/de';
 import ko from 'suneditor/src/lang/ko';
 import es from 'suneditor/src/lang/es';
 
-import SunEditorCore, { Core } from 'suneditor/src/lib/core';
-
-import plugins from 'suneditor/src/plugins';
-
 import suneditorCssRaw from 'suneditor/dist/css/suneditor.min.css?raw';
 import css from './RichTextEditor.scss?inline';
-
-type Lang = typeof ja;
-
-declare global {
-    interface Window {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        $p: any;
-        $: JQueryStatic;
-    }
-}
 
 class RichTextEditorElement extends HTMLElement {
     static defaultfont?: string[];
@@ -219,11 +210,11 @@ class RichTextEditorElement extends HTMLElement {
         if (this.controller) {
             if (contents == '<p>​<br></p>' || contents == '<p><br></p>') {
                 this.controller.value = '';
-                window.$p.set(window.$(this.controller), '');
+                $p.set($(this.controller), '');
                 this.smartDesignValueBind('');
             } else {
                 this.controller.value = contents;
-                if (window.$p) window.$p.set(window.$(this.controller), contents);
+                $p.set($(this.controller), contents);
                 this.smartDesignValueBind(contents);
             }
         }
@@ -286,6 +277,8 @@ class RichTextEditorElement extends HTMLElement {
         if (controllerID) formData.append('ControlId', controllerID);
         if (blob) formData.append('file', blob);
 
+        if (!url) return;
+
         // 画像のアップロード
         window.$p.multiUpload(url, formData, undefined, undefined, (json: string) => {
             const jsonData = JSON.parse(json);
@@ -323,8 +316,8 @@ class RichTextEditorElement extends HTMLElement {
         return {
             name: 'toggleReadonly',
             display: 'command',
-            title: window.$p.display('EditModeToggle'),
-            innerHTML: `${window.$p.display('Edit')} <div class="toggle">ON</div>`,
+            title: $p.display('EditModeToggle'),
+            innerHTML: `${$p.display('Edit')} <div class="toggle">ON</div>`,
             isDisabled: false,
             core: undefined as Core | undefined,
             btn: undefined as HTMLButtonElement | undefined,
