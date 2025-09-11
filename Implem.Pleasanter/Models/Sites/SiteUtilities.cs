@@ -7121,7 +7121,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "ResetEditorColumn",
                             text: Displays.Reset(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon",
                             onClick: "$p.resetEditorColumn($(this));",
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
@@ -7185,7 +7185,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "ResetEditorColumn",
                             text: Displays.Reset(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon",
                             onClick: "$p.resetEditorColumn($(this));",
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
