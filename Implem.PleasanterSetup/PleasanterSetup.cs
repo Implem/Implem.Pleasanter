@@ -166,9 +166,9 @@ namespace Implem.PleasanterSetup
                     setUpState);
                 SetParameters();
                 await SetupDatabase(
-                    force,
-                    noinput,
-                    setUpState);
+                    setUpState: setUpState,
+                    force: force,
+                    noinput: noinput);
             }
             else
             {
