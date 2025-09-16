@@ -7,12 +7,19 @@ export default defineConfig(({ mode }) => ({
     build: {
         ...configParams.build,
         sourcemap: mode === 'development',
+        manifest: 'manifest.json',
         rollupOptions: {
             input: {
                 ...getEntries(path.resolve(__dirname, `${inputDir}/scripts`), '.ts')
             },
             output: {
-                entryFileNames: `js/[name].min.js`
+                manualChunks(id: string) {
+                    if (id.includes('node_modules')) {
+                        return 'vendor';
+                    }
+                },
+                chunkFileNames: 'js/vendor_[hash].js',
+                entryFileNames: 'js/[name]_[hash].js'
             }
         }
     }
