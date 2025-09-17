@@ -613,7 +613,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             mine: issueModel.Mine(context: context)))
                         .Where(column => !column.Id_Ver)
-                        .Where(column => !columns.Any(p =>
+                        .Where(column => columns.Any(p =>
                             p.ColumnName == column.ColumnName))
                         .ForEach(column =>
                         {
@@ -621,14 +621,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column);
-                            if (value != null)
-                            {
-                                //数値項目の場合、「単位」を値に連結する
-                                value += issueModel.NumUnit(
-                                    context: context,
-                                    ss: ss,
-                                    column: column);
-                            }
                             res.SetFormData(
                                 $"{ss.ReferenceType}_{column.ColumnName}_{ss.SiteId}_{newRowId}",
                                 value);
