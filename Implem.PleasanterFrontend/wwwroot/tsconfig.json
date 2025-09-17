@@ -20,7 +20,13 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "noUncheckedSideEffectImports": true
+        "noUncheckedSideEffectImports": true,
+
+        /* Type */
+        "typeRoots": [
+            "types",
+            "./node_modules/@types"
+        ]
     },
     "include": ["src"]
 }

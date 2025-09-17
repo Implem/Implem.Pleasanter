@@ -1,0 +1,34 @@
+:host(.o-low) {
+    --codeEditorMinHeight: 20vh;
+}
+
+.editor-container {
+    min-height: var(--codeEditorMinHeight, 40vh);
+    max-height: 70vh;
+    overflow: hidden;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    .cm-editor,
+    .cm-scroller {
+        min-height: inherit;
+        max-height: inherit;
+    }
+    .cm-line {
+        font-family: Consolas, 'Courier New', monospace;
+        font-size: 15px;
+    }
+    .cm-panels {
+        .cm-textfield,
+        .cm-button,
+        label {
+            font-family: Consolas, 'Courier New', monospace;
+            font-size: 12px !important;
+        }
+        button[name='close'] {
+            color: #fff;
+        }
+    }
+}
+.control-container {
+    display: none;
+}
