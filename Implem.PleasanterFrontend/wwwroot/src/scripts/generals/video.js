@@ -66,6 +66,29 @@ $p.changeCamera = function (controlId, videoDeviceList, $videoTracks, maxDeviceI
 }
 
 $p.getVideoDeviceList = function () {
+    if (
+        !navigator.mediaDevices ||
+        typeof navigator.mediaDevices.enumerateDevices !== "function"
+    ) {
+        $p.setErrorMessage('CanNotGetMediaInformation');
+        return Promise.reject(new Error('enumerateDevices is not supported'));
+    }
+    if (
+        /Safari/.test(navigator.userAgent) &&
+        !/Chrome/.test(navigator.userAgent) &&
+        typeof $p._safariEnumerateDevicesCalled === "undefined"
+    ) {
+        $p._safariEnumerateDevicesCalled = true;
+        return navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+            .then(function (stream) {
+                stream.getTracks().forEach(function (track) { track.stop(); });
+                return $p.getVideoDeviceList();
+            })
+            .catch(function (error) {
+                $p.setErrorMessage('CanNotGetMediaInformation');
+                throw error;
+            });
+    }
     return navigator.mediaDevices.enumerateDevices().then(function (devices) {
         return devices.filter((device) => device.kind === "videoinput");
     }).catch(function (error) {
