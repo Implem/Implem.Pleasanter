@@ -6,6 +6,9 @@
     }
 };
 $p.moveColumns = function (event, $control, columnHeader, isKeepSource, isJoin, type) {
+    if (typeof formId === 'undefined') {
+        formId = $p.getFormId($control);
+    }
     if (formId === undefined) return false;
     if (type === undefined) type = 'Columns';
     return $p.moveColumnsById(
