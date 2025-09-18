@@ -13,7 +13,7 @@ import ko from 'suneditor/src/lang/ko';
 import es from 'suneditor/src/lang/es';
 
 import suneditorCssRaw from 'suneditor/dist/css/suneditor.min.css?raw';
-import css from './editor.scss?inline';
+import css from './richTextEditor.scss?inline';
 
 class RichTextEditorElement extends HTMLElement {
     static defaultfont?: string[];

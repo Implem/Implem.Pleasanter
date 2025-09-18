@@ -1,3 +1,3 @@
 import './datefield.ts';
 import './codeEditor/codeEditor.ts';
-import './rtEditor/rtEditor.ts';
+import './richTextEditor/richTextEditor.ts';
