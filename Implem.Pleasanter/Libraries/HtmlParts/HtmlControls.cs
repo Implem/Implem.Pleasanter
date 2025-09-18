@@ -754,7 +754,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Checked(_checked)))
                         .Span(
                             attributes: new HtmlAttributes().Class("check-text"),
-                            action: () => {
+                            action: () =>
+                            {
                                 if (!controlOnly)
                                 {
                                     if (labelRaw != null)
@@ -770,7 +771,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     }
                                 }
                                 hb.Text(text: labelText);
-                            }));
+                            },
+                            _using: !controlOnly));
             }
             return hb;
         }

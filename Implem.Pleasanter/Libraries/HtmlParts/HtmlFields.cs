@@ -1896,6 +1896,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .CheckBox(
                             controlId: controlId,
                             controlCss: controlCss,
+                            controlOnly: controlOnly,
                             _checked: _checked,
                             disabled: disabled,
                             alwaysSend: alwaysSend,
