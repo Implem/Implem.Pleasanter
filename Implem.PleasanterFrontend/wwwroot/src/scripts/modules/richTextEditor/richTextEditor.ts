@@ -158,7 +158,7 @@ class RichTextEditorElement extends HTMLElement {
         if (this.controller.value) {
             this.viewerContainer.innerHTML = DOMPurify.sanitize(this.controller.value);
         } else {
-            this.viewerContainer.innerHTML = DOMPurify.sanitize(`<p><br><p>`);
+            this.viewerContainer.innerHTML = DOMPurify.sanitize(`<p><br></p>`);
         }
         if (!this.controller.disabled) {
             this.editorContainer.classList.add('app-readonly');
@@ -462,7 +462,7 @@ class RichTextEditorElement extends HTMLElement {
         if (this.sunEditor) {
             this.sunEditor.setContents(val);
         } else if (this.viewerContainer && this.isSmartdesign) {
-            val = val || `<p><br><p>`;
+            val = val || `<p><br></p>`;
             this.viewerContainer.innerHTML = DOMPurify.sanitize(val);
         }
     }
