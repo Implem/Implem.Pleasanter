@@ -1,939 +1,1978 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Pleasanter Site Visualizer</title>
-    <style>
-        table { border-collapse: collapse; margin-top: 1em; min-width: max-content; }
-        th, td { border: 1px solid #888; padding: 4px 8px; background: #fff; }
-        textarea { width: 100%; height: 120px; }
-        th { background: #e6f2ff; }
-        td.missing { background: #f2f2f2; }
-        td.changed { background: #fffbe6; }
-        .scroll-table-wrapper {
-            width: 100%;
-            max-width: 100vw;
-            max-height: none;
-            overflow: auto;
-            position: relative;
-        }
-        thead tr:nth-child(1) th.sticky-col,
-        thead tr:nth-child(2) th.sticky-col {
-            z-index: 6;
-        }
-        thead tr:nth-child(1) th {
-            position: sticky;
-            top: 0;
-            z-index: 5;
-        }
-        thead tr:nth-child(2) th {
-            position: sticky;
-            top: 38px;
-            z-index: 5;
-        }
-        .sticky-col {
-            position: sticky;
-            left: 0;
-            z-index: 4;
-            /*background: #e6f2ff;*/
-        }
-        tbody td.sticky-col {
-            background: #f6faff;
-            z-index: 2;
-        }
-        tbody th.sticky-col {
-            background: #f6faff;
-        }
-        .tab-btn {
-            margin: 2px;
-            padding: 4px 12px;
-            border: 1px solid #888;
-            background: #f8f8f8;
-            cursor: pointer;
-        }
-        .tab-btn.active {
-            background: #e6f2ff;
-            font-weight: bold;
-        }
-        .table-title {
-            font-weight: bold;
-            margin: 12px 0 4px 0;
-        }
-        /* Array */
-        span.item-pair {
-            border: solid 1px #8f8f8f;
-            padding: 2px;
-            margin: 2px;
-            border-radius: 6px;
-            span {
-                margin: 2px;
-            }
-            span.DbColumnName {
-                display: none;
-                color: #888;
-            }
-            span.DbColumnName:before {
-                content:"(";
-            }
-            span.DbColumnName:after {
-                content:")";
-            }
-            span.Value {
-                background-color: #f5d9ae;
-            }
-            span.Type {
-                display: none;
-                background-color: #efbbaa;
-            }
-            span.Order{
-                background-color: #f5d9ae;
-            }
-        }
-        span.item-single {
-            border: solid 1px #8f8f8f;
-            padding: 2px;
-            margin: 2px;
-            border-radius: 6px;
-        }
-        /* ギアアイコンとメニュー用追加CSS */
-        .settings-gear {
-            position: fixed;
-            top: 12px;
-            right: 18px;
-            z-index: 100;
-            width: 28px;
-            height: 28px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-        }
-        .settings-gear svg {
-            width: 100%;
-            height: 100%;
-            fill: #666;
-            transition: fill 0.2s;
-        }
-        .settings-gear:hover svg {
-            fill: #2196f3;
-        }
-        .settings-menu-popup {
-            position: fixed;
-            top: 48px;
-            right: 18px;
-            z-index: 200;
-            background: #fff;
-            border: 1px solid #aaa;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            min-width: 140px;
-            padding: 4px 0;
-            font-size: 15px;
-        }
-        .settings-menu-item {
-            padding: 8px 18px 8px 16px;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .settings-menu-item:hover {
-            background: #e6f2ff;
-        }
-        .settings-dialog-bg {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.18);
-            z-index: 300;
-        }
-        .settings-dialog {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-            min-width: 320px;
-            max-width: 90vw;
-            max-height: 80vh;
-            overflow: auto;
-            z-index: 301;
-            padding: 18px 24px 18px 24px;
-        }
-        .settings-dialog-title {
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .settings-dialog-close {
-            position: absolute;
-            top: 10px;
-            right: 16px;
-            font-size: 20px;
-            color: #888;
-            cursor: pointer;
-        }
-        .settings-dialog-content pre {
-            background: #f8f8f8;
-            padding: 8px;
-            border-radius: 4px;
-            font-size: 13px;
-            overflow-x: auto;
-        }
-        .settings-gear-error-indicator {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            width: 16px;
-            height: 16px;
-            z-index: 110;
-            pointer-events: none;
-        }
-        .settings-gear-error-indicator svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<title>Pleasanter Site Visualizer</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			margin-top: 1em;
+			min-width: max-content;
+		}
+
+		th,
+		td {
+			border: 1px solid #888;
+			padding: 4px 8px;
+			background: #fff;
+		}
+
+		textarea {
+			width: 100%;
+			height: 120px;
+		}
+
+		th {
+			background: #e6f2ff;
+		}
+
+		td.missing {
+			background: #f2f2f2;
+		}
+
+		td.changed {
+			background: #fffbe6;
+		}
+
+		.scroll-table-wrapper {
+			width: 100%;
+			max-width: 100vw;
+			max-height: none;
+			overflow: auto;
+			position: relative;
+		}
+
+		thead tr:nth-child(1) th.sticky-col,
+		thead tr:nth-child(2) th.sticky-col {
+			z-index: 6;
+		}
+
+		thead tr:nth-child(1) th {
+			position: sticky;
+			top: 0;
+			z-index: 5;
+		}
+
+		thead tr:nth-child(2) th {
+			position: sticky;
+			top: 38px;
+			z-index: 5;
+		}
+
+		.sticky-col {
+			position: sticky;
+			left: 0;
+			z-index: 4;
+			/*background: #e6f2ff;*/
+		}
+
+		tbody td.sticky-col {
+			background: #f6faff;
+			z-index: 2;
+		}
+
+		tbody th.sticky-col {
+			background: #f6faff;
+		}
+
+		.tab-btn {
+			margin: 2px;
+			padding: 4px 12px;
+			border: 1px solid #888;
+			background: #f8f8f8;
+			cursor: pointer;
+		}
+
+		.tab-btn.active {
+			background: #e6f2ff;
+			font-weight: bold;
+		}
+
+		.table-title {
+			font-weight: bold;
+			margin: 12px 0 4px 0;
+		}
+
+		/* Array */
+		span.item-pair {
+			border: solid 1px #8f8f8f;
+			padding: 2px;
+			margin: 2px;
+			border-radius: 6px;
+
+			span {
+				margin: 2px;
+			}
+
+			span.DbColumnName {
+				display: none;
+				color: #888;
+			}
+
+			span.DbColumnName:before {
+				content: "(";
+			}
+
+			span.DbColumnName:after {
+				content: ")";
+			}
+
+			span.Value {
+				background-color: #f5d9ae;
+			}
+
+			span.Type {
+				display: none;
+				background-color: #efbbaa;
+			}
+
+			span.Order {
+				background-color: #f5d9ae;
+			}
+		}
+
+		span.item-single {
+			border: solid 1px #8f8f8f;
+			padding: 2px;
+			margin: 2px;
+			border-radius: 6px;
+		}
+
+		/* ギアアイコンとメニュー用追加CSS */
+		.settings-gear {
+			position: fixed;
+			top: 12px;
+			right: 18px;
+			z-index: 100;
+			width: 28px;
+			height: 28px;
+			background: none;
+			border: none;
+			cursor: pointer;
+			padding: 0;
+		}
+
+		.settings-gear svg {
+			width: 100%;
+			height: 100%;
+			fill: #666;
+			transition: fill 0.2s;
+		}
+
+		.settings-gear:hover svg {
+			fill: #2196f3;
+		}
+
+		.settings-menu-popup {
+			position: fixed;
+			top: 48px;
+			right: 18px;
+			z-index: 200;
+			background: #fff;
+			border: 1px solid #aaa;
+			border-radius: 4px;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+			min-width: 140px;
+			padding: 4px 0;
+			font-size: 15px;
+		}
+
+		.settings-menu-item {
+			padding: 8px 18px 8px 16px;
+			cursor: pointer;
+			white-space: nowrap;
+		}
+
+		.settings-menu-item:hover {
+			background: #e6f2ff;
+		}
+
+		.settings-dialog-bg {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(0, 0, 0, 0.18);
+			z-index: 300;
+		}
+
+		.settings-dialog {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background: #fff;
+			border-radius: 8px;
+			box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+			min-width: 320px;
+			max-width: 90vw;
+			max-height: 80vh;
+			overflow: auto;
+			z-index: 301;
+			padding: 18px 24px 18px 24px;
+		}
+
+		.settings-dialog-title {
+			font-weight: bold;
+			font-size: 18px;
+			margin-bottom: 10px;
+		}
+
+		.settings-dialog-close {
+			position: absolute;
+			top: 10px;
+			right: 16px;
+			font-size: 20px;
+			color: #888;
+			cursor: pointer;
+		}
+
+		.settings-dialog-content pre {
+			background: #f8f8f8;
+			padding: 8px;
+			border-radius: 4px;
+			font-size: 13px;
+			overflow-x: auto;
+		}
+
+		.settings-gear-error-indicator {
+			position: absolute;
+			top: 2px;
+			right: 2px;
+			width: 16px;
+			height: 16px;
+			z-index: 110;
+			pointer-events: none;
+		}
+
+		.settings-gear-error-indicator svg {
+			width: 100%;
+			height: 100%;
+			display: block;
+		}
+
+		#erDiagramArea {
+			position: fixed;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			top: 60px;
+			/* 余白を減らす: h2直下に広げる */
+			background: #fff;
+			z-index: 10;
+			height: calc(100vh - 60px);
+			/* 余白を減らす */
+			overflow: hidden;
+			/* ← 縦スクロール不要 */
+			transition: top 0.2s;
+			margin-top: 10px;
+			/* 上余白 */
+			margin-left: 10px;
+			/* 左余白 */
+			margin-right: 10px;
+			/* 右余白 */
+			margin-bottom: 10px;
+			/* 下余白 */
+		}
+
+		#erDiagramArea.no-tab {
+			top: 60px !important;
+			height: calc(100vh - 70px) !important;
+		}
+
+		#mainTabButtons {
+			margin: 0 0 0 0;
+		}
+
+		.user-input {
+			margin-bottom: 0;
+		}
+
+		.er-search-result-btn.selected {
+			background: #fffde7 !important;
+			border-color: #2196f3 !important;
+			color: #1976d2 !important;
+			font-weight: bold;
+		}
+
+		.er-search-result-btn {
+			width: 98%;
+			text-align: left;
+			padding: 4px 8px;
+			border: 1px solid #bbb;
+			background: #f8faff;
+			cursor: pointer;
+			color: #333;
+			font-size: 15px;
+			margin-bottom: 2px;
+			transition: background 0.2s;
+		}
+
+		.er-search-result-btn .er-search-result-type-table {
+			color: #1976d2;
+			font-weight: bold;
+		}
+
+		.er-search-result-btn .er-search-result-type-column {
+			color: #333;
+			font-weight: normal;
+		}
+
+		.er-search-result-btn .er-search-result-table-name {
+			color: #888;
+			font-size: 13px;
+			margin-left: 6px;
+		}
+
+		.er-search-result-count {
+			margin-bottom: 4px;
+			color: #2196f3;
+		}
+
+		.er-search-result-none {
+			color: #888;
+		}
+
+		.er-search-result-btn:hover {
+			background: #e6f2ff;
+		}
+
+		.er-search-highlight {
+			background-color: #fefe2a !important;
+		}
+
+		.er-search-svg-highlight {
+			fill: #e53935 !important;
+			stroke: #e53935 !important;
+			font-weight: bold !important;
+		}
+
+		/* 実験中 */
+		.er-tool-btn {
+			width: 24px;
+			height: 24px;
+			cursor: pointer;
+			transition: all 0.2s;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 4px;
+		}
+
+		.er-tool-btn:hover {
+			background: #f7fafc;
+			border-color: #4299e1;
+			color: #4299e1;
+		}
+
+		.er-tool-btn svg {
+			width: 20px;
+			height: 20px;
+			stroke: currentColor;
+			stroke-width: 2;
+		}
+
+		.er-tool-save-btn {
+			width: 60px;
+		}
+
+		.er-tool-search-btn {
+			padding: 2px;
+		}
+
+		#erSearchInputArea {
+			margin-bottom: 8px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		#erSearchInput,
+		#erSearchExecBtn {
+			height: 26px;
+			padding: 0 12px;
+			border: 1px solid #666;
+			border-radius: 2px;
+			font-size: 15px;
+			box-sizing: border-box;
+		}
+
+		#erSearchInput {
+			width: 84%;
+		}
+
+		#erSearchResultArea {
+			max-height: 220px;
+			overflow: auto;
+			border: 1px solid #eee;
+			padding: 4px 2px;
+			background: #fafcff;
+		}
+
+		#erSearchDialog {
+			position: fixed;
+			top: 120px;
+			left: calc(50vw - 180px);
+			z-index: 9997;
+			min-width: 360px;
+			max-width: 90vw;
+			max-height: 80vh;
+			cursor: default;
+		}
+
+		.png-dialog-label {
+			margin-bottom: 8px;
+			display: flex;
+			align-items: center;
+			gap: 16px;
+		}
+
+		.png-dialog-label input[type="number"] {
+			width: 80px;
+		}
+
+		.png-dialog-priority {
+			margin-bottom: 16px;
+			display: flex;
+			align-items: center;
+			gap: 16px;
+		}
+
+		.png-dialog-actions {
+			margin: 10px 8px 8px 8px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 12px;
+		}
+
+		#pngExportExecBtn,
+		#pngExportCancelBtn {
+			font-size: 15px;
+			min-width: 100px;
+		}
+	</style>
+	<!--
+	<script src="https://cdn.jsdelivr.net/npm/mermaid@11.9.0/dist/mermaid.min.js"></script>
+	-->
+	<script {{nonce}} src="{{ApplicationPath}}Extensions/mermaid-11.9.0.min.js"></script>
 </head>
+
 <body>
-    <h2>Pleasanter Site Visualizer</h2>
-    <div class="user-input">
-        <textarea id="jsonInput" placeholder="ここにJSONを貼り付けてください"></textarea>
-        <br>
-        <button id="convertBtn">変換</button>
-    </div>
-    <div id="siteSelectorWrapper" style="margin: 10px 0;">
-        <select id="siteSelector"></select>
-    </div>
-    <div id="tabButtons" style="margin: 10px 0;"></div>
-    <div id="tableContainer"></div>
-    <!-- ギアアイコン -->
-    <button class="settings-gear" id="settingsGearBtn" title="設定" style="position:fixed;">
-        <svg viewBox="0 0 24 24">
-            <path d="M12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7zm7.43-2.06c.04-.31.07-.63.07-.94s-.03-.63-.07-.94l2.11-1.65a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.6-.23l-2.49 1a7.03 7.03 0 0 0-1.63-.94l-.38-2.65A.5.5 0 0 0 13 2h-4a.5.5 0 0 0-.5.42l-.38 2.65c-.6.23-1.17.54-1.7.9l-2.49-1a.5.5 0 0 0-.6.23l-2 3.46a.5.5 0 0 0 .12.64l2.11 1.65c-.04.31-.07.63-.07.94s.03.63.07.94l-2.11 1.65a.5.5 0 0 0-.12.64l2 3.46a.5.5 0 0 0 .6.23l2.49-1c.51.36 1.06.67 1.63.94l.38 2.65A.5.5 0 0 0 9 22h4a.5.5 0 0 0 .5-.42l.38-2.65c.6-.23 1.17-.54 1.7-.9l2.49 1a.5.5 0 0 0 .6-.23l2-3.46a.5.5 0 0 0-.12-.64l-2.11-1.65z"/>
-        </svg>
-    </button>
-    <span id="settingsGearErrorIndicator" class="settings-gear-error-indicator" style="display:none;">
-        <svg viewBox="0 0 20 20">
-            <circle cx="10" cy="10" r="10" fill="#e53935"/>
-            <text x="10" y="15" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial" font-weight="bold">i</text>
-        </svg>
-    </span>
-    <!-- ポップアップメニュー・ダイアログはJSで動的生成 -->
-    <script {{nonce}}>
-        // サンプルJSON（初期表示用）
-        const sampleJson = ``;
-        const textarea = document.getElementById('jsonInput');
-        if (!textarea.value) textarea.value = sampleJson;
+	<h2 data-i18n="ss_app_title">Pleasanter Site Visualizer</h2>
+	<div class="user-input">
+		<textarea id="jsonInput" data-i18n="common_sample_json" data-i18n-attr="placeholder" placeholder="ここにJSONを貼り付けてください"></textarea>
+		<br>
+		<button id="convertBtn" data-i18n="common_convert">変換</button>
+	</div>
+	<div id="mainTabButtons" style="margin: 10px 0;">
+		<button id="mainTabSiteSetting" class="tab-btn active" data-i18n="ss_site_setting">Site Setting</button>
+		<button id="mainTabERDiagrams" class="tab-btn" data-i18n="ss_er_diagram">ER Diagram</button>
+	</div>
+	<div id="mainContentWrapper">
+		<div id="siteSettingArea">
+			<div id="siteSelectorWrapper" style="margin: 10px 0;">
+				<select id="siteSelector"></select>
+			</div>
+			<div id="tabButtons" style="margin: 10px 0;"></div>
+			<div id="tableContainer"></div>
+		</div>
+		<div id="erDiagramArea" style="display:none;">
+			<div id="erDiagramContainer" style="margin-top:16px;">
+				<div style="margin-bottom:8px;">
+					<!-- 横並び用ラッパー追加 -->
+					<div style="display:inline-flex;gap:4px;vertical-align:middle;">
+						<button id="erZoomInBtn" class="er-tool-btn" title="Zoom-in" data-i18n="erd_zoom_in" data-i18n-attr="title">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<line x1="12" y1="5" x2="12" y2="19" />
+								<line x1="5" y1="12" x2="19" y2="12" />
+							</svg>
+						</button>
+						<button id="erZoomOutBtn" class="er-tool-btn" title="Zoom-out" data-i18n="erd_zoom_out" data-i18n-attr="title">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<line x1="5" y1="12" x2="19" y2="12" />
+							</svg>
+						</button>
+						<button id="erZoomResetBtn" class="er-tool-btn" title="Zoom-Reset" data-i18n="erd_zoom_reset" data-i18n-attr="title">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+								<path d="M21 3v5h-5" />
+								<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+								<path d="M3 21v-5h5" />
+							</svg>
+						</button>
+						<button id="erPngDownloadBtn" class="er-tool-btn er-tool-save-btn" title="Save PNG" data-i18n="erd_save_png" data-i18n-attr="title">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+								<polyline points="7,10 12,15 17,10" />
+								<line x1="12" y1="15" x2="12" y2="3" />
+							</svg>&nbsp;<span>PNG</span>
+						</button>
+						<button id="erSearchBtn" class="er-tool-btn er-tool-search-btn" title="Text Search" data-i18n="erd_text_search" data-i18n-attr="title">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<circle cx="11" cy="11" r="8" />
+								<path d="M21 21l-4.35-4.35" />
+								<path d="M7 8h8M11 8v6" stroke-width="2.5" />
+							</svg>
+						</button>
+					</div>
+				</div>
+				<div id="mermaidScrollWrapper"
+					style="width:100%;height:480px;overflow:auto;border:1px solid #ccc;cursor:grab;">
+					<div id="mermaidRenderArea"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ギアアイコン -->
+	<button class="settings-gear" id="settingsGearBtn" title="Settings" style="position:fixed;">
+		<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M19.43 12.98C19.47 12.66 19.5 12.34 19.5 12C19.5 11.66 19.47 11.34 19.43 11.02L21.54 9.37C21.73 9.22 21.78 8.95 21.66 8.73L19.66 5.27C19.54 5.05 19.27 4.97 19.05 5.05L16.56 6.05C16.04 5.65 15.48 5.32 14.87 5.07L14.49 2.42C14.46 2.18 14.25 2 14 2H10C9.75 2 9.54 2.18 9.51 2.42L9.13 5.07C8.52 5.32 7.96 5.66 7.44 6.05L4.95 5.05C4.72 4.96 4.46 5.05 4.34 5.27L2.34 8.73C2.21 8.95 2.27 9.22 2.46 9.37L4.57 11.02C4.53 11.34 4.5 11.67 4.5 12C4.5 12.33 4.53 12.66 4.57 12.98L2.46 14.63C2.27 14.78 2.21 15.05 2.34 15.27L4.34 18.73C4.46 18.95 4.73 19.03 4.95 18.95L7.44 17.95C7.96 18.35 8.52 18.68 9.13 18.93L9.51 21.58C9.54 21.82 9.75 22 10 22H14C14.25 22 14.46 21.82 14.49 21.58L14.87 18.93C15.48 18.68 16.04 18.34 16.56 17.95L19.05 18.95C19.28 19.04 19.54 18.95 19.66 18.73L21.66 15.27C21.78 15.05 21.73 14.78 21.54 14.63L19.43 12.98Z"
+				fill="white" stroke="black" stroke-width="1" />
+			<circle cx="12" cy="12" r="4" fill="white" stroke="black" stroke-width="1" />
+			<circle cx="12" cy="12" r="2.5" fill="white" stroke="black" stroke-width="1" />
+		</svg>
+	</button>
+	<span id="settingsGearErrorIndicator" class="settings-gear-error-indicator" style="display:none;">
+		<svg viewBox="0 0 20 20">
+			<circle cx="10" cy="10" r="10" fill="#e53935" />
+			<text x="10" y="15" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial"
+				font-weight="bold">i</text>
+		</svg>
+	</span>
+	<!-- ポップアップメニュー・ダイアログはJSで動的生成 -->
+	<script {{nonce}}>
+		// 共通部
+		class Common {
+			static get textarea() { return document.getElementById('jsonInput'); }
+			static escapeHtml(str) {
+				if (str == null) return '';
+				return String(str).replace(/[&<>"']/g, m =>
+					({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]
+				);
+			}
+			static parseJsonSafe() {
+				try { return JSON.parse(Common.textarea.value || '{}'); } catch { return {}; }
+			}
+			static showDialog(innerHtml) {
+				Common.closeDialog();
+				const bg = document.createElement('div');
+				bg.className = 'settings-dialog-bg';
+				bg.onclick = Common.closeDialog;
+				const dlg = document.createElement('div');
+				dlg.className = 'settings-dialog';
+				dlg.innerHTML = innerHtml + '<span class="settings-dialog-close" title="Close" onclick="this.closest(\'.settings-dialog\').parentNode.remove();event.stopPropagation();">&times;</span>';
+				bg.appendChild(dlg);
+				document.body.appendChild(bg);
+				Common._dialogBg = bg;
+			}
+			static closeDialog() {
+				if (Common._dialogBg) {
+					Common._dialogBg.remove();
+					Common._dialogBg = null;
+				}
+			}
+			static getAllLogs() {
+				const data = Common.parseJsonSafe();
+				const logs = []
+					.concat(data.SiteSetting?.Info?.Logs || [])
+					.concat(data.ERDiagrams?.Info?.Logs || []);
+				return logs;
+			}
+			static updateGearErrorIndicator() {
+				let hasError = false;
+				try {
+					const logs = Common.getAllLogs();
+					if (Array.isArray(logs)) hasError = logs.some(l => l.Level === 'Error');
+				} catch { }
+				const indicator = document.getElementById('settingsGearErrorIndicator');
+				if (indicator) indicator.style.display = hasError ? '' : 'none';
+			}
+			static positionGearErrorIndicator() {
+				const gear = document.getElementById('settingsGearBtn');
+				const indicator = document.getElementById('settingsGearErrorIndicator');
+				if (!gear || !indicator) return;
+				const rect = gear.getBoundingClientRect();
+				indicator.style.top = (rect.top + 2) + 'px';
+				indicator.style.left = (rect.right - 18) + 'px';
+			}
+		}
 
-        let allSites = [];
-        let currentSiteIdx = 0;
-        let tabKeys = [];
-        let currentTab = '';
+		// ギアメニュー
+		class GearMenu {
+			constructor() {
+				this.menuPopup = null;
+				document.getElementById('settingsGearBtn').addEventListener('click', e => {
+					e.stopPropagation();
+					this.close();
+					this.open();
+				});
+			}
+			open() {
+				if (this.menuPopup) return;
+				const popup = document.createElement('div');
+				popup.className = 'settings-menu-popup';
 
-        // --- エラーログ検出・iアイコン制御 ---
-        function updateGearErrorIndicator() {
-            let hasError = false;
-            try {
-                const data = JSON.parse(document.getElementById('jsonInput').value);
-                // SiteSetting.Info.Logs
-                const logs = ((data.SiteSetting||{}).Info||{}).Logs;
-                if (Array.isArray(logs)) {
-                    hasError = logs.some(log => log.Level === "Error");
-                }
-            } catch {}
-            const indicator = document.getElementById('settingsGearErrorIndicator');
-            indicator.style.display = hasError ? '' : 'none';
-        }
-        function positionGearErrorIndicator() {
-            const gear = document.getElementById('settingsGearBtn');
-            const indicator = document.getElementById('settingsGearErrorIndicator');
-            if (!gear || !indicator) return;
-            const rect = gear.getBoundingClientRect();
-            indicator.style.top = (rect.top + 2) + 'px';
-            indicator.style.left = (rect.right - 18) + 'px';
-        }
-        window.addEventListener('resize', positionGearErrorIndicator);
-        window.addEventListener('DOMContentLoaded', function(){
-            updateGearErrorIndicator();
-            positionGearErrorIndicator();
-        });
+				const fileInfoItem = document.createElement('div');
+				fileInfoItem.className = 'settings-menu-item';
+				fileInfoItem.textContent = 'File Info';
+				fileInfoItem.onclick = () => { this.close(); this.showFileInfoDialog(); };
+				popup.appendChild(fileInfoItem);
 
-        // サイト選択プルダウン生成
-        function renderSiteSelector(sites) {
-            const isShowVer = sites.length !=  new Set(sites.map(v=>v.Info.SiteId)).length;
-            const sel = document.getElementById('siteSelector');
-            sel.innerHTML = '';
-            sites.forEach((site, idx) => {
-                const opt = document.createElement('option');
-                opt.value = idx;
-                opt.textContent = (site.Info && site.Info.Title) ? `${site.Info.Title} - [ ${site.Info.SiteId}${isShowVer?"(Ver="+site.Info.Ver+")":""} / ${site.Info.ReferenceType}]` : `Site${idx+1}`;
-                sel.appendChild(opt);
-            });
-            sel.selectedIndex = currentSiteIdx;
-            sel.onchange = function() {
-                currentSiteIdx = parseInt(sel.value, 10) || 0;
-                updateTabKeysAndButtons();
-                renderTable();
-                // タイトル変更
-                const selectedText = sel.options[sel.selectedIndex]?.textContent || '';
-                document.title = `${selectedText} - Pleasanter Site Visualizer`;
-            };
-            // タイトル変更（初期表示時も反映）
-            if (sites.length > 0 && sel.selectedIndex >= 0) {
-                const selectedText = sel.options[sel.selectedIndex]?.textContent || '';
-                document.title = `${selectedText} - Pleasanter Site Visualizer`;
-            }
-            updateGearErrorIndicator();
-            positionGearErrorIndicator();
-        }
+				const logViewItem = document.createElement('div');
+				logViewItem.className = 'settings-menu-item';
+				logViewItem.textContent = 'Show Logs';
+				logViewItem.onclick = () => { this.close(); this.showLogsDialog(); };
+				popup.appendChild(logViewItem);
 
-        // タブボタン生成
-        function renderTabButtons(keys,site) {
-            const tabDiv = document.getElementById('tabButtons');
-            tabDiv.innerHTML = '';
-            keys.forEach(tab => {
-                const btn = document.createElement('button');
-                btn.className = 'tab-btn' + (tab === currentTab ? ' active' : '');
-                btn.textContent = site.Tabs[tab]?.ButtonLabel ?? tab;
-                btn.onclick = function() {
-                    currentTab = tab;
-                    renderTabButtons(tabKeys, site);
-                    renderTable();
-                };
-                tabDiv.appendChild(btn);
-            });
-        }
+				document.body.appendChild(popup);
+				this.menuPopup = popup;
+				setTimeout(() => {
+					document.addEventListener('mousedown', this._outside, { capture: true });
+				}, 0);
+			}
+			close() {
+				if (this.menuPopup) {
+					this.menuPopup.remove();
+					this.menuPopup = null;
+					document.removeEventListener('mousedown', this._outside, { capture: true });
+				}
+			}
+			_outside = (e) => {
+				if (this.menuPopup && !this.menuPopup.contains(e.target) && e.target.id !== 'settingsGearBtn') {
+					this.close();
+				}
+			}
+			showFileInfoDialog() {
+				const data = Common.parseJsonSafe();
+				const info = data.Info || {};
+				const siteInfo = data?.SiteSetting?.Info || {};
+				const erdInfo = data?.ERDiagrams?.Info || {};
+				let html = '<div class="settings-dialog-title">File Info</div>';
+				html += '<div class="settings-dialog-content">';
+				html += '<b>Info:</b><br><pre>' + Common.escapeHtml(JSON.stringify(info, null, 2)) + '</pre>';
+				html += '<b>SiteSetting.Info:</b><br><pre>' + Common.escapeHtml(JSON.stringify(siteInfo, null, 2)) + '</pre>';
+				html += '<b>ERDiagrams.Info:</b><br><pre>' + Common.escapeHtml(JSON.stringify(erdInfo, null, 2)) + '</pre>';
+				html += '</div>';
+				Common.showDialog(html);
+			}
+			showLogsDialog() {
+				const logs = Common.getAllLogs();
+				let html = '<div class="settings-dialog-title">Show Logs</div>';
+				html += '<div class="settings-dialog-content">';
+				if (Array.isArray(logs) && logs.length > 0) {
+					html += '<table style="border-collapse:collapse;width:100%;font-size:13px;">';
+					html += '<thead><tr>';
+					const columns = Object.keys(logs[0]);
+					columns.forEach(col => html += `<th style="border:1px solid #888;padding:4px 8px;background:#e6f2ff;">${Common.escapeHtml(col)}</th>`);
+					html += '</tr></thead><tbody>';
+					logs.forEach(log => {
+						html += '<tr>';
+						columns.forEach(col => {
+							let style = 'border:1px solid #888;padding:4px 8px;';
+							if (log.Level === 'Error') style += 'background:#ffeaea;color:#c00;';
+							else if (log.Level === 'Warning') style += 'background:#fffbe6;color:#b8860b;';
+							html += `<td style="${style}">${Common.escapeHtml(log[col])}</td>`;
+						});
+						html += '</tr>';
+					});
+					html += '</tbody></table>';
+				} else {
+					html += '<span style="color:#888;">No logs available.</span>';
+				}
+				html += '</div>';
+				Common.showDialog(html);
+			}
+		}
 
-        // サイト選択時のタブ配列更新とボタン描画
-        function updateTabKeysAndButtons() {
-            if (!allSites.length) return;
-            const site = allSites[currentSiteIdx] || {};
-            tabKeys = Object.keys((site.Tabs) || {});
-            if (!tabKeys.includes(currentTab)) currentTab = tabKeys[0] || '';
-            renderTabButtons(tabKeys, site);
-        }
+		// サイト設定
+		class SiteSetting {
+			constructor() {
+				this.allSites = [];
+				this.currentSiteIdx = 0;
+				this.tabKeys = [];
+				this.currentTab = '';
+				this.bind();
+			}
+			bind() {
+				document.getElementById('convertBtn').onclick = () => {
+					this.renderFromTextarea();
+					Common.updateGearErrorIndicator();
+					Common.positionGearErrorIndicator();
+					document.title = 'Pleasanter Site Visualizer';
+				};
+			}
+			renderFromTextarea() {
+				const data = Common.parseJsonSafe();
+				this.loadSites(data);
+				this.renderTable();
+			}
+			loadSites(json) {
+				this.allSites = (json.SiteSetting && Array.isArray(json.SiteSetting.Sites)) ? json.SiteSetting.Sites : [];
+				this.currentSiteIdx = 0;
+				this.renderSiteSelector(this.allSites);
+				this.updateTabKeysAndButtons();
+			}
+			renderSiteSelector(sites) {
+				const sel = document.getElementById('siteSelector');
+				const isShowVer = sites.length !== new Set(sites.map(v => v.Info?.SiteId)).size;
+				sel.innerHTML = '';
+				sites.forEach((site, idx) => {
+					const opt = document.createElement('option');
+					opt.value = idx;
+					opt.textContent = (site.Info && site.Info.Title)
+						? `${site.Info.Title} - [ ${site.Info.SiteId}${isShowVer ? '(Ver=' + site.Info.Ver + ')' : ''} / ${site.Info.ReferenceType}]`
+						: `Site${idx + 1}`;
+					sel.appendChild(opt);
+				});
+				sel.selectedIndex = this.currentSiteIdx;
+				sel.onchange = () => {
+					this.currentSiteIdx = parseInt(sel.value, 10) || 0;
+					this.updateTabKeysAndButtons();
+					this.renderTable();
+					const selectedText = sel.options[sel.selectedIndex]?.textContent || '';
+					document.title = `${selectedText} - Pleasanter Site Visualizer`;
+				};
+				if (sites.length > 0 && sel.selectedIndex >= 0) {
+					const selectedText = sel.options[sel.selectedIndex]?.textContent || '';
+					document.title = `${selectedText} - Pleasanter Site Visualizer`;
+				}
+				Common.updateGearErrorIndicator();
+				Common.positionGearErrorIndicator();
+			}
+			renderTabButtons(keys, site) {
+				const tabDiv = document.getElementById('tabButtons');
+				tabDiv.innerHTML = '';
+				keys.forEach(tab => {
+					const btn = document.createElement('button');
+					btn.className = 'tab-btn' + (tab === this.currentTab ? ' active' : '');
+					btn.textContent = site.Tabs?.[tab]?.ButtonLabel ?? tab;
+					btn.onclick = () => {
+						this.currentTab = tab;
+						this.renderTabButtons(this.tabKeys, site);
+						this.renderTable();
+					};
+					tabDiv.appendChild(btn);
+				});
+			}
+			updateTabKeysAndButtons() {
+				if (!this.allSites.length) return;
+				const site = this.allSites[this.currentSiteIdx] || {};
+				this.tabKeys = Object.keys(site.Tabs || {});
+				if (!this.tabKeys.includes(this.currentTab)) this.currentTab = this.tabKeys[0] || '';
+				this.renderTabButtons(this.tabKeys, site);
+			}
+			renderTable() {
+				const data = Common.parseJsonSafe();
+				this.allSites = (data.SiteSetting && Array.isArray(data.SiteSetting.Sites)) ? data.SiteSetting.Sites : [];
+				if (!this.allSites.length) {
+					document.getElementById('tableContainer').innerHTML = `<span style="color:red;">${t('common_site_not_found')}</span>`;
+					this.renderSiteSelector([]);
+					this.renderTabButtons([]);
+					return;
+				}
+				if (this.currentSiteIdx >= this.allSites.length) this.currentSiteIdx = 0;
+				this.renderSiteSelector(this.allSites);
+				const site = this.allSites[this.currentSiteIdx] || {};
+				this.tabKeys = Object.keys(site.Tabs || {});
+				if (!this.tabKeys.includes(this.currentTab)) this.currentTab = this.tabKeys[0] || '';
+				this.renderTabButtons(this.tabKeys, site);
 
-        // location.hrefがfile://以外の場合の処理
-        window.addEventListener('DOMContentLoaded', function() {
-            if (!location.href.startsWith('file://')) {
-                // 入力欄を非表示
-                const userInputDiv = document.querySelector('.user-input');
-                if (userInputDiv) userInputDiv.style.display = 'none';
-                // サーバからデータ取得
-                fetch(location.href.replace('Viewer=html','Viewer=none'))
-                    .then(res => {
-                        if (!res.ok) throw new Error('データ取得失敗');
-                        return res.json();
-                    })
-                    .then(json => {
-                        textarea.value = JSON.stringify(json, null, 2);
-                        allSites = (json.SiteSetting && Array.isArray(json.SiteSetting.Sites)) ? json.SiteSetting.Sites : [];
-                        currentSiteIdx = 0;
-                        renderSiteSelector(allSites);
-                        updateTabKeysAndButtons();
-                        renderTable();
-                    })
-                    .catch(e => {
-                        document.getElementById('tableContainer').innerHTML = `<span style="color:red;">データの取得に失敗しました: ${e.message}</span>`;
-                    });
-            } else {
-                // file://時も初期化
-                try {
-                    const data = JSON.parse(textarea.value || '{}');
-                    allSites = (data.SiteSetting && Array.isArray(data.SiteSetting.Sites)) ? data.SiteSetting.Sites : [];
-                    currentSiteIdx = 0;
-                    renderSiteSelector(allSites);
-                    updateTabKeysAndButtons();
-                } catch {}
-            }
-        });
+				try {
+					const tab = site.Tabs?.[this.currentTab];
+					if (!tab || !Array.isArray(tab.Tables) || tab.Tables.length === 0) {
+						document.getElementById('tableContainer').innerHTML = `<span style="color:red;">${this.currentTab}が見つかりません。</span>`;
+						return;
+					}
+					let html = '';
+					tab.Tables.forEach((table, tIdx) => {
+						if (SiteSetting.isTableTypeKeyValue(table)) html += SiteSetting.makeTableTypeKeyValue(table, tIdx);
+						else if (SiteSetting.isTableTypeList(table)) html += SiteSetting.makeTableTypeList(table, tIdx);
+						else if (SiteSetting.isTableTypeOneLineHeaderTable(table)) html += SiteSetting.makeTableTypeOneLineHeaderTable(table, tIdx);
+						else if (SiteSetting.isTableTypeTwoLineHeaderTable(table)) html += SiteSetting.makeTableTypeTwoLineHeaderTable(table, tIdx);
+						else html += `<span style="color:red;">${this.currentTab}のTableTypeが不明です: ${table.TableType}</span>`;
+					});
+					document.getElementById('tableContainer').innerHTML = html;
+				} catch {
+					document.getElementById('tableContainer').innerHTML = `<span style="color:red;">${this.currentTab}の表示に失敗しました。</span>`;
+				}
+			}
+			// 種別
+			static isTableTypeKeyValue(table) { return table.TableType === 'KeyValue'; }
+			static isTableTypeList(table) { return table.TableType === 'List'; }
+			static isTableTypeOneLineHeaderTable(table) { return table.TableType === 'OneLineHeaderTable'; }
+			static isTableTypeTwoLineHeaderTable(table) { return table.TableType === 'TwoLineHeaderTable'; }
+			// 変換
+			static makeTableTypeKeyValue(table, tIdx) {
+				if (!SiteSetting.isTableTypeKeyValue(table)) {
+					return `<span style="color:red;">TableTypeがKeyValueではありません。TableType: ${table.TableType}</span>`;
+				}
+				const gridName = table.Label || '';
+				let html = '';
+				if (gridName) html += `<div class="table-title">${gridName}</div>`;
+				html += `<div class="scroll-table-wrapper"><table>`;
+				if (Array.isArray(table.Header?.Labels)) {
+					html += '<thead><tr>';
+					table.Header.Labels.forEach((h, idx) => {
+						html += `<th${idx === 0 ? ' class="sticky-col"' : ''}>${h}</th>`;
+					});
+					html += '</tr></thead>';
+				}
+				html += '<tbody>';
+				if (Array.isArray(table.Columns)) {
+					table.Columns.forEach(col => {
+						let tdClass = '';
+						if (col.ReadOnly === true) tdClass = ' class="missing"';
+						if (col.Changed === true) tdClass = ' class="changed"';
+						if (col.ReadOnly === true && col.Changed === true) tdClass = ' class="changed"';
+						let tdStyle = '';
+						if (col.Type === 'int' || col.Type === 'long') tdStyle = ' style="text-align:right;"';
+						else if (col.Type === 'string') tdStyle = ' style="white-space:pre-wrap;"';
+						html += `<tr><th class="sticky-col">${col.Label ?? ''}</th><td${tdClass}${tdStyle}>${col.Value ?? ''}</td></tr>`;
+					});
+				}
+				html += '</tbody></table></div>';
+				return html;
+			}
+			static makeTableTypeList(table, tIdx) {
+				if (!SiteSetting.isTableTypeList(table)) {
+					return `<span style="color:red;">TableTypeがListではありません。TableType: ${table.TableType}</span>`;
+				}
+				const gridName = table.Label || '';
+				let html = '';
+				if (gridName) html += `<div class="table-title">${gridName}</div>`;
+				html += '<div class="scroll-table-wrapper"><table>';
+				if (Array.isArray(table.Header?.Labels)) {
+					html += '<thead><tr>';
+					table.Header.Labels.forEach(h => html += `<th>${h}</th>`);
+					html += '</tr></thead>';
+				}
+				if (Array.isArray(table.Columns)) {
+					html += '<tbody>';
+					table.Columns.forEach(col => {
+						html += '<tr>';
+						if (Array.isArray(col)) col.forEach(cell => html += `<td>${cell}</td>`);
+						else html += `<td>${col}</td>`;
+						html += '</tr>';
+					});
+					html += '</tbody>';
+				}
+				html += '</table></div>';
+				return html;
+			}
+			static makeTableTypeOneLineHeaderTable(table, tIdx) {
+				table.Columns = table.Columns || [];
+				if (table.TableType !== "OneLineHeaderTable" || !Array.isArray(table.Header?.Labels) || !Array.isArray(table.Columns)) {
+					return '<span style="color:red;">OneLineHeaderTableテーブル形式に未対応です。</span>';
+				}
+				// ヘッダ行
+				let headerRow = '<tr>';
+				table.Header.Labels.forEach((h, idx) => {
+					const thClass = idx === 0 ? ' class="sticky-col"' : '';
+					headerRow += `<th${thClass}>${h.Text ?? h.Key ?? ''}</th>`;
+				});
+				headerRow += '</tr>';
+				// データ行
+				let bodyRows = '';
+				table.Columns.forEach(col => {
+					const changed = Array.isArray(col.ChangedColumns) ? col.ChangedColumns : [];
+					bodyRows += '<tr>';
+					table.Header.Labels.forEach((h, idx) => {
+						const key = h.Key;
+						let tdClass = '';
+						let value = (key && col[key] !== undefined) ? col[key] : '';
+						if (typeof value === 'object' && value !== null) {
+							if (Array.isArray(value)) {
+								value = SiteSetting.convJson2Html(value, key, table);
+							} else {
+								value = JSON.stringify(value);
+							}
+						}
+						if (changed.includes(key)) {
+							tdClass = idx === 0 ? ' class="changed sticky-col"' : ' class="changed"';
+						} else if (key && col[key] === undefined) {
+							tdClass = idx === 0 ? ' class="missing sticky-col"' : ' class="missing"';
+						} else if (idx === 0) {
+							tdClass = ' class="sticky-col"';
+						}
+						bodyRows += `<td${tdClass}>${value}</td>`;
+					});
+					bodyRows += '</tr>';
+				});
+				const gridName = table.Label || '';
+				let html = '';
+				if (gridName) html += `<div class="table-title">${gridName}</div>`;
+				html += `<div class="scroll-table-wrapper"><table><thead>${headerRow}</thead><tbody>${bodyRows}</tbody></table></div>`;
+				return html;
+			}
+			static makeGenericTable(table, tIdx) {
+				const gridName = table.Label || '';
+				let html = '';
+				if (gridName) html += `<div class="table-title">${gridName}</div>`;
+				html += '<div class="scroll-table-wrapper"><table>';
+				if (Array.isArray(table.Header?.Labels)) {
+					html += '<thead><tr>';
+					table.Header.Labels.forEach(h => html += `<th>${h}</th>`);
+					html += '</tr></thead>';
+				}
+				if (Array.isArray(table.Columns)) {
+					html += '<tbody>';
+					table.Columns.forEach(col => {
+						html += '<tr>';
+						if (Array.isArray(col)) col.forEach(cell => html += `<td>${cell}</td>`);
+						else html += `<td>${col}</td>`;
+						html += '</tr>';
+					});
+					html += '</tbody>';
+				}
+				html += '</table></div>';
+				return html;
+			}
+			static convJson2Html(value, k, table) {
+				if (Array.isArray(value)) {
+					if (value.length === 0) return '';
+					const item = value[0];
+					if (typeof item === 'object') {
+						const keys = Object.keys(item);
+						let html = '<div class="array">';
+						value.forEach(row => {
+							html += '<span class="item-pair">';
+							keys.forEach(kk => html += `<span class="${kk}">${row[kk]}</span>`);
+							html += '</span>';
+						});
+						html += '</div>';
+						return html;
+					} else {
+						let html = '<div class="array">';
+						value.forEach(row => { html += `<span class="item-single">${row}</span>`; });
+						html += '</div>';
+						return html;
+					}
+				}
+				return JSON.stringify(value);
+			}
+			static makeTableTypeTwoLineHeaderTable(table, tIdx) {
+				table.Columns = table.Columns || [];
+				if (table.TableType !== 'TwoLineHeaderTable' || !Array.isArray(table.Columns) || !Array.isArray(table.Header?.Labels)) {
+					return '<span style="color:red;">TwoLineHeaderTableテーブル形式に未対応です。</span>';
+				}
+				let groups = [];
+				let readonyRow = [];
+				table.Header.Labels.forEach(tab => {
+					if (tab.TabName && Array.isArray(tab.Labels)) {
+						groups.push({
+							groupName: tab.TabName.Value,
+							keys: tab.Labels.map(l => l.Key),
+							headers: tab.Labels.map(l => l.Text)
+						});
+						readonyRow.push(tab.Labels.filter(v => v.ReadOnly).map(v => v.Key));
+					}
+				});
+				readonyRow = readonyRow.flat();
+				const allKeys = groups.flatMap(g => g.keys);
+				const columns = table.Columns;
+				if (!Array.isArray(columns)) {
+					return '<span style="color:red;">TwoLineHeaderTableカラム情報がありません。</span>';
+				}
+				const firstColIdx = 0;
 
-        document.getElementById('convertBtn').onclick = function() {
-            try {
-                const data = JSON.parse(textarea.value || '{}');
-                allSites = (data.SiteSetting && Array.isArray(data.SiteSetting.Sites)) ? data.SiteSetting.Sites : [];
-                currentSiteIdx = 0;
-                renderSiteSelector(allSites);
-                updateTabKeysAndButtons();
-            } catch {}
-            renderTable();
-            updateGearErrorIndicator();
-            positionGearErrorIndicator();
-            // タイトルを初期化
-            document.title = "Pleasanter Site Visualizer";
-        };
+				let groupHeaderRow = '<tr>';
+				let colIdx = 0;
+				groups.forEach(g => {
+					const groupName = g.groupName !== '' ? g.groupName : '&nbsp;';
+					const thClass = colIdx === firstColIdx ? ' class="sticky-col"' : '';
+					groupHeaderRow += `<th${thClass} colspan="${g.keys.length}">${groupName}</th>`;
+					colIdx += g.keys.length;
+				});
+				groupHeaderRow += '</tr>';
 
-        function renderTable() {
-            let data;
-            try {
-                data = JSON.parse(document.getElementById('jsonInput').value);
-            } catch (e) {
-                document.getElementById('tableContainer').innerHTML = `<span style="color:red;">JSONの形式が正しくありません。(${e.message})</span>`;
-                return;
-            }
-            allSites = (data.SiteSetting && Array.isArray(data.SiteSetting.Sites)) ? data.SiteSetting.Sites : [];
-            if (!allSites.length) {
-                document.getElementById('tableContainer').innerHTML = `<span style="color:red;">サイト情報が見つかりません。</span>`;
-                renderSiteSelector([]);
-                renderTabButtons([]);
-                return;
-            }
-            // サイト選択
-            if (currentSiteIdx >= allSites.length) currentSiteIdx = 0;
-            renderSiteSelector(allSites);
-            const site = allSites[currentSiteIdx] || {};
-            tabKeys = Object.keys((site.Tabs) || {});
-            if (!tabKeys.includes(currentTab)) currentTab = tabKeys[0] || '';
-            renderTabButtons(tabKeys, site);
+				let itemHeaderRow = '<tr>';
+				let headerColIdx = 0;
+				groups.forEach(g => {
+					g.headers.forEach(h => {
+						const thClass = headerColIdx === firstColIdx ? ' class="sticky-col"' : '';
+						itemHeaderRow += `<th${thClass}>${h}</th>`;
+						headerColIdx++;
+					});
+				});
+				itemHeaderRow += '</tr>';
 
-            try {
-                const tab = site.Tabs && site.Tabs[currentTab];
-                if (!tab || !Array.isArray(tab.Tables) || tab.Tables.length === 0) {
-                    document.getElementById('tableContainer').innerHTML = `<span style="color:red;">${currentTab}が見つかりません。</span>`
-                    return;
-                }
-                let html = '';
-                tab.Tables.forEach((table, tIdx) => {
-                    if (isTableTypeKeyValue(table)) html += makeTableTypeKeyValue(table, tIdx);
-                    else if (isTableTypeList(table)) html += makeTableTypeList(table, tIdx);
-                    else if (isTableTypeOneLineHeaderTable(table)) html += makeTableTypeOneLineHeaderTable(table, tIdx);
-                    else if (isTableTypeTwoLineHeaderTable(table))html += makeTableTypeTwoLineHeaderTable(table);
-                    else html += `<span style="color:red;">${currentTab}のTableTypeが不明です: ${table.TableType}</span>`;
-                });
-                document.getElementById('tableContainer').innerHTML = html;
-            } catch (e){
-                document.getElementById('tableContainer').innerHTML = `<span style="color:red;">${currentTab}の表示に失敗しました。</span>`;
-            }
-            return;
-        }
+				function splitKeysByNest(keys) {
+					let result = [];
+					let current = { type: null, keys: [] };
+					for (let i = 0; i < keys.length; i++) {
+						const k = keys[i];
+						const isNest = k && k.includes('.');
+						const type = isNest ? k.split('.', 2)[0] : '';
+						if (current.type === null) {
+							current.type = isNest ? type : '';
+							current.keys.push(k);
+						} else if ((isNest ? type : '') === current.type) {
+							current.keys.push(k);
+						} else {
+							result.push(current);
+							current = { type: isNest ? type : '', keys: [k] };
+						}
+					}
+					if (current.keys.length) result.push(current);
+					return result;
+				}
+				let keyBlocks = splitKeysByNest(allKeys);
 
-        // --- テーブル種別判定関数 ---
-        function isTableTypeKeyValue(table) {
-            return table.TableType === "KeyValue";
-        }
-        function isTableTypeList(table) {
-            return table.TableType === "List";
-        }
-        function isTableTypeOneLineHeaderTable(table) {
-            return table.TableType === "OneLineHeaderTable";
-        }
-        function isTableTypeTwoLineHeaderTable(table) {
-            return table.TableType === "TwoLineHeaderTable";
-        }
+				let bodyRows = '';
+				columns.forEach(col => {
+					let nestRowCounts = {};
+					keyBlocks.forEach(block => {
+						if (block.type && block.type.length > 0) {
+							nestRowCounts[block.type] = Array.isArray(col[block.type]) ? col[block.type].length : 0;
+						}
+					});
+					let maxNestRows = 1;
+					keyBlocks.forEach(block => {
+						if (block.type && block.type.length > 0) {
+							maxNestRows = Math.max(maxNestRows, nestRowCounts[block.type] || 0);
+						}
+					});
+					for (let rowIdx = 0; rowIdx < maxNestRows; rowIdx++) {
+						bodyRows += '<tr>';
+						for (let b = 0; b < keyBlocks.length; b++) {
+							const block = keyBlocks[b];
+							const keys = block.keys;
+							const isNest = block.type && block.type.length > 0;
+							if (!isNest) {
+								if (rowIdx === 0) {
+									keys.forEach((k, idx) => {
+										let tdClass = '';
+										let value = col[k];
+										const changed = Array.isArray(col.ChangedColumns) ? col.ChangedColumns : [];
+										const readOnly = Array.isArray(col.ReadOnlyColumns) ? col.ReadOnlyColumns : [];
+										if (readonyRow.includes(k) || readOnly.includes(k) || value === undefined || value === null) {
+											tdClass = ' class="missing' + (idx === firstColIdx ? ' sticky-col' : '') + '"';
+										} else if (changed.includes(k)) {
+											tdClass = ' class="changed' + (idx === firstColIdx ? ' sticky-col' : '') + '"';
+										} else if (idx === firstColIdx) {
+											tdClass = ' class="sticky-col"';
+										}
+										let rowspan = maxNestRows > 1 ? ` rowspan="${maxNestRows}"` : '';
+										if (typeof value === 'object' && value !== null) {
+											if (Array.isArray(value)) value = SiteSetting.convJson2Html(value, k, table);
+											else value = JSON.stringify(value);
+										}
+										bodyRows += `<td${tdClass}${rowspan}>${value !== undefined ? value : ''}</td>`;
+									});
+								}
+							} else {
+								let nestLen = nestRowCounts[block.type] || 0;
+								if (rowIdx < nestLen) {
+									keys.forEach(k => {
+										let tdClass = '';
+										let value = '';
+										const [parent, child] = k.split('.', 2);
+										const roCols = Array.isArray(col[parent]?.[rowIdx]?.ReadOnlyColumns) ? col[parent][rowIdx].ReadOnlyColumns : [];
+										const chCols = Array.isArray(col[parent]?.[rowIdx]?.ChangedColumns) ? col[parent][rowIdx].ChangedColumns : [];
+										if (Array.isArray(col[parent]) && col[parent][rowIdx] && col[parent][rowIdx][child] !== undefined) {
+											value = col[parent][rowIdx][child];
+										} else {
+											value = undefined;
+										}
+										if (typeof value === 'object' && value !== null) {
+											if (Array.isArray(value)) value = SiteSetting.convJson2Html(value, k, table);
+											else value = JSON.stringify(value);
+										}
+										if (readonyRow.includes(k) || roCols.includes(child) || value === undefined || value === null) tdClass = ' class="missing"';
+										else if (chCols.includes(child)) tdClass = ' class="changed"';
+										bodyRows += `<td${tdClass}>${value !== undefined ? value : ''}</td>`;
+									});
+								} else if (rowIdx === nestLen && nestLen < maxNestRows) {
+									let tdClass = ' class="missing"';
+									let rowspan = (maxNestRows - nestLen) > 1 ? ` rowspan="${maxNestRows - nestLen}"` : '';
+									keys.forEach(() => { bodyRows += `<td${tdClass}${rowspan}></td>`; });
+								}
+							}
+						}
+						bodyRows += '</tr>';
+					}
+				});
 
-        // --- テーブル変換関数群 ---
-        function makeTableTypeKeyValue(table, tIdx) {
-            if (!isTableTypeKeyValue(table)) {
-                return `<span style="color:red;">TableTypeがKeyValueではありません。TableType: ${table.TableType}</span>`;
-            }
-            const gridName = table.Label || '';
-            let html = '';
-            // Nameプロパティを表の前に表示
-            if (gridName) {
-                html += `<div class="table-title">${gridName}</div>`;
-            }
-            html += `<div class="scroll-table-wrapper"><table>`;
-            // ヘッダ
-            if (Array.isArray(table.Header.Labels)) {
-                html += '<thead><tr>';
-                table.Header.Labels.forEach((h, idx) => {
-                    html += `<th${idx === 0 ? ' class="sticky-col"' : ''}>${h}</th>`;
-                });
-                html += '</tr></thead>';
-            }
-            // データ行
-            html += '<tbody>';
-            if (Array.isArray(table.Columns)) {
-                table.Columns.forEach((col, idx) => {
-                    let tdClass = '';
-                    if (col.ReadOnly === true) tdClass = ' class="missing"';
-                    if (col.Changed === true) tdClass = ' class="changed"';
-                    if (col.ReadOnly === true && col.Changed === true) tdClass = ' class="changed"';
-                    let tdStyle = '';
-                    if (col.Type === 'int' || col.Type === 'long') {
-                        tdStyle = ' style="text-align:right;"';
-                    } else if (col.Type === 'string') {
-                        tdStyle = ' style="white-space:pre-wrap;"';
-                    }
-                    html += `<tr><th class="sticky-col">${col.Label ?? ''}</th><td${tdClass}${tdStyle}>${col.Value ?? ''}</td></tr>`;
-                });
-            }
-            html += '</tbody></table></div>';
-            return html;
-        }
+				const gridName = table.Label || '';
+				let html = '';
+				if (gridName) html += `<div class="table-title">${gridName}</div>`;
+				html += `<div class="scroll-table-wrapper"><table><thead>${groupHeaderRow}${itemHeaderRow}</thead><tbody>${bodyRows}</tbody></table></div>`;
+				return html;
+			}
+		}
 
-        function makeTableTypeList(table, tIdx) {
-            if (!isTableTypeList(table)) {
-                return `<span style="color:red;">TableTypeがListではありません。TableType: ${table.TableType}</span>`;
-            }
-            const gridName = table.Label || '';
-            let html = '';
-            // Nameプロパティを表の前に表示
-            if (gridName) {
-                html += `<div class="table-title">${gridName}</div>`;
-            }
-            // 通常は1列ヘッダ＋1列データ
-            html += '<div class="scroll-table-wrapper"><table>';
-            if (Array.isArray(table.Header.Labels)) {
-                html += '<thead><tr>';
-                table.Header.Labels.forEach(h => html += `<th>${h}</th>`);
-                html += '</tr></thead>';
-            }
-            if (Array.isArray(table.Columns)) {
-                html += '<tbody>';
-                table.Columns.forEach(col => {
-                    html += '<tr>';
-                    if (Array.isArray(col)) {
-                        col.forEach(cell => html += `<td>${cell}</td>`);
-                    } else {
-                        html += `<td>${col}</td>`;
-                    }
-                    html += '</tr>';
-                });
-                html += '</tbody>';
-            }
-            html += '</table></div>';
-            return html;
-        }
+		// ER図
+		class ERDiagram {
+			constructor() {
+				document.title = `Pleasanter Site Visualizer`;
+				this.currentMermaidText = '';
+				this.zoomScale = 1.0;
+				this.baseZoomScale = 1.0;
+				this.bind();
+			}
+			bind() {
+				const self = this;
+				document.getElementById('erZoomInBtn').onclick = () => {
+					this.zoomScale = Math.min(this.zoomScale * 1.2, 5);
+					this.applyZoom();
+				};
+				document.getElementById('erZoomOutBtn').onclick = () => {
+					this.zoomScale = Math.max(this.zoomScale / 1.2, 0.2);
+					this.applyZoom();
+				};
+				document.getElementById('erZoomResetBtn').onclick = () => {
+					this.zoomScale = this.baseZoomScale;
+					this.applyZoom();
+					this.fitToContainer();
+				};
+				// PNGダウンロード機能追加
+				document.getElementById('erPngDownloadBtn').onclick = () => {
+					const svg = document.querySelector('#mermaidRenderArea svg');
+					if (!svg) return;
+					// SVGのzoom（transform）を初期化
+					// SVGをコピーして画面外（非表示）に描画し、変形処理を行う
+					const svgClone = svg.cloneNode(true);
+					svgClone.style.position = 'absolute';
+					svgClone.style.left = '-9999px';
+					svgClone.style.top = '-9999px';
+					svgClone.style.visibility = 'hidden';
+					svgClone.style.transform = '';
+					svgClone.style.transformOrigin = '';
+					document.body.appendChild(svgClone);
+					// 必要な処理が終わったら削除
+					setTimeout(() => {
+						if (svgClone.parentNode) svgClone.parentNode.removeChild(svgClone);
+					}, 1000);
+					// 画面上の表示サイズ（px）
+					let rect = svgClone.getBoundingClientRect();
+					let screenW = rect.width;
+					let screenH = rect.height;
+					// SVG内部描画エリア（viewBox座標系）
+					let bbox = (typeof svgClone.getBBox === 'function') ? svgClone.getBBox() : { x: 0, y: 0, width: screenW, height: screenH };
+					// ダイアログ表示
+					// PNGダイアログ表示時は他の操作不可にする
+					const dlgBg = document.createElement('div');
+					dlgBg.className = 'settings-dialog-bg';
+					dlgBg.style.zIndex = 9998;
+					dlgBg.onclick = null; // クリックで閉じない
+					document.body.appendChild(dlgBg);
 
-        // 汎用テーブル表示（TableTypeが無い場合や特殊なケース用）
-        function makeGenericTable(table, tIdx) {
-            const gridName = table.Label || '';
-            let html = '';
-            // Nameプロパティを表の前に表示
-            if (gridName) {
-                html += `<div class="table-title">${gridName}</div>`;
-            }
-            html += '<div class="scroll-table-wrapper"><table>';
-            if (Array.isArray(table.Header.Labels)) {
-                html += '<thead><tr>';
-                table.Header.Labels.forEach(h => html += `<th>${h}</th>`);
-                html += '</tr></thead>';
-            }
-            if (Array.isArray(table.Columns)) {
-                html += '<tbody>';
-                table.Columns.forEach(col => {
-                    html += '<tr>';
-                    if (Array.isArray(col)) {
-                        col.forEach(cell => html += `<td>${cell}</td>`);
-                    } else {
-                        html += `<td>${col}</td>`;
-                    }
-                    html += '</tr>';
-                });
-                html += '</tbody>';
-            }
-            html += '</table></div>';
-            return html;
-        }
+					const dlg = document.createElement('div');
+					dlg.className = 'settings-dialog';
+					dlg.style.zIndex = 9999;
+					dlg.innerHTML = `
+					 <div class="settings-dialog-title">${t('erd_png_export')}</div>
+					 <div class="png-dialog-label">
+						 <label>${t('erd_png_width')}: <input type="number" id="pngWidthInput" value="${Math.round(screenW)}"></label>
+						 <label>${t('erd_png_height')}: <input type="number" id="pngHeightInput" value="${Math.round(screenH)}"></label>
+					 </div>
+					 <div class="png-dialog-priority">
+						 <label><input type="radio" name="pngPriority" value="width" checked> ${t('erd_png_priority_width')}</label>
+						 <label><input type="radio" name="pngPriority" value="height"> ${t('erd_png_priority_height')}</label>
+					 </div>
+					 <div class="png-dialog-actions">
+						 <button id="pngExportExecBtn">Download</button>
+						 <button id="pngExportCancelBtn">Cancel</button>
+					 </div>
+				 `;
+					document.body.appendChild(dlg);
+					// 入力値連動
+					const widthInput = dlg.querySelector('#pngWidthInput');
+					const heightInput = dlg.querySelector('#pngHeightInput');
+					const radios = dlg.querySelectorAll('input[name="pngPriority"]');
+					function syncSize() {
+						let w = parseInt(widthInput.value, 10) || screenW;
+						let h = parseInt(heightInput.value, 10) || screenH;
+						const priority = Array.from(radios).find(r => r.checked)?.value;
+						if (priority === 'width') {
+							h = Math.round(w * screenH / screenW);
+							heightInput.value = h;
+						} else {
+							w = Math.round(h * screenW / screenH);
+							widthInput.value = w;
+						}
+					}
+					widthInput.oninput = () => { if (radios[0].checked) syncSize(); };
+					heightInput.oninput = () => { if (radios[1].checked) syncSize(); };
+					radios.forEach(r => r.onchange = syncSize);
+					// PNG出力実行
+					dlg.querySelector('#pngExportExecBtn').onclick = () => {
+						let w = parseInt(widthInput.value, 10) || screenW;
+						let h = parseInt(heightInput.value, 10) || screenH;
+						// SVG→PNG(base64)
+						const serializer = new XMLSerializer();
+						// viewBoxで全体出力
+						const svgClone = svg.cloneNode(true);
+						svgClone.style.transform = '';
+						svgClone.style.transformOrigin = '';
+						svgClone.setAttribute('width', screenW);
+						svgClone.setAttribute('height', screenH);
+						svgClone.setAttribute('viewBox', `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`);
+						const svgText = serializer.serializeToString(svgClone);
+						const svgBase64 = btoa(unescape(encodeURIComponent(svgText)));
+						const img = new Image();
+						img.onload = () => {
+							const canvas = document.createElement('canvas');
+							canvas.width = w;
+							canvas.height = h;
+							const ctx = canvas.getContext('2d');
+							// 背景白色
+							ctx.fillStyle = '#fff';
+							ctx.fillRect(0, 0, w, h);
+							// SVG内部描画エリア（viewBox座標系）をcanvas全体に描画
+							const svgMargin = 8;
+							ctx.drawImage(
+								img,
+								bbox.x - svgMargin, bbox.y - svgMargin * 2, bbox.width + svgMargin * 2, bbox.height + svgMargin * 4,
+								0, 0, w, h
+							);
+							canvas.toBlob(blob => {
+								const pngUrl = URL.createObjectURL(blob);
+								const a = document.createElement('a');
+								a.href = pngUrl;
+								a.download = vsFilename('ERD', 'PNG');
+								document.body.appendChild(a); a.click();
+								setTimeout(() => {
+									document.body.removeChild(a);
+									URL.revokeObjectURL(pngUrl);
+								}, 100);
+							}, 'image/png');
+						};
+						img.width = w;
+						img.height = h;
+						img.src = 'data:image/svg+xml;base64,' + svgBase64;
+						dlg.remove();
+						dlgBg.remove();
+					};
+					dlg.querySelector('#pngExportCancelBtn').onclick = () => {
+						dlg.remove();
+						dlgBg.remove();
+					};
+				};
+				// drag scroll
+				(() => {
+					const wrapper = document.getElementById('mermaidScrollWrapper');
+					let isDragging = false, startX = 0, startY = 0, scrollLeft = 0, scrollTop = 0;
+					wrapper.addEventListener('mousedown', e => {
+						// Shiftキーを押している場合はドラッグ開始せず、テキスト選択モードとする
+						if (e.shiftKey) {
+							// テキスト選択モードの視覚的指示
+							wrapper.style.cursor = 'text';
+							// クリック位置にキャレット（選択開始位置）を明示的に作成する
+							try {
+								const cx = e.clientX, cy = e.clientY;
+								let range = null;
+								// Firefox
+								if (document.caretPositionFromPoint) {
+									const pos = document.caretPositionFromPoint(cx, cy);
+									if (pos) {
+										range = document.createRange();
+										range.setStart(pos.offsetNode, pos.offset);
+										range.collapse(true);
+									}
+								}
+								// WebKit / Chrome
+								if (!range && document.caretRangeFromPoint) {
+									range = document.caretRangeFromPoint(cx, cy);
+								}
+								if (range) {
+									const sel = window.getSelection();
+									if (sel) {
+										sel.removeAllRanges();
+										sel.addRange(range);
+									}
+								}
+							} catch (ex) {
+								// ここで失敗しても従来挙動にフォールバックさせる
+							}
+							// 何も prevent しない -> SVG 内テキスト選択を許可
+							return;
+						}
+						isDragging = true;
+						wrapper.style.cursor = 'grabbing';
+						startX = e.pageX - wrapper.offsetLeft;
+						startY = e.pageY - wrapper.offsetTop;
+						scrollLeft = wrapper.scrollLeft;
+						scrollTop = wrapper.scrollTop;
+						e.preventDefault();
+					});
+					// wrapper上でのマウス移動時は Shift 押下に応じてカーソルを切り替え（ドラッグ中は無視）
+					wrapper.addEventListener('mousemove', e => {
+						if (isDragging) return;
+						wrapper.style.cursor = e.shiftKey ? 'text' : 'grab';
+					});
+					document.addEventListener('mousemove', e => {
+						if (!isDragging) return;
+						const x = e.pageX - wrapper.offsetLeft;
+						const y = e.pageY - wrapper.offsetTop;
+						wrapper.scrollLeft = scrollLeft - (x - startX);
+						wrapper.scrollTop = scrollTop - (y - startY);
+					});
+					document.addEventListener('mouseup', () => {
+						isDragging = false;
+						wrapper.style.cursor = 'grab';
+					});
+					// キー操作で Shift が押された/離されたときにホバー中ならカーソルを更新
+					document.addEventListener('keydown', e => {
+						if (e.key === 'Shift' && !isDragging) {
+							try { if (wrapper.matches(':hover')) wrapper.style.cursor = 'text'; } catch (ex) { }
+						}
+					});
+					document.addEventListener('keyup', e => {
+						if (e.key === 'Shift' && !isDragging) {
+							try { if (wrapper.matches(':hover')) wrapper.style.cursor = 'grab'; } catch (ex) { }
+						}
+					});
+				})();
+				// マウスホイール拡大縮小機能
+				(() => {
+					const wrapper = document.getElementById('mermaidScrollWrapper');
+					if (!wrapper) return;
+					wrapper.addEventListener('wheel', (e) => {
+						const svg = document.querySelector('#mermaidRenderArea svg');
+						if (!svg) return;
+						// deltaY < 0: 拡大, > 0: 縮小
+						const scaleStep = 1.15;
+						let newScale;
+						if (e.deltaY < 0) {
+							newScale = Math.min((self.zoomScale ?? 1) * scaleStep, 5);
+						} else {
+							newScale = Math.max((self.zoomScale ?? 1) / scaleStep, 0.2);
+						}
+						self.zoomScale = newScale;
+						self.applyZoom();
+						e.preventDefault();
+					}, { passive: false });
+				})();
+			}
+			getZoomScale() { return this.zoomScale; }
+			applyZoom() {
+				const svg = document.querySelector('#mermaidRenderArea svg');
+				if (svg) {
+					svg.style.transform = `scale(${this.zoomScale})`;
+					svg.style.transformOrigin = '0 0';
+				}
+			}
+			// 追加: コンテナに収まる倍率を計算して適用
+			fitToContainer() {
+				const wrapper = document.getElementById('mermaidScrollWrapper');
+				const svg = document.querySelector('#mermaidRenderArea svg');
+				if (!wrapper || !svg) return;
+				// 現在のスケールを考慮して自然サイズを算出
+				const current = this.zoomScale || 1;
+				// レイアウト確定後に計測
+				requestAnimationFrame(() => {
+					const rect = svg.getBoundingClientRect();
+					const naturalW = rect.width / current || 1;   // CSS px（スケール1相当）
+					const naturalH = rect.height / current || 1;
+					const sW = wrapper.clientWidth / naturalW;
+					const sH = wrapper.clientHeight / naturalH;
+					let fit = Math.min(sW, sH);
+					if (!isFinite(fit) || fit <= 0) fit = 1;
+					// 任意の上限下限（既存の操作と整合）
+					fit = Math.max(0.2, Math.min(fit, 5));
+					this.baseZoomScale = fit;
+					this.zoomScale = fit;
+					this.applyZoom();
+					// 左上原点へ（全体が見える状態で開始）
+					wrapper.scrollLeft = 0;
+					wrapper.scrollTop = 0;
+				});
+			}
+			extractTables(data) {
+				return (data.ERDiagrams && Array.isArray(data.ERDiagrams.Tables)) ? data.ERDiagrams.Tables : [];
+			}
+			toMermaid(tables) {
+				let lines = ['erDiagram'];
+				lines.push(`
+				%%{init:{
+					"theme": "base",
+					"themeVariables": {
+						"primaryColor": "#e0eFF8",
+						"primaryTextColor": "#000",
+						"primaryBorderColor": "#1565c0",
+						"nodeTextColor": "#000",
+						"lineColor": "#000",
+						"secondaryColor": "#e3f2fd",
+						"tertiaryColor": "#bbdefb",
+						"fontFamily": "Courier New, Arial, sans-serif"
+					}
+				}}%%
+			`);
+				tables.forEach(table => {
+					let cols = (table.Columns || []).map(col => {
+						const k = (col.Type == 'ID') ? 'PK' : (col.RelationSiteId ? 'FK' : '');
+						return `  ${col.TypeRaw} ${col.Type} ${k} "${col.Label}"`;
+					}).join('\n');
+					lines.push(`  TBL_${table.SiteId}["${table.Title}(${table.SiteId})"] {\n${cols}\n}`);
+				});
+				tables.forEach(table => {
+					(table.Columns || []).forEach(col => {
+						if (col.RelationSiteId) {
+							const parent = tables.find(t => t.SiteId === col.RelationSiteId);
+							if (parent) {
+								lines.push(`  TBL_${parent.SiteId} |o--o{ TBL_${table.SiteId} : "${col.Label}"`);
+							}
+						}
+					});
+				});
+				return lines.join('\n');
+			}
+			render() {
+				const data = Common.parseJsonSafe();
+				const erTables = this.extractTables(data);
+				const mermaidText = erTables.length ? this.toMermaid(erTables) : t('erd_no_data');
+				document.title = `${t('erd_title')} - Pleasanter Site Visualizer`;
+				this.currentMermaidText = mermaidText;
+				const renderArea = document.getElementById('mermaidRenderArea');
+				renderArea.innerHTML = '';
+				// 初期化時の固定1.0適用は残すが、描画後にfitToContainerで上書き
+				this.zoomScale = 1.0;
+				this.applyZoom();
+				if (erTables.length) {
+					mermaid.initialize({ startOnLoad: false });
+					mermaid.render('erDiagramSvg', mermaidText)
+						.then(({ svg }) => {
+							renderArea.innerHTML = svg;
+							// 描画完了後にフィット倍率を計算して適用
+							this.fitToContainer();
+						})
+						.catch(e => {
+							renderArea.innerHTML = `<span style="color:red;">${t('erd_mermaid_error', e.message)}</span>`;
+						});
+				}
+			}
+		}
 
-        // --- TwoLineHeaderTableタブ用テーブル生成 ---
-        function makeTableTypeTwoLineHeaderTable(table, tIdx) {
-            table.Columns = table.Columns || [];
-            if (table.TableType !== "TwoLineHeaderTable" || !Array.isArray(table.Columns) || !table.Header || !Array.isArray(table.Header.Labels)) {
-                return '<span style="color:red;">TwoLineHeaderTableテーブル形式に未対応です。</span>';
-            }
-            // グループ化
-            let groups = [];
-            let readonyRow = [];
-            table.Header.Labels.forEach(tab => {
-                if (tab.TabName && Array.isArray(tab.Labels)) {
-                    groups.push({
-                        groupName: tab.TabName.Value,
-                        keys: tab.Labels.map(l => l.Key),
-                        headers: tab.Labels.map(l => l.Text)
-                    });
-                    readonyRow.push(tab.Labels.filter(v => v.ReadOnly).map(v=>v.Key));
-                }
-            });
-            readonyRow = readonyRow.flat();
-            const allKeys = groups.flatMap(g => g.keys);
-            const columns = table.Columns;
-            if (!Array.isArray(columns)) {
-                return '<span style="color:red;">TwoLineHeaderTableカラム情報がありません。</span>';
-            }
-            const firstColIdx = 0;
-            // グループヘッダ行
-            let groupHeaderRow = '<tr>';
-            let colIdx = 0;
-            groups.forEach((g, groupIdx) => {
-                const groupName = g.groupName !== '' ? g.groupName : '&nbsp;';
-                const thClass = colIdx === firstColIdx ? ' class="sticky-col"' : '';
-                groupHeaderRow += `<th${thClass} colspan="${g.keys.length}">${groupName}</th>`;
-                colIdx += g.keys.length;
-            });
-            groupHeaderRow += '</tr>';
-            let itemHeaderRow = '<tr>';
-            let headerColIdx = 0;
-            groups.forEach(g => {
-                g.headers.forEach((h, i) => {
-                    const thClass = headerColIdx === firstColIdx ? ' class="sticky-col"' : '';
-                    itemHeaderRow += `<th${thClass}>${h}</th>`;
-                    headerColIdx++;
-                });
-            });
-            itemHeaderRow += '</tr>';
+		// ER図検索
+		class ERSearch {
+			constructor(erDiagram) {
+				this.er = erDiagram;
+				this.searchDialog = null;
+				this.selectedSvgElem = null;
+				document.getElementById('erSearchBtn').onclick = () => this.show();
+			}
+			show() {
+				this.close();
+				const dlg = document.createElement('div');
+				dlg.className = 'settings-dialog';
+				dlg.id = 'erSearchDialog';
+				dlg.style.top = '120px';
+				dlg.innerHTML = `
+				<div class="settings-dialog-title" style="cursor:move;">${t('erd_search_dialog_title')}</div>
+				<span class="settings-dialog-close" title="Close">&times;</span>
+				<div id="erSearchInputArea">
+					<input type="text" id="erSearchInput" placeholder="${t('erd_search_placeholder')}">
+					<button id="erSearchExecBtn">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<circle cx="11" cy="11" r="8"/>
+							<line x1="21" y1="21" x2="16.65" y2="16.65"/>
+							<path d="M21 21l-4.35-4.35" />
+							<path d="M7 8h8M11 8v6" stroke-width="2.5" />
+						</svg>
+					</button>
+				</div>
+				<div id="erSearchResultArea"></div>
+			`;
+				document.body.appendChild(dlg);
+				this.searchDialog = dlg;
+				// close
+				dlg.querySelector('.settings-dialog-close').onclick = () => this.close();
+				// search
+				dlg.querySelector('#erSearchExecBtn').onclick = () => {
+					const keyword = dlg.querySelector('#erSearchInput').value.trim();
+					this.renderResults(keyword);
+					if (parseInt(dlg.style.top) < 176) dlg.style.top = '176px';
+				};
+				dlg.querySelector('#erSearchInput').onkeydown = (e) => {
+					if (e.key === 'Enter') dlg.querySelector('#erSearchExecBtn').click();
+				};
+				// drag
+				let isDragging = false, off = { x: 0, y: 0 };
+				const titleBar = dlg.querySelector('.settings-dialog-title');
+				titleBar.onmousedown = (e) => {
+					isDragging = true;
+					off.x = e.clientX - dlg.offsetLeft;
+					off.y = e.clientY - dlg.offsetTop;
+					document.body.style.userSelect = 'none';
+				};
+				const onMove = (e) => {
+					if (!isDragging) return;
+					dlg.style.left = (e.clientX - off.x) + 'px';
+					dlg.style.top = (e.clientY - off.y) + 'px';
+				};
+				const onUp = () => { isDragging = false; document.body.style.userSelect = ''; };
+				document.addEventListener('mousemove', onMove);
+				document.addEventListener('mouseup', onUp);
+				// esc
+				setTimeout(() => { document.addEventListener('keydown', this._onEsc, { capture: true }); }, 0);
+				this._cleanup = () => {
+					document.removeEventListener('mousemove', onMove);
+					document.removeEventListener('mouseup', onUp);
+					document.removeEventListener('keydown', this._onEsc, { capture: true });
+				};
+			}
+			_onEsc = (e) => { if (e.key === 'Escape') this.close(); }
+			close() {
+				if (this.searchDialog) {
+					this._cleanup && this._cleanup();
+					this.searchDialog.remove();
+					this.searchDialog = null;
+				}
+				this.clearHighlight();
+			}
+			renderResults(keyword) {
+				const area = this.searchDialog.querySelector('#erSearchResultArea');
+				area.innerHTML = '';
+				if (!keyword) { area.innerHTML = `<span class="er-search-result-none">${t('erd_search_input')}</span>`; return; }
+				const svg = document.querySelector('#mermaidRenderArea svg');
+				if (!svg) { area.innerHTML = `<span style="color:red;">${t('erd_not_displayed')}</span>`; return; }
+				const keywords = keyword.normalize('NFKC').toLowerCase().split(/\s+/).filter(k => k.length > 0);
+				let results = [];
+				const rootG = svg.querySelector('g.root');
+				if (rootG) {
+					const nodeGs = Array.from(rootG.querySelectorAll('g.node'));
+					nodeGs.forEach(g => {
+						const ps = g.querySelectorAll('span.nodeLabel p');
+						if (ps && ps.length > 0) {
+							const tableNameRaw = ps[0].textContent.trim();
+							const tableName = tableNameRaw.normalize('NFKC').toLowerCase();
+							const svgTextElem = ps[0].closest('text');
+							if (keywords.every(k => tableName.includes(k))) {
+								results.push({ type: 'table', name: tableNameRaw, svgElem: ps[0], svgTextElem, parentG: g, idx: results.length });
+							}
+							for (let i = 1; i < ps.length; i++) {
+								const colNameRaw = ps[i].textContent.trim();
+								const colName = colNameRaw.normalize('NFKC').toLowerCase();
+								const svgTextElemCol = ps[i].closest('text');
+								if (keywords.every(k => colName.includes(k))) {
+									results.push({ type: 'column', name: colNameRaw, svgElem: ps[i], svgTextElem: svgTextElemCol, parentG: g, tableName: tableNameRaw, idx: results.length });
+								}
+							}
+						}
+					});
+				}
+				if (results.length === 0) { area.innerHTML = `<span class="er-search-result-none">${t('erd_search_none')}</span>`; return; }
+				let html = `<div class="er-search-result-count">${t('erd_search_hit',results.length)}</div><ul style="list-style:none;padding:0;margin:0;">`;
+				results.forEach((r, i) => {
+					html += `<li>
+					<button class="er-search-result-btn" data-idx="${i}">
+						<span class="${r.type === 'table' ? 'er-search-result-type-table' : 'er-search-result-type-column'}">
+							${r.type === 'table' ? t('erd_table') : t('erd_column')} ${Common.escapeHtml(r.name)}
+							${r.tableName ? `<span class="er-search-result-table-name">（${Common.escapeHtml(r.tableName)}）</span>` : ''}
+						</span>
+					</button>
+				</li>`;
+				});
+				html += '</ul>';
+				area.innerHTML = html;
+				Array.from(area.querySelectorAll('.er-search-result-btn')).forEach(btn => {
+					btn.onclick = () => {
+						const idx = parseInt(btn.getAttribute('data-idx'), 10);
+						this.select(results[idx]);
+					};
+				});
+			}
+			select(result) {
+				this.clearHighlight();
+				if (this.selectedSvgElem) this.selectedSvgElem.classList.remove('er-search-highlight');
+				// リスト側選択色クリア
+				const area = this.searchDialog?.querySelector('#erSearchResultArea');
+				if (area) {
+					Array.from(area.querySelectorAll('.er-search-result-btn')).forEach(btn => {
+						btn.classList.remove('selected');
+					});
+				}
+				if (result?.svgElem) {
+					result.svgElem.classList.add('er-search-highlight');
+					if (result.svgTextElem) {
+						result.svgTextElem.setAttribute('data-er-search-highlight', '1');
+						result.svgTextElem.classList.add('er-search-svg-highlight');
+					}
+					this.selectedSvgElem = result.svgElem;
+					// リスト側選択色付与
+					if (area && typeof result.idx === 'number') {
+						const btn = area.querySelector(`.er-search-result-btn[data-idx="${result.idx}"]`);
+						if (btn) btn.classList.add('selected');
+					}
+					// --- ここからズーム全景表示 ---
+					const svg = document.querySelector('#mermaidRenderArea svg');
+					const wrapper = document.getElementById('mermaidScrollWrapper');
+					if (svg && this.er && result.parentG && typeof result.parentG.getBBox === 'function') {
+						const bbox = result.parentG.getBBox();
+						const margin = 32; // 余白
+						const scaleX = (wrapper.clientWidth - margin) / bbox.width;
+						const scaleY = (wrapper.clientHeight - margin) / bbox.height;
+						let fitScale = Math.min(scaleX, scaleY);
+						fitScale = Math.max(0.2, Math.min(fitScale, 5)); // 上限下限
+						if (this.er.zoomScale === this.er.baseZoomScale) {
+							this.er.zoomScale = fitScale;
+							this.er.applyZoom();
+						}
+					}
+					// --- ここまでズーム全景表示 ---
+				}
+				this.scrollTo(result);
+			}
+			scrollTo(result) {
+				const svg = document.querySelector('#mermaidRenderArea svg');
+				const wrapper = document.getElementById('mermaidScrollWrapper');
+				if (!svg || !result) return;
+				const targetEl = (result.svgTextElem && typeof result.svgTextElem.getBBox === 'function')
+					? result.svgTextElem
+					: (result.parentG && typeof result.parentG.getBBox === 'function')
+						? result.parentG
+						: null;
+				if (!targetEl) return;
+				const bbox = targetEl.getBBox();
+				const ctm = (typeof targetEl.getCTM === 'function') ? targetEl.getCTM() : null;
+				const cxLocal = bbox.x + bbox.width / 2;
+				const cyLocal = bbox.y + bbox.height / 2;
+				const cxUser = ctm ? (ctm.a * cxLocal + ctm.c * cyLocal + ctm.e) : cxLocal;
+				const cyUser = ctm ? (ctm.b * cxLocal + ctm.d * cyLocal + ctm.f) : cyLocal;
 
-            // --- ネスト配列の区切りごとにrowspanを適用 ---
-            function splitKeysByNest(keys) {
-                let result = [];
-                let current = { type: null, keys: [] };
-                for (let i = 0; i < keys.length; i++) {
-                    const k = keys[i];
-                    const isNest = k && k.includes('.');
-                    const type = isNest ? k.split('.', 2)[0] : '';
-                    if (current.type === null) {
-                        current.type = isNest ? type : '';
-                        current.keys.push(k);
-                    } else if ((isNest ? type : '') === current.type) {
-                        current.keys.push(k);
-                    } else {
-                        result.push(current);
-                        current = { type: isNest ? type : '', keys: [k] };
-                    }
-                }
-                if (current.keys.length) result.push(current);
-                return result;
-            }
+				let vbX = 0, vbY = 0, vbW = null, vbH = null;
+				const viewBoxAttr = svg.getAttribute('viewBox');
+				if (viewBoxAttr) {
+					const vb = viewBoxAttr.trim().split(/\s+/).map(parseFloat);
+					if (vb.length === 4 && vb.every(v => Number.isFinite(v))) { vbX = vb[0]; vbY = vb[1]; vbW = vb[2]; vbH = vb[3]; }
+				}
+				let unitToPxX, unitToPxY;
+				if (vbW && vbH) {
+					unitToPxX = svg.clientWidth / vbW;
+					unitToPxY = svg.clientHeight / vbH;
+				} else {
+					const rect = svg.getBoundingClientRect();
+					const wAttr = (svg.width?.baseVal?.value) ?? rect.width;
+					const hAttr = (svg.height?.baseVal?.value) ?? rect.height;
+					unitToPxX = rect.width / (wAttr || 1);
+					unitToPxY = rect.height / (hAttr || 1);
+				}
+				const cssScale = this.er.getZoomScale() || 1;
+				const centerXpx = (cxUser - vbX) * unitToPxX * cssScale;
+				const centerYpx = (cyUser - vbY) * unitToPxY * cssScale;
+				const desiredLeft = centerXpx - wrapper.clientWidth / 2;
+				const desiredTop = centerYpx - wrapper.clientHeight / 2;
+				const maxLeft = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
+				const maxTop = Math.max(0, wrapper.scrollHeight - wrapper.clientHeight);
+				wrapper.scrollLeft = Math.min(maxLeft, Math.max(0, desiredLeft));
+				wrapper.scrollTop = Math.min(maxTop, Math.max(0, desiredTop));
+			}
+			clearHighlight() {
+				const svg = document.querySelector('#mermaidRenderArea svg');
+				if (!svg) return;
+				Array.from(svg.querySelectorAll('text[data-er-search-highlight="1"]')).forEach(t => {
+					t.removeAttribute('data-er-search-highlight');
+					t.classList.remove('er-search-svg-highlight');
+				});
+				if (this.selectedSvgElem) this.selectedSvgElem.classList.remove('er-search-highlight');
+				this.selectedSvgElem = null;
+				// リスト側選択色クリア
+				const area = this.searchDialog?.querySelector('#erSearchResultArea');
+				if (area) {
+					Array.from(area.querySelectorAll('.er-search-result-btn')).forEach(btn => {
+						btn.classList.remove('selected');
+					});
+				}
+			}
+		}
 
-            let keyBlocks = splitKeysByNest(allKeys);
+		// 起動とタブ制御
+		class App {
+			constructor() {
+				this.site = new SiteSetting();
+				this.er = new ERDiagram();
+				this.menu = new GearMenu();
+				this.search = new ERSearch(this.er);
+				this.bindTabs();
+				window.addEventListener('resize', Common.positionGearErrorIndicator);
+				document.addEventListener('keydown', e => {
+					if (e.key === 'Escape') Common.closeDialog();
+				});
+				// ↓ 追加: Mermaidスクロール領域の高さをウィンドウリサイズで調整
+				window.addEventListener('resize', App.adjustMermaidScrollWrapperHeight);
+			}
+			bindTabs() {
+				document.getElementById('mainTabSiteSetting').onclick = () => this.setMainTab('SiteSetting');
+				document.getElementById('mainTabERDiagrams').onclick = () => this.setMainTab('ERDiagrams');
+			}
+			setMainTab(tabType) {
+				// Remove 'active' class from all tab buttons in #mainTabButtons
+				Array.from(document.querySelectorAll('#mainTabButtons .tab-btn')).forEach(btn => {
+					btn.classList.remove('active');
+				});
+				if (tabType === 'SiteSetting') {
+					document.getElementById('mainTabSiteSetting').classList.add('active');
+					document.getElementById('siteSettingArea').style.display = '';
+					document.getElementById('erDiagramArea').style.display = 'none';
+					this.site.updateTabKeysAndButtons();
+					this.site.renderTable();
+				} else {
+					document.getElementById('mainTabERDiagrams').classList.add('active');
+					document.getElementById('siteSettingArea').style.display = 'none';
+					document.getElementById('erDiagramArea').style.display = '';
+					this.er.render();
+				}
+			}
+			start() {
+				// 初期表示用
+				const sampleJson = ``;
+				if (!Common.textarea.value) Common.textarea.value = sampleJson;
 
-            let bodyRows = '';
-            columns.forEach(col => {
-                // 各ネスト配列の最大行数を計算
-                let nestRowCounts = {};
-                keyBlocks.forEach(block => {
-                    if (block.type && block.type.length > 0) {
-                        if (Array.isArray(col[block.type])) {
-                            nestRowCounts[block.type] = col[block.type].length;
-                        } else {
-                            nestRowCounts[block.type] = 0;
-                        }
-                    }
-                });
-                // ネスト区間の最大行数
-                let maxNestRows = 1;
-                keyBlocks.forEach(block => {
-                    if (block.type && block.type.length > 0) {
-                        maxNestRows = Math.max(maxNestRows, nestRowCounts[block.type] || 0);
-                    }
-                });
+				const showTabButtons = (views) => {
+					const tabDiv = document.getElementById('mainTabButtons');
+					const erArea = document.getElementById('erDiagramArea');
+					const hasTabs = views.length > 1;
+					if (tabDiv) tabDiv.style.display = hasTabs ? '' : 'none';
+					// ボタン非表示時はER図エリアを上に広げる
+					if (erArea) {
+						if (!hasTabs) {
+							erArea.classList.add('no-tab');
+						} else {
+							erArea.classList.remove('no-tab');
+						}
+					}
+				};
+				const getAvailableViews = (data) => {
+					const views = [];
+					if (Array.isArray(data.SiteSetting?.Sites) && data.SiteSetting.Sites.length > 0) views.push('SiteSetting');
+					if (Array.isArray(data.ERDiagrams?.Tables) && data.ERDiagrams.Tables.length > 0) views.push('ERDiagrams');
+					// 今後追加予定のビューはここに判定追加
+					return views;
+				};
+				if (!location.href.startsWith('file://')) {
+					const userInputDiv = document.querySelector('.user-input');
+					if (userInputDiv) userInputDiv.style.display = 'none';
+					document.getElementById('tableContainer').innerHTML = `<span style="color:black;">${t('common_data_loading')}</span>`;
+					fetch(location.href.replace('Viewer=html', 'Viewer=none'))
+						.then(res => { if (!res.ok) throw new Error('データ取得失敗'); return res.json(); })
+						.then(json => {
+							document.getElementById('tableContainer').innerHTML = ``;
+							Common.textarea.value = JSON.stringify(json, null, 2);
+							this.site.loadSites(json);
+							this.site.renderTable();
+							Common.updateGearErrorIndicator();
+							Common.positionGearErrorIndicator();
+							const views = getAvailableViews(json);
+							showTabButtons(views);
+							if (views.length === 1) {
+								this.setMainTab(views[0]);
+							} else if (views.includes('SiteSetting')) {
+								this.setMainTab('SiteSetting');
+							} else if (views.includes('ERDiagrams')) {
+								this.setMainTab('ERDiagrams');
+							}
+						})
+						.catch(e => {
+							document.getElementById('tableContainer').innerHTML = `<span style="color:red;">${t('common_data_load_failed')}: ${e.message}</span>`;
+						});
+				} else {
+					try {
+						const data = Common.parseJsonSafe();
+						this.site.loadSites(data);
+						const views = getAvailableViews(data);
+						showTabButtons(views);
+						if (views.length === 1) {
+							this.setMainTab(views[0]);
+						} else if (views.includes('SiteSetting')) {
+							this.setMainTab('SiteSetting');
+						} else if (views.includes('ERDiagrams')) {
+							this.setMainTab('ERDiagrams');
+						}
+					} catch { }
+				}
+				Common.updateGearErrorIndicator();
+				Common.positionGearErrorIndicator();
+				// 初回高さ調整
+				requestAnimationFrame(() => {
+					const erArea = document.getElementById('erDiagramArea');
+					let prevDisplay = '';
+					if (erArea) {
+						prevDisplay = erArea.style.display;
+						erArea.style.display = '';
+					}
+					App.adjustMermaidScrollWrapperHeight();
+					if (erArea) {
+						erArea.style.display = prevDisplay;
+					}
+				});
+			}
+			static adjustMermaidScrollWrapperHeight() {
+				const erArea = document.getElementById('erDiagramArea');
+				const wrapper = document.getElementById('mermaidScrollWrapper');
+				const btnBar = erArea ? erArea.querySelector('#erDiagramContainer > div:first-child') : null;
+				if (erArea && wrapper && btnBar) {
+					const erAreaRect = erArea.getBoundingClientRect();
+					const btnBarRect = btnBar.getBoundingClientRect();
+					const topOffset = btnBarRect.bottom - erAreaRect.top;
+					const newHeight = Math.max(120, erAreaRect.height - topOffset - 16); // 16px: 余白
+					wrapper.style.height = newHeight + 'px';
 
-                // 各行を出力
-                for (let rowIdx = 0; rowIdx < maxNestRows; rowIdx++) {
-                    bodyRows += '<tr>';
-                    for (let b = 0; b < keyBlocks.length; b++) {
-                        const block = keyBlocks[b];
-                        const keys = block.keys;
-                        const isNest = block.type && block.type.length > 0;
-                        if (!isNest) {
-                            // 通常カラム（まとめ表示）: 1行目のみrowspan
-                            if (rowIdx === 0) {
-                                keys.forEach((k, idx) => {
-                                    let tdClass = '';
-                                    let value = col[k];
-                                    const changed = Array.isArray(col.ChangedColumns) ? col.ChangedColumns : [];
-                                    const readOnly = Array.isArray(col.ReadOnlyColumns) ? col.ReadOnlyColumns : [];
-                                    if (readonyRow.includes(k) || readOnly.includes(k) ||  value === undefined || value === null) {
-                                        tdClass = ' class="missing' + (idx === firstColIdx ? ' sticky-col' : '') + '"';
-                                    } else if (changed.includes(k)) {
-                                        tdClass = ' class="changed' + (idx === firstColIdx ? ' sticky-col' : '') + '"';
-                                    } else if (idx === firstColIdx) {
-                                        tdClass = ' class="sticky-col"';
-                                    }
-                                    let rowspan = maxNestRows > 1 ? ` rowspan="${maxNestRows}"` : '';
-                                    if (typeof value === 'object' && value !== null) {
-                                        if (Array.isArray(value)) {
-                                            value = convJson2Html(value, k, table);
-                                        } else {
-                                            value = JSON.stringify(value);
-                                        }
-                                    }
-                                    bodyRows += `<td${tdClass}${rowspan}>${value !== undefined ? value : ''}</td>`;
-                                });
-                            }
-                        } else {
-                            // ネスト配列カラム
-                            let nestLen = nestRowCounts[block.type] || 0;
-                            if (rowIdx < nestLen) {
-                                // データあり
-                                keys.forEach((k, idx) => {
-                                    let tdClass = '';
-                                    let value = '';
-                                    const [parent, child] = k.split('.', 2);
-                                    const readOnly = Array.isArray(col[parent][rowIdx].ReadOnlyColumns) ? col[parent][rowIdx].ReadOnlyColumns : [];
-                                    const changed = Array.isArray(col[parent][rowIdx].ChangedColumns) ? col[parent][rowIdx].ChangedColumns : [];
-                                    if (Array.isArray(col[parent]) && col[parent][rowIdx] && col[parent][rowIdx][child] !== undefined) {
-                                        value = col[parent][rowIdx][child];
-                                    } else {
-                                      value = undefined;
-                                        //value = '';
-                                    }
-                                    if (typeof value === 'object' && value !== null) {
-                                        if (Array.isArray(value)) {
-                                            value = convJson2Html(value, k, table);
-                                        } else {
-                                            value = JSON.stringify(value);
-                                        }
-                                    }
-                                    if (readonyRow.includes(k) || readOnly.includes(child) ||  value === undefined || value === null) {
-                                      tdClass = ' class="missing"';
-                                    } else if (changed.includes(child)){
-                                      tdClass = ' class="changed"';
-                                    }
-                                    bodyRows += `<td${tdClass}>${value !== undefined ? value : ''}</td>`;
-                                });
-                            } else if (rowIdx === nestLen && nestLen < maxNestRows) {
-                                // 空白セルをrowspanでまとめて出す（残り行数分）
-                                let tdClass = ' class="missing"';
-                                let rowspan = (maxNestRows - nestLen) > 1 ? ` rowspan="${maxNestRows - nestLen}"` : '';
-                                keys.forEach((k, idx) => {
-                                    bodyRows += `<td${tdClass}${rowspan}></td>`;
-                                });
-                            }
-                            // それ以外（空白セルは既にrowspanで出しているので何もしない）
-                        }
-                    }
-                    bodyRows += '</tr>';
-                }
-            });
+				}
+			}
+		}
 
-            const gridName = table.Label || '';
-            let html = '';
-            if (gridName) {
-                html += `<div class="table-title">${gridName}</div>`;
-            }
-            html += `<div class="scroll-table-wrapper"><table><thead>${groupHeaderRow}${itemHeaderRow}</thead><tbody>${bodyRows}</tbody></table></div>`;
-            return html;
-        }
+		// 起動
+		window.addEventListener('DOMContentLoaded', () => {
+			const app = new App();
+			app.start();
+		});
 
-        // --- Notificationsタブ用テーブル生成 ---
-        function makeTableTypeOneLineHeaderTable(table, tIdx) {
-            table.Columns = table.Columns || [];
-            if (table.TableType !== "OneLineHeaderTable" || !Array.isArray(table.Header.Labels) || !Array.isArray(table.Columns)) {
-                return '<span style="color:red;">OneLineHeaderTableテーブル形式に未対応です。</span>';
-            }
-            // ヘッダ行
-            let headerRow = '<tr>';
-            table.Header.Labels.forEach((h, idx) => {
-                const thClass = idx === 0 ? ' class="sticky-col"' : '';
-                headerRow += `<th${thClass}>${h.Text ?? h.Key ?? ''}</th>`;
-            });
-            headerRow += '</tr>';
-            // データ行
-            let bodyRows = '';
-            table.Columns.forEach(col => {
-                const changed = Array.isArray(col.ChangedColumns) ? col.ChangedColumns : [];
-                bodyRows += '<tr>';
-                table.Header.Labels.forEach((h, idx) => {
-                    const key = h.Key;
-                    let tdClass = '';
-                    let value = (key && col[key] !== undefined) ? col[key] : '';
-                    if (typeof value === 'object' && value !== null) {
-                        if (Array.isArray(value)) {
-                            value = convJson2Html(value, key, table);
-                        } else {
-                            value = JSON.stringify(value);
-                        }
-                    }
-                    if (changed.includes(key)) {
-                        tdClass = idx === 0 ? ' class="changed sticky-col"' : ' class="changed"';
-                    } else if (key && col[key] === undefined) {
-                        tdClass = idx === 0 ? ' class="missing sticky-col"' : ' class="missing"';
-                    } else if (idx === 0) {
-                        tdClass = ' class="sticky-col"';
-                    }
-                    bodyRows += `<td${tdClass}>${value}</td>`;
-                });
-                bodyRows += '</tr>';
-            });
-            const gridName = table.Label || '';
-            let html = '';
-            // Nameプロパティを表の前に表示
-            if (gridName) {
-                html += `<div class="table-title">${gridName}</div>`;
-            }
-            html += `<div class="scroll-table-wrapper"><table><thead>${headerRow}</thead><tbody>${bodyRows}</tbody></table></div>`;
-            return html;
-        }
+		// ファイル名生成関数追加
+		function vsFilename(feature, ext) {
+			function dateStr() {
+				const pad = n => n.toString().padStart(2, '0');
+				const d = new Date();
+				const yyyy = d.getFullYear();
+				const MM = pad(d.getMonth() + 1);
+				const dd = pad(d.getDate());
+				const hh = pad(d.getHours());
+				const mm = pad(d.getMinutes());
+				const ss = pad(d.getSeconds());
+				return `${yyyy}_${MM}_${dd} ${hh}_${mm}_${ss}`;
+			}
+			const prefix = 'VisualizeSettings_';
+			const suffix = dateStr();
+			const extension = ext.toLowerCase();
+			return `${prefix}${feature}_${suffix}.${extension}`;
+		}
+		// --- 多言語対応追加 ---
+		const LANG_DATA = {
+			ja: {
+				"ss_app_title": "Pleasanter Site Visualizer",
+				"ss_site_setting": "サイト設定",
+				"ss_er_diagram": "ER図",
+				"common_convert": "変換",
+				"common_data_loading": "データ取得中",
+				"common_data_load_failed": "データの取得に失敗しました",
+				"common_site_not_found": "サイト情報が見つかりません。",
+				"erd_title": "Entity Relationship Diagram",
+				"erd_search_none": "該当なし",
+				"erd_search_input": "検索語を入力してください。",
+				"erd_search_hit": "{0}件ヒット",
+				"erd_table": "[テーブル]",
+				"erd_column": "[カラム]",
+				"erd_save_png": "PNG保存",
+				"erd_text_search": "テキスト検索",
+				"erd_zoom_in": "拡大",
+				"erd_zoom_out": "縮小",
+				"erd_zoom_reset": "リセット",
+				"erd_mermaid_error": "Mermaid描画エラー: {0}",
+				"common_sample_json": "ここにJSONを貼り付けてください",
+				"erd_png_export": "PNG画像出力",
+				"erd_png_width": "幅(px)",
+				"erd_png_height": "高さ(px)",
+				"erd_png_priority_width": "幅優先",
+				"erd_png_priority_height": "高さ優先",
+				"erd_no_data": "ER図データがありません。",
+				"erd_search_dialog_title": "ER図検索",
+				"erd_search_placeholder": "テーブル名・カラム名で検索",
+			},
+			en: {
+				"ss_app_title": "Pleasanter Site Visualizer",
+				"ss_site_setting": "Site Setting",
+				"ss_er_diagram": "ER Diagram",
+				"common_convert": "Convert",
+				"common_data_loading": "Loading data",
+				"common_data_load_failed": "Failed to load data",
+				"common_site_not_found": "Site info not found.",
+				"erd_title": "Entity Relationship Diagram",
+				"erd_search_none": "No match",
+				"erd_search_input": "Please enter search keyword.",
+				"erd_search_hit": "{0} hits",
+				"erd_table": "[Table]",
+				"erd_column": "[Column]",
+				"erd_save_png": "Save PNG",
+				"erd_text_search": "Text Search",
+				"erd_zoom_in": "Zoom in",
+				"erd_zoom_out": "Zoom out",
+				"erd_zoom_reset": "Zoom Reset",
+				"erd_mermaid_error": "Mermaid render error: {0}",
+				"common_sample_json": "Paste JSON here",
+				"erd_png_export": "PNG Export",
+				"erd_png_width": "Width (px)",
+				"erd_png_height": "Height (px)",
+				"erd_png_priority_width": "Width Priority",
+				"erd_png_priority_height": "Height Priority",
+				"erd_no_data": "No ER diagram data.",
+				"erd_search_dialog_title": "ER Diagram Search",
+				"erd_search_placeholder": "Search by table/column name",
+			}
+		};
 
-        function makeCalendarTable(table, tIdx) {
-            // TableTypeで判定し既存関数を利用
-            if (isTableTypeKeyValue(table)) return makeTableTypeKeyValue(table, tIdx);
-            if (isTableTypeList(table)) return makeTableTypeList(table, tIdx);
-            // その他は汎用
-            return makeGenericTable(table, tIdx);
-        }
- 
-        function convJson2Html(value, k, table) {
-            if (Array.isArray(value)) {
-                if (value.length == 0) return '';
-                var item = value[0];
-                if (typeof item === 'object'){
-                    let keys = Object.keys(item);
-                    let html = '<div class="array">';
-                    value.forEach(row => {
-                        html += '<span class="item-pair">';
-                        keys.forEach(k => html += `<span class="${k}">${row[k]}</span>`);
-                        html += '</span>';
-                    });
-                    html += '</div>';
-                    return html;
-                } else {
-                    let html = '<div class="array">';
-                    value.forEach(row => {
-                        html += `<span class="item-single">${row}</span>`;
-                    });
-                    html += '</div>';
-                    return html;
-                }
-            }
-            return JSON.stringify(value);
-        }
-
-
-        // --- ギアアイコン・メニュー・ダイアログ制御 ---
-        (function(){
-            let menuPopup = null;
-            let dialogBg = null;
-
-            // ギアクリックでメニュー表示
-            document.getElementById('settingsGearBtn').addEventListener('click', function(e){
-                e.stopPropagation();
-                closeSettingsMenu();
-                showSettingsMenu();
-            });
-
-            // メニュー生成
-            function showSettingsMenu() {
-                if (menuPopup) return;
-                menuPopup = document.createElement('div');
-                menuPopup.className = 'settings-menu-popup';
-                // File Infoメニュー
-                const fileInfoItem = document.createElement('div');
-                fileInfoItem.className = 'settings-menu-item';
-                fileInfoItem.textContent = 'File Info';
-                fileInfoItem.onclick = function(e) {
-                    closeSettingsMenu();
-                    showFileInfoDialog();
-                };
-                menuPopup.appendChild(fileInfoItem);
-                // --- ログ表示メニュー追加（英語表記） ---
-                const logViewItem = document.createElement('div');
-                logViewItem.className = 'settings-menu-item';
-                logViewItem.textContent = 'Show Logs';
-                logViewItem.onclick = function(e) {
-                    closeSettingsMenu();
-                    showLogsDialog();
-                };
-                menuPopup.appendChild(logViewItem);
-                document.body.appendChild(menuPopup);
-                // 外側クリックで閉じる
-                setTimeout(() => {
-                    document.addEventListener('mousedown', onMenuOutsideClick, {capture:true});
-                }, 0);
-            }
-            function closeSettingsMenu() {
-                if (menuPopup) {
-                    menuPopup.remove();
-                    menuPopup = null;
-                    document.removeEventListener('mousedown', onMenuOutsideClick, {capture:true});
-                }
-            }
-            function onMenuOutsideClick(e) {
-                if (menuPopup && !menuPopup.contains(e.target) && e.target.id !== 'settingsGearBtn') {
-                    closeSettingsMenu();
-                }
-            }
-
-            // File Infoダイアログ表示
-            function showFileInfoDialog() {
-                // JSON取得
-                let data = {};
-                try {
-                    data = JSON.parse(document.getElementById('jsonInput').value);
-                } catch {}
-                let info = data.Info || {};
-                let siteInfo = (data.SiteSetting && data.SiteSetting.Info) ? data.SiteSetting.Info : {};
-                // 表示内容生成
-                let html = '<div class="settings-dialog-title">File Info</div>';
-                html += '<div class="settings-dialog-content">';
-                html += '<b>Info:</b><br><pre>' + escapeHtml(JSON.stringify(info, null, 2)) + '</pre>';
-                html += '<b>SiteSetting.Info:</b><br><pre>' + escapeHtml(JSON.stringify(siteInfo, null, 2)) + '</pre>';
-                html += '</div>';
-                showSettingsDialog(html);
-            }
-
-            // --- ログ表示ダイアログ ---
-            function showLogsDialog() {
-                let data = {};
-                try {
-                    data = JSON.parse(document.getElementById('jsonInput').value);
-                } catch {}
-                // SiteSetting.Info.Logs
-                let logs = ((data.SiteSetting||{}).Info||{}).Logs;
-                let html = '<div class="settings-dialog-title">Show Logs</div>';
-                html += '<div class="settings-dialog-content">';
-                if (Array.isArray(logs) && logs.length > 0) {
-                    html += '<table style="border-collapse:collapse;width:100%;font-size:13px;">';
-                    html += '<thead><tr>';
-                    const columns = Object.keys(logs[0]);
-                    columns.forEach(col => {
-                        html += `<th style="border:1px solid #888;padding:4px 8px;background:#e6f2ff;">${escapeHtml(col)}</th>`;
-                    });
-                    html += '</tr></thead><tbody>';
-                    logs.forEach(log => {
-                        html += '<tr>';
-                        columns.forEach(col => {
-                            let style = 'border:1px solid #888;padding:4px 8px;';
-                            if (log.Level === 'Error') style += 'background:#ffeaea;color:#c00;';
-                            else if (log.Level === 'Warning') style += 'background:#fffbe6;color:#b8860b;';
-                            html += `<td style="${style}">${escapeHtml(log[col])}</td>`;
-                        });
-                        html += '</tr>';
-                    });
-                    html += '</tbody></table>';
-                } else {
-                    html += '<span style="color:#888;">No logs available.</span>';
-                }
-                html += '</div>';
-                showSettingsDialog(html);
-            }
-
-            // 汎用ダイアログ表示
-            function showSettingsDialog(innerHtml) {
-                closeSettingsDialog();
-                dialogBg = document.createElement('div');
-                dialogBg.className = 'settings-dialog-bg';
-                dialogBg.onclick = closeSettingsDialog;
-                const dialog = document.createElement('div');
-                dialog.className = 'settings-dialog';
-                dialog.innerHTML = innerHtml + '<span class="settings-dialog-close" title="Close" onclick="this.closest(\'.settings-dialog\').parentNode.remove();event.stopPropagation();">&times;</span>';
-                dialogBg.appendChild(dialog);
-                document.body.appendChild(dialogBg);
-            }
-            function closeSettingsDialog() {
-                if (dialogBg) {
-                    dialogBg.remove();
-                    dialogBg = null;
-                }
-            }
-            // HTMLエスケープ
-            function escapeHtml(str) {
-                if (!str) return '';
-                return str.replace(/[&<>"']/g, function(m){
-                    return ({
-                        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-                    })[m];
-                });
-            }
-            // ESCキーでダイアログ閉じる
-            document.addEventListener('keydown', function(e){
-                if (e.key === 'Escape') closeSettingsDialog();
-            });
-        })();
-
-    </script>
+		class I18n {
+			constructor(langs, fallback = "en") {
+				this.langs = langs;
+				this.fallback = fallback;
+				this.currentLang = this.detectLang();
+			}
+			detectLang() {
+				const browserLang = navigator.language.slice(0, 2);
+				return this.langs[browserLang] ? browserLang : this.fallback;
+			}
+			setLang(lang) {
+				if (this.langs[lang]) {
+					this.currentLang = lang;
+					this.applyTranslations();
+				}
+			}
+			t(key, ...args) {
+				let str = this.langs[this.currentLang]?.[key]
+					?? this.langs[this.fallback]?.[key]
+					?? key;
+				args.forEach((arg, i) => {
+					str = str.replace(`{${i}}`, arg);
+				});
+				return str;
+			}
+			applyTranslations() {
+				document.querySelectorAll("[data-i18n]").forEach(el => {
+					const key = el.dataset.i18n;
+					const attr = el.dataset.i18nAttr;
+					const txt = this.t(key);
+					if (txt) {
+						if (attr) {
+							el.setAttribute(attr, txt);
+						} else if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+							el.setAttribute("placeholder", txt);
+						} else if (el.tagName === "IMG") {
+							el.setAttribute("alt", txt);
+						} else if (el.tagName === "TITLE") {
+							document.title = txt;
+						} else {
+							el.textContent = txt;
+						}
+					}
+				});
+			}
+		}
+		const i18n = new I18n(LANG_DATA, "en");
+		function t(key, ...args) { return i18n.t(key, ...args); }
+		// 言語確認用機能
+		if (false) {
+			const dlg = document.createElement('div');
+			dlg.style.zIndex = 9999;
+			dlg.style.position = 'fixed';
+			dlg.style.top = '20px';
+			dlg.style.left = '327px';
+			dlg.style.padding = '10px';
+			dlg.style.backgroundColor = '#eef';
+			dlg.innerHTML = `
+				<select id="langSelector">
+					<option value="ja">Japanese</option>
+					<option value="en">English</option>
+				</select>
+			`;
+			document.body.appendChild(dlg);
+			document.getElementById("langSelector").addEventListener("change", e => {
+				i18n.setLang(e.target.value);
+			});
+		}
+	</script>
 </body>
+
 </html>
