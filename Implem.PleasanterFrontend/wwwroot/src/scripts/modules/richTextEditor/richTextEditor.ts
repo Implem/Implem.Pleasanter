@@ -12,6 +12,8 @@ import de from 'suneditor/src/lang/de';
 import ko from 'suneditor/src/lang/ko';
 import es from 'suneditor/src/lang/es';
 
+import { ImageViewerModal } from '../../generals/modal/imageViewerModal';
+
 import suneditorCssRaw from 'suneditor/dist/css/suneditor.min.css?raw';
 import css from './richTextEditor.scss?inline';
 
@@ -405,9 +407,8 @@ class RichTextEditorElement extends HTMLElement {
             if (this.sunEditor || this.isReadOnly) {
                 if (RichTextEditorElement.imageViewerModal) {
                     const wrap = !this.isReadOnly ? this.sunEditor!.core.context.element.wysiwyg : this.editorContainer;
-                    const imgNodes = wrap.querySelectorAll('figure img');
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    (RichTextEditorElement.imageViewerModal as any).show(imgNode, imgNodes);
+                    const imgNodes: NodeListOf<HTMLImageElement> = wrap.querySelectorAll('figure img');
+                    (RichTextEditorElement.imageViewerModal as ImageViewerModal).show(imgNode, imgNodes);
                 } else {
                     window.open(imgNode.src);
                 }
