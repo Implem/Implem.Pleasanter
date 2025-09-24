@@ -167,6 +167,11 @@ rt-editor {
                     margin-block-start: 0;
                     margin-inline-start: 0;
                 }
+                th {
+                    div {
+                        font-weight: bold;
+                    }
+                }
             }
         }
         .se-dialog-inner {
