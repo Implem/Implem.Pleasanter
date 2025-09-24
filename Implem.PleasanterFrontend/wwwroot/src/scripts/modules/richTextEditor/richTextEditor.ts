@@ -208,7 +208,7 @@ class RichTextEditorElement extends HTMLElement {
 
     private onChange = (contents: string) => {
         if (this.controller) {
-            if (contents == '<p>​<br></p>' || contents == '<p><br></p>') {
+            if (contents === '<p>​<br></p>' || contents === '<p><br></p>') {
                 this.controller.value = '';
                 $p.set($(this.controller), '');
                 this.smartDesignValueBind('');
