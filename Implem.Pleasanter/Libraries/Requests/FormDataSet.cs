@@ -32,7 +32,6 @@ namespace Implem.Pleasanter.Libraries.Requests
                         suffix: suffix,
                         ss: ss.JoinedSsHash.Get(siteId)));
                 }
-
                 if (isControlId && hasSuffix)
                 {
                     hash.Get(referenceId).Data.Add(
