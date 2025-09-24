@@ -1258,9 +1258,8 @@
 					const wrapper = document.getElementById('mermaidScrollWrapper');
 					let isDragging = false, startX = 0, startY = 0, scrollLeft = 0, scrollTop = 0;
 					wrapper.addEventListener('mousedown', e => {
-						// Shiftキーを押している場合はドラッグ開始せず、テキスト選択モードとする
-						if (e.shiftKey) {
-							// テキスト選択モードの視覚的指示
+						// Altキーを押している場合はドラッグ開始せず、テキスト選択モードとする
+						if (e.altKey) {
 							wrapper.style.cursor = 'text';
 							// クリック位置にキャレット（選択開始位置）を明示的に作成する
 							try {
@@ -1269,7 +1268,7 @@
 								// Firefox
 								if (document.caretPositionFromPoint) {
 									const pos = document.caretPositionFromPoint(cx, cy);
-									if (pos) {
+									if (pos && pos.offsetNode) {
 										range = document.createRange();
 										range.setStart(pos.offsetNode, pos.offset);
 										range.collapse(true);
@@ -1300,10 +1299,10 @@
 						scrollTop = wrapper.scrollTop;
 						e.preventDefault();
 					});
-					// wrapper上でのマウス移動時は Shift 押下に応じてカーソルを切り替え（ドラッグ中は無視）
+					// wrapper上でのマウス移動時は Alt 押下に応じてカーソルを切り替え（ドラッグ中は無視）
 					wrapper.addEventListener('mousemove', e => {
 						if (isDragging) return;
-						wrapper.style.cursor = e.shiftKey ? 'text' : 'grab';
+						wrapper.style.cursor = e.altKey ? 'text' : 'grab';
 					});
 					document.addEventListener('mousemove', e => {
 						if (!isDragging) return;
@@ -1316,14 +1315,14 @@
 						isDragging = false;
 						wrapper.style.cursor = 'grab';
 					});
-					// キー操作で Shift が押された/離されたときにホバー中ならカーソルを更新
+					// キー操作で Alt が押された/離されたときにホバー中ならカーソルを更新
 					document.addEventListener('keydown', e => {
-						if (e.key === 'Shift' && !isDragging) {
+						if (e.key === 'Alt' && !isDragging) {
 							try { if (wrapper.matches(':hover')) wrapper.style.cursor = 'text'; } catch (ex) { }
 						}
 					});
 					document.addEventListener('keyup', e => {
-						if (e.key === 'Shift' && !isDragging) {
+						if (e.key === 'Alt' && !isDragging) {
 							try { if (wrapper.matches(':hover')) wrapper.style.cursor = 'grab'; } catch (ex) { }
 						}
 					});
