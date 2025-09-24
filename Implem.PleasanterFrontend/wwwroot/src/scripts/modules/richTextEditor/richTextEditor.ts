@@ -222,19 +222,39 @@ class RichTextEditorElement extends HTMLElement {
 
     private onPaste = (event: Event, cleanData: string, _maxCharCount: number, core: Core): string | boolean => {
         const items = (event as ClipboardEvent).clipboardData!.items;
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
-            if (this.sunEditor && item.kind === 'file') {
-                this.sunEditor.disable();
-                this.uploadBinary(item.getAsFile(), core);
-                this.sunEditor.enable();
+        if (items.length && items[0].kind === 'file') {
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                if (this.sunEditor && item.kind === 'file') {
+                    this.sunEditor.disable();
+                    this.uploadBinary(item.getAsFile(), core);
+                    this.sunEditor.enable();
+                }
             }
         }
 
+        const aTagMatches: {
+            html: string;
+            token: string;
+        }[] = [];
+
+        const aTagRegex = /<a\s+[^>]*>.*?<\/a>/gi;
+        let replacedData = cleanData.replace(aTagRegex, match => {
+            const token = `__A_TAG_${aTagMatches.length}__`;
+            aTagMatches.push({ html: match, token });
+            return token;
+        });
+
         const urlRegex = /(https?:\/\/[^\s<>"']+)/g;
-        const replacedData = cleanData.replace(urlRegex, url => {
+        replacedData = replacedData.replace(urlRegex, url => {
             return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
         });
+
+        // トークンを元のaタグHTMLで復元
+        aTagMatches.forEach(({ html, token }) => {
+            replacedData = replacedData.replace(token, html);
+        });
+
         return replacedData;
     };
 
@@ -426,7 +446,7 @@ class RichTextEditorElement extends HTMLElement {
 
     private smartDesignSetting() {
         if (!this.isSmartdesign) return;
-        if (this.isSmartdesign && this.controller) {
+        if (this.controller) {
             const observer = new MutationObserver(mutationsList => {
                 for (const mutation of mutationsList) {
                     if (mutation.type === 'attributes' && mutation.attributeName === 'placeholder') {
