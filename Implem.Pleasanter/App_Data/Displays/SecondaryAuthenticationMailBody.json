@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SecondaryAuthenticationMailBody",
     "Type": 110,
     "Languages": [
@@ -11,7 +11,7 @@
         },
         {
             "Language": "ja",
-            "Body": "Pleasanterの確認コードには、次のコードをお使いください。\n確認コード: [AuthenticationCode]\nPleasanterのご利用ありがとうございます。"
+            "Body": "Pleasanterの確認コードには、次のコードをお使いください。\ncode: [AuthenticationCode]\nPleasanterのご利用ありがとうございます。"
         },
         {
             "Language": "de",
