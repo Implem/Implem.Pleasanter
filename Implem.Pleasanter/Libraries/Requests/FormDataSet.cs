@@ -10,7 +10,13 @@ namespace Implem.Pleasanter.Libraries.Requests
             var hash = new Dictionary<long, FormData>();
             context.Forms?.ForEach(data =>
             {
-                var suffix = data.Key.RegexFirst("_\\d+_-?\\d+$");
+                var isControlId = data.Key == "ControlId";
+                var valueSuffix = isControlId
+                    ? data.Value.RegexFirst("_\\d+_-?\\d+$")
+                    : string.Empty;
+                var suffix = isControlId && !valueSuffix.IsNullOrEmpty()
+                    ? valueSuffix
+                    : data.Key.RegexFirst("_\\d+_-?\\d+$");
                 var hasSuffix = !suffix.IsNullOrEmpty();
                 var siteId = hasSuffix
                     ? suffix.Split_2nd('_').ToLong()
@@ -25,6 +31,13 @@ namespace Implem.Pleasanter.Libraries.Requests
                         id: referenceId,
                         suffix: suffix,
                         ss: ss.JoinedSsHash.Get(siteId)));
+                }
+                if (isControlId && hasSuffix)
+                {
+                    hash.Get(referenceId).Data.Add(
+                        data.Key,
+                        data.Value.Substring(0, data.Value.Length - suffix.Length));
+                    return;
                 }
                 hash.Get(referenceId).Data.Add(
                     data.Key.Substring(0, data.Key.Length - suffix.Length),
