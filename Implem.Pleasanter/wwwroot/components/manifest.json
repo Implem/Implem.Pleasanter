@@ -1,15 +1,15 @@
 {
-  "_vendor_kWzUC-If.js": {
-    "file": "vendor_kWzUC-If.js",
+  "_vendor_2cz0S0Pb.js": {
+    "file": "vendor_2cz0S0Pb.js",
     "name": "vendor"
   },
   "src/main.ts": {
-    "file": "components_FFRnmFoD.js",
+    "file": "components_DN1INjJs.js",
     "name": "main",
     "src": "src/main.ts",
     "isEntry": true,
     "imports": [
-      "_vendor_kWzUC-If.js"
+      "_vendor_2cz0S0Pb.js"
     ]
   }
 }
