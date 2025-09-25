@@ -7,7 +7,7 @@
             width: '800px',
             resizable: false,
             close: function () {
-                $('BulkUpdateSelectorDialog').empty();
+                $('#BulkUpdateSelectorDialog').empty();
             }
         });
     }
@@ -22,6 +22,5 @@ $p.bulkUpdate = function () {
         data[key] = main_data[key];
     }
     $p.setData($('#' + key));
-    $('BulkUpdateSelectorDialog').empty();
     $p.send($('#BulkUpdate'));
 };
