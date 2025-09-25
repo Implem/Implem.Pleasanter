@@ -3222,6 +3222,13 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     formData: formData);
+                foreach (var form in context.Forms)
+                {
+                    if (!formData.ContainsKey(form.Key))
+                    {
+                        formData[form.Key] = form.Value;
+                    }
+                }
                 SetByLookups(
                     context: context,
                     ss: ss,
