@@ -22,5 +22,6 @@ $p.bulkUpdate = function () {
         data[key] = main_data[key];
     }
     $p.setData($('#' + key));
+    $('BulkUpdateSelectorDialog').empty();
     $p.send($('#BulkUpdate'));
 };
