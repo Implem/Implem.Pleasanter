@@ -1225,6 +1225,7 @@ body {
 
 /* #Header */
 #Header {
+    position: initial;
     display: flex;
     align-items: center;
     width: 100%;
@@ -1273,6 +1274,7 @@ body {
         }
     }
     #Search {
+        position: initial;
         height: 30px;
     }
 
@@ -1281,7 +1283,7 @@ body {
         position: fixed;
         top: 10px;
         left: 10px;
-        z-index: 9999;
+        z-index: 99;
         width: 32px;
         height: 32px;
         padding: 12px;
@@ -1294,7 +1296,7 @@ body {
             position: absolute;
             top: 50%;
             left: 50%;
-            z-index: 9999;
+            z-index: 1;
             width: 20px;
             height: 1px;
             margin-left: -10px;
@@ -1344,18 +1346,11 @@ body {
                     overflow-y: scroll;
                 }
                 & ~ .hamburger-closelabel {
-                    top: 50px;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
                     .hamburger-cover {
                         position: fixed;
-                        top: 0;
-                        left: 0;
-                        z-index: 9997;
+                        inset: 0;
+                        z-index: 97;
                         display: block;
-                        width: 100%;
-                        height: 100%;
                         cursor: pointer;
                         background: var(--hamburger-outer-bg);
                     }
@@ -1371,7 +1366,7 @@ body {
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 9998;
+            z-index: 98;
             width: 52px;
             height: 100%;
             padding: 100px 0 16px;
@@ -1527,12 +1522,17 @@ body {
     position: absolute;
     top: 8px;
     left: 8px;
-    z-index: 4;
+    z-index: 1;
     #CopyDirectUrlToClipboard {
         padding: 0 2px;
         background-color: rgb(255 255 255 / 10%);
         border: 1px solid var(--base-border);
         border-radius: 4px;
+        &:hover {
+            .ui-icon {
+                opacity: 0.5;
+            }
+        }
     }
     &:not(:has(+ #Breadcrumb > li:nth-child(2))) {
         #CopyDirectUrlToClipboard {
@@ -1547,15 +1547,13 @@ body {
 /* #Application > #Breadcrumb */
 #Breadcrumb {
     nav & {
-        position: relative;
-        z-index: 3;
         float: none;
         display: flex;
         width: 100%;
         padding-right: 270px;
         margin: 0;
         background-color: var(--breadcrumb-bg);
-        box-shadow: 0 2px 2px var(--base-shadow);
+        border-bottom: 1px solid var(--base-border);
         .item {
             position: relative;
             display: flex;
@@ -1568,7 +1566,7 @@ body {
             &.trashbox span,
             a {
                 position: relative;
-                z-index: 2;
+                z-index: 0;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -1699,7 +1697,7 @@ body {
                 }
             }
             &:nth-last-child(2) {
-                z-index: 3;
+                z-index: 1;
             }
             &:not(:last-child) {
                 .label {
@@ -1712,7 +1710,7 @@ body {
                 }
             }
             &:last-child {
-                z-index: 2;
+                z-index: 0;
                 padding-right: 0;
                 padding-left: 15px;
                 margin-right: 15px;

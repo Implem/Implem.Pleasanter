@@ -417,7 +417,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new HtmlAttributes()
                                 .Class("ui-icon ui-icon-video")
                                 .OnClick($"$p.openVideo('{controlId}');"),
-                            _using: !mobile)
+                            _using: (!mobile || Parameters.Mobile.EnableMobileCamera))
                         .TextBox(
                             controlId: controlId + ".upload-image-file",
                             controlCss: "hidden upload-image-file",
