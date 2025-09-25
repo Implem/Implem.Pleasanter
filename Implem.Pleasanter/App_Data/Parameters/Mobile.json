@@ -1,4 +1,5 @@
 ﻿{
     "Responsive": true,
-    "SiteSettingsResponsive": true
+    "SiteSettingsResponsive": true,
+    "EnableMobileCamera": false
 }
