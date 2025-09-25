@@ -3,9 +3,7 @@ import { Japanese } from 'flatpickr/dist/l10n/ja.js';
 import type { Options } from 'flatpickr/dist/types/options';
 import type { Instance } from 'flatpickr/dist/types/instance';
 import moment from 'moment';
-
-declare const $: JQueryStatic;
-declare let $p: { set: (target: JQuery<HTMLElement>, value: string) => void };
+import $ from 'jquery';
 
 class InputDate extends HTMLElement {
     static isRwd: boolean;

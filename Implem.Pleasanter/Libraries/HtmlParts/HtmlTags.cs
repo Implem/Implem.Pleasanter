@@ -747,6 +747,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Raw(text: style))
                 : hb;
         }
+
         public static HtmlBuilder HeadLink(
             this HtmlBuilder hb,
             string src = null,
@@ -808,30 +809,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-
         public static HtmlBuilder CodeEditor(
             this HtmlBuilder hb,
-            string id = null,
-            string name = null,
-            string css = null,
             HtmlAttributes attributes = null,
+            string text = null,
             bool _using = true,
-            string dataLang = null,
-            string text = null)
+            Action action = null)
         {
             return _using
                 ? hb.Append(
                     tag: "code-editor",
-                    attributes: (attributes ?? new HtmlAttributes())
-                        .Id(id)
-                        .Name(name)
-                        .Class(css)
-                        .DataLang(dataLang),
-                    action: () => hb
-                        .Text(text: text))
+                    attributes: (attributes ?? new HtmlAttributes()),
+                    action: action)
                 : hb;
         }
-
 
         public static HtmlBuilder RichTextEditor(
             this HtmlBuilder hb,
@@ -847,7 +838,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     action: action)
                 : hb;
         }
-
 
         public static HtmlBuilder SmartDesignLink(
             this HtmlBuilder hb,
