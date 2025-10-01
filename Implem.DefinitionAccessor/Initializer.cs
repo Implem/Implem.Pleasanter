@@ -208,6 +208,21 @@ namespace Implem.DefinitionAccessor
             {
                 Parameters.Security.AspNetCoreDataProtection = new AspNetCoreDataProtection();
             }
+            if (Parameters.Security.PrivilegedUsers == null)
+            {
+                for (var i = 0; i < 16; i++)
+                {
+                    var user = Strings.CoalesceEmpty(
+                        Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_PrivilegedUsers_{i}"),
+                        Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_PrivilegedUsers_{i}"));
+
+                    if (user != string.Empty)
+                    {
+                        Parameters.Security.PrivilegedUsers ??= new List<string>();
+                        Parameters.Security.PrivilegedUsers.Add(user);
+                    }
+                }
+            }
             Parameters.Security.AspNetCoreDataProtection.BlobContainerUri = Strings.CoalesceEmpty(
                 Parameters.Security.AspNetCoreDataProtection.BlobContainerUri,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_BlobContainerUri"),
