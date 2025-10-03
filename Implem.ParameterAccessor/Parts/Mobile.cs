@@ -4,5 +4,6 @@
     {
         public bool Responsive;
         public bool SiteSettingsResponsive;
+        public bool EnableMobileCamera;
     }
 }

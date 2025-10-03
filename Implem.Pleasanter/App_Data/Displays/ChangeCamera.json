@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ChangeCamera",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Change camera"
+        },
+        {
+            "Language": "zh",
+            "Body": "更换摄像头"
+        },
+        {
+            "Language": "ja",
+            "Body": "カメラ切替"
+        },
+        {
+            "Language": "de",
+            "Body": "Kamera wechseln"
+        },
+        {
+            "Language": "ko",
+            "Body": "카메라 변경"
+        },
+        {
+            "Language": "es",
+            "Body": "Cambiare la telecamera"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thay đổi máy ảnh"
+        }
+    ]
+}

@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
+﻿using Implem.Pleasanter.Libraries.License;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
@@ -29,20 +28,10 @@ namespace Implem.Pleasanter.Controllers.Api
                 api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
-                ? ApiResults.Get(new
-                {
-                    StatusCode = 200,
-                    Response = new
-                    {
-                        CommercialLicense = Parameters.CommercialLicense(),
-                        LicenseDeadline = Parameters.LicenseDeadline(),
-                        Environment = Parameters.Environment()
-                    }
-                }.ToJson())
+                ? LicenseUtilities.GetLicenseInfo(context: context)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(request: Request);
         }
-
     }
 }

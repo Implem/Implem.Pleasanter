@@ -1,0 +1,263 @@
+.sun-editor,
+.sun-editor-editable {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    section,
+    blockquote,
+    dd,
+    dl,
+    dt,
+    figcaption,
+    figure,
+    hr,
+    li,
+    main,
+    ol,
+    p,
+    pre,
+    ul,
+    a,
+    abbr,
+    b,
+    del,
+    bdi,
+    bdo,
+    br,
+    cite,
+    code,
+    data,
+    dfn,
+    em,
+    i,
+    kbd,
+    mark,
+    q,
+    rb,
+    rp,
+    rt,
+    rtc,
+    ruby,
+    s,
+    samp,
+    small,
+    span,
+    strong,
+    sub,
+    sup,
+    time,
+    u,
+    var,
+    wbr,
+    input,
+    caption,
+    col,
+    colgroup,
+    table,
+    tbody,
+    td,
+    tfoot,
+    th,
+    thead,
+    tr {
+        all: revert;
+    }
+}
+
+rt-editor {
+    text-align: initial;
+    text-align-last: initial;
+    textarea {
+        display: none;
+    }
+    .sun-editor {
+        border-radius: 4px;
+        .se-toolbar {
+            outline: none;
+            background-color: var(--primaryColor, #fafafa);
+            border-bottom: 1px solid #dadada;
+            border-radius: 3px 3px 0 0;
+            &.se-toolbar-sticky {
+                border-radius: 0;
+            }
+        }
+        .se-btn-tray {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            align-items: center;
+            padding: 4px;
+            .se-btn-module-border {
+                margin: 0;
+                background-color: #fafafa;
+            }
+            .se-toolbar-separator-vertical {
+                display: none;
+            }
+            .se-tooltip-text {
+                max-width: 240px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .se-list-basic {
+            max-height: 200px;
+        }
+        .se-btn-module-border:has(.btn-editable-cmd) {
+            all: unset;
+            margin-left: 8px;
+            .btn-editable-cmd {
+                all: unset;
+                display: flex;
+                gap: 8px;
+                align-items: center;
+                color: var(--nonColor16, #333);
+                cursor: pointer;
+
+                --toggleSize: 26px;
+                --toggleSpace: 2px;
+                .toggle {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    width: 72px;
+                    height: var(--toggleSize);
+                    padding: 0 calc(4px + var(--toggleSize) + var(--toggleSpace)) 0 16px;
+                    margin-top: 2px;
+                    font-family: 'Helvetica Neue', sans-serif;
+                    font-size: 12px;
+                    line-height: 1;
+                    color: #000;
+                    text-align: center;
+                    background-color: var(--nonColor15, #fff);
+                    border: 1px solid var(--nonColor15, #dadada);
+                    border-radius: 100px;
+                    transition: padding 200ms ease-out;
+                    &::after {
+                        position: absolute;
+                        top: calc(var(--toggleSpace) * 0.5);
+                        left: calc(100% - calc(var(--toggleSize) - 2px));
+                        height: calc(100% - var(--toggleSpace));
+                        aspect-ratio: 1;
+                        content: ' ';
+                        background-color: var(--primaryDark, #333);
+                        border-radius: 100%;
+                        transition: left 200ms ease-out;
+                    }
+                    &[lock] {
+                        padding: 0 16px 0 calc(4px + var(--toggleSize) + var(--toggleSpace));
+                        &::after {
+                            left: var(--toggleSpace);
+                            background-color: var(--nonColor07, #aaa);
+                        }
+                    }
+                }
+            }
+        }
+
+        .se-wrapper {
+            border-radius: 0 0 4px 4px;
+            .se-wrapper-inner {
+                min-height: 200px;
+                h1:first-child {
+                    margin-block-start: 0;
+                    margin-inline-start: 0;
+                }
+                th {
+                    div {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+        .se-dialog-inner {
+            .se-dialog-content {
+                top: 10vh;
+            }
+            .se-dialog-form-footer {
+                label:has(._se_anchor_download) {
+                    display: none;
+                }
+            }
+        }
+        .se-resizing-bar {
+            border-radius: 0 0 4px 4px;
+        }
+
+        &.is-readonly {
+            .se-menu-list {
+                button {
+                    &[data-command='indent'] {
+                        color: #bdbdbd;
+                        cursor: not-allowed;
+                        background-color: inherit;
+                    }
+                }
+            }
+            .se-wrapper-inner {
+                caret-color: transparent;
+                user-select: text;
+            }
+            .sun-editor-editable[contenteditable='true'] {
+                .se-component {
+                    outline: none;
+                }
+            }
+            .se-resizing-back,
+            .se-loading-box,
+            .se-line-breaker,
+            .se-line-breaker-component,
+            .se-resizing-bar {
+                display: none !important;
+            }
+        }
+        .se-dialog-image {
+            .se-dialog-tabs {
+                display: none;
+            }
+        }
+    }
+
+    .sun-editor-editable {
+        figure {
+            cursor: pointer;
+        }
+    }
+
+    .app-readonly {
+        border: 1px solid var(--control-border);
+        border-radius: 4px;
+        .sun-editor-editable {
+            border: 8px solid var(--control-bg-read);
+            border-radius: 4px;
+        }
+    }
+
+    .app-disabled {
+        overflow: hidden;
+        border-radius: 4px;
+        .sun-editor-editable {
+            padding: 0;
+        }
+    }
+
+    // .sun-editor .se-list-layer.se-list-format ul,
+    // .sun-editor-editable {
+    //   h1 {
+    //   }
+    // }
+
+    @media screen and (width <= 1024px) and (width >= 0) {
+        .sun-editor {
+            .se-btn-tray {
+                .se-tooltip-inner {
+                    display: none;
+                }
+            }
+        }
+    }
+}
