@@ -1,34 +1,34 @@
-﻿{
-    "Id": "Basic",
+{
+    "Id": "UserManualUrl",
     "Type": 110,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "Basic"
+            "Body": "https://pleasanter.org/en/manual/table-management-"
         },
         {
             "Language": "zh",
-            "Body": "基础"
+            "Body": ""
         },
         {
             "Language": "ja",
-            "Body": "基本"
+            "Body": "https://pleasanter.org/ja/manual/table-management-"
         },
         {
             "Language": "de",
-            "Body": "Standard"
+            "Body": ""
         },
         {
             "Language": "ko",
-            "Body": "기본"
+            "Body": ""
         },
         {
             "Language": "es",
-            "Body": "Básico"
+            "Body": ""
         },
         {
             "Language": "vn",
-            "Body": "Cơ bản"
+            "Body": ""
         }
     ]
 }

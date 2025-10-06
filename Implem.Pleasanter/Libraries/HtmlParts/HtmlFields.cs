@@ -2159,6 +2159,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool setSearchOptionButton = false,
             string searchOptionId = null,
             string searchOptionFunction = null,
+            bool setMaterialSymbols = false,
             bool _using = true)
         {
             if (!_using) return hb;
@@ -2188,7 +2189,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             selectedValueCollection: selectedValueCollection,
                             alwaysDataValue: alwaysDataValue,
                             action: action,
-                            method: method),
+                            method: method,
+                            setMaterialSymbols: setMaterialSymbols),
                     actionOptions: commandOptionAction);
             }
             else
@@ -2218,7 +2220,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             method: method,
                             setSearchOptionButton: setSearchOptionButton,
                             searchOptionId: searchOptionId,
-                            searchOptionFunction: searchOptionFunction);
+                            searchOptionFunction: searchOptionFunction,
+                            setMaterialSymbols: setMaterialSymbols);
                     });
             }
         }

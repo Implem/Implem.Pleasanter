@@ -1,0 +1,34 @@
+﻿{
+    "Id": "EditorColumnsPopupBasic",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "These are standard items set when creating time-limited tables and record tables. The configuration items include ID, Version, Title, Content, Status, Administrator, Assignee, Comment, and Lock. For time-limited tables, additional items such as Start, Completion, Workload, Progress Rate, and Remaining Workload are also configured."
+        },
+        {
+            "Language": "zh",
+            "Body": "这是在创建限期表和记录表时的标准设置项。设置项包括ID、版本、标题、内容、状况、管理员、负责人、评论和锁定。在限期表中，还会额外设置开始、完成、工作量、进度率和剩余工作量。"
+        },
+        {
+            "Language": "ja",
+            "Body": "期限付きテーブル、記録テーブルの作成時に標準設定される項目です。設定項目はID、バージョン、タイトル、内容、状況、管理者、担当者、コメント、ロックです。期限付きテーブルではさらに開始、完了、作業量、進捗率、残作業量が追加設定されます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dies sind Standardfelder, die beim Erstellen von zeitgebundenen Tabellen und Aufzeichnungstabellen eingestellt werden. Die Konfigurationsfelder umfassen ID, Version, Titel, Inhalt, Status, Administrator, Verantwortlicher, Kommentar und Sperre. Bei zeitgebundenen Tabellen werden zusätzlich Start, Abschluss, Arbeitsaufwand, Fortschrittsrate und Restaufwand konfiguriert."
+        },
+        {
+            "Language": "ko",
+            "Body": "이는 기한 테이블 및 기록 테이블을 생성할 때 기본으로 설정되는 항목입니다. 설정 항목에는 ID, 버전, 제목, 내용, 상태, 관리자, 담당자, 코멘트, 잠금이 포함됩니다. 기한 테이블에서는 추가로 시작, 완료, 작업량, 진행률, 잔여 작업량이 설정됩니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Estos son los elementos estándar configurados al crear tablas con plazo y tablas de registro. Los elementos de configuración incluyen ID, Versión, Título, Contenido, Estado, Administrador, Responsable, Comentario y Bloqueo. En las tablas con plazo, también se configuran Inicio, Finalización, Carga de trabajo, Tasa de progreso y Trabajo restante."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đây là các mục tiêu chuẩn được thiết lập khi tạo bảng có thời hạn và bảng ghi. Các mục cấu hình bao gồm ID, Phiên bản, Tiêu đề, Nội dung, Trạng thái, Quản trị viên, Người phụ trách, Bình luận và Khóa. Đối với bảng có thời hạn, còn có thêm các mục Bắt đầu, Hoàn thành, Khối lượng công việc, Tỷ lệ tiến độ và Khối lượng công việc còn lại."
+        }
+    ]
+}
