@@ -1669,6 +1669,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CanDoWith(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CanDoWith",
+                data: data);
+        }
+
         public static string CanNotChangeInheritance(
             Context context,
             params string[] data)
@@ -2556,6 +2566,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ConfirmReset",
+                data: data);
+        }
+
+        public static string ConfirmResetAndDisable(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ConfirmResetAndDisable",
                 data: data);
         }
 
@@ -3826,6 +3846,76 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Editor",
+                data: data);
+        }
+
+        public static string EditorColumnsPopupAttachments(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EditorColumnsPopupAttachments",
+                data: data);
+        }
+
+        public static string EditorColumnsPopupBasic(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EditorColumnsPopupBasic",
+                data: data);
+        }
+
+        public static string EditorColumnsPopupCheck(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EditorColumnsPopupCheck",
+                data: data);
+        }
+
+        public static string EditorColumnsPopupClass(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EditorColumnsPopupClass",
+                data: data);
+        }
+
+        public static string EditorColumnsPopupDate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EditorColumnsPopupDate",
+                data: data);
+        }
+
+        public static string EditorColumnsPopupDescription(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EditorColumnsPopupDescription",
+                data: data);
+        }
+
+        public static string EditorColumnsPopupNum(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EditorColumnsPopupNum",
                 data: data);
         }
 
@@ -7919,6 +8009,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Option(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Option",
+                data: data);
+        }
+
         public static string OptionList(
             Context context,
             params string[] data)
@@ -11099,6 +11199,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UseColumnsExtension(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseColumnsExtension",
+                data: data);
+        }
+
         public static string UseCustomDesign(
             Context context,
             params string[] data)
@@ -11316,6 +11426,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UserManual",
+                data: data);
+        }
+
+        public static string UserManualUrl(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UserManualUrl",
                 data: data);
         }
 
