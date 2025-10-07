@@ -63,16 +63,37 @@ $p.markup = function (markdownValue, enableLightBox, encoded, dataId) {
     }
 
     function replaceUrl(text, enableLightBox, dataId) {
-        var regex_i = /(!\[[^\]]+\]\(.+?\))/gi;
-        var regex_t = /(\[[^\]]+\]\(.+?\))/gi;
+        // regex_linkはmarkdown.jsと同じ正規表現を使用
+        // https://github.com/markedjs/marked/blob/dbb32d473b675913452ec75c05898f8d75b432c1/src/rules.ts#L341
+        function edit(regex, opt = '') {
+            const other_caret = /(^|[^\[])\^/g;
+            let source = typeof regex === 'string' ? regex : regex.source;
+            const obj = {
+                replace: (name, val) => {
+                    let valSource = typeof val === 'string' ? val : val.source;
+                    valSource = valSource.replace(other_caret, '$1');
+                    source = source.replace(name, valSource);
+                    return obj;
+                },
+                getRegex: () => {
+                    return new RegExp(source, opt);
+                },
+            };
+            return obj;
+        }
+        const _inlineLabel = /(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`[^`]*`|[^\[\]\\`])*?/;
+        const regex_link = edit(/!?\[(label)\]\(\s*(href)(?:(?:[ \t]*(?:\n[ \t]*)?)(title))?\s*\)/, "g")
+            .replace('label', _inlineLabel)
+            .replace('href', /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/)
+            .replace('title', /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/)
+            .getRegex();
         var regex = /(\b(https?|notes|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
         var anchorTargetBlank = $('#AnchorTargetBlank').length === 1;
         return text
-            .replace(regex_i, function ($1) {
-                return getEncordedImgTag(address($1), title($1), enableLightBox, dataId);
-            })
-            .replace(regex_t, function ($1) {
-                return getEncordedATag(address($1), title($1), anchorTargetBlank);
+            .replace(regex_link, function ($1, $2, $3, $4) {
+                return $1.startsWith("!")
+                    ? getEncordedImgTag(encodeURI($3), $2, enableLightBox, dataId)
+                    : getEncordedATag(encodeURI($3), $2, anchorTargetBlank);
             })
             .replace(regex, function ($1) {
                 return $1.slice(-1) != '"'
