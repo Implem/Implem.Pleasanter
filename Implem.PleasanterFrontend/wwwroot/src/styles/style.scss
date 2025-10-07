@@ -702,6 +702,53 @@ input {
         &:has(~ .control-markdown.error) {
             border: solid 1px var(--warning-color);
         }
+        ~ .ui-icon {
+            padding: 0;
+            margin: 0;
+            font-family: 'Material Symbols Outlined';
+            font-size: 16px;
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+            font-style: normal;
+            font-weight: normal;
+            font-feature-settings: 'liga';
+            line-height: 1;
+            color: var(--control-border-focus);
+            text-indent: 0;
+            text-transform: none;
+            letter-spacing: normal;
+            overflow-wrap: normal;
+            white-space: nowrap;
+            cursor: pointer;
+            background: none;
+            direction: ltr;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizelegibility;
+            -webkit-font-smoothing: antialiased;
+            &::after {
+                display: block;
+                line-height: 1;
+            }
+            &.ui-icon-pencil {
+                &::after {
+                    content: 'edit';
+                }
+            }
+            &.ui-icon-image {
+                &::after {
+                    content: 'imagesmode';
+                }
+            }
+            &.ui-icon-video {
+                margin-left: 4px;
+                &::after {
+                    content: 'add_a_photo';
+                }
+            }
+        }
     }
     .control-markdown {
         border: 1px solid var(--control-border-focus);
