@@ -920,10 +920,6 @@
         #EditorSettingsEditor .field-control #ToEnableEditorColumns {
             margin-right: 50px;
         }
-        #EditorSettingsEditor #DoNotHaveEnoughColumnsField,
-        #EditorSettingsEditor #DoNotHaveEnoughColumnsField .field-control .container-normal {
-            width: 200%;
-        }
         #StyleForm .command-center,
         #ScriptForm .command-center,
         #HtmlForm .command-center,
@@ -968,10 +964,6 @@
             .editor-columns-spacer {
                 flex: 0 0 var(--editor-mid-gap-responsive);
                 min-width: var(--editor-mid-gap-responsive);
-            }
-
-            #DoNotHaveEnoughColumnsField {
-                width: 100%;
             }
         }
     }

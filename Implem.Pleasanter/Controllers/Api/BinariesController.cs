@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Controllers.Api
                 api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
-                ? BinaryUtilities.ApiDonwload(
+                ? BinaryUtilities.ApiDownload(
                     context: context,
                     guid: guid)
                 : ApiResults.Unauthorized(context: context);
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Controllers.Api
             {
                 return null;
             }
-            var file = BinaryUtilities.Donwload(
+            var file = BinaryUtilities.Download(
                 context: context,
                 guid: guid.ToUpper());
             if (file == null)

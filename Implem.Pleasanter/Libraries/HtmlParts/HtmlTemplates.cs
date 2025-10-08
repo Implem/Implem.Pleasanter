@@ -307,6 +307,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             ss: ss,
                             view: view)
+                        .RecommendGuide(
+                            context: context,
+                            ss: ss)
                         .Title(
                             context: context,
                             ss: ss,

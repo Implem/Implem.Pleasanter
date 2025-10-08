@@ -6879,8 +6879,6 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
-            var showLinkText = !Parameters.DisableAds()
-                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return hb
                 .FieldSelectable(
                     controlId: "EditorColumns",
@@ -7007,18 +7005,6 @@ namespace Implem.Pleasanter.Models
                                     setSearchOptionButton: true,
                                     searchOptionId: "OpenSearchEditorColumnDialog",
                                     searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")))
-                .Div(
-                    id: "DoNotHaveEnoughColumnsField",
-                    css: "fieldset-inner-bottom is-right",
-                    action: () => hb
-                        .A(
-                            text: Displays.DoNotHaveEnoughColumns(context: context),
-                            href: Parameters.General.RecommendUrl1.Params(
-                                Parameters.General.PleasanterSource,
-                                "enterprise",
-                                "editor-settings"),
-                            target: "_blank"),
-                    _using: showLinkText)
                 .Hidden(
                     controlId: "SearchEditorColumnDialogInput",
                     css: "always-send",
@@ -7255,16 +7241,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Div(
                     id: "DoNotHaveEnoughColumnsField",
-                    css: "fieldset-inner-bottom is-right",
-                    action: () => hb
-                        .A(
-                            text: Displays.DoNotHaveEnoughColumns(context: context),
-                            href: Parameters.General.RecommendUrl1.Params(
-                                Parameters.General.PleasanterSource,
-                                "enterprise",
-                                "editor-settings"),
-                            target: "_blank"),
-                    _using: showLinkText)
+                    css: "fieldset-inner-bottom is-right")
                 .Hidden(
                     controlId: "SearchEditorColumnDialogInput",
                     css: "always-send",

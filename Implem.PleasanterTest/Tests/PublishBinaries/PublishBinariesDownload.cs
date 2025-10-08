@@ -116,7 +116,7 @@ namespace Implem.PleasanterTest.Tests.PublishBinaries
 
         private static bool Results(Context context, string guid)
         {
-            var file = BinaryUtilities.Donwload(
+            var file = BinaryUtilities.Download(
                 context: context,
                 guid: guid)
                     ?.FileStream();

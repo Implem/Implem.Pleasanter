@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var file = BinaryUtilities.Donwload(context: context, guid: guid);
+            var file = BinaryUtilities.Download(context: context, guid: guid);
             log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
             var result = FileContentResults.FileStreamResult(file: file);
             if (result == null)
@@ -66,19 +66,20 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var file = BinaryUtilities.Donwload(
+            var file = BinaryUtilities.Download(
                 context: context,
-                guid: guid)
-                    ?.FileStream();
+                guid: guid);
             log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
-            var result = file != null
-                ? new FileContentResult(file.FileContents, file.ContentType)
-                : null;
-            if (result == null)
+            if (file == null)
             {
                 return RedirectToAction("notfound", "errors");
             }
-            return File(result.FileContents, result.ContentType, result.FileDownloadName);
+            if (Implem.DefinitionAccessor.Parameters.BinaryStorage.IsContentPreviewable(file.ContentType))
+            {
+                var result = file.FileStream();
+                return File(result.FileContents, result.ContentType);
+            }
+            return FileContentResults.FileStreamResult(file: file);
         }
     }
 }

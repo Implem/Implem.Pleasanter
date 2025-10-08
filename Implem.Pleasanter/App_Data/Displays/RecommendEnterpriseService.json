@@ -1,0 +1,34 @@
+﻿{
+    "Id": "RecommendEnterpriseService",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "With the Enterprise Edition, you can expand up to 900 items. Experience the true potential of Pleasanter with the free trial."
+        },
+        {
+            "Language": "zh",
+            "Body": "在企业版中，最多可扩展至900个项目。通过免费试用，体验Pleasanter的真正潜力。"
+        },
+        {
+            "Language": "ja",
+            "Body": "Enterprise Editionなら最大900個まで項目を拡張可能。 無料のトライアルでプリザンターの真の可能性を実感してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Mit der Enterprise Edition können Sie bis zu 900 Elemente erweitern. Erleben Sie das volle Potenzial von Pleasanter mit der kostenlosen Testversion."
+        },
+        {
+            "Language": "ko",
+            "Body": "엔터프라이즈 에디션에서는 최대 900개의 항목을 확장할 수 있습니다. 무료 체험을 통해 Pleasanter의 진정한 가능성을 경험해 보세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Con la Edición Enterprise, puedes ampliar hasta 900 elementos. Descubre el verdadero potencial de Pleasanter con la prueba gratuita."
+        },
+        {
+            "Language": "vn",
+            "Body": "Với Phiên bản Enterprise, bạn có thể mở rộng lên đến 900 mục. Hãy trải nghiệm tiềm năng thực sự của Pleasanter với bản dùng thử miễn phí."
+        }
+    ]
+}
