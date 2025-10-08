@@ -25,5 +25,13 @@
     "ImageLimitSize": null,
     "ThumbnailLimitSize": null,
     "ThumbnailMinSize": 100,
-    "ThumbnailMaxSize": 1000
+    "ThumbnailMaxSize": 1000,
+    "BrowserAllowMimeTypes": [
+        "application/pdf",
+        "text/plain",
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp"
+    ]
 }

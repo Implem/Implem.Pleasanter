@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Controllers
@@ -151,7 +153,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var file = BinaryUtilities.Donwload(context: context, guid: guid);
+            var file = BinaryUtilities.Download(context: context, guid: guid);
             log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
             var result = FileContentResults.FileStreamResult(file: file);
             if (result == null)
@@ -181,19 +183,20 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var file = BinaryUtilities.Donwload(
+            var file = BinaryUtilities.Download(
                 context: context,
-                guid: guid)
-                    ?.FileStream();
+                guid: guid);
             log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
-            var result = file != null
-                ? new FileContentResult(file.FileContents, file.ContentType)
-                : null;
-            if (result == null)
+            if (file == null)
             {
                 return RedirectToAction("notfound", "errors");
             }
-            return File(result.FileContents, result.ContentType);
+            if (Parameters.BinaryStorage.IsContentPreviewable(file.ContentType))
+            {
+                var result = file.FileStream();
+                return File(result.FileContents, result.ContentType);
+            }
+            return FileContentResults.FileStreamResult(file: file);
         }
 
         [HttpGet]
@@ -208,9 +211,15 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(
                 context: context,
                 responseSize: result?.FileContents?.Length ?? 0);
-            return result != null
-                ? File(result.FileContents, result.ContentType)
-                : null;
+            if (result == null)
+            {
+                return null;
+            }
+            if (Parameters.BinaryStorage.IsContentPreviewable(result.ContentType))
+            {
+                return File(result.FileContents, result.ContentType);
+            }
+            return FileContentResults.FileStreamResult(file: file);
         }
 
         [HttpPost]
