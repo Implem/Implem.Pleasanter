@@ -1,7 +1,7 @@
 {
     "name": "wwwroot",
     "private": true,
-    "version": "0.0.0",
+    "version": "1.4.21.0",
     "type": "commonjs",
     "scripts": {
         "dev": "npm-run-all --parallel watch:*",
