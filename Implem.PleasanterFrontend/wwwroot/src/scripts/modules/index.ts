@@ -1,4 +1,5 @@
 import './datefield.ts';
+import './displaynone.ts';
 import './codeEditor/codeEditor.ts';
 import './richTextEditor/richTextEditor.ts';
 import './uiCarousel/uiCarousel.ts';

@@ -1834,6 +1834,45 @@ body {
     }
 }
 
+/* #Application > #RecommendGuide */
+#RecommendGuide {
+    > div {
+        position: static;
+        float: none;
+        padding: 10px 16px 8px;
+        margin: 0;
+        color: var(--guide-text);
+        background-color: var(--guide-bg);
+        border: none;
+        border-bottom: 1px solid var(--base-border);
+        border-radius: 0;
+        a {
+            color: var(--recommend-guide-link-text) !important;
+            text-decoration: none;
+        }
+        .material-symbols-sharp.display-none-btn {
+            font-size: 16px;
+            line-height: 1;
+            color: var(--guide-text);
+            cursor: pointer;
+        }
+        .md {
+            color: var(--guide-text);
+            p {
+                margin-bottom: 0;
+                + * {
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+    .recommend-guide-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
 /* #Application > #TitleContainer */
 #TitleContainer {
     display: flex;
@@ -2475,10 +2514,6 @@ body {
                 gap: 12px;
                 align-items: center;
             }
-        }
-
-        #DoNotHaveEnoughColumnsField {
-            grid-column: 1 / -1;
         }
 
         .popup {
