@@ -20,6 +20,7 @@
             {
                 "ignoreFontFamilies": [
                     "Material Symbols Sharp",
+                    "Material Symbols Outlined",
                     "responsive"
                 ]
             }
