@@ -643,7 +643,7 @@ namespace Implem.Pleasanter.Libraries.Models
             }
             if (selected.Any() &&
                 !selected
-                    .Where(o => !(column.Type == Column.Types.User && o == "Own"))
+                    .Where(o => !(column.Type == Column.Types.User && (o == "Own" || o == "\t")))
                     .All(o => column.ChoiceHash.ContainsKey(o)))
             {
                 column.SiteSettings.SetChoiceHash(
