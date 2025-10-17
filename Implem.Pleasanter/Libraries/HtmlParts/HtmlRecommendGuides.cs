@@ -53,8 +53,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             const string editAction = "edit";
             if (context.Action != editAction ||
-                context.RecordTitle != null ||
-                !ss.IsTable())
+                !ss.IsSite(context))
             {
                 return false;
             }
