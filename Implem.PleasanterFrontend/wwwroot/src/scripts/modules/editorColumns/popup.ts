@@ -322,7 +322,10 @@ const buildPopupContents = (dataType: string) => {
 
     const getAnchorTag = (dataTypeLower: string, dataType: string, isBasic: boolean) => {
         const suffix = isBasic ? 'column' : dataTypeLower;
-        const userManualUrl = `${$p.display('UserManualUrl')}${suffix}`;
+        const userManualUrlBase = `${$p.display('UserManualUrl')}${suffix}`;
+        const utmSource = (document.getElementById('utmSource') as HTMLInputElement | null)?.value ?? '';
+        const userManualUrlParameter = `?utm_source=${encodeURIComponent(utmSource)}&utm_medium=app&utm_campaign=manual&utm_content=table-management-tooltip`;
+        const userManualUrl = `${userManualUrlBase}${userManualUrlParameter}`;
         const userManual = `${$p.display(dataType)}${$p.display('UserManual')}`;
         return `
 <div class="popup-body-link-label">

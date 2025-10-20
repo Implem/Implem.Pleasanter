@@ -4,7 +4,7 @@ import path from 'path';
 import { inputDir, outputDir, configParams, getEntries } from './vita.config.shared';
 
 export default defineConfig({
-    ...configParams.build,
+    ...configParams,
     build: {
         ...configParams.build,
         emptyOutDir: true,

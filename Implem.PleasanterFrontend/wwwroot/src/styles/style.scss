@@ -702,6 +702,53 @@ input {
         &:has(~ .control-markdown.error) {
             border: solid 1px var(--warning-color);
         }
+        ~ .ui-icon {
+            padding: 0;
+            margin: 0;
+            font-family: 'Material Symbols Outlined';
+            font-size: 16px;
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+            font-style: normal;
+            font-weight: normal;
+            font-feature-settings: 'liga';
+            line-height: 1;
+            color: var(--control-border-focus);
+            text-indent: 0;
+            text-transform: none;
+            letter-spacing: normal;
+            overflow-wrap: normal;
+            white-space: nowrap;
+            cursor: pointer;
+            background: none;
+            direction: ltr;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizelegibility;
+            -webkit-font-smoothing: antialiased;
+            &::after {
+                display: block;
+                line-height: 1;
+            }
+            &.ui-icon-pencil {
+                &::after {
+                    content: 'edit';
+                }
+            }
+            &.ui-icon-image {
+                &::after {
+                    content: 'imagesmode';
+                }
+            }
+            &.ui-icon-video {
+                margin-left: 4px;
+                &::after {
+                    content: 'add_a_photo';
+                }
+            }
+        }
     }
     .control-markdown {
         border: 1px solid var(--control-border-focus);
@@ -1787,6 +1834,45 @@ body {
     }
 }
 
+/* #Application > #RecommendGuide */
+#RecommendGuide {
+    > div {
+        position: static;
+        float: none;
+        padding: 10px 16px 8px;
+        margin: 0;
+        color: var(--guide-text);
+        background-color: var(--guide-bg);
+        border: none;
+        border-bottom: 1px solid var(--base-border);
+        border-radius: 0;
+        a {
+            color: var(--recommend-guide-link-text) !important;
+            text-decoration: none;
+        }
+        .material-symbols-sharp.display-none-btn {
+            font-size: 16px;
+            line-height: 1;
+            color: var(--guide-text);
+            cursor: pointer;
+        }
+        .md {
+            color: var(--guide-text);
+            p {
+                margin-bottom: 0;
+                + * {
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+    .recommend-guide-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
 /* #Application > #TitleContainer */
 #TitleContainer {
     display: flex;
@@ -2180,11 +2266,105 @@ body {
         }
         #Comments {
             min-height: 100px;
+            ~ .ui-icon {
+                padding: 0;
+                margin: 0;
+                font-family: 'Material Symbols Outlined';
+                font-size: 16px;
+                font-variation-settings:
+                    'FILL' 1,
+                    'wght' 400,
+                    'GRAD' 0,
+                    'opsz' 24;
+                font-style: normal;
+                font-weight: normal;
+                font-feature-settings: 'liga';
+                line-height: 1;
+                color: var(--control-border-focus);
+                text-indent: 0;
+                text-transform: none;
+                letter-spacing: normal;
+                overflow-wrap: normal;
+                white-space: nowrap;
+                cursor: pointer;
+                background: none;
+                direction: ltr;
+                -moz-osx-font-smoothing: grayscale;
+                text-rendering: optimizelegibility;
+                -webkit-font-smoothing: antialiased;
+                &::after {
+                    display: block;
+                    line-height: 1;
+                }
+                &.ui-icon-pencil {
+                    &::after {
+                        content: 'edit';
+                    }
+                }
+                &.ui-icon-image {
+                    &::after {
+                        content: 'imagesmode';
+                    }
+                }
+                &.ui-icon-video {
+                    margin-left: 4px;
+                    &::after {
+                        content: 'add_a_photo';
+                    }
+                }
+            }
         }
         #CommentList {
             .control-markup {
                 background-color: transparent;
                 border-color: transparent;
+                ~ .ui-icon {
+                    padding: 0;
+                    margin: 0;
+                    font-family: 'Material Symbols Outlined';
+                    font-size: 16px;
+                    font-variation-settings:
+                        'FILL' 1,
+                        'wght' 400,
+                        'GRAD' 0,
+                        'opsz' 24;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-feature-settings: 'liga';
+                    line-height: 1;
+                    color: var(--control-border-focus);
+                    text-indent: 0;
+                    text-transform: none;
+                    letter-spacing: normal;
+                    overflow-wrap: normal;
+                    white-space: nowrap;
+                    cursor: pointer;
+                    background: none;
+                    direction: ltr;
+                    -moz-osx-font-smoothing: grayscale;
+                    text-rendering: optimizelegibility;
+                    -webkit-font-smoothing: antialiased;
+                    &::after {
+                        display: block;
+                        line-height: 1;
+                    }
+                    &.ui-icon-pencil {
+                        &::after {
+                            content: 'edit';
+                        }
+                    }
+                    &.ui-icon-image {
+                        &::after {
+                            content: 'imagesmode';
+                        }
+                    }
+                    &.ui-icon-video {
+                        margin-left: 4px;
+                        &::after {
+                            content: 'add_a_photo';
+                        }
+                    }
+                }
             }
             .control-markdown {
                 background-color: var(--editor-bg);
@@ -2428,10 +2608,6 @@ body {
                 gap: 12px;
                 align-items: center;
             }
-        }
-
-        #DoNotHaveEnoughColumnsField {
-            grid-column: 1 / -1;
         }
 
         .popup {
