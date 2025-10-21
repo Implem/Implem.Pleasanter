@@ -157,7 +157,7 @@
         Uuids: uuids,
         ColumnName: dataName,
         ControlId: controlId,
-        token: token,
+        Token: token,
         AttachmentsData: attachmentsData
     };
     var dataType = 'json';
