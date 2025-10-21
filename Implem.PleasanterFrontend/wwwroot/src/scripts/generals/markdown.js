@@ -84,7 +84,8 @@ $p.markup = function (markdownValue, enableLightBox, encoded, dataId) {
         const _inlineLabel = /(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`[^`]*`|[^\[\]\\`])*?/;
         const regex_link = edit(/!?\[(label)\]\(\s*(href)(?:(?:[ \t]*(?:\n[ \t]*)?)(title))?\s*\)/, "g")
             .replace('label', _inlineLabel)
-            .replace('href', /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/)
+            // href の部分で閉じ丸括弧 ')' と空白を含まないようにする（隣接するマークダウンが結合されるのを防ぐ）
+            .replace('href', /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f)]+/)
             .replace('title', /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/)
             .getRegex();
         var regex = /(\b(https?|notes|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
