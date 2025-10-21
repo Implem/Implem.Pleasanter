@@ -16,7 +16,9 @@ namespace Implem.Pleasanter.Libraries.Initializers
             var extensions = new ExtensionCollection(
                 context: context,
                 where: DataSources.Rds.ExtensionsWhere()
-                    .Disabled(false));
+                    .Disabled(false),
+                orderBy: DataSources.Rds.ExtensionsOrderBy()
+                    .Extensions_ExtensionName());
             if (extensions.Any())
             {
                 Parameters.ExtendedFields = Parameters.ExtendedFields ?? new List<ExtendedField>();
