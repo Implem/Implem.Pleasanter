@@ -2012,7 +2012,9 @@ namespace Implem.Pleasanter.Models
             var body = ss.LabelTextToColumnName(bodyTemplate);
             //表示対象のサイトID一覧から、サイト設定の辞書を作成（Key: SiteId,Value: SiteSettings）
             //JoinedSsHashにある場合はそちらを利用し、ない場合は作成する
-            var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
+            //サイトにアクセス権がないが、レコードのアクセス権がある場合に対応するため
+            //ss.AllowedIntegratedSites ではなく、ss.GetIntegratedSites() を利用する
+            var ssHash = ss.GetIntegratedSites(context: context)?.Distinct().ToDictionary(
                 siteId => siteId,
                 siteId => ss.JoinedSsHash?.Get(siteId)
                     ?? SiteSettingsUtilities.Get(
@@ -2084,11 +2086,15 @@ namespace Implem.Pleasanter.Models
             var title = ss.LabelTextToColumnName(titleTemplate);
             var body = ss.LabelTextToColumnName(bodyTemplate);
             //表示対象のサイトID一覧から、サイト設定の辞書を作成（Key: SiteId,Value: SiteSettings）
-            var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
+            //JoinedSsHashにある場合はそちらを利用し、ない場合は作成する
+            //サイトにアクセス権がないが、レコードのアクセス権がある場合に対応するため
+            //ss.AllowedIntegratedSites ではなく、ss.GetIntegratedSites() を利用する
+            var ssHash = ss.GetIntegratedSites(context: context)?.Distinct().ToDictionary(
                 siteId => siteId,
-                siteId => SiteSettingsUtilities.Get(
-                    context: context,
-                    siteId: siteId))
+                siteId => ss.JoinedSsHash?.Get(siteId)
+                    ?? SiteSettingsUtilities.Get(
+                        context: context,
+                        siteId: siteId))
                 ?? new Dictionary<long, SiteSettings>();
             return issues
                 .Select(model =>
