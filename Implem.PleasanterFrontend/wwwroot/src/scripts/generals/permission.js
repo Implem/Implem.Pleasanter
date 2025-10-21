@@ -17,7 +17,8 @@ $p.openPermissionsDialog = function ($control) {
             modal: true,
             width: '700px',
             appendTo: '#Editor',
-            resizable: false
+            resizable: false,
+            close: $p.destroyPermissionsDialog
         });
     }
 };
@@ -45,7 +46,8 @@ $p.openPermissionForCreatingDialog = function ($control) {
             modal: true,
             width: '700px',
             appendTo: '#Editor',
-            resizable: false
+            resizable: false,
+            close: $p.destroyPermissionsDialog
         });
     }
 };
@@ -64,7 +66,8 @@ $p.openPermissionForUpdatingDialog = function ($control) {
             modal: true,
             width: '700px',
             appendTo: '#Editor',
-            resizable: false
+            resizable: false,
+            close: $p.destroyPermissionsDialog
         });
     }
 };
@@ -85,4 +88,10 @@ $p.changePermissionForUpdating = function ($control) {
     data.CurrentPermissionForUpdating = mainFormData.CurrentPermissionForUpdating;
     data.CurrentPermissionForUpdatingAll = mainFormData.CurrentPermissionForUpdatingAll;
     $p.send($control);
+};
+
+$p.destroyPermissionsDialog = function (e) {
+    const dialog = $(e.target);
+    dialog.dialog('destroy');
+    dialog.empty();
 };
