@@ -3095,16 +3095,14 @@ body:not(:has(#Editor)) {
             border-bottom: solid 1px var(--grid-cell-border);
             border-left: none;
             box-shadow: 1px 0 0 var(--grid-cell-bg);
-            & {
-                input {
-                    width: 100%;
-                    margin: 0 auto;
-                    cursor: pointer;
-                }
-                &:has(.grid-title-body),
-                &:has(.comment) {
-                    padding: 4px 4px 0;
-                }
+            input {
+                width: 100%;
+                margin: 0 auto;
+                cursor: pointer;
+            }
+            &:has(.grid-title-body),
+            &:has(.comment) {
+                padding: 4px 4px 0;
             }
             &:first-child {
                 border-left: 1px solid var(--grid-cell-vborder);
@@ -3127,6 +3125,10 @@ body:not(:has(#Editor)) {
         }
     }
     > tbody {
+        th {
+            color: var(--nonColor03);
+            background-color: var(--nonColor13);
+        }
         &:last-child {
             .grid-row:last-child {
                 > th,
@@ -3923,12 +3925,23 @@ body:has(input#Controller[value='syslogs']) {
             margin-left: 8px;
         }
     }
+    .grid:has(.crosstab-row) {
+        border-right: 1px solid var(--base-border);
+        border-bottom: 1px solid var(--base-border);
+        border-left: 1px solid var(--base-border);
+    }
     .crosstab-row {
         th {
-            border-right: 1px solid var(--base-border) !important;
+            border-top: 1px solid var(--nonColor16);
+            border-right: 1px solid var(--base-border);
+            border-bottom: 0;
+            + td {
+                border-left: 0;
+            }
         }
         td {
-            border-bottom: 1px solid var(--base-border);
+            border-top: 1px solid var(--base-border);
+            border-bottom: 0;
         }
     }
 }
@@ -3936,6 +3949,11 @@ body:has(input#Controller[value='syslogs']) {
 /* [ViewModeContainer] Calendar > #Calendar */
 #CalendarBody,
 .grid-stack-item .CalendarBody {
+    .grid {
+        border-right: 1px solid var(--base-border);
+        border-bottom: 1px solid var(--base-border);
+        border-left: 1px solid var(--base-border);
+    }
     .calendar-header {
         color: var(--invert-text);
         background-color: var(--primaryColor);
@@ -3950,6 +3968,7 @@ body:has(input#Controller[value='syslogs']) {
         th {
             text-align: center;
             background-color: var(--primaryColor);
+            box-shadow: none;
             a {
                 color: var(--invert-text);
             }
@@ -3958,7 +3977,10 @@ body:has(input#Controller[value='syslogs']) {
     td {
         position: static;
         padding: 4px;
-        border: 1px solid var(--base-border);
+        border-top: 1px solid var(--base-border);
+        border-right: 1px solid var(--base-border);
+        border-bottom: 0;
+        border-left: 0;
         &.hover {
             background-color: var(--primaryColor);
         }
@@ -4180,25 +4202,29 @@ body:has(input#Controller[value='syslogs']) {
         width: 100%;
     }
     .kamban-container {
-        white-space: normal;
         background-color: var(--grid-cell-bg);
         &.hover {
             background-color: var(--grid-cell-hover);
         }
     }
+    .grid:has(.kamban-row) {
+        border-right: 1px solid var(--base-border);
+        border-bottom: 1px solid var(--base-border);
+        border-left: 1px solid var(--base-border);
+    }
     .kamban-row {
-        border-top: solid 1px var(--grid-cell-border);
-        border-bottom: solid 1px var(--grid-cell-border);
         th {
-            border-bottom: solid 1px var(--grid-cell-border);
+            border-top: 1px solid var(--nonColor16);
+            border-right: 1px solid var(--base-border);
+            border-bottom: 0;
+            + td {
+                border-left: 0;
+            }
         }
         td {
             position: static;
-        }
-        + .kamban-row {
-            td {
-                border-top: solid 1px var(--grid-cell-border);
-            }
+            border-top: 1px solid var(--base-border);
+            border-bottom: 0;
         }
     }
     .kamban-item {

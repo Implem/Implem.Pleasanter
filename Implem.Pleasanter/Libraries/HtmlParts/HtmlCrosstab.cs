@@ -281,6 +281,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 id: "Grid",
                 css: "fixed",
+                scrollable: false,
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(css: "ui-widget-header", action: () =>
