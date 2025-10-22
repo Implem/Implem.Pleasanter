@@ -40,6 +40,9 @@
     $(document).on('change', '.control-auto-postback:not(select[multiple])', function () {
         $p.controlAutoPostBack($(this));
     });
+    $(document).on('change', 'select.control-auto-postback[multiple].search.applied', function () {
+        $p.controlAutoPostBack($(this));
+    });
     $(document).on('change', '.datepicker.auto-postback', function () {
         $p.send($(this));
     });
