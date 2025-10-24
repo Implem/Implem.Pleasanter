@@ -1,13 +1,5 @@
 import css from './ui-modal.scss?inline';
 
-declare global {
-    interface Window {
-        $p: {
-            modal?: Record<string, UiModal>;
-        };
-    }
-}
-
 export class UiModal extends HTMLElement {
     static hasActiveModalCount: number = 0;
     private shadow: ShadowRoot;
@@ -42,7 +34,6 @@ export class UiModal extends HTMLElement {
 
         const id = this.id?.trim();
         if (id) {
-            window.$p ??= {};
             window.$p.modal ??= {};
             if (!(id in window.$p.modal)) {
                 window.$p.modal[id] = this;

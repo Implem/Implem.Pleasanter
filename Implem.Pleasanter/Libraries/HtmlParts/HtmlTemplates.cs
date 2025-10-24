@@ -307,6 +307,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             ss: ss,
                             view: view)
+                        .RecommendGuide(
+                            context: context,
+                            ss: ss)
                         .Title(
                             context: context,
                             ss: ss,
@@ -573,7 +576,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return context.Authenticated
                 && context.ContractSettings.Attachments() != false
-                && !context.Mobile
+                && (!context.Mobile || Parameters.Mobile.EnableMobileCamera)
                 && !context.Ajax
                     ? hb
                         .Div(
@@ -591,6 +594,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         controlCss: "button-icon button-positive",
                                         onClick: "$p.toShoot($(this));",
                                         icon: "ui-icon-video")
+                                    .Button(
+                                        controlId: "ChangeCamera",
+                                        text: Displays.ChangeCamera(context: context),
+                                        controlCss: "button-icon button-positive",
+                                        icon: "ui-icon-refresh")
                                     .Button(
                                         text: Displays.Cancel(context: context),
                                         controlCss: "button-icon button-neutral",

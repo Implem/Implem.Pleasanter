@@ -1,0 +1,34 @@
+﻿{
+    "Id": "EditorColumnsPopupNum",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "This item is used for numerical input. It can also be used as a spinner format where values can be changed with up and down buttons. Up to 26 items, from Number A to Number Z, can be used."
+        },
+        {
+            "Language": "zh",
+            "Body": "此项用于数值输入。也可作为带有上下按钮可更改数值的微调器形式使用。可使用从数值A到数值Z的26个项目。"
+        },
+        {
+            "Language": "ja",
+            "Body": "数値入力に使用する項目です。上下ボタンで値の変更可能なスピナー形式としても使用できます。数値A～数値Zまでの26項目を使用できます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieses Feld wird für die Eingabe numerischer Werte verwendet. Es kann auch als Spinner mit Auf- und Ab-Tasten zur Werteänderung genutzt werden. Es können bis zu 26 Felder von Zahl A bis Zahl Z verwendet werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 항목은 숫자 입력에 사용됩니다. 또한 위아래 버튼으로 값을 변경할 수 있는 스피너 형식으로 사용할 수 있습니다. 숫자 A부터 숫자 Z까지 총 26개 항목을 사용할 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Este elemento se utiliza para la entrada numérica. También puede usarse como un control giratorio (spinner) que permite cambiar valores con botones de subir y bajar. Se pueden utilizar hasta 26 elementos, desde Número A hasta Número Z."
+        },
+        {
+            "Language": "vn",
+            "Body": "Mục này được sử dụng để nhập số. Nó cũng có thể được sử dụng dưới dạng spinner với các nút lên và xuống để thay đổi giá trị. Có thể sử dụng tối đa 26 mục, từ Số A đến Số Z."
+        }
+    ]
+}

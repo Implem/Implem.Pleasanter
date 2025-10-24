@@ -1,0 +1,34 @@
+﻿{
+    "Id": "EditorColumnsPopupAttachments",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "This item is used to attach various files. The number of attachable files and their size can be specified. Up to 26 items, from Attachment A to Attachment Z, can be used."
+        },
+        {
+            "Language": "zh",
+            "Body": "此项用于附加各种文件。可以指定可附加的文件数量和文件大小。可使用从附件A到附件Z的26个项目。"
+        },
+        {
+            "Language": "ja",
+            "Body": "各種ファイルを添付するために使用する項目です。添付可能なファイル数、ファイルサイズを指定可能です。添付ファイルA～添付ファイルZまでの26項目を使用できます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieses Feld wird zum Anhängen verschiedener Dateien verwendet. Die Anzahl der anhängbaren Dateien und deren Größe können festgelegt werden. Es können bis zu 26 Felder von Anhang A bis Anhang Z verwendet werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 항목은 다양한 파일을 첨부하는 데 사용됩니다. 첨부 가능한 파일 수와 파일 크기를 지정할 수 있습니다. 첨부파일 A부터 첨부파일 Z까지 총 26개 항목을 사용할 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Este elemento se utiliza para adjuntar varios archivos. Se puede especificar el número y el tamaño de los archivos adjuntos. Se pueden utilizar hasta 26 elementos, desde Archivo adjunto A hasta Archivo adjunto Z."
+        },
+        {
+            "Language": "vn",
+            "Body": "Mục này được sử dụng để đính kèm các tệp khác nhau. Có thể chỉ định số lượng và kích thước tệp được đính kèm. Có thể sử dụng tối đa 26 mục, từ Tệp đính kèm A đến Tệp đính kèm Z."
+        }
+    ]
+}

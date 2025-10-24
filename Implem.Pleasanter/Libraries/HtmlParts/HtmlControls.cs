@@ -189,27 +189,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         text: text);
                 case HtmlTypes.TextTypes.CodeEditor:
                     return hb.CodeEditor(
-                        attributes: new HtmlAttributes()
-                            .Id(controlId)
-                            .Name(controlId)
-                            .Class(controlCss)
-                            .Placeholder(placeholder)
-                            .Disabled(disabled)
-                            .DataAlwaysSend(alwaysSend)
-                            .DataId(dataId)
-                            .OnChange(onChange)
-                            .AutoComplete(autoComplete)
-                            .DataValidateRequired(validateRequired)
-                            .DataValidateNumber(validateNumber)
-                            .DataValidateDate(validateDate)
-                            .DataValidateEmail(validateEmail)
-                            .DataValidateEqualTo(validateEqualTo)
-                            .DataValidateMaxLength(validateMaxLength)
-                            .DataAction(action)
-                            .DataMethod(method)
-                            .DataLang(dataLang)
-                            .Add(attributes),
-                        text: text);
+                       action: () => hb.TextArea(
+                            attributes: new HtmlAttributes()
+                                .Id(controlId)
+                                .Name(controlId)
+                                .Class(controlCss)
+                                .Placeholder(placeholder)
+                                .Disabled(disabled)
+                                .DataAlwaysSend(alwaysSend)
+                                .DataId(dataId)
+                                .OnChange(onChange)
+                                .AutoComplete(autoComplete)
+                                .DataValidateRequired(validateRequired)
+                                .DataValidateNumber(validateNumber)
+                                .DataValidateDate(validateDate)
+                                .DataValidateEmail(validateEmail)
+                                .DataValidateEqualTo(validateEqualTo)
+                                .DataValidateMaxLength(validateMaxLength)
+                                .DataAction(action)
+                                .DataMethod(method)
+                                .DataLang(dataLang)
+                                .Add(attributes),
+                            text: text)
+                       );
                 case HtmlTypes.TextTypes.Password:
                     var isDummyField = controlCss
                         ?.Split(' ')
@@ -415,7 +417,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new HtmlAttributes()
                                 .Class("ui-icon ui-icon-video")
                                 .OnClick($"$p.openVideo('{controlId}');"),
-                            _using: !mobile)
+                            _using: (!mobile || Parameters.Mobile.EnableMobileCamera))
                         .TextBox(
                             controlId: controlId + ".upload-image-file",
                             controlCss: "hidden upload-image-file",
@@ -752,7 +754,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Checked(_checked)))
                         .Span(
                             attributes: new HtmlAttributes().Class("check-text"),
-                            action: () => {
+                            action: () =>
+                            {
                                 if (!controlOnly)
                                 {
                                     if (labelRaw != null)
@@ -768,7 +771,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     }
                                 }
                                 hb.Text(text: labelText);
-                            }));
+                            },
+                            _using: !controlOnly));
             }
             return hb;
         }
@@ -930,6 +934,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool setSearchOptionButton = false,
             string searchOptionId = null,
             string searchOptionFunction = null,
+            bool setMaterialSymbols = false,
             bool _using = true)
         {
             return _using
@@ -944,7 +949,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             selectedValueCollection: selectedValueCollection,
                             alwaysDataValue: alwaysDataValue,
                             action: action,
-                            method: method))
+                            method: method,
+                            setMaterialSymbols: setMaterialSymbols))
                     .SearchOptionButton(
                         setSearchOptionButton: setSearchOptionButton,
                         searchOptionId: searchOptionId,
@@ -978,6 +984,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysDataValue = false,
             string action = null,
             string method = null,
+            bool setMaterialSymbols = false,
             bool _using = true)
         {
             return _using
@@ -991,7 +998,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .SelectableItems(
                             listItemCollection: listItemCollection,
                             selectedValueTextCollection: selectedValueCollection,
-                            alwaysDataValue: alwaysDataValue))
+                            alwaysDataValue: alwaysDataValue,
+                            setMaterialSymbols: setMaterialSymbols))
                 : hb;
         }
 
@@ -1022,6 +1030,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             IEnumerable<string> selectedValueTextCollection = null,
             bool alwaysDataValue = false,
             bool basket = false,
+            bool setMaterialSymbols = false,
             bool _using = true)
         {
             if (_using)
@@ -1033,7 +1042,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 selectedValueTextCollection?.Contains(listItem.Key) == true
                                     ? "ui-widget-content ui-selected"
                                     : "ui-widget-content")
-                            .Title(listItem.Value?.Title)
+                            .Title(value: setMaterialSymbols
+                                ? listItem.Key
+                                : listItem.Value?.Title)
                             .DataOrder(listItem.Value?.Order)
                             .DataValue(
                                 listItem.Key,
@@ -1050,7 +1061,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             }
                             else
                             {
-                                hb.Text(text: listItem.Value?.Text);
+                                hb
+                                    .Span(
+                                        css: "material-symbols-sharp is-fill",
+                                        action: () => hb
+                                            .Text(
+                                                text: GetMaterialSymbolName(listItem.Key)),
+                                        _using: setMaterialSymbols)
+                                    .Text(text: listItem.Value?.Text);
                             }
                         }));
             }
@@ -1188,6 +1206,111 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .OnClick($"$p.deleteAttachment($('#{controlId}'), $(this));"),
                             _using: !readOnly && (allowDelete || added == true)))
                  : hb;
+        }
+
+        public static HtmlBuilder MaterialIconButton(
+            this HtmlBuilder hb,
+            string id = null,
+            string onClick = null,
+            string action = null,
+            string method = null,
+            string iconName = null,
+            bool isFill = true,
+            bool _using = true)
+        {
+            var css = $"material-symbols-sharp{(isFill ? " is-fill" : "")}";
+            return hb.Button(
+                    attributes: new HtmlAttributes()
+                        .Id(id)
+                        .Class("button-icon ui-button ui-corner-all ui-widget applied")
+                        .OnClick(onClick)
+                        .DataAction(action)
+                        .DataMethod(method),
+                    action: () => hb
+                        .Span(
+                            css: css,
+                            action: () => hb.Text(text: iconName)));
+        }
+
+        public static IReadOnlyDictionary<string, string> GetMaterialIconTypes(bool isListIcon = false)
+        {
+            var iconTypesMap = new Dictionary<string, string>
+            {
+                ["basic"] = "apps",
+                ["class"] = "text_fields",
+                ["num"] = "timer_10",
+                ["date"] = "calendar_month",
+                ["description"] = "edit_note",
+                ["check"] = "check",
+                ["attachments"] = "attach_file",
+            };
+            if (isListIcon)
+            {
+                iconTypesMap["_Links-"] = "add_link";
+                iconTypesMap["_Section-"] = "h_mobiledata";
+            }
+            return iconTypesMap;
+        }
+
+        private static string GetMaterialSymbolName(string target = null)
+        {
+            var materialIconTypes = GetMaterialIconTypes(isListIcon: true);
+            if (string.IsNullOrEmpty(target))
+            {
+                return materialIconTypes["basic"];
+            }
+            foreach (var key in materialIconTypes.Keys.OrderByDescending(k => k.Length))
+            {
+                if (target.StartsWith(key, StringComparison.OrdinalIgnoreCase))
+                {
+                    return materialIconTypes[key];
+                }
+            }
+            return materialIconTypes["basic"];
+        }
+
+        public static HtmlBuilder EditorColumnsFiltersButton(
+            this HtmlBuilder hb,
+            Context context,
+            bool isLeft = true)
+        {
+            var prefix = isLeft
+                ? "left"
+                : "right";
+            var css = isLeft
+                ? "EditorColumnsFilters"
+                : "EditorSourceColumnsFilters";
+            var materialIconTypes = GetMaterialIconTypes();
+            return hb.Div(
+                css: css,
+                action: () =>
+                    hb.Div(
+                        css: "command-left",
+                        action: () =>
+                        {
+                            foreach (var materialIconType in materialIconTypes)
+                            {
+                                hb.MaterialIconButton(
+                                    id: $"{prefix}-editor-columns-filter-button-{materialIconType.Key}",
+                                    iconName: materialIconType.Value);
+                            }
+                            hb.Div(
+                                css: "editor-columns-filter",
+                                action: () => hb
+                                    .Button(
+                                        id: $"{prefix}-editor-columns-filter-button-alt",
+                                        css: "button-icon ui-button",
+                                        action: () => hb
+                                            .Span(
+                                                css: "material-symbols-sharp is-fill",
+                                                action: () => hb.Text("filter_alt")))
+                                    .Input(
+                                        attributes: new HtmlAttributes()
+                                            .Id($"{prefix}-editor-columns-filter-input-alt")
+                                            .Class("control-textbox always-send")
+                                            .Type("text")
+                                            .Placeholder(value: Displays.Filter(context: context))));
+                        }));
         }
     }
 }

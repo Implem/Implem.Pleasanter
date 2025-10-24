@@ -1,0 +1,34 @@
+﻿{
+    "Id": "EditorColumnsPopupCheck",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "This item is used as a checkbox that represents two states: ON and OFF. Up to 26 items, from Check A to Check Z, can be used."
+        },
+        {
+            "Language": "zh",
+            "Body": "此项用作复选框，表示开启和关闭两种状态。可使用从检查A到检查Z的26个项目。"
+        },
+        {
+            "Language": "ja",
+            "Body": "チェックON、チェックOFFの2つの状態を表すチェックボックスとして使用する項目です。チェックA～チェックZまでの26項目を使用できます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieses Feld wird als Kontrollkästchen verwendet, das zwei Zustände darstellt: EIN und AUS. Es können bis zu 26 Felder von Check A bis Check Z verwendet werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 항목은 ON, OFF 두 가지 상태를 나타내는 체크박스로 사용됩니다. 체크 A부터 체크 Z까지 총 26개 항목을 사용할 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Este elemento se utiliza como una casilla de verificación que representa dos estados: Activado y Desactivado. Se pueden utilizar hasta 26 elementos, desde Verificación A hasta Verificación Z."
+        },
+        {
+            "Language": "vn",
+            "Body": "Mục này được sử dụng dưới dạng hộp kiểm thể hiện hai trạng thái: BẬT và TẮT. Có thể sử dụng tối đa 26 mục, từ Kiểm tra A đến Kiểm tra Z."
+        }
+    ]
+}

@@ -920,10 +920,6 @@
         #EditorSettingsEditor .field-control #ToEnableEditorColumns {
             margin-right: 50px;
         }
-        #EditorSettingsEditor #DoNotHaveEnoughColumnsField,
-        #EditorSettingsEditor #DoNotHaveEnoughColumnsField .field-control .container-normal {
-            width: 200%;
-        }
         #StyleForm .command-center,
         #ScriptForm .command-center,
         #HtmlForm .command-center,
@@ -945,6 +941,29 @@
         body:not(:has(#Editor)) {
             #EditorTabsContainer {
                 width: 100%;
+            }
+        }
+
+        #EditorSettingsEditor:has(input#ThemeVersionOver2[type='hidden'][name='ThemeVersionOver2']) {
+            --editor-mid-gap-responsive: 50px;
+
+            & fieldset.fieldset.cf.enclosed.editor-columns {
+                padding-bottom: 0;
+
+                & {
+                    display: grid;
+                    grid-template-columns:
+                        minmax(250px, 1fr)
+                        var(--editor-mid-gap-responsive)
+                        minmax(250px, 1fr);
+                    align-items: start;
+                    overflow-x: auto;
+                }
+            }
+
+            .editor-columns-spacer {
+                flex: 0 0 var(--editor-mid-gap-responsive);
+                min-width: var(--editor-mid-gap-responsive);
             }
         }
     }

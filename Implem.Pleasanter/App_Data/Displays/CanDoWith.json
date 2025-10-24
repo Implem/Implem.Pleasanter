@@ -1,0 +1,34 @@
+﻿{
+    "Id": "CanDoWith",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": " Items Can Do"
+        },
+        {
+            "Language": "zh",
+            "Body": "项目可执行的操作"
+        },
+        {
+            "Language": "ja",
+            "Body": "項目でできること"
+        },
+        {
+            "Language": "de",
+            "Body": " M&#246;gliche Aktionen von Elementen"
+        },
+        {
+            "Language": "ko",
+            "Body": " 항목으로 할 수 있는 것"
+        },
+        {
+            "Language": "es",
+            "Body": " Lo que los elementos pueden hacer"
+        },
+        {
+            "Language": "vn",
+            "Body": " Những g&#236; c&#225;c mục c&#243; thể l&#224;m"
+        }
+    ]
+}

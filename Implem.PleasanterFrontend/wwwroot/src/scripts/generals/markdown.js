@@ -197,7 +197,7 @@ $p.uploadImage = function (controlId, file) {
     var url;
     if ($tr.length) {
         url = $('#BaseUrl').val() + $tr.data('id') + '/binaries/uploadimage';
-    } else if ($editorInDialogRecordId.length) {
+    } else if ($('#EditorDialog').is(':visible') && $editorInDialogRecordId.length) {
         url = $('#BaseUrl').val() + $editorInDialogRecordId.val() + '/binaries/uploadimage';
     } else {
         url = $('.main-form').attr('action').replace('_action_', 'binaries/uploadimage');

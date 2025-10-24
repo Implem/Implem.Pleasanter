@@ -64,10 +64,22 @@ namespace Implem.PleasanterTest.Tests.Items
                     target: "#NewRowId"),
                 JsonData.ExistsOne(
                     method: "SetFormData",
-                    target: $"Issues_Body_{Initializer.Titles.Get("WBS")}_-1"),
+                    target: $"Issues_ClassA_{Initializer.Titles.Get("WBS")}_-1"),
                 JsonData.ExistsOne(
                     method: "SetFormData",
-                    target: $"Issues_Locked_{Initializer.Titles.Get("WBS")}_-1"),
+                    target: $"Issues_NumA_{Initializer.Titles.Get("WBS")}_-1"),
+                JsonData.ExistsOne(
+                    method: "SetFormData",
+                    target: $"Issues_DateA_{Initializer.Titles.Get("WBS")}_-1"),
+                JsonData.ExistsOne(
+                    method: "SetFormData",
+                    target: $"Issues_DescriptionA_{Initializer.Titles.Get("WBS")}_-1"),
+                JsonData.ExistsOne(
+                    method: "SetFormData",
+                    target: $"Issues_CheckA_{Initializer.Titles.Get("WBS")}_-1"),
+                JsonData.ExistsOne(
+                    method: "SetFormData",
+                    target: $"Issues_AttachmentsA_{Initializer.Titles.Get("WBS")}_-1"),
                 JsonData.ExistsOne(
                     method: "SetValue",
                     target: "#GridOffset"),

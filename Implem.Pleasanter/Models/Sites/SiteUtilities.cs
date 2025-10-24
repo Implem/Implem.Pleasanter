@@ -6660,149 +6660,14 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var showLinkText = !Parameters.DisableAds()
-                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return hb.TabsPanelField(id: "EditorSettingsEditor", action: () => hb
                 .FieldSet(
-                    css: " enclosed",
+                    css: " enclosed editor-columns",
                     legendText: Displays.EditorSettings(context: context),
                     action: () => hb
-                        .FieldSelectable(
-                            controlId: "EditorColumns",
-                            fieldCss: "field-vertical",
-                            controlContainerCss: "container-selectable",
-                            controlWrapperCss: " h250",
-                            controlCss: " always-send send-all",
-                            labelText: Displays.CurrentSettings(context: context),
-                            listItemCollection: ss.EditorSelectableOptions(
-                                context: context,
-                                tabId: 0),
-                            commandOptionPositionIsTop: true,
-                            commandOptionAction: () => hb
-                                .Div(css: "command-center", action: () => hb
-                                    .Hidden(
-                                        controlId: "EditorColumnsNessesaryMessage",
-                                        value: Messages.CanNotDisabled(
-                                            context: context,
-                                            data: "COLUMNNAME").Text)
-                                    .Hidden(
-                                        controlId: "EditorColumnsNessesaryColumns",
-                                        value: Jsons.ToJson(ss.GetEditorColumnNames()
-                                            ?.Where(o => ss.EditorColumn(o)?.Required == true)
-                                            .Select(o => o)))
-                                    .Hidden(
-                                            controlId: "EditorColumnsTabsTarget",
-                                            css: " always-send",
-                                            value: "0")
-                                    .FieldDropDown(
-                                        context: context,
-                                        controlId: "EditorColumnsTabs",
-                                        fieldCss: "w300",
-                                        controlCss: " auto-postback always-send",
-                                        optionCollection: ss.TabSelectableOptions(
-                                            context: context,
-                                            habGeneral: true),
-                                        addSelectedValue: false,
-                                        action: "SetSiteSettings",
-                                        method: "post")
-                                    .Button(
-                                        controlId: "MoveUpEditorColumns",
-                                        text: Displays.MoveUp(context: context),
-                                        controlCss: "button-icon",
-                                        onClick: "$p.moveColumns(event, $(this),'Editor');",
-                                        icon: "ui-icon-circle-triangle-n")
-                                    .Button(
-                                        controlId: "MoveDownEditorColumns",
-                                        text: Displays.MoveDown(context: context),
-                                        controlCss: "button-icon",
-                                        onClick: "$p.moveColumns(event, $(this),'Editor');",
-                                        icon: "ui-icon-circle-triangle-s")
-                                    .Button(
-                                        controlId: "OpenEditorColumnDialog",
-                                        text: Displays.AdvancedSetting(context: context),
-                                        controlCss: "button-icon",
-                                        onClick: "$p.openEditorColumnDialog($(this));",
-                                        icon: "ui-icon-gear",
-                                        action: "SetSiteSettings",
-                                        method: "put")
-                                    .Button(
-                                        controlId: "ToDisableEditorColumns",
-                                        controlCss: "button-icon",
-                                        text: Displays.ToDisable(context: context),
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-e",
-                                        action: "SetSiteSettings",
-                                        method: "post")))
-                        .FieldSelectable(
-                            controlId: "EditorSourceColumns",
-                            fieldCss: "field-vertical",
-                            controlContainerCss: "container-selectable",
-                            controlWrapperCss: " h250",
-                            labelText: Displays.OptionList(context: context),
-                            listItemCollection: ss.EditorSelectableOptions(
-                                context: context,
-                                enabled: false),
-                            commandOptionPositionIsTop: true,
-                            commandOptionAction: () => hb
-                                .Div(css: "command-center", action: () => hb
-                                    .FieldDropDown(
-                                        context: context,
-                                        controlId: "EditorSourceColumnsType",
-                                        fieldCss: "w300",
-                                        controlCss: " auto-postback always-send",
-                                        optionCollection: new Dictionary<string, ControlData>
-                                        {
-                                            {
-                                                "Columns",
-                                                new ControlData(
-                                                    text: Displays.Column(context: context))
-                                            },
-                                            {
-                                                "Links",
-                                                new ControlData(
-                                                    text: Displays.Links(context: context))
-                                            },
-                                            {
-                                                "Others",
-                                                new ControlData(
-                                                    text: Displays.Others(context: context),
-                                                    attributes: new Dictionary<string, string>
-                                                    {
-                                                        { "data-type", "multiple"}
-                                                    })
-                                            }
-                                        },
-                                        addSelectedValue: false,
-                                        action: "SetSiteSettings",
-                                        method: "post")
-                                    .Button(
-                                        controlId: "ToEnableEditorColumns",
-                                        text: Displays.ToEnable(context: context),
-                                        controlCss: "button-icon",
-                                        onClick: "$p.enableColumns(event, $(this),'Editor', 'EditorSourceColumnsType');",
-                                        icon: "ui-icon-circle-triangle-w",
-                                        action: "SetSiteSettings",
-                                        method: "post")
-                                    .SearchOptionButton(
-                                        setSearchOptionButton: true,
-                                        searchOptionId: "OpenSearchEditorColumnDialog",
-                                        searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")))
-                        .Div(
-                            id: "DoNotHaveEnoughColumnsField",
-                            css: "fieldset-inner-bottom is-right",
-                            action: () => hb.A(
-                                text: Displays.DoNotHaveEnoughColumns(context: context),
-                                href: Parameters.General.RecommendUrl1.Params(
-                                    Parameters.General.PleasanterSource,
-                                    "enterprise",
-                                    "editor-settings"),
-                                target: "_blank"),
-                            _using: showLinkText)
-                        .Hidden(
-                            controlId: "SearchEditorColumnDialogInput",
-                            css: "always-send",
-                            action: "SetSiteSettings",
-                            method: "post"))
+                        .EditorSettings(
+                            context: context,
+                            ss: ss))
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.OtherColumnsSettings(context: context),
@@ -6992,6 +6857,410 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder EditorSettings(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
+        {
+            return context.ThemeVersionOver2_0()
+                ? hb.EditorSettingsThemeVersion2_0(
+                    context: context,
+                    ss: ss)
+                : hb.EditorSettingsThemeVersion1_0(
+                    context: context,
+                    ss: ss);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditorSettingsThemeVersion1_0(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
+        {
+            return hb
+                .FieldSelectable(
+                    controlId: "EditorColumns",
+                    fieldCss: "field-vertical",
+                    controlContainerCss: "container-selectable",
+                    controlWrapperCss: " h250",
+                    controlCss: " always-send send-all",
+                    labelText: Displays.CurrentSettings(context: context),
+                    listItemCollection: ss.EditorSelectableOptions(
+                        context: context,
+                        tabId: 0),
+                    commandOptionPositionIsTop: true,
+                    commandOptionAction: () => hb
+                        .Div(
+                            css: "command-center",
+                            action: () => hb
+                                .Hidden(
+                                    controlId: "EditorColumnsNessesaryMessage",
+                                    value: Messages.CanNotDisabled(
+                                        context: context,
+                                        data: "COLUMNNAME").Text)
+                                .Hidden(
+                                    controlId: "EditorColumnsNessesaryColumns",
+                                    value: Jsons.ToJson(
+                                        ss.GetEditorColumnNames()
+                                        ?.Where(o => ss.EditorColumn(o)?.Required == true)
+                                        .Select(o => o)))
+                                .Hidden(
+                                    controlId: "EditorColumnsTabsTarget",
+                                    css: " always-send",
+                                    value: "0")
+                                .FieldDropDown(
+                                    context: context,
+                                    controlId: "EditorColumnsTabs",
+                                    fieldCss: "w300",
+                                    controlCss: " auto-postback always-send",
+                                    optionCollection: ss.TabSelectableOptions(
+                                        context: context,
+                                        habGeneral: true),
+                                    addSelectedValue: false,
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "MoveUpEditorColumns",
+                                    text: Displays.MoveUp(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.moveColumns(event, $(this),'Editor');",
+                                    icon: "ui-icon-circle-triangle-n")
+                                .Button(
+                                    controlId: "MoveDownEditorColumns",
+                                    text: Displays.MoveDown(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.moveColumns(event, $(this),'Editor');",
+                                    icon: "ui-icon-circle-triangle-s")
+                                .Button(
+                                    controlId: "OpenEditorColumnDialog",
+                                    text: Displays.AdvancedSetting(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openEditorColumnDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
+                                    controlId: "ToDisableEditorColumns",
+                                    controlCss: "button-icon",
+                                    text: Displays.ToDisable(context: context),
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-e",
+                                    action: "SetSiteSettings",
+                                    method: "post")))
+                .FieldSelectable(
+                    controlId: "EditorSourceColumns",
+                    fieldCss: "field-vertical",
+                    controlContainerCss: "container-selectable",
+                    controlWrapperCss: " h250",
+                    labelText: Displays.OptionList(context: context),
+                    listItemCollection: ss.EditorSelectableOptions(
+                        context: context,
+                        enabled: false),
+                    commandOptionPositionIsTop: true,
+                    commandOptionAction: () => hb
+                        .Div(
+                            css: "command-center",
+                            action: () => hb
+                                .FieldDropDown(
+                                    context: context,
+                                    controlId: "EditorSourceColumnsType",
+                                    fieldCss: "w300",
+                                    controlCss: " auto-postback always-send",
+                                    optionCollection: new Dictionary<string, ControlData>
+                                    {
+                                        {
+                                            "Columns",
+                                            new ControlData(
+                                                text: Displays.Column(context: context))
+                                        },
+                                        {
+                                            "Links",
+                                            new ControlData(
+                                                text: Displays.Links(context: context))
+                                        },
+                                        {
+                                            "Others",
+                                            new ControlData(
+                                                text: Displays.Others(context: context),
+                                                attributes: new Dictionary<string, string>
+                                                {
+                                                    { "data-type", "multiple"}
+                                                })
+                                        }
+                                    },
+                                    addSelectedValue: false,
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "ToEnableEditorColumns",
+                                    text: Displays.ToEnable(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.enableColumns(event, $(this),'Editor', 'EditorSourceColumnsType');",
+                                    icon: "ui-icon-circle-triangle-w",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .SearchOptionButton(
+                                    setSearchOptionButton: true,
+                                    searchOptionId: "OpenSearchEditorColumnDialog",
+                                    searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")))
+                .Hidden(
+                    controlId: "SearchEditorColumnDialogInput",
+                    css: "always-send",
+                    action: "SetSiteSettings",
+                    method: "post");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditorSettingsThemeVersion2_0(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
+        {
+            return hb
+                .EditorColumnsLeft(
+                    context: context,
+                    ss: ss)
+                .EditorColumnsToastMenu(
+                    id: "editor-columns-toast-menu")
+                .EditorColumnsSpacer(
+                    context: context)
+                .EditorColumnsRight(
+                    context: context,
+                    ss: ss)
+                .EditorColumnsOther(
+                    context: context);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditorColumnsLeft(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
+        {
+            return hb
+                .FieldSelectable(
+                    controlId: "EditorColumns",
+                    fieldCss: "field-vertical left",
+                    controlContainerCss: "container-selectable",
+                    controlWrapperCss: " h250",
+                    controlCss: " always-send send-all",
+                    labelText: Displays.CurrentSettings(context: context),
+                    listItemCollection: ss.EditorSelectableOptions(
+                        context: context,
+                        tabId: 0),
+                    commandOptionPositionIsTop: true,
+                    commandOptionAction: () => hb
+                        .Div(
+                            css: "editor-columns-header",
+                            action: () => hb
+                                .Div(
+                                    css: "command-center",
+                                    action: () => hb
+                                        .Hidden(
+                                            controlId: "EditorColumnsNessesaryMessage",
+                                            value: Messages.CanNotDisabled(
+                                                context: context,
+                                                data: "COLUMNNAME").Text)
+                                        .Hidden(
+                                            controlId: "EditorColumnsNessesaryColumns",
+                                            value: Jsons.ToJson(
+                                                ss.GetEditorColumnNames()
+                                                ?.Where(o => ss.EditorColumn(o)?.Required == true)
+                                                .Select(o => o)))
+                                        .Hidden(
+                                            controlId: "EditorColumnsTabsTarget",
+                                            css: " always-send",
+                                            value: "0")
+                                        .FieldDropDown(
+                                            context: context,
+                                            controlId: "EditorColumnsTabs",
+                                            fieldCss: "w300",
+                                            controlCss: " auto-postback always-send",
+                                            optionCollection: ss.TabSelectableOptions(
+                                                context: context,
+                                                habGeneral: true),
+                                            addSelectedValue: false,
+                                            action: "SetSiteSettings",
+                                            method: "post",
+                                            labelText: Displays.Tab(context: context)))
+                                .EditorColumnsFiltersButton(
+                                    context: context,
+                                    isLeft: true)),
+                    setMaterialSymbols: true);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditorColumnsRight(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
+        {
+            return hb
+                .FieldSelectable(
+                    controlId: "EditorSourceColumns",
+                    fieldCss: "field-vertical right",
+                    controlContainerCss: "container-selectable",
+                    controlWrapperCss: " h250",
+                    labelText: Displays.OptionList(context: context),
+                    listItemCollection: ss.EditorSelectableOptions(
+                        context: context,
+                        enabled: false),
+                    commandOptionPositionIsTop: true,
+                    commandOptionAction: () => hb
+                        .Div(
+                            css: "editor-columns-header",
+                            action: () => hb
+                                .Div(
+                                    css: "command-center",
+                                    action: () => hb
+                                        .FieldDropDown(
+                                            context: context,
+                                            controlId: "EditorSourceColumnsType",
+                                            fieldCss: "w300",
+                                            controlCss: " auto-postback always-send",
+                                            optionCollection: new Dictionary<string, ControlData>
+                                            {
+                                                {
+                                                    "Columns",
+                                                    new ControlData(
+                                                        text: Displays.Column(context: context))
+                                                },
+                                                {
+                                                    "Links",
+                                                    new ControlData(
+                                                        text: Displays.Links(context: context))
+                                                },
+                                                {
+                                                    "Others",
+                                                    new ControlData(
+                                                        text: Displays.Others(context: context),
+                                                        attributes: new Dictionary<string, string>
+                                                        {
+                                                            { "data-type", "multiple"}
+                                                        })
+                                                }
+                                            },
+                                            addSelectedValue: false,
+                                            action: "SetSiteSettings",
+                                            method: "post",
+                                            labelText: Displays.Option(context: context)))
+                                .EditorColumnsFiltersButton(
+                                    context: context,
+                                    isLeft: false)),
+                    setMaterialSymbols: true);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditorColumnsToastMenu(
+            this HtmlBuilder hb,
+            string id = null,
+            bool setOpenEditorColumnDialogButton = true,
+            bool seResetAndDisableEditorColumnsButton = true)
+        {
+            return hb
+                .Div(
+                    id: id,
+                    css: "toast-menu",
+                    action: () => hb
+                        .Div(
+                            css: "toast-menu-buttons",
+                            action: () => hb
+                                .MaterialIconButton(
+                                    id: "MoveUpEditorColumns",
+                                    iconName: "arrow_upward")
+                                .MaterialIconButton(
+                                    id: "MoveDownEditorColumns",
+                                    iconName: "arrow_downward")
+                                .MaterialIconButton(
+                                    id: "OpenEditorColumnDialog",
+                                    iconName: "settings",
+                                    action: "SetSiteSettings",
+                                    method: "put",
+                                    _using: setOpenEditorColumnDialogButton)
+                                .MaterialIconButton(
+                                    id: "EditorColumnsResetAndDisable",
+                                    iconName: "reset_settings",
+                                    action: "SetSiteSettings",
+                                    method: "put",
+                                    _using: seResetAndDisableEditorColumnsButton)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditorColumnsSpacer(
+            this HtmlBuilder hb,
+            Context context,
+            string editorColumnsSpacerId = null)
+        {
+            return hb
+                .Div(
+                    css: "editor-columns-spacer",
+                    action: () => hb
+                        .Div(
+                            css: "editor-columns-spacer-buttons",
+                            action: () => hb
+                                .MaterialIconButton(
+                                    id: "ToEnableEditorColumns",
+                                    iconName: "arrow_back",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .MaterialIconButton(
+                                    id: "ToDisableEditorColumns",
+                                    iconName: "arrow_forward",
+                                    action: "SetSiteSettings",
+                                    method: "post")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditorColumnsOther(
+            this HtmlBuilder hb,
+            Context context)
+        {
+            var showLinkText = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
+            var utmSource = Parameters.General.HtmlUrlPrefix switch
+            {
+                "ee" => "pleasanter-ee",
+                "com" => "pleasanter-ce",
+                "demo" => "pleasanter-demo",
+                _ => "pleasanter-cloud"
+            };
+            return hb
+                .Div(
+                    id: "DoNotHaveEnoughColumnsField",
+                    css: "fieldset-inner-bottom is-right")
+                .Hidden(
+                    controlId: "SearchEditorColumnDialogInput",
+                    css: "always-send",
+                    action: "SetSiteSettings",
+                    method: "post")
+                .Hidden(
+                    controlId: "ThemeVersionOver2",
+                    value: context.Theme())
+                .Hidden(
+                    controlId: "ShowLinkText",
+                    value: showLinkText.ToString())
+                .Hidden(
+                    controlId: "utmSource",
+                    value: utmSource);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder EditorOtherColumn(
             this HtmlBuilder hb,
             Context context,
@@ -7121,7 +7390,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "ResetEditorColumn",
                             text: Displays.Reset(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon",
                             onClick: "$p.resetEditorColumn($(this));",
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
@@ -7185,7 +7454,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "ResetEditorColumn",
                             text: Displays.Reset(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon",
                             onClick: "$p.resetEditorColumn($(this));",
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
@@ -7857,10 +8126,12 @@ namespace Implem.Pleasanter.Models
                                 {
                                     case "ChoicesText":
                                         hb
-                                            .FieldTextBox(
-                                                textType: HtmlTypes.TextTypes.MultiLine,
+                                            .FieldCodeEditor(
+                                                context: context,
                                                 controlId: "ChoicesText",
                                                 fieldCss: "field-wide",
+                                                controlCss: "o-low",
+                                                dataLang: "json",
                                                 labelText: Displays.OptionList(context: context),
                                                 text: column.ChoicesText)
                                             .FieldDropDown(
@@ -8176,7 +8447,8 @@ namespace Implem.Pleasanter.Models
                     new HtmlBuilder().SelectableItems(
                         listItemCollection: ss.EditorSelectableOptions(
                             context: context,
-                            tabId: tabId.ToInt())))
+                            tabId: tabId.ToInt()),
+                        setMaterialSymbols: context.ThemeVersionOver2_0()))
                 .EditorSourceColumnsResponses(
                     context: context,
                     ss: ss);
@@ -8190,10 +8462,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
+            var setMaterialSymbols = context.ThemeVersionOver2_0();
             switch (context.Forms.Data("EditorSourceColumnsType"))
             {
                 case "Columns":
-                    FilterSourceColumnsSelectable(res, context, ss);
+                    FilterSourceColumnsSelectable(
+                        res: res,
+                        context: context,
+                        ss: ss,
+                        setMaterialSymbols: setMaterialSymbols);
                     break;
                 case "Links":
                     res.Html(
@@ -8202,7 +8479,8 @@ namespace Implem.Pleasanter.Models
                             listItemCollection: ss
                                 .EditorLinksSelectableOptions(
                                     context: context,
-                                    enabled: false)));
+                                    enabled: false),
+                            setMaterialSymbols: setMaterialSymbols));
                     break;
                 case "Others":
                     res.Html(
@@ -8215,7 +8493,8 @@ namespace Implem.Pleasanter.Models
                                         "_Section-0",
                                         new ControlData(Displays.Section(context: context))
                                     },
-                                }));
+                                },
+                                setMaterialSymbols: setMaterialSymbols));
                     break;
             }
             return res.SetData("#EditorSourceColumns");
@@ -8227,7 +8506,8 @@ namespace Implem.Pleasanter.Models
         public static ResponseCollection FilterSourceColumnsSelectable(
             ResponseCollection res,
             Context context,
-            SiteSettings ss)
+            SiteSettings ss,
+            bool setMaterialSymbols = false)
         {
             var dialogInput = context.Forms.Data("SearchEditorColumnDialogInput")
                 .Deserialize<Dictionary<string, string>>();
@@ -8239,7 +8519,8 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             enabled: false,
                             selection: dialogInput.Get("selection"),
-                            keyWord: dialogInput.Get("keyWord"))));
+                            keyWord: dialogInput.Get("keyWord")),
+                    setMaterialSymbols: setMaterialSymbols));
         }
 
         /// <summary>
@@ -15969,7 +16250,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ServerScriptsAllDisabled",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AllDisabled(context: context),
-                        _checked: ss.ServerScriptsAllDisabled  == true))
+                        _checked: ss.ServerScriptsAllDisabled == true))
                 .EditServerScript(
                     context: context,
                     ss: ss));

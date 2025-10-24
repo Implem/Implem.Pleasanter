@@ -56,6 +56,8 @@
 
     $p.controlAutoPostBack = function ($control) {
         if ($p.disableAutPostback) return;
+        var queryParams = new URLSearchParams(location.search);
+        if (queryParams.has('ver')) return;
         var fieldSetTab = $('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]');
         var selectedTabIndex = fieldSetTab.parent().children().index(fieldSetTab);
         var $form = $('#MainForm');
