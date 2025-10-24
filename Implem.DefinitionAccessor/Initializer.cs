@@ -12,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Implem.DefinitionAccessor
 {
     public class Initializer
@@ -146,6 +145,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Dashboard = Read<Dashboard>();
             Parameters.GroupChildren = Read<GroupChildren>();
             Parameters.OutputCache = Read<OutputCache>();
+            Parameters.PleasanterExtensions = Read<PleasanterExtensions>(required: false) ?? new();
             Parameters.Rds.SaConnectionString = Strings.CoalesceEmpty(
                 Parameters.Rds.SaConnectionString,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Rds_SaConnectionString"),

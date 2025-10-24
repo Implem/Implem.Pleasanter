@@ -6,25 +6,24 @@
     ],
     "plugins": [
         "stylelint-order",
-        "stylelint-prettier",
         "stylelint-declaration-block-no-ignored-properties"
     ],
     "rules": {
-        "prettier/prettier": true,
         "selector-id-pattern": null,
+        "selector-class-pattern": null,
         "custom-property-pattern": null,
         "rule-empty-line-before": null,
+        "no-descending-specificity": null,
+        "no-duplicate-selectors": null,
         "font-family-no-missing-generic-family-keyword": [
             true,
             {
                 "ignoreFontFamilies": [
                     "Material Symbols Sharp",
+                    "Material Symbols Outlined",
                     "responsive"
                 ]
             }
-        ],
-        "no-descending-specificity": null,
-        "no-duplicate-selectors": null,
-        "selector-class-pattern": null
+        ]
     }
 }

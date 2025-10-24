@@ -4439,7 +4439,8 @@ namespace Implem.Pleasanter.Models
                 {
                     res.Html("#EditorColumns", new HtmlBuilder().SelectableItems(
                         listItemCollection: SiteSettings.EditorSelectableOptions(context: context),
-                        selectedValueTextCollection: columnName.ToSingleList()));
+                        selectedValueTextCollection: columnName.ToSingleList(),
+                        setMaterialSymbols: context.ThemeVersionOver2_0()));
                 }
                 else
                 {
@@ -4521,7 +4522,8 @@ namespace Implem.Pleasanter.Models
                     tabId: context
                         .Forms
                         .Data(key: "EditorColumnsTabs")
-                        .ToInt())))
+                        .ToInt()),
+                setMaterialSymbols: context.ThemeVersionOver2_0()))
                 .Val(
                     "#EditorColumnsTabsTarget",
                     context.Forms.Data("EditorColumnsTabs"));
@@ -4765,7 +4767,8 @@ namespace Implem.Pleasanter.Models
                                     .EditorSelectableOptions(
                                         context: context,
                                         tabId: context.Forms.Int("EditorColumnsTabs")),
-                                selectedValueTextCollection: new List<string> { sectionName }));
+                                selectedValueTextCollection: new List<string> { sectionName },
+                                setMaterialSymbols: context.ThemeVersionOver2_0()));
                     }
                     break;
             }

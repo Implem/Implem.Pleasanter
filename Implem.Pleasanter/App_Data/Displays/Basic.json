@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Basic",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Basic"

@@ -1,4 +1,6 @@
-﻿namespace Implem.ParameterAccessor.Parts
+﻿using System.Collections.Generic;
+using System.Linq;
+namespace Implem.ParameterAccessor.Parts
 {
     public class BinaryStorage
     {
@@ -32,6 +34,7 @@
         public string TemporaryBinaryStorageProvider;
         public string ImagesProvider;
         public string SiteImageProvider;
+        public List<string> BrowserAllowMimeTypes;
 
         public string GetProvider(string provider)
         {
@@ -67,6 +70,18 @@
         public bool IsLocalSiteImage()
         {
             return IsLocal(SiteImageProvider);
+        }
+
+        public bool IsContentPreviewable(string contentType)
+        {
+            if (string.IsNullOrEmpty(contentType)
+                || BrowserAllowMimeTypes == null
+                || BrowserAllowMimeTypes.Count == 0)
+            {
+                return false;
+            }
+            var lowerContentType = contentType.ToLower();
+            return BrowserAllowMimeTypes.Any(allowMimeTypes => allowMimeTypes.ToLower() == lowerContentType);
         }
     }
 }

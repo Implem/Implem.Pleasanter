@@ -29,6 +29,7 @@ namespace Implem.DefinitionAccessor
         public static List<ExtendedHeadLink> ExtendedHeadLinks;
         public static List<ExtendedPlugin> ExtendedPlugins;
         public static Dictionary<string, string> ExtendedTags;
+        public static PleasanterExtensions PleasanterExtensions;
         public static General General;
         public static GroupMembers GroupMembers;
         public static History History;

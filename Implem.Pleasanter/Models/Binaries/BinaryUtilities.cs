@@ -605,19 +605,23 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ResponseFile Donwload(Context context, string guid)
+        public static ResponseFile Download(
+            Context context,
+            string guid)
         {
             if (!context.ContractSettings.Attachments())
             {
                 return null;
             }
-            return FileContentResults.Download(context: context, guid: guid.ToUpper());
+            return FileContentResults.Download(
+                context: context,
+                guid: guid.ToUpper());
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ContentResultInheritance ApiDonwload(Context context, string guid)
+        public static ContentResultInheritance ApiDownload(Context context, string guid)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {

@@ -1,0 +1,34 @@
+{
+    "Id": "ConfirmResetAndDisable",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to disable it after resetting?"
+        },
+        {
+            "Language": "zh",
+            "Body": "您确定要在重置后将其禁用吗？"
+        },
+        {
+            "Language": "ja",
+            "Body": "本当にリセット後に無効化してもよろしいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Sind Sie sicher, dass Sie es nach dem Zur&#252;cksetzen deaktivieren m&#246;chten?"
+        },
+        {
+            "Language": "ko",
+            "Body": "정말로 리셋 후에 비활성화하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "&#191;Est&#225; seguro de que desea deshabilitarlo despu&#233;s de restablecerlo?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn c&#243; chắc chắn muốn v&#244; hiệu h&#243;a sau khi đặt lại kh&#244;ng?"
+        }
+    ]
+}

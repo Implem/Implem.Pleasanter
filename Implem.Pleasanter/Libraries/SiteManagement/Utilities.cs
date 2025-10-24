@@ -74,17 +74,20 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
             {
                 return ResponseFile.Get(apiResponse: ApiResponses.InvalidRequest(context: context));
             }
+            var types = context.QueryStrings.Data("Type")?.ToLower()?.Split(",") ?? [];
             var exportType = context.QueryStrings.Data("ExportType")?.ToLower();
             switch(exportType)
             {
                 case "json":
                 case "xlsx":
+                case "mermaid":
                     break;
                 default:
                     return ResponseFile.Get(apiResponse: ApiResponses.BadRequest(context: context));
             }
             var jsonParam = new SettingsJsonConverter.Param
             {
+                Types = types,
                 SelectedSites = siteIds
             };
             var dump = SettingsJsonConverter.Convert(
@@ -105,7 +108,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                         extension: "json"),
                     contentType: "application/json");
             }
-            else if(exportType == "xlsx")
+            else if (exportType == "xlsx")
             {
                 var xlsxParam = new Json2XlsxConvertor.Param();
                 try
@@ -133,6 +136,25 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                 finally
                 {
                     if (Directory.Exists(xlsxParam.WorkDir)) Directory.Delete(xlsxParam.WorkDir, true);
+                }
+            }
+            else if (exportType == "mermaid")
+            {
+                var (mermaidText, flowControl) = Json2MermaidConvertor.Convert(dump);
+                if (flowControl)
+                {
+                    var mem = new MemoryStream(mermaidText.ToBytes(), false);
+                    return new ResponseFile(
+                        fileContent: mem,
+                        fileDownloadName: ExportUtilities.FileName(
+                            context: context,
+                            title: "VisualizeSettings",
+                            extension: "mmd"),
+                        contentType: "application/zip");
+                }
+                else
+                {
+                    return ResponseFile.Get(apiResponse: ApiResponses.BadRequest(context: context));
                 }
             }
             return ResponseFile.Get(apiResponse: ApiResponses.BadRequest(context: context));
@@ -173,7 +195,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
         private static ErrorData ValidateCanUse(Context context)
         {
             var error = Error.Types.BadRequest;
-            switch (Implem.DefinitionAccessor.Parameters.Environment()) {
+            switch (DefinitionAccessor.Parameters.Environment()) {
                 case 1:
                     error = Error.Types.BadRequest;
                     break;
@@ -188,6 +210,17 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     break;
                 default:
                     break;
+            }
+            if (error == Error.Types.None)
+            {
+                if (DefinitionAccessor.Parameters.PleasanterExtensions?.SiteVisualizer?.Disabled ?? false)
+                {
+                    return new ErrorData(
+                        context: context,
+                        type: Error.Types.BadRequest,
+                        sysLogsStatus: ApiResponses.StatusCode(Error.Types.BadRequest),
+                        sysLogsDescription: "Site Visualizer is disabled.");
+                }
             }
             return new ErrorData(
                 context: context,

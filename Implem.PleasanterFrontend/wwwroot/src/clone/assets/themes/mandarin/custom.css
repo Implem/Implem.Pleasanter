@@ -130,6 +130,9 @@
     --guide-bg: var(--commonColor05);
     --guide-text: var(--nonColor05);
 
+    /* recommend-guide */
+    --recommend-guide-link-text: var(--base-text);
+
     /* footer */
     --footer-command-bg: rgb(0 0 0 / 50%);
 

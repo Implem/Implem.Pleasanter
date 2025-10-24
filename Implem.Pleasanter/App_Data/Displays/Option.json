@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Option",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Option list"
+        },
+        {
+            "Language": "zh",
+            "Body": "选项"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択肢"
+        },
+        {
+            "Language": "de",
+            "Body": "Option"
+        },
+        {
+            "Language": "ko",
+            "Body": "선택지"
+        },
+        {
+            "Language": "es",
+            "Body": "Opción"
+        },
+        {
+            "Language": "vn",
+            "Body": "Lựa chọn"
+        }
+    ]
+}

@@ -21,6 +21,9 @@ $p.openEditorDialog = function (id) {
         open: function () {
             $('#EditorLoading').val(0);
             $p.initRelatingColumn();
+        },
+        close: function () {
+            $('#EditInDialogBody').empty();
         }
     });
 };

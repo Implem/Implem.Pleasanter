@@ -4,17 +4,24 @@ import path from 'path';
 import { inputDir, outputDir, configParams, getEntries } from './vita.config.shared';
 
 export default defineConfig({
-    ...configParams.build,
+    ...configParams,
     build: {
         ...configParams.build,
         emptyOutDir: true,
+        manifest: 'manifest.json',
         rollupOptions: {
             input: {
                 ...getEntries(path.resolve(__dirname, `${inputDir}/scripts`), '.ts'),
                 ...getEntries(path.resolve(__dirname, `${inputDir}/styles`), '.scss')
             },
             output: {
-                entryFileNames: `js/[name].min.js`,
+                manualChunks(id: string) {
+                    if (id.includes('node_modules')) {
+                        return 'vendor';
+                    }
+                },
+                chunkFileNames: 'js/vendor_[hash].js',
+                entryFileNames: 'js/[name]_[hash].js',
                 assetFileNames: `css/[name].min[extname]`
             },
             plugins: [

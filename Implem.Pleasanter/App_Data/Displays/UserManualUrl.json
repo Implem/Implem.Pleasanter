@@ -1,0 +1,34 @@
+{
+    "Id": "UserManualUrl",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "https://pleasanter.org/en/manual/table-management-"
+        },
+        {
+            "Language": "zh",
+            "Body": ""
+        },
+        {
+            "Language": "ja",
+            "Body": "https://pleasanter.org/ja/manual/table-management-"
+        },
+        {
+            "Language": "de",
+            "Body": ""
+        },
+        {
+            "Language": "ko",
+            "Body": ""
+        },
+        {
+            "Language": "es",
+            "Body": ""
+        },
+        {
+            "Language": "vn",
+            "Body": ""
+        }
+    ]
+}
