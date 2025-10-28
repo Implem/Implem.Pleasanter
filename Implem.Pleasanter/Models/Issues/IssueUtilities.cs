@@ -7389,14 +7389,29 @@ namespace Implem.Pleasanter.Models
                         && !data.Value[importKeyColumn.Key].IsNullOrEmpty())
                     {
                         var view = new View();
+                        view.AddColumnFilterSearchTypes(
+                            columnName: importKeyColumnName,
+                            searchType: Column.SearchTypes.ExactMatch);
+                        columnHash.ForEach(column =>
+                        {
+                            //表示名をIdに変換
+                            if (importKeyColumnName == column.Value.Column.ColumnName)
+                            {
+                                var recordingData = column.Value.Column.RecordingData(
+                                    context: context,
+                                    value: ImportUtilities.RecordingData(
+                                        columnHash: columnHash,
+                                        row: data.Value,
+                                        column: column),
+                                    siteId: ss.InheritPermission);
+                                data.Value[importKeyColumn.Key] = recordingData;
+                            }
+                        });
                         view.AddColumnFilterHash(
                             context: context,
                             ss: ss,
                             column: importKeyColumn.Value.Column,
                             objectValue: data.Value[importKeyColumn.Key]);
-                        view.AddColumnFilterSearchTypes(
-                            columnName: importKeyColumnName,
-                            searchType: Column.SearchTypes.ExactMatch);
                         var model = new IssueModel(
                             context: context,
                             ss: ss,
@@ -7753,14 +7768,29 @@ namespace Implem.Pleasanter.Models
                         && !data.Value[importKeyColumn.Key].IsNullOrEmpty())
                     {
                         var view = new View();
+                        view.AddColumnFilterSearchTypes(
+                            columnName: importKeyColumnName,
+                            searchType: Column.SearchTypes.ExactMatch);
+                        columnHash.ForEach(column =>
+                        {
+                            //表示名をIdに変換
+                            if (importKeyColumnName == column.Value.Column.ColumnName)
+                            {
+                                var recordingData = column.Value.Column.RecordingData(
+                                    context: context,
+                                    value: ImportUtilities.RecordingData(
+                                        columnHash: columnHash,
+                                        row: data.Value,
+                                        column: column),
+                                    siteId: ss.InheritPermission);
+                                data.Value[importKeyColumn.Key] = recordingData;
+                            }
+                        });
                         view.AddColumnFilterHash(
                             context: context,
                             ss: ss,
                             column: importKeyColumn.Value.Column,
                             objectValue: data.Value[importKeyColumn.Key]);
-                        view.AddColumnFilterSearchTypes(
-                            columnName: importKeyColumnName,
-                            searchType: Column.SearchTypes.ExactMatch);
                         var model = new IssueModel(
                             context: context,
                             ss: ss,
