@@ -1,0 +1,6 @@
+﻿
+updated#ModelName#Model.SavedStartTime = before.SavedStartTime;
+updated#ModelName#Model.SavedCompletionTime = before.SavedCompletionTime;
+updated#ModelName#Model.SavedWorkValue = before.SavedWorkValue;
+updated#ModelName#Model.SavedProgressRate = before.SavedProgressRate;
+updated#ModelName#Model.SavedRemainingWorkValue = before.SavedRemainingWorkValue;

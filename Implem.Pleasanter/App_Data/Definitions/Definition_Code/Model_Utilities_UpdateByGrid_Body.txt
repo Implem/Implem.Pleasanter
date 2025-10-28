@@ -153,7 +153,8 @@
                 view: view,
                 formDataSet: formDataSet,
                 responses: responses,
-                notificationHash: notificationHash);
+                notificationHash: notificationHash,
+                before#ModelName#Collection: #modelName#Collection);
     }
 }
 
@@ -195,7 +196,8 @@ private static string UpdateByGridSuccess(
     View view,
     List<FormData> formDataSet,
     List<SqlResponse> responses,
-    Dictionary<long, List<Notification>> notificationHash)
+    Dictionary<long, List<Notification>> notificationHash,
+    #ModelName#Collection before#ModelName#Collection)
 {
     var #modelName#Collection = new #ModelName#Collection(
         context: context,
@@ -206,6 +208,7 @@ private static string UpdateByGridSuccess(
                 .Where(o => o.Id > 0)
                 .Select(o => o.Id.ToLong())
                 .ToList()));
+    #modelName#Collection.MergeSavedFrom(before#ModelName#Collection);
     #modelName#Collection.ForEach(#modelName#Model =>
     {
         #modelName#Model.SynchronizeSummary(
@@ -296,4 +299,32 @@ private static string UpdateByGridSuccess(
             data: responses.Count().ToString()))
         .Messages(context.Messages)
         .ToJson();
+}
+
+public static void MergeSavedFrom(this #ModelName#Collection updatedCollection, #ModelName#Collection beforeCollection)
+{
+    if (updatedCollection == null || beforeCollection == null) return;
+    var beforeById = beforeCollection
+        .Where(#modelName#Model => #modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
+        .ToDictionary(#modelName#Model => #modelName#Model.#ModelName#Id);
+    foreach (var updated#ModelName#Model in updatedCollection.Where(r => r.AccessStatus == Databases.AccessStatuses.Selected))
+    {
+        if (!beforeById.TryGetValue(updated#ModelName#Model.#ModelName#Id, out var before)) continue;
+        updated#ModelName#Model.Saved#ModelName#Id = before.Saved#ModelName#Id;
+        updated#ModelName#Model.SavedTitle = before.SavedTitle;
+        updated#ModelName#Model.SavedBody = before.SavedBody;
+        updated#ModelName#Model.SavedStatus = before.SavedStatus;
+        updated#ModelName#Model.SavedManager = before.SavedManager;
+        updated#ModelName#Model.SavedOwner = before.SavedOwner;
+        updated#ModelName#Model.SavedLocked = before.SavedLocked;
+        updated#ModelName#Model.SavedComments = before.SavedComments;
+        updated#ModelName#Model.SavedTimestamp = before.SavedTimestamp;
+        <!--Model_Utilities_MergeSavedProperty-->
+        updated#ModelName#Model.SavedClassHash = new Dictionary<string, string>(before.SavedClassHash ?? new Dictionary<string, string>());
+        updated#ModelName#Model.SavedNumHash = new Dictionary<string, decimal?>(before.SavedNumHash ?? new Dictionary<string, decimal?>());
+        updated#ModelName#Model.SavedDateHash = new Dictionary<string, DateTime>(before.SavedDateHash ?? new Dictionary<string, DateTime>());
+        updated#ModelName#Model.SavedDescriptionHash = new Dictionary<string, string>(before.SavedDescriptionHash ?? new Dictionary<string, string>());
+        updated#ModelName#Model.SavedCheckHash = new Dictionary<string, bool>(before.SavedCheckHash ?? new Dictionary<string, bool>());
+        updated#ModelName#Model.SavedAttachmentsHash = new Dictionary<string, string>(before.SavedAttachmentsHash ?? new Dictionary<string, string>());
+    }
 }

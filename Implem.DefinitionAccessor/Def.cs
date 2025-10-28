@@ -879,6 +879,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_LimitTemplate": Code.Model_Utilities_LimitTemplate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_LimitTemplate, definitionRow, CodeXls); break;
                     case "Model_Utilities_LimitTemplate_Items": Code.Model_Utilities_LimitTemplate_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_LimitTemplate_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_Links": Code.Model_Utilities_Links = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Links, definitionRow, CodeXls); break;
+                    case "Model_Utilities_MergeSavedProperty": Code.Model_Utilities_MergeSavedProperty = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_MergeSavedProperty, definitionRow, CodeXls); break;
                     case "Model_Utilities_Move": Code.Model_Utilities_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Move, definitionRow, CodeXls); break;
                     case "Model_Utilities_NewOnGrid": Code.Model_Utilities_NewOnGrid = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NewOnGrid, definitionRow, CodeXls); break;
                     case "Model_Utilities_NewProcessingFailureException": Code.Model_Utilities_NewProcessingFailureException = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NewProcessingFailureException, definitionRow, CodeXls); break;
@@ -7437,6 +7438,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_LimitTemplate;
         public string Model_Utilities_LimitTemplate_Items;
         public string Model_Utilities_Links;
+        public string Model_Utilities_MergeSavedProperty;
         public string Model_Utilities_Move;
         public string Model_Utilities_NewOnGrid;
         public string Model_Utilities_NewProcessingFailureException;
@@ -8305,6 +8307,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_LimitTemplate = new CodeDefinition();
         public CodeDefinition Model_Utilities_LimitTemplate_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_Links = new CodeDefinition();
+        public CodeDefinition Model_Utilities_MergeSavedProperty = new CodeDefinition();
         public CodeDefinition Model_Utilities_Move = new CodeDefinition();
         public CodeDefinition Model_Utilities_NewOnGrid = new CodeDefinition();
         public CodeDefinition Model_Utilities_NewProcessingFailureException = new CodeDefinition();
