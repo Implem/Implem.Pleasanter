@@ -78,8 +78,7 @@
         }
         form.submit();
     });
-    $(document).on('click', '.calendar-to-monthly', function (e) {
-        e.preventDefault();
+    $(document).on('click', '.calendar-to-monthly', function () {
         var data = {
             CalendarTimePeriod: 'Monthly',
             CalendarDate: $(this).attr('data-id')
