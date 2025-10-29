@@ -825,11 +825,7 @@ input {
 }
 
 .check-option {
-    display: flex;
-    gap: 4px;
-    &:has(.check-text:empty) {
-        display: inline-flex;
-    }
+    gap: 8px;
     .check-icon {
         float: none;
         display: flex;
@@ -837,7 +833,6 @@ input {
         justify-content: center;
         width: 20px;
         height: 20px;
-        margin: 5px 0;
         overflow: hidden;
         background-color: var(--control-bg);
         border: 1px solid var(--control-border);
@@ -895,9 +890,6 @@ input {
                 }
             }
         }
-    }
-    .check-text {
-        margin: 5px 0;
     }
     .check-add-icon {
         margin-left: -3px;
