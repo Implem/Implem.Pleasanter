@@ -8119,7 +8119,7 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 controlId: "ChoicesText",
                                                 fieldCss: "field-wide",
-                                                controlCss: "o-low",
+                                                controlCss: " o-low",
                                                 dataLang: "json",
                                                 labelText: Displays.OptionList(context: context),
                                                 text: column.ChoicesText)
