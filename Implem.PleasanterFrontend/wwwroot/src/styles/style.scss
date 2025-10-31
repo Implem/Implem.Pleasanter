@@ -2562,11 +2562,14 @@ body {
             pointer-events: none;
             background: var(--toast-bg-color);
             border-radius: 4px;
+            opacity: 0;
             transform: translateY(100%);
             transition:
                 transform 0.3s ease,
                 opacity 0.3s ease;
             &.show {
+                pointer-events: auto;
+                opacity: 1;
                 transform: translateY(0);
             }
 
