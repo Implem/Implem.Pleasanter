@@ -613,14 +613,27 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             mine: issueModel.Mine(context: context)))
                         .Where(column => !column.Id_Ver)
-                        .Where(column => columns.Any(p =>
-                            p.ColumnName == column.ColumnName))
+                        .Select(column =>
+                        {
+                            column.StatusReadOnly = issueModel.GetStatusControl(
+                                context: context,
+                                ss: ss,
+                                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
+                            return column;
+                        })
+                        .Where(column => !columns.Any(p =>
+                            p.ColumnName == column.ColumnName)
+                            || column.StatusReadOnly == true
+                            || column.EditorReadOnly == true
+                        )
                         .ForEach(column =>
                         {
                             var value = issueModel.ControlValue(
                                 context: context,
                                 ss: ss,
-                                column: column);
+                                column: column,
+                                newOnGrid: newOnGrid,
+                                originalId: originalId);
                             res.SetFormData(
                                 $"{ss.ReferenceType}_{column.ColumnName}_{ss.SiteId}_{newRowId}",
                                 value);
@@ -2269,12 +2282,17 @@ namespace Implem.Pleasanter.Models
             this IssueModel issueModel,
             Context context,
             SiteSettings ss,
-            Column column)
+            Column column,
+            bool newOnGrid = false,
+            long originalId = 0)
         {
-            column.StatusReadOnly = issueModel.GetStatusControl(
-                context: context,
-                ss: ss,
-                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
+            if (!newOnGrid || originalId <= 0)
+            {
+                column.StatusReadOnly = issueModel.GetStatusControl(
+                    context: context,
+                    ss: ss,
+                    column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
+            }
             switch (column.Name)
             {
                 case "IssueId":
