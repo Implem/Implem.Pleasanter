@@ -1,34 +1,33 @@
 ﻿{
     "Id": "UserManual",
     "Type": 110,
-    "ClientScript": true,
     "Languages": [
         {
-            "Body": " Details of the items are here"
+            "Body": "User manual"
         },
         {
             "Language": "zh",
-            "Body": "项目详情请见此处"
+            "Body": "用户手册"
         },
         {
             "Language": "ja",
-            "Body": "項目の詳細はこちら"
+            "Body": "ユーザマニュアル"
         },
         {
             "Language": "de",
-            "Body": " Details zu den Elementen finden Sie hier"
+            "Body": "Benutzerhandbuch"
         },
         {
             "Language": "ko",
-            "Body": " 항목의 자세한 내용은 여기에서 확인하세요"
+            "Body": "사용자 매뉴얼"
         },
         {
             "Language": "es",
-            "Body": " Los detalles de los elementos están aquí"
+            "Body": "Manual de usuario"
         },
         {
             "Language": "vn",
-            "Body": " Chi tiết về các mục có tại đây"
+            "Body": "Hướng dẫn sử dụng"
         }
     ]
 }

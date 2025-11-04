@@ -326,7 +326,7 @@ const buildPopupContents = (dataType: string) => {
         const utmSource = (document.getElementById('utmSource') as HTMLInputElement | null)?.value ?? '';
         const userManualUrlParameter = `?utm_source=${encodeURIComponent(utmSource)}&utm_medium=app&utm_campaign=manual&utm_content=table-management-tooltip`;
         const userManualUrl = `${userManualUrlBase}${userManualUrlParameter}`;
-        const userManual = `${$p.display(dataType)}${$p.display('UserManual')}`;
+        const userManual = `${$p.display(dataType)}${$p.display('DetailsOfTheItems')}`;
         return `
 <div class="popup-body-link-label">
     <a href="${userManualUrl}" target="_blank">
