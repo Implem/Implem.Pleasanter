@@ -1527,17 +1527,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             int? dateTimeStep)
         {
             if (columnName != null) ColumnName = columnName;
-            if (column.LabelTextDefault != labelText)
+            if (labelText != null)
             {
-                if(GridLabelText != LabelText)
+                if (column.LabelText == column.GridLabelText)
                 {
-                    LabelText = labelText;
-                }
-                else
-                {
-                    LabelText = labelText;
                     GridLabelText = labelText;
                 }
+                LabelText = labelText;
             }
             if (defaultInput != null) DefaultInput = defaultInput;
             if (description != null) Description = description;
