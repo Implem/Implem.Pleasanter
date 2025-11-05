@@ -11819,6 +11819,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string WrapTextInCell(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "WrapTextInCell",
+                data: data);
+        }
+
         public static string Year(
             Context context,
             params string[] data)

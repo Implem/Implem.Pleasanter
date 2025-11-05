@@ -6097,6 +6097,10 @@ namespace Implem.Pleasanter.Models
                             unit: "px",
                             step: 10)
                         .FieldCheckBox(
+                            controlId: "CellWordWrap",
+                            labelText: Displays.WrapTextInCell(context: context),
+                            _checked: column.CellWordWrap == true)
+                        .FieldCheckBox(
                             controlId: "UseGridDesign",
                             labelText: Displays.UseCustomDesign(context: context),
                             _checked: !column.GridDesign.IsNullOrEmpty())
