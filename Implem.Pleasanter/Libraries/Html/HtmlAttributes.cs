@@ -819,5 +819,14 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataCellWordWrap(bool? value, bool _using = true)
+        {
+            if (value == true && _using)
+            {
+                Add("data-cell-wordwrap");
+                Add("1");
+            }
+            return this;
+        }
     }
 }

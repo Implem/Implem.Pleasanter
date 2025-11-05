@@ -37,7 +37,7 @@
     $(document).on('click', '.grid-row td', function (event) {
         if (!event.target) return false;
         var container = event.target.closest('grid-container');
-        if (container && container.isKeyHeld) return false;
+        if (container && container.isScrollLock) return false;
 
         var $control = $(this).find('.grid-check,.select');
         if ($control.length === 0) {

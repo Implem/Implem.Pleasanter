@@ -22,7 +22,8 @@
             + $" {serverScriptModelColumn?.ExtendedCellCss}",
         attributes: new HtmlAttributes()
 		    .DataCellSticky(column.CellSticky)
-            .DataCellWidth(column.CellWidth),
+            .DataCellWidth(column.CellWidth)
+            .DataCellWordWrap(column.CellWordWrap),
         action: () => hb.Field(
             context: context,
             column: column,
