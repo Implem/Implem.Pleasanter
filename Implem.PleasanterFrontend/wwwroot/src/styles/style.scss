@@ -3090,7 +3090,7 @@ body:not(:has(#Editor)) {
             border-bottom: solid 1px var(--grid-cell-border);
             border-left: none;
             box-shadow: 1px 0 0 var(--grid-cell-bg);
-            input {
+            input:not([type='checkbox']) {
                 width: 100%;
                 margin: 0 auto;
                 cursor: pointer;
