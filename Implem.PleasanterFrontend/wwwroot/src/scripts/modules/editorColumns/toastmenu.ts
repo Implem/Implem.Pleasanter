@@ -178,9 +178,11 @@ const hasVisibleSelectedEditorColumn = (): boolean => {
     const list = getElement('EditorColumns');
     if (!list) return false;
 
-    return [...list.querySelectorAll<HTMLLIElement>('li')].some(
-        li => isLiSelected(li) && li.style.display !== 'none' && getComputedStyle(li).display !== 'none'
-    );
+    return [...list.querySelectorAll<HTMLLIElement>('li')].some(li => {
+        if (!isLiSelected(li)) return false;
+        if (li.style.display === 'none') return false;
+        return getComputedStyle(li).display !== 'none';
+    });
 };
 
 const isHiddenByClassOrAttr = (el: HTMLElement | null): boolean => {
@@ -333,6 +335,7 @@ export const hideToastMenu = (useDelay: boolean = true): void => {
     const delay = useDelay ? 500 : 0;
     hideTimer = window.setTimeout(() => {
         if (menu.classList.contains('show')) {
+            clearTimeout(hideTimer);
             hideTimer = undefined;
             return;
         }
@@ -386,7 +389,8 @@ export const showToastMenu = (opts?: { force?: boolean; retry?: number }): void 
     const alreadyOpen = isToastMenuOpen();
 
     if (!force && !hasVisible && !alreadyOpen) {
-        if (attempt < 2) {
+        const MAX_RETRY_ATTEMPTS = 2;
+        if (attempt < MAX_RETRY_ATTEMPTS) {
             requestAnimationFrame(() => showToastMenu({ force, retry: attempt + 1 }));
         }
         return;
