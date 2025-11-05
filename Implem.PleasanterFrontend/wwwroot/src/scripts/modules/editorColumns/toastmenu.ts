@@ -47,6 +47,7 @@ type ToastMenuEl = HTMLElement & { toastFollow?: ToastFollow };
 
 let ecState: EditorColumnsState | null = null;
 let filterState: FilterState | null = null;
+let hideTimer: number | undefined;
 let lastClickedEditorLi: HTMLLIElement | null = null;
 let textFilterState: TextFilterState | null = null;
 
@@ -110,15 +111,18 @@ const bindEditorColumnsClickStable = (): void => {
             if (down.type === 'li') {
                 lastClickedEditorLi = down.li;
                 if (down.ctrlOrMeta) {
-                    setTimeout(() => {
+                    requestAnimationFrame(() => {
                         if (isLiSelected(down.li) && !down.wasSelected) {
                             showToastMenu();
                         } else {
-                            hideToastMenu();
+                            hideToastMenu(false);
                         }
-                    }, 0);
+                    });
                 } else {
                     showToastMenu();
+                    if (!hasVisibleSelectedEditorColumn()) {
+                        hideToastMenu(false);
+                    }
                 }
             } else if (isToastMenuOpen()) {
                 hideToastMenu();
@@ -169,6 +173,17 @@ const getTextFilterTargetState = (id: string) => {
 };
 
 const getWrapper = (): HTMLElement | null => getElement('EditorColumnsWrapper');
+
+const hasVisibleSelectedEditorColumn = (): boolean => {
+    const list = getElement('EditorColumns');
+    if (!list) return false;
+
+    return [...list.querySelectorAll<HTMLLIElement>('li')].some(li => {
+        if (!isLiSelected(li)) return false;
+        if (li.style.display === 'none') return false;
+        return getComputedStyle(li).display !== 'none';
+    });
+};
 
 const isHiddenByClassOrAttr = (el: HTMLElement | null): boolean => {
     if (!el) return false;
@@ -264,27 +279,6 @@ const setupToastFollow = (wrapper: HTMLElement | null, menu: ToastMenuEl | null)
     };
 };
 
-const showToastMenu = (): void => {
-    const wrapper = getWrapper();
-    const menu = getMenu();
-    if (!wrapper || !menu) return;
-
-    wrapper.classList.add('toast-host');
-    if (menu.parentElement !== wrapper) {
-        wrapper.appendChild(menu);
-    }
-
-    menu.style.setProperty('display', 'block', 'important');
-    requestAnimationFrame(() => {
-        menu.classList.add('show');
-    });
-    menu.removeAttribute('hidden');
-    menu.setAttribute('aria-hidden', 'false');
-
-    updateToastMenuControlsVisibility('EditorColumns');
-    setupToastFollow(wrapper, menu);
-};
-
 const toggle = (el: HTMLElement | null, hide: boolean): void => {
     if (!el) return;
     el.hidden = hide;
@@ -330,11 +324,22 @@ export const getMenu = (): ToastMenuEl | null => getElement('editor-columns-toas
 export const hideToastMenu = (useDelay: boolean = true): void => {
     const menu = getMenu();
     if (!menu) return;
+    if (hideTimer != null) {
+        clearTimeout(hideTimer);
+        hideTimer = undefined;
+    }
+
     menu.toastFollow?.destroy();
     menu.classList.remove('show');
-    const delay = useDelay ? 500 : 0;
 
-    setTimeout(() => {
+    const delay = useDelay ? 500 : 0;
+    hideTimer = window.setTimeout(() => {
+        if (menu.classList.contains('show')) {
+            clearTimeout(hideTimer);
+            hideTimer = undefined;
+            return;
+        }
+
         if (menu.contains(document.activeElement)) {
             const wrapper = getWrapper();
             let fallback: HTMLElement | null = wrapper;
@@ -358,10 +363,51 @@ export const hideToastMenu = (useDelay: boolean = true): void => {
         menu.style.removeProperty('bottom');
         menu.style.removeProperty('transform');
         menu.setAttribute('aria-hidden', 'true');
+        hideTimer = undefined;
     }, delay);
 };
 
 export const initialize = (): void => {
     bindEditorColumnsClickStable();
     updateToastMenuControlsVisibility('EditorColumns');
+};
+
+export const showToastMenu = (opts?: { force?: boolean; retry?: number }): void => {
+    const force = opts?.force ?? false;
+    const attempt = opts?.retry ?? 0;
+
+    const wrapper = getWrapper();
+    const menu = getMenu();
+    if (!wrapper || !menu) return;
+
+    if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = undefined;
+    }
+
+    const hasVisible = hasVisibleSelectedEditorColumn();
+    const alreadyOpen = isToastMenuOpen();
+
+    if (!force && !hasVisible && !alreadyOpen) {
+        const MAX_RETRY_ATTEMPTS = 2;
+        if (attempt < MAX_RETRY_ATTEMPTS) {
+            requestAnimationFrame(() => showToastMenu({ force, retry: attempt + 1 }));
+        }
+        return;
+    }
+
+    wrapper.classList.add('toast-host');
+    if (menu.parentElement !== wrapper) {
+        wrapper.appendChild(menu);
+    }
+
+    menu.style.setProperty('display', 'block', 'important');
+    if (!alreadyOpen) {
+        requestAnimationFrame(() => menu.classList.add('show'));
+    }
+
+    menu.removeAttribute('hidden');
+    menu.setAttribute('aria-hidden', 'false');
+    updateToastMenuControlsVisibility('EditorColumns');
+    setupToastFollow(wrapper, menu);
 };
