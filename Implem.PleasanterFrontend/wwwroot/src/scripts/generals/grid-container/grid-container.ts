@@ -6,8 +6,9 @@ export class GridContainerElement extends HTMLElement {
     private isScrollable = false;
     private isEntered = false;
     private isMouseHeld = false;
-    public isKeyHeld = false;
+    public isScrollLock = false;
     private hasXScroll = false;
+    private mousePosition: number[] | [] = [];
     private gridEl: HTMLElement | null = null;
     private stageEl: HTMLElement | null = null;
     private flameEl: HTMLElement | null = null;
@@ -105,6 +106,7 @@ export class GridContainerElement extends HTMLElement {
         // Controlキー操作
         document.addEventListener('keydown', this.handleKeyPress);
         document.addEventListener('keyup', this.handleKeyRelease);
+        window.addEventListener('blur', this.handleBlur);
 
         // スクロール操作
         document.addEventListener('mousedown', this.handleScrollStart);
@@ -122,30 +124,44 @@ export class GridContainerElement extends HTMLElement {
     private handleKeyPress = (e: KeyboardEvent) => {
         if (e.key === 'Alt' && !e.repeat) {
             if (this.isEntered && !this.isMouseHeld) {
-                this.isKeyHeld = true;
-                this.classList.add('app-held-key');
+                this.isScrollLock = true;
+                this.classList.add('app-scroll-lock');
             }
         }
     };
     private handleKeyRelease = (e: KeyboardEvent) => {
         if (e.key === 'Alt') {
-            this.isKeyHeld = false;
-            this.classList.remove('app-held-key');
+            this.isScrollLock = false;
+            this.classList.remove('app-scroll-lock');
         }
+    };
+
+    private handleBlur = () => {
+        this.isScrollLock = false;
+        this.classList.remove('app-scroll-lock');
     };
 
     private handleScrollStart = (e: MouseEvent) => {
         if (this.contains(e.target as Node)) this.isEntered = true;
-        if (this.isEntered && !this.isKeyHeld && e.button === 0) {
+        if (this.isEntered && !this.isScrollLock && e.button === 0) {
             this.isMouseHeld = true;
+            this.mousePosition = [e.movementX, e.movementY];
         }
     };
     private handleScrollEnd = () => {
         this.isMouseHeld = false;
+        this.mousePosition = [];
         this.stageEl?.classList.remove('app-dragging');
     };
     private handleScrollAction = (e: MouseEvent) => {
-        if (!this.isKeyHeld && this.isMouseHeld) {
+        if (
+            this.mousePosition.length === 2 &&
+            e.movementX === this.mousePosition[0] &&
+            e.movementY === this.mousePosition[1]
+        ) {
+            return;
+        }
+        if (!this.isScrollLock && this.isMouseHeld) {
             this.stageEl?.classList.add('app-dragging');
             e.preventDefault();
             if (this.isEntered) {
@@ -254,6 +270,7 @@ export class GridContainerElement extends HTMLElement {
             document.removeEventListener('mouseup', this.handleScrollEnd);
             document.removeEventListener('mousemove', this.handleScrollAction);
             window.removeEventListener('load', this.init);
+            window.removeEventListener('blur', this.handleBlur);
             this.stageEl = null;
             this.flameEl = null;
         }

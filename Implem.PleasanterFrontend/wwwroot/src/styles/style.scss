@@ -3038,7 +3038,7 @@ body:not(:has(#Editor)) {
             > th {
                 width: var(--cell-width, auto);
                 min-width: var(--cell-width, 0);
-                max-width: var(--cell-width, 320px);
+                max-width: var(--cell-width, 300px);
                 padding: 8px 16px;
                 color: var(--invert-text);
                 background-color: var(--primaryColor);
@@ -3247,9 +3247,27 @@ body:not(:has(#Editor)) {
         th,
         td {
             white-space: nowrap;
+            .grid-title-body {
+                .title {
+                    white-space: initial;
+                }
+            }
             th,
             td {
                 white-space: initial;
+            }
+            &[data-cell-width] {
+                max-width: 0;
+                .grid-title-body,
+                .comment {
+                    min-width: 0;
+                }
+            }
+            &[data-cell-wordwrap] {
+                white-space: initial;
+                .user {
+                    flex-wrap: wrap;
+                }
             }
         }
         > #Grid {
@@ -3266,7 +3284,7 @@ body:not(:has(#Editor)) {
             }
         }
     }
-    &.app-held-key {
+    &.app-scroll-lock {
         table {
             th,
             td {
