@@ -3970,6 +3970,9 @@ body:has(input#Controller[value='syslogs']) {
     .calendar-header {
         color: var(--invert-text);
         background-color: var(--primaryColor);
+        border-top-width: 0;
+        border-bottom-width: 0;
+        border-left-width: 0;
         &.saturday {
             background-color: var(--primaryDark);
         }
