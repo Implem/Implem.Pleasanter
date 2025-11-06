@@ -35,6 +35,7 @@ namespace Implem.Libraries.Utilities
                 case "long":
                     return CsLong;
                 case "decimal":
+                case "numeric":
                     return CsDecimal;
                 case "float":
                 case "real":
@@ -48,6 +49,7 @@ namespace Implem.Libraries.Utilities
                 case "bool":
                     return CsBool;
                 case "image":
+                case "varbinary":
                     return CsBytes;
                 default:
                     return type;
@@ -72,6 +74,7 @@ namespace Implem.Libraries.Utilities
                 case "decimal":
                 case "float":
                 case "real":
+                case "numeric":
                     return CsNumeric;
                 case "datetime":
                 case "datetime2":
@@ -82,6 +85,7 @@ namespace Implem.Libraries.Utilities
                 case "bool":
                     return CsBool;
                 case "image":
+                case "varbinary":
                     return CsBytes;
                 default:
                     return string.Empty;

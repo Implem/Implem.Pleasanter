@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     /// <summary>
     /// SyncByLdapを毎日定時に呼び出すクラス
     /// </summary>
-    public class SyncByLdapExecutionTimer : ExecutionTimerBase
+    public class SyncByLdapExecutionTimer : ClusterExecutionTimerBase
     {
         public class Param : IExecutionTimerBaseParam
         {

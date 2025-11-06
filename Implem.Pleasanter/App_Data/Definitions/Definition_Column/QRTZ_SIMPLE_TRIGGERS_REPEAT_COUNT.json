@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_SIMPLE_TRIGGERS_REPEAT_COUNT",
+    "ModelName": "QuartzSimpleTrigger",
+    "TableName": "QRTZ_SIMPLE_TRIGGERS",
+    "Label": "Quartz Simple Trigger",
+    "ColumnName": "REPEAT_COUNT",
+    "No": "4",
+    "LabelText": "Repeat Count",
+    "TypeName": "int",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}

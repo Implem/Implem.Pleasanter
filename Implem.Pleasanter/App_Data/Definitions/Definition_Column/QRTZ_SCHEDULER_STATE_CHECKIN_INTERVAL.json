@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_SCHEDULER_STATE_CHECKIN_INTERVAL",
+    "ModelName": "QuartzSchedulerState",
+    "TableName": "QRTZ_SCHEDULER_STATE",
+    "Label": "Quartz Scheduler State",
+    "ColumnName": "CHECKIN_INTERVAL",
+    "No": "4",
+    "LabelText": "Check-in Interval",
+    "TypeName": "bigint",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}

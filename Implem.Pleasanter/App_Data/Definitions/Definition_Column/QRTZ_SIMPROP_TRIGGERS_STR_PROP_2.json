@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_SIMPROP_TRIGGERS_STR_PROP_2",
+    "ModelName": "QuartzSimplePropTrigger",
+    "TableName": "QRTZ_SIMPROP_TRIGGERS",
+    "Label": "Quartz Simple Property Trigger",
+    "ColumnName": "STR_PROP_2",
+    "No": "5",
+    "LabelText": "String Property 2",
+    "TypeName": "nvarchar",
+    "MaxLength": "512",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

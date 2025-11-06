@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     /// ごみ箱(Xxx_deletedテーブル)の削除を毎日定時に呼び出すクラス。
     /// Users,Groups,Deptsの_deletedテーブルも削除対象。
     /// </summary>
-    public class DeleteTrashBoxTimer : ExecutionTimerBase
+    public class DeleteTrashBoxTimer : ClusterExecutionTimerBase
     {
         public class Param : IExecutionTimerBaseParam
         {

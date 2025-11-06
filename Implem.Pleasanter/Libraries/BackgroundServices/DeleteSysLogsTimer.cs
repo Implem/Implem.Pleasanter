@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     /// <summary>
     /// SysLog削除を毎日定時に呼び出すクラス
     /// </summary>
-    public class DeleteSysLogsTimer : ExecutionTimerBase
+    public class DeleteSysLogsTimer : ClusterExecutionTimerBase
     {
         public class Param : IExecutionTimerBaseParam
         {

@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_FIRED_TRIGGERS_SCHED_TIME",
+    "ModelName": "QuartzFiredTrigger",
+    "TableName": "QRTZ_FIRED_TRIGGERS",
+    "Label": "Quartz Fired Trigger",
+    "ColumnName": "SCHED_TIME",
+    "No": "7",
+    "LabelText": "Scheduled Time",
+    "TypeName": "bigint",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}

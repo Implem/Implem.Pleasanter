@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_SIMPROP_TRIGGERS_LONG_PROP_2",
+    "ModelName": "QuartzSimplePropTrigger",
+    "TableName": "QRTZ_SIMPROP_TRIGGERS",
+    "Label": "Quartz Simple Property Trigger",
+    "ColumnName": "LONG_PROP_2",
+    "No": "10",
+    "LabelText": "Long Property 2",
+    "TypeName": "bigint",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

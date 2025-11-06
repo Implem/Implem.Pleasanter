@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_FIRED_TRIGGERS_JOB_NAME",
+    "ModelName": "QuartzFiredTrigger",
+    "TableName": "QRTZ_FIRED_TRIGGERS",
+    "Label": "Quartz Fired Trigger",
+    "ColumnName": "JOB_NAME",
+    "No": "10",
+    "LabelText": "Job Name",
+    "TypeName": "nvarchar",
+    "MaxLength": "150",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

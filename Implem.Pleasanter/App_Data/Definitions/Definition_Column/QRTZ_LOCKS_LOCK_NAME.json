@@ -1,0 +1,14 @@
+﻿{
+    "Id": "QRTZ_LOCKS_LOCK_NAME",
+    "ModelName": "QuartzLock",
+    "TableName": "QRTZ_LOCKS",
+    "Label": "Quartz Lock",
+    "ColumnName": "LOCK_NAME",
+    "No": "2",
+    "LabelText": "Lock Name",
+    "TypeName": "nvarchar",
+    "MaxLength": "40",
+    "NotNull": "1",
+    "Pk": "1",
+    "ExcludeBaseColumns": "1"
+}

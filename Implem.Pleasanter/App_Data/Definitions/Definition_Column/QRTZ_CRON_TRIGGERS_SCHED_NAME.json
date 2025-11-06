@@ -1,0 +1,14 @@
+﻿{
+    "Id": "QRTZ_CRON_TRIGGERS_SCHED_NAME",
+    "ModelName": "QuartzCronTrigger",
+    "TableName": "QRTZ_CRON_TRIGGERS",
+    "Label": "Quartz Cron Trigger",
+    "ColumnName": "SCHED_NAME",
+    "No": "1",
+    "LabelText": "Scheduler Name",
+    "TypeName": "nvarchar",
+    "MaxLength": "120",
+    "NotNull": "1",
+    "Pk": "1",
+    "ExcludeBaseColumns": "1"
+}

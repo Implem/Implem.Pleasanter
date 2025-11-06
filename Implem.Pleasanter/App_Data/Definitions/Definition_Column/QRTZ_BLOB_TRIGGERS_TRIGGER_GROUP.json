@@ -1,0 +1,14 @@
+﻿{
+    "Id": "QRTZ_BLOB_TRIGGERS_TRIGGER_GROUP",
+    "ModelName": "QuartzBlobTrigger",
+    "TableName": "QRTZ_BLOB_TRIGGERS",
+    "Label": "Quartz Blob Trigger",
+    "ColumnName": "TRIGGER_GROUP",
+    "No": "3",
+    "LabelText": "Trigger Group",
+    "TypeName": "nvarchar",
+    "MaxLength": "150",
+    "NotNull": "1",
+    "Pk": "1",
+    "ExcludeBaseColumns": "1"
+}

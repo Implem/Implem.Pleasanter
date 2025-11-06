@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_CALENDARS_CALENDAR",
+    "ModelName": "QuartzCalendar",
+    "TableName": "QRTZ_CALENDARS",
+    "Label": "Quartz Calendar",
+    "ColumnName": "CALENDAR",
+    "No": "3",
+    "LabelText": "Calendar Data",
+    "TypeName": "varbinary",
+    "MaxLength": "-1",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}
