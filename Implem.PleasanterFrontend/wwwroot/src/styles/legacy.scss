@@ -827,10 +827,11 @@ pre {
     position: static;
 }
 
-div.Calendar > .CalendarBody > .grid > thead > tr > th {
+div.Calendar > .CalendarBody .grid > thead > tr > th {
     padding: 5px;
     text-align: center;
     border: solid 1px silver;
+    border-radius: 0;
 }
 
 th.calendar-header {
