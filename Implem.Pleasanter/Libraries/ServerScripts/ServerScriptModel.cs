@@ -269,9 +269,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 _extendedHtmlAfterField = extendedHtmlAfterField;
             }
 
-            public void AddChoiceHash(object key, object value = null)
+            public void AddChoiceHash(object key) => AddChoiceHash(key, key);
+
+            public void AddChoiceHash(object key, object value)
             {
-                value ??= key;
                 if (ChoiceHash == null)
                 {
                     ChoiceHash = new Dictionary<object, object>();
