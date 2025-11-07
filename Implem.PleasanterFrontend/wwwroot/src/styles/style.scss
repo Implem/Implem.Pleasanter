@@ -3244,6 +3244,12 @@ body:not(:has(#Editor)) {
 .grid-wrap {
     display: block;
     &.app-scrollable {
+        caption {
+            position: sticky;
+            left: 0;
+            width: fit-content;
+            margin-bottom: 4px;
+        }
         th,
         td {
             white-space: nowrap;
