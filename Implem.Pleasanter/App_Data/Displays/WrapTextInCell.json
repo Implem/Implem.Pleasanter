@@ -1,0 +1,33 @@
+﻿{
+    "Id": "WrapTextInCell",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Wrap text by cell width"
+        },
+        {
+            "Language": "zh",
+            "Body": "按单元格宽度换行"
+        },
+        {
+            "Language": "ja",
+            "Body": "セル幅で文字を折り返す"
+        },
+        {
+            "Language": "de",
+            "Body": "Text nach Zellbreite umbrechen"
+        },
+        {
+            "Language": "ko",
+            "Body": "셀 너비에 따라 줄 바꿈"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajustar texto según el ancho de la celda"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ngắt dòng theo chiều rộng ô"
+        }
+    ]
+}

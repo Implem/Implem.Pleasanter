@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_NEXT_FIRE_TIME",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "NEXT_FIRE_TIME",
+    "No": "7",
+    "LabelText": "Next Fire Time",
+    "TypeName": "bigint",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

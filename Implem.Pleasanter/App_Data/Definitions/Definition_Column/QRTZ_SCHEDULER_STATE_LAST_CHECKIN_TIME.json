@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_SCHEDULER_STATE_LAST_CHECKIN_TIME",
+    "ModelName": "QuartzSchedulerState",
+    "TableName": "QRTZ_SCHEDULER_STATE",
+    "Label": "Quartz Scheduler State",
+    "ColumnName": "LAST_CHECKIN_TIME",
+    "No": "3",
+    "LabelText": "Last Check-in Time",
+    "TypeName": "bigint",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}

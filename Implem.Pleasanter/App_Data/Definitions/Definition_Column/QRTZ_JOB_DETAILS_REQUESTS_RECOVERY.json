@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_JOB_DETAILS_REQUESTS_RECOVERY",
+    "ModelName": "QuartzJobDetail",
+    "TableName": "QRTZ_JOB_DETAILS",
+    "Label": "Quartz Job Detail",
+    "ColumnName": "REQUESTS_RECOVERY",
+    "No": "9",
+    "LabelText": "Requests Recovery",
+    "TypeName": "bit",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}

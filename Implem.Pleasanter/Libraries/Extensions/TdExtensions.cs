@@ -31,7 +31,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     attributes: new HtmlAttributes()
                         .DataCellSticky(column.CellSticky)
-                        .DataCellWidth(column.CellWidth),
+                        .DataCellWidth(column.CellWidth)
+                        .DataCellWordWrap(column.CellWordWrap),
                     action: () => hb
                         .Text(string.Empty));
         }
@@ -48,7 +49,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                 attributes: new HtmlAttributes()
                     .DataCellSticky(column.CellSticky)
-                    .DataCellWidth(column.CellWidth),
+                    .DataCellWidth(column.CellWidth)
+                    .DataCellWordWrap(column.CellWordWrap),
                 action: () => hb
                     .Text(text: value?.StandardName));
         }
@@ -109,7 +111,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                         css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                         attributes: new HtmlAttributes()
                             .DataCellSticky(column.CellSticky)
-                            .DataCellWidth(column.CellWidth),
+                            .DataCellWidth(column.CellWidth)
+                            .DataCellWordWrap(column.CellWordWrap),
                         action: () => hb
                             .P(action: () => hb
                                 .Text(text: column.MultipleSelections == true
@@ -130,7 +133,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                         css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                         attributes: new HtmlAttributes()
                             .DataCellSticky(column.CellSticky)
-                            .DataCellWidth(column.CellWidth),
+                            .DataCellWidth(column.CellWidth)
+                            .DataCellWordWrap(column.CellWordWrap),
                         action: () => hb.P(
                             attributes: new HtmlAttributes()
                                 .Class(choice.CssClass)
@@ -145,7 +149,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     attributes: new HtmlAttributes()
                         .DataCellSticky(column.CellSticky)
-                        .DataCellWidth(column.CellWidth),
+                        .DataCellWidth(column.CellWidth)
+                        .DataCellWordWrap(column.CellWordWrap),
                     action: () =>
                     {
                         if (column.FieldCss == "field-rte")
@@ -198,7 +203,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                 attributes: new HtmlAttributes()
                     .DataCellSticky(column.CellSticky)
-                    .DataCellWidth(column.CellWidth),
+                    .DataCellWidth(column.CellWidth)
+                    .DataCellWordWrap(column.CellWordWrap),
                 action: () => hb
                     .Text(text: value.ToString(column.StringFormat) + column.Unit));
         }
@@ -215,7 +221,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                 attributes: new HtmlAttributes()
                     .DataCellSticky(column.CellSticky)
-                    .DataCellWidth(column.CellWidth),
+                    .DataCellWidth(column.CellWidth)
+                    .DataCellWordWrap(column.CellWordWrap),
                 action: () => hb
                     .Text(text: value.ToString(column.StringFormat) + column.Unit));
         }
@@ -232,7 +239,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                 attributes: new HtmlAttributes()
                     .DataCellSticky(column.CellSticky)
-                    .DataCellWidth(column.CellWidth),
+                    .DataCellWidth(column.CellWidth)
+                    .DataCellWordWrap(column.CellWordWrap),
                 action: () => hb
                     .Text(text: value.ToString(column.StringFormat) + column.Unit));
         }
@@ -249,7 +257,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                 attributes: new HtmlAttributes()
                     .DataCellSticky(column.CellSticky)
-                    .DataCellWidth(column.CellWidth),
+                    .DataCellWidth(column.CellWidth)
+                    .DataCellWordWrap(column.CellWordWrap),
                 action: () => hb
                     .Text(text: column.DisplayGrid(
                         context: context,
@@ -270,21 +279,24 @@ namespace Implem.Pleasanter.Libraries.Extensions
                         css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                         attributes: new HtmlAttributes()
                             .DataCellSticky(column.CellSticky)
-                            .DataCellWidth(column.CellWidth),
+                            .DataCellWidth(column.CellWidth)
+                            .DataCellWordWrap(column.CellWordWrap),
                         action: () => hb
                             .Text(text: column.ChoicesText.SplitReturn()._1st()))
                     : hb.Td(
                         css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                         attributes: new HtmlAttributes()
                             .DataCellSticky(column.CellSticky)
-                            .DataCellWidth(column.CellWidth),
+                            .DataCellWidth(column.CellWidth)
+                            .DataCellWordWrap(column.CellWordWrap),
                         action: () => hb
                             .Text(text: column.ChoicesText.SplitReturn()._2nd()))
                 : hb.Td(
                     css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     attributes: new HtmlAttributes()
                         .DataCellSticky(column.CellSticky)
-                        .DataCellWidth(column.CellWidth),
+                        .DataCellWidth(column.CellWidth)
+                        .DataCellWordWrap(column.CellWordWrap),
                     action: () => hb
                         .Span(css: "ui-icon ui-icon-circle-check", _using: value));
         }
@@ -301,7 +313,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                 attributes: new HtmlAttributes()
                     .DataCellSticky(column.CellSticky)
-                    .DataCellWidth(column.CellWidth),
+                    .DataCellWidth(column.CellWidth)
+                    .DataCellWordWrap(column.CellWordWrap),
                 action: () => hb
                     .Text(text: value.ToString()));
         }
@@ -318,7 +331,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                 attributes: new HtmlAttributes()
                     .DataCellSticky(column.CellSticky)
-                    .DataCellWidth(column.CellWidth),
+                    .DataCellWidth(column.CellWidth)
+                    .DataCellWordWrap(column.CellWordWrap),
                 action: action);
         }
     }

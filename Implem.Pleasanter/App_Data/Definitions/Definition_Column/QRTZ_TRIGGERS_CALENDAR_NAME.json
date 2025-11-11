@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_CALENDAR_NAME",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "CALENDAR_NAME",
+    "No": "14",
+    "LabelText": "Calendar Name",
+    "TypeName": "nvarchar",
+    "MaxLength": "200",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

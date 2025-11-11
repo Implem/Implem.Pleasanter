@@ -21,14 +21,27 @@
                     ss: ss,
                     mine: #modelName#Model.Mine(context: context)))
                 .Where(column => !column.Id_Ver)
-                .Where(column => columns.Any(p =>
-                    p.ColumnName == column.ColumnName))
+                .Select(column =>
+                {
+                    column.StatusReadOnly = #modelName#Model.GetStatusControl(
+                        context: context,
+                        ss: ss,
+                        column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
+                    return column;
+                })
+                .Where(column => !columns.Any(p =>
+                    p.ColumnName == column.ColumnName)
+                    || column.StatusReadOnly == true
+                    || column.EditorReadOnly == true
+                )
                 .ForEach(column =>
                 {
                     var value = #modelName#Model.ControlValue(
                         context: context,
                         ss: ss,
-                        column: column);
+                        column: column,
+                        newOnGrid: newOnGrid,
+                        originalId: originalId);
                     res.SetFormData(
                         $"{ss.ReferenceType}_{column.ColumnName}_{ss.SiteId}_{newRowId}",
                         value);

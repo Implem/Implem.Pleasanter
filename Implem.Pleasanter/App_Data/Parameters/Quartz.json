@@ -1,0 +1,13 @@
+﻿{
+    "Clustering": {
+        "Enabled": false,
+        "SchedulerName": "PleasanterScheduler",
+        "InstanceId": "AUTO",
+        "CheckinInterval": 15000,
+        "MaxMisfireThreshold": 60000,
+        "TablePrefix": "QRTZ_",
+        "Serializer": "json",
+        "MaxConcurrency": 10,
+        "ThreadPriority": "Normal"
+    }
+}

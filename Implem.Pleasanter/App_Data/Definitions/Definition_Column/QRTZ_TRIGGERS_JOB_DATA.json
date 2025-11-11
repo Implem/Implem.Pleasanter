@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_JOB_DATA",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "JOB_DATA",
+    "No": "16",
+    "LabelText": "Job Data",
+    "TypeName": "varbinary",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

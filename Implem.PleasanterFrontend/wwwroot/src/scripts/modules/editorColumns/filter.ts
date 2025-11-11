@@ -1,4 +1,6 @@
-﻿const debounce = <T extends (...args: unknown[]) => void>(
+﻿import { showToastMenu } from './toastmenu.ts';
+
+const debounce = <T extends (...args: unknown[]) => void>(
     fn: T,
     delayMs: number
 ): ((...args: Parameters<T>) => void) => {
@@ -47,7 +49,12 @@ const observeEditorColumns = (): void => {
     const target = document.getElementById('EditorColumns');
     if (!target) return;
     const observer = new MutationObserver(debounce(() => reapplyAllEditorColumnFilters(), 50));
-    observer.observe(target, { childList: true });
+    observer.observe(target, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'style']
+    });
 };
 
 const reapplyAllEditorColumnFilters = (): void => {
@@ -55,6 +62,7 @@ const reapplyAllEditorColumnFilters = (): void => {
     allIds.forEach(olId => {
         applyFilters(olId);
     });
+    requestAnimationFrame(() => showToastMenu());
 };
 
 export const activeFilters: Record<string, Set<string>> = {};

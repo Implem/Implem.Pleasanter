@@ -1192,7 +1192,9 @@ namespace Implem.Pleasanter.Models
             this WikiModel wikiModel,
             Context context,
             SiteSettings ss,
-            Column column)
+            Column column,
+            bool newOnGrid = false,
+            long originalId = 0)
         {
             switch (column.Name)
             {

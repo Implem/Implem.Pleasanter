@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_FIRED_TRIGGERS_JOB_GROUP",
+    "ModelName": "QuartzFiredTrigger",
+    "TableName": "QRTZ_FIRED_TRIGGERS",
+    "Label": "Quartz Fired Trigger",
+    "ColumnName": "JOB_GROUP",
+    "No": "11",
+    "LabelText": "Job Group",
+    "TypeName": "nvarchar",
+    "MaxLength": "150",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

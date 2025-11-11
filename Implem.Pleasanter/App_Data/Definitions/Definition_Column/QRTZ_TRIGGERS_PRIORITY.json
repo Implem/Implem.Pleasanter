@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_PRIORITY",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "PRIORITY",
+    "No": "9",
+    "LabelText": "Priority",
+    "TypeName": "int",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

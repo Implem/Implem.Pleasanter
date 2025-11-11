@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_MISFIRE_INSTR",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "MISFIRE_INSTR",
+    "No": "15",
+    "LabelText": "Misfire Instruction",
+    "TypeName": "int",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

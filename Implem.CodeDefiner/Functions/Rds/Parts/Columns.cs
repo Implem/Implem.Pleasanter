@@ -1,4 +1,5 @@
 ﻿using Implem.CodeDefiner.Functions.Rds.Parts.MySql;
+using Implem.CodeDefiner.Functions.Rds.Parts.PostgreSql;
 using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
@@ -72,7 +73,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 return true;
             }
-            if (!(factory.SqlDataType.ConvertBack(rdsColumn["TypeName"].ToString()) == columnDefinition.TypeName))
+            if (!(factory.SqlDataType.ConvertBack(rdsColumn["TypeName"].ToString(), Tables.IsQuartzTable(sourceTableName)) == columnDefinition.TypeName))
             {
                 return true;
             }
@@ -103,9 +104,17 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             switch (Parameters.Rds.Dbms)
             {
                 case "SQLServer":
-                case "PostgreSQL":
                     columnDefinitionCollection.ForEach(columnDefinition =>
                         sqlCreateColumnCollection.Add(Sql_Create(
+                            factory: factory,
+                            columnDefinition: columnDefinition,
+                            noIdentity:
+                                sourceTableName.EndsWith("_history")
+                                || sourceTableName.EndsWith("_deleted"))));
+                    break;
+                case "PostgreSQL":
+                    columnDefinitionCollection.ForEach(columnDefinition =>
+                        sqlCreateColumnCollection.Add(PostgreSqlColumns.Sql_Create(
                             factory: factory,
                             columnDefinition: columnDefinition,
                             noIdentity:

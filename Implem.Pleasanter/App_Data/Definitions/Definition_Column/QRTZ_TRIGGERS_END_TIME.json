@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_END_TIME",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "END_TIME",
+    "No": "13",
+    "LabelText": "End Time",
+    "TypeName": "bigint",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

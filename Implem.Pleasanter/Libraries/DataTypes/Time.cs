@@ -91,7 +91,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                 attributes: new HtmlAttributes()
                     .DataCellSticky(column.CellSticky)
-                    .DataCellWidth(column.CellWidth),
+                    .DataCellWidth(column.CellWidth)
+                    .DataCellWordWrap(column.CellWordWrap),
                 action: () => hb
                     .P(css: "time", action: () => hb
                         .Text(column.DisplayGrid(

@@ -76,8 +76,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var jobKey = new JobKey($"s_{script.Id}", groupKey);
                     var job = JobBuilder.Create(typeof(BackgroundServerScriptJob))
                         .WithIdentity(jobKey)
-                        .UsingJobData("tenantId", backgroundServerScripts.TenantId)
-                        .UsingJobData("scriptId", script.Id)
+                        .UsingJobData("tenantId", backgroundServerScripts.TenantId.ToString())
+                        .UsingJobData("scriptId", script.Id.ToString())
                         .UsingJobData("userId", script.UserId.ToString())
                         .UsingJobData("scripts", null)
                         .Build();
@@ -85,7 +85,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     foreach (var schedule in script.backgoundSchedules)
                     {
                         var trigger = GetTrigger(schedule)?
-                            .UsingJobData("scheduleId", schedule.Id)
+                            .UsingJobData("scheduleId", schedule.Id.ToString())
                             .ForJob(job)
                             .Build();
                         if (trigger?.GetFireTimeAfter(DateTimeOffset.UtcNow) != null) scheduler.ScheduleJob(trigger).Wait();
@@ -105,10 +105,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             var jobKey = new JobKey($"s_{script.Id}", groupKey);
             var job = JobBuilder.Create(typeof(BackgroundServerScriptJob))
                 .WithIdentity(jobKey)
-                .UsingJobData("tenantId", backgroundServerScripts.TenantId)
-                .UsingJobData("scriptId", script.Id)
+                .UsingJobData("tenantId", backgroundServerScripts.TenantId.ToString())
+                .UsingJobData("scriptId", script.Id.ToString())
                 .UsingJobData("userId", script.UserId.ToString())
-                .UsingJobData("scheduleId", -1)
+                .UsingJobData("scheduleId", "-1")
                 .UsingJobData("scripts", backgroundServerScripts.ToJson())
                 .Build();
             await scheduler.AddJob(job, replace: true, storeNonDurableWhileAwaitingScheduling: true);

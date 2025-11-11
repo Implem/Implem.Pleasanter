@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_SIMPROP_TRIGGERS_INT_PROP_1",
+    "ModelName": "QuartzSimplePropTrigger",
+    "TableName": "QRTZ_SIMPROP_TRIGGERS",
+    "Label": "Quartz Simple Property Trigger",
+    "ColumnName": "INT_PROP_1",
+    "No": "7",
+    "LabelText": "Integer Property 1",
+    "TypeName": "int",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

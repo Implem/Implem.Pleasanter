@@ -1,0 +1,14 @@
+﻿{
+    "Id": "QRTZ_BLOB_TRIGGERS_SCHED_NAME",
+    "ModelName": "QuartzBlobTrigger",
+    "TableName": "QRTZ_BLOB_TRIGGERS",
+    "Label": "Quartz Blob Trigger",
+    "ColumnName": "SCHED_NAME",
+    "No": "1",
+    "LabelText": "Scheduler Name",
+    "TypeName": "nvarchar",
+    "MaxLength": "120",
+    "NotNull": "1",
+    "Pk": "1",
+    "ExcludeBaseColumns": "1"
+}

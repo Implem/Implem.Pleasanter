@@ -232,7 +232,7 @@ pre {
     font-family: Terminal, 'Hiragino Kaku Gothic Pro', sans-serif;
     line-height: 1.5em;
     word-break: break-all;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     white-space: pre-wrap;
 }
 
@@ -827,10 +827,11 @@ pre {
     position: static;
 }
 
-div.Calendar > .CalendarBody > .grid > thead > tr > th {
+div.Calendar > .CalendarBody .grid > thead > tr > th {
     padding: 5px;
     text-align: center;
     border: solid 1px silver;
+    border-radius: 0;
 }
 
 th.calendar-header {
@@ -1666,7 +1667,7 @@ th.calendar-header {
     height: 100%;
     padding: 10px 3px 3px 10px;
     overflow: hidden;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     text-decoration: none;
 }
 
@@ -2312,7 +2313,7 @@ label.required::after {
     font-family: Terminal, 'Hiragino Kaku Gothic Pro', sans-serif;
     line-height: 1.5em;
     word-break: break-all;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .md > * {
@@ -2448,23 +2449,24 @@ label.required::after {
 
 .check-option {
     display: flex;
-    gap: 5px;
+    gap: 4px;
+    align-items: flex-start;
+    margin: 8px 0;
 }
+
 .check-option.required::after {
     margin-left: 0;
     content: '';
 }
 .check-option .check-icon {
     flex-shrink: 0;
-    margin: 8px 0;
 }
 .check-option .check-icon input {
-    display: block;
-    margin: 7px 5px 0 6px;
+    margin-top: 3px;
+    vertical-align: bottom;
 }
-.check-option .check-text {
-    margin: 6px 0;
-    margin: 7px -7px 0 0;
+.check-option .check-text:empty {
+    display: contents;
 }
 .check-option.required .check-text::after {
     margin-left: 3px;
@@ -2474,6 +2476,7 @@ label.required::after {
 .check-option .check-add-icon {
     margin-left: -5px;
 }
+
 .field-normal.right-align .check-option {
     justify-content: flex-end;
 }
@@ -2669,6 +2672,7 @@ label.required::after {
 
 .grid-wrap {
     clear: both;
+    display: block;
 }
 
 .grid {
@@ -2692,7 +2696,7 @@ label.required::after {
 .grid > thead > tr > th {
     padding: 6px;
     vertical-align: middle;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     border-top: solid 1px transparent;
     border-right: solid 1px white;
     border-bottom: solid 1px transparent;
@@ -2729,7 +2733,7 @@ label.required::after {
 }
 .grid > tbody > tr > td {
     max-width: 300px;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     border-right: dotted 1px silver;
     border-left: dotted 1px silver;
 }
@@ -2750,7 +2754,7 @@ label.required::after {
     padding: 6px;
     font-weight: normal;
     vertical-align: middle;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     background-color: gainsboro;
     border-top: solid 1px white;
     border-right: solid 1px transparent;
@@ -2853,15 +2857,15 @@ label.required::after {
     min-width: 100%;
 }
 
-#Links > .fieldset > div .grid-wrap {
-    margin-bottom: 10px;
-    overflow: auto;
-}
-
 .link-creations button {
     float: left;
     display: block;
     margin: 0 10px 0 0;
+}
+
+.fieldset > div .grid-wrap {
+    margin-bottom: 10px;
+    overflow: auto;
 }
 
 .text {
@@ -4015,7 +4019,7 @@ div.lower-search-ui {
     vertical-align: bottom;
     text-transform: none;
     letter-spacing: normal;
-    word-wrap: normal;
+    overflow-wrap: normal;
     white-space: nowrap;
     content: 'unfold_less';
     transform: translate(-50%, -50%);

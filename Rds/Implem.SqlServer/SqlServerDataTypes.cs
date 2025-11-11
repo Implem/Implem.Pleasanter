@@ -11,7 +11,7 @@ namespace Implem.SqlServer
             return name;
         }
 
-        public string ConvertBack(string name)
+        public string ConvertBack(string name, bool isQrtzTable)
         {
             return name;
         }
