@@ -1,4 +1,5 @@
 ﻿using Implem.CodeDefiner.Functions.Rds.Parts;
+using Implem.CodeDefiner.Functions.Rds.Parts.PostgreSql;
 using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
@@ -10,6 +11,29 @@ namespace Implem.CodeDefiner.Functions.Rds
 {
     internal class TablesConfigurator
     {
+        private static HashSet<string> BaseColumnNameCache = null;
+
+        private static bool IsSkipQuartzTable(string tableName)
+        {
+            var enableClustering = Parameters.Quartz?.Clustering?.Enabled ?? false;
+
+            return !enableClustering && Tables.IsQuartzTable(tableName);
+        }
+
+        private static bool IsPostgreSqlQuartzTable(string tableName)
+        {
+            return Parameters.Rds.Dbms == "PostgreSQL" && Tables.IsQuartzTable(tableName);
+        }
+
+        private static string NormalizeTableName(string tableName)
+        {
+            if (IsPostgreSqlQuartzTable(tableName))
+            {
+                return tableName.ToLower();
+            }
+            return tableName;
+        }
+
         internal static bool Configure(
             ISqlObjectFactory factory,
             bool checkMigration = false)
@@ -130,17 +154,34 @@ namespace Implem.CodeDefiner.Functions.Rds
             string generalTableName,
             bool checkMigration)
         {
+            if (IsSkipQuartzTable(generalTableName))
+            {
+                return true;
+            }
+
             Consoles.Write(generalTableName, Consoles.Types.Info);
-            var deletedTableName = generalTableName + "_deleted";
-            var historyTableName = generalTableName + "_history";
+            var sourceTableName = NormalizeTableName(generalTableName);
+            var deletedTableName = sourceTableName + "_deleted";
+            var historyTableName = sourceTableName + "_history";
             var columnDefinitionCollection = Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == generalTableName)
                 .Where(o => !o.NotUpdate)
                 .Where(o => o.JoinTableName.IsNullOrEmpty())
                 .Where(o => o.Calc.IsNullOrEmpty())
                 .Where(o => !o.LowSchemaVersion())
+                .Where(o => ShouldIncludeColumn(generalTableName, o))
                 .OrderBy(o => o.No)
                 .ToList();
+
+            if (IsPostgreSqlQuartzTable(generalTableName))
+            {
+                columnDefinitionCollection = columnDefinitionCollection.Select(o =>
+                {
+                    o.ColumnName = o.ColumnName.ToLower();
+                    return o;
+                }).ToList();
+            }
+
             var columnDefinitionHistoryCollection = columnDefinitionCollection
                 .Where(o => o.History > 0)
                 .OrderBy(o => o.History);
@@ -148,10 +189,14 @@ namespace Implem.CodeDefiner.Functions.Rds
             isChanged |= ConfigureTablePart(
                 factory: factory,
                 generalTableName: generalTableName,
-                sourceTableName: generalTableName,
+                sourceTableName: sourceTableName,
                 tableType: Sqls.TableTypes.Normal,
                 columnDefinitionCollection: columnDefinitionCollection,
                 checkMigration: checkMigration);
+            if (columnDefinitionHistoryCollection.Count() == 0)
+            {
+                return isChanged;
+            }
             isChanged |= ConfigureTablePart(
                 factory: factory,
                 generalTableName: generalTableName,
@@ -220,6 +265,61 @@ namespace Implem.CodeDefiner.Functions.Rds
                 }
             }
             return isChanged;
+        }
+
+        private static HashSet<string> GetBaseColumnNames()
+        {
+            if (BaseColumnNameCache == null)
+            {
+                BaseColumnNameCache = new HashSet<string>();
+
+                foreach (var column in Def.BaseColumnDefinitionCollection())
+                {
+                    BaseColumnNameCache.Add(column.ColumnName);
+                }
+
+                foreach (var column in Def.BaseItemColumnDefinitionCollection())
+                {
+                    BaseColumnNameCache.Add(column.ColumnName);
+                }
+            }
+
+            return BaseColumnNameCache;
+        }
+
+        private static bool IsBaseColumn(ColumnDefinition column)
+        {
+            return GetBaseColumnNames().Contains(column.ColumnName);
+        }
+
+        private static bool ShouldIncludeColumn(string tableName, ColumnDefinition column)
+        {
+            if (!IsBaseColumn(column))
+            {
+                return true;
+            }
+
+            return !ShouldExcludeBaseColumns(tableName);
+        }
+
+        private static bool ShouldExcludeBaseColumns(string tableName)
+        {
+            if (string.IsNullOrEmpty(tableName))
+            {
+                return false;
+            }
+
+            var columnDefinitions = Def.ColumnDefinitionCollection
+                .Where(o => o.TableName == tableName)
+                .Where(o => !IsBaseColumn(o))
+                .ToList();
+
+            if (!columnDefinitions.Any())
+            {
+                return false;
+            }
+
+            return columnDefinitions.All(o => o.ExcludeBaseColumns);
         }
     }
 }

@@ -15,7 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
-    public class BackgroundServerScriptJob : ExecutionTimerBase
+    public class BackgroundServerScriptJob : ClusterExecutionTimerBase
     {
         public override async Task Execute(IJobExecutionContext jobContext)
         {

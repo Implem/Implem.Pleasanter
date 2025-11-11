@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_CRON_TRIGGERS_CRON_EXPRESSION",
+    "ModelName": "QuartzCronTrigger",
+    "TableName": "QRTZ_CRON_TRIGGERS",
+    "Label": "Quartz Cron Trigger",
+    "ColumnName": "CRON_EXPRESSION",
+    "No": "4",
+    "LabelText": "Cron Expression",
+    "TypeName": "nvarchar",
+    "MaxLength": "120",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}

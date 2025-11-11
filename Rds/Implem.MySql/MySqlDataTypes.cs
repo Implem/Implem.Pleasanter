@@ -11,12 +11,26 @@ namespace Implem.MySql
                 .Replace("nvarchar(max)", "longtext")
                 .Replace("nvarchar", "varchar")
                 .Replace("bit", "tinyint(1)")
+                .Replace("varbinary", "blob")
                 .Replace("image", "longblob")
                 .Replace("datetime", "datetime(3)");
         }
 
-        public string ConvertBack(string name)
+        public string ConvertBack(string name, bool isQrtzTable)
         {
+            if (isQrtzTable)
+            {
+                switch (name)
+                {
+                    case "decimal":
+                        return "numeric";
+                    case "blob":
+                        return "varbinary";
+                    default:
+                        break;
+                }
+            }
+
             return name == "char"
                 ? "nchar"
                 : name

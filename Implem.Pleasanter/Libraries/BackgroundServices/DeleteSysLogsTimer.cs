@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
-    public class DeleteSysLogsTimer : ExecutionTimerBase
+    public class DeleteSysLogsTimer : ClusterExecutionTimerBase
     {
         public class Param : IExecutionTimerBaseParam
         {

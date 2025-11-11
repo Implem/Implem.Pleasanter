@@ -791,7 +791,9 @@ public static string ControlValue(
     this #ModelName#Model #modelName#Model,
     Context context,
     SiteSettings ss,
-    Column column)
+    Column column,
+    bool newOnGrid = false,
+    long originalId = 0)
 {
 
 <!--Model_Utilities_SetStatusReadOnly-->

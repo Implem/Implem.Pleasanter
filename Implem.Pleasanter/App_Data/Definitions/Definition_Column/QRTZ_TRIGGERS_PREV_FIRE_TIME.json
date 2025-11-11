@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_PREV_FIRE_TIME",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "PREV_FIRE_TIME",
+    "No": "8",
+    "LabelText": "Previous Fire Time",
+    "TypeName": "bigint",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

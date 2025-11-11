@@ -825,11 +825,7 @@ input {
 }
 
 .check-option {
-    display: flex;
-    gap: 4px;
-    &:has(.check-text:empty) {
-        display: inline-flex;
-    }
+    gap: 8px;
     .check-icon {
         float: none;
         display: flex;
@@ -837,7 +833,6 @@ input {
         justify-content: center;
         width: 20px;
         height: 20px;
-        margin: 5px 0;
         overflow: hidden;
         background-color: var(--control-bg);
         border: 1px solid var(--control-border);
@@ -895,9 +890,6 @@ input {
                 }
             }
         }
-    }
-    .check-text {
-        margin: 5px 0;
     }
     .check-add-icon {
         margin-left: -3px;
@@ -2570,11 +2562,14 @@ body {
             pointer-events: none;
             background: var(--toast-bg-color);
             border-radius: 4px;
+            opacity: 0;
             transform: translateY(100%);
             transition:
                 transform 0.3s ease,
                 opacity 0.3s ease;
             &.show {
+                pointer-events: auto;
+                opacity: 1;
                 transform: translateY(0);
             }
 
@@ -3043,7 +3038,7 @@ body:not(:has(#Editor)) {
             > th {
                 width: var(--cell-width, auto);
                 min-width: var(--cell-width, 0);
-                max-width: var(--cell-width, 320px);
+                max-width: var(--cell-width, 300px);
                 padding: 8px 16px;
                 color: var(--invert-text);
                 background-color: var(--primaryColor);
@@ -3095,7 +3090,7 @@ body:not(:has(#Editor)) {
             border-bottom: solid 1px var(--grid-cell-border);
             border-left: none;
             box-shadow: 1px 0 0 var(--grid-cell-bg);
-            input {
+            input:not([type='checkbox']) {
                 width: 100%;
                 margin: 0 auto;
                 cursor: pointer;
@@ -3249,12 +3244,36 @@ body:not(:has(#Editor)) {
 .grid-wrap {
     display: block;
     &.app-scrollable {
+        caption {
+            position: sticky;
+            left: 0;
+            width: fit-content;
+            margin-bottom: 4px;
+        }
         th,
         td {
             white-space: nowrap;
+            .grid-title-body {
+                .title {
+                    white-space: initial;
+                }
+            }
             th,
             td {
                 white-space: initial;
+            }
+            &[data-cell-width] {
+                max-width: 0;
+                .grid-title-body,
+                .comment {
+                    min-width: 0;
+                }
+            }
+            &[data-cell-wordwrap] {
+                white-space: initial;
+                .user {
+                    flex-wrap: wrap;
+                }
             }
         }
         > #Grid {
@@ -3271,7 +3290,7 @@ body:not(:has(#Editor)) {
             }
         }
     }
-    &.app-held-key {
+    &.app-scroll-lock {
         table {
             th,
             td {
@@ -3957,6 +3976,9 @@ body:has(input#Controller[value='syslogs']) {
     .calendar-header {
         color: var(--invert-text);
         background-color: var(--primaryColor);
+        border-top-width: 0;
+        border-bottom-width: 0;
+        border-left-width: 0;
         &.saturday {
             background-color: var(--primaryDark);
         }

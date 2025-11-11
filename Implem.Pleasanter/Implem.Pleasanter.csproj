@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.21.1</AssemblyVersion>
-    <FileVersion>1.4.21.1</FileVersion>
-    <Version>1.4.21.1</Version>
+    <AssemblyVersion>1.4.22.0</AssemblyVersion>
+    <FileVersion>1.4.22.0</FileVersion>
+    <Version>1.4.22.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -67,6 +67,7 @@
     <PackageReference Include="Npgsql" Version="8.0.7" />
     <PackageReference Include="Quartz.AspNetCore" Version="3.15.0" />
     <PackageReference Include="Otp.NET" Version="1.4.0" />
+    <PackageReference Include="Quartz.Serialization.Json" Version="3.15.0" />
     <PackageReference Include="Sendgrid" Version="9.29.3" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.4.6" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
@@ -126,8 +127,10 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardView.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GetServerScriptModelRow.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GridRowsReturn.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_MergeSavedProperty.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Response_ResetGroupMembers.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Return.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_SavedProperty.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_View.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_WriteAttachmentsExecute_Create.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Tenants_AllowExtensionsApi.json" />

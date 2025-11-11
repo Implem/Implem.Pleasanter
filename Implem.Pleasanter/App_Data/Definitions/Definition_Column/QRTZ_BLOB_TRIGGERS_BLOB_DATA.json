@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_BLOB_TRIGGERS_BLOB_DATA",
+    "ModelName": "QuartzBlobTrigger",
+    "TableName": "QRTZ_BLOB_TRIGGERS",
+    "Label": "Quartz Blob Trigger",
+    "ColumnName": "BLOB_DATA",
+    "No": "4",
+    "LabelText": "Blob Data",
+    "TypeName": "varbinary",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

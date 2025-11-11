@@ -612,14 +612,27 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             mine: resultModel.Mine(context: context)))
                         .Where(column => !column.Id_Ver)
-                        .Where(column => columns.Any(p =>
-                            p.ColumnName == column.ColumnName))
+                        .Select(column =>
+                        {
+                            column.StatusReadOnly = resultModel.GetStatusControl(
+                                context: context,
+                                ss: ss,
+                                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
+                            return column;
+                        })
+                        .Where(column => !columns.Any(p =>
+                            p.ColumnName == column.ColumnName)
+                            || column.StatusReadOnly == true
+                            || column.EditorReadOnly == true
+                        )
                         .ForEach(column =>
                         {
                             var value = resultModel.ControlValue(
                                 context: context,
                                 ss: ss,
-                                column: column);
+                                column: column,
+                                newOnGrid: newOnGrid,
+                                originalId: originalId);
                             res.SetFormData(
                                 $"{ss.ReferenceType}_{column.ColumnName}_{ss.SiteId}_{newRowId}",
                                 value);
@@ -2162,12 +2175,17 @@ namespace Implem.Pleasanter.Models
             this ResultModel resultModel,
             Context context,
             SiteSettings ss,
-            Column column)
+            Column column,
+            bool newOnGrid = false,
+            long originalId = 0)
         {
-            column.StatusReadOnly = resultModel.GetStatusControl(
-                context: context,
-                ss: ss,
-                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
+            if (!newOnGrid || originalId <= 0)
+            {
+                column.StatusReadOnly = resultModel.GetStatusControl(
+                    context: context,
+                    ss: ss,
+                    column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
+            }
             switch (column.Name)
             {
                 case "ResultId":
@@ -4182,7 +4200,8 @@ namespace Implem.Pleasanter.Models
                         view: view,
                         formDataSet: formDataSet,
                         responses: responses,
-                        notificationHash: notificationHash);
+                        notificationHash: notificationHash,
+                        beforeResultCollection: resultCollection);
             }
         }
 
@@ -4224,7 +4243,8 @@ namespace Implem.Pleasanter.Models
             View view,
             List<FormData> formDataSet,
             List<SqlResponse> responses,
-            Dictionary<long, List<Notification>> notificationHash)
+            Dictionary<long, List<Notification>> notificationHash,
+            ResultCollection beforeResultCollection)
         {
             var resultCollection = new ResultCollection(
                 context: context,
@@ -4235,6 +4255,7 @@ namespace Implem.Pleasanter.Models
                         .Where(o => o.Id > 0)
                         .Select(o => o.Id.ToLong())
                         .ToList()));
+            resultCollection.MergeSavedFrom(beforeResultCollection);
             resultCollection.ForEach(resultModel =>
             {
                 resultModel.SynchronizeSummary(
@@ -4325,6 +4346,33 @@ namespace Implem.Pleasanter.Models
                     data: responses.Count().ToString()))
                 .Messages(context.Messages)
                 .ToJson();
+        }
+
+        public static void MergeSavedFrom(this ResultCollection updatedCollection, ResultCollection beforeCollection)
+        {
+            if (updatedCollection == null || beforeCollection == null) return;
+            var beforeById = beforeCollection
+                .Where(resultModel => resultModel.AccessStatus == Databases.AccessStatuses.Selected)
+                .ToDictionary(resultModel => resultModel.ResultId);
+            foreach (var updatedResultModel in updatedCollection.Where(r => r.AccessStatus == Databases.AccessStatuses.Selected))
+            {
+                if (!beforeById.TryGetValue(updatedResultModel.ResultId, out var before)) continue;
+                updatedResultModel.SavedResultId = before.SavedResultId;
+                updatedResultModel.SavedTitle = before.SavedTitle;
+                updatedResultModel.SavedBody = before.SavedBody;
+                updatedResultModel.SavedStatus = before.SavedStatus;
+                updatedResultModel.SavedManager = before.SavedManager;
+                updatedResultModel.SavedOwner = before.SavedOwner;
+                updatedResultModel.SavedLocked = before.SavedLocked;
+                updatedResultModel.SavedComments = before.SavedComments;
+                updatedResultModel.SavedTimestamp = before.SavedTimestamp;
+                updatedResultModel.SavedClassHash = new Dictionary<string, string>(before.SavedClassHash ?? new Dictionary<string, string>());
+                updatedResultModel.SavedNumHash = new Dictionary<string, decimal?>(before.SavedNumHash ?? new Dictionary<string, decimal?>());
+                updatedResultModel.SavedDateHash = new Dictionary<string, DateTime>(before.SavedDateHash ?? new Dictionary<string, DateTime>());
+                updatedResultModel.SavedDescriptionHash = new Dictionary<string, string>(before.SavedDescriptionHash ?? new Dictionary<string, string>());
+                updatedResultModel.SavedCheckHash = new Dictionary<string, bool>(before.SavedCheckHash ?? new Dictionary<string, bool>());
+                updatedResultModel.SavedAttachmentsHash = new Dictionary<string, string>(before.SavedAttachmentsHash ?? new Dictionary<string, string>());
+            }
         }
 
         public static string BulkProcess(Context context, SiteSettings ss)
@@ -6960,14 +7008,28 @@ namespace Implem.Pleasanter.Models
                         && !data.Value[importKeyColumn.Key].IsNullOrEmpty())
                     {
                         var view = new View();
+                        view.AddColumnFilterSearchTypes(
+                            columnName: importKeyColumnName,
+                            searchType: Column.SearchTypes.ExactMatch);
+                        columnHash.ForEach(column =>
+                        {
+                            if (importKeyColumnName == column.Value.Column.ColumnName)
+                            {
+                                var recordingData = column.Value.Column.RecordingData(
+                                    context: context,
+                                    value: ImportUtilities.RecordingData(
+                                        columnHash: columnHash,
+                                        row: data.Value,
+                                        column: column),
+                                    siteId: ss.InheritPermission);
+                                data.Value[importKeyColumn.Key] = recordingData;
+                            }
+                        });
                         view.AddColumnFilterHash(
                             context: context,
                             ss: ss,
                             column: importKeyColumn.Value.Column,
                             objectValue: data.Value[importKeyColumn.Key]);
-                        view.AddColumnFilterSearchTypes(
-                            columnName: importKeyColumnName,
-                            searchType: Column.SearchTypes.ExactMatch);
                         var model = new ResultModel(
                             context: context,
                             ss: ss,
@@ -7313,14 +7375,28 @@ namespace Implem.Pleasanter.Models
                         && !data.Value[importKeyColumn.Key].IsNullOrEmpty())
                     {
                         var view = new View();
+                        view.AddColumnFilterSearchTypes(
+                            columnName: importKeyColumnName,
+                            searchType: Column.SearchTypes.ExactMatch);
+                        columnHash.ForEach(column =>
+                        {
+                            if (importKeyColumnName == column.Value.Column.ColumnName)
+                            {
+                                var recordingData = column.Value.Column.RecordingData(
+                                    context: context,
+                                    value: ImportUtilities.RecordingData(
+                                        columnHash: columnHash,
+                                        row: data.Value,
+                                        column: column),
+                                    siteId: ss.InheritPermission);
+                                data.Value[importKeyColumn.Key] = recordingData;
+                            }
+                        });
                         view.AddColumnFilterHash(
                             context: context,
                             ss: ss,
                             column: importKeyColumn.Value.Column,
                             objectValue: data.Value[importKeyColumn.Key]);
-                        view.AddColumnFilterSearchTypes(
-                            columnName: importKeyColumnName,
-                            searchType: Column.SearchTypes.ExactMatch);
                         var model = new ResultModel(
                             context: context,
                             ss: ss,

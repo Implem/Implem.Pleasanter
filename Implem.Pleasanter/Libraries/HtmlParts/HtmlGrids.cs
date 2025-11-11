@@ -125,6 +125,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .DataName(column.ColumnName)
                                     .DataCellSticky(column.CellSticky)
                                     .DataCellWidth(column.CellWidth)
+                                    .DataCellWordWrap(column.CellWordWrap)
                                     .Style($"--cell-width: {column.CellWidth}px;", column.CellWidth != null && column.CellWidth != 0),
                                 action: () => hb
                                     .Div(
@@ -588,7 +589,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             + $" {serverScriptModelColumn?.ExtendedCellCss}",
                                         attributes: new HtmlAttributes()
                                 		    .DataCellSticky(column.CellSticky)
-                                            .DataCellWidth(column.CellWidth),
+                                            .DataCellWidth(column.CellWidth)
+                                            .DataCellWordWrap(column.CellWordWrap),
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,
@@ -661,7 +663,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             + $" {serverScriptModelColumn?.ExtendedCellCss}",
                                         attributes: new HtmlAttributes()
                                 		    .DataCellSticky(column.CellSticky)
-                                            .DataCellWidth(column.CellWidth),
+                                            .DataCellWidth(column.CellWidth)
+                                            .DataCellWordWrap(column.CellWordWrap),
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,

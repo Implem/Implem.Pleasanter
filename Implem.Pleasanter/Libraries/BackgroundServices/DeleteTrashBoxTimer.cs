@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
-    public class DeleteTrashBoxTimer : ExecutionTimerBase
+    public class DeleteTrashBoxTimer : ClusterExecutionTimerBase
     {
         public class Param : IExecutionTimerBaseParam
         {

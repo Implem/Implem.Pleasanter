@@ -1,0 +1,14 @@
+﻿{
+    "Id": "QRTZ_CALENDARS_CALENDAR_NAME",
+    "ModelName": "QuartzCalendar",
+    "TableName": "QRTZ_CALENDARS",
+    "Label": "Quartz Calendar",
+    "ColumnName": "CALENDAR_NAME",
+    "No": "2",
+    "LabelText": "Calendar Name",
+    "TypeName": "nvarchar",
+    "MaxLength": "200",
+    "NotNull": "1",
+    "Pk": "1",
+    "ExcludeBaseColumns": "1"
+}

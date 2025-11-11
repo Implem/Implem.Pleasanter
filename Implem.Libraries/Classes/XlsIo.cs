@@ -77,6 +77,26 @@ namespace Implem.Libraries.Classes
                     var data = XlsSheet.Columns.ToDictionary(o => o, o => string.Empty);
                     Files.Read(file.FullName).Deserialize<Dictionary<string, string>>()
                         .ForEach(part => data[part.Key] = part.Value.Replace("\n", "\r\n"));
+                    if (data.ContainsKey("RepeatType") && data["RepeatType"] == "Table")
+                    {
+                        string[] qrtzExcluce = 
+                        {
+                            "QRTZ_BLOB_TRIGGERS",
+                            "QRTZ_CALENDARS",
+                            "QRTZ_CRON_TRIGGERS",
+                            "QRTZ_FIRED_TRIGGERS",
+                            "QRTZ_JOB_DETAILS",
+                            "QRTZ_LOCKS",
+                            "QRTZ_PAUSED_TRIGGER_GRPS",
+                            "QRTZ_SCHEDULER_STATE",
+                            "QRTZ_SIMPLE_TRIGGERS",
+                            "QRTZ_SIMPROP_TRIGGERS",
+                            "QRTZ_TRIGGERS",
+                        };
+                        var exclude = (data.ContainsKey("Exclude") ? data["Exclude"] : "").Split(',');
+                        exclude = exclude.Concat(qrtzExcluce).ToArray();
+                        data["Exclude"] = string.Join(",", exclude);
+                    }
                     var xlsRow = new XlsRow(data);
                     hash.Add(file.Name, xlsRow);
                     XlsSheet.Add(xlsRow);

@@ -1,0 +1,14 @@
+﻿{
+    "Id": "QRTZ_FIRED_TRIGGERS_ENTRY_ID",
+    "ModelName": "QuartzFiredTrigger",
+    "TableName": "QRTZ_FIRED_TRIGGERS",
+    "Label": "Quartz Fired Trigger",
+    "ColumnName": "ENTRY_ID",
+    "No": "2",
+    "LabelText": "Entry ID",
+    "TypeName": "nvarchar",
+    "MaxLength": "140",
+    "NotNull": "1",
+    "Pk": "1",
+    "ExcludeBaseColumns": "1"
+}

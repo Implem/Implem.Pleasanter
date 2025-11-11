@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_SIMPLE_TRIGGERS_TIMES_TRIGGERED",
+    "ModelName": "QuartzSimpleTrigger",
+    "TableName": "QRTZ_SIMPLE_TRIGGERS",
+    "Label": "Quartz Simple Trigger",
+    "ColumnName": "TIMES_TRIGGERED",
+    "No": "6",
+    "LabelText": "Times Triggered",
+    "TypeName": "int",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}

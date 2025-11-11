@@ -63,6 +63,7 @@ namespace Implem.DefinitionAccessor
         public static GroupChildren GroupChildren;
         public static OutputCache OutputCache;
         public static TrialLicense TrialLicense;
+        public static Quartz Quartz;
 
         public static bool CommercialLicense()
         {

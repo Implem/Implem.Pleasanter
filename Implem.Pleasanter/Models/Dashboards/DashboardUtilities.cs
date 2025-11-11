@@ -2005,7 +2005,7 @@ namespace Implem.Pleasanter.Models
                 ));
             var title = ss.LabelTextToColumnName(titleTemplate);
             var body = ss.LabelTextToColumnName(bodyTemplate);
-            var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
+            var ssHash = ss.GetIntegratedSites(context: context)?.Distinct().ToDictionary(
                 siteId => siteId,
                 siteId => ss.JoinedSsHash?.Get(siteId)
                     ?? SiteSettingsUtilities.Get(
@@ -2073,11 +2073,12 @@ namespace Implem.Pleasanter.Models
                 ));
             var title = ss.LabelTextToColumnName(titleTemplate);
             var body = ss.LabelTextToColumnName(bodyTemplate);
-            var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
+            var ssHash = ss.GetIntegratedSites(context: context)?.Distinct().ToDictionary(
                 siteId => siteId,
-                siteId => SiteSettingsUtilities.Get(
-                    context: context,
-                    siteId: siteId))
+                siteId => ss.JoinedSsHash?.Get(siteId)
+                    ?? SiteSettingsUtilities.Get(
+                        context: context,
+                        siteId: siteId))
                 ?? new Dictionary<long, SiteSettings>();
             return issues
                 .Select(model =>

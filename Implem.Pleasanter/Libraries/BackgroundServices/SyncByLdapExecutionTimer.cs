@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
-    public class SyncByLdapExecutionTimer : ExecutionTimerBase
+    public class SyncByLdapExecutionTimer : ClusterExecutionTimerBase
     {
         public class Param : IExecutionTimerBaseParam
         {

@@ -1198,9 +1198,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "int":
                 case "bigint":
                 case "nvarchar":
-                    value = column.HasChoices()
-                        ? $"[\"{objectValue}\"]"
-                        : objectValue.ToString();
+                    if (column.HasChoices())
+                    {
+                        var str = objectValue.ToString();
+                        value = column.MultipleSelections == true
+                            ? str
+                            : $"[\"{str}\"]";
+                    }
+                    else
+                    {
+                        value = objectValue.ToString();
+                    }
                     break;
                 case "decimal":
                     var num = objectValue.ToString();
@@ -2940,6 +2948,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         case Column.SearchTypes.ExactMatch:
                         case Column.SearchTypes.ExactMatchMultiple:
+                            if (param != null && !param.Any())
+                            {
+                                where.Add(CsStringColumnsWhereNull(
+                                    context: context,
+                                    column: column,
+                                    negative: negative));
+                                return;
+                            }
                             if (param?.Any() == true)
                             {
                                 CreateCsStringSqlWhereCollection(

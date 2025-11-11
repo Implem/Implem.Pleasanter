@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_SIMPROP_TRIGGERS_BOOL_PROP_1",
+    "ModelName": "QuartzSimplePropTrigger",
+    "TableName": "QRTZ_SIMPROP_TRIGGERS",
+    "Label": "Quartz Simple Property Trigger",
+    "ColumnName": "BOOL_PROP_1",
+    "No": "13",
+    "LabelText": "Boolean Property 1",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

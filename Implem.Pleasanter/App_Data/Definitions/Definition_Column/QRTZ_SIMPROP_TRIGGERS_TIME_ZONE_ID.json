@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_SIMPROP_TRIGGERS_TIME_ZONE_ID",
+    "ModelName": "QuartzSimplePropTrigger",
+    "TableName": "QRTZ_SIMPROP_TRIGGERS",
+    "Label": "Quartz Simple Property Trigger",
+    "ColumnName": "TIME_ZONE_ID",
+    "No": "15",
+    "LabelText": "Time Zone ID",
+    "TypeName": "nvarchar",
+    "MaxLength": "80",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

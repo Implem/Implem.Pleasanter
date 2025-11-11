@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_SIMPLE_TRIGGERS_REPEAT_INTERVAL",
+    "ModelName": "QuartzSimpleTrigger",
+    "TableName": "QRTZ_SIMPLE_TRIGGERS",
+    "Label": "Quartz Simple Trigger",
+    "ColumnName": "REPEAT_INTERVAL",
+    "No": "5",
+    "LabelText": "Repeat Interval",
+    "TypeName": "bigint",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}

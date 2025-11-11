@@ -1524,6 +1524,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.CellWidth = column.CellWidth;
                     }
+                    if (column.CellWordWrap != null)
+                    {
+                        enabled = true;
+                        newColumn.CellWordWrap = column.CellWordWrap;
+                    }
                     if (column.GridDesign != null &&
                         column.GridDesign != LabelTextBracket(column))
                     {
@@ -4210,6 +4215,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Section": column.Section = value; break;
                 case "CellSticky": column.CellSticky = value.ToBool(); break;
                 case "CellWidth": column.CellWidth = value.ToInt(); break;
+                case "CellWordWrap": column.CellWordWrap = value.ToBool(); break;
                 case "GridDesign":
                     column.GridDesign = LabelTextToColumnName(
                         column: column,

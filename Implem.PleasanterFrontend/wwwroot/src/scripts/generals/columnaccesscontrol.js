@@ -6,7 +6,8 @@
             modal: true,
             width: '900px',
             appendTo: '#Editor',
-            resizable: false
+            resizable: false,
+            close: $p.destroyPermissionsDialog
         });
     }
 };

@@ -9,7 +9,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
-    class ReminderBackgroundTimer : ExecutionTimerBase
+    class ReminderBackgroundTimer : ClusterExecutionTimerBase
     {
         static private bool IsRunning = false;
         public class Param : IExecutionTimerBaseParam

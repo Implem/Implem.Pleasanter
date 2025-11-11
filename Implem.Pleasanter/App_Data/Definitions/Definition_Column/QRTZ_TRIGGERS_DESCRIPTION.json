@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_DESCRIPTION",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "DESCRIPTION",
+    "No": "6",
+    "LabelText": "Description",
+    "TypeName": "nvarchar",
+    "MaxLength": "250",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}
