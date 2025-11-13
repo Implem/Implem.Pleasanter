@@ -292,10 +292,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
             return ClearAndSplitPrepend(
                 context: context,
-                ss:ss,
-                body:body,
+                ss: ss,
+                body: body,
                 update: update,
-                force:force);
+                force: force);
         }
 
         public Comments ClearAndSplitPrepend(
