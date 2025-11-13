@@ -1335,7 +1335,7 @@ namespace Implem.Pleasanter.Models
             if (data.DeptName != null) DeptName = data.DeptName.ToString().ToString();
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
-            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,

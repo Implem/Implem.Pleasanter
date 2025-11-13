@@ -1133,7 +1133,7 @@ namespace Implem.Pleasanter.Models
             if (data.Theme != null) Theme = data.Theme.ToString().ToString();
             if (data.Language != null) Language = data.Language.ToString().ToString();
             if (data.TimeZone != null) TimeZone = data.TimeZone.ToString().ToString();
-            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,

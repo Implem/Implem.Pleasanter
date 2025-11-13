@@ -1757,7 +1757,7 @@ namespace Implem.Pleasanter.Models
             if (data.DisableCrossSearch != null) DisableCrossSearch = data.DisableCrossSearch.ToBool().ToBool();
             if (data.Permissions != null) RecordPermissions = data.Permissions;
             if (data.SiteSettings != null) SiteSettings = data.SiteSettings;
-            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,

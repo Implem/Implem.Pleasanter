@@ -278,6 +278,26 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return null;
         }
 
+        public Comments ClearAndSplitPrependByApi(
+            Context context,
+            SiteSettings ss,
+            string body,
+            bool update,
+            bool force = false)
+        {
+            if (body == "[]")
+            {
+                Clear();
+                return this;
+            }
+            return ClearAndSplitPrepend(
+                context: context,
+                ss:ss,
+                body:body,
+                update: update,
+                force:force);
+        }
+
         public Comments ClearAndSplitPrepend(
             Context context,
             SiteSettings ss,

@@ -2897,7 +2897,7 @@ namespace Implem.Pleasanter.Models
             if (data.Manager != null) Manager = SiteInfo.User(context: context, userId: data.Manager.ToInt());
             if (data.Owner != null) Owner = SiteInfo.User(context: context, userId: data.Owner.ToInt());
             if (data.Locked != null) Locked = data.Locked.ToBool().ToBool();
-            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,
