@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_SIMPROP_TRIGGERS_DEC_PROP_1",
+    "ModelName": "QuartzSimplePropTrigger",
+    "TableName": "QRTZ_SIMPROP_TRIGGERS",
+    "Label": "Quartz Simple Property Trigger",
+    "ColumnName": "DEC_PROP_1",
+    "No": "11",
+    "LabelText": "Decimal Property 1",
+    "TypeName": "numeric",
+    "MaxLength": "13,4",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

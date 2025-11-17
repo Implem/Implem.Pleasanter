@@ -1,0 +1,14 @@
+﻿{
+    "Id": "QRTZ_PAUSED_TRIGGER_GRPS_TRIGGER_GROUP",
+    "ModelName": "QuartzPausedTriggerGroup",
+    "TableName": "QRTZ_PAUSED_TRIGGER_GRPS",
+    "Label": "Quartz Paused Trigger Group",
+    "ColumnName": "TRIGGER_GROUP",
+    "No": "2",
+    "LabelText": "Trigger Group",
+    "TypeName": "nvarchar",
+    "MaxLength": "150",
+    "NotNull": "1",
+    "Pk": "1",
+    "ExcludeBaseColumns": "1"
+}

@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     /// <summary>
     /// Reminderを定期的に呼び出すBackgroundServiceクラス
     /// </summary>
-    class ReminderBackgroundTimer : ExecutionTimerBase
+    class ReminderBackgroundTimer : ClusterExecutionTimerBase
     {
         static private bool IsRunning = false;
         public class Param : IExecutionTimerBaseParam

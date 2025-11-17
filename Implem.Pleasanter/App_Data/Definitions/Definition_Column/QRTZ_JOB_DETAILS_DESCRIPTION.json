@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_JOB_DETAILS_DESCRIPTION",
+    "ModelName": "QuartzJobDetail",
+    "TableName": "QRTZ_JOB_DETAILS",
+    "Label": "Quartz Job Detail",
+    "ColumnName": "DESCRIPTION",
+    "No": "4",
+    "LabelText": "Description",
+    "TypeName": "nvarchar",
+    "MaxLength": "250",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

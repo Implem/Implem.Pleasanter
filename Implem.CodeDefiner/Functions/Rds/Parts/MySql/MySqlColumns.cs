@@ -25,6 +25,10 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                     ? "varchar(" + factory.SqlDefinitionSetting.ReducedVarcharLength.ToString() + ")"
                     : "text";
             }
+            else if (columnDefinition.TypeName == "varbinary" && columnDefinition.MaxLength == -1)
+            {
+                dataTypeSize = "blob";
+            }
             else
             {
                 dataTypeSize = columnDefinition.TypeName;

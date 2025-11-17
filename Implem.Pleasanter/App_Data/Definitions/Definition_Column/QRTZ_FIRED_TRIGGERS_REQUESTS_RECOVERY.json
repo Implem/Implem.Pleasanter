@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_FIRED_TRIGGERS_REQUESTS_RECOVERY",
+    "ModelName": "QuartzFiredTrigger",
+    "TableName": "QRTZ_FIRED_TRIGGERS",
+    "Label": "Quartz Fired Trigger",
+    "ColumnName": "REQUESTS_RECOVERY",
+    "No": "13",
+    "LabelText": "Requests Recovery",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

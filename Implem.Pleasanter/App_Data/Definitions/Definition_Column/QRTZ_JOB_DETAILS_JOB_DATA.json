@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_JOB_DETAILS_JOB_DATA",
+    "ModelName": "QuartzJobDetail",
+    "TableName": "QRTZ_JOB_DETAILS",
+    "Label": "Quartz Job Detail",
+    "ColumnName": "JOB_DATA",
+    "No": "10",
+    "LabelText": "Job Data",
+    "TypeName": "varbinary",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

@@ -2,6 +2,7 @@
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -195,6 +196,17 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             EnumerableRowCollection<DataRow> rdsColumnCollection)
         {
             return rdsColumnCollection.Count() != columnDefinitionCollection.Count();
+        }
+
+        /// <summary>
+        /// テーブル名がQRTZテーブルかどうか判定
+        /// </summary>
+        /// <param name="tableName">テーブル名</param>
+        /// <returns>QRTZテーブルの場合true</returns>
+        internal static bool IsQuartzTable(string tableName)
+        {
+            var prefix = Parameters.Quartz?.Clustering?.TablePrefix;
+            return tableName != null && prefix != null && tableName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

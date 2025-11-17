@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_JOB_DETAILS_IS_DURABLE",
+    "ModelName": "QuartzJobDetail",
+    "TableName": "QRTZ_JOB_DETAILS",
+    "Label": "Quartz Job Detail",
+    "ColumnName": "IS_DURABLE",
+    "No": "6",
+    "LabelText": "Is Durable",
+    "TypeName": "bit",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}

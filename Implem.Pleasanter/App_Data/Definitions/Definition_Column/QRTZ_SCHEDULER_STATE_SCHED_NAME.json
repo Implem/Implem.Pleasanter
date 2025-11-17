@@ -1,0 +1,14 @@
+﻿{
+    "Id": "QRTZ_SCHEDULER_STATE_SCHED_NAME",
+    "ModelName": "QuartzSchedulerState",
+    "TableName": "QRTZ_SCHEDULER_STATE",
+    "Label": "Quartz Scheduler State",
+    "ColumnName": "SCHED_NAME",
+    "No": "1",
+    "LabelText": "Scheduler Name",
+    "TypeName": "nvarchar",
+    "MaxLength": "120",
+    "NotNull": "1",
+    "Pk": "1",
+    "ExcludeBaseColumns": "1"
+}

@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_JOB_DETAILS_IS_UPDATE_DATA",
+    "ModelName": "QuartzJobDetail",
+    "TableName": "QRTZ_JOB_DETAILS",
+    "Label": "Quartz Job Detail",
+    "ColumnName": "IS_UPDATE_DATA",
+    "No": "8",
+    "LabelText": "Is Update Data",
+    "TypeName": "bit",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}

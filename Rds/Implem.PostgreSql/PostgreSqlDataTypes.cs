@@ -12,12 +12,27 @@ namespace Implem.PostgreSql
                 .Replace("nvarchar(max)", "text")
                 .Replace("nvarchar", "varchar")
                 .Replace("bit", "boolean")
+                .Replace("varbinary", "bytea")
                 .Replace("image", "bytea")
                 .Replace("datetime", "timestamp(3)");
         }
 
-        public string ConvertBack(string name)
+        public string ConvertBack(string name, bool isQrtzTable)
         {
+            if (isQrtzTable)
+            {
+                //QRTZ系のテーブルでは定義が異なる
+                switch (name)
+                {
+                    case "bytea":
+                        return "varbinary";
+                    case "numeric":
+                        return "numeric";
+                    default:
+                        break;
+                }
+            }
+
             return name
                 .Replace("int4", "int")
                 .Replace("int8", "bigint")

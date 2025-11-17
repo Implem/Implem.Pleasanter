@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_JOB_GROUP",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "JOB_GROUP",
+    "No": "5",
+    "LabelText": "Job Group",
+    "TypeName": "nvarchar",
+    "MaxLength": "150",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}

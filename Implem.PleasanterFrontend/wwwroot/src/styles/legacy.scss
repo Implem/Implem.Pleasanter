@@ -827,10 +827,11 @@ pre {
     position: static;
 }
 
-div.Calendar > .CalendarBody > .grid > thead > tr > th {
+div.Calendar > .CalendarBody .grid > thead > tr > th {
     padding: 5px;
     text-align: center;
     border: solid 1px silver;
+    border-radius: 0;
 }
 
 th.calendar-header {
@@ -2856,15 +2857,15 @@ label.required::after {
     min-width: 100%;
 }
 
-#Links > .fieldset > div .grid-wrap {
-    margin-bottom: 10px;
-    overflow: auto;
-}
-
 .link-creations button {
     float: left;
     display: block;
     margin: 0 10px 0 0;
+}
+
+.fieldset > div .grid-wrap {
+    margin-bottom: 10px;
+    overflow: auto;
 }
 
 .text {

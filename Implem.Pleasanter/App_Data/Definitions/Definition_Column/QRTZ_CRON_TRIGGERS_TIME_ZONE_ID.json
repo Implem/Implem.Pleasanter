@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_CRON_TRIGGERS_TIME_ZONE_ID",
+    "ModelName": "QuartzCronTrigger",
+    "TableName": "QRTZ_CRON_TRIGGERS",
+    "Label": "Quartz Cron Trigger",
+    "ColumnName": "TIME_ZONE_ID",
+    "No": "5",
+    "LabelText": "Time Zone ID",
+    "TypeName": "nvarchar",
+    "MaxLength": "80",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

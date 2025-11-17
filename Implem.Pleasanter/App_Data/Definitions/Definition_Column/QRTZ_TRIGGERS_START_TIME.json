@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_START_TIME",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "START_TIME",
+    "No": "12",
+    "LabelText": "Start Time",
+    "TypeName": "bigint",
+    "NotNull": "1",
+    "ExcludeBaseColumns": "1"
+}
