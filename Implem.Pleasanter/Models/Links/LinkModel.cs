@@ -309,21 +309,27 @@ namespace Implem.Pleasanter.Models
         {
             return ClassHash.Any(o => Class_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || NumHash.Any(o => Num_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || DateHash.Any(o => Date_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || DescriptionHash.Any(o => Description_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || CheckHash.Any(o => Check_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || AttachmentsHash.Any(o => Attachments_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
