@@ -114,6 +114,7 @@ namespace Implem.PostgreSql
             Dictionary<string,string> words,
             string searchText)
         {
+            if (searchText.IsNullOrWhiteSpace()) return new();
             return new Dictionary<string, string> { [Strings.NewGuid()] = searchText };
         }
 
