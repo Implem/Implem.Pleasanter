@@ -193,7 +193,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new HtmlAttributes()
                                 .Id(controlId)
                                 .Name(controlId)
-                                .Class(controlCss)
+                                .Class(Css.Class("control-codeeditor", controlCss))
                                 .Placeholder(placeholder)
                                 .Disabled(disabled)
                                 .DataAlwaysSend(alwaysSend)
