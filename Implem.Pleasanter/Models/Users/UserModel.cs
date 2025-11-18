@@ -3503,7 +3503,7 @@ namespace Implem.Pleasanter.Models
             if (data.EnableSecretKey != null) EnableSecretKey = data.EnableSecretKey.ToBool().ToBool();
             if (data.LoginExpirationLimit != null) LoginExpirationLimit = new Time(context, data.LoginExpirationLimit.ToDateTime(), byForm: true);
             if (data.LoginExpirationPeriod != null) LoginExpirationPeriod = data.LoginExpirationPeriod.ToInt().ToInt();
-            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,

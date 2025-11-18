@@ -2692,7 +2692,7 @@ namespace Implem.Pleasanter.Models
             if (data.ErrStackTrace != null) ErrStackTrace = data.ErrStackTrace.ToString().ToString();
             if (data.InDebug != null) InDebug = data.InDebug.ToBool().ToBool();
             if (data.AssemblyVersion != null) AssemblyVersion = data.AssemblyVersion.ToString().ToString();
-            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,

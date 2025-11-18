@@ -1548,7 +1548,7 @@ namespace Implem.Pleasanter.Models
             if (data.Title != null) Title = new Title(data.DashboardId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.Locked != null) Locked = data.Locked.ToBool().ToBool();
-            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,
