@@ -1547,7 +1547,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (fieldCss != null) FieldCss = fieldCss;
             if (noWrap != null) NoWrap = noWrap;
             if (validateRequired != null) ValidateRequired = validateRequired;
-            if (maxLength != null) MaxLength = maxLength;
             if (decimalPlaces != null) DecimalPlaces = decimalPlaces;
             if (nullable != null) Nullable = nullable;
             if (unit != null) Unit = unit;
@@ -1567,6 +1566,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (totalLimitSize != null) TotalLimitSize = totalLimitSize;
             if (thumbnailLimitSize != null) ThumbnailLimitSize = thumbnailLimitSize;
             if (dateTimeStep != null) DateTimeStep = dateTimeStep;
+            MaxLength = maxLength;
         }
 
         private void SelectColumns(
