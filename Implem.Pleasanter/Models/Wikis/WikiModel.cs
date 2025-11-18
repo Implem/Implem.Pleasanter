@@ -1981,7 +1981,8 @@ namespace Implem.Pleasanter.Models
                                     notification: notification),
                                 valuesTo: valuesTo,
                                 valuesCc: valuesCc,
-                                valuesBcc: valuesBcc);
+                                valuesBcc: valuesBcc,
+                                create: true);
                         }
                         break;
                     case "Updated":

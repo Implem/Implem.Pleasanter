@@ -213,7 +213,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string body,
             Dictionary<Column, string> valuesTo = null,
             Dictionary<Column, string> valuesCc = null,
-            Dictionary<Column, string> valuesBcc = null)
+            Dictionary<Column, string> valuesBcc = null,
+            bool create = false)
         {
             if (Disabled == true)
             {
@@ -237,22 +238,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var bccAdd = BccAddress;
                         valuesTo?.ForEach(data => addresses = addresses.Replace(
                             $"[{data.Key.ColumnName}]",
-                            Addresses.ReplacedAddress(
+                            ReplacedAddress(
                                 context: context,
                                 column: data.Key,
-                                value: data.Value)));
+                                value: data.Value,
+                                create: create)));
                         valuesCc?.ForEach(data => ccAdd = ccAdd.Replace(
                             $"[{data.Key.ColumnName}]",
-                            Addresses.ReplacedAddress(
+                            ReplacedAddress(
                                 context: context,
                                 column: data.Key,
-                                value: data.Value)));
+                                value: data.Value,
+                                create: create)));
                         valuesBcc?.ForEach(data => bccAdd = bccAdd.Replace(
                             $"[{data.Key.ColumnName}]",
-                            Addresses.ReplacedAddress(
+                            ReplacedAddress(
                                 context: context,
                                 column: data.Key,
-                                value: data.Value)));
+                                value: data.Value,
+                                create: create)));
                         var to = Addresses.Get( 
                             context: context,
                             addresses: addresses).Join(",");
@@ -358,6 +362,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                 default:
                     break;
             }
+        }
+
+        private string ReplacedAddress(
+            Context context,
+            Column column,
+            string value,
+            bool create)
+        {
+            switch (column.ColumnName)
+            {
+                case "Creator":
+                    if (create)
+                    {
+                        value = context.UserId.ToString();
+                    }
+                    break;
+                case "Updator":
+                    value = context.UserId.ToString();
+                    break;
+            }
+            return Addresses.ReplacedAddress(
+                context: context,
+                column: column,
+                value: value);
         }
 
         public IEnumerable<Column> ColumnCollection(Context context, SiteSettings ss, bool update)
