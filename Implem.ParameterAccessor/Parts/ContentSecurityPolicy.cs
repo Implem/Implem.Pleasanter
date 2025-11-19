@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,6 +13,8 @@ namespace Implem.ParameterAccessor.Parts
         public List<ContentSecurityPolicyValues> Values { get; set; }
 
         public bool IsSettings() => Values?.Count > 0;
+
+        private readonly string UpgradeInsecureRequests = "upgrade-insecure-requests";
 
         public string GetHeaderValues(
             string nonce,
@@ -35,6 +38,10 @@ namespace Implem.ParameterAccessor.Parts
                         {
                             return null;
                         }
+                        if (key == UpgradeInsecureRequests)
+                        {
+                            return GetUpgradeInsecureRequestsValue(value: value);
+                        }
                         string resultValue = key switch
                         {
                             "script-src" or "style-src" => $"{value} 'nonce-{nonce}'",
@@ -45,6 +52,16 @@ namespace Implem.ParameterAccessor.Parts
                     })
                     .Where(s => s != null)
             );
+        }
+
+        private string GetUpgradeInsecureRequestsValue(string value)
+        {
+            return string.Equals(
+                a: value,
+                b: "true",
+                comparisonType: StringComparison.OrdinalIgnoreCase)
+                ? $"{UpgradeInsecureRequests};"
+                : null;
         }
     }
 }
