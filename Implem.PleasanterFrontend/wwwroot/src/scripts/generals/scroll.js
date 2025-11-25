@@ -19,9 +19,13 @@ $p.paging = function (selector) {
     var $control = $(selector);
     var $offset = $(selector + 'Offset');
     var $observer = $(selector + 'Observer');
+    var buffer = 10;
     if ($control.length) {
         var $target = $observer.length ? $observer : $control;
-        if ($(window).scrollTop() + window.innerHeight >= $target.offset().top + $target.height()) {
+        if (
+            Math.floor($(window).scrollTop() + window.innerHeight + buffer) >=
+            Math.floor($target.offset().top + $target.height())
+        ) {
             if ($offset.val() !== '-1') {
                 $p.setData($offset);
                 $offset.val('-1');
@@ -37,10 +41,11 @@ $p.dashboardPaging = function (selector, target) {
     var $control = $(selector);
     var suffix = selector.substring(selector.indexOf('_'));
     var $offset = $('#Grid' + 'Offset' + suffix);
+    var buffer = 10;
     if ($control.length) {
         if (
-            $(target).scrollTop() + $(target).height() >=
-            $control.offset().top + $control.height()
+            Math.floor($(target).scrollTop() + $(target).height() + buffer) >=
+            Math.floor($control.height())
         ) {
             if ($offset.val() !== '-1') {
                 var gridId = $control.attr('id');

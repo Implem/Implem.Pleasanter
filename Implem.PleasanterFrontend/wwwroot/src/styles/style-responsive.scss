@@ -1651,6 +1651,9 @@
 
     /* [PublishViewer]  */
     body:has(#Publish[value='1']) {
+        #CopyDirectUrlToClipboard .ui-icon-link {
+            background-image: var(--defaultIconUrl);
+        }
         &:has(#Action[value='index']) {
             #ViewModeContainer {
                 .grid-wrap {

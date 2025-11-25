@@ -44,6 +44,10 @@ export class GridContainerElement extends HTMLElement {
         if (!this.shadow) return;
         if (this.gridEl?.id === 'Grid') {
             this.classList.add('app-is-index');
+            const mainCommands = document.querySelector('#MainCommands');
+            if (!mainCommands || mainCommands.clientHeight === 0) {
+                this.classList.add('app-is-nocommands');
+            }
         }
         this.stageEl = this.shadow.querySelector('.app-grid-inner');
         this.flameEl = this.shadow.querySelector('.app-grid-frame');
