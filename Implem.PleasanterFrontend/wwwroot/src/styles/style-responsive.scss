@@ -573,10 +573,12 @@
     }
 
     /* #Application > #Warnings */
-    #Warnings {
-        &:empty {
-            + #Editor:has(#RecordHeader) {
-                margin-top: 0;
+    #TitleContainer:not(:empty) {
+        + #Warnings {
+            &:empty {
+                + #Editor:has(#RecordHeader) {
+                    margin-top: 0;
+                }
             }
         }
     }

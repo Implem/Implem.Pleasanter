@@ -1897,10 +1897,12 @@ body {
 }
 
 /* #Application > #Warnings */
-#Warnings {
-    &:empty {
-        + #Editor:has(#RecordHeader) {
-            margin-top: -15px;
+#TitleContainer:not(:empty) {
+    + #Warnings {
+        &:empty {
+            + #Editor:has(#RecordHeader) {
+                margin-top: -15px;
+            }
         }
     }
 }
