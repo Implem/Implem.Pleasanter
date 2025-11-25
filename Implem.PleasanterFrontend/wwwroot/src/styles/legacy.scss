@@ -1879,6 +1879,12 @@ th.calendar-header {
     margin: 2px 4px;
 }
 
+.command-center > .input-field {
+    float: none;
+    display: inline-block;
+    margin: 0 4px;
+}
+
 .command-center.has-link {
     display: flex;
     align-items: center;
