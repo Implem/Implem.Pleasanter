@@ -4114,3 +4114,15 @@ div.lower-search-ui {
 #RecommendGuide .markup.applied a:hover {
     text-decoration: underline;
 }
+
+#DropDownSearchDialogBody {
+    display: flex;
+    gap: 0 20px;
+    width: 100%;
+    .field-vertical {
+        float: none;
+        flex: 1;
+        width: auto;
+        padding: 0;
+    }
+}

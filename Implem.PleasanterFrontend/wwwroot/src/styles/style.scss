@@ -3764,6 +3764,7 @@ body:has(input#Controller[value='syslogs']) {
 }
 #DropDownSearchDialogBody {
     display: flex;
+    gap: 0;
     .field-vertical {
         float: none;
         flex: 1;
