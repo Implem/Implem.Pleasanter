@@ -217,6 +217,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<DashboardPart> DashboardParts;
         public string ExtendedHeader;
         public Versions.AutoVerUpTypes? AutoVerUpType;
+        public Versions.AfterCreateActionTypes? AfterCreateActionType;
+        public Versions.AfterUpdateActionTypes? AfterUpdateActionType;
         public bool? AllowEditingComments;
         public bool? AllowCopy;
         public bool? AllowReferenceCopy;
@@ -383,6 +385,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
             if (DashboardParts == null) DashboardParts = new SettingList<DashboardPart>();
             AutoVerUpType = AutoVerUpType ?? Versions.AutoVerUpTypes.Default;
+            AfterCreateActionType = AfterCreateActionType ?? Versions.AfterCreateActionTypes.Default;
+            AfterUpdateActionType = AfterUpdateActionType ?? Versions.AfterUpdateActionTypes.Default;
             AllowEditingComments = AllowEditingComments ?? false;
             AllowCopy = AllowCopy ?? Parameters.General.AllowCopy;
             AllowReferenceCopy = AllowReferenceCopy ?? Parameters.General.AllowReferenceCopy;
@@ -880,6 +884,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AutoVerUpType != Versions.AutoVerUpTypes.Default)
             {
                 ss.AutoVerUpType = AutoVerUpType;
+            }
+            if (AfterCreateActionType != Versions.AfterCreateActionTypes.Default)
+            {
+                ss.AfterCreateActionType = AfterCreateActionType;
+            }
+            if (AfterUpdateActionType != Versions.AfterUpdateActionTypes.Default)
+            {
+                ss.AfterUpdateActionType = AfterUpdateActionType;
             }
             if (AllowEditingComments == true)
             {
@@ -4006,6 +4018,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Responsive": Responsive = value.ToBool(); break;
                 case "AsynchronousLoadingDefault": DashboardPartsAsynchronousLoading = value.ToBool(); break;
                 case "AutoVerUpType": AutoVerUpType = (Versions.AutoVerUpTypes)value.ToInt(); break;
+                case "AfterCreateActionType": AfterCreateActionType = (Versions.AfterCreateActionTypes)value.ToInt(); break;
+                case "AfterUpdateActionType": AfterUpdateActionType = (Versions.AfterUpdateActionTypes)value.ToInt(); break;
                 case "AllowCopy": AllowCopy = value.ToBool(); break;
                 case "AllowReferenceCopy": AllowReferenceCopy = value.ToBool(); break;
                 case "CharToAddWhenCopying": CharToAddWhenCopying = value; break;

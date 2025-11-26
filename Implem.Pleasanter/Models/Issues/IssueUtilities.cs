@@ -3496,17 +3496,9 @@ namespace Implem.Pleasanter.Models
                         id: issueModel.IssueId)
                             .SetMemory("formChanged", false)
                             .Messages(context.Messages)
-                            .Href(Locations.Edit(
-                                context: context,
-                                controller: context.Controller,
-                                id: ss.Columns.Any(o => o.Linking)
-                                    ? context.Forms.Long("LinkId")
-                                    : issueModel.IssueId)
-                                        + "?new=1"
-                                        + (ss.Columns.Any(o => o.Linking)
-                                            && context.Forms.Long("FromTabIndex") > 0
-                                                ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
-                                                : string.Empty))
+                            .AfterCreate(
+                                ss: ss,
+                                id: issueModel.IssueId)
                             .ToJson();
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
@@ -3834,9 +3826,11 @@ namespace Implem.Pleasanter.Models
                                     column: ss.GetColumn(context: context, columnName: "Comments"),
                                     comments: issueModel.Comments,
                                     verType: issueModel.VerType)
+                                .AfterUpdate(ss: ss)
                                 .ToJson();
                         default:
                             return ResponseByUpdate(res, context, ss, issueModel, processes)
+                                .AfterUpdate(ss: ss)
                                 .ToJson();
                     }
                 case Error.Types.Duplicated:

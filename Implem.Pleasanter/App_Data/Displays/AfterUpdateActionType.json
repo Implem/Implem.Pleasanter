@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AfterUpdateActionType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After update action"
+        },
+        {
+            "Language": "zh",
+            "Body": "更新后的操作"
+        },
+        {
+            "Language": "ja",
+            "Body": "更新後の動作"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktion nach der Aktualisierung"
+        },
+        {
+            "Language": "ko",
+            "Body": "업데이트 후 동작"
+        },
+        {
+            "Language": "es",
+            "Body": "Acción después de la actualización"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thao tác sau khi cập nhật"
+        }
+    ]
+}

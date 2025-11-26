@@ -10,15 +10,7 @@ return new ResponseCollection(
     id: #modelName#Model.#ModelName#Id)
         .SetMemory("formChanged", false)
         .Messages(context.Messages)
-        .Href(Locations.Edit(
-            context: context,
-            controller: context.Controller,
-            id: ss.Columns.Any(o => o.Linking)
-                ? context.Forms.Long("LinkId")
-                : #modelName#Model.#ModelName#Id)
-                    + "?new=1"
-                    + (ss.Columns.Any(o => o.Linking)
-                        && context.Forms.Long("FromTabIndex") > 0
-                            ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
-                            : string.Empty))
+        .AfterCreate(
+            ss: ss,
+            id: #modelName#Model.#ModelName#Id)
         .ToJson();

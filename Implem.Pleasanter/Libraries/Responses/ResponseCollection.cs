@@ -1,6 +1,8 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -137,6 +139,63 @@ namespace Implem.Pleasanter.Libraries.Responses
                     target: null,
                     value: url)
                 : this;
+        }
+
+        public ResponseCollection AfterCreate(
+            SiteSettings ss,
+            long id,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return this;
+            }
+            var href = Locations.Edit(
+                    context: Context,
+                    controller: Context.Controller,
+                    id: ss.Columns.Any(o => o.Linking)
+                        ? Context.Forms.Long("LinkId")
+                        : id)
+                            + "?new=1"
+                            + (ss.Columns.Any(o => o.Linking)
+                                && Context.Forms.Long("FromTabIndex") > 0
+                                    ? $"&TabIndex={Context.Forms.Long("FromTabIndex")}"
+                                    : string.Empty);
+            if (ss.AfterCreateActionType == Versions.AfterCreateActionTypes.ReturnToList)
+            {
+                href = Locations.ItemIndex(
+                    context: Context,
+                    id: ss.SiteId);
+            }
+            else if (ss.AfterCreateActionType == Versions.AfterCreateActionTypes.OpenNewEditor)
+            {
+                href = Locations.ItemNew(
+                    context: Context,
+                    id: ss.SiteId);
+            }
+            return Add(
+                 method: "Href",
+                 target: null,
+                 value: href);
+        }
+
+        public ResponseCollection AfterUpdate(
+            SiteSettings ss,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return this;
+            }
+            switch (ss.AfterUpdateActionType)
+            {
+                case Versions.AfterUpdateActionTypes.ReturnToList:
+                    return Href(Locations.ItemIndex(Context, ss.SiteId));
+                case Versions.AfterUpdateActionTypes.MoveToNextRecord:
+                    return Click("#Next");
+                default:
+                    return this;
+            }
         }
 
         public ResponseCollection PushState(
@@ -423,6 +482,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return !target.IsNullOrEmpty() && _using
                 ? Add(
                     method: "Events",
+                    target: target)
+                : this;
+        }
+
+        public ResponseCollection Click(
+            string target,
+            bool _using = true)
+        {
+            return !target.IsNullOrEmpty() && _using
+                ? Add(
+                    method: "Click",
                     target: target)
                 : this;
         }
