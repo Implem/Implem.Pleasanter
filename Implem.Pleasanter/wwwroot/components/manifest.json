@@ -1,15 +1,15 @@
 {
-  "_vendor_qGdc7FrG.js": {
-    "file": "vendor_qGdc7FrG.js",
+  "_vendor_DYcpoa-Y.js": {
+    "file": "vendor_DYcpoa-Y.js",
     "name": "vendor"
   },
   "src/main.ts": {
-    "file": "components_CHPf6wOq.js",
+    "file": "components_qzDlmq9L.js",
     "name": "main",
     "src": "src/main.ts",
     "isEntry": true,
     "imports": [
-      "_vendor_qGdc7FrG.js"
+      "_vendor_DYcpoa-Y.js"
     ]
   }
 }
