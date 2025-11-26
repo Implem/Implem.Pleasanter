@@ -32,6 +32,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             None = 90
         }
 
+        public enum AfterProcessStatusChangeActionTypes
+        {
+            Default = 0,
+            ReturnToList = 10,
+        }
+
         public enum ValidationTypes
         {
             Merge = 0,
@@ -53,6 +59,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string OnClick { get; set; }
         public ExecutionTypes? ExecutionType { get; set; }
         public ActionTypes? ActionType { get; set; }
+        public AfterProcessStatusChangeActionTypes? AfterProcessStatusChangeActionType { get; set; }
         public bool? AllowBulkProcessing { get; set; }
         public ValidationTypes? ValidationType { get; set; }
         public SettingList<ValidateInput> ValidateInputs { get; set; }
@@ -86,6 +93,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string onClick,
             ExecutionTypes? executionType,
             ActionTypes? actionType,
+            AfterProcessStatusChangeActionTypes? afterProcessStatusChangeActionType,
             bool? allowBulkProcessing,
             ValidationTypes? validationType,
             SettingList<ValidateInput> validateInputs,
@@ -110,6 +118,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             OnClick = onClick;
             ExecutionType = executionType;
             ActionType = actionType;
+            AfterProcessStatusChangeActionType = afterProcessStatusChangeActionType;
             AllowBulkProcessing = allowBulkProcessing;
             ValidationType = validationType;
             ValidateInputs = validateInputs;
@@ -135,6 +144,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string onClick,
             ExecutionTypes? executionType,
             ActionTypes? actionType,
+            AfterProcessStatusChangeActionTypes? afterProcessStatusChangeActionType,
             bool? allowBulkProcessing,
             ValidationTypes? validationType,
             SettingList<ValidateInput> validateInputs,
@@ -196,6 +206,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (actionType != null)
             {
                 ActionType = actionType;
+            }
+            if (afterProcessStatusChangeActionType != null)
+            {
+                AfterProcessStatusChangeActionType = afterProcessStatusChangeActionType;
             }
             if (allowBulkProcessing != null)
             {
@@ -344,6 +358,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ActionType != ActionTypes.Save)
             {
                 process.ActionType = ActionType;
+            }
+            if (AfterProcessStatusChangeActionType != AfterProcessStatusChangeActionTypes.Default)
+            {
+                process.AfterProcessStatusChangeActionType = AfterProcessStatusChangeActionType;
             }
             if (AllowBulkProcessing == true)
             {

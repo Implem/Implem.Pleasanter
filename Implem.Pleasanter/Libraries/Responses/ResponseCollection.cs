@@ -187,6 +187,14 @@ namespace Implem.Pleasanter.Libraries.Responses
             {
                 return this;
             }
+            var process = ss.Processes.FirstOrDefault(process => process.IsTarget(Context));
+            if (process != null)
+            {
+                if (process.AfterProcessStatusChangeActionType == Process.AfterProcessStatusChangeActionTypes.ReturnToList)
+                {
+                    return Href(Locations.ItemIndex(Context, ss.SiteId));
+                }
+            }
             switch (ss.AfterUpdateActionType)
             {
                 case Versions.AfterUpdateActionTypes.ReturnToList:

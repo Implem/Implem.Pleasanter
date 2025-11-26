@@ -9886,6 +9886,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.ActionTypes(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.AfterProcessStatusChangeActionType(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.AllowBulkProcessing(context: context)))));
         }
 
@@ -9955,6 +9957,11 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         id: process.ActionType?.ToString()
                                             ?? Process.ActionTypes.Save.ToString())))
+                                .Td(action: () => hb
+                                    .Text(text: process.AfterProcessStatusChangeActionType != null && process.AfterProcessStatusChangeActionType != Process.AfterProcessStatusChangeActionTypes.Default ?
+                                        Displays.Get(
+                                            context: context,
+                                            id: process.AfterProcessStatusChangeActionType?.ToString()) : ""))
                                 .Td(action: () => hb
                                     .Span(
                                         css: "ui-icon ui-icon-circle-check",
@@ -10226,6 +10233,20 @@ namespace Implem.Pleasanter.Models
                             }
                         },
                         selectedValue: process.ActionType.ToInt().ToString())
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "AfterProcessStatusChangeActionType",
+                        controlCss: " always-send",
+                        labelText: Displays.AfterProcessStatusChangeActionType(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Process.AfterProcessStatusChangeActionTypes.ReturnToList.ToInt().ToString(),
+                                Displays.ReturnToList(context: context)
+                            },
+                        },
+                        insertBlank: true,
+                        selectedValue: process.AfterProcessStatusChangeActionType.ToInt().ToString())
                     .FieldCheckBox(
                         controlId: "ProcessAllowBulkProcessing",
                         controlCss: " always-send",
