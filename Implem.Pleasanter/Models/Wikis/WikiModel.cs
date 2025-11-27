@@ -1291,7 +1291,7 @@ namespace Implem.Pleasanter.Models
             if (data.Title != null) Title = new Title(data.WikiId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.Locked != null) Locked = data.Locked.ToBool().ToBool();
-            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,
@@ -1981,7 +1981,8 @@ namespace Implem.Pleasanter.Models
                                     notification: notification),
                                 valuesTo: valuesTo,
                                 valuesCc: valuesCc,
-                                valuesBcc: valuesBcc);
+                                valuesBcc: valuesBcc,
+                                create: true);
                         }
                         break;
                     case "Updated":
@@ -2377,21 +2378,27 @@ namespace Implem.Pleasanter.Models
         {
             return ClassHash.Any(o => Class_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || NumHash.Any(o => Num_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || DateHash.Any(o => Date_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || DescriptionHash.Any(o => Description_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || CheckHash.Any(o => Check_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || AttachmentsHash.Any(o => Attachments_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)));
         }
 

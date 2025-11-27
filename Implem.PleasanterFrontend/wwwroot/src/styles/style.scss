@@ -1216,7 +1216,8 @@ label {
         float: none;
         margin: 0;
     }
-    button {
+    button,
+    .input-field {
         margin: 0;
     }
     .control-textbox {
@@ -1896,10 +1897,12 @@ body {
 }
 
 /* #Application > #Warnings */
-#Warnings {
-    &:empty {
-        + #Editor:has(#RecordHeader) {
-            margin-top: -15px;
+#TitleContainer:not(:empty) {
+    + #Warnings {
+        &:empty {
+            + #Editor:has(#RecordHeader) {
+                margin-top: -15px;
+            }
         }
     }
 }
@@ -3764,6 +3767,7 @@ body:has(input#Controller[value='syslogs']) {
 }
 #DropDownSearchDialogBody {
     display: flex;
+    gap: 0;
     .field-vertical {
         float: none;
         flex: 1;

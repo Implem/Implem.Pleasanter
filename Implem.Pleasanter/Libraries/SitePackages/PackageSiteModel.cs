@@ -322,6 +322,10 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 context: context,
                 views: ss.Views,
                 permissionIdList: permissionIdList);
+            ReplaceStatusControls(
+                context: context,
+                statusControls: ss.StatusControls,
+                permissionIdList: permissionIdList);
             ReplaceExports(
                 context: context,
                 exports: ss.Exports,
@@ -506,6 +510,37 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     .Where(groupId => groupId > 0)
                     .ToList();
                 view.Users = view?.Users
+                    ?.Select(userId => IdConvertUtilities.ConvertedUserId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        userId: userId))
+                    .Where(userId => userId > 0)
+                    .ToList();
+            });
+        }
+
+        internal static void ReplaceStatusControls(
+            Context context,
+            List<StatusControl> statusControls,
+            PermissionIdList permissionIdList)
+        {
+            statusControls?.ForEach(statusControl =>
+            {
+                statusControl.Depts = statusControl?.Depts
+                    ?.Select(deptId => IdConvertUtilities.ConvertedDeptId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        deptId: deptId))
+                    .Where(deptId => deptId > 0)
+                    .ToList();
+                statusControl.Groups = statusControl?.Groups
+                    ?.Select(groupId => IdConvertUtilities.ConvertedGroupId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        groupId: groupId))
+                    .Where(groupId => groupId > 0)
+                    .ToList();
+                statusControl.Users = statusControl?.Users
                     ?.Select(userId => IdConvertUtilities.ConvertedUserId(
                         context: context,
                         permissionIdList: permissionIdList,

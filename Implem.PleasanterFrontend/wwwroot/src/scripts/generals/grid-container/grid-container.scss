@@ -13,6 +13,12 @@
         max-height: calc(100vh - 72px);
     }
 }
+:host(.app-is-nocommands) {
+    .app-grid-frame {
+        max-height: 100vh;
+    }
+}
+
 
 .app-grid-inner {
     position: relative;

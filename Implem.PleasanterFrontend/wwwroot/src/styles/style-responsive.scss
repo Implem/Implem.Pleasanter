@@ -573,10 +573,12 @@
     }
 
     /* #Application > #Warnings */
-    #Warnings {
-        &:empty {
-            + #Editor:has(#RecordHeader) {
-                margin-top: 0;
+    #TitleContainer:not(:empty) {
+        + #Warnings {
+            &:empty {
+                + #Editor:has(#RecordHeader) {
+                    margin-top: 0;
+                }
             }
         }
     }
@@ -1649,6 +1651,9 @@
 
     /* [PublishViewer]  */
     body:has(#Publish[value='1']) {
+        #CopyDirectUrlToClipboard .ui-icon-link {
+            background-image: var(--defaultIconUrl);
+        }
         &:has(#Action[value='index']) {
             #ViewModeContainer {
                 .grid-wrap {

@@ -338,6 +338,21 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         userIds.Add(user);
                     }
                 }
+                foreach (var statusControls in packageSiteModel.SiteSettings.StatusControls)
+                {
+                    foreach (var dept in statusControls.Depts ?? new List<int>() { 0 })
+                    {
+                        deptIds.Add(dept);
+                    }
+                    foreach (var group in statusControls.Groups ?? new List<int>() { 0 })
+                    {
+                        groupIds.Add(group);
+                    }
+                    foreach (var user in statusControls.Users ?? new List<int>() { 0 })
+                    {
+                        userIds.Add(user);
+                    }
+                }
                 foreach (var export in packageSiteModel.SiteSettings.Exports)
                 {
                     foreach (var dept in export.Depts ?? new List<int>() { 0 })

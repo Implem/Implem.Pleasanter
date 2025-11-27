@@ -3503,7 +3503,7 @@ namespace Implem.Pleasanter.Models
             if (data.EnableSecretKey != null) EnableSecretKey = data.EnableSecretKey.ToBool().ToBool();
             if (data.LoginExpirationLimit != null) LoginExpirationLimit = new Time(context, data.LoginExpirationLimit.ToDateTime(), byForm: true);
             if (data.LoginExpirationPeriod != null) LoginExpirationPeriod = data.LoginExpirationPeriod.ToInt().ToInt();
-            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,
@@ -3993,21 +3993,27 @@ namespace Implem.Pleasanter.Models
         {
             return ClassHash.Any(o => Class_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || NumHash.Any(o => Num_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || DateHash.Any(o => Date_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || DescriptionHash.Any(o => Description_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || CheckHash.Any(o => Check_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || AttachmentsHash.Any(o => Attachments_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
@@ -4288,28 +4294,20 @@ namespace Implem.Pleasanter.Models
                                 returnUrl: returnUrl,
                                 isAuthenticationByMail: isAuthenticationByMail)
                         : !SecondaryAuthentication(
-                                context: context,
-                                secondaryAuthenticationCode: secondaryAuthenticationCode,
-                                isAuthenticationByMail: isAuthenticationByMail)
+                            context: context,
+                            secondaryAuthenticationCode: secondaryAuthenticationCode,
+                            isAuthenticationByMail: isAuthenticationByMail)
                             ? Messages
                                 .ResponseSecondaryAuthentication(
                                     context: context,
                                     target: "#LoginMessage")
                                 .Focus("#SecondaryAuthenticationCode")
                                 .ToJson()
-                            : PasswordExpired()
-                                ? OpenChangePasswordAtLoginDialog(context: context)
-                                : !EnableSecretKey && !isAuthenticationByMail
-                                    ? setEnableSecretKeyandAllow(
-                                        context: context,
-                                        returnUrl: returnUrl,
-                                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
-                                        noHttpContext: noHttpContext)
-                                    : Allow(
-                                        context: context,
-                                        returnUrl: returnUrl,
-                                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
-                                        noHttpContext: noHttpContext);
+                            : HandlePostSecondaryAuthentication(
+                                context: context,
+                                returnUrl: returnUrl,
+                                isAuthenticationByMail: isAuthenticationByMail,
+                                noHttpContext: noHttpContext);
                 }
                 else if (PasswordExpired())
                 {
@@ -4755,18 +4753,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string setEnableSecretKeyandAllow(Context context, string returnUrl, bool createPersistentCookie, bool noHttpContext)
+        private void SetEnableSecretKey(Context context)
         {
             if (!EnableSecretKey)
             {
                 EnableSecretKey = true;
                 UpdateEnableSecretKey(context);
             }
-            return Allow(
-                context: context,
-                returnUrl: returnUrl,
-                createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
-                noHttpContext: noHttpContext);
         }
 
         /// <summary>
@@ -5226,6 +5219,44 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection(context: context)
                 .Invoke("openChangePasswordDialog")
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool SetEnableSecretKeyAndPasswordExpired(Context context, bool isAuthenticationByMail)
+        {
+            if (!EnableSecretKey && !isAuthenticationByMail)
+            {
+                SetEnableSecretKey(context: context);
+            }
+            return PasswordExpired();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string HandlePostSecondaryAuthentication(
+            Context context,
+            string returnUrl,
+            bool isAuthenticationByMail,
+            bool noHttpContext)
+        {
+            var isExpired = SetEnableSecretKeyAndPasswordExpired(
+                context: context,
+                isAuthenticationByMail: isAuthenticationByMail);
+            if (isExpired)
+            {
+                return OpenChangePasswordAtLoginDialog(context: context);
+            }
+            else
+            {
+                return Allow(
+                    context: context,
+                    returnUrl: returnUrl,
+                    createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                    noHttpContext: noHttpContext);
+            }
         }
 
         /// <summary>
