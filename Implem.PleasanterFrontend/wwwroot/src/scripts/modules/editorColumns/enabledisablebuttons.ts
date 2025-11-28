@@ -1,4 +1,6 @@
-﻿export const initialize = (): void => {
+﻿import { hideToastMenu } from './toastmenu.ts';
+
+export const initialize = (): void => {
     const setupButtonEvent = (buttonId: string, handler: (event: Event, target: HTMLElement) => void) => {
         const target = document.getElementById(buttonId);
         if (!target) {
@@ -12,6 +14,7 @@
     });
 
     setupButtonEvent('ToDisableEditorColumns', (_, target) => {
+        hideToastMenu();
         $p.send($(target));
     });
 };

@@ -1,4 +1,4 @@
-﻿import { getMenu, hideToastMenu } from './toastmenu.ts';
+﻿import { getMenu, hideToastMenu, normalizeLiSelecteeOnce } from './toastmenu.ts';
 
 let loadingHold = 0;
 
@@ -25,6 +25,7 @@ const initializeToastMenuButtons = () => {
 
     const openHandler = (_event: Event, element: HTMLElement) => {
         $p.openEditorColumnDialog($(element));
+        normalizeLiSelecteeOnce();
     };
 
     const resetAndDisableColumn = () => {

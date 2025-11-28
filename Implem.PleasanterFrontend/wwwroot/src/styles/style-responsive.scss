@@ -950,17 +950,14 @@
             --editor-mid-gap-responsive: 50px;
 
             & fieldset.fieldset.cf.enclosed.editor-columns {
+                display: grid;
+                grid-template-columns:
+                    minmax(250px, 1fr)
+                    var(--editor-mid-gap-responsive)
+                    minmax(250px, 1fr);
+                align-items: start;
                 padding-bottom: 0;
-
-                & {
-                    display: grid;
-                    grid-template-columns:
-                        minmax(250px, 1fr)
-                        var(--editor-mid-gap-responsive)
-                        minmax(250px, 1fr);
-                    align-items: start;
-                    overflow-x: auto;
-                }
+                overflow-x: auto;
             }
 
             .editor-columns-spacer {

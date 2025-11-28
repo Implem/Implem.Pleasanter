@@ -1211,6 +1211,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder MaterialIconButton(
             this HtmlBuilder hb,
             string id = null,
+            string title = null,
             string onClick = null,
             string action = null,
             string method = null,
@@ -1222,6 +1223,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Button(
                     attributes: new HtmlAttributes()
                         .Id(id)
+                        .Title(title)
                         .Class("button-icon ui-button ui-corner-all ui-widget applied")
                         .OnClick(onClick)
                         .DataAction(action)
