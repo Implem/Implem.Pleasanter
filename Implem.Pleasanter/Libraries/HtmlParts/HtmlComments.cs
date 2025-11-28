@@ -31,16 +31,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 SiteSettings.TextAlignTypes.Center => " center-align",
                 _ => string.Empty
             };
+            var multilingualLabelText = ColumnUtilities.GetMultilingualLabelText(
+                target: column?.MultilingualLabelText,
+                context: context);
             return hb
                 .TextArea(
                     context: context,
                     ss: ss,
                     css: css,
-                    title: column?.Description,
-                    labelText: column?.LabelText,
+                    title: Strings.CoalesceEmpty(
+                        ColumnUtilities.GetMultilingualDescription(
+                            target: column?.MultilingualLabelText,
+                            context: context),
+                        column?.Description),
+                    labelText: Strings.CoalesceEmpty(
+                        multilingualLabelText,
+                        column?.LabelText),
                     placeholder: Strings.CoalesceEmpty(
+                        ColumnUtilities.GetMultilingualInputGuide(
+                            target: column?.MultilingualLabelText,
+                            context: context),
                         column.InputGuide,
                         serverScriptModelColumn?.LabelText,
+                        multilingualLabelText,
                         column.LabelText),
                     allowImage: column?.AllowImage == true,
                     mobile: context.Mobile == true,

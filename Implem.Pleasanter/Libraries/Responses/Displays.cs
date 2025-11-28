@@ -7419,6 +7419,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Multilingual(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Multilingual",
+                data: data);
+        }
+
+        public static string MultilingualDisplay(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MultilingualDisplay",
+                data: data);
+        }
+
         public static string MultipleSelections(
             Context context,
             params string[] data)

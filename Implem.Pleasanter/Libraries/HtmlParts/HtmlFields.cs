@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.DisplayAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Html;
@@ -114,6 +115,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     action: () => hb
                         .Text(text: column.Section));
             }
+            var multilingualLabelText = ColumnUtilities.GetMultilingualLabelText(
+                target: column.MultilingualLabelText,
+                context: context);
+            var multilingualInputGuide = ColumnUtilities.GetMultilingualInputGuide(
+                target: column.MultilingualLabelText,
+                context: context);
             return hb
                 .Raw(HtmlHtmls.ExtendedHtmls(
                     context: context,
@@ -140,6 +147,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         serverScriptModelColumn: serverScriptModelColumn,
                         controlConstraintsType: controlConstraintsType,
                         fieldCss: fieldCss),
+                    fieldDescription: Strings.CoalesceEmpty(
+                        ColumnUtilities.GetMultilingualDescription(
+                            target: column.MultilingualLabelText,
+                            context: context),
+                        column.Description),
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     controlCss: ControlCss(
@@ -150,10 +162,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlType: ControlType(column),
                     labelText: Strings.CoalesceEmpty(
                         serverScriptModelColumn?.LabelText,
+                        multilingualLabelText,
                         column.LabelText),
                     placeholder: Strings.CoalesceEmpty(
+                        multilingualInputGuide,
                         column.InputGuide,
                         serverScriptModelColumn?.LabelText,
+                        multilingualLabelText,
                         column.LabelText),
                     labelRaw: serverScriptModelColumn?.LabelRaw,
                     value: value,
@@ -171,7 +186,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         || column.GetValidateRequired()
                         || controlConstraintsType == StatusControl.ControlConstraintsTypes.Required,
                     preview: preview,
-                    inputGuide: column.InputGuide,
+                    inputGuide: Strings.CoalesceEmpty(
+                        multilingualInputGuide,
+                        column.InputGuide),
                     extendedHtmlBeforeLabel: Strings.CoalesceEmpty(
                         serverScriptModelColumn?.ExtendedHtmlBeforeLabel,
                         column.ExtendedHtmlBeforeLabel),
@@ -378,6 +395,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 fieldCss: FieldCss(
                     column: column,
                     serverScriptModelColumn: null),
+                fieldDescription: column.Description,
                 labelCss: null,
                 controlContainerCss: null,
                 controlCss: ControlCss(
@@ -425,6 +443,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlId,
             string columnName,
             string fieldCss,
+            string fieldDescription,
             string labelCss,
             string controlContainerCss,
             string controlCss,
@@ -465,7 +484,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
@@ -485,7 +504,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
@@ -538,7 +557,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlId: controlId,
                                 columnName: columnName,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 labelText: labelText,
@@ -547,7 +566,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 value: value,
                                 readOnly: true,
                                 preview: preview,
-                                inputGuide: column.InputGuide,
+                                inputGuide: inputGuide,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -579,7 +598,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss + (column.HasChoices()
@@ -619,7 +638,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss +
@@ -663,7 +682,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: "container-normal container-radio",
                                 controlCss: controlCss,
@@ -682,7 +701,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
@@ -699,7 +718,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
@@ -729,7 +748,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
@@ -791,7 +810,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
@@ -824,7 +843,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
@@ -866,7 +885,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
@@ -902,7 +921,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
@@ -921,7 +940,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
@@ -942,7 +961,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
@@ -970,7 +989,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlId: controlId,
                                 columnName: columnName,
                                 fieldCss: fieldCss,
-                                fieldDescription: column.Description,
+                                fieldDescription: fieldDescription,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 labelText: labelText,
@@ -981,7 +1000,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 allowDelete: column.AllowDeleteAttachments != false,
                                 preview: preview,
                                 validateRequired: required,
-                                inputGuide: column.InputGuide,
+                                inputGuide: inputGuide,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);

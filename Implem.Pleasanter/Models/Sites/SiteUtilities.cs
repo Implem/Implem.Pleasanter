@@ -7401,7 +7401,12 @@ namespace Implem.Pleasanter.Models
                                             href: "#ExtendedHtmlSettingTab",
                                             text: Displays.ExtendedHtml(context: context)),
                                     _using: !column.OtherColumn()
-                                        && column.ColumnName != "Comments"))
+                                        && column.ColumnName != "Comments")
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#MultilingualSettingTab",
+                                            text: Displays.Multilingual(context: context))))
                         .EditorColumnDialogTab(
                             context: context,
                             ss: ss,
@@ -7412,6 +7417,10 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             column: column)
                         .ExtendedHtmlSettingTab(
+                            context: context,
+                            ss: ss,
+                            column: column)
+                        .MultilingualSettingTab(
                             context: context,
                             ss: ss,
                             column: column)
@@ -7473,13 +7482,22 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ExtendedHtmlSettingTab",
                                             text: Displays.ExtendedHtml(context: context)),
-                                    _using: !column.OtherColumn()))
+                                    _using: !column.OtherColumn())
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#MultilingualSettingTab",
+                                            text: Displays.Multilingual(context: context))))
                             .EditorColumnDialogTab(
                                 context: context,
                                 ss: ss,
                                 column: column,
                                 titleColumns: titleColumns)
                             .ExtendedHtmlSettingTab(
+                                context: context,
+                                ss: ss,
+                                column: column)
+                            .MultilingualSettingTab(
                                 context: context,
                                 ss: ss,
                                 column: column))
@@ -7633,6 +7651,37 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-wide",
                                 labelText: Displays.ExtendedHtmlAfterField(context: context),
                                 text: column.ExtendedHtmlAfterField)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder MultilingualSettingTab(
+            this HtmlBuilder hb,
+            Column column,
+            Context context,
+            SiteSettings ss)
+        {
+            if (column.OtherColumn())
+            {
+                return hb;
+            }
+            var type = column.TypeName.CsTypeSummary();
+            return hb.FieldSet(
+                id: "MultilingualSettingTab",
+                action: () => hb
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: column.LabelTextDefault,
+                        action: () => hb
+                            .FieldCodeEditor(
+                                context: context,
+                                dataLang: "json",
+                                controlId: "MultilingualLabelText",
+                                controlCss: "o-low",
+                                fieldCss: "field-wide",
+                                labelText: Displays.MultilingualDisplay(context: context),
+                                text: column.MultilingualLabelText)));
         }
 
         /// <summary>

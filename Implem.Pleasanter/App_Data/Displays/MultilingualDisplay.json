@@ -1,0 +1,33 @@
+﻿{
+    "Id": "MultilingualDisplay",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Multilingual display"
+        },
+        {
+            "Language": "zh",
+            "Body": "多语言显示"
+        },
+        {
+            "Language": "ja",
+            "Body": "多言語表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Mehrsprachige Anzeige"
+        },
+        {
+            "Language": "ko",
+            "Body": "다국어 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Visualización multilingüe"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị đa ngôn ngữ"
+        }
+    ]
+}

@@ -120,6 +120,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ExtendedHtmlBetweenLabelAndControl;
         public string ExtendedHtmlAfterControl;
         public string ExtendedHtmlAfterField;
+        public string MultilingualLabelText;
         public int? DecimalPlaces;
         public bool? Nullable;
         public string Unit;

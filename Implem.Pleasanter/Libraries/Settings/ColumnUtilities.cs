@@ -2,6 +2,7 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -492,6 +493,51 @@ namespace Implem.Pleasanter.Libraries.Settings
             return !tableAlias.IsNullOrEmpty()
                 ? tableAlias + "," + columnName
                 : columnName;
+        }
+
+        public static string GetMultilingualLabelText(string target, Context context)
+        {
+            return !target.IsNullOrEmpty()
+                ? Jsons.Deserialize<List<Implem.DisplayAccessor.DisplayElement>>(target)
+                    ?.Where(o => o.Language == context.Language)
+                    ?.FirstOrDefault()?.LabelText ?? string.Empty
+                : string.Empty;
+        }
+
+        public static string GetMultilingualDescription(string target, Context context)
+        {
+            return !target.IsNullOrEmpty()
+                ? Jsons.Deserialize<List<Implem.DisplayAccessor.DisplayElement>>(target)
+                    ?.Where(o => o.Language == context.Language)
+                    ?.FirstOrDefault()?.Description ?? string.Empty
+                : string.Empty;
+        }
+
+        public static string GetMultilingualInputGuide(string target, Context context)
+        {
+            return !target.IsNullOrEmpty()
+                ? Jsons.Deserialize<List<Implem.DisplayAccessor.DisplayElement>>(target)
+                    ?.Where(o => o.Language == context.Language)
+                    ?.FirstOrDefault()?.InputGuide ?? string.Empty
+                : string.Empty;
+        }
+
+        public static bool HasInputGuide(string columnName)
+        {
+            return columnName switch
+            {
+                "IssueId" => false,
+                "ResultId" => false,
+                "Ver" => false,
+                "WorkValue" => false,
+                "ProgressRate" => false,
+                "RemainingWorkValue" => false,
+                "Status" => false,
+                "Manager" => false,
+                "Owner" => false,
+                "Locked" => false,
+                _ => true
+            };
         }
     }
 }

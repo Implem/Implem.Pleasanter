@@ -153,6 +153,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                             Htmls = HtmlsSettingsModel.Create(context: context, param: param, siteModel: siteModel),
                             ServerScripts = ServerScriptsSettingsModel.Create(context: context, param: param, siteModel: siteModel),
                             Publish = PublishSettingsModel.Create(context: context, param: param, siteModel: siteModel),
+                            Multilingual = MultilingualSettingsModel.Create(context: context, param: param, siteModel: siteModel),
                             SiteAccessControl = SiteAccessControlSettingsModel.Create(context: context, param: param, siteModel: siteModel),
                             RecordAccessControl = RecordAccessControlModel.Create(context: context, param: param, siteModel: siteModel),
                             ColumnAccessControl = ColumnAccessControlSettingsModel.Create(context: context, param: param, siteModel: siteModel)
@@ -582,6 +583,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     public HtmlsSettingsModel Htmls;
                     public ServerScriptsSettingsModel ServerScripts;
                     public PublishSettingsModel Publish;
+                    public MultilingualSettingsModel Multilingual;
                     public SiteAccessControlSettingsModel SiteAccessControl;
                     public RecordAccessControlModel RecordAccessControl;
                     public ColumnAccessControlSettingsModel ColumnAccessControl;
@@ -7880,6 +7882,172 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     {
                         // 差分抽出しない
                     }
+                }
+            }
+
+            public class MultilingualSettingsModel : SettingsModelBase
+            {
+                internal static MultilingualSettingsModel Create(
+                    Context context,
+                    Param param,
+                    SiteModel siteModel)
+                {
+                    var referenceList = "Results/Issues";
+                    if (referenceList.IndexOf(siteModel.ReferenceType) < 0) return null;
+                    var obj = new MultilingualSettingsModel();
+                    var ss = siteModel.SiteSettings;
+                    obj.ButtonLabel = Displays.Multilingual(context: context);
+                    obj.Tables = new ITableModel[]
+                    {
+                        ListTable.CreateTable(context: context, param: param, siteModel: siteModel),
+                    }
+                        .Where(v => v != null)
+                        .ToList();
+                    return obj;
+                }
+
+                public class ListTable : List2TableBase<ListColumn>
+                {
+                    internal static ListTable CreateTable(
+                        Context context,
+                        Param param,
+                        SiteModel siteModel)
+                    {
+                        var table = new ListTable();
+                        table.Header = ListColumn.CreateHeaderModel(context: context);
+                        var ss = siteModel.SiteSettings;
+
+                        table.Columns = [];
+                        foreach (var column in ss.GetEditorColumns(context: context))
+                        {
+                            var elements = column.MultilingualLabelText.Deserialize<List<DisplayAccessor.DisplayElement>>();
+                            if (elements is null) { continue; }
+                            var elementDict = elements.ToDictionary(e => e.Language);
+                            elementDict.TryGetValue("en", out var en);
+                            elementDict.TryGetValue("zh", out var zh);
+                            elementDict.TryGetValue("ja", out var ja);
+                            elementDict.TryGetValue("de", out var de);
+                            elementDict.TryGetValue("ko", out var ko);
+                            elementDict.TryGetValue("es", out var es);
+                            elementDict.TryGetValue("vn", out var vn);
+                            if (elements.Any(elem => !elem.LabelText.IsNullOrEmpty()))
+                            {
+                                var body = new ListColumn();
+                                ListColumn.SetData(
+                                    dst: body,
+                                    targetName: Displays.DisplayName(context),
+                                    column: column,
+                                    en: en,
+                                    zh: zh,
+                                    ja: ja,
+                                    de: de,
+                                    ko: ko,
+                                    es: es,
+                                    vn: vn,
+                                    valueSelector: (elem) => elem?.LabelText,
+                                    defaultValueSelector: (col) => col.LabelText);
+                                table.Columns.Add(body);
+                            }
+                            if (elements.Any(elem => !elem.Description.IsNullOrEmpty()))
+                            {
+                                var description = new ListColumn();
+                                ListColumn.SetData(
+                                    dst: description,
+                                    targetName: Displays.Description(context),
+                                    column: column,
+                                    en: en,
+                                    zh: zh,
+                                    ja: ja,
+                                    de: de,
+                                    ko: ko,
+                                    es: es,
+                                    vn: vn,
+                                    valueSelector: (elem) => elem?.Description,
+                                    defaultValueSelector: (col) => col.Description);
+                                table.Columns.Add(description);
+                            }
+                            if (elements.Any(elem => !elem.InputGuide.IsNullOrEmpty()))
+                            {
+                                var inputGuide = new ListColumn();
+                                ListColumn.SetData(
+                                    dst: inputGuide,
+                                    targetName: Displays.InputGuide(context),
+                                    column: column,
+                                    en: en,
+                                    zh: zh,
+                                    ja: ja,
+                                    de: de,
+                                    ko: ko,
+                                    es: es,
+                                    vn: vn,
+                                    valueSelector: (elem) => elem?.InputGuide,
+                                    defaultValueSelector: (col) => col.InputGuide);
+                                table.Columns.Add(inputGuide);
+                            }
+                        }
+                        return table;
+                    }
+                }
+
+                public class ListColumn
+                {
+                    public string ColumnName;
+                    public string TargetElement;
+                    public string DefaultValue;
+                    public string En;
+                    public string Zh;
+                    public string Ja;
+                    public string De;
+                    public string Ko;
+                    public string Es;
+                    public string Vn;
+
+                    internal static void SetData(
+                        ListColumn dst,
+                        string targetName,
+                        Column column,
+                        DisplayAccessor.DisplayElement en,
+                        DisplayAccessor.DisplayElement zh,
+                        DisplayAccessor.DisplayElement ja,
+                        DisplayAccessor.DisplayElement de,
+                        DisplayAccessor.DisplayElement ko,
+                        DisplayAccessor.DisplayElement es,
+                        DisplayAccessor.DisplayElement vn,
+                        Func<DisplayAccessor.DisplayElement, string> valueSelector,
+                        Func<Column, string> defaultValueSelector)
+                    {
+                        dst.ColumnName = column.ColumnName;
+                        dst.DefaultValue = defaultValueSelector(column);
+                        dst.TargetElement = targetName;
+                        dst.En = valueSelector(en);
+                        dst.Zh = valueSelector(zh);
+                        dst.Ja = valueSelector(ja);
+                        dst.De = valueSelector(de);
+                        dst.Ko = valueSelector(ko);
+                        dst.Es = valueSelector(es);
+                        dst.Vn = valueSelector(vn);
+                    }
+
+                    internal static List2TableHeader CreateHeaderModel(Context context)
+                    {
+                        return new()
+                        {
+                            Labels = new()
+                            {
+                                new (){Key="ColumnName",Text=Displays.ColumnName(context:context)},
+                                new (){Key="TargetElement",Text=Displays.Target(context:context)},
+                                new (){Key="DefaultValue",Text=Displays.DefaultInput(context:context)},
+                                new (){Key="En",Text="English"},
+                                new (){Key="Zh",Text="Chinese"},
+                                new (){Key="Ja",Text="Japanese"},
+                                new (){Key="De",Text="German"},
+                                new (){Key="Ko",Text="Korean"},
+                                new (){Key="Es",Text="Spanish"},
+                                new (){Key="Vn",Text="Vietnamese"},
+                            }
+                        };
+                    }
+
                 }
             }
         }

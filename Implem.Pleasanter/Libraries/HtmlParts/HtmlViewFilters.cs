@@ -344,6 +344,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 view: view,
                 name: column.ColumnName);
+            var labelText = Strings.CoalesceEmpty(
+                ColumnUtilities.GetMultilingualLabelText(
+                    target: column.MultilingualLabelText,
+                    context: context),
+                column.GridLabelText);
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsBool:
@@ -369,7 +374,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlCss: ss.UseFilterButton != true
                                     ? " auto-postback"
                                     : string.Empty,
-                                labelText: column.GridLabelText,
+                                labelText: labelText,
                                 labelTitle: ss.LabelTitle(column),
                                 labelIcon: labelIcon,
                                 controlOnly: controlOnly,
@@ -447,7 +452,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlId: idPrefix + column.ColumnName + "_DateRange",
                             fieldCss: "field-auto-thin",
                             controlCss: (column.UseSearch == true ? " search" : string.Empty),
-                            labelText: column.GridLabelText,
+                            labelText: labelText,
                             labelTitle: ss.LabelTitle(column),
                             labelIcon: labelIcon,
                             controlOnly: controlOnly,
@@ -515,7 +520,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: ss.UseFilterButton != true
                                 ? " auto-postback"
                                 : string.Empty,
-                            labelText: column.GridLabelText,
+                            labelText: labelText,
                             labelTitle: ss.LabelTitle(column),
                             labelIcon: labelIcon,
                             controlOnly: controlOnly,
@@ -546,7 +551,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: idPrefix + column.ColumnName + "_NumericRange",
                     fieldCss: "field-auto-thin",
                     controlCss: (column.UseSearch == true ? " search" : string.Empty),
-                    labelText: column.GridLabelText,
+                    labelText: Strings.CoalesceEmpty(
+                        ColumnUtilities.GetMultilingualLabelText(
+                            target: column.MultilingualLabelText,
+                            context: context),
+                        column.GridLabelText),
                     labelTitle: ss.LabelTitle(column),
                     labelIcon: labelIcon,
                     controlOnly: controlOnly,
@@ -580,6 +589,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelIcon = null,
             bool controlOnly = false)
         {
+            var labelText = Strings.CoalesceEmpty(
+                ColumnUtilities.GetMultilingualLabelText(
+                    target: column.MultilingualLabelText,
+                    context: context),
+                column.GridLabelText);
             switch (column.CheckFilterControlType)
             {
                 case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
@@ -591,7 +605,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: ss.UseFilterButton != true
                             ? " auto-postback"
                             : string.Empty,
-                        labelText: column.GridLabelText,
+                        labelText: labelText,
                         labelTitle: ss.LabelTitle(column),
                         labelIcon: labelIcon,
                         controlOnly: controlOnly,
@@ -610,7 +624,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: ss.UseFilterButton != true
                             ? " auto-postback"
                             : string.Empty,
-                        labelText: column.GridLabelText,
+                        labelText: labelText,
                         labelTitle: ss.LabelTitle(column),
                         labelIcon: labelIcon,
                         controlOnly: controlOnly,
@@ -676,7 +690,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         + (column.UseSearch == true
                             ? " search"
                             : string.Empty),
-                labelText: column.GridLabelText,
+                labelText: Strings.CoalesceEmpty(
+                    ColumnUtilities.GetMultilingualLabelText(
+                        target: column.MultilingualLabelText,
+                        context: context),
+                    column.GridLabelText),
                 labelTitle: ss.LabelTitle(column),
                 labelIcon: labelIcon,
                 controlOnly: controlOnly,

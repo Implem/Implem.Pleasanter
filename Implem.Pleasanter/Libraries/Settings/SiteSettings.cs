@@ -1625,6 +1625,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.ExtendedHtmlAfterField = column.ExtendedHtmlAfterField;
                     }
+                    if (column.MultilingualLabelText?.IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.MultilingualLabelText = column.MultilingualLabelText;
+                    }
                     if (column.Nullable == true)
                     {
                         enabled = true;
@@ -4264,6 +4269,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ExtendedHtmlBetweenLabelAndControl": column.ExtendedHtmlBetweenLabelAndControl = value; break;
                 case "ExtendedHtmlAfterControl": column.ExtendedHtmlAfterControl = value; break;
                 case "ExtendedHtmlAfterField": column.ExtendedHtmlAfterField = value; break;
+                case "MultilingualLabelText": column.MultilingualLabelText = value; break;
                 case "Nullable": column.Nullable = value.ToBool(); break;
                 case "Unit": column.Unit = value; break;
                 case "DecimalPlaces": column.DecimalPlaces = value.ToInt(); break;

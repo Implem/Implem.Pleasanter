@@ -109,11 +109,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         var serverScriptLabelText = serverScriptModelRow?.Columns
                             ?.Get(column.ColumnName)
                             ?.LabelText;
-                        if (gridLabelText == column.LabelText
-                            && serverScriptLabelText != null
-                            && serverScriptLabelText != column.LabelText)
+                        if (gridLabelText == column.LabelText)
                         {
-                            gridLabelText = serverScriptLabelText;
+                            gridLabelText = serverScriptLabelText != null
+                                && serverScriptLabelText != column.LabelText
+                                ? serverScriptLabelText
+                                : Strings.CoalesceEmpty(
+                                    ColumnUtilities.GetMultilingualLabelText(
+                                        target: column.MultilingualLabelText,
+                                        context: context),
+                                    gridLabelText);
                         }
                         if (sort)
                         {
