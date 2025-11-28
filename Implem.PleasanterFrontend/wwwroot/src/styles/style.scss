@@ -2416,6 +2416,14 @@ body {
         align-items: start;
         overflow-x: auto;
 
+        .material-symbols-sharp {
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 350,
+                'GRAD' 0,
+                'opsz' 24;
+        }
+
         .field-vertical {
             width: auto !important;
             margin: 0 !important;
@@ -2475,12 +2483,24 @@ body {
                 align-items: center;
             }
 
-            & .button-icon > * {
-                opacity: 0.1;
-            }
+            & .button-icon {
+                > * {
+                    background: transparent;
+                    border: none;
+                    box-shadow: none;
+                    opacity: 0.8;
+                }
 
-            & .button-icon.is-active > * {
-                opacity: 1;
+                &.is-active > * {
+                    color: var(--invert-text);
+                    opacity: 1;
+                }
+
+                &.is-active:not([id$='-filter-button-alt']) > * {
+                    background: var(--primaryColor);
+                    border-color: var(--primaryColor);
+                    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primaryColor) 40%, transparent);
+                }
             }
 
             .editor-columns-filter {
@@ -2525,6 +2545,15 @@ body {
                     font-size: 24px;
                     line-height: 20px;
                 }
+
+                &:has(input.control-textbox:focus),
+                &:has(input.control-textbox:not(:placeholder-shown)),
+                &.has-value {
+                    > [id$='-editor-columns-filter-button-alt'] .material-symbols-sharp {
+                        color: var(--primaryColor);
+                        opacity: 1;
+                    }
+                }
             }
         }
 
@@ -2533,7 +2562,12 @@ body {
             display: flex;
             gap: 6px;
             align-items: center;
-            padding: 2px 5px;
+            padding: 4px;
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 350,
+                'GRAD' 0,
+                'opsz' 24;
             cursor: pointer;
 
             & > :first-child {

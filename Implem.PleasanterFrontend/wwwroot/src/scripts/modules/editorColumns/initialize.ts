@@ -33,5 +33,8 @@ onDomReady(() => {
         import('./popup').then(module => {
             module.initialize();
         });
+        import('./editorColumnsToggleSelect').then(module => {
+            module.initialize();
+        });
     }
 });

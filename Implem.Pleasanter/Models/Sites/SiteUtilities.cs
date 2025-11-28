@@ -7067,6 +7067,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss)
                 .EditorColumnsToastMenu(
+                    context: context,
                     id: "editor-columns-toast-menu")
                 .EditorColumnsSpacer(
                     context: context)
@@ -7205,6 +7206,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder EditorColumnsToastMenu(
             this HtmlBuilder hb,
+            Context context,
             string id = null,
             bool setOpenEditorColumnDialogButton = true,
             bool seResetAndDisableEditorColumnsButton = true)
@@ -7219,19 +7221,23 @@ namespace Implem.Pleasanter.Models
                             action: () => hb
                                 .MaterialIconButton(
                                     id: "MoveUpEditorColumns",
-                                    iconName: "arrow_upward")
+                                    iconName: "keyboard_arrow_up",
+                                    title: Displays.MoveUp(context: context))
                                 .MaterialIconButton(
                                     id: "MoveDownEditorColumns",
-                                    iconName: "arrow_downward")
+                                    iconName: "keyboard_arrow_down",
+                                    title: Displays.MoveDown(context: context))
                                 .MaterialIconButton(
                                     id: "OpenEditorColumnDialog",
                                     iconName: "settings",
+                                    title: Displays.AdvancedSetting(context: context),
                                     action: "SetSiteSettings",
                                     method: "put",
                                     _using: setOpenEditorColumnDialogButton)
                                 .MaterialIconButton(
                                     id: "EditorColumnsResetAndDisable",
                                     iconName: "reset_settings",
+                                    title: Displays.Reset(context: context),
                                     action: "SetSiteSettings",
                                     method: "put",
                                     _using: seResetAndDisableEditorColumnsButton)));
@@ -7254,12 +7260,14 @@ namespace Implem.Pleasanter.Models
                             action: () => hb
                                 .MaterialIconButton(
                                     id: "ToEnableEditorColumns",
-                                    iconName: "arrow_back",
+                                    iconName: "keyboard_arrow_left",
+                                    title: Displays.ToEnable(context: context),
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .MaterialIconButton(
                                     id: "ToDisableEditorColumns",
-                                    iconName: "arrow_forward",
+                                    iconName: "keyboard_arrow_right",
+                                    title: Displays.ToDisable(context: context),
                                     action: "SetSiteSettings",
                                     method: "post")));
         }
