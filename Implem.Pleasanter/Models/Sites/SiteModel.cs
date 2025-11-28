@@ -2975,6 +2975,7 @@ namespace Implem.Pleasanter.Models
                         onClick: processApiSiteSetting.OnClick,
                         executionType: processApiSiteSetting.ExecutionType?.ToString().ToEnum<Process.ExecutionTypes>(),
                         actionType: processApiSiteSetting.ActionType?.ToString().ToEnum<Process.ActionTypes>(),
+                        afterProcessStatusChangeActionType: processApiSiteSetting.AfterProcessStatusChangeActionType?.ToString().ToEnum<Process.AfterProcessStatusChangeActionTypes>(),
                         allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
                         validationType: processApiSiteSetting.ValidationType?.ToString().ToEnum<Process.ValidationTypes>(),
                         validateInputs: ParseValidateInputs(
@@ -3011,6 +3012,7 @@ namespace Implem.Pleasanter.Models
                         onClick: processApiSiteSetting.OnClick,
                         executionType: processApiSiteSetting.ExecutionType?.ToString().ToEnum<Process.ExecutionTypes>(),
                         actionType: processApiSiteSetting.ActionType?.ToString().ToEnum<Process.ActionTypes>(),
+                        afterProcessStatusChangeActionType: processApiSiteSetting.AfterProcessStatusChangeActionType?.ToString().ToEnum<Process.AfterProcessStatusChangeActionTypes>(),
                         allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
                         validationType: processApiSiteSetting.ValidationType?.ToString().ToEnum<Process.ValidationTypes>(),
                         validateInputs: ParseValidateInputs(
@@ -5296,6 +5298,7 @@ namespace Implem.Pleasanter.Models
                 onClick: context.Forms.Data("ProcessOnClick"),
                 executionType: (Process.ExecutionTypes)context.Forms.Int("ProcessExecutionType"),
                 actionType: (Process.ActionTypes)context.Forms.Int("ProcessActionType"),
+                afterProcessStatusChangeActionType: (Process.AfterProcessStatusChangeActionTypes)context.Forms.Int("AfterProcessStatusChangeActionType"),
                 allowBulkProcessing: context.Forms.Bool("ProcessAllowBulkProcessing"),
                 validationType: (Process.ValidationTypes)context.Forms.Int("ProcessValidationType"),
                 validateInputs: context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>(),
@@ -5356,6 +5359,7 @@ namespace Implem.Pleasanter.Models
                     onClick: context.Forms.Data("ProcessOnClick"),
                     executionType: (Process.ExecutionTypes)context.Forms.Int("ProcessExecutionType"),
                     actionType: (Process.ActionTypes)context.Forms.Int("ProcessActionType"),
+                    afterProcessStatusChangeActionType: (Process.AfterProcessStatusChangeActionTypes)context.Forms.Int("AfterProcessStatusChangeActionType"),
                     allowBulkProcessing: context.Forms.Bool("ProcessAllowBulkProcessing"),
                     validationType: (Process.ValidationTypes)context.Forms.Int("ProcessValidationType"),
                     validateInputs: context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>(),

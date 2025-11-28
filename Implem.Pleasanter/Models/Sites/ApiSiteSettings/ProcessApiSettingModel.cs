@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public string OnClick { get; set; }
         public int? ExecutionType { get; set; }
         public int? ActionType { get; set; }
+        public int? AfterProcessStatusChangeActionType { get; set; }
         public bool? AllowBulkProcessing { get; set; }
         public int? ValidationType { get; set; }
         public SettingList<ValidateInput> ValidateInputs { get; set; }

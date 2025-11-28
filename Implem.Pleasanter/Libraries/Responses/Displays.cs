@@ -239,6 +239,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AfterCreateActionType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterCreateActionType",
+                data: data);
+        }
+
         public static string AfterDelete(
             Context context,
             params string[] data)
@@ -269,6 +279,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AfterProcessStatusChangeActionType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterProcessStatusChangeActionType",
+                data: data);
+        }
+
         public static string AfterUpdate(
             Context context,
             params string[] data)
@@ -276,6 +296,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AfterUpdate",
+                data: data);
+        }
+
+        public static string AfterUpdateActionType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterUpdateActionType",
                 data: data);
         }
 
@@ -7369,6 +7399,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string MoveToNextRecord(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MoveToNextRecord",
+                data: data);
+        }
+
         public static string MoveUp(
             Context context,
             params string[] data)
@@ -8006,6 +8046,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "OpenEditInNewTab",
+                data: data);
+        }
+
+        public static string OpenNewEditor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OpenNewEditor",
                 data: data);
         }
 
@@ -9336,6 +9386,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ResultId",
+                data: data);
+        }
+
+        public static string ReturnToList(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ReturnToList",
                 data: data);
         }
 

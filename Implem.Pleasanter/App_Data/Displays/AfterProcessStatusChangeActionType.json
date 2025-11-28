@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AfterProcessStatusChangeActionType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Actions after process status change"
+        },
+        {
+            "Language": "zh",
+            "Body": "状态变更后的操作"
+        },
+        {
+            "Language": "ja",
+            "Body": "状態変更後の動作"
+        },
+        {
+            "Language": "de",
+            "Body": "Vorgänge nach einer Statusänderung"
+        },
+        {
+            "Language": "ko",
+            "Body": "상태 변경 후의 작업"
+        },
+        {
+            "Language": "es",
+            "Body": "Operaciones tras un cambio de estado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thao tác sau khi thay đổi trạng thái"
+        }
+    ]
+}
