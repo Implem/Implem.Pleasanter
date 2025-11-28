@@ -2200,17 +2200,9 @@ namespace Implem.Pleasanter.Models
                         id: sysLogModel.SysLogId)
                             .SetMemory("formChanged", false)
                             .Messages(context.Messages)
-                            .Href(Locations.Edit(
-                                context: context,
-                                controller: context.Controller,
-                                id: ss.Columns.Any(o => o.Linking)
-                                    ? context.Forms.Long("LinkId")
-                                    : sysLogModel.SysLogId)
-                                        + "?new=1"
-                                        + (ss.Columns.Any(o => o.Linking)
-                                            && context.Forms.Long("FromTabIndex") > 0
-                                                ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
-                                                : string.Empty))
+                            .AfterCreate(
+                                ss: ss,
+                                id: sysLogModel.SysLogId)
                             .ToJson();
                 default:
                     return errorData.MessageJson(context: context);

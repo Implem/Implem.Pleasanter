@@ -1,0 +1,33 @@
+﻿{
+    "Id": "OpenNewEditor",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Open new editor"
+        },
+        {
+            "Language": "zh",
+            "Body": "打开新建页面"
+        },
+        {
+            "Language": "ja",
+            "Body": "新規作成画面を開く"
+        },
+        {
+            "Language": "de",
+            "Body": "Neues Erstellungsfenster öffnen"
+        },
+        {
+            "Language": "ko",
+            "Body": "새로 만들기 화면 열기"
+        },
+        {
+            "Language": "es",
+            "Body": "Abrir la pantalla de nueva creación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mở màn hình tạo mới"
+        }
+    ]
+}

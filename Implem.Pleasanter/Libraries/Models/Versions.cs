@@ -18,6 +18,20 @@ namespace Implem.Pleasanter.Libraries.Models
             Disabled = 3
         }
 
+        public enum AfterCreateActionTypes : int
+        {
+            Default = 0,
+            ReturnToList = 1,
+            OpenNewEditor = 2,
+        }
+
+        public enum AfterUpdateActionTypes : int
+        {
+            Default = 0,
+            ReturnToList = 1,
+            MoveToNextRecord = 2,
+        }
+
         public static bool VerUp(Context context, SiteSettings ss, bool verUp)
         {
             return verUp ||

@@ -1656,6 +1656,32 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                         },
                         new ()
                         {
+                            Label = Displays.AfterCreateActionType(context: context),
+                            Name = "AfterCreateActionType",
+                            Type = "string",
+                            Value = ss.AfterCreateActionType switch
+                            {
+                                Implem.Pleasanter.Libraries.Models.Versions.AfterCreateActionTypes.ReturnToList=> Displays.ReturnToList(context: context),
+                                Implem.Pleasanter.Libraries.Models.Versions.AfterCreateActionTypes.OpenNewEditor=>Displays.OpenNewEditor(context: context),
+                                _=>Displays.Default(context: context)
+                            },
+                            Changed = ssNew.AfterCreateActionType != ss.AfterCreateActionType
+                        },
+                        new ()
+                        {
+                            Label = Displays.AfterUpdateActionType(context: context),
+                            Name = "AfterUpdateActionType",
+                            Type = "string",
+                            Value = ss.AfterUpdateActionType switch
+                            {
+                                Implem.Pleasanter.Libraries.Models.Versions.AfterUpdateActionTypes.ReturnToList=> Displays.ReturnToList(context: context),
+                                Implem.Pleasanter.Libraries.Models.Versions.AfterUpdateActionTypes.MoveToNextRecord=>Displays.MoveToNextRecord(context: context),
+                                _=>Displays.Default(context: context)
+                            },
+                            Changed = ssNew.AfterUpdateActionType != ss.AfterUpdateActionType
+                        },
+                        new ()
+                        {
                             Label = Displays.AllowEditingComments(context: context),
                             Name = "AllowEditingComments",
                             Type = "bool",
@@ -3377,6 +3403,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     public string OnClick;
                     public string ExecutionType;
                     public string ActionType;
+                    public string AfterProcessStatusChangeActionType;
                     public bool? AllowBulkProcessing;
                     public string ValidationType;
                     public List<ValidateInput> ValidateInputs;
@@ -3624,6 +3651,11 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                             Settings.Process.ActionTypes.None => Displays.None(context: context),
                             _ => Displays.Save(context: context)
                         };
+                        dst.AfterProcessStatusChangeActionType = process.AfterProcessStatusChangeActionType switch
+                        {
+                            Settings.Process.AfterProcessStatusChangeActionTypes.ReturnToList => Displays.ReturnToList(context: context),
+                            _ => Displays.Default(context: context)
+                        };
                         dst.AllowBulkProcessing = process.AllowBulkProcessing == true;
                     }
 
@@ -3838,6 +3870,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                     new ("OnClick",Displays.OnClick(context: context)),
                                     new ("ExecutionType",Displays.ExecutionTypes(context: context)),
                                     new ("ActionType",Displays.ActionTypes(context: context)),
+                                    new ("AfterProcessStatusChangeActionType",Displays.AfterProcessStatusChangeActionType(context: context)),
                                     new ("AllowBulkProcessing",Displays.AllowBulkProcessing(context: context)),
                                 }),
                             new (

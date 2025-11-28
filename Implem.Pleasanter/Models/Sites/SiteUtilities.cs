@@ -2500,7 +2500,7 @@ namespace Implem.Pleasanter.Models
                     siteSetting: ss,
                     columnsApiSiteSetting: siteSettingsApiModel.Columns);
             }
-            if(siteSettingsApiModel.EditorColumnHash != null)
+            if (siteSettingsApiModel.EditorColumnHash != null)
             {
                 siteModel.UpsertEditorColumnHashByApi(
                     siteSetting: ss,
@@ -2528,7 +2528,7 @@ namespace Implem.Pleasanter.Models
             var errorData = siteModel.Update(
                context: context,
                ss: ss,
-               setBySession:false);
+               setBySession: false);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -2540,12 +2540,12 @@ namespace Implem.Pleasanter.Models
                     return new SdResponse(
                                 method: "UpdateSuccess",
                                 url: context.UrlReferrer)
-                                .ToJson();                   
+                                .ToJson();
                 case Error.Types.UpdateConflicts:
                     return new SdResponse(
                                 method: "UpdateConflicts",
                                 value: Displays.UpdateConflicts(
-                                    context:context,
+                                    context: context,
                                     data: siteModel.Updator.Name))
                                 .ToJson();
                 default:
@@ -3878,7 +3878,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorTabs(this HtmlBuilder hb, Context context, SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
-            var tags =hb.Ul(id: "EditorTabs", action: () =>
+            var tags = hb.Ul(id: "EditorTabs", action: () =>
             {
                 hb
                     .Li(action: () => hb
@@ -6090,7 +6090,7 @@ namespace Implem.Pleasanter.Models
                             _checked: column.CellSticky == true)
                         .FieldSpinner(
                             controlId: "CellWidth",
-                            fieldCss: "field-normal", 
+                            fieldCss: "field-normal",
                             labelText: Displays.SetCellWidth(context: context),
                             placeholder: Displays.CellWidthMinPx(context: context, data: "50"),
                             value: column.CellWidth >= 50 ? column.CellWidth : null,
@@ -6805,6 +6805,44 @@ namespace Implem.Pleasanter.Models
                         }
                     },
                     selectedValue: ss.AutoVerUpType.ToInt().ToString())
+                .FieldDropDown(
+                    context: context,
+                    controlId: "AfterCreateActionType",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AfterCreateActionType(context: context),
+                    optionCollection: new Dictionary<string, string>
+                    {
+                        {
+                            Versions.AfterCreateActionTypes.ReturnToList.ToInt().ToString(),
+                            Displays.ReturnToList(context: context)
+                        },
+                        {
+                            Versions.AfterCreateActionTypes.OpenNewEditor.ToInt().ToString(),
+                            Displays.OpenNewEditor(context: context)
+                        },
+                    },
+                    insertBlank: true,
+                    selectedValue: ss.AfterCreateActionType.ToInt().ToString()
+                )
+                .FieldDropDown(
+                    context: context,
+                    controlId: "AfterUpdateActionType",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AfterUpdateActionType(context: context),
+                    optionCollection: new Dictionary<string, string>
+                    {
+                        {
+                            Versions.AfterUpdateActionTypes.ReturnToList.ToInt().ToString(),
+                            Displays.ReturnToList(context: context)
+                        },
+                        {
+                            Versions.AfterUpdateActionTypes.MoveToNextRecord.ToInt().ToString(),
+                            Displays.MoveToNextRecord(context: context)
+                        },
+                    },
+                    insertBlank: true,
+                    selectedValue: ss.AfterUpdateActionType.ToInt().ToString()
+                )
                 .FieldCheckBox(
                     controlId: "AllowEditingComments",
                     fieldCss: "field-auto-thin",
@@ -8262,7 +8300,7 @@ namespace Implem.Pleasanter.Models
                         { "field-wide", Displays.Wide(context: context) },
                         { "field-markdown", Displays.MarkDown(context: context) },
                         { "field-rte", Displays.RichTextEditor(context: context) }
-                    }; 
+                    };
                 case "Attachment":
                     return null;
                 default:
@@ -9848,6 +9886,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.ActionTypes(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.AfterProcessStatusChangeActionType(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.AllowBulkProcessing(context: context)))));
         }
 
@@ -9917,6 +9957,11 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         id: process.ActionType?.ToString()
                                             ?? Process.ActionTypes.Save.ToString())))
+                                .Td(action: () => hb
+                                    .Text(text: process.AfterProcessStatusChangeActionType != null && process.AfterProcessStatusChangeActionType != Process.AfterProcessStatusChangeActionTypes.Default ?
+                                        Displays.Get(
+                                            context: context,
+                                            id: process.AfterProcessStatusChangeActionType?.ToString()) : ""))
                                 .Td(action: () => hb
                                     .Span(
                                         css: "ui-icon ui-icon-circle-check",
@@ -10188,6 +10233,20 @@ namespace Implem.Pleasanter.Models
                             }
                         },
                         selectedValue: process.ActionType.ToInt().ToString())
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "AfterProcessStatusChangeActionType",
+                        controlCss: " always-send",
+                        labelText: Displays.AfterProcessStatusChangeActionType(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Process.AfterProcessStatusChangeActionTypes.ReturnToList.ToInt().ToString(),
+                                Displays.ReturnToList(context: context)
+                            },
+                        },
+                        insertBlank: true,
+                        selectedValue: process.AfterProcessStatusChangeActionType.ToInt().ToString())
                     .FieldCheckBox(
                         controlId: "ProcessAllowBulkProcessing",
                         controlCss: " always-send",

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "MoveToNextRecord",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Move to next record"
+        },
+        {
+            "Language": "zh",
+            "Body": "跳转到下一条记录"
+        },
+        {
+            "Language": "ja",
+            "Body": "次のレコードに遷移"
+        },
+        {
+            "Language": "de",
+            "Body": "Zum nächsten Datensatz wechseln"
+        },
+        {
+            "Language": "ko",
+            "Body": "다음 레코드로 이동"
+        },
+        {
+            "Language": "es",
+            "Body": "Ir al siguiente registro"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chuyển sang bản ghi tiếp theo"
+        }
+    ]
+}
