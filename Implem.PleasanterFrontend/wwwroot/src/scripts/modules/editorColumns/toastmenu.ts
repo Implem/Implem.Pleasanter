@@ -481,6 +481,11 @@ export const showToastMenu = (opts?: { force?: boolean; retry?: number }): void 
     const hasVisible = hasVisibleSelectedEditorColumn();
     const alreadyOpen = isToastMenuOpen();
 
+    if (alreadyOpen && !hasVisible && !force) {
+        hideToastMenu(false);
+        return;
+    }
+
     if (!force && !hasVisible && !alreadyOpen) {
         const MAX_RETRY_ATTEMPTS = 2;
         if (attempt < MAX_RETRY_ATTEMPTS) {
