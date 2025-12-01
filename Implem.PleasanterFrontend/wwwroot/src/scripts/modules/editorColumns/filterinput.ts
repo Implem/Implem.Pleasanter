@@ -1,4 +1,5 @@
 ﻿import { applyFilters, activeTextFilters, textFilterTimers } from './filter.ts';
+import { hideToastMenu } from './toastmenu.ts';
 
 const initializeEditorColumnsFilterInputs = (root?: HTMLElement) => {
     const base = root || document;
@@ -93,6 +94,15 @@ const setTextFilter = (inputElement: HTMLInputElement, immediate: boolean) => {
             delete textFilterTimers[olId];
         }
         applyFilters(olId, container);
+        const items = Array.from(container.querySelectorAll(`#${olId} li`)) as HTMLElement[];
+        const visibleCount = items.filter(li => {
+            if (li.style.display === 'none') return false;
+            const cs = getComputedStyle(li);
+            return cs.display !== 'none' && cs.visibility !== 'hidden';
+        }).length;
+        if (visibleCount === 0) {
+            hideToastMenu(false);
+        }
     }
 };
 
@@ -111,8 +121,13 @@ const setupTextFilterInput = (inputElement: HTMLInputElement) => {
         queueTextFilter(inputElement, event as InputEvent);
     });
     inputElement.addEventListener('keydown', event => {
-        if ((event as KeyboardEvent).key === 'Escape') {
+        const key = (event as KeyboardEvent).key;
+        if (key === 'Escape') {
             inputElement.value = '';
+            setTextFilter(inputElement, true);
+            event.stopPropagation();
+            event.preventDefault();
+        } else if (key === 'Enter') {
             setTextFilter(inputElement, true);
             event.stopPropagation();
             event.preventDefault();
