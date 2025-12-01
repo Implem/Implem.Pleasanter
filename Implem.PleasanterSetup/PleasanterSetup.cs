@@ -26,6 +26,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using Zx;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Collections.Generic;
 
 namespace Implem.PleasanterSetup
 {
@@ -59,7 +60,7 @@ namespace Implem.PleasanterSetup
         private string mySqlConnectingHost;
         private bool isEnvironmentUser;
         private bool versionUp;
-        private bool enterpriseEdition;
+        private bool EnterpriseEdition;
         private bool isProviderAzure;
         private bool addMySqlConnectingHost;
         private ExtendedColumns extendedIssuesColumns;
@@ -100,7 +101,7 @@ namespace Implem.PleasanterSetup
             this.userPassword = string.Empty;
             this.isEnvironmentUser = false;
             this.versionUp = false;
-            this.enterpriseEdition = false;
+            this.EnterpriseEdition = false;
             this.isProviderAzure = false;
             this.extendedIssuesColumns = new ExtendedColumns();
             this.extendedResultsColumns = new ExtendedColumns();
@@ -319,7 +320,7 @@ namespace Implem.PleasanterSetup
                     unzipDirPath,
                     guidDir);
             }
-            if (!enterpriseEdition && versionUp)
+            if (EnterpriseEdition && versionUp)
             {
                 ExistingCopyLicense(
                     installDir: installDir,
@@ -446,6 +447,39 @@ namespace Implem.PleasanterSetup
                 noinput: noinput);
         }
 
+        [Command("trial")]
+        public async Task Trial(
+            [Option("d")] string directory = "",
+            bool trial = true,
+            bool noinput = false)
+        {
+            try
+            {
+                SetSummary(
+                    directory: directory,
+                    trial: trial);
+                var doNext = AskForInstallOrVersionUp(trial);
+                if (!doNext)
+                {
+                    logger.LogInformation("Finishes processing the trial command.");
+                    return;
+                }
+                var codeDefinerPath = isProviderAzure
+                    ? CodeDefinerDirPath
+                    : Path.Combine(
+                        installDir,
+                        "Implem.CodeDefiner");
+                await ExecuteTrialCodeDefiner(
+                    codeDefinerDir: codeDefinerPath,
+                    noinput: noinput);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.ToString());
+                Environment.Exit(1);
+            }
+        }
+
         protected static void CancelHandler(object sender, ConsoleCancelEventArgs args)
         {
             Console.WriteLine("Exiting gracefully...");
@@ -453,10 +487,18 @@ namespace Implem.PleasanterSetup
             Environment.Exit(0);
         }
 
-        private bool AskForInstallOrVersionUp()
+        private bool AskForInstallOrVersionUp(
+            bool trial = false)
         {
             DisplaySummary();
-            logger.LogInformation("Shall I install Pleasanter with this content? Please enter ‘y(yes)' or 'n(no)’. : ");
+            if (trial)
+            {
+                logger.LogInformation("Do you want to start the trial? Please enter ‘y(yes)' or 'n(no)’. : ");
+            }
+            else
+            {
+                logger.LogInformation("Shall I install Pleasanter with this content? Please enter ‘y(yes)' or 'n(no)’. : ");
+            }
             var doNext = Console.ReadLine();
             while (string.IsNullOrEmpty(doNext))
             {
@@ -756,8 +798,8 @@ namespace Implem.PleasanterSetup
             if (isProviderAzure)
             {
                 var license = Path.Combine(
-                backupDir,
-                "Implem.License.dll");
+                    backupDir,
+                    "Implem.License.dll");
                 File.Copy(
                     license,
                     Path.Combine(
@@ -775,9 +817,9 @@ namespace Implem.PleasanterSetup
             else
             {
                 var license = Path.Combine(
-                backupDir,
-                "Implem.Pleasanter",
-                "Implem.License.dll");
+                    backupDir,
+                    "Implem.Pleasanter",
+                    "Implem.License.dll");
                 File.Copy(
                     license,
                     Path.Combine(
@@ -805,9 +847,17 @@ namespace Implem.PleasanterSetup
                 var backupDirCodeDefiner = Path.Combine(
                     Path.GetDirectoryName(CodeDefinerDirPath),
                     $"{Path.GetFileName(CodeDefinerDirPath)}{DateTime.Now:_yyyyMMdd_HHmmss}");
-                Directory.Move(
-                    installDir,
-                    destDir);
+                Directory.CreateDirectory(destDir);
+                foreach (var file in Directory.GetFiles(installDir))
+                {
+                    var destFile = Path.Combine(destDir, Path.GetFileName(file));
+                    File.Move(file, destFile);
+                }
+                foreach (var dir in Directory.GetDirectories(installDir))
+                {
+                    var destSubDir = Path.Combine(destDir, Path.GetFileName(dir));
+                    Directory.Move(dir, destSubDir);
+                }
                 Directory.Move(
                     Path.Combine(
                         Path.GetDirectoryName(installDir),
@@ -828,7 +878,7 @@ namespace Implem.PleasanterSetup
             }
         }
 
-        private void DisplaySummary()
+        private void DisplaySummary(bool trial = false)
         {
             logger.LogInformation("------ Summary ------");
             logger.LogInformation($"Install Directory         : {installDir}");
@@ -917,6 +967,7 @@ namespace Implem.PleasanterSetup
                 Arguments = arguments
             };
             var userInput = string.Empty;
+            var trialActive = false;
             var (process, stdOut, stdError) = ProcessX.GetDualAsyncEnumerable(processStartInfo);
             // 標準出力と標準エラー出力を処理するタスク
             var outputTask = Task.Run(async () =>
@@ -930,6 +981,23 @@ namespace Implem.PleasanterSetup
                         userInput = input;
                         process.StandardInput.WriteLine(input);
                     }
+                    if (!EnterpriseEdition
+                    && item is "<ERROR> Configurator.CheckColumnsShrinkage: The columns will be shrinked."
+                    && !force)
+                    {
+                        trialActive = true;
+                    }
+                    if (!EnterpriseEdition
+                    && item is "<SUCCESS> Starter.Main: All of the processes have been completed.")
+                    {
+                        var trialUrl = DefaultParameters.FirstSetupTrialUrl;
+                        if (versionUp) trialUrl = DefaultParameters.VerUpTrialUrl;
+                        Implem.PleasanterSetup.Utilities.UrlOpener.Open(
+                            url: trialUrl,
+                            message: $"To enable the trial, please run `pleasanter-setup trial`. " +
+                                $"\nFor reference, visit {StripQueryParameters(trialUrl)}.",
+                            isAzure: isProviderAzure);
+                    }
                 }
             });
             var errorTask = Task.Run(async () =>
@@ -941,8 +1009,109 @@ namespace Implem.PleasanterSetup
             });
             await Task.WhenAll(outputTask, errorTask);
             //上の処理結果で表示非表示
+            if (trialActive) {
+                //トライアルで実行する。
+                logger.LogWarning("Column shrinkage was detected during execution of the '_rds' command. The trial command will be executed.");
+                await ExecuteTrialCodeDefiner(
+                    codeDefinerDir: codeDefinerDir,
+                    noinput: noinput);
+                return;
+            }
             if (userInput.Equals("y"))
             {
+                logger.LogInformation("Setup is complete.");
+            }
+        }
+
+        private async Task ExecuteTrialCodeDefiner(
+            string codeDefinerDir,
+            bool noinput)
+        {
+            var arguments = "";
+            var fileName = "";
+            var pOtion = "";
+            var noInputOption = noinput ? "/n" : "";
+            if (isEnvironmentUser)
+            {
+                var permissionCommand = $"chown -R {userName} {Path.GetDirectoryName(installDir)}";
+                await $"sudo chown -R {userName} {Path.GetDirectoryName(installDir)}";
+            }
+            await $"cd {codeDefinerDir}";
+            if (isProviderAzure)
+            {
+                pOtion = "/p " + installDir;
+            }
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                fileName = "dotnet";
+                arguments = $"Implem.CodeDefiner.dll trial {pOtion} {noInputOption}";
+            }
+            else
+            {
+                var dotnet_root = Environment.GetEnvironmentVariable("DOTNET_ROOT");
+                fileName = $"sudo";
+                arguments = Environment.ExpandEnvironmentVariables($"-u {userName} -E {dotnet_root}/dotnet Implem.CodeDefiner.dll trial {noInputOption}");
+            }
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            {
+                FileName = fileName,
+                Arguments = arguments
+            };
+            var userInput = string.Empty;
+            var trialExpired = false;
+            var trialColumnsShrinked = false;
+            var (process, stdOut, stdError) = ProcessX.GetDualAsyncEnumerable(processStartInfo);
+            // 標準出力と標準エラー出力を処理するタスク
+            var outputTask = Task.Run(async () =>
+            {
+                await foreach (var item in stdOut)
+                {
+                    Console.WriteLine(item);
+                    if (item is "Type \"y\" (yes) to continue the Pleasanter Extensions Trial process, otherwise type \"n\" (no).")
+                    {
+                        var input = Console.ReadLine();
+                        userInput = input;
+                        process.StandardInput.WriteLine(input);
+                    }
+                    //まずカラムの縮小を検知する。Comunity Editionかつカラムの縮小を検知する。EnterpriseEditionがfalseかつ、文言一致で比較？
+                    if (!EnterpriseEdition
+                    && item is "<ERROR> Configurator.TrialConfigure: Trial period has expired. You can not rerun.")
+                    {
+                        trialExpired = true;
+                    }
+                    else if (!EnterpriseEdition
+                    && item is "<ERROR> Configurator.CheckColumnsShrinkage: The columns will be shrinked.")
+                    {
+                        trialColumnsShrinked = true;
+                    }
+                }
+            });
+            var errorTask = Task.Run(async () =>
+            {
+                await foreach (var item in stdError)
+                {
+                    Console.WriteLine(item);
+                }
+            });
+            await Task.WhenAll(outputTask, errorTask);
+            //上の処理結果で表示非表示
+            if (trialExpired)
+            {
+                // エンタープライズ案内ページを開く（失敗時は指定メッセージを表示）
+                Implem.PleasanterSetup.Utilities.UrlOpener.Open(
+                     url: DefaultParameters.EnterpriseUrl,
+                     message: $"If you are using the Enterprise Edition, please visit {StripQueryParameters(DefaultParameters.EnterpriseUrl)}.",
+                     isAzure: isProviderAzure);
+            }
+            if (userInput.Equals("y"))
+            {
+                if (trialColumnsShrinked)
+                {
+                    Implem.PleasanterSetup.Utilities.UrlOpener.Open(
+                         url: DefaultParameters.VerUpTrialUrl,
+                         message: $"To enable the Extended Column settings, please refer to the manual at {StripQueryParameters(DefaultParameters.VerUpTrialUrl)}.",
+                         isAzure: isProviderAzure);
+                }
                 logger.LogInformation("Setup is complete.");
             }
         }
@@ -1117,17 +1286,17 @@ namespace Implem.PleasanterSetup
                 if (isProviderAzure)
                 {
                     parametersDir = Path.Combine(
-                    installDir,
-                    "App_Data",
-                    "Parameters");
+                        installDir,
+                        "App_Data",
+                        "Parameters");
                 }
                 else
                 {
                     parametersDir = Path.Combine(
-                    installDir,
-                    "Implem.Pleasanter",
-                    "App_Data",
-                    "Parameters");
+                        installDir,
+                        "Implem.Pleasanter",
+                        "App_Data",
+                        "Parameters");
                 }
                 if (!versionUp)
                 {
@@ -1262,20 +1431,26 @@ namespace Implem.PleasanterSetup
             string directory,
             string releasezip = "",
             string patchPath = "",
-            bool setUpState = true)
+            bool setUpState = true,
+            bool trial = false)
         {
             //オフライン環境での必須オプションの確認
             AskForInstallDir(directory);
             //Implem.Pleasanter.dllの有無でバージョンアップか判断
             AskForUserName();
             versionUp = MeetsVersionUpRequirements();
+            if (trial)
+            {
+                CheckTrialAvailability();
+            }
             if (!setUpState && !Directory.Exists(installDir))
             {
                 logger.LogError($"{installDir} does not exist.");
-                Environment.Exit(0);
+                Environment.Exit(1);
             }
             if (versionUp)
             {
+                EnterpriseEdition = CheckLicense();
                 GetUserData();
             }
             else
@@ -1686,6 +1861,93 @@ namespace Implem.PleasanterSetup
                 Environment.Exit(0);
             }
         }
+        private void CheckTrialAvailability()
+        {
+            if (!versionUp)
+            {
+                logger.LogInformation(
+                    "To install the Pleasanter Community Edition, please follow the installer guide below." + Environment.NewLine +
+                    "After installation, to enable the trial run: pleasanter-setup trial" + Environment.NewLine +
+                    "Windows:   " + DefaultParameters.InstallUrlForWindows + Environment.NewLine +
+                    "Ubuntu:    " + DefaultParameters.InstallUrlForUbuntu + Environment.NewLine +
+                    "AlmaLinux: " + DefaultParameters.InstallUrlForAlmaLinux + Environment.NewLine +
+                    "RHEL 8:    " + DefaultParameters.InstallUrlForRhel8 + Environment.NewLine +
+                    "RHEL 9:    " + DefaultParameters.InstallUrlForRhel9 + Environment.NewLine +
+                    "Azure:     " + DefaultParameters.InstallUrlForAzure
+                );
+                Environment.Exit(1);
+            }
+            var enterpriseEdition = CheckLicense();
+            if (enterpriseEdition)
+            {
+                logger.LogInformation("The trial option is only available for the Community Edition.");
+                Environment.Exit(1);
+            }
+            else
+            {
+                var pleasanterDllPath = string.Empty;
+                if (isProviderAzure)
+                {
+                    pleasanterDllPath = Path.Combine(
+                       installDir,
+                       "Implem.Pleasanter.dll");
+                }
+                else
+                {
+                    pleasanterDllPath = Path.Combine(
+                        installDir,
+                        "Implem.Pleasanter",
+                        "Implem.Pleasanter.dll");
+                }
+                var assemblyName = AssemblyName.GetAssemblyName(pleasanterDllPath);
+                var version = assemblyName.Version;
+                var minVersion = new System.Version(1, 4, 15, 0);
+                if (version < minVersion)
+                {
+                    logger.LogError($"The trial feature is available from version 1.4.15.0 or later. Please install version 1.4.15.0 or newer.");
+                    Environment.Exit(1);
+                }
+            }
+        }
+
+        private bool CheckLicense()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(installDir))
+                {
+                    logger.LogError("installDir is not set.");
+                    Environment.Exit(0);
+                }
+                var license = string.Empty;
+                if (isProviderAzure)
+                {
+                    license = Path.Combine(
+                        installDir,
+                        "Implem.License.dll");
+                }
+                else
+                {
+                    license = Path.Combine(
+                        installDir,
+                        "Implem.Pleasanter",
+                        "Implem.License.dll");
+                }
+                if (!File.Exists(license))
+                {
+                    logger.LogError($"Implem.License.dll not found: {license}");
+                    Environment.Exit(0);
+                }
+                licenseDllPath = license;
+                return CheckMethodExecute(license);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                Environment.Exit(0);
+            }
+            return false;
+        }
 
         private async Task<string> DownloadNewResource(string installDir, string fileName)
         {
@@ -1720,6 +1982,12 @@ namespace Implem.PleasanterSetup
                 }
             }
             return destinationDir;
+        }
+        private static string StripQueryParameters(string url)
+        {
+            if (string.IsNullOrEmpty(url)) return url;
+            int idx = url.IndexOf('?');
+            return idx >= 0 ? url.Substring(0, idx) : url;
         }
     }
 }
