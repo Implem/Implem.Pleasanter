@@ -13,16 +13,16 @@
     <PackageProjectUrl>https://github.com/Implem/Implem.Pleasanter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Implem/Implem.Pleasanter</RepositoryUrl>
     <ToolCommandName>pleasanter-setup</ToolCommandName>
-    <AssemblyVersion>1.1.2</AssemblyVersion>
-    <FileVersion>1.1.2</FileVersion>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <FileVersion>1.2.0</FileVersion>
     <PackageOutputPath>$(OutPutpath)</PackageOutputPath>
     <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-        [1.1.2]
-        - Fixed an issue where language and time zone settings were not being properly applied.
+        [1.2.0]
+        - Added the ability to enable trial.
     </PackageReleaseNotes>
-    <Version>1.1.2</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

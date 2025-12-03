@@ -33,3 +33,6 @@ https://pleasanter.org/ja/manual/version-up-net-core-installer
 ### Azure
 https://pleasanter.org/ja/manual/getting-started-installer-pleasanter-azure
 https://pleasanter.org/ja/manual/version-up-azure-installer
+
+### Trial Activate
+https://pleasanter.org/ja/manual/pleasanter-extensions-trial-installer-start
