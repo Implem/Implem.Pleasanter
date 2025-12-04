@@ -7406,7 +7406,8 @@ namespace Implem.Pleasanter.Models
                                     action: () => hb
                                         .A(
                                             href: "#MultilingualSettingTab",
-                                            text: Displays.Multilingual(context: context))))
+                                            text: Displays.Multilingual(context: context)),
+                                    _using: !column.OtherColumn()))
                         .EditorColumnDialogTab(
                             context: context,
                             ss: ss,
@@ -7487,7 +7488,8 @@ namespace Implem.Pleasanter.Models
                                     action: () => hb
                                         .A(
                                             href: "#MultilingualSettingTab",
-                                            text: Displays.Multilingual(context: context))))
+                                            text: Displays.Multilingual(context: context)),
+                                    _using: !column.OtherColumn()))
                             .EditorColumnDialogTab(
                                 context: context,
                                 ss: ss,
