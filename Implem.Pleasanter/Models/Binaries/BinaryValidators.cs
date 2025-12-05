@@ -633,22 +633,22 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
-            var extension = System.IO.Path.GetExtension(fileName);
-            if (string.IsNullOrEmpty(extension))
+            var firstDotIndex = fileName.IndexOf('.');
+            if (firstDotIndex < 0)
             {
                 return true;
             }
-            if (Parameters.Form.AttachmentExcludedExtensions.Contains(extension))
+            // すべての拡張子をチェック
+            // 例: "test.exe.zip.rar" → ".exe", ".zip", ".rar" を順にチェック
+            var parts = fileName[firstDotIndex..].Split('.');
+            foreach (var part in parts)
             {
-                return false;
-            }
-            // 二重拡張子のチェック(filename.exe.txt のようなもののチェック)
-            var fileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(fileName);
-            if (!string.IsNullOrEmpty(fileNameWithoutExtension))
-            {
-                var secondExtension = System.IO.Path.GetExtension(fileNameWithoutExtension);
-                if (!string.IsNullOrEmpty(secondExtension) &&
-                    Parameters.Form.AttachmentExcludedExtensions.Contains(secondExtension))
+                if (string.IsNullOrEmpty(part))
+                {
+                    continue;
+                }
+                var extension = "." + part;
+                if (Parameters.Form.AttachmentExcludedExtensions.Contains(extension))
                 {
                     return false;
                 }
