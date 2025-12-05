@@ -316,6 +316,15 @@ namespace Implem.Pleasanter.Libraries.Html
             }
             return this;
         }
+        public HtmlAttributes Readonly(bool _using = true)
+        {
+            if (_using)
+            {
+                Add("readonly");
+                Add("readonly");
+            }
+            return this;
+        }
 
         public HtmlAttributes Disabled(bool value = false, bool _using = true)
         {
@@ -825,6 +834,26 @@ namespace Implem.Pleasanter.Libraries.Html
             {
                 Add("data-cell-wordwrap");
                 Add("1");
+            }
+            return this;
+        }
+
+        public HtmlAttributes Async(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("async");
+                Add(value.ToStr());
+            }
+            return this;
+        }
+
+        public HtmlAttributes Defer(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("defer");
+                Add(value.ToStr());
             }
             return this;
         }

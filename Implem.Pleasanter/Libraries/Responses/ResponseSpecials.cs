@@ -6614,6 +6614,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Sites_InheritPermission", value);
         }
 
+        public static SitesResponseCollection Form(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_Form",
+                res.SiteModel.Form.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Form")));
+        }
+
+        public static SitesResponseCollection Form(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_Form", value);
+        }
+
+        public static SitesResponseCollection Form_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_Form",
+                res.SiteModel.Form.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Form")));
+        }
+
+        public static SitesResponseCollection Form_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_Form", value);
+        }
+
         public static SitesResponseCollection Comments(
             this SitesResponseCollection res,
             Context context,

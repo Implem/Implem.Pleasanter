@@ -114,6 +114,41 @@ namespace Implem.Pleasanter.Libraries.Responses
         private static DataRow GetBinariesTable(Context context, string guid)
         {
             if (guid.IsNullOrEmpty()) return null;
+
+            // Form機能の場合は、参照権限のチェックを行わず、ReferenceIdとGuidで絞り込む
+            if (context.IsForm)
+            {
+                return Repository.ExecuteTable(
+                    context: context,
+                    statements: new SqlStatement[]
+                    {
+                        Rds.SelectBinaries(
+                            column: Rds.BinariesColumn()
+                                .BinaryId()
+                                .ReferenceId()
+                                .Guid()
+                                .BinaryType()
+                                .Bin()
+                                .Thumbnail()
+                                .FileName()
+                                .ContentType()
+                                .Extension()
+                                .Size()
+                                .Creator()
+                                .Updator()
+                                .CreatedTime()
+                                .UpdatedTime(),
+                            where: Rds.BinariesWhere()
+                                .TenantId(context.TenantId)
+                                .Guid(guid)
+                                .ReferenceId(context.Id)
+                                .Add(raw: $"(\"Binaries\".\"CreatedTime\"=\"Binaries\".\"UpdatedTime\")")
+                            )
+                    })
+                    .AsEnumerable()
+                    .FirstOrDefault();
+            }
+
             var join = Rds.BinariesJoinDefault()
                 .Add(new SqlJoin(
                     tableBracket: "\"Items\"",

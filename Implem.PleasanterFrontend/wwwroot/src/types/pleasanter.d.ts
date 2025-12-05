@@ -1,6 +1,7 @@
 declare global {
     interface Window {
         $p: {
+            isForm: () => boolean;
             display: (defaultId: string) => string;
             multiUpload: (
                 url: string,

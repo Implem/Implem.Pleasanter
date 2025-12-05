@@ -4478,3 +4478,20 @@ span.flatpickr-weekday {
         }
     }
 }
+#MessageContainer {
+    width: 80vw;
+    padding: 16px;
+    margin: 40px auto;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 8px;
+}
+#RecaptchaV2Widget,
+#TurnstileWidget {
+    width: fit-content;
+    margin: 40px auto;
+}
+.grecaptcha-badge {
+    bottom: 2px !important;
+    z-index: 9999;
+}

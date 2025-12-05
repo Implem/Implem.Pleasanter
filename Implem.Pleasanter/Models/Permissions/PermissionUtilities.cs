@@ -1085,6 +1085,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static HtmlBuilder PermissionsDialog(this HtmlBuilder hb, Context context)
         {
+            if (context.IsForm) return hb;
             return hb.Div(attributes: new HtmlAttributes()
                 .Id("PermissionsDialog")
                 .Class("dialog")

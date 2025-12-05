@@ -2637,7 +2637,7 @@ namespace Implem.Pleasanter.Models
                                 case "Description":
                                     SetDescription(
                                         columnName: column.ColumnName,
-                                        value: value);
+                                        value: Implem.Pleasanter.Models.BinaryUtilities.NormalizeFormBinaryPath(context, value.ToString()));
                                     break;
                                 case "Check":
                                     SetCheck(
@@ -3319,22 +3319,7 @@ namespace Implem.Pleasanter.Models
             Method = context.Action + (!method.IsNullOrEmpty()
                 ? $":{method}"
                 : string.Empty);
-            switch (sysLogType)
-            {
-                case SysLogTypes.SystemError:
-                case SysLogTypes.Exception:
-                    ErrMessage = message;
-                    break;
-                default:
-                    Comments = new Comments()
-                    {
-                        new Comment()
-                        {
-                            Body = message
-                        }
-                    };
-                    break;
-            }
+            SetMessage(message: message, sysLogType: sysLogType);
             if (Parameters.Rds.SysLogsSchemaVersion >= 2)
             {
                 Status = sysLogsStatus;
@@ -3539,7 +3524,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void Finish(Context context, int responseSize = 0)
+        public void Finish(Context context, int responseSize = 0, string message = "")
         {
             if (Parameters.Rds.SysLogsSchemaVersion >= 2)
             {
@@ -3556,6 +3541,8 @@ namespace Implem.Pleasanter.Models
             ProcessId = currentProcess.Id;
             ProcessName = currentProcess.ProcessName;
             BasePriority = currentProcess.BasePriority;
+            if (!message.IsNullOrEmpty())
+                SetMessage(message);
             Update(
                 context: context,
                 writeSqlToDebugLog: false);
@@ -3629,6 +3616,31 @@ namespace Implem.Pleasanter.Models
                 Updator = (update && context?.User != null) ? context.User.Id : 0,
                 UpdatedTime = sysLogModel.EndTime.Equals(0.ToDateTime()) ? sysLogModel.StartTime : sysLogModel.EndTime
             };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetMessage(
+            string message,
+            SysLogTypes sysLogType = SysLogTypes.Info)
+        {
+            switch (sysLogType)
+            {
+                case SysLogTypes.SystemError:
+                case SysLogTypes.Exception:
+                    ErrMessage = message;
+                    break;
+                default:
+                    Comments = new Comments()
+                    {
+                        new Comment()
+                        {
+                            Body = message
+                        }
+                    };
+                    break;
+            }
         }
     }
 }

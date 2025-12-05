@@ -1,18 +1,4 @@
 ﻿$p.uploadAttachments = function (control, filesList) {
-    var createUuid = function () {
-        var uuid = '',
-            i,
-            random;
-        for (i = 0; i < 32; i++) {
-            random = (Math.random() * 16) | 0;
-            if (i === 8 || i === 12 || i === 16 || i === 20) {
-                uuid += '';
-            }
-            uuid += (i === 12 ? 4 : i === 16 ? (random & 3) | 8 : random).toString(16);
-        }
-        return uuid.toUpperCase();
-    };
-
     var fileClear = function () {
         var c = input.clone();
         c.val('');
@@ -134,7 +120,7 @@
     var dataName = control.attr('data-name');
     var uuids = [];
     for (fileIndex = 0; fileIndex < filesList.length; fileIndex++) {
-        uuids.push(createUuid());
+        uuids.push($p.createGuid());
     }
     var fieldControl = control.closest('.field-control');
     var siteId = fieldControl.closest('#EditorTabsContainer').attr('site-id');
@@ -149,6 +135,13 @@
             /\/items\/[0-9]+\/binaries\/deletetemp/g,
             '/items/' + siteId + '/binaries/deletetemp'
         );
+    }
+    if ($p.isForm()) {
+        url = $('.main-form')
+            .attr('action')
+            .replace('_action_', 'upload')
+            .replace('forms', 'formbinaries');
+        deleteUrl = $('.main-form').attr('action').replace('_action_', 'formbinaries/deletetemp');
     }
     var controlId = control.parent().find('.control-attachments').attr('id');
     var token = $('#Token').val();

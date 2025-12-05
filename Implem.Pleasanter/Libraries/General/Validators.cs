@@ -112,5 +112,18 @@ namespace Implem.Pleasanter.Libraries.General
 
             return new ErrorData(type: Error.Types.None);
         }
+
+        /// <summary>
+        /// Fixed:
+        /// GUID形式の文字列を検証します（32文字の16進数）
+        /// </summary>
+        public static bool IsValidGuid(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return false;
+            }
+            return Regex.IsMatch(value, "^[0-9A-Fa-f]{32}$");
+        }
     }
 }

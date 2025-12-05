@@ -3366,7 +3366,7 @@ namespace Implem.Pleasanter.Models
                                 case "Description":
                                     SetDescription(
                                         columnName: column.ColumnName,
-                                        value: value);
+                                        value: Implem.Pleasanter.Models.BinaryUtilities.NormalizeFormBinaryPath(context, value.ToString()));
                                     break;
                                 case "Check":
                                     SetCheck(

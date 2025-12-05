@@ -94,7 +94,7 @@ namespace Implem.PleasanterTest.Utilities
             context.Controller = context.RouteData.Get("controller")?.ToLower() ?? string.Empty;
             context.Action = context.RouteData.Get("action")?.ToLower() ?? string.Empty;
             context.Id = context.RouteData.Get("id")?.ToLong() ?? 0;
-            context.Guid = context.RouteData.Get("guid")?.ToUpper();
+            context.Guid = context.RouteData.Get("guid");
             context.UserHostName = userHostName;
             context.UserHostAddress = userHostAddress;
             context.UserAgent = userAgent;

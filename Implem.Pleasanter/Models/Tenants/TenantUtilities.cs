@@ -599,7 +599,7 @@ namespace Implem.Pleasanter.Models
                 .CopyDialog(
                     context: context,
                     ss: ss)
-                .OutgoingMailDialog()
+                .OutgoingMailDialog(context: context)
                 .ServerScriptDialog(context: context)
                 .ServerScriptScheduleDialog(context: context)
                 .EditorExtensions(

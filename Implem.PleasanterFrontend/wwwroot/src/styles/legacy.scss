@@ -2648,6 +2648,10 @@ label.required::after {
     display: none;
 }
 
+.hidden.is-important {
+    display: none !important;
+}
+
 .right {
     float: right;
 }

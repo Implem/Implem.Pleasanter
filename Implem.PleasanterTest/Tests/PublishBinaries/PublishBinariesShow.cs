@@ -23,7 +23,7 @@ namespace Implem.PleasanterTest.Tests.PublishBinaries
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userType: UserData.UserTypes.Anonymous,
-                routeData: RouteData.PublishBinariesShow(id: id));
+                routeData: RouteData.PublishBinariesShow(guid: guid));
             var results = Results(
                 context: context,
                 guid: guid);

@@ -14,6 +14,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder DropDownSearchDialog(
             this HtmlBuilder hb, Context context, long id)
         {
+            if (context.IsForm) return hb;
+
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id("DropDownSearchDialog")

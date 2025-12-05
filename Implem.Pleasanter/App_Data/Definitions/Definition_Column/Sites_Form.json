@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Sites_Form",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "フォーム",
+    "ColumnName": "Form",
+    "LabelText": "Form",
+    "No": "127",
+    "History": "127",
+    "EditorColumn": "127",
+    "LinkColumn": "127",
+    "HistoryColumn": "127",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Nullable": "1",
+    "Ix4": "1",
+    "LabelText_en": "Form",
+    "LabelText_zh": "Form",
+    "LabelText_de": "Form",
+    "LabelText_ko": "Form",
+    "LabelText_es": "Form",
+    "LabelText_vn": "Form"
+}

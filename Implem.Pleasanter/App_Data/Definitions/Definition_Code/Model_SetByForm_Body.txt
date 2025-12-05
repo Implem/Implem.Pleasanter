@@ -92,7 +92,7 @@ private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, 
                         case "Description":
                             SetDescription(
                                 columnName: column.ColumnName,
-                                value: value);
+                                value: Implem.Pleasanter.Models.BinaryUtilities.NormalizeFormBinaryPath(context, value.ToString()));
                             break;
                         case "Check":
                             SetCheck(

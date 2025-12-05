@@ -13,6 +13,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -48,6 +49,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public Dictionary<string, string> SessionData { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, string> UserSessionData { get; set; } = new Dictionary<string, string>();
         public bool Publish { get; set; }
+        public bool IsForm { get; private set; } // formsコントロールである場合のみに制御される。（trueであれば、formsコントロールにより制御されていることも含まれる）
         public List<string> ControlledOrder { get; set; }
         public QueryStrings QueryStrings { get; set; } = new QueryStrings();
         public Forms Forms { get; set; } = new Forms();
@@ -70,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string Action { get; set; }
         public string Page { get; set; }
         public string Server { get; set; }
+        // IsForm==trueとなる場合にも、TenantIdを設定している（TenantId != 0）
         public int TenantId { get; set; }
         public int TargetTenantId { get; set; }
         public long SiteId { get; set; }
@@ -123,6 +126,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public bool Request { get; set; }
         public bool BackgroundServerScript { get; set; }
         public string Nonce { get; set; }
+        public AntiforgeryTokenSet Tokens { get; set; } = null; // CSRF対策用の処理をHtmlPartsで行うための情報を保持
 
         public Context(
             bool request = true,
@@ -327,6 +331,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "binaries":
                     case "items":
                     case "publishes":
+                    case "forms":
                         if (Id > 0)
                         {
                             Repository.ExecuteTable(
@@ -633,54 +638,139 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public void SetPublish()
         {
-            if (HasRoute)
+            if (!HasRoute) return;
+
+
+            // メイン処理（大幅簡略化）
+            switch (Controller)
             {
+                case "publishes":
+                case "publishbinaries":
+                    TrySetupController(
+                        extensionKey: "Publish",
+                        validator: dr => dr.Bool("Publish"),
+                        specificAction: dr => Publish = true
+                    );
+                    break;
+
+                case "forms":
+                case "formbinaries":
+                    TrySetupController(
+                        extensionKey: "Form",
+                        validator: dr => !dr.String("Form").IsNullOrEmpty(),
+                        specificAction: dr =>
+                        {
+                            Id = dr.Int("SiteId");
+                            IsForm = true;
+                        }
+                    );
+                    break;
+            }
+
+            // ローカル関数群
+            bool TrySetupController(string extensionKey, Func<DataRow, bool> validator, Action<DataRow> specificAction)
+            {
+                var dataRow = GetDataRow();
+                if (dataRow == null || !validator(dataRow)) return false;
+
+                var cs = dataRow.String("ContractSettings").Deserialize<ContractSettings>() ?? ContractSettings;
+
+                if (!IsExtensionAllowed(extensionKey, cs)) return false;
+
+                // 共通プロパティ設定
+                SetCommonProperties(dataRow, cs);
+
+                // 個別プロパティ設定
+                specificAction(dataRow);
+                return true;
+            }
+
+            bool IsExtensionAllowed(string extensionKey, ContractSettings cs)
+            {
+                if (extensionKey == "Form")
+                {
+                    // "Form"キーの場合：
+                    // - Parameters.Form.Enabled が true なら即座に許可（ContractSettings のフラグは無視）
+                    // - そうでなければ contractSettings の拡張フラグを確認
+                    return Parameters.Form.Enabled == true || cs.Extensions.Get(extensionKey);
+                }
+                // それ以外のキーは contractSettings の拡張フラグに従う
+                return cs.Extensions.Get(extensionKey);
+            }
+
+            void SetCommonProperties(DataRow dataRow, ContractSettings contractSettings)
+            {
+                TenantId = dataRow.Int("TenantId");
+                ContractSettings = contractSettings;
+                HtmlTitleTop = dataRow.String("HtmlTitleTop");
+                HtmlTitleSite = dataRow.String("HtmlTitleSite");
+                HtmlTitleRecord = dataRow.String("HtmlTitleRecord");
+            }
+
+            DataRow GetDataRow()
+            {
+                var statement = Rds.SelectSites(
+                    column: Rds.SitesColumn()
+                        .TenantId()
+                        .Publish()
+                        .Form()
+                        .SiteId()
+                        .Tenants_ContractSettings()
+                        .Tenants_HtmlTitleTop()
+                        .Tenants_HtmlTitleSite()
+                        .Tenants_HtmlTitleRecord(),
+                    join: Rds.SitesJoin().Add(new SqlJoin(
+                        tableBracket: "\"Tenants\"",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: "\"Sites\".\"TenantId\"=\"Tenants\".\"TenantId\"")),
+                    where: GetSiteIdQuery());
+
+                var dataTable = Repository.ExecuteTable(
+                    context: this,
+                    statements: statement);
+
+                return dataTable.AsEnumerable().FirstOrDefault();
+            }
+
+            SqlWhereCollection GetSiteIdQuery()
+            {
+                var col = Rds.ItemsColumn().SiteId();
+                var where = new SqlWhereCollection();
+                var selectSub = new SqlSelect();
+                var returnWhere = new SqlWhereCollection();
+
+                // 外部からのアクセス用のための条件なので TenantId を含むことはない
                 switch (Controller)
                 {
                     case "publishes":
+                        where = Rds.ItemsWhere().ReferenceId(value: Id);
+                        selectSub = Rds.SelectItems(column: col, where: where);
+                        returnWhere = Rds.SitesWhere().SiteId(sub: selectSub);
+                        break;
+
                     case "publishbinaries":
-                        var dataRow = Repository.ExecuteTable(
-                            context: this,
-                            statements: Rds.SelectSites(
-                                column: Rds.SitesColumn()
-                                    .TenantId()
-                                    .Publish()
-                                    .Tenants_ContractSettings()
-                                    .Tenants_HtmlTitleTop()
-                                    .Tenants_HtmlTitleSite()
-                                    .Tenants_HtmlTitleRecord(),
-                                join: Rds.SitesJoin().Add(new SqlJoin(
-                                    tableBracket: "\"Tenants\"",
-                                    joinType: SqlJoin.JoinTypes.Inner,
-                                    joinExpression: "\"Sites\".\"TenantId\"=\"Tenants\".\"TenantId\"")),
-                                where: Rds.SitesWhere()
-                                    .SiteId(sub: Rds.SelectItems(
-                                        column: Rds.ItemsColumn().SiteId(),
-                                        where: Guid.IsNullOrEmpty()
-                                            ? Rds.ItemsWhere().ReferenceId(Id)
-                                            : Rds.ItemsWhere().ReferenceId(sub: Rds.SelectBinaries(
-                                                column: Rds.BinariesColumn().ReferenceId(),
-                                                where: Rds.BinariesWhere().Guid(Guid)))))))
-                                                    .AsEnumerable()
-                                                    .FirstOrDefault();
-                        var publish = dataRow.Bool("Publish");
-                        if (publish)
-                        {
-                            var cs = dataRow.String("ContractSettings")
-                                .Deserialize<ContractSettings>() ?? ContractSettings;
-                            if (cs.Extensions.Get("Publish"))
-                            {
-                                TenantId = dataRow.Int("TenantId");
-                                Publish = true;
-                                ContractSettings = cs;
-                                HtmlTitleTop = dataRow.String("HtmlTitleTop");
-                                HtmlTitleSite = dataRow.String("HtmlTitleSite");
-                                HtmlTitleRecord = dataRow.String("HtmlTitleRecord");
-                            }
-                        }
+                        // SiteImageIconアクションの時はGUIDは無い
+                        where = Guid.IsNullOrEmpty()? Rds.ItemsWhere().ReferenceId(value: Id)
+                            : Rds.ItemsWhere().ReferenceId(sub: Rds.SelectBinaries(
+                                                        column: Rds.BinariesColumn().ReferenceId(),
+                                                        where: Rds.BinariesWhere().Guid(Guid)));
+                        selectSub = Rds.SelectItems(column: col, where: where);
+                        returnWhere = Rds.SitesWhere().SiteId(sub: selectSub);
+                        break;
+
+                    case "forms":
+                    case "formbinaries":
+                        where = Rds.ItemsWhere().ReferenceId(sub: Rds.SelectBinaries(
+                                                        column: Rds.BinariesColumn().ReferenceId(),
+                                                        where: Rds.BinariesWhere().Guid(Guid)));
+                        selectSub = Rds.SelectItems(column: col, where: where);
+                        returnWhere = Rds.SitesWhere()
+                            .Or(or: Rds.SitesWhere().Form(Guid).SiteId(sub: selectSub));
                         break;
                 }
+                return returnWhere;
             }
+
         }
 
         public Dictionary<string, string> GetRouteData()
@@ -748,7 +838,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             Groups = PermissionUtilities.Groups(context: this);
         }
 
-        public void SetTenantCaches()
+        private void SetTenantCaches()
         {
             if (TenantId != 0 && !SiteInfo.TenantCaches.ContainsKey(TenantId))
             {

@@ -600,5 +600,122 @@ namespace Implem.Pleasanter.Models
             return storageSize != null && (totalFileSize + newTotalFileSize)
                 > storageSize * 1024 * 1024 * 1024;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// ファイル名を検証します（パストラバーサル対策）
+        /// </summary>
+        public static bool IsValidFileName(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return false;
+            }
+            if (fileName.Contains('\0') ||
+                fileName.Contains("..") ||
+                fileName.Contains("/") ||
+                fileName.Contains("\\") ||
+                fileName.Contains(":") ||
+                fileName.Length > 255)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// ファイル拡張子を検証します（危険な拡張子の拒否）
+        /// </summary>
+        public static bool IsAllowedExtension(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return false;
+            }
+            var extension = System.IO.Path.GetExtension(fileName);
+            if (string.IsNullOrEmpty(extension))
+            {
+                return true;
+            }
+            if (Parameters.Form.AttachmentExcludedExtensions.Contains(extension))
+            {
+                return false;
+            }
+            // 二重拡張子のチェック(filename.exe.txt のようなもののチェック)
+            var fileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(fileName);
+            if (!string.IsNullOrEmpty(fileNameWithoutExtension))
+            {
+                var secondExtension = System.IO.Path.GetExtension(fileNameWithoutExtension);
+                if (!string.IsNullOrEmpty(secondExtension) &&
+                    Parameters.Form.AttachmentExcludedExtensions.Contains(secondExtension))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// Form機能用のアップロードパラメータを検証します
+        /// </summary>
+        public static Error.Types OnValidatingFormUpload(
+            Context context,
+            string[] uuids,
+            string[] fileUuid,
+            string[] fileNames)
+        {
+            // Form機能以外は検証スキップ
+            if (!context.IsForm)
+            {
+                return Error.Types.None;
+            }
+            // UUID配列の検証
+            if (fileUuid != null)
+            {
+                foreach (var uuid in fileUuid)
+                {
+                    if (!Validators.IsValidGuid(uuid))
+                    {
+                        return Error.Types.InvalidRequest;
+                    }
+                }
+            }
+            // Uuids配列の検証
+            if (uuids != null)
+            {
+                foreach (var uuid in uuids)
+                {
+                    if (!Validators.IsValidGuid(uuid))
+                    {
+                        return Error.Types.InvalidRequest;
+                    }
+                }
+            }
+            // ファイル名の検証
+            if (fileNames != null)
+            {
+                foreach (var fileName in fileNames)
+                {
+                    if (!IsValidFileName(fileName) || !IsAllowedExtension(fileName))
+                    {
+                        return Error.Types.InvalidRequest;
+                    }
+                }
+            }
+            // POSTされたファイルの検証
+            if (context.PostedFiles != null)
+            {
+                foreach (var file in context.PostedFiles)
+                {
+                    if (!IsValidFileName(file.FileName) || !IsAllowedExtension(file.FileName))
+                    {
+                        return Error.Types.InvalidRequest;
+                    }
+                }
+            }
+            return Error.Types.None;
+        }
     }
 }

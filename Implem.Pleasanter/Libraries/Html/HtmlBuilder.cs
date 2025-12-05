@@ -10,10 +10,20 @@ namespace Implem.Pleasanter.Libraries.Html
     {
         public HtmlElement Top;
         public HtmlElement Current;
+        /// <summary>
+        /// HTMLの画面としてCaptchaを使用するかどうか。
+        /// Security.json の Captcha.Type はどのCaptchaを使用するかを決定するものであり、
+        /// 画面毎にCaptchaを使するかどうかはこのプロパティで制御します。
+        /// true : HtmlTemplates.cs の Captcha を使用して、Security.json の Captcha.Type に沿った設定を反映します。
+        /// false: Security.json の Captcha.Type に関わらず、Captchaを使用しません。
+        /// </summary>
+        public bool CaptchaEnabled { get; init; }
 
-        public HtmlBuilder()
+
+        public HtmlBuilder(bool captchaEnabled　= false)
         {
             Top = Current = new HtmlElement();
+            CaptchaEnabled = captchaEnabled;
         }
 
         public HtmlBuilder Append(string tag, int closeLevel = 0, HtmlAttributes attributes = null)

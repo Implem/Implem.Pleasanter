@@ -131,6 +131,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             body: body))
                         .Meta(name: "author", content: "Implem Inc.")
                         .Meta(name: "viewport", content: Parameters.General.HtmlHeadViewport)
+                        .Meta(name: "is-form", content: context.IsForm.ToString().ToLower(), _using: context.IsForm) //フォーム機能であることを示す。画像の処理に用いる。
+                        .Meta(name: "csrf-token", content: context.Tokens?.RequestToken, _using: context.IsForm) //CSRF対策のトークンを設定する。(_ajax.jsでの名称と合わせる。現状はフォーム機能のみで有効とする。)
                         .LinkedStyles(
                             context: context,
                             ss: ss)
@@ -150,7 +152,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             methodType: methodType)
                         .Raw(HtmlHtmls.ExtendedHtmls(
                             context: context,
-                            id: "HtmlHeaderBottom")))
+                            id: "HtmlHeaderBottom"))
+                        .Captcha(inHead: true, nonce: context.Nonce, _using: context.IsForm))  //とりあえずForm機能に限定
                     .Body(
                         id: context.Action == "login"
                             ? "login"
@@ -270,6 +273,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useBreadcrumb: useBreadcrumb,
                     useTitle: useTitle,
                     action: action)
+                .Captcha(inHead: false, _using: context.IsForm)  //とりあえずForm機能に限定
                 .Div(id: "BottomMargin")
                 .Footer()
                 .BackUrl(
@@ -553,23 +557,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 referenceId: siteId,
                 sizeType: ImageData.SizeTypes.Icon)
                     ? hb.Img(
-                        src: Locations.Get(
-                            context: context,
-                            parts: new string[]
-                            {
-                                "Items",
-                                siteId.ToString(),
-                                "Binaries",
-                                "SiteImageIcon",
-                                BinaryUtilities.SiteImageUpdatedTime(
-                                    context: context,
-                                    ss: ss,
-                                    referenceId: siteId,
-                                    sizeType: ImageData.SizeTypes.Icon)
-                                    .ToString("?yyyyMMddHHmmss")
-                            }),
+                        src: SiteImageIconSrc(context: context, ss: ss, siteId: siteId),
                         css: "site-image-icon")
                     : hb;
+        }
+        private static string SiteImageIconSrc(Context context, SiteSettings ss, long siteId)
+        {
+            var siteImageUpdatedTime = BinaryUtilities.SiteImageUpdatedTime(
+                context: context,
+                ss: ss,
+                referenceId: siteId,
+                sizeType: ImageData.SizeTypes.Icon);
+
+            var (reference, id, controller) = context switch
+            {
+                { IsForm: true } => ("Forms", context.Guid.ToLower(), "FormBinaries"),
+                { Publish: true } => ("Items", siteId.ToString(), "PublishBinaries"),
+                _ => ("Items", siteId.ToString(), "Binaries")
+            };
+
+            return Locations.Get(
+                context: context,
+                parts: new string[]
+                {
+                    reference,
+                    id,
+                    controller,
+                    "SiteImageIcon",
+                    siteImageUpdatedTime.ToString("?yyyyMMddHHmmss")
+                });
         }
 
         private static HtmlBuilder VideoDialog(this HtmlBuilder hb, Context context, SiteSettings ss)
@@ -649,8 +665,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss = null,
             ServerScriptModelRow serverScriptModelRow = null)
         {
-            return !context.Ajax
-                ? hb
+            if (context.Ajax) return hb;
+
+            return hb
+                .Div(
+                    id:"HiddenData",
+                    action: () => HiddenDataA(hb, context, ss, serverScriptModelRow));
+
+            static HtmlBuilder HiddenDataA(
+                HtmlBuilder hb,
+                Context context,
+                SiteSettings ss,
+                ServerScriptModelRow serverScriptModelRow
+                )
+            {
+                hb
                     .Hidden(controlId: "ApplicationPath", value: Locations.Get(context: context))
                     .Hidden(
                         controlId: "Token",
@@ -664,19 +693,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(
                         controlId: "YmdDatePickerFormat",
                         value: Displays.YmdDatePickerFormat(context: context))
-                    .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
-                    .Hidden(controlId: "UserId", value: context.UserId.ToString())
-                    .Hidden(controlId: "LoginId", value: context.LoginId)
-                    .Hidden(controlId: "GroupIds", value: (context.Groups?.Distinct()?.ToArray() ?? Array.Empty<int>()).ToJson())
-                    .Hidden(controlId: "Theme", value: context.Theme())
-                    .Hidden(controlId: "Publish", value: "1", _using: context.Publish)
                     .Hidden(controlId: "Responsive", value: "1", _using: context.Responsive)
                     .Hidden(controlId: "TableName", value: ss?.ReferenceType)
                     .Hidden(controlId: "Controller", value: context.Controller)
-                    .Hidden(controlId: "Action", value: context.Action)
-                    .Hidden(controlId: "Id", value: context.Id.ToString())
-                    .Hidden(controlId: "TenantId", value: context.TenantId.ToString())
-                    .Hidden(controlId: "SiteId", value: ss?.SiteId.ToString())
                     .Hidden(controlId: "JoinedSites", value: ss?.JoinedSsHash
                         ?.Select(o => new
                         {
@@ -718,8 +737,30 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlId: "RteFontSize",
                         value: Parameters.TextEditorUI.RichTextEditor.FontSize?.Join(","),
                         _using: Parameters.TextEditorUI.RichTextEditor.FontSize != null)
-                : hb;
+                    .Hidden(controlId: "Theme", value: context.Theme())
+                    .Hidden(controlId: "SiteId", value: GetSiteId(context: context, ss:ss)); //GoogleRecaptchaV3のactionの一部としても利用する。
+
+                if (context.IsForm) return hb;
+                hb
+                    .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
+                    .Hidden(controlId: "UserId", value: context.UserId.ToString())
+                    .Hidden(controlId: "LoginId", value: context.LoginId)
+                    .Hidden(controlId: "GroupIds", value: context.Groups.ToJson())
+                    .Hidden(controlId: "Publish", value: "1", _using: context.Publish)
+                    .Hidden(controlId: "Action", value: context.Action)
+                    .Hidden(controlId: "Id", value: context.Id.ToString())
+                    .Hidden(controlId: "TenantId", value: context.TenantId.ToString());
+
+                return hb;
+            }
+
+            static String GetSiteId(Context context, SiteSettings ss)
+            {
+                if (context.IsForm) return context.Guid.ToLower();
+                return ss?.SiteId.ToString();
+            }
         }
+
 
         private static HtmlBuilder HiddenSiteSettings(
             this HtmlBuilder hb, Context context, SiteSettings ss)
@@ -783,5 +824,122 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss))
                             .ToString();
         }
+
+        public static string SimpleMessages(
+            Context context,
+            string message = null)
+        {
+            var hb = new HtmlBuilder();
+            var ss = new SiteSettings();
+
+            hb.Container(
+                context: context,
+                ss: ss,
+                body: null,
+                methodType: BaseModel.MethodTypes.NotSet,
+                action: () => hb
+                    .MainContainer(
+                        context: context,
+                        ss: ss,
+                        view: null,
+                        siteId: 0,
+                        parentId: 0,
+                        referenceType: null,
+                        siteReferenceType: null,
+                        title: null,
+                        useBreadcrumb: false,
+                        useTitle: false,
+                        useNavigationMenu: false,
+                        action: () => hb
+                            .Div(
+                                id: "MessageContainer",
+                                action:()=> hb
+                                    .RTEditor(
+                                        context: context,
+                                        ss: ss,
+                                        controlId: "MessageEditor",
+                                        disabled: true,
+                                        text: message)
+                                )
+                            )
+                    .HiddenData(context: context)
+                    .Styles(
+                        context: context,
+                        ss: ss)
+                    .Scripts(
+                        context: context,
+                        ss: ss));
+
+            return hb.ToString();
+        }
+
+        private static HtmlBuilder Captcha(
+            this HtmlBuilder hb,
+            bool inHead,
+            string nonce = "",
+            bool _using = true)
+        {
+            // _using および hb.CaptchaEnabled は、Captchaを使用するかどうかを示す。
+            if (!_using || !hb.CaptchaEnabled) return hb;
+
+            var captcha = Parameters.Security.CaptchaConfig;
+            // SiteKeyが無い場合に、画面側にてjavascriptのエラーが発生するため、SiteKeyが無い場合は None と同様の挙動とする。
+            if (captcha == null || captcha.Type == Implem.ParameterAccessor.Parts.CaptchaConfig.Types.None || captcha.SiteKey.IsNullOrEmpty())
+            {
+                return hb;
+            }
+
+            // 共通のメタタグ追加
+            void AddCommonMeta() => hb
+                .Meta(name: "captcha-type", content: captcha.Type.ToStr())
+                .Meta(name: "captcha-site-key", content: captcha.SiteKey);
+
+            HtmlBuilder CaptchaWidget(string widgetId, string widgetClass)　
+            {
+                return hb.Div(
+                    id: widgetId,
+                    css: widgetClass,
+                    attributes: new HtmlAttributes().Add("data-sitekey", captcha.SiteKey)
+                );
+            }
+
+            switch (captcha.Type)
+            {
+                case Implem.ParameterAccessor.Parts.CaptchaConfig.Types.RecaptchaV3:
+                    if (inHead)
+                    {
+                        AddCommonMeta();
+                        hb.Script(src: $"https://www.google.com/recaptcha/api.js?render={captcha.SiteKey}", nonce: nonce);
+                    }
+                    break;
+
+                case Implem.ParameterAccessor.Parts.CaptchaConfig.Types.ReCaptchaV2:
+                    if (inHead)
+                    {
+                        AddCommonMeta();
+                        hb.Script(src: "https://www.google.com/recaptcha/api.js", async: true, defer: true, nonce: nonce);
+                    }
+                    else
+                    {
+                        CaptchaWidget("RecaptchaV2Widget", "g-recaptcha");
+                    }
+                    break;
+
+                case Implem.ParameterAccessor.Parts.CaptchaConfig.Types.Turnstile:
+                    if (inHead)
+                    {
+                        AddCommonMeta();
+                        hb.Script(src: "https://challenges.cloudflare.com/turnstile/v0/api.js", async: true, defer: true, nonce: nonce);
+                    }
+                    else
+                    {
+                        CaptchaWidget("TurnstileWidget", "cf-turnstile");
+                    }
+                    break;
+            }
+
+            return hb;
+        }
+
     }
 }

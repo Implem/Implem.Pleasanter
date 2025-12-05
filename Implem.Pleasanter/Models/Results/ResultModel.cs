@@ -2608,7 +2608,7 @@ namespace Implem.Pleasanter.Models
                 switch (key)
                 {
                     case "Results_Title": Title = new Title(ResultId, value); break;
-                    case "Results_Body": Body = value.ToString(); break;
+                    case "Results_Body": Body = Implem.Pleasanter.Models.BinaryUtilities.NormalizeFormBinaryPath(context, value.ToString()); break;
                     case "Results_Status": Status = new Status(value.ToInt());; break;
                     case "Results_Manager": Manager = SiteInfo.User(context: context, userId: value.ToInt()); break;
                     case "Results_Owner": Owner = SiteInfo.User(context: context, userId: value.ToInt()); break;
@@ -2659,7 +2659,7 @@ namespace Implem.Pleasanter.Models
                                 case "Description":
                                     SetDescription(
                                         columnName: column.ColumnName,
-                                        value: value);
+                                        value: Implem.Pleasanter.Models.BinaryUtilities.NormalizeFormBinaryPath(context, value.ToString()));
                                     break;
                                 case "Check":
                                     SetCheck(

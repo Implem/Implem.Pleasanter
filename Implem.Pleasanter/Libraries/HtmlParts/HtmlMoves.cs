@@ -9,6 +9,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder MoveDialog(
             this HtmlBuilder hb, Context context, bool bulk = false)
         {
+            if (context.IsForm) return hb;
+
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id("MoveDialog")

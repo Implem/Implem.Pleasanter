@@ -2889,7 +2889,7 @@ namespace Implem.Pleasanter.Models
                 switch (key)
                 {
                     case "Issues_Title": Title = new Title(IssueId, value); break;
-                    case "Issues_Body": Body = value.ToString(); break;
+                    case "Issues_Body": Body = Implem.Pleasanter.Models.BinaryUtilities.NormalizeFormBinaryPath(context, value.ToString()); break;
                     case "Issues_StartTime": StartTime = value.ToDateTime().ToUniversal(context: context); ProgressRate.StartTime = StartTime; break;
                     case "Issues_CompletionTime": CompletionTime = new CompletionTime(context: context, ss: ss, value: value.ToDateTime(), status: Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value; break;
                     case "Issues_WorkValue": WorkValue = new WorkValue(ss.GetColumn(context: context, columnName: "WorkValue").Round(value.ToDecimal(context.CultureInfo())), ProgressRate.Value); break;
@@ -2944,7 +2944,7 @@ namespace Implem.Pleasanter.Models
                                 case "Description":
                                     SetDescription(
                                         columnName: column.ColumnName,
-                                        value: value);
+                                        value: Implem.Pleasanter.Models.BinaryUtilities.NormalizeFormBinaryPath(context, value.ToString()));
                                     break;
                                 case "Check":
                                     SetCheck(

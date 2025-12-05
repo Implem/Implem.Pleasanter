@@ -147,5 +147,9 @@
                 "upgrade-insecure-requests": false
             }
         ]
+    },
+    "ShowLoginPageOnAuthError": true,
+    "CaptchaConfig": {
+        "Type": "None"
     }
-}
+}     

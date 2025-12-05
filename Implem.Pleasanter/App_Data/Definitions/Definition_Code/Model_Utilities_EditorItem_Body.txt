@@ -74,10 +74,16 @@ public static string Editor(
             context: context,
             errorData: invalid);
     }
-    var hb = new HtmlBuilder();
+    var hb = new HtmlBuilder(captchaEnabled: true);
     var serverScriptModelRow = ss.GetServerScriptModelRow(
         context: context,
         itemModel: #modelName#Model);
+    var displayTitle = #modelName#Model.Title.MessageDisplay(context: context);
+    if (#modelName#Model.MethodType == BaseModel.MethodTypes.New)
+    {
+        displayTitle = Displays.New(context: context);
+        if (context.IsForm) displayTitle = ss.Title;
+    }
     return editInDialog
         ? hb.DialogEditorForm(
             context: context,
@@ -100,9 +106,7 @@ public static string Editor(
             siteId: #modelName#Model.SiteId,
             parentId: ss.ParentId,
             referenceType: "#TableName#",
-            title: #modelName#Model.MethodType == BaseModel.MethodTypes.New
-                ? Displays.New(context: context)
-                : #modelName#Model.Title.MessageDisplay(context: context),
+            title: displayTitle,
             body: #modelName#Model.Body,
             useTitle: ss.TitleColumns?.Any(o => ss
                 .GetEditorColumnNames()
@@ -180,7 +184,7 @@ private static HtmlBuilder Editor(
         ss: ss,
         column: commentsColumn,
         baseModel: #modelName#Model);
-    var showComments = ss.ShowComments(commentsColumnPermissionType);
+    var showComments = !context.IsForm && ss.ShowComments(commentsColumnPermissionType);
     var tabsCss = showComments ? null : "max";
     var linksDataSet = HtmlLinks.DataSet(
         context: context,
@@ -189,6 +193,8 @@ private static HtmlBuilder Editor(
     var links = HtmlLinkCreations.Links(
         context: context,
         ss: ss);
+    var editorTabsContainerAttibutes = new HtmlAttributes()
+                        .TabActive(context: context);
     return hb.Div(id: "Editor", action: () => hb
         .Form(
             attributes: new HtmlAttributes()
@@ -221,7 +227,7 @@ private static HtmlBuilder Editor(
                 .Div(
                     id: "EditorTabsContainer",
                     css: "tab-container " + tabsCss,
-                    attributes: new HtmlAttributes().TabActive(context: context),
+                    attributes: editorTabsContainerAttibutes,
                     action: () => hb
                         .EditorTabs(
                             context: context,
@@ -333,7 +339,7 @@ private static HtmlBuilder Editor(
             context: context,
             ss: ss)
         .MoveDialog(context: context)
-        .OutgoingMailDialog()
+        .OutgoingMailDialog(context: context)
         .PermissionsDialog(context: context)
         .EditorExtensions(
             context: context,
@@ -363,32 +369,36 @@ private static HtmlBuilder EditorTabs(
     #ModelName#Model #modelName#Model,
     bool editInDialog = false)
 {
-    return hb.Ul(id: "EditorTabs", action: () => hb
-        .Li(action: () => hb
-            .A(
-                href: "#FieldSetGeneral",
-                text: ss.GeneralTabLabelText))
-        .Tabs(
-            context: context,
-            ss: ss)
-        .Li(
-            _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
-                && !context.Publish
-                && !editInDialog,
-            action: () => hb
+    return hb
+    .Ul(
+        id: "EditorTabs",
+        attributes: new HtmlAttributes().Class("hidden is-important", context.IsForm),
+        action: () => hb
+            .Li(action: () => hb
                 .A(
-                    href: "#FieldSetHistories",
-                    text: Displays.ChangeHistoryList(context: context)))
-        .Li(
-            _using: context.CanManagePermission(ss: ss)
-                && !ss.Locked()
-                && #modelName#Model.MethodType != BaseModel.MethodTypes.New
-                && !editInDialog
-                && ss.ReferenceType != "Wikis",
-            action: () => hb
-                .A(
-                    href: "#FieldSetRecordAccessControl",
-                    text: Displays.RecordAccessControl(context: context))));
+                    href: "#FieldSetGeneral",
+                    text: ss.GeneralTabLabelText))
+            .Tabs(
+                context: context,
+                ss: ss)
+            .Li(
+                _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
+                    && !context.Publish
+                    && !editInDialog,
+                action: () => hb
+                    .A(
+                        href: "#FieldSetHistories",
+                        text: Displays.ChangeHistoryList(context: context)))
+            .Li(
+                _using: context.CanManagePermission(ss: ss)
+                    && !ss.Locked()
+                    && #modelName#Model.MethodType != BaseModel.MethodTypes.New
+                    && !editInDialog
+                    && ss.ReferenceType != "Wikis",
+                action: () => hb
+                    .A(
+                        href: "#FieldSetRecordAccessControl",
+                        text: Displays.RecordAccessControl(context: context))));
 }
 
 <!--Model_Utilities_PreviewTemplate-->

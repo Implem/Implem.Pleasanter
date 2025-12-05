@@ -67,6 +67,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: new HtmlAttributes()
                         .Id("AnnouncementModule")
                         .Class("announcements"),
+                    _using: !context.IsForm, // フォーム画面ではアナウンスを表示しない
                     action: () => issueCollection.ForEach(issueModel =>
                     {
                         if (!IsHiddenAnnouncement(
@@ -118,8 +119,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 referenceId: context.TenantId,
                 sizeType: Images.ImageData.SizeTypes.Logo);
             var title = Title(context: context);
-            return _using
-                ? hb.H(number: 2, id: "Logo", action: () => hb
+
+            if (context.IsForm || !context.Authenticated)
+            {
+                return hb
+                    .H(
+                        number: 2,
+                        id: "Logo",
+                        action: () => BuildLogoContent());
+            }
+
+            if (!_using) return hb;
+
+            return hb
+                    .H(number: 2, id: "Logo", action: () => hb
                     .A(
                         attributes: new HtmlAttributes().Href(context.Publish
                             ? ss.ReferenceType == "Wikis"
@@ -130,20 +143,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     context: context,
                                     id: context.SiteId)
                             : Locations.Top(context: context)),
-                        action: () => hb
-                            .LogoImage(
-                                context: context,
-                                showTitle: !title.IsNullOrEmpty(),
-                                existsTenantImage: existsImage)
-                            .Span(id: "ProductLogo", action: () => hb
-                            .Text(text: title))))
-                : hb;
+                        action: () => BuildLogoContent()));
+                        
+            // --- ロゴのコア部分をローカル関数として定義 ---
+            HtmlBuilder BuildLogoContent()
+            {
+                return hb
+                    .LogoImage(
+                        context: context,
+                        showTitle: !title.IsNullOrEmpty(),
+                        existsTenantImage: existsImage)
+                    .Span(
+                        id: "ProductLogo",
+                        action: () => hb.Text(text: title));
+            }
         }
 
         private static HtmlBuilder LogoImage(
             this HtmlBuilder hb, Context context, bool showTitle, bool existsTenantImage)
         {
-            return existsTenantImage && !context.Publish
+            return existsTenantImage && !context.Publish && !context.IsForm
                 ? hb.Img(
                     id: "CorpLogo",
                     src: Locations.Get(

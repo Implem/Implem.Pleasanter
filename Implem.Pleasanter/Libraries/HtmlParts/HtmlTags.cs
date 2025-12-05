@@ -374,6 +374,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
+        public static HtmlBuilder Pre(
+            this HtmlBuilder hb,
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "pre",
+                    id: id,
+                    css: css,
+                    attributes: attributes,
+                    action: action)
+                : hb;
+        }
+
         public static HtmlBuilder Label(
             this HtmlBuilder hb,
             string id = null,
@@ -771,7 +789,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true,
             string type = null,
             bool crossorigin = false,
-            string nonce = null)
+            string nonce = null,
+            bool async = false,
+            bool defer = false)
         {
             return _using
                 ? hb.Append(
@@ -782,7 +802,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Src(src)
                         .Type(type)
                         .Nonce(nonce)
-                        .Crossorigin(crossorigin),
+                        .Crossorigin(crossorigin)
+                        .Async(async)
+                        .Defer(defer),
                     action: () => hb
                         .Raw(text: script))
                 : hb;

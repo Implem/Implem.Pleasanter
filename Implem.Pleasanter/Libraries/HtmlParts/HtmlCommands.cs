@@ -38,17 +38,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Div(id: "MainCommandsContainer", action: () => hb
                 .Div(id: "MainCommands", action: () =>
                 {
-                    if (backButton)
-                    {
-                        hb.Button(
-                            controlId: "GoBack",
-                            text: Strings.CoalesceEmpty(
-                                serverScriptModelRow?.Elements?.LabelText("GoBack"),
-                                Displays.GoBack(context: context)),
-                            controlCss: "button-icon button-neutral",
-                            accessKey: "q",
-                            onClick: "$p.back();",
-                            icon: "ui-icon-circle-arrow-w");
+                    if (!context.IsForm && context.Authenticated) { 
+                        if (backButton)
+                        {
+                            hb.Button(
+                                controlId: "GoBack",
+                                text: Strings.CoalesceEmpty(
+                                    serverScriptModelRow?.Elements?.LabelText("GoBack"),
+                                    Displays.GoBack(context: context)),
+                                controlCss: "button-icon button-neutral",
+                                accessKey: "q",
+                                onClick: "$p.back();",
+                                icon: "ui-icon-circle-arrow-w");
+                        }
                     }
                     if (context.Action == "new")
                     {
@@ -65,11 +67,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     method: "post");
                                 break;
                             default:
+                                var confirm = context.IsForm ? "ConfirmTheCreationOfForm" : null;
                                 hb.Button(
                                     serverScriptModelRow: serverScriptModelRow,
                                     commandDisplayTypes: view?.CreateCommand,
                                     controlId: "CreateCommand",
                                     text: Displays.Create(context: context),
+                                    confirm: confirm,
                                     controlCss: "button-icon validate button-positive",
                                     accessKey: "s",
                                     onClick: "$p.send($(this));",

@@ -30,6 +30,7 @@ namespace Implem.Pleasanter.Libraries.General
             CannotMoveMultipleSitesData,
             CanNotPerformed,
             CantSetAtTopOfSite,
+            CaptchaVerificationFailed,
             CircularGroupChild,
             CustomAppsLimit,
             CustomError,
@@ -212,6 +213,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.CantSetAtTopOfSite:
                     return Messages.CantSetAtTopOfSite(
+                        context: context,
+                        data: data);
+                case Types.CaptchaVerificationFailed:
+                    return Messages.CaptchaVerificationFailed(
                         context: context,
                         data: data);
                 case Types.CircularGroupChild:

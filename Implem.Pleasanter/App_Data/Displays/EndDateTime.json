@@ -1,0 +1,33 @@
+﻿{
+    "Id": "EndDateTime",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Ended on"
+        },
+        {
+            "Language": "zh",
+            "Body": "结束时间"
+        },
+        {
+            "Language": "ja",
+            "Body": "終了日時"
+        },
+        {
+            "Language": "de",
+            "Body": "Beendet am"
+        },
+        {
+            "Language": "ko",
+            "Body": "종료된 날짜"
+        },
+        {
+            "Language": "es",
+            "Body": "Finalizado el"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thời gian kết thúc"
+        }
+    ]
+}

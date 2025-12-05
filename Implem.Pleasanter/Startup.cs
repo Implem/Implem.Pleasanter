@@ -25,6 +25,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +41,11 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+
+// 必要なusingディレクティブを追加
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using Implem.Pleasanter.Libraries.Security.Captcha;
 
 namespace Implem.Pleasanter.NetCore
 {
@@ -133,6 +140,24 @@ namespace Implem.Pleasanter.NetCore
                     {
                         o.LoginPath = new PathString("/users/login");
                         o.ExpireTimeSpan = TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod);
+
+                        if (!Parameters.Security.ShowLoginPageOnAuthError)
+                        {
+                            // 認証失敗時のリダイレクト動作をカスタマイズ
+                            o.Events = new CookieAuthenticationEvents
+                            {
+                                OnRedirectToLogin = context =>
+                                {
+                                    // デフォルトのリダイレクトをキャンセルし、
+                                    // 代わりに「404 Not Found」を返すようにステータスコードを上書き
+                                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+
+                                    // 処理が完了したことをミドルウェアに伝える
+                                    return Task.CompletedTask;
+                                }
+                            };
+                        }
+
                     });
             }
             services.AddSingleton<ITicketStore, AuthenticationTicketStore>();
@@ -242,6 +267,16 @@ namespace Implem.Pleasanter.NetCore
                 options.AddBasePolicy(builder => builder.NoCache());
                 options.AddPolicy("imageCache", builder => builder.Expire(System.TimeSpan.FromSeconds(Parameters.OutputCache.OutputCacheControl.OutputCacheDuration)));
             });
+            // AddAntiforgeryの設定を明示的に追加
+            services.AddAntiforgery(options =>
+            {
+                // AJAXリクエストでトークンを送信するために使用するHTTPヘッダー名を明示的に指定(_ajax.jsでの名称と合わせる)
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
+            services.AddHttpClient();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<ICaptchaServiceFactory, CaptchaServiceFactory>();
+            services.AddScoped<ICaptchaVerificationService, CaptchaVerificationService>();
         }
 
         // 拡張DLLの探索をExtendedLibrariesディレクトリ内の一段下のディレクトリも対象をする。
@@ -320,6 +355,42 @@ namespace Implem.Pleasanter.NetCore
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseRouting();
+
+            if (env.IsDevelopment())
+            { 
+                app.Use(async (context, next) =>
+                {
+                    // まずはパイプラインの次の処理を呼び出す
+                    await next.Invoke();
+
+                    // エンドポイントが決定された後に、その情報を取得する
+
+                    var loggerFactory = context.RequestServices.GetRequiredService<ILoggerFactory>();
+                    var logger = loggerFactory.CreateLogger("RoutingDebugMiddleware"); // ログのカテゴリ名を指定
+
+                    var endpoint = context.GetEndpoint();
+                    if (endpoint != null)
+                    {
+                        var routeName = endpoint.Metadata.GetMetadata<IRouteNameMetadata>()?.RouteName;
+                        var routePattern = (endpoint as RouteEndpoint)?.RoutePattern.RawText;
+
+                        // ILoggerを使って情報(Information)レベルのログとして出力します
+                        // {Path}などのプレースホルダーを使うと、構造化ログとしてきれに出力されます
+                        logger.LogInformation(
+                            "Path: {Path}, Matched Route Name: '{RouteName}', Pattern: '{RoutePattern}'",
+                            context.Request.Path,
+                            routeName ?? "N/A",      // ルート名がnullの場合は "N/A" を表示
+                            routePattern ?? "N/A"   // パターンがnullの場合は "N/A" を表示
+                        );
+                    }
+                    else
+                    {
+                        // マッチしなかった場合は警告(Warning)レベルのログとして出力
+                        logger.LogWarning("Path: {Path} -> No endpoint matched.", context.Request.Path);
+                    }
+                });
+            }
+
             app.UseCors();
 
             if (Parameters.OutputCache.OutputCacheControl != null && !Parameters.OutputCache.OutputCacheControl.NoOutputCache)
@@ -332,7 +403,45 @@ namespace Implem.Pleasanter.NetCore
             app.UseSessionMiddleware();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+
+                if (env.IsDevelopment())
+                {
+                    endpoints.MapGet("/debug/routes", async context =>
+                    {
+                        // DIコンテナからルート情報を持っているプロバイダーを取得
+                        var provider = context.RequestServices.GetRequiredService<IActionDescriptorCollectionProvider>();
+
+                        var routes = provider.ActionDescriptors.Items.Select(d =>
+                        {
+                            // TryGetValue を使って安全に値を取得します
+                            d.RouteValues.TryGetValue("controller", out var controllerName);
+                            d.RouteValues.TryGetValue("action", out var actionName);
+                            d.RouteValues.TryGetValue("page", out var pageName); // Razor Pageの場合
+
+                            return new
+                            {
+                                // DisplayName はデバッグに非常に役立つ情報です (例: YourProject.Controllers.HomeController.Index)
+                                DisplayName = d.DisplayName,
+                                // ルートのテンプレート（パターン）
+                                Template = d.AttributeRouteInfo?.Template,
+                                // ルートから取得したコントローラー名、アクション名、ページ名
+                                Controller = controllerName,
+                                Action = actionName,
+                                Page = pageName,
+                                // HTTPメソッドの制約 (GET, POSTなど)
+                                HttpMethods = d.ActionConstraints?.OfType<HttpMethodActionConstraint>().FirstOrDefault()?.HttpMethods.FirstOrDefault(),
+                            };
+                        })
+                        .Where(r => r.DisplayName != null) // 不要な情報を除外
+                        .OrderBy(r => r.Controller)        // コントローラー名で並び替え
+                        .ThenBy(r => r.Action)           // アクション名で並び替え
+                        .ToList();
+
+                        // 結果を整形されたJSONとしてブラウザに表示
+                        await context.Response.WriteAsJsonAsync(routes, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+                    });
+                }
+                    endpoints.MapRazorPages();
                 if (Parameters.Security.HealthCheck.Enabled)
                 {
                     if (Parameters.Security.HealthCheck.EnableDetailedResponse)
@@ -351,6 +460,21 @@ namespace Implem.Pleasanter.NetCore
                             .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
                     }
                 }
+                endpoints.MapControllerRoute(
+                    name: "FormBinaries", // 新規追加
+                    pattern: "{reference}/{guid}/{controller}/{action}",
+                    defaults: new
+                    {
+                        Reference = "Forms"
+                    },
+                    constraints: new
+                    {
+                        Reference = "[A-Za-z][A-Za-z0-9_]*",
+                        Guid = "[A-Fa-f0-9]{32}", // ハイフン無しGUID
+                        Controller = "FormBinaries",
+                        Action = "[A-Za-z][A-Za-z]*"
+                    }
+                );
                 endpoints.MapControllerRoute(
                     name: "Default",
                     pattern: "{controller}/{action}",

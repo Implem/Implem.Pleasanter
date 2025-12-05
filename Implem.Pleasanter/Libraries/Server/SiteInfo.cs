@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public static class SiteInfo
     {
-        public static Dictionary<int, TenantCache> TenantCaches = new Dictionary<int, TenantCache>();
+        public static Dictionary<int, TenantCache> TenantCaches = new Dictionary<int, TenantCache>(); //AddはContextで行っている。
         public static DateTime SessionCleanedUpDate;
         public static int? AnonymousId;
 

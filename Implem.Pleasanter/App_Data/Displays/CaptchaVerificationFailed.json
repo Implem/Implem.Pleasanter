@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CaptchaVerificationFailed",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Form submission failed. Please reload the page and try again."
+        },
+        {
+            "Language": "zh",
+            "Body": "表单提交失败。请重新加载页面，然后再次尝试。"
+        },
+        {
+            "Language": "ja",
+            "Body": "フォームの送信に失敗しました。ページを再読み込みしてからもう一度お試しください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Das Senden des Formulars ist fehlgeschlagen. Bitte laden Sie die Seite neu und versuchen Sie es erneut."
+        },
+        {
+            "Language": "ko",
+            "Body": "양식 제출에 실패했습니다. 페이지를 새로고침한 후 다시 시도해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "El envío del formulario falló. Por favor, recargue la página y vuelva a intentarlo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Gửi biểu mẫu không thành công. Vui lòng tải lại trang và thử lại."
+        }
+    ]
+}

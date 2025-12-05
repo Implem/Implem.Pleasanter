@@ -1873,6 +1873,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "ApiCount":
                             sql.Sites_ApiCount(tableName: path, _as: _as);
                             break;
+                        case "Form":
+                            sql.Sites_Form(tableName: path, _as: _as);
+                            break;
                         case "Comments":
                             sql.Sites_Comments(tableName: path, _as: _as);
                             break;

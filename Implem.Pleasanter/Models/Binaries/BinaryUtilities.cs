@@ -685,6 +685,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static bool ValidateDownloadTemp(Context context, string guid)
         {
+            // GUID形式の検証（パストラバーサル対策）
+            if (!Validators.IsValidGuid(guid))
+            {
+                return false;
+            }
             // 同一セッション内でしか未確定中の添付ファイルは参照させない
             return SessionUtilities.Get(context: context)
                 .Any(kv => kv.Key == GetTempFileSessionKey(guid));
@@ -850,6 +855,19 @@ namespace Implem.Pleasanter.Models
             var fileNames = context.Forms.Get("fileNames")?.Deserialize<string[]>();
             var fileSizes = context.Forms.Get("fileSizes")?.Deserialize<string[]>();
             var fileTypes = context.Forms.Get("fileTypes")?.Deserialize<string[]>();
+            // Form機能用パラメータ検証（SQLインジェクション・パストラバーサル・拡張子対策）
+            {
+                var invalid = BinaryValidators.OnValidatingFormUpload(
+                    context: context,
+                    uuids: fileUuids,
+                    fileUuid: fileUuid,
+                    fileNames: fileNames);
+                switch (invalid)
+                {
+                    case Error.Types.None: break;
+                    default: return invalid.MessageJson(context);
+                }
+            }
             // 一覧編集画面からアップロードが行われた場合、ControlIdにSuffixが付与される
             // Suffixが付与されている場合にはcontrolOnlyをtrueにしてLabelTextが出力されないようにする
             var controlOnly = !context.Forms.ControlId().RegexFirst("_\\d+_-?\\d+$").IsNullOrEmpty();
@@ -952,6 +970,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.IO.FileInfo GetTempFileInfo(string fileUuid, string fileName)
         {
+            // GUID形式の検証（パストラバーサル対策）
+            if (!Validators.IsValidGuid(fileUuid))
+            {
+                return null;
+            }
+            // ファイル名のサニタイズ（パストラバーサル対策）
+            fileName = System.IO.Path.GetFileName(fileName);
+            if (string.IsNullOrEmpty(fileName) || fileName.Contains('\0'))
+            {
+                return null;
+            }
             var tempDirectoryInfo = new System.IO.DirectoryInfo(DefinitionAccessor.Directories.Temp());
             if (!tempDirectoryInfo.Exists)
                 tempDirectoryInfo.Create();
@@ -1316,6 +1345,19 @@ namespace Implem.Pleasanter.Models
                                 param: Rds.BinariesParam().ReferenceId(id)));
                         }
                     });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        internal static string NormalizeFormBinaryPath(Context context, string value)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            if (context?.IsForm != true) return value;
+            var options = System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.CultureInvariant;
+            return System.Text.RegularExpressions.Regex.IsMatch(value, "/formbinaries/", options)
+                ? System.Text.RegularExpressions.Regex.Replace(value, "/formbinaries/", "/binaries/", options)
+                : value;
         }
     }
 }

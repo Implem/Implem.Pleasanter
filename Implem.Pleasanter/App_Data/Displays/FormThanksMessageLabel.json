@@ -1,0 +1,13 @@
+{
+    "Id": "FormThanksMessageLabel",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Thanks Message"
+        },
+        {
+            "Language": "ja",
+            "Body": "サンクスメッセージ"
+        }
+    ]
+}

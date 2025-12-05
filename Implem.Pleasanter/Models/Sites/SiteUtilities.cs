@@ -4170,7 +4170,13 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#PublishSettingsEditor",
                                             text: Displays.Publish(context: context)),
-                                    _using: context.ContractSettings.Extensions.Get("Publish"));
+                                    _using: context.ContractSettings.Extensions.Get("Publish"))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#FormSettingsEditor",
+                                            text: Displays.Form(context: context)),
+                                    _using: FormEnabled(context: context)); 
                             break;
                     }
                     hb
@@ -5297,7 +5303,7 @@ namespace Implem.Pleasanter.Models
                 .CopyDialog(
                     context: context,
                     ss: ss)
-                .OutgoingMailDialog()
+                .OutgoingMailDialog(context: context)
                 .DeleteSiteDialog(context: context)
                 .Div(attributes: new HtmlAttributes()
                     .Id("GridColumnDialog")
@@ -5635,7 +5641,8 @@ namespace Implem.Pleasanter.Models
                             .PublishSettingsEditor(
                                 context: context,
                                 ss: siteModel.SiteSettings,
-                                publish: siteModel.Publish);
+                                publish: siteModel.Publish)
+                            .FormSettingsEditor(context: context, ss: siteModel.SiteSettings, guid: siteModel.Form);
                         break;
                 }
             }
@@ -16802,6 +16809,76 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder FormSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss, string guid)
+        {
+            if (!FormEnabled(context: context))
+            {
+                return hb;
+            }
+            var absoluteApplicationRootUri = Locations.AbsoluteApplicationRootUri(context: context);
+            var formUrl = guid.IsNullOrEmpty() ? string.Empty : $"{absoluteApplicationRootUri}/forms/{guid}/new".ToLower();
+            hb.TabsPanelField(
+                id: "FormSettingsEditor",
+                action: () => hb
+                    .Hidden(
+                        controlId: "AbsoluteApplicationRootUri",
+                        value: absoluteApplicationRootUri)
+                    .FieldCheckBox(
+                        controlId: "Sites_Form_Check",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.ExposeFormToAnonymousUsers(context: context),
+                        _checked: !guid.IsNullOrEmpty(),
+                        onChange: "$p.toggleSitesForm(this);")
+                    .Hidden( controlId: "Sites_Form", value: guid) //DB操作要の値
+                    .FieldTextBox(
+                        controlId: "FormUrl",
+                        fieldCss: "field-wide",
+                        labelText: "",
+                        text: formUrl,
+                        attributes: new Dictionary<string, string>
+                        {
+                            ["readonly"] = "readonly"
+                        })
+                    .FieldTextBox(
+                        context: context,
+                        textType: HtmlTypes.TextTypes.DateTime,
+                        controlId: "FormStartDate",
+                        labelText: Displays.StartDateTime(context: context),
+                        format: Displays.YmdhmDatePickerFormat(context: context),
+                        text: ss.FormStartDateTime?.ToLocal(context: context).ToString(Displays.Get(context: context, id: "YmdhmFormat")),
+                        timepiker: true,
+                        validateDate: true)
+                    .FieldTextBox(
+                        context: context,
+                        textType: HtmlTypes.TextTypes.DateTime,
+                        controlId: "FormEndDate",
+                        labelText: Displays.EndDateTime(context: context),
+                        format: Displays.YmdhmDatePickerFormat(context: context),
+                        text: ss.FormEndDateTime?.ToLocal(context: context).ToString(Displays.Get(context: context, id: "YmdhmFormat")),
+                        timepiker: true,
+                        validateDate: true)
+                    .FieldRTEditor(
+                        context: context,
+                        ss: ss,
+                        controlId: "FormUnavailableMessage",
+                        fieldCss: "field-wide",
+                        labelText: Displays.FormUnavailableMessageLabel(context: context),
+                        text: ss.FormUnavailableMessage)
+                    .FieldRTEditor(
+                        context: context,
+                        ss: ss,
+                        controlId: "FormThanksMessage",
+                        fieldCss: "field-wide",
+                        labelText: Displays.FormThanksMessageLabel(context: context),
+                        text: ss.FormThanksMessage)
+            );
+            return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder DeleteSiteDialog(this HtmlBuilder hb, Context context)
         {
             return hb.Div(
@@ -18847,6 +18924,14 @@ namespace Implem.Pleasanter.Models
                                     controlCss: "button-icon button-neutral",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool FormEnabled(Context context)
+        {
+            return Parameters.Form.Enabled || context.ContractSettings.Extensions.Get("Form");
         }
     }
 }

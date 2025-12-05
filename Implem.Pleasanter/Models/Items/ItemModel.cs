@@ -21,6 +21,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -3850,6 +3851,78 @@ namespace Implem.Pleasanter.Models
                         SqlJoin.JoinTypes.Inner,
                         $"\"Sites\".\"SiteId\" = \"Items\".\"SiteId\" and \"Sites\".\"TenantId\" = {Parameters.Parameter.SqlParameterPrefix}T")));
             OnConstructed(context: context);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string FormThanks(Context context)
+        {
+            SetSite(
+                context: context,
+                siteOnly: true,
+                initSiteSettings: true);
+            var ss = Site.SiteSettings;
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                case "Results":
+                    var hb = new HtmlBuilder();
+                    var message = ReplaceFormBinarySrcIfForm(context: context, message: ss.FormThanksMessage, defaultMessage: Displays.FormThanksMessageDefault(context: context));
+                    var html = HtmlTemplates.SimpleMessages(context: context, message: message);
+                    return html;
+                default:
+                    return HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string FormUnavailable(Context context)
+        {
+            SetSite(
+                context: context,
+                siteOnly: true,
+                initSiteSettings: true);
+            var ss = Site.SiteSettings;
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                case "Results":
+                    var hb = new HtmlBuilder();
+                    var message = ReplaceFormBinarySrcIfForm(context: context, message: ss.FormUnavailableMessage, defaultMessage:Displays.FormUnavailableMessageDefault(context:context));
+                    var html = HtmlTemplates.SimpleMessages(context: context, message: message);
+                    return html;
+                default:
+                    return HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ReplaceFormBinarySrcIfForm(Context context, string message, string defaultMessage)
+        {
+            if (string.IsNullOrEmpty(message)) return defaultMessage;
+            if (!context.IsForm) return message;
+            //Form機能用の画像コントローラーを指すように変換する
+            string pattern = @"(src=\\?['""]/)binaries(/)";
+            string replacement = "$1formbinaries$2";
+            string replacedMessage = Regex.Replace(message, pattern, replacement);
+            return replacedMessage;
         }
     }
 }

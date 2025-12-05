@@ -1073,7 +1073,7 @@ namespace Implem.Pleasanter.Models
                 .CopyDialog(
                     context: context,
                     ss: ss)
-                .OutgoingMailDialog()
+                .OutgoingMailDialog(context: context)
                 .EditorExtensions(
                     context: context,
                     deptModel: deptModel,

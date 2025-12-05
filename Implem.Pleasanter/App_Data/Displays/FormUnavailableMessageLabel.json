@@ -1,0 +1,13 @@
+{
+    "Id": "FormUnavailableMessageLabel",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Unavailable Message"
+        },
+        {
+            "Language": "ja",
+            "Body": "利用不可メッセージ"
+        }
+    ]
+}

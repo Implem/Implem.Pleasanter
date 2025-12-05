@@ -370,3 +370,23 @@ $p.selectSearchEditorColumn = function (value) {
     $hidden.val(JSON.stringify(jsonData));
     $p.send($hidden);
 };
+
+//フォーム機能用のGUIDの設定、削除を行う。
+$p.toggleSitesForm = function (checkbox) {
+    const isChecked = checkbox.checked;
+    const $formGuid = $('#Sites_Form');
+    const $formUrl = $('#FormUrl');
+
+    if (!$formGuid.length) return;
+
+    if (isChecked) {
+        const absoluteApplicationRootUri = $('#AbsoluteApplicationRootUri').val();
+        const guid = $p.createGuid();
+        const formUrl = `${absoluteApplicationRootUri}/forms/${guid}/new`.toLowerCase();
+        $p.set($formGuid, guid);
+        $p.set($formUrl, formUrl);
+    } else {
+        $p.set($formGuid, '');
+        $p.set($formUrl, '');
+    }
+};

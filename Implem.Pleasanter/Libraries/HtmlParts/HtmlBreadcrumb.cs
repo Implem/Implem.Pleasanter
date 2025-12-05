@@ -15,10 +15,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Breadcrumb(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view, bool _using)
         {
-            if ((!context.Authenticated && !context.Publish) || !_using)
+            if (
+                context.IsForm
+                || (!context.Authenticated && !context.Publish)
+                || !_using)
             {
                 return hb;
             }
+
             switch (context.Controller)
             {
                 case "admins":

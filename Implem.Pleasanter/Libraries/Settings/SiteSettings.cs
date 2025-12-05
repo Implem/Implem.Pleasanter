@@ -305,6 +305,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         // compatibility Version 1.017
         public bool? ProcessOutputFormulaLogs;
 
+        public DateTime? FormStartDateTime;
+        public DateTime? FormEndDateTime;
+        public string FormUnavailableMessage;
+        public string FormThanksMessage;
+
         public SiteSettings()
         {
         }
@@ -620,29 +625,35 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             long referenceId = 0)
         {
-            if (context.Publish)
+            switch ((context.Publish, context.IsForm, context.Controller))
             {
-                ss.PermissionType = Permissions.Types.Read;
-                ss.ItemPermissionType = Permissions.Types.Read;
+                case (true, _, _):
+                    ss.PermissionType = Permissions.Types.Read;
+                    ss.ItemPermissionType = Permissions.Types.Read;
+                    return;
+                case (_, true, _):
+                    ss.PermissionType = Permissions.Types.Create;
+                    ss.ItemPermissionType = Permissions.Types.Create;
+                    return;
+                case (_, _, "publishes"):
+                    return;
             }
-            else if (context.Controller != "publishes")
+
+            if (context.PermissionHash?.ContainsKey(ss.InheritPermission) == true)
             {
-                if (context.PermissionHash?.ContainsKey(ss.InheritPermission) == true)
-                {
-                    ss.PermissionType = context.PermissionHash[ss.InheritPermission];
-                }
-                if (referenceId != 0 && context.PermissionHash?.ContainsKey(referenceId) == true)
-                {
-                    ss.ItemPermissionType = context.PermissionHash[referenceId];
-                }
-                if (LockedTable())
-                {
-                    var lockedPermissionType = Permissions.Types.Read
-                        | Permissions.Types.Export
-                        | Permissions.Types.SendMail;
-                    ss.PermissionType &= lockedPermissionType;
-                    ss.ItemPermissionType &= lockedPermissionType;
-                }
+                ss.PermissionType = context.PermissionHash[ss.InheritPermission];
+            }
+            if (referenceId != 0 && context.PermissionHash?.ContainsKey(referenceId) == true)
+            {
+                ss.ItemPermissionType = context.PermissionHash[referenceId];
+            }
+            if (LockedTable())
+            {
+                var lockedPermissionType = Permissions.Types.Read
+                    | Permissions.Types.Export
+                    | Permissions.Types.SendMail;
+                ss.PermissionType &= lockedPermissionType;
+                ss.ItemPermissionType &= lockedPermissionType;
             }
         }
 
@@ -1326,6 +1337,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (HtmlsAllDisabled == true)
             {
                 ss.HtmlsAllDisabled = HtmlsAllDisabled;
+            }
+            if (FormStartDateTime is not null)
+            {
+                ss.FormStartDateTime = FormStartDateTime;
+            }
+            if (FormEndDateTime is not null)
+            {
+                ss.FormEndDateTime = FormEndDateTime;
+            }
+            if (!FormUnavailableMessage.IsNullOrEmpty())
+            {
+                ss.FormUnavailableMessage = FormUnavailableMessage;
+            }
+            if (!FormThanksMessage.IsNullOrEmpty())
+            {
+                ss.FormThanksMessage = FormThanksMessage;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
@@ -4147,6 +4174,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ScriptsAllDisabled": ScriptsAllDisabled = value.ToBool(); break;
                 case "StylesAllDisabled": StylesAllDisabled = value.ToBool(); break;
                 case "HtmlsAllDisabled": HtmlsAllDisabled = value.ToBool(); break;
+                case "FormStartDate": FormStartDateTime = value.IsNullOrEmpty() ? null : value.ToDateTime().ToUniversal(context: context); break;
+                case "FormEndDate": FormEndDateTime = value.IsNullOrEmpty() ? null : value.ToDateTime().ToUniversal(context: context); break;
+                case "FormUnavailableMessage": FormUnavailableMessage = value; break;
+                case "FormThanksMessage": FormThanksMessage = value; break;
             }
         }
 

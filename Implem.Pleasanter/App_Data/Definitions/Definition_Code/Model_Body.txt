@@ -24,6 +24,7 @@ using System.Data.Common;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 <!--Model_StaticUsing-->
+<!--Model_ItemUsing-->
 namespace Implem.Pleasanter.Models
 {
     [Serializable]

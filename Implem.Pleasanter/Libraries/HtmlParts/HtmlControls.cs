@@ -1201,7 +1201,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Class(deleted == true
                                     ? "ui-icon ui-icon-trash file-delete"
                                     : "ui-icon ui-icon-circle-close delete-file")
-                                .DataAction("binaries/deletetemp")
+                                .DataAction((context.IsForm? "formbinaries" : "binaries") + "/deletetemp")
                                 .DataId(guid)
                                 .OnClick($"$p.deleteAttachment($('#{controlId}'), $(this));"),
                             _using: !readOnly && (allowDelete || added == true)))

@@ -1829,6 +1829,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CaptchaLibraryNotLoaded(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CaptchaLibraryNotLoaded",
+                data: data);
+        }
+
+        public static string CaptchaTokenMissing(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CaptchaTokenMissing",
+                data: data);
+        }
+
+        public static string CaptchaVerificationFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CaptchaVerificationFailed",
+                data: data);
+        }
+
         public static string Cc(
             Context context,
             params string[] data)
@@ -2666,6 +2696,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ConfirmSynchronize",
+                data: data);
+        }
+
+        public static string ConfirmTheCreationOfForm(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ConfirmTheCreationOfForm",
                 data: data);
         }
 
@@ -4079,6 +4119,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string EndDateTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EndDateTime",
+                data: data);
+        }
+
         public static string EndOfMonth(
             Context context,
             params string[] data)
@@ -4409,6 +4459,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExposeFormToAnonymousUsers(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExposeFormToAnonymousUsers",
+                data: data);
+        }
+
         public static string Expression(
             Context context,
             params string[] data)
@@ -4719,6 +4779,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Form(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Form",
+                data: data);
+        }
+
         public static string Format(
             Context context,
             params string[] data)
@@ -4726,6 +4796,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Format",
+                data: data);
+        }
+
+        public static string FormThanksMessageDefault(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormThanksMessageDefault",
+                data: data);
+        }
+
+        public static string FormThanksMessageLabel(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormThanksMessageLabel",
                 data: data);
         }
 
@@ -4746,6 +4836,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Formulas",
+                data: data);
+        }
+
+        public static string FormUnavailableMessageDefault(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormUnavailableMessageDefault",
+                data: data);
+        }
+
+        public static string FormUnavailableMessageLabel(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormUnavailableMessageLabel",
                 data: data);
         }
 
@@ -14646,6 +14756,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Sites_Export",
+                data: data);
+        }
+
+        public static string Sites_Form(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_Form",
                 data: data);
         }
 

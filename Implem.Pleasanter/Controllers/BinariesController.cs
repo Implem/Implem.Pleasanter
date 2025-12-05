@@ -248,7 +248,7 @@ namespace Implem.Pleasanter.Controllers
             return new ContentResult()
             {
                 Content = content,
-                ContentType = "applicaion/json",
+                ContentType = "application/json",
             };
         }
     }

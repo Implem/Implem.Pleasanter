@@ -38,6 +38,12 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         internal static string ByForm(this string code, ColumnDefinition columnDefinition)
         {
             var placeholder = Placeholder(code, "#ByForm#");
+            // Issues_BodyとResults_Bodyの特別処理
+            if ((columnDefinition.TableName == "Issues" || columnDefinition.TableName == "Results")
+                && columnDefinition.ColumnName == "Body")
+            {
+                return code.Replace(placeholder, "Implem.Pleasanter.Models.BinaryUtilities.NormalizeFormBinaryPath(context, value.ToString())");
+            }
             return !columnDefinition.ByForm.IsNullOrEmpty()
                 ? code.Replace(placeholder, columnDefinition.ByForm)
                 : code.ConvertType("#ByForm#", columnDefinition);
