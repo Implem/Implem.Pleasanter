@@ -1,0 +1,34 @@
+{
+    "Id": "CaptchaLibraryNotLoaded",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "The CAPTCHA library is not loaded. Please reload the page."
+        },
+        {
+            "Language": "zh",
+            "Body": "CAPTCHA库未加载。请重新加载页面。"
+        },
+        {
+            "Language": "ja",
+            "Body": "CAPTCHAライブラリが読み込まれていません。ページを再読み込みしてください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die CAPTCHA-Bibliothek ist nicht geladen. Bitte laden Sie die Seite neu."
+        },
+        {
+            "Language": "ko",
+            "Body": "CAPTCHA 라이브러리가 로드되지 않았습니다. 페이지를 새로 고침하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "La biblioteca CAPTCHA no está cargada. Por favor, recargue la página."
+        },
+        {
+            "Language": "vn",
+            "Body": "Thư viện CAPTCHA chưa được tải. Vui lòng tải lại trang."
+        }
+    ]
+}

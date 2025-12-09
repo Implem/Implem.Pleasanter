@@ -115,6 +115,7 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedPlugins = ExtendedPlugins();
             Parameters.ExtendedTags = ExtendedTags();
+            Parameters.Form = Read<Form>();
             Parameters.General = Read<General>();
             Parameters.GroupMembers = Read<GroupMembers>();
             Parameters.History = Read<History>();

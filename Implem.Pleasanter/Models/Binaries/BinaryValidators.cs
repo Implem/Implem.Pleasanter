@@ -599,5 +599,112 @@ namespace Implem.Pleasanter.Models
             return storageSize != null && (totalFileSize + newTotalFileSize)
                 > storageSize * 1024 * 1024 * 1024;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool IsValidFileName(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return false;
+            }
+            if (fileName.Contains('\0') ||
+                fileName.Contains("..") ||
+                fileName.Contains("/") ||
+                fileName.Contains("\\") ||
+                fileName.Contains(":") ||
+                fileName.Length > 255)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool IsAllowedExtension(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return false;
+            }
+            var firstDotIndex = fileName.IndexOf('.');
+            if (firstDotIndex < 0)
+            {
+                return true;
+            }
+            var parts = fileName[firstDotIndex..].Split('.');
+            foreach (var part in parts)
+            {
+                if (string.IsNullOrEmpty(part))
+                {
+                    continue;
+                }
+                var extension = "." + part;
+                if (Parameters.Form.AttachmentExcludedExtensions.Contains(extension))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnValidatingFormUpload(
+            Context context,
+            string[] uuids,
+            string[] fileUuid,
+            string[] fileNames)
+        {
+            if (!context.IsForm)
+            {
+                return Error.Types.None;
+            }
+            if (fileUuid != null)
+            {
+                foreach (var uuid in fileUuid)
+                {
+                    if (!Validators.IsValidGuid(uuid))
+                    {
+                        return Error.Types.InvalidRequest;
+                    }
+                }
+            }
+            if (uuids != null)
+            {
+                foreach (var uuid in uuids)
+                {
+                    if (!Validators.IsValidGuid(uuid))
+                    {
+                        return Error.Types.InvalidRequest;
+                    }
+                }
+            }
+            if (fileNames != null)
+            {
+                foreach (var fileName in fileNames)
+                {
+                    if (!IsValidFileName(fileName) || !IsAllowedExtension(fileName))
+                    {
+                        return Error.Types.InvalidRequest;
+                    }
+                }
+            }
+            if (context.PostedFiles != null)
+            {
+                foreach (var file in context.PostedFiles)
+                {
+                    if (!IsValidFileName(file.FileName) || !IsAllowedExtension(file.FileName))
+                    {
+                        return Error.Types.InvalidRequest;
+                    }
+                }
+            }
+            return Error.Types.None;
+        }
     }
 }

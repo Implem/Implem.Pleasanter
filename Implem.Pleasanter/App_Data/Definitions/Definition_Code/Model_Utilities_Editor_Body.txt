@@ -155,7 +155,7 @@ private static HtmlBuilder Editor(
         .CopyDialog(
             context: context,
             ss: ss)
-        .OutgoingMailDialog()
+        .OutgoingMailDialog(context: context)
         .EditorExtensions(
             context: context,
             #modelName#Model: #modelName#Model,

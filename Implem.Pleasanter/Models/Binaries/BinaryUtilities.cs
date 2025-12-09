@@ -684,6 +684,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static bool ValidateDownloadTemp(Context context, string guid)
         {
+            if (!Validators.IsValidGuid(guid))
+            {
+                return false;
+            }
             return SessionUtilities.Get(context: context)
                 .Any(kv => kv.Key == GetTempFileSessionKey(guid));
         }
@@ -848,6 +852,18 @@ namespace Implem.Pleasanter.Models
             var fileNames = context.Forms.Get("fileNames")?.Deserialize<string[]>();
             var fileSizes = context.Forms.Get("fileSizes")?.Deserialize<string[]>();
             var fileTypes = context.Forms.Get("fileTypes")?.Deserialize<string[]>();
+            {
+                var invalid = BinaryValidators.OnValidatingFormUpload(
+                    context: context,
+                    uuids: fileUuids,
+                    fileUuid: fileUuid,
+                    fileNames: fileNames);
+                switch (invalid)
+                {
+                    case Error.Types.None: break;
+                    default: return invalid.MessageJson(context);
+                }
+            }
             var controlOnly = !context.Forms.ControlId().RegexFirst("_\\d+_-?\\d+$").IsNullOrEmpty();
             if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
             {
@@ -947,6 +963,15 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.IO.FileInfo GetTempFileInfo(string fileUuid, string fileName)
         {
+            if (!Validators.IsValidGuid(fileUuid))
+            {
+                return null;
+            }
+            fileName = System.IO.Path.GetFileName(fileName);
+            if (string.IsNullOrEmpty(fileName) || fileName.Contains('\0'))
+            {
+                return null;
+            }
             var tempDirectoryInfo = new System.IO.DirectoryInfo(DefinitionAccessor.Directories.Temp());
             if (!tempDirectoryInfo.Exists)
                 tempDirectoryInfo.Create();
@@ -1310,6 +1335,19 @@ namespace Implem.Pleasanter.Models
                                 param: Rds.BinariesParam().ReferenceId(id)));
                         }
                     });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        internal static string NormalizeFormBinaryPath(Context context, string value)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            if (context?.IsForm != true) return value;
+            var options = System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.CultureInvariant;
+            return System.Text.RegularExpressions.Regex.IsMatch(value, "/formbinaries/", options)
+                ? System.Text.RegularExpressions.Regex.Replace(value, "/formbinaries/", "/binaries/", options)
+                : value;
         }
     }
 }

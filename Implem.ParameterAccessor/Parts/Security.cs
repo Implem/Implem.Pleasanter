@@ -26,5 +26,7 @@ namespace Implem.ParameterAccessor.Parts
         public SecureCacheControl SecureCacheControl;
         public HealthCheck HealthCheck;
         public ContentSecurityPolicy ContentSecurityPolicy;
+        public bool ShowLoginPageOnAuthError;
+        public CaptchaConfig CaptchaConfig;
     }
 }

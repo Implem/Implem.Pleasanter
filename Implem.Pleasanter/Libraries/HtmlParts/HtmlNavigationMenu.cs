@@ -27,87 +27,85 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useSearch,
             ServerScriptModelRow serverScriptModelRow)
         {
-            if (errorType == Error.Types.None
-                && useNavigationMenu
-                && !context.Publish)
-            {
-                if (context.ThemeVersion1_0())
-                {
-                    return Navigations(
-                        hb: hb,
-                        context: context,
-                        ss: ss,
-                        siteId: siteId,
-                        referenceType: referenceType,
-                        useSearch: useSearch,
-                        serverScriptModelRow: serverScriptModelRow);
-                }
-                else if (context.ThemeVersionOver2_0() && context.Action != "login")
-                {
-                    return hb
-                        .Label(
-                            attributes: new HtmlAttributes()
-                                .For("hamburger")
-                                .OnClick("$p.closeSideMenu($(this));"),
-                            css: "hamburger-switch",
-                            action: () => hb
-                                .Div(css: "hamburger-switch-line"))
-                        .Div(
-                            css: "hamburger-menubox",
-                            action: () => hb
-                                .Input(
-                                    attributes: new HtmlAttributes()
-                                        .Type("checkbox"),
-                                    id: "hamburger",
-                                    css: "input-hidden")
-                                .Div(
-                                    css: "hamburger-menuwrap hamburger-menuwrap-left",
-                                    action: () => hb
-                                        .Section(
-                                            attributes: new HtmlAttributes()
-                                                .Class("accordion"),
-                                            action: () => Navigations(
-                                                hb: hb,
-                                                context: context,
-                                                ss: ss,
-                                                siteId: siteId,
-                                                referenceType: referenceType,
-                                                useSearch: useSearch,
-                                                serverScriptModelRow: serverScriptModelRow)))
-                                .Div(
-                                    css: "hamburger-closelabel",
-                                    action: () => hb
-                                        .Label(
-                                            attributes: new HtmlAttributes()
-                                                .For("hamburger")
-                                                .OnClick("$p.closeSideMenu($(this));"),
-                                            css: "hamburger-cover")))
-                        .Div(
-                            id: "NavigationsUpperRight",
-                            action: () => hb
-                                .Div(
-                                    id: "AccountUserName",
-                                    action: () => hb
-                                        .Span(
-                                            css: "ui-icon ui-icon-person")
-                                        .Span(
-                                            css: "account-name",
-                                            action: () => hb.Text(SiteInfo.UserName(
-                                                context: context,
-                                                userId: context.UserId))))
-                                .Search(
-                                    context: context,
-                                    _using: useSearch && !Parameters.Search.DisableCrossSearch));
-                }
-                else
-                {
-                    return hb;
-                }
-            }
-            else
+            if (context.Publish
+                || context.IsForm
+                || errorType != Error.Types.None
+                || !useNavigationMenu)
             {
                 return hb;
             }
+
+            if (context.ThemeVersion1_0())
+            {
+                return Navigations(
+                    hb: hb,
+                    context: context,
+                    ss: ss,
+                    siteId: siteId,
+                    referenceType: referenceType,
+                    useSearch: useSearch,
+                    serverScriptModelRow: serverScriptModelRow);
+            }
+
+            if (context.ThemeVersionOver2_0() && context.Action != "login")
+            {
+                return hb
+                    .Label(
+                        attributes: new HtmlAttributes()
+                            .For("hamburger")
+                            .OnClick("$p.closeSideMenu($(this));"),
+                        css: "hamburger-switch",
+                        action: () => hb
+                            .Div(css: "hamburger-switch-line"))
+                    .Div(
+                        css: "hamburger-menubox",
+                        action: () => hb
+                            .Input(
+                                attributes: new HtmlAttributes()
+                                    .Type("checkbox"),
+                                id: "hamburger",
+                                css: "input-hidden")
+                            .Div(
+                                css: "hamburger-menuwrap hamburger-menuwrap-left",
+                                action: () => hb
+                                    .Section(
+                                        attributes: new HtmlAttributes()
+                                            .Class("accordion"),
+                                        action: () => Navigations(
+                                            hb: hb,
+                                            context: context,
+                                            ss: ss,
+                                            siteId: siteId,
+                                            referenceType: referenceType,
+                                            useSearch: useSearch,
+                                            serverScriptModelRow: serverScriptModelRow)))
+                            .Div(
+                                css: "hamburger-closelabel",
+                                action: () => hb
+                                    .Label(
+                                        attributes: new HtmlAttributes()
+                                            .For("hamburger")
+                                            .OnClick("$p.closeSideMenu($(this));"),
+                                        css: "hamburger-cover")))
+                    .Div(
+                        id: "NavigationsUpperRight",
+                        action: () => hb
+                            .Div(
+                                id: "AccountUserName",
+                                action: () => hb
+                                    .Span(
+                                        css: "ui-icon ui-icon-person")
+                                    .Span(
+                                        css: "account-name",
+                                        action: () => hb.Text(SiteInfo.UserName(
+                                            context: context,
+                                            userId: context.UserId))))
+                            .Search(
+                                context: context,
+                                _using: useSearch && !Parameters.Search.DisableCrossSearch));
+            }
+
+            return hb;
         }
 
         public static HtmlBuilder Navigations(
@@ -927,16 +925,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Search(this HtmlBuilder hb, Context context, bool _using)
         {
-            return _using
-                ? hb.Div(
+            if (context.IsForm
+                || !_using)
+            {
+                return hb;
+            }
+
+            return hb.Div(
                     id: "SearchField",
                     action: () => hb
                         .TextBox(
                             controlId: "Search",
                             controlCss: " w150 redirect",
                             placeholder: Displays.Search(context: context),
-                            disabled: !context.Mobile))
-                : hb;
+                            disabled: !context.Mobile));
         }
 
         private static bool CanManageTrashBox(Context context, SiteSettings ss)

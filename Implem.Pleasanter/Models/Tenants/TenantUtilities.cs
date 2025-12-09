@@ -599,7 +599,7 @@ namespace Implem.Pleasanter.Models
                 .CopyDialog(
                     context: context,
                     ss: ss)
-                .OutgoingMailDialog()
+                .OutgoingMailDialog(context: context)
                 .ServerScriptDialog(context: context)
                 .ServerScriptScheduleDialog(context: context)
                 .EditorExtensions(
@@ -1359,17 +1359,9 @@ namespace Implem.Pleasanter.Models
                         id: tenantModel.TenantId)
                             .SetMemory("formChanged", false)
                             .Messages(context.Messages)
-                            .Href(Locations.Edit(
-                                context: context,
-                                controller: context.Controller,
-                                id: ss.Columns.Any(o => o.Linking)
-                                    ? context.Forms.Long("LinkId")
-                                    : tenantModel.TenantId)
-                                        + "?new=1"
-                                        + (ss.Columns.Any(o => o.Linking)
-                                            && context.Forms.Long("FromTabIndex") > 0
-                                                ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
-                                                : string.Empty))
+                            .AfterCreate(
+                                ss: ss,
+                                id: tenantModel.TenantId)
                             .ToJson();
                 default:
                     return errorData.MessageJson(context: context);

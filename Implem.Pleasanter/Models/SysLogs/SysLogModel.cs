@@ -2637,7 +2637,7 @@ namespace Implem.Pleasanter.Models
                                 case "Description":
                                     SetDescription(
                                         columnName: column.ColumnName,
-                                        value: value);
+                                        value: Implem.Pleasanter.Models.BinaryUtilities.NormalizeFormBinaryPath(context, value.ToString()));
                                     break;
                                 case "Check":
                                     SetCheck(
@@ -2692,7 +2692,7 @@ namespace Implem.Pleasanter.Models
             if (data.ErrStackTrace != null) ErrStackTrace = data.ErrStackTrace.ToString().ToString();
             if (data.InDebug != null) InDebug = data.InDebug.ToBool().ToBool();
             if (data.AssemblyVersion != null) AssemblyVersion = data.AssemblyVersion.ToString().ToString();
-            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,
@@ -3141,21 +3141,27 @@ namespace Implem.Pleasanter.Models
         {
             return ClassHash.Any(o => Class_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || NumHash.Any(o => Num_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || DateHash.Any(o => Date_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || DescriptionHash.Any(o => Description_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || CheckHash.Any(o => Check_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || AttachmentsHash.Any(o => Attachments_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
@@ -3313,22 +3319,7 @@ namespace Implem.Pleasanter.Models
             Method = context.Action + (!method.IsNullOrEmpty()
                 ? $":{method}"
                 : string.Empty);
-            switch (sysLogType)
-            {
-                case SysLogTypes.SystemError:
-                case SysLogTypes.Exception:
-                    ErrMessage = message;
-                    break;
-                default:
-                    Comments = new Comments()
-                    {
-                        new Comment()
-                        {
-                            Body = message
-                        }
-                    };
-                    break;
-            }
+            SetMessage(message: message, sysLogType: sysLogType);
             if (Parameters.Rds.SysLogsSchemaVersion >= 2)
             {
                 Status = sysLogsStatus;
@@ -3531,7 +3522,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void Finish(Context context, int responseSize = 0)
+        public void Finish(Context context, int responseSize = 0, string message = "")
         {
             if (Parameters.Rds.SysLogsSchemaVersion >= 2)
             {
@@ -3548,6 +3539,8 @@ namespace Implem.Pleasanter.Models
             ProcessId = currentProcess.Id;
             ProcessName = currentProcess.ProcessName;
             BasePriority = currentProcess.BasePriority;
+            if (!message.IsNullOrEmpty())
+                SetMessage(message);
             Update(
                 context: context,
                 writeSqlToDebugLog: false);
@@ -3585,6 +3578,12 @@ namespace Implem.Pleasanter.Models
                 Application = sysLogModel.Application,
                 Class = sysLogModel.Class,
                 Method = sysLogModel.Method,
+                Api = sysLogModel.Api,
+                SiteId = sysLogModel.SiteId,
+                ReferenceId = sysLogModel.ReferenceId,
+                ReferenceType = sysLogModel.ReferenceType,
+                Status = sysLogModel.Status,
+                Description = sysLogModel.Description,
                 RequestData = sysLogModel.RequestData,
                 HttpMethod = sysLogModel.HttpMethod,
                 RequestSize = sysLogModel.RequestSize,
@@ -3615,6 +3614,31 @@ namespace Implem.Pleasanter.Models
                 Updator = (update && context?.User != null) ? context.User.Id : 0,
                 UpdatedTime = sysLogModel.EndTime.Equals(0.ToDateTime()) ? sysLogModel.StartTime : sysLogModel.EndTime
             };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetMessage(
+            string message,
+            SysLogTypes sysLogType = SysLogTypes.Info)
+        {
+            switch (sysLogType)
+            {
+                case SysLogTypes.SystemError:
+                case SysLogTypes.Exception:
+                    ErrMessage = message;
+                    break;
+                default:
+                    Comments = new Comments()
+                    {
+                        new Comment()
+                        {
+                            Body = message
+                        }
+                    };
+                    break;
+            }
         }
     }
 }

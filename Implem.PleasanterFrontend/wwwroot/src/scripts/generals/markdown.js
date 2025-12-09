@@ -192,15 +192,18 @@ $p.selectImage = function (controlId) {
 };
 
 $p.uploadImage = function (controlId, file) {
+    const controller = $p.isForm() ? 'formbinaries' : 'binaries';
     var $tr = $('[id="' + controlId + '"]').closest('tr');
     var $editorInDialogRecordId = $('#EditorInDialogRecordId');
     var url;
     if ($tr.length) {
-        url = $('#BaseUrl').val() + $tr.data('id') + '/binaries/uploadimage';
+        url = $('#BaseUrl').val() + $tr.data('id') + '/' + controller + '/uploadimage';
     } else if ($('#EditorDialog').is(':visible') && $editorInDialogRecordId.length) {
-        url = $('#BaseUrl').val() + $editorInDialogRecordId.val() + '/binaries/uploadimage';
+        url = $('#BaseUrl').val() + $editorInDialogRecordId.val() + '/' + controller + '/uploadimage';
     } else {
-        url = $('.main-form').attr('action').replace('_action_', 'binaries/uploadimage');
+        url = $('.main-form')
+            .attr('action')
+            .replace('_action_', controller + '/uploadimage');
     }
     var data = new FormData();
     data.append('ControlId', controlId);

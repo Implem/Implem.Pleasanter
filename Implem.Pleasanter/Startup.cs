@@ -25,6 +25,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +41,10 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using Implem.Pleasanter.Libraries.Security.Captcha;
 
 namespace Implem.Pleasanter.NetCore
 {
@@ -132,6 +138,20 @@ namespace Implem.Pleasanter.NetCore
                     {
                         o.LoginPath = new PathString("/users/login");
                         o.ExpireTimeSpan = TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod);
+
+                        if (!Parameters.Security.ShowLoginPageOnAuthError)
+                        {
+                            o.Events = new CookieAuthenticationEvents
+                            {
+                                OnRedirectToLogin = context =>
+                                {
+                                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+
+                                    return Task.CompletedTask;
+                                }
+                            };
+                        }
+
                     });
             }
             services.AddSingleton<ITicketStore, AuthenticationTicketStore>();
@@ -238,6 +258,14 @@ namespace Implem.Pleasanter.NetCore
                 options.AddBasePolicy(builder => builder.NoCache());
                 options.AddPolicy("imageCache", builder => builder.Expire(System.TimeSpan.FromSeconds(Parameters.OutputCache.OutputCacheControl.OutputCacheDuration)));
             });
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
+            services.AddHttpClient();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<ICaptchaServiceFactory, CaptchaServiceFactory>();
+            services.AddScoped<ICaptchaVerificationService, CaptchaVerificationService>();
         }
 
         private IEnumerable<string> GetExtendedLibraryPaths()
@@ -315,6 +343,37 @@ namespace Implem.Pleasanter.NetCore
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseRouting();
+
+            if (env.IsDevelopment())
+            { 
+                app.Use(async (context, next) =>
+                {
+                    await next.Invoke();
+
+
+                    var loggerFactory = context.RequestServices.GetRequiredService<ILoggerFactory>();
+                    var logger = loggerFactory.CreateLogger("RoutingDebugMiddleware"); // ログのカテゴリ名を指定
+
+                    var endpoint = context.GetEndpoint();
+                    if (endpoint != null)
+                    {
+                        var routeName = endpoint.Metadata.GetMetadata<IRouteNameMetadata>()?.RouteName;
+                        var routePattern = (endpoint as RouteEndpoint)?.RoutePattern.RawText;
+
+                        logger.LogInformation(
+                            "Path: {Path}, Matched Route Name: '{RouteName}', Pattern: '{RoutePattern}'",
+                            context.Request.Path,
+                            routeName ?? "N/A",      // ルート名がnullの場合は "N/A" を表示
+                            routePattern ?? "N/A"   // パターンがnullの場合は "N/A" を表示
+                        );
+                    }
+                    else
+                    {
+                        logger.LogWarning("Path: {Path} -> No endpoint matched.", context.Request.Path);
+                    }
+                });
+            }
+
             app.UseCors();
 
             if (Parameters.OutputCache.OutputCacheControl != null && !Parameters.OutputCache.OutputCacheControl.NoOutputCache)
@@ -327,7 +386,38 @@ namespace Implem.Pleasanter.NetCore
             app.UseSessionMiddleware();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+
+                if (env.IsDevelopment())
+                {
+                    endpoints.MapGet("/debug/routes", async context =>
+                    {
+                        var provider = context.RequestServices.GetRequiredService<IActionDescriptorCollectionProvider>();
+
+                        var routes = provider.ActionDescriptors.Items.Select(d =>
+                        {
+                            d.RouteValues.TryGetValue("controller", out var controllerName);
+                            d.RouteValues.TryGetValue("action", out var actionName);
+                            d.RouteValues.TryGetValue("page", out var pageName); // Razor Pageの場合
+
+                            return new
+                            {
+                                DisplayName = d.DisplayName,
+                                Template = d.AttributeRouteInfo?.Template,
+                                Controller = controllerName,
+                                Action = actionName,
+                                Page = pageName,
+                                HttpMethods = d.ActionConstraints?.OfType<HttpMethodActionConstraint>().FirstOrDefault()?.HttpMethods.FirstOrDefault(),
+                            };
+                        })
+                        .Where(r => r.DisplayName != null) // 不要な情報を除外
+                        .OrderBy(r => r.Controller)        // コントローラー名で並び替え
+                        .ThenBy(r => r.Action)           // アクション名で並び替え
+                        .ToList();
+
+                        await context.Response.WriteAsJsonAsync(routes, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+                    });
+                }
+                    endpoints.MapRazorPages();
                 if (Parameters.Security.HealthCheck.Enabled)
                 {
                     if (Parameters.Security.HealthCheck.EnableDetailedResponse)
@@ -346,6 +436,21 @@ namespace Implem.Pleasanter.NetCore
                             .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
                     }
                 }
+                endpoints.MapControllerRoute(
+                    name: "FormBinaries", // 新規追加
+                    pattern: "{reference}/{guid}/{controller}/{action}",
+                    defaults: new
+                    {
+                        Reference = "Forms"
+                    },
+                    constraints: new
+                    {
+                        Reference = "[A-Za-z][A-Za-z0-9_]*",
+                        Guid = "[A-Fa-f0-9]{32}", // ハイフン無しGUID
+                        Controller = "FormBinaries",
+                        Action = "[A-Za-z][A-Za-z]*"
+                    }
+                );
                 endpoints.MapControllerRoute(
                     name: "Default",
                     pattern: "{controller}/{action}",

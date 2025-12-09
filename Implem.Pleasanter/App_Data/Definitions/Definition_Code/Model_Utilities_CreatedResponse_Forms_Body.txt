@@ -1,0 +1,12 @@
+﻿if (context.IsForm)
+{
+    var urlOfThanks = Locations.FormThanks(
+        context: context,
+        controller: context.Controller,
+        guid: context.Guid);
+
+    var obj = new ResponseCollection(context: context, id: #modelName#Model.#ModelName#Id)
+        .SetMemory("formChanged", false)
+        .Href(urlOfThanks);
+    return obj.ToJson();
+}

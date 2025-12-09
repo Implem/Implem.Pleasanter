@@ -37,6 +37,7 @@ namespace Implem.Pleasanter.Models
         public int? LockedUser { get; set; }
         public DateTime? ApiCountDate { get; set; }
         public int? ApiCount { get; set; }
+        public string? Form { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }

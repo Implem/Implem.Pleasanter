@@ -38,6 +38,7 @@ namespace Implem.Pleasanter.Models
             long referenceId,
             int referenceVer)
         {
+            if (context.IsForm) return hb;
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("OutgoingMailsForm")
@@ -140,8 +141,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder OutgoingMailDialog(this HtmlBuilder hb)
+        public static HtmlBuilder OutgoingMailDialog(this HtmlBuilder hb, Context context)
         {
+            if (context.IsForm) return hb;
             return hb.Div(attributes: new HtmlAttributes()
                 .Id("OutgoingMailDialog")
                 .Class("dialog"));

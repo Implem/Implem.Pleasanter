@@ -2730,3 +2730,10 @@
         }
     }
 }
+
+@media screen and (width <= 1024px) and (width >= 0) {
+    #DropDownSearchDialogBody {
+        display: flex;
+        flex-direction: column;
+    }
+}

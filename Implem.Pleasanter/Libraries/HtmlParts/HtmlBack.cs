@@ -17,6 +17,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string referenceType,
             string siteReferenceType)
         {
+            if (context.IsForm) return hb;
+
             var encoder = System.Text.Encodings.Web.HtmlEncoder.Default;
             return !context.Ajax
                 ? hb.Hidden(

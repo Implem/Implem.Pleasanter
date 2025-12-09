@@ -30,6 +30,7 @@ namespace Implem.DefinitionAccessor
         public static List<ExtendedPlugin> ExtendedPlugins;
         public static Dictionary<string, string> ExtendedTags;
         public static PleasanterExtensions PleasanterExtensions;
+        public static Form Form;
         public static General General;
         public static GroupMembers GroupMembers;
         public static History History;

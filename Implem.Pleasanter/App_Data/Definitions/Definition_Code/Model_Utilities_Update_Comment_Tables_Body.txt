@@ -8,8 +8,10 @@
                 column: ss.GetColumn(context: context, columnName: "Comments"),
                 comments: #modelName#Model.Comments,
                 verType: #modelName#Model.VerType)
+            .AfterUpdate(ss: ss)
             .ToJson();
     default:
         return ResponseByUpdate(res, context, ss, #modelName#Model<!--Model_Utilities_ProcessProperty-->)
+            .AfterUpdate(ss: ss)
             .ToJson();
 }

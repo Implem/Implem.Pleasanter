@@ -1,0 +1,13 @@
+{
+    "Id": "FormUnavailableMessageDefault",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Not available."
+        },
+        {
+            "Language": "ja",
+            "Body": "利用できません。"
+        }
+    ]
+}

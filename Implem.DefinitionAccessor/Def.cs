@@ -521,6 +521,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertParams": Code.Model_InsertParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertParams, definitionRow, CodeXls); break;
                     case "Model_InsertParamsTables": Code.Model_InsertParamsTables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertParamsTables, definitionRow, CodeXls); break;
                     case "Model_ItemProperties_Sites": Code.Model_ItemProperties_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ItemProperties_Sites, definitionRow, CodeXls); break;
+                    case "Model_ItemUsing": Code.Model_ItemUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ItemUsing, definitionRow, CodeXls); break;
                     case "Model_KambanCases": Code.Model_KambanCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_KambanCases, definitionRow, CodeXls); break;
                     case "Model_KambanJsonCases": Code.Model_KambanJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_KambanJsonCases, definitionRow, CodeXls); break;
                     case "Model_LockCases": Code.Model_LockCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LockCases, definitionRow, CodeXls); break;
@@ -805,6 +806,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CreateByApi": Code.Model_Utilities_CreateByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedMessage": Code.Model_Utilities_CreatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedMessage, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse": Code.Model_Utilities_CreatedResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse, definitionRow, CodeXls); break;
+                    case "Model_Utilities_CreatedResponse_Forms": Code.Model_Utilities_CreatedResponse_Forms = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Forms, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse_Sites": Code.Model_Utilities_CreatedResponse_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
@@ -1933,6 +1935,7 @@ namespace Implem.DefinitionAccessor
                     case "Sites_DisableSiteCreatorPermission": Column.Sites_DisableSiteCreatorPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_DisableSiteCreatorPermission, definitionRow, ColumnXls); break;
                     case "Sites_EditorGuide": Column.Sites_EditorGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_EditorGuide, definitionRow, ColumnXls); break;
                     case "Sites_Export": Column.Sites_Export = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Export, definitionRow, ColumnXls); break;
+                    case "Sites_Form": Column.Sites_Form = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Form, definitionRow, ColumnXls); break;
                     case "Sites_GanttGuide": Column.Sites_GanttGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_GanttGuide, definitionRow, ColumnXls); break;
                     case "Sites_GridGuide": Column.Sites_GridGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_GridGuide, definitionRow, ColumnXls); break;
                     case "Sites_ImageLibGuide": Column.Sites_ImageLibGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_ImageLibGuide, definitionRow, ColumnXls); break;
@@ -7255,6 +7258,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertParams;
         public string Model_InsertParamsTables;
         public string Model_ItemProperties_Sites;
+        public string Model_ItemUsing;
         public string Model_KambanCases;
         public string Model_KambanJsonCases;
         public string Model_LockCases;
@@ -7539,6 +7543,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CreateByApi;
         public string Model_Utilities_CreatedMessage;
         public string Model_Utilities_CreatedResponse;
+        public string Model_Utilities_CreatedResponse_Forms;
         public string Model_Utilities_CreatedResponse_Sites;
         public string Model_Utilities_CreateParams;
         public string Model_Utilities_CreateParams_Sites;
@@ -8124,6 +8129,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertParams = new CodeDefinition();
         public CodeDefinition Model_InsertParamsTables = new CodeDefinition();
         public CodeDefinition Model_ItemProperties_Sites = new CodeDefinition();
+        public CodeDefinition Model_ItemUsing = new CodeDefinition();
         public CodeDefinition Model_KambanCases = new CodeDefinition();
         public CodeDefinition Model_KambanJsonCases = new CodeDefinition();
         public CodeDefinition Model_LockCases = new CodeDefinition();
@@ -8408,6 +8414,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CreateByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedMessage = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse = new CodeDefinition();
+        public CodeDefinition Model_Utilities_CreatedResponse_Forms = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
@@ -9575,6 +9582,7 @@ namespace Implem.DefinitionAccessor
         public string Sites_DisableSiteCreatorPermission;
         public string Sites_EditorGuide;
         public string Sites_Export;
+        public string Sites_Form;
         public string Sites_GanttGuide;
         public string Sites_GridGuide;
         public string Sites_ImageLibGuide;
@@ -10315,6 +10323,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sites_DisableSiteCreatorPermission = new ColumnDefinition();
         public ColumnDefinition Sites_EditorGuide = new ColumnDefinition();
         public ColumnDefinition Sites_Export = new ColumnDefinition();
+        public ColumnDefinition Sites_Form = new ColumnDefinition();
         public ColumnDefinition Sites_GanttGuide = new ColumnDefinition();
         public ColumnDefinition Sites_GridGuide = new ColumnDefinition();
         public ColumnDefinition Sites_ImageLibGuide = new ColumnDefinition();

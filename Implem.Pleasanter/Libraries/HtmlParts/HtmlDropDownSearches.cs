@@ -14,6 +14,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder DropDownSearchDialog(
             this HtmlBuilder hb, Context context, long id)
         {
+            if (context.IsForm) return hb;
+
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id("DropDownSearchDialog")
@@ -104,7 +106,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return hb
                     .FieldSelectable(
                         controlId: "DropDownSearchResults",
-                        fieldCss: "field-vertical w350",
+                        fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlWrapperCss: " h300",
                         controlCss: " always-send send-all",
@@ -129,7 +131,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     icon: "ui-icon-circle-triangle-e")))
                     .FieldSelectable(
                         controlId: "DropDownSearchSourceResults",
-                        fieldCss: "field-vertical w350",
+                        fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlWrapperCss: " h300",
                         listItemCollection: listItemCollection

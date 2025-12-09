@@ -12,24 +12,6 @@ namespace Implem.Pleasanter.Controllers
     {
         [HttpGet]
         [ResponseCache(Duration = int.MaxValue)]
-        public ActionResult SiteImageThumbnail(string reference, long id)
-        {
-            var context = new Context();
-            if (reference.ToLower() == "items")
-            {
-                var (bytes, contentType) = BinaryUtilities.SiteImageThumbnail(
-                    context: context,
-                    siteModel: new SiteModel(context: context, siteId: id));
-                return new FileContentResult(bytes, contentType);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        [HttpGet]
-        [ResponseCache(Duration = int.MaxValue)]
         public ActionResult SiteImageIcon(string reference, long id)
         {
             var context = new Context();

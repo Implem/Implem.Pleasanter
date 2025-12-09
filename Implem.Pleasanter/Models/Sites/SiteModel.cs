@@ -58,6 +58,7 @@ namespace Implem.Pleasanter.Models
         public DateTime ApiCountDate = 0.ToDateTime();
         public int ApiCount = 0;
         public bool DisableSiteCreatorPermission = false;
+        public string Form = string.Empty;
 
         public TitleBody TitleBody
         {
@@ -96,6 +97,7 @@ namespace Implem.Pleasanter.Models
         public DateTime SavedApiCountDate = 0.ToDateTime();
         public int SavedApiCount = 0;
         public bool SavedDisableSiteCreatorPermission = false;
+        public string SavedForm = string.Empty;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -349,6 +351,18 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context).ToInt() != ApiCount);
         }
 
+        public bool Form_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Form;
+            }
+            return Form != SavedForm && Form != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Form);
+        }
+
         public bool LockedTime_Updated(Context context, bool copy = false, Column column = null)
         {
             if (copy && column?.CopyByDefault == true)
@@ -557,6 +571,7 @@ namespace Implem.Pleasanter.Models
                 case "ApiCountDate": return ApiCountDate.ToString();
                 case "ApiCount": return ApiCount.ToString();
                 case "DisableSiteCreatorPermission": return DisableSiteCreatorPermission.ToString();
+                case "Form": return Form;
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
                 case "Updator": return Updator.Id.ToString();
@@ -601,6 +616,7 @@ namespace Implem.Pleasanter.Models
                 case "LockedUser": return SavedLockedUser.ToString();
                 case "ApiCountDate": return SavedApiCountDate.ToString();
                 case "ApiCount": return SavedApiCount.ToString();
+                case "Form": return SavedForm;
                 case "Comments": return SavedComments;
                 case "Creator": return SavedCreator.ToString();
                 case "Updator": return SavedUpdator.ToString();
@@ -725,6 +741,9 @@ namespace Implem.Pleasanter.Models
                         case "DisableSiteCreatorPermission":
                             hash.Add("DisableSiteCreatorPermission", DisableSiteCreatorPermission.ToString());
                             break;
+                        case "Form":
+                            hash.Add("Form", Form);
+                            break;
                         case "Comments":
                             hash.Add("Comments", Comments.ToJson());
                             break;
@@ -783,6 +802,7 @@ namespace Implem.Pleasanter.Models
                 case "LockedUser": return LockedUser_Updated(context: context);
                 case "ApiCountDate": return ApiCountDate_Updated(context: context);
                 case "ApiCount": return ApiCount_Updated(context: context);
+                case "Form": return Form_Updated(context: context);
                 case "Comments": return Comments_Updated(context: context);
                 case "Creator": return Creator_Updated(context: context);
                 case "Updator": return Updator_Updated(context: context);
@@ -1053,6 +1073,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "DisableCrossSearch":
                     return DisableCrossSearch.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Form":
+                    return Form.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1608,6 +1633,7 @@ namespace Implem.Pleasanter.Models
                     case "Sites_InheritPermission": InheritPermission = value.ToLong(); break;
                     case "Sites_Publish": Publish = value.ToBool(); break;
                     case "Sites_DisableCrossSearch": DisableCrossSearch = value.ToBool(); break;
+                    case "Sites_Form": Form = value.ToString(); break;
                     case "Sites_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -1665,7 +1691,7 @@ namespace Implem.Pleasanter.Models
                                 case "Description":
                                     SetDescription(
                                         columnName: column.ColumnName,
-                                        value: value);
+                                        value: Implem.Pleasanter.Models.BinaryUtilities.NormalizeFormBinaryPath(context, value.ToString()));
                                     break;
                                 case "Check":
                                     SetCheck(
@@ -1718,6 +1744,7 @@ namespace Implem.Pleasanter.Models
             ApiCountDate = siteModel.ApiCountDate;
             ApiCount = siteModel.ApiCount;
             DisableSiteCreatorPermission = siteModel.DisableSiteCreatorPermission;
+            Form = siteModel.Form;
             Comments = siteModel.Comments;
             Creator = siteModel.Creator;
             Updator = siteModel.Updator;
@@ -1752,9 +1779,10 @@ namespace Implem.Pleasanter.Models
             if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
             if (data.DisableCrossSearch != null) DisableCrossSearch = data.DisableCrossSearch.ToBool().ToBool();
+            if (data.Form != null) Form = data.Form.ToString().ToString();
             if (data.Permissions != null) RecordPermissions = data.Permissions;
             if (data.SiteSettings != null) SiteSettings = data.SiteSettings;
-            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,
@@ -2025,6 +2053,10 @@ namespace Implem.Pleasanter.Models
                             ApiCount = dataRow[column.ColumnName].ToInt();
                             SavedApiCount = ApiCount;
                             break;
+                        case "Form":
+                            Form = dataRow[column.ColumnName].ToString();
+                            SavedForm = Form;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -2135,6 +2167,7 @@ namespace Implem.Pleasanter.Models
                 || LockedUser_Updated(context: context)
                 || ApiCountDate_Updated(context: context)
                 || ApiCount_Updated(context: context)
+                || Form_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -2144,21 +2177,27 @@ namespace Implem.Pleasanter.Models
         {
             return ClassHash.Any(o => Class_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || NumHash.Any(o => Num_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || DateHash.Any(o => Date_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || DescriptionHash.Any(o => Description_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || CheckHash.Any(o => Check_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)))
                 || AttachmentsHash.Any(o => Attachments_Updated(
                     columnName: o.Key,
+                    context: context,
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
@@ -2191,6 +2230,7 @@ namespace Implem.Pleasanter.Models
                 || LockedUser_Updated(context: context)
                 || ApiCountDate_Updated(context: context)
                 || ApiCount_Updated(context: context)
+                || Form_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -2952,6 +2992,7 @@ namespace Implem.Pleasanter.Models
                         onClick: processApiSiteSetting.OnClick,
                         executionType: processApiSiteSetting.ExecutionType?.ToString().ToEnum<Process.ExecutionTypes>(),
                         actionType: processApiSiteSetting.ActionType?.ToString().ToEnum<Process.ActionTypes>(),
+                        afterProcessStatusChangeActionType: processApiSiteSetting.AfterProcessStatusChangeActionType?.ToString().ToEnum<Process.AfterProcessStatusChangeActionTypes>(),
                         allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
                         validationType: processApiSiteSetting.ValidationType?.ToString().ToEnum<Process.ValidationTypes>(),
                         validateInputs: ParseValidateInputs(
@@ -2988,6 +3029,7 @@ namespace Implem.Pleasanter.Models
                         onClick: processApiSiteSetting.OnClick,
                         executionType: processApiSiteSetting.ExecutionType?.ToString().ToEnum<Process.ExecutionTypes>(),
                         actionType: processApiSiteSetting.ActionType?.ToString().ToEnum<Process.ActionTypes>(),
+                        afterProcessStatusChangeActionType: processApiSiteSetting.AfterProcessStatusChangeActionType?.ToString().ToEnum<Process.AfterProcessStatusChangeActionTypes>(),
                         allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
                         validationType: processApiSiteSetting.ValidationType?.ToString().ToEnum<Process.ValidationTypes>(),
                         validateInputs: ParseValidateInputs(
@@ -5273,6 +5315,7 @@ namespace Implem.Pleasanter.Models
                 onClick: context.Forms.Data("ProcessOnClick"),
                 executionType: (Process.ExecutionTypes)context.Forms.Int("ProcessExecutionType"),
                 actionType: (Process.ActionTypes)context.Forms.Int("ProcessActionType"),
+                afterProcessStatusChangeActionType: (Process.AfterProcessStatusChangeActionTypes)context.Forms.Int("AfterProcessStatusChangeActionType"),
                 allowBulkProcessing: context.Forms.Bool("ProcessAllowBulkProcessing"),
                 validationType: (Process.ValidationTypes)context.Forms.Int("ProcessValidationType"),
                 validateInputs: context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>(),
@@ -5333,6 +5376,7 @@ namespace Implem.Pleasanter.Models
                     onClick: context.Forms.Data("ProcessOnClick"),
                     executionType: (Process.ExecutionTypes)context.Forms.Int("ProcessExecutionType"),
                     actionType: (Process.ActionTypes)context.Forms.Int("ProcessActionType"),
+                    afterProcessStatusChangeActionType: (Process.AfterProcessStatusChangeActionTypes)context.Forms.Int("AfterProcessStatusChangeActionType"),
                     allowBulkProcessing: context.Forms.Bool("ProcessAllowBulkProcessing"),
                     validationType: (Process.ValidationTypes)context.Forms.Int("ProcessValidationType"),
                     validateInputs: context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>(),

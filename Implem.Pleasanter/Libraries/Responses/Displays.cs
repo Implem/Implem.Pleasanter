@@ -239,6 +239,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AfterCreateActionType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterCreateActionType",
+                data: data);
+        }
+
         public static string AfterDelete(
             Context context,
             params string[] data)
@@ -269,6 +279,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AfterProcessStatusChangeActionType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterProcessStatusChangeActionType",
+                data: data);
+        }
+
         public static string AfterUpdate(
             Context context,
             params string[] data)
@@ -276,6 +296,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AfterUpdate",
+                data: data);
+        }
+
+        public static string AfterUpdateActionType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterUpdateActionType",
                 data: data);
         }
 
@@ -1799,6 +1829,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CaptchaLibraryNotLoaded(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CaptchaLibraryNotLoaded",
+                data: data);
+        }
+
+        public static string CaptchaTokenMissing(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CaptchaTokenMissing",
+                data: data);
+        }
+
+        public static string CaptchaVerificationFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CaptchaVerificationFailed",
+                data: data);
+        }
+
         public static string Cc(
             Context context,
             params string[] data)
@@ -2636,6 +2696,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ConfirmSynchronize",
+                data: data);
+        }
+
+        public static string ConfirmTheCreationOfForm(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ConfirmTheCreationOfForm",
                 data: data);
         }
 
@@ -4049,6 +4119,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string EndDateTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EndDateTime",
+                data: data);
+        }
+
         public static string EndOfMonth(
             Context context,
             params string[] data)
@@ -4379,6 +4459,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExposeFormToAnonymousUsers(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExposeFormToAnonymousUsers",
+                data: data);
+        }
+
         public static string Expression(
             Context context,
             params string[] data)
@@ -4689,6 +4779,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Form(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Form",
+                data: data);
+        }
+
         public static string Format(
             Context context,
             params string[] data)
@@ -4696,6 +4796,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Format",
+                data: data);
+        }
+
+        public static string FormThanksMessageDefault(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormThanksMessageDefault",
+                data: data);
+        }
+
+        public static string FormThanksMessageLabel(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormThanksMessageLabel",
                 data: data);
         }
 
@@ -4716,6 +4836,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Formulas",
+                data: data);
+        }
+
+        public static string FormUnavailableMessageDefault(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormUnavailableMessageDefault",
+                data: data);
+        }
+
+        public static string FormUnavailableMessageLabel(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormUnavailableMessageLabel",
                 data: data);
         }
 
@@ -7369,6 +7509,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string MoveToNextRecord(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MoveToNextRecord",
+                data: data);
+        }
+
         public static string MoveUp(
             Context context,
             params string[] data)
@@ -7376,6 +7526,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "MoveUp",
+                data: data);
+        }
+
+        public static string Multilingual(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Multilingual",
+                data: data);
+        }
+
+        public static string MultilingualDisplay(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MultilingualDisplay",
                 data: data);
         }
 
@@ -8006,6 +8176,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "OpenEditInNewTab",
+                data: data);
+        }
+
+        public static string OpenNewEditor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OpenNewEditor",
                 data: data);
         }
 
@@ -9336,6 +9516,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ResultId",
+                data: data);
+        }
+
+        public static string ReturnToList(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ReturnToList",
                 data: data);
         }
 
@@ -14566,6 +14756,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Sites_Export",
+                data: data);
+        }
+
+        public static string Sites_Form(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_Form",
                 data: data);
         }
 

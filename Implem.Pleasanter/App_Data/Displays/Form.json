@@ -1,0 +1,33 @@
+{
+    "Id": "Form",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Form"
+        },
+        {
+            "Language": "zh",
+            "Body": "Form"
+        },
+        {
+            "Language": "ja",
+            "Body": "フォーム"
+        },
+        {
+            "Language": "de",
+            "Body": "Form"
+        },
+        {
+            "Language": "ko",
+            "Body": "Form"
+        },
+        {
+            "Language": "es",
+            "Body": "Form"
+        },
+        {
+            "Language": "vn",
+            "Body": "Form"
+        }
+    ]
+}

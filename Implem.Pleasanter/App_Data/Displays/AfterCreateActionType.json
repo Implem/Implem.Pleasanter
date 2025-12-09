@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AfterCreateActionType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After create action"
+        },
+        {
+            "Language": "zh",
+            "Body": "创建后的操作"
+        },
+        {
+            "Language": "ja",
+            "Body": "作成後の動作"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktion nach der Erstellung"
+        },
+        {
+            "Language": "ko",
+            "Body": "생성 후 동작"
+        },
+        {
+            "Language": "es",
+            "Body": "Acción después de la creación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thao tác sau khi tạo"
+        }
+    ]
+}

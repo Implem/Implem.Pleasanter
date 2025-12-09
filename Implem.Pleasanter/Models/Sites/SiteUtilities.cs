@@ -2491,7 +2491,7 @@ namespace Implem.Pleasanter.Models
                     siteSetting: ss,
                     columnsApiSiteSetting: siteSettingsApiModel.Columns);
             }
-            if(siteSettingsApiModel.EditorColumnHash != null)
+            if (siteSettingsApiModel.EditorColumnHash != null)
             {
                 siteModel.UpsertEditorColumnHashByApi(
                     siteSetting: ss,
@@ -2519,7 +2519,7 @@ namespace Implem.Pleasanter.Models
             var errorData = siteModel.Update(
                context: context,
                ss: ss,
-               setBySession:false);
+               setBySession: false);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -2531,12 +2531,12 @@ namespace Implem.Pleasanter.Models
                     return new SdResponse(
                                 method: "UpdateSuccess",
                                 url: context.UrlReferrer)
-                                .ToJson();                   
+                                .ToJson();
                 case Error.Types.UpdateConflicts:
                     return new SdResponse(
                                 method: "UpdateConflicts",
                                 value: Displays.UpdateConflicts(
-                                    context:context,
+                                    context: context,
                                     data: siteModel.Updator.Name))
                                 .ToJson();
                 default:
@@ -3868,7 +3868,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorTabs(this HtmlBuilder hb, Context context, SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
-            var tags =hb.Ul(id: "EditorTabs", action: () =>
+            var tags = hb.Ul(id: "EditorTabs", action: () =>
             {
                 hb
                     .Li(action: () => hb
@@ -4160,7 +4160,13 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#PublishSettingsEditor",
                                             text: Displays.Publish(context: context)),
-                                    _using: context.ContractSettings.Extensions.Get("Publish"));
+                                    _using: context.ContractSettings.Extensions.Get("Publish"))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#FormSettingsEditor",
+                                            text: Displays.Form(context: context)),
+                                    _using: FormEnabled(context: context)); 
                             break;
                     }
                     hb
@@ -5286,7 +5292,7 @@ namespace Implem.Pleasanter.Models
                 .CopyDialog(
                     context: context,
                     ss: ss)
-                .OutgoingMailDialog()
+                .OutgoingMailDialog(context: context)
                 .DeleteSiteDialog(context: context)
                 .Div(attributes: new HtmlAttributes()
                     .Id("GridColumnDialog")
@@ -5624,7 +5630,8 @@ namespace Implem.Pleasanter.Models
                             .PublishSettingsEditor(
                                 context: context,
                                 ss: siteModel.SiteSettings,
-                                publish: siteModel.Publish);
+                                publish: siteModel.Publish)
+                            .FormSettingsEditor(context: context, ss: siteModel.SiteSettings, guid: siteModel.Form);
                         break;
                 }
             }
@@ -6079,7 +6086,7 @@ namespace Implem.Pleasanter.Models
                             _checked: column.CellSticky == true)
                         .FieldSpinner(
                             controlId: "CellWidth",
-                            fieldCss: "field-normal", 
+                            fieldCss: "field-normal",
                             labelText: Displays.SetCellWidth(context: context),
                             placeholder: Displays.CellWidthMinPx(context: context, data: "50"),
                             value: column.CellWidth >= 50 ? column.CellWidth : null,
@@ -6794,6 +6801,44 @@ namespace Implem.Pleasanter.Models
                         }
                     },
                     selectedValue: ss.AutoVerUpType.ToInt().ToString())
+                .FieldDropDown(
+                    context: context,
+                    controlId: "AfterCreateActionType",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AfterCreateActionType(context: context),
+                    optionCollection: new Dictionary<string, string>
+                    {
+                        {
+                            Versions.AfterCreateActionTypes.ReturnToList.ToInt().ToString(),
+                            Displays.ReturnToList(context: context)
+                        },
+                        {
+                            Versions.AfterCreateActionTypes.OpenNewEditor.ToInt().ToString(),
+                            Displays.OpenNewEditor(context: context)
+                        },
+                    },
+                    insertBlank: true,
+                    selectedValue: ss.AfterCreateActionType.ToInt().ToString()
+                )
+                .FieldDropDown(
+                    context: context,
+                    controlId: "AfterUpdateActionType",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AfterUpdateActionType(context: context),
+                    optionCollection: new Dictionary<string, string>
+                    {
+                        {
+                            Versions.AfterUpdateActionTypes.ReturnToList.ToInt().ToString(),
+                            Displays.ReturnToList(context: context)
+                        },
+                        {
+                            Versions.AfterUpdateActionTypes.MoveToNextRecord.ToInt().ToString(),
+                            Displays.MoveToNextRecord(context: context)
+                        },
+                    },
+                    insertBlank: true,
+                    selectedValue: ss.AfterUpdateActionType.ToInt().ToString()
+                )
                 .FieldCheckBox(
                     controlId: "AllowEditingComments",
                     fieldCss: "field-auto-thin",
@@ -7018,6 +7063,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss)
                 .EditorColumnsToastMenu(
+                    context: context,
                     id: "editor-columns-toast-menu")
                 .EditorColumnsSpacer(
                     context: context)
@@ -7156,6 +7202,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder EditorColumnsToastMenu(
             this HtmlBuilder hb,
+            Context context,
             string id = null,
             bool setOpenEditorColumnDialogButton = true,
             bool seResetAndDisableEditorColumnsButton = true)
@@ -7170,19 +7217,23 @@ namespace Implem.Pleasanter.Models
                             action: () => hb
                                 .MaterialIconButton(
                                     id: "MoveUpEditorColumns",
-                                    iconName: "arrow_upward")
+                                    iconName: "keyboard_arrow_up",
+                                    title: Displays.MoveUp(context: context))
                                 .MaterialIconButton(
                                     id: "MoveDownEditorColumns",
-                                    iconName: "arrow_downward")
+                                    iconName: "keyboard_arrow_down",
+                                    title: Displays.MoveDown(context: context))
                                 .MaterialIconButton(
                                     id: "OpenEditorColumnDialog",
                                     iconName: "settings",
+                                    title: Displays.AdvancedSetting(context: context),
                                     action: "SetSiteSettings",
                                     method: "put",
                                     _using: setOpenEditorColumnDialogButton)
                                 .MaterialIconButton(
                                     id: "EditorColumnsResetAndDisable",
                                     iconName: "reset_settings",
+                                    title: Displays.Reset(context: context),
                                     action: "SetSiteSettings",
                                     method: "put",
                                     _using: seResetAndDisableEditorColumnsButton)));
@@ -7205,12 +7256,14 @@ namespace Implem.Pleasanter.Models
                             action: () => hb
                                 .MaterialIconButton(
                                     id: "ToEnableEditorColumns",
-                                    iconName: "arrow_back",
+                                    iconName: "keyboard_arrow_left",
+                                    title: Displays.ToEnable(context: context),
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .MaterialIconButton(
                                     id: "ToDisableEditorColumns",
-                                    iconName: "arrow_forward",
+                                    iconName: "keyboard_arrow_right",
+                                    title: Displays.ToDisable(context: context),
                                     action: "SetSiteSettings",
                                     method: "post")));
         }
@@ -7344,7 +7397,13 @@ namespace Implem.Pleasanter.Models
                                             href: "#ExtendedHtmlSettingTab",
                                             text: Displays.ExtendedHtml(context: context)),
                                     _using: !column.OtherColumn()
-                                        && column.ColumnName != "Comments"))
+                                        && column.ColumnName != "Comments")
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#MultilingualSettingTab",
+                                            text: Displays.Multilingual(context: context)),
+                                    _using: !column.OtherColumn()))
                         .EditorColumnDialogTab(
                             context: context,
                             ss: ss,
@@ -7355,6 +7414,10 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             column: column)
                         .ExtendedHtmlSettingTab(
+                            context: context,
+                            ss: ss,
+                            column: column)
+                        .MultilingualSettingTab(
                             context: context,
                             ss: ss,
                             column: column)
@@ -7416,6 +7479,12 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ExtendedHtmlSettingTab",
                                             text: Displays.ExtendedHtml(context: context)),
+                                    _using: !column.OtherColumn())
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#MultilingualSettingTab",
+                                            text: Displays.Multilingual(context: context)),
                                     _using: !column.OtherColumn()))
                             .EditorColumnDialogTab(
                                 context: context,
@@ -7423,6 +7492,10 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 titleColumns: titleColumns)
                             .ExtendedHtmlSettingTab(
+                                context: context,
+                                ss: ss,
+                                column: column)
+                            .MultilingualSettingTab(
                                 context: context,
                                 ss: ss,
                                 column: column))
@@ -7576,6 +7649,37 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-wide",
                                 labelText: Displays.ExtendedHtmlAfterField(context: context),
                                 text: column.ExtendedHtmlAfterField)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder MultilingualSettingTab(
+            this HtmlBuilder hb,
+            Column column,
+            Context context,
+            SiteSettings ss)
+        {
+            if (column.OtherColumn())
+            {
+                return hb;
+            }
+            var type = column.TypeName.CsTypeSummary();
+            return hb.FieldSet(
+                id: "MultilingualSettingTab",
+                action: () => hb
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: column.LabelTextDefault,
+                        action: () => hb
+                            .FieldCodeEditor(
+                                context: context,
+                                dataLang: "json",
+                                controlId: "MultilingualLabelText",
+                                controlCss: "o-low",
+                                fieldCss: "field-wide",
+                                labelText: Displays.MultilingualDisplay(context: context),
+                                text: column.MultilingualLabelText)));
         }
 
         /// <summary>
@@ -8251,7 +8355,7 @@ namespace Implem.Pleasanter.Models
                         { "field-wide", Displays.Wide(context: context) },
                         { "field-markdown", Displays.MarkDown(context: context) },
                         { "field-rte", Displays.RichTextEditor(context: context) }
-                    }; 
+                    };
                 case "Attachment":
                     return null;
                 default:
@@ -9837,6 +9941,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.ActionTypes(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.AfterProcessStatusChangeActionType(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.AllowBulkProcessing(context: context)))));
         }
 
@@ -9906,6 +10012,11 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         id: process.ActionType?.ToString()
                                             ?? Process.ActionTypes.Save.ToString())))
+                                .Td(action: () => hb
+                                    .Text(text: process.AfterProcessStatusChangeActionType != null && process.AfterProcessStatusChangeActionType != Process.AfterProcessStatusChangeActionTypes.Default ?
+                                        Displays.Get(
+                                            context: context,
+                                            id: process.AfterProcessStatusChangeActionType?.ToString()) : ""))
                                 .Td(action: () => hb
                                     .Span(
                                         css: "ui-icon ui-icon-circle-check",
@@ -10177,6 +10288,20 @@ namespace Implem.Pleasanter.Models
                             }
                         },
                         selectedValue: process.ActionType.ToInt().ToString())
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "AfterProcessStatusChangeActionType",
+                        controlCss: " always-send",
+                        labelText: Displays.AfterProcessStatusChangeActionType(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Process.AfterProcessStatusChangeActionTypes.ReturnToList.ToInt().ToString(),
+                                Displays.ReturnToList(context: context)
+                            },
+                        },
+                        insertBlank: true,
+                        selectedValue: process.AfterProcessStatusChangeActionType.ToInt().ToString())
                     .FieldCheckBox(
                         controlId: "ProcessAllowBulkProcessing",
                         controlCss: " always-send",
@@ -16673,6 +16798,76 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder FormSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss, string guid)
+        {
+            if (!FormEnabled(context: context))
+            {
+                return hb;
+            }
+            var absoluteApplicationRootUri = Locations.AbsoluteApplicationRootUri(context: context);
+            var formUrl = guid.IsNullOrEmpty() ? string.Empty : $"{absoluteApplicationRootUri}/forms/{guid}/new".ToLower();
+            hb.TabsPanelField(
+                id: "FormSettingsEditor",
+                action: () => hb
+                    .Hidden(
+                        controlId: "AbsoluteApplicationRootUri",
+                        value: absoluteApplicationRootUri)
+                    .FieldCheckBox(
+                        controlId: "Sites_Form_Check",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.ExposeFormToAnonymousUsers(context: context),
+                        _checked: !guid.IsNullOrEmpty(),
+                        onChange: "$p.toggleSitesForm(this);")
+                    .Hidden( controlId: "Sites_Form", value: guid) //DB操作要の値
+                    .FieldTextBox(
+                        controlId: "FormUrl",
+                        fieldCss: "field-wide",
+                        labelText: "",
+                        text: formUrl,
+                        attributes: new Dictionary<string, string>
+                        {
+                            ["readonly"] = "readonly"
+                        })
+                    .FieldTextBox(
+                        context: context,
+                        textType: HtmlTypes.TextTypes.DateTime,
+                        controlId: "FormStartDate",
+                        labelText: Displays.StartDateTime(context: context),
+                        format: Displays.YmdhmDatePickerFormat(context: context),
+                        text: ss.FormStartDateTime?.ToLocal(context: context).ToString(Displays.Get(context: context, id: "YmdhmFormat")),
+                        timepiker: true,
+                        validateDate: true)
+                    .FieldTextBox(
+                        context: context,
+                        textType: HtmlTypes.TextTypes.DateTime,
+                        controlId: "FormEndDate",
+                        labelText: Displays.EndDateTime(context: context),
+                        format: Displays.YmdhmDatePickerFormat(context: context),
+                        text: ss.FormEndDateTime?.ToLocal(context: context).ToString(Displays.Get(context: context, id: "YmdhmFormat")),
+                        timepiker: true,
+                        validateDate: true)
+                    .FieldRTEditor(
+                        context: context,
+                        ss: ss,
+                        controlId: "FormUnavailableMessage",
+                        fieldCss: "field-wide",
+                        labelText: Displays.FormUnavailableMessageLabel(context: context),
+                        text: ss.FormUnavailableMessage)
+                    .FieldRTEditor(
+                        context: context,
+                        ss: ss,
+                        controlId: "FormThanksMessage",
+                        fieldCss: "field-wide",
+                        labelText: Displays.FormThanksMessageLabel(context: context),
+                        text: ss.FormThanksMessage)
+            );
+            return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder DeleteSiteDialog(this HtmlBuilder hb, Context context)
         {
             return hb.Div(
@@ -18717,6 +18912,14 @@ namespace Implem.Pleasanter.Models
                                     controlCss: "button-icon button-neutral",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool FormEnabled(Context context)
+        {
+            return Parameters.Form.Enabled || context.ContractSettings.Extensions.Get("Form");
         }
     }
 }

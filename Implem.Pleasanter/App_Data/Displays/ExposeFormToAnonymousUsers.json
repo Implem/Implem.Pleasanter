@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ExposeFormToAnonymousUsers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Expose Forms to anonymous users"
+        },
+        {
+            "Language": "zh",
+            "Body": "向匿名用户公开表单"
+        },
+        {
+            "Language": "ja",
+            "Body": "フォームを匿名ユーザに公開する"
+        },
+        {
+            "Language": "de",
+            "Body": "Formulare für anonyme Benutzer freigeben"
+        },
+        {
+            "Language": "ko",
+            "Body": "익명 사용자에게 양식을 공개합니다"
+        },
+        {
+            "Language": "es",
+            "Body": "Exponer formularios a usuarios anónimos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cho phép người dùng ẩn danh truy cập biểu mẫu"
+        }
+    ]
+}

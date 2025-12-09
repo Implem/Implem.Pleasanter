@@ -541,10 +541,16 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            var hb = new HtmlBuilder();
+            var hb = new HtmlBuilder(captchaEnabled: true);
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 itemModel: wikiModel);
+            var displayTitle = wikiModel.Title.MessageDisplay(context: context);
+            if (wikiModel.MethodType == BaseModel.MethodTypes.New)
+            {
+                displayTitle = Displays.New(context: context);
+                if (context.IsForm) displayTitle = ss.Title;
+            }
             return editInDialog
                 ? hb.DialogEditorForm(
                     context: context,
@@ -567,9 +573,7 @@ namespace Implem.Pleasanter.Models
                     siteId: wikiModel.SiteId,
                     parentId: ss.ParentId,
                     referenceType: "Wikis",
-                    title: wikiModel.MethodType == BaseModel.MethodTypes.New
-                        ? Displays.New(context: context)
-                        : wikiModel.Title.MessageDisplay(context: context),
+                    title: displayTitle,
                     body: wikiModel.Body,
                     useTitle: ss.TitleColumns?.Any(o => ss
                         .GetEditorColumnNames()
@@ -746,7 +750,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss)
                 .MoveDialog(context: context)
-                .OutgoingMailDialog());
+                .OutgoingMailDialog(context: context));
         }
 
         private static HtmlBuilder PostInitHiddenData(
@@ -771,32 +775,36 @@ namespace Implem.Pleasanter.Models
             WikiModel wikiModel,
             bool editInDialog = false)
         {
-            return hb.Ul(id: "EditorTabs", action: () => hb
-                .Li(action: () => hb
-                    .A(
-                        href: "#FieldSetGeneral",
-                        text: ss.GeneralTabLabelText))
-                .Tabs(
-                    context: context,
-                    ss: ss)
-                .Li(
-                    _using: wikiModel.MethodType != BaseModel.MethodTypes.New
-                        && !context.Publish
-                        && !editInDialog,
-                    action: () => hb
+            return hb
+            .Ul(
+                id: "EditorTabs",
+                attributes: new HtmlAttributes().Class("hidden is-important", context.IsForm),
+                action: () => hb
+                    .Li(action: () => hb
                         .A(
-                            href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList(context: context)))
-                .Li(
-                    _using: context.CanManagePermission(ss: ss)
-                        && !ss.Locked()
-                        && wikiModel.MethodType != BaseModel.MethodTypes.New
-                        && !editInDialog
-                        && ss.ReferenceType != "Wikis",
-                    action: () => hb
-                        .A(
-                            href: "#FieldSetRecordAccessControl",
-                            text: Displays.RecordAccessControl(context: context))));
+                            href: "#FieldSetGeneral",
+                            text: ss.GeneralTabLabelText))
+                    .Tabs(
+                        context: context,
+                        ss: ss)
+                    .Li(
+                        _using: wikiModel.MethodType != BaseModel.MethodTypes.New
+                            && !context.Publish
+                            && !editInDialog,
+                        action: () => hb
+                            .A(
+                                href: "#FieldSetHistories",
+                                text: Displays.ChangeHistoryList(context: context)))
+                    .Li(
+                        _using: context.CanManagePermission(ss: ss)
+                            && !ss.Locked()
+                            && wikiModel.MethodType != BaseModel.MethodTypes.New
+                            && !editInDialog
+                            && ss.ReferenceType != "Wikis",
+                        action: () => hb
+                            .A(
+                                href: "#FieldSetRecordAccessControl",
+                                text: Displays.RecordAccessControl(context: context))));
         }
 
         private static HtmlBuilder FieldSetGeneral(

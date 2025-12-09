@@ -368,6 +368,46 @@ namespace Implem.Pleasanter.Libraries.Search
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static void RenderHighlighted(HtmlBuilder hb, string source, string searchText)
+        {
+            if (string.IsNullOrEmpty(source))
+            {
+                return;
+            }
+            if (string.IsNullOrEmpty(searchText))
+            {
+                hb.Text(source);
+                return;
+            }
+            var sourceSpan = source.AsSpan();
+            var currentIndex = 0;
+            while (currentIndex < sourceSpan.Length)
+            {
+                var remainingSpan = sourceSpan.Slice(currentIndex);
+                var foundIndex = remainingSpan.IndexOf(searchText.AsSpan(), StringComparison.Ordinal);
+                if (foundIndex == -1)
+                {
+                    hb.Text(remainingSpan.ToString());
+                    break;
+                }
+                if (foundIndex > 0)
+                {
+                    hb.Text(remainingSpan.Slice(0, foundIndex).ToString());
+                }
+                var matchedText = remainingSpan.Slice(foundIndex, searchText.Length).ToString();
+                hb.Span(
+                    css: "highlight",
+                    action: () =>
+                    {
+                        hb.Text(matchedText);
+                    });
+                currentIndex += foundIndex + searchText.Length;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder Results(
             this HtmlBuilder hb,
             Context context,
@@ -388,8 +428,8 @@ namespace Implem.Pleasanter.Libraries.Search
                     if (dataRow != null)
                     {
                         var href = string.Empty;
-                        var highlightSplitedTitles = dataRow.String("Title").Split(text);
-                        var highlightSplitedBodys = dataRow.String("Body").Split(text);
+                        var title = dataRow.String("Title");
+                        var body = dataRow.String("Body");
                         switch (referenceType)
                         {
                             case "Sites":
@@ -418,30 +458,8 @@ namespace Implem.Pleasanter.Libraries.Search
                                 .H(number: 3, action: () => hb
                                     .A(
                                          href: href,
-                                         action: () =>
-                                             highlightSplitedTitles.ForEach(highlightSplitedTitle =>
-                                             {
-                                                 if(highlightSplitedTitle != highlightSplitedTitles[0])
-                                                 {
-                                                     hb.Span(
-                                                         css: "highlight",
-                                                         action: () => hb
-                                                             .Text(text));
-                                                 }
-                                                 hb.Text(highlightSplitedTitle);
-                                             })))
-                                .P(action: () => 
-                                    highlightSplitedBodys.ForEach(highlightSplitedBody =>
-                                    {
-                                        if (highlightSplitedBody != highlightSplitedBodys[0])
-                                        {
-                                            hb.Span(
-                                                css: "highlight",
-                                                action: () => hb
-                                                    .Text(text));
-                                        }
-                                        hb.Text(highlightSplitedBody);
-                                    })));
+                                         action: () => RenderHighlighted(hb, title, text)))
+                                    .P(action: () => RenderHighlighted(hb, body, text)));
                     }
                 });
             }

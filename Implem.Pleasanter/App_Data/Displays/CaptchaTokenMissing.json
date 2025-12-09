@@ -1,0 +1,34 @@
+﻿{
+    "Id": "CaptchaTokenMissing",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "An temporary error occurred while loading or submitting the form. Please reload the page and try again."
+        },
+        {
+            "Language": "zh",
+            "Body": "加载或提交表单时发生临时错误。请重新加载页面，然后再次尝试。"
+        },
+        {
+            "Language": "ja",
+            "Body": "フォームの読み込み、または送信処理に一時的なエラーが発生しました。ページを再読み込みしてからもう一度お試しください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Beim Laden oder Senden des Formulars ist ein vorübergehender Fehler aufgetreten. Bitte laden Sie die Seite neu und versuchen Sie es erneut."
+        },
+        {
+            "Language": "ko",
+            "Body": "양식 로드 또는 제출 처리 중 일시적인 오류가 발생했습니다. 페이지를 새로고침한 후 다시 시도해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Se produjo un error temporal al cargar o enviar el formulario. Por favor, recargue la página y vuelva a intentarlo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã xảy ra lỗi tạm thời khi tải hoặc gửi biểu mẫu. Vui lòng tải lại trang và thử lại."
+        }
+    ]
+}

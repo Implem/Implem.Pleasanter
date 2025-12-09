@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using System.IO;
 namespace Implem.Pleasanter.Libraries.DataSources
@@ -8,6 +9,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
     {
         public static void DeleteTemp(Context context, string guid)
         {
+            if (!Validators.IsValidGuid(guid))
+            {
+                return;
+            }
             if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
             {
                 Repository.ExecuteNonQuery(

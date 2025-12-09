@@ -10,10 +10,13 @@ namespace Implem.Pleasanter.Libraries.Html
     {
         public HtmlElement Top;
         public HtmlElement Current;
+        public bool CaptchaEnabled { get; init; }
 
-        public HtmlBuilder()
+
+        public HtmlBuilder(bool captchaEnabled　= false)
         {
             Top = Current = new HtmlElement();
+            CaptchaEnabled = captchaEnabled;
         }
 
         public HtmlBuilder Append(string tag, int closeLevel = 0, HtmlAttributes attributes = null)

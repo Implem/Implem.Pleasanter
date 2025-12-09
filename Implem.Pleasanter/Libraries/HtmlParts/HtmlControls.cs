@@ -193,7 +193,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new HtmlAttributes()
                                 .Id(controlId)
                                 .Name(controlId)
-                                .Class(controlCss)
+                                .Class(Css.Class("control-codeeditor", controlCss))
                                 .Placeholder(placeholder)
                                 .Disabled(disabled)
                                 .DataAlwaysSend(alwaysSend)
@@ -1201,7 +1201,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Class(deleted == true
                                     ? "ui-icon ui-icon-trash file-delete"
                                     : "ui-icon ui-icon-circle-close delete-file")
-                                .DataAction("binaries/deletetemp")
+                                .DataAction((context.IsForm? "formbinaries" : "binaries") + "/deletetemp")
                                 .DataId(guid)
                                 .OnClick($"$p.deleteAttachment($('#{controlId}'), $(this));"),
                             _using: !readOnly && (allowDelete || added == true)))
@@ -1211,6 +1211,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder MaterialIconButton(
             this HtmlBuilder hb,
             string id = null,
+            string title = null,
             string onClick = null,
             string action = null,
             string method = null,
@@ -1222,6 +1223,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Button(
                     attributes: new HtmlAttributes()
                         .Id(id)
+                        .Title(title)
                         .Class("button-icon ui-button ui-corner-all ui-widget applied")
                         .OnClick(onClick)
                         .DataAction(action)

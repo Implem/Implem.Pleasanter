@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Multilingual",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Multilingual"
+        },
+        {
+            "Language": "zh",
+            "Body": "多语言"
+        },
+        {
+            "Language": "ja",
+            "Body": "多言語"
+        },
+        {
+            "Language": "de",
+            "Body": "Mehrsprachig"
+        },
+        {
+            "Language": "ko",
+            "Body": "다국어"
+        },
+        {
+            "Language": "es",
+            "Body": "Multilingüe"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đa ngôn ngữ"
+        }
+    ]
+}

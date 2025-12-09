@@ -1,4 +1,5 @@
 ﻿import { clearEditorColumnsFilters } from './filter.ts';
+import { hideToastMenu } from './toastmenu.ts';
 
 const registerDropdownClear = (dropdownSelector: string) => {
     const prefix = dropdownSelector === '#EditorColumnsTabs' ? 'left' : 'right';
@@ -20,6 +21,9 @@ const registerDropdownClear = (dropdownSelector: string) => {
         const targetOlIds = collectOlIdsForPrefix();
         if (targetOlIds.length > 0) {
             clearEditorColumnsFilters(targetOlIds);
+        }
+        if (dropdownSelector === '#EditorColumnsTabs') {
+            hideToastMenu();
         }
     };
     qsa(dropdownSelector).forEach(dropdownElement => {

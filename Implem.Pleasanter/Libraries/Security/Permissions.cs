@@ -472,6 +472,8 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageRegistrations(context: context, any: true);
                 case "publishes":
                     return context.Publish;
+                case "forms":
+                    return context.IsForm;
                 case "extensions":
                     return CanManageTenant(context: context);
                 default:
@@ -516,6 +518,8 @@ namespace Implem.Pleasanter.Libraries.Security
                         || context.UserSettings?.EnableManageTenant == true;
                 case "versions":
                     return false;
+                case "forms":
+                    return context.IsForm;
                 case "extensions":
                     return CanManageTenant(context: context);
                 default:

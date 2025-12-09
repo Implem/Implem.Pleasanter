@@ -110,7 +110,8 @@ const bindEditorColumnsClickStable = (): void => {
         if (isClickLike(down, e, wrapper)) {
             if (down.type === 'li') {
                 lastClickedEditorLi = down.li;
-                if (down.ctrlOrMeta) {
+                const selectedNow = isLiSelected(lastClickedEditorLi);
+                if (selectedNow) {
                     requestAnimationFrame(() => {
                         if (isLiSelected(down.li) && !down.wasSelected) {
                             showToastMenu();
@@ -124,8 +125,12 @@ const bindEditorColumnsClickStable = (): void => {
                         hideToastMenu(false);
                     }
                 }
-            } else if (isToastMenuOpen()) {
-                hideToastMenu();
+            } else if (down.type === 'outside') {
+                requestAnimationFrame(() => {
+                    if (!hasVisibleSelectedEditorColumn()) {
+                        hideToastMenu(false);
+                    }
+                });
             }
         }
         ecState!.down = null;
@@ -372,6 +377,94 @@ export const initialize = (): void => {
     updateToastMenuControlsVisibility('EditorColumns');
 };
 
+export const normalizeLiSelecteeOnce = (opts?: { listIds?: string[]; timeoutMs?: number }): void => {
+    const listIds = opts?.listIds ?? ['EditorColumns', 'EditorSourceColumns'];
+    const timeoutMs = opts?.timeoutMs ?? 5000;
+
+    const lists: HTMLElement[] = [];
+    for (const id of listIds) {
+        const element = document.getElementById(id);
+        if (element instanceof HTMLElement) {
+            lists.push(element);
+        }
+    }
+
+    if (lists.length === 0) {
+        return;
+    }
+
+    let isCompleted = false;
+    let timerId: number | undefined;
+
+    const applyNormalization = (observer: MutationObserver): void => {
+        if (isCompleted) {
+            return;
+        }
+
+        isCompleted = true;
+
+        try {
+            for (const list of lists) {
+                const targets = list.querySelectorAll<HTMLLIElement>('li.ui-selected:not(.ui-selectee)');
+                for (const li of targets) {
+                    li.classList.add('ui-selectee');
+                }
+            }
+        } finally {
+            observer.disconnect();
+
+            if (timerId !== undefined) {
+                clearTimeout(timerId);
+                timerId = undefined;
+            }
+        }
+    };
+
+    const observer = new MutationObserver((mutations: MutationRecord[]): void => {
+        if (isCompleted) {
+            return;
+        }
+
+        for (const mutation of mutations) {
+            if (mutation.type === 'attributes') {
+                const attributeName = mutation.attributeName;
+                const target = mutation.target;
+
+                if (attributeName === 'class' && target instanceof HTMLElement) {
+                    const tagName = target.tagName;
+                    if (tagName === 'LI') {
+                        applyNormalization(observer);
+                        return;
+                    }
+                }
+            }
+
+            if (mutation.type === 'childList') {
+                const added = mutation.addedNodes.length > 0;
+                const removed = mutation.removedNodes.length > 0;
+
+                if (added || removed) {
+                    applyNormalization(observer);
+                    return;
+                }
+            }
+        }
+    });
+
+    for (const list of lists) {
+        observer.observe(list, {
+            attributes: true,
+            attributeFilter: ['class'],
+            childList: true,
+            subtree: true
+        });
+    }
+
+    timerId = window.setTimeout(() => {
+        applyNormalization(observer);
+    }, timeoutMs);
+};
+
 export const showToastMenu = (opts?: { force?: boolean; retry?: number }): void => {
     const force = opts?.force ?? false;
     const attempt = opts?.retry ?? 0;
@@ -387,6 +480,11 @@ export const showToastMenu = (opts?: { force?: boolean; retry?: number }): void 
 
     const hasVisible = hasVisibleSelectedEditorColumn();
     const alreadyOpen = isToastMenuOpen();
+
+    if (alreadyOpen && !hasVisible && !force) {
+        hideToastMenu(false);
+        return;
+    }
 
     if (!force && !hasVisible && !alreadyOpen) {
         const MAX_RETRY_ATTEMPTS = 2;

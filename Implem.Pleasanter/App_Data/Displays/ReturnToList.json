@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ReturnToList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Return to list"
+        },
+        {
+            "Language": "zh",
+            "Body": "返回列表页面"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧画面に戻る"
+        },
+        {
+            "Language": "de",
+            "Body": "Zurück zur Listenansicht"
+        },
+        {
+            "Language": "ko",
+            "Body": "목록 화면으로 돌아가기"
+        },
+        {
+            "Language": "es",
+            "Body": "Volver a la pantalla de lista"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quay lại màn hình danh sách"
+        }
+    ]
+}

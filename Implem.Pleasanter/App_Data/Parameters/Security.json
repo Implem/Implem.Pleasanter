@@ -126,6 +126,7 @@
                 "default-src": "'self'",
                 "script-src": "'self' 'strict-dynamic'",
                 "script-src-attr": "'self' 'unsafe-inline'",
+                "script-src-elem": "",
                 "style-src": "'self'",
                 "style-src-attr": "'self' 'unsafe-inline'",
                 "style-src-elem": "'self' 'unsafe-inline'",
@@ -134,10 +135,21 @@
                 "object-src": "'none'",
                 "connect-src": "'self'",
                 "frame-src": "'none'",
+                "manifest-src": "",
+                "media-src": "",
+                "worker-src": "",
                 "base-uri": "'self'",
                 "form-action": "'self'",
-                "report-uri": "/CspReport/Report"
+                "frame-ancestors": "",
+                "report-uri": "/CspReport/Report",
+                "report-to": "",
+                "sandbox": "",
+                "upgrade-insecure-requests": false
             }
         ]
+    },
+    "ShowLoginPageOnAuthError": true,
+    "CaptchaConfig": {
+        "Type": "None"
     }
-}
+}     

@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.22.0</AssemblyVersion>
-    <FileVersion>1.4.22.0</FileVersion>
-    <Version>1.4.22.0</Version>
+    <AssemblyVersion>1.4.23.0</AssemblyVersion>
+    <FileVersion>1.4.23.0</FileVersion>
+    <Version>1.4.23.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -139,6 +139,7 @@
     <Content Remove="App_Data\Definitions\Definition_Column\Users_AllowMovingFromTopSite.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Users_LoginExpirationLimit.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Users_LoginExpirationPeriod.json" />
+    <Content Remove="App_Data\Parameters\Form.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -187,6 +188,12 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>Implem.PleasanterTest</_Parameter1>
     </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App_Data\Parameters\Form.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

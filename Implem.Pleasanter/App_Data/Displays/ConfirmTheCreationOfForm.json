@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ConfirmTheCreationOfForm",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to create this data? Once created, it cannot be changed."
+        },
+        {
+            "Language": "zh",
+            "Body": "您确定要创建此数据吗？创建后将无法更改。"
+        },
+        {
+            "Language": "ja",
+            "Body": "このデータを作成してもよろしいですか？作成後は変更できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Möchten Sie diese Daten wirklich erstellen? Nach dem Erstellen können sie nicht mehr geändert werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 데이터를 생성하시겠습니까? 생성 후에는 변경할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "¿Estás seguro de que deseas crear estos datos? Una vez creados, no se podrán cambiar."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có chắc chắn muốn tạo dữ liệu này không? Sau khi tạo, sẽ không thể thay đổi."
+        }
+    ]
+}

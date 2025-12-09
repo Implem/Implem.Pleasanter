@@ -12,6 +12,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             Settings.SiteSettings ss)
         {
+            if (context.IsForm) return hb;
+
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id("CopyDialog")

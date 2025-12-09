@@ -217,6 +217,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<DashboardPart> DashboardParts;
         public string ExtendedHeader;
         public Versions.AutoVerUpTypes? AutoVerUpType;
+        public Versions.AfterCreateActionTypes? AfterCreateActionType;
+        public Versions.AfterUpdateActionTypes? AfterUpdateActionType;
         public bool? AllowEditingComments;
         public bool? AllowCopy;
         public bool? AllowReferenceCopy;
@@ -294,6 +296,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EditInDialog;
         public List<string> EditorColumns;
         public bool? ProcessOutputFormulaLogs;
+
+        public DateTime? FormStartDateTime;
+        public DateTime? FormEndDateTime;
+        public string FormUnavailableMessage;
+        public string FormThanksMessage;
 
         public SiteSettings()
         {
@@ -375,6 +382,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
             if (DashboardParts == null) DashboardParts = new SettingList<DashboardPart>();
             AutoVerUpType = AutoVerUpType ?? Versions.AutoVerUpTypes.Default;
+            AfterCreateActionType = AfterCreateActionType ?? Versions.AfterCreateActionTypes.Default;
+            AfterUpdateActionType = AfterUpdateActionType ?? Versions.AfterUpdateActionTypes.Default;
             AllowEditingComments = AllowEditingComments ?? false;
             AllowCopy = AllowCopy ?? Parameters.General.AllowCopy;
             AllowReferenceCopy = AllowReferenceCopy ?? Parameters.General.AllowReferenceCopy;
@@ -608,29 +617,35 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             long referenceId = 0)
         {
-            if (context.Publish)
+            switch ((context.Publish, context.IsForm, context.Controller))
             {
-                ss.PermissionType = Permissions.Types.Read;
-                ss.ItemPermissionType = Permissions.Types.Read;
+                case (true, _, _):
+                    ss.PermissionType = Permissions.Types.Read;
+                    ss.ItemPermissionType = Permissions.Types.Read;
+                    return;
+                case (_, true, _):
+                    ss.PermissionType = Permissions.Types.Create;
+                    ss.ItemPermissionType = Permissions.Types.Create;
+                    return;
+                case (_, _, "publishes"):
+                    return;
             }
-            else if (context.Controller != "publishes")
+
+            if (context.PermissionHash?.ContainsKey(ss.InheritPermission) == true)
             {
-                if (context.PermissionHash?.ContainsKey(ss.InheritPermission) == true)
-                {
-                    ss.PermissionType = context.PermissionHash[ss.InheritPermission];
-                }
-                if (referenceId != 0 && context.PermissionHash?.ContainsKey(referenceId) == true)
-                {
-                    ss.ItemPermissionType = context.PermissionHash[referenceId];
-                }
-                if (LockedTable())
-                {
-                    var lockedPermissionType = Permissions.Types.Read
-                        | Permissions.Types.Export
-                        | Permissions.Types.SendMail;
-                    ss.PermissionType &= lockedPermissionType;
-                    ss.ItemPermissionType &= lockedPermissionType;
-                }
+                ss.PermissionType = context.PermissionHash[ss.InheritPermission];
+            }
+            if (referenceId != 0 && context.PermissionHash?.ContainsKey(referenceId) == true)
+            {
+                ss.ItemPermissionType = context.PermissionHash[referenceId];
+            }
+            if (LockedTable())
+            {
+                var lockedPermissionType = Permissions.Types.Read
+                    | Permissions.Types.Export
+                    | Permissions.Types.SendMail;
+                ss.PermissionType &= lockedPermissionType;
+                ss.ItemPermissionType &= lockedPermissionType;
             }
         }
 
@@ -872,6 +887,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AutoVerUpType != Versions.AutoVerUpTypes.Default)
             {
                 ss.AutoVerUpType = AutoVerUpType;
+            }
+            if (AfterCreateActionType != Versions.AfterCreateActionTypes.Default)
+            {
+                ss.AfterCreateActionType = AfterCreateActionType;
+            }
+            if (AfterUpdateActionType != Versions.AfterUpdateActionTypes.Default)
+            {
+                ss.AfterUpdateActionType = AfterUpdateActionType;
             }
             if (AllowEditingComments == true)
             {
@@ -1307,6 +1330,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.HtmlsAllDisabled = HtmlsAllDisabled;
             }
+            if (FormStartDateTime is not null)
+            {
+                ss.FormStartDateTime = FormStartDateTime;
+            }
+            if (FormEndDateTime is not null)
+            {
+                ss.FormEndDateTime = FormEndDateTime;
+            }
+            if (!FormUnavailableMessage.IsNullOrEmpty())
+            {
+                ss.FormUnavailableMessage = FormUnavailableMessage;
+            }
+            if (!FormThanksMessage.IsNullOrEmpty())
+            {
+                ss.FormThanksMessage = FormThanksMessage;
+            }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
                 if (ss.PermissionForCreating == null)
@@ -1604,6 +1643,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.ExtendedHtmlAfterField = column.ExtendedHtmlAfterField;
+                    }
+                    if (column.MultilingualLabelText?.IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.MultilingualLabelText = column.MultilingualLabelText;
                     }
                     if (column.Nullable == true)
                     {
@@ -3992,6 +4036,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Responsive": Responsive = value.ToBool(); break;
                 case "AsynchronousLoadingDefault": DashboardPartsAsynchronousLoading = value.ToBool(); break;
                 case "AutoVerUpType": AutoVerUpType = (Versions.AutoVerUpTypes)value.ToInt(); break;
+                case "AfterCreateActionType": AfterCreateActionType = (Versions.AfterCreateActionTypes)value.ToInt(); break;
+                case "AfterUpdateActionType": AfterUpdateActionType = (Versions.AfterUpdateActionTypes)value.ToInt(); break;
                 case "AllowCopy": AllowCopy = value.ToBool(); break;
                 case "AllowReferenceCopy": AllowReferenceCopy = value.ToBool(); break;
                 case "CharToAddWhenCopying": CharToAddWhenCopying = value; break;
@@ -4114,6 +4160,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ScriptsAllDisabled": ScriptsAllDisabled = value.ToBool(); break;
                 case "StylesAllDisabled": StylesAllDisabled = value.ToBool(); break;
                 case "HtmlsAllDisabled": HtmlsAllDisabled = value.ToBool(); break;
+                case "FormStartDate": FormStartDateTime = value.IsNullOrEmpty() ? null : value.ToDateTime().ToUniversal(context: context); break;
+                case "FormEndDate": FormEndDateTime = value.IsNullOrEmpty() ? null : value.ToDateTime().ToUniversal(context: context); break;
+                case "FormUnavailableMessage": FormUnavailableMessage = value; break;
+                case "FormThanksMessage": FormThanksMessage = value; break;
             }
         }
 
@@ -4236,6 +4286,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ExtendedHtmlBetweenLabelAndControl": column.ExtendedHtmlBetweenLabelAndControl = value; break;
                 case "ExtendedHtmlAfterControl": column.ExtendedHtmlAfterControl = value; break;
                 case "ExtendedHtmlAfterField": column.ExtendedHtmlAfterField = value; break;
+                case "MultilingualLabelText": column.MultilingualLabelText = value; break;
                 case "Nullable": column.Nullable = value.ToBool(); break;
                 case "Unit": column.Unit = value; break;
                 case "DecimalPlaces": column.DecimalPlaces = value.ToInt(); break;

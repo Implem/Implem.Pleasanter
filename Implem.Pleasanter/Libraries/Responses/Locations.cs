@@ -353,24 +353,17 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static string ItemAction(Context context, long id)
         {
-            return id != -1
-                ? Get(
-                    context: context,
-                    parts: new string[]
-                    {
-                        context.Publish
-                            ? "Publishes"
-                            : "Items",
-                        id.ToString(),
-                        "_action_"
-                    })
-                : Get(
-                    context: context,
-                    parts: new string[]
-                    {
-                        "Items",
-                        "_action_"
-                    });
+            if (id == -1)
+                return Get(context: context, parts: new[] { "Items", "_action_" });
+
+            var (sectionName, setId) = context switch
+            {
+                { Publish: true } => ("Publishes", id.ToString()),
+                { IsForm: true } => ("Forms", context.Guid.ToLower()),
+                _ => ("Items", id.ToString())
+            };
+
+            return Get(context: context, parts: new[] { sectionName, setId, "_action_" });
         }
 
         public static string DeleteImage(Context context, string guid)
@@ -391,11 +384,9 @@ namespace Implem.Pleasanter.Libraries.Responses
                 context: context,
                 parts: new string[]
                 {
-                    "binaries",
+                    context.IsForm ? "formbinaries" : "binaries",
                     guid,
-                    !temp
-                        ? "/download"
-                        : "/downloadtemp"
+                    !temp ? "/download" : "/downloadtemp"
                 });
         }
 
@@ -405,21 +396,21 @@ namespace Implem.Pleasanter.Libraries.Responses
                 context: context,
                 parts: new string[]
                 {
-                    "binaries",
+                    context.IsForm ? "formbinaries" : "binaries",
                     guid,
-                    !temp
-                        ? "/show"
-                        : "/showtemp"
+                    !temp ? "/show" : "/showtemp"
                 });
         }
 
         public static string BadRequest(Context context)
         {
+            var controller = "Errors";
+            if (context.Controller == "Forms") controller = "Forms";
             return Get(
                 context: context,
                 parts: new string[]
                 {
-                    "Errors",
+                    controller,
                     "BadRequest"
                 });
         }
@@ -545,5 +536,35 @@ namespace Implem.Pleasanter.Libraries.Responses
                 : ret;
             return ret;
         }
+
+        public static string FormThanks(Context context, string controller, string guid)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    controller,
+                    guid,
+                    "Thanks"
+                });
+        }
+        public static string FormUnavailable(Context context)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    "Forms",
+                    "Unavailable"
+                });
+        }
+
+        public static string AbsoluteApplicationRootUri(Context context)
+        {
+            return (Parameters.Service.AbsoluteUri != null
+                ? Parameters.Service.AbsoluteUri
+                : context.Server + context.ApplicationPath).TrimEnd('/');
+        }
+        
     }
 }

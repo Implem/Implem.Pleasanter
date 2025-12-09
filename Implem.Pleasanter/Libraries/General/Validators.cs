@@ -112,5 +112,17 @@ namespace Implem.Pleasanter.Libraries.General
 
             return new ErrorData(type: Error.Types.None);
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool IsValidGuid(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return false;
+            }
+            return Regex.IsMatch(value, "^[0-9A-Fa-f]{32}$");
+        }
     }
 }

@@ -1393,10 +1393,16 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            var hb = new HtmlBuilder();
+            var hb = new HtmlBuilder(captchaEnabled: true);
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 itemModel: resultModel);
+            var displayTitle = resultModel.Title.MessageDisplay(context: context);
+            if (resultModel.MethodType == BaseModel.MethodTypes.New)
+            {
+                displayTitle = Displays.New(context: context);
+                if (context.IsForm) displayTitle = ss.Title;
+            }
             return editInDialog
                 ? hb.DialogEditorForm(
                     context: context,
@@ -1419,9 +1425,7 @@ namespace Implem.Pleasanter.Models
                     siteId: resultModel.SiteId,
                     parentId: ss.ParentId,
                     referenceType: "Results",
-                    title: resultModel.MethodType == BaseModel.MethodTypes.New
-                        ? Displays.New(context: context)
-                        : resultModel.Title.MessageDisplay(context: context),
+                    title: displayTitle,
                     body: resultModel.Body,
                     useTitle: ss.TitleColumns?.Any(o => ss
                         .GetEditorColumnNames()
@@ -1499,7 +1503,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 column: commentsColumn,
                 baseModel: resultModel);
-            var showComments = ss.ShowComments(commentsColumnPermissionType);
+            var showComments = !context.IsForm && ss.ShowComments(commentsColumnPermissionType);
             var tabsCss = showComments ? null : "max";
             var linksDataSet = HtmlLinks.DataSet(
                 context: context,
@@ -1508,6 +1512,8 @@ namespace Implem.Pleasanter.Models
             var links = HtmlLinkCreations.Links(
                 context: context,
                 ss: ss);
+            var editorTabsContainerAttibutes = new HtmlAttributes()
+                                .TabActive(context: context);
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
@@ -1540,7 +1546,7 @@ namespace Implem.Pleasanter.Models
                         .Div(
                             id: "EditorTabsContainer",
                             css: "tab-container " + tabsCss,
-                            attributes: new HtmlAttributes().TabActive(context: context),
+                            attributes: editorTabsContainerAttibutes,
                             action: () => hb
                                 .EditorTabs(
                                     context: context,
@@ -1658,7 +1664,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss)
                 .MoveDialog(context: context)
-                .OutgoingMailDialog()
+                .OutgoingMailDialog(context: context)
                 .PermissionsDialog(context: context)
                 .EditorExtensions(
                     context: context,
@@ -1688,32 +1694,36 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             bool editInDialog = false)
         {
-            return hb.Ul(id: "EditorTabs", action: () => hb
-                .Li(action: () => hb
-                    .A(
-                        href: "#FieldSetGeneral",
-                        text: ss.GeneralTabLabelText))
-                .Tabs(
-                    context: context,
-                    ss: ss)
-                .Li(
-                    _using: resultModel.MethodType != BaseModel.MethodTypes.New
-                        && !context.Publish
-                        && !editInDialog,
-                    action: () => hb
+            return hb
+            .Ul(
+                id: "EditorTabs",
+                attributes: new HtmlAttributes().Class("hidden is-important", context.IsForm),
+                action: () => hb
+                    .Li(action: () => hb
                         .A(
-                            href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList(context: context)))
-                .Li(
-                    _using: context.CanManagePermission(ss: ss)
-                        && !ss.Locked()
-                        && resultModel.MethodType != BaseModel.MethodTypes.New
-                        && !editInDialog
-                        && ss.ReferenceType != "Wikis",
-                    action: () => hb
-                        .A(
-                            href: "#FieldSetRecordAccessControl",
-                            text: Displays.RecordAccessControl(context: context))));
+                            href: "#FieldSetGeneral",
+                            text: ss.GeneralTabLabelText))
+                    .Tabs(
+                        context: context,
+                        ss: ss)
+                    .Li(
+                        _using: resultModel.MethodType != BaseModel.MethodTypes.New
+                            && !context.Publish
+                            && !editInDialog,
+                        action: () => hb
+                            .A(
+                                href: "#FieldSetHistories",
+                                text: Displays.ChangeHistoryList(context: context)))
+                    .Li(
+                        _using: context.CanManagePermission(ss: ss)
+                            && !ss.Locked()
+                            && resultModel.MethodType != BaseModel.MethodTypes.New
+                            && !editInDialog
+                            && ss.ReferenceType != "Wikis",
+                        action: () => hb
+                            .A(
+                                href: "#FieldSetRecordAccessControl",
+                                text: Displays.RecordAccessControl(context: context))));
         }
 
         public static string PreviewTemplate(Context context, SiteSettings ss)
@@ -3270,6 +3280,17 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    if (context.IsForm)
+                    {
+                        var urlOfThanks = Locations.FormThanks(
+                            context: context,
+                            controller: context.Controller,
+                            guid: context.Guid);
+                        var obj = new ResponseCollection(context: context, id: resultModel.ResultId)
+                            .SetMemory("formChanged", false)
+                            .Href(urlOfThanks);
+                        return obj.ToJson();
+                    }
                     SessionUtilities.Set(
                         context: context,
                         message: CreatedMessage(
@@ -3282,17 +3303,9 @@ namespace Implem.Pleasanter.Models
                         id: resultModel.ResultId)
                             .SetMemory("formChanged", false)
                             .Messages(context.Messages)
-                            .Href(Locations.Edit(
-                                context: context,
-                                controller: context.Controller,
-                                id: ss.Columns.Any(o => o.Linking)
-                                    ? context.Forms.Long("LinkId")
-                                    : resultModel.ResultId)
-                                        + "?new=1"
-                                        + (ss.Columns.Any(o => o.Linking)
-                                            && context.Forms.Long("FromTabIndex") > 0
-                                                ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
-                                                : string.Empty))
+                            .AfterCreate(
+                                ss: ss,
+                                id: resultModel.ResultId)
                             .ToJson();
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
@@ -3612,9 +3625,11 @@ namespace Implem.Pleasanter.Models
                                     column: ss.GetColumn(context: context, columnName: "Comments"),
                                     comments: resultModel.Comments,
                                     verType: resultModel.VerType)
+                                .AfterUpdate(ss: ss)
                                 .ToJson();
                         default:
                             return ResponseByUpdate(res, context, ss, resultModel, processes)
+                                .AfterUpdate(ss: ss)
                                 .ToJson();
                     }
                 case Error.Types.Duplicated:
