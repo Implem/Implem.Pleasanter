@@ -4,5 +4,25 @@
  * * @returns {string} 生成されたGUIDを返します。
  * */
 $p.createGuid = function () {
-    return crypto.randomUUID().replace(/-/g, '').toUpperCase();
+    // 1. まず標準のcrypto.randomUUIDを試す（HTTPSならこれが動く）
+    try {
+        if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+            return crypto.randomUUID().replace(/-/g, '').toUpperCase();
+        }
+    } catch (e) {
+        // crypto.randomUUID が存在していても、ブラウザのセキュリティ設定によっては呼び出し時に「アクセス拒否エラー」で落ちることがためTry-Catchを用いる。
+        // セキュリティエラー等で落ちた場合は無視してフォールバックへ進む
+    }
+
+    // 2. HTTP環境などで上記が使えない場合のフォールバック（Math.random使用）
+    // UUID v4テンプレート (32文字: 8-4-4-4-12形式のハイフン抜き)
+    var template = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx';
+
+    return template
+        .replace(/[xy]/g, function (c) {
+            var r = (Math.random() * 16) | 0;
+            var v = c === 'x' ? r : (r & 0x3) | 0x8;
+            return v.toString(16);
+        })
+        .toUpperCase();
 };
