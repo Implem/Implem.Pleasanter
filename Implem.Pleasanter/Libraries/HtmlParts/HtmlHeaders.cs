@@ -113,6 +113,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             bool _using = true)
         {
+            if (!_using) return hb;
+
             var existsImage = BinaryUtilities.ExistsTenantImage(
                 context: context,
                 ss: ss,
@@ -128,9 +130,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         id: "Logo",
                         action: () => BuildLogoContent());
             }
-
-            if (!_using) return hb;
-
+            
             return hb
                     .H(number: 2, id: "Logo", action: () => hb
                     .A(
