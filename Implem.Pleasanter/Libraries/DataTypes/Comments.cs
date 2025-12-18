@@ -287,15 +287,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (body == "[]")
             {
-                Clear();
                 return this;
             }
-            return ClearAndSplitPrepend(
-                context: context,
-                ss: ss,
-                body: body,
-                update: update,
-                force: force);
+            return Prepend(context: context, ss: ss, body: body);
         }
 
         public Comments ClearAndSplitPrepend(
