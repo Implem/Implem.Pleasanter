@@ -77,11 +77,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
                         if (column.ControlType == "MarkDown")
                         {
                             hb.Div(css: "grid-title-body", action: () => hb
-                                .P(
-                                    css: "body markup",
+                                .MarkdownField(action: () => hb.TextArea(
+                                    disabled: true,
                                     attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
-                                    action: () => hb
-                                        .Raw(serverScriptModelColumn?.RawText)));
+                                    text: serverScriptModelColumn?.RawText)));
                         }
                         else if (column.ControlType == "RTEditor")
                         {
@@ -169,11 +168,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
                         else if (column.ControlType == "MarkDown")
                         {
                             hb.Div(css: "grid-title-body", action: () => hb
-                                .P(
-                                    css: "body markup",
+                                .MarkdownField(action: () => hb.TextArea(
+                                    disabled: true,
                                     attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
-                                    action: () => hb
-                                        .Text(text: value)));
+                                    text: value)));
                         }
                         else if (column.ControlType == "RTEditor")
                         {

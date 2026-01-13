@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.Models
         private static void Update(
             Context context, SiteModel siteModel, long id, IEnumerable<int> selected = null)
         {
-            var hasFormula = siteModel.SiteSettings.Formulas?.Any() ?? false;
+            var hasFormula = siteModel.SiteSettings.GetFormulas()?.Any() ?? false;
             var ss = SiteSettingsUtilities.Get(
                 context: context, siteModel: siteModel, referenceId: id);
             switch (siteModel.ReferenceType)

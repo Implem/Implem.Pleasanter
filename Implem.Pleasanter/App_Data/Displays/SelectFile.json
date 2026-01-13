@@ -1,6 +1,7 @@
 {
     "Id": "SelectFile",
     "Type": 240,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Please select a file."

@@ -1411,10 +1411,11 @@ namespace Implem.Pleasanter.Models
             return hb.Td(
                 css: css,
                 action: () => hb
-                    .Div(
-                        css: "markup",
-                        action: () => hb
-                            .Text(text: gridDesign)));
+                    .MarkDown(
+                        context: context,
+                        ss: ss,
+                        disabled: true,
+                        text: gridDesign));
         }
 
         public static string EditorNew(Context context, SiteSettings ss)
@@ -4976,6 +4977,8 @@ namespace Implem.Pleasanter.Models
                 foreach (var attachment in o.Value)
                 {
                     if (attachment.Deleted ?? false)
+                        continue;
+                    if (!attachment.Guid.IsNullOrEmpty())
                         continue;
                     if (attachment.Name.IsNullOrEmpty())
                         return true;
@@ -10200,13 +10203,7 @@ namespace Implem.Pleasanter.Models
 
         public static string OpenAnalyPartDialog(Context context, SiteSettings ss)
         {
-            if (context.ContractSettings.Export == false)
-            {
-                return HtmlTemplates.Error(
-                    context: context,
-                    errorData: new ErrorData(type: Error.Types.InvalidRequest));
-            }
-            var invalid = IssueValidators.OnExporting(
+            var invalid = IssueValidators.OnGet(
                 context: context,
                 ss: ss);
             switch (invalid.Type)

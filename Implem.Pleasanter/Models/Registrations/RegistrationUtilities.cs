@@ -905,10 +905,11 @@ namespace Implem.Pleasanter.Models
             return hb.Td(
                 css: css,
                 action: () => hb
-                    .Div(
-                        css: "markup",
-                        action: () => hb
-                            .Text(text: gridDesign)));
+                    .MarkDown(
+                        context: context,
+                        ss: ss,
+                        disabled: true,
+                        text: gridDesign));
         }
 
         public static string EditorNew(Context context, SiteSettings ss)

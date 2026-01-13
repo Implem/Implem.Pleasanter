@@ -32,6 +32,9 @@ namespace Implem.Pleasanter.Libraries.General
             CantSetAtTopOfSite,
             CaptchaVerificationFailed,
             CircularGroupChild,
+            CsvFormatInvalidColumnCount,
+            CsvFormatInvalidFirstColumn,
+            CsvFormatInvalidSecondColumn,
             CustomAppsLimit,
             CustomError,
             DefinitionNotFound,
@@ -48,6 +51,7 @@ namespace Implem.Pleasanter.Libraries.General
             GroupDepthMax,
             HasNotChangeColumnPermission,
             HasNotPermission,
+            ImportColumnNotFound,
             ImportInvalidUserIdAndLoginId,
             ImportLock,
             ImportMax,
@@ -223,6 +227,18 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.CircularGroupChild(
                         context: context,
                         data: data);
+                case Types.CsvFormatInvalidColumnCount:
+                    return Messages.CsvFormatInvalidColumnCount(
+                        context: context,
+                        data: data);
+                case Types.CsvFormatInvalidFirstColumn:
+                    return Messages.CsvFormatInvalidFirstColumn(
+                        context: context,
+                        data: data);
+                case Types.CsvFormatInvalidSecondColumn:
+                    return Messages.CsvFormatInvalidSecondColumn(
+                        context: context,
+                        data: data);
                 case Types.CustomAppsLimit:
                     return Messages.CustomAppsLimit(
                         context: context,
@@ -285,6 +301,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.HasNotPermission:
                     return Messages.HasNotPermission(
+                        context: context,
+                        data: data);
+                case Types.ImportColumnNotFound:
+                    return Messages.ImportColumnNotFound(
                         context: context,
                         data: data);
                 case Types.ImportInvalidUserIdAndLoginId:

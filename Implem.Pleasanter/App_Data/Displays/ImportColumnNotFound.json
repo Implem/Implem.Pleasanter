@@ -1,0 +1,33 @@
+{
+    "Id": "ImportColumnNotFound",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Column '{0}' was not found."
+        },
+        {
+            "Language": "zh",
+            "Body": "未找到列 '{0}'。"
+        },
+        {
+            "Language": "ja",
+            "Body": "カラム '{0}' が見つかりません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Spalte '{0}' wurde nicht gefunden."
+        },
+        {
+            "Language": "ko",
+            "Body": "열 '{0}'을(를) 찾을 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se encontro la columna '{0}'."
+        },
+        {
+            "Language": "vn",
+            "Body": "Khong tim thay cot '{0}'."
+        }
+    ]
+}

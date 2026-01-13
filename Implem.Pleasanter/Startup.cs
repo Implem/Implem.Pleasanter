@@ -41,7 +41,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Implem.Pleasanter.Libraries.Security.Captcha;
@@ -181,11 +181,10 @@ namespace Implem.Pleasanter.NetCore
             {
                 options.MultipartBodyLengthLimit = int.MaxValue;
             });
-            services.Configure<IISServerOptions>(options =>
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                options.AllowSynchronousIO = true;
-                options.MaxRequestBodySize = Parameters.Service.MaxRequestBodySize;
-            });
+                ConfigureIISIntegration(services);
+            }
             services.Configure<KestrelServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
@@ -266,6 +265,23 @@ namespace Implem.Pleasanter.NetCore
             services.AddHttpContextAccessor();
             services.AddSingleton<ICaptchaServiceFactory, CaptchaServiceFactory>();
             services.AddScoped<ICaptchaVerificationService, CaptchaVerificationService>();
+        }
+
+        private void ConfigureIISIntegration(IServiceCollection services)
+        {
+            try
+            {
+                services.Configure<IISServerOptions>(options =>
+                {
+                    options.AllowSynchronousIO = true;
+                    options.MaxRequestBodySize = Parameters.Service.MaxRequestBodySize;
+                });
+            }
+            catch (TypeLoadException ex)
+            {
+                LogManager.GetCurrentClassLogger().Debug(ex,
+                    "IISServerOptions not available - skipping IIS configuration");
+            }
         }
 
         private IEnumerable<string> GetExtendedLibraryPaths()

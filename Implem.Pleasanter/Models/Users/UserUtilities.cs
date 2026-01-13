@@ -1521,10 +1521,11 @@ namespace Implem.Pleasanter.Models
             return hb.Td(
                 css: css,
                 action: () => hb
-                    .Div(
-                        css: "markup",
-                        action: () => hb
-                            .Text(text: gridDesign)));
+                    .MarkDown(
+                        context: context,
+                        ss: ss,
+                        disabled: true,
+                        text: gridDesign));
         }
 
         public static string EditorNew(Context context, SiteSettings ss)
@@ -5038,10 +5039,20 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            SessionUtilities.Remove(
-                context: context,
-                key: "SwitchLoginId",
-                page: false);
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                var originalSessionGuid = context.SessionGuid;
+                var iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                iDatabase.HashDelete(originalSessionGuid, "SwitchLoginId");
+                Context.SetSessionData("SessionGuid", originalSessionGuid);
+            }
+            else
+            {
+                SessionUtilities.Remove(
+                    context: context,
+                    key: "SwitchLoginId",
+                    page: false);
+            }
             context = new Context();
             return new ResponseCollection(context: context)
                 .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(

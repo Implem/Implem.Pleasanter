@@ -58,10 +58,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/plugins/marked.min.js"),
-                        nonce: context.Nonce)
-                    .Script(src: Responses.Locations.Get(
-                        context: context,
                         parts: "assets/Plugins/jQuery-File-Upload/jquery.iframe-transport.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(

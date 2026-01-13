@@ -104,10 +104,13 @@ namespace Implem.Pleasanter.Models
                             labelText: Displays.OutgoingMails_Title(context: context),
                             text: outgoingMailModel.Title.Value,
                             fieldCss: "field-wide")
-                        .FieldMarkUp(
+                        .FieldMarkDown(
+                            context: context,
+                            ss: ss,
                             controlId: string.Empty,
                             labelText: Displays.OutgoingMails_Body(context: context),
                             text: outgoingMailModel.Body,
+                            readOnly: true,
                             fieldCss: "field-wide")
                         .Div(
                             css: "command-right",

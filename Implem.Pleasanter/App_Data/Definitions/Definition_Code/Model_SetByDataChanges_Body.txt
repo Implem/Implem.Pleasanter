@@ -56,7 +56,8 @@
                     formula: dataChange.Value,
                     notUseDisplayName: false,
                     isDisplayError: dataChange.ValueFormulaIsDisplayError,
-                    outOfCondition: null);
+                    outOfCondition: null,
+                    disabled: false);
                 if (err == Error.Types.None)
                 {
                     formData[key] = ExecFormulaExtended(

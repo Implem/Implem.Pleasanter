@@ -2688,7 +2688,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(c => !c.GetEditorReadOnly())
                 .Where(c => c.NoDuplication != true)
                 .Where(c => c.ColumnName != "Comments")
-                .Where(column => !Formulas.Any(formulaSet =>
+                .Where(column => !GetFormulas().Any(formulaSet =>
                     (string.IsNullOrEmpty(formulaSet.CalculationMethod)
                         || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                     && (formulaSet.Target == column.ColumnName
@@ -3393,9 +3393,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }
 
+        public IEnumerable<FormulaSet> GetFormulas()
+        {
+            return Formulas?.Where(formulaSet => formulaSet.Disabled != true);
+        }
+
         public bool FormulaTarget(string columnName)
         {
-            return Formulas?.Any(p => p.Target == columnName) == true;
+            return GetFormulas()?.Any(p => p.Target == columnName) == true;
         }
 
         public Dictionary<string, ControlData> ViewSelectableOptions()

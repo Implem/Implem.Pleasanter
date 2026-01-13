@@ -8,7 +8,7 @@ using MySqlConnector;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 
 namespace Implem.CodeDefiner.Functions.Rds

@@ -41,7 +41,7 @@ ui-modal {
     .stage-body {
         figure {
             all: unset;
-            display: block;
+            display: inline-block;
             width: fit-content;
             margin: auto;
             text-align: center;
@@ -53,6 +53,10 @@ ui-modal {
             max-width: 90vw;
             max-height: 90vh;
             margin: auto;
+            &[src*='.svg'] {
+                width: 100%;
+                height: auto;
+            }
         }
     }
     .counter {
@@ -91,7 +95,7 @@ ui-modal {
                 line-height: 1;
                 text-transform: none;
                 letter-spacing: normal;
-                word-wrap: normal;
+                overflow-wrap: normal;
                 white-space: nowrap;
                 direction: ltr;
                 -webkit-font-smoothing: antialiased;

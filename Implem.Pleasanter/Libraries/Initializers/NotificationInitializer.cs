@@ -7,10 +7,6 @@ namespace Implem.Pleasanter.Libraries.Initializers
     {
         public static void Initialize()
         {
-            ServicePointManager.SecurityProtocol =
-                Enum.TryParse(Parameters.Notification.SecurityProtocolType, out SecurityProtocolType sp)
-                    ? ServicePointManager.SecurityProtocol = sp
-                    : SecurityProtocolType.Tls12;
         }
     }
 }

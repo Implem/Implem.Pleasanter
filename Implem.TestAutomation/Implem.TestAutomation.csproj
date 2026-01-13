@@ -2,12 +2,12 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <Year>$([System.DateTime]::Now.Year.ToString())</Year>
         <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
-        <AssemblyVersion>1.4.23.3</AssemblyVersion>
-        <FileVersion>1.4.23.3</FileVersion>
-        <Version>1.4.23.3</Version>
+        <AssemblyVersion>1.5.0.0</AssemblyVersion>
+        <FileVersion>1.5.0.0</FileVersion>
+        <Version>1.5.0.0</Version>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
@@ -24,19 +24,19 @@
     <ItemGroup>
         <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
         <PackageReference Include="CsvHelper" Version="33.1.0" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.3" />
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="Selenium.Support" Version="4.35.0" />
-        <PackageReference Include="Selenium.WebDriver" Version="4.35.0" />
-        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="139.0.7258.13800" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+        <PackageReference Include="NLog.Web.AspNetCore" Version="5.5.0" />
+        <PackageReference Include="Npgsql" Version="10.0.0" />
+        <PackageReference Include="Selenium.Support" Version="4.38.0" />
+        <PackageReference Include="Selenium.WebDriver" Version="4.38.0" />
+        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="142.0.7444.17500" />
         <PackageReference Include="Selenium.WebDriver.IEDriver" Version="4.14.0" />
-        <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="139.0.3405.102" />
+        <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="141.0.3537.71" />
         <PackageReference Include="Selenium.WebDriverBackedSelenium" Version="4.1.0" />
-        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
-        <PackageReference Include="System.Drawing.Common" Version="4.7.3" />
-        <PackageReference Include="System.Net.Http" Version="4.3.4" />
-        <PackageReference Include="System.Text.Json" Version="8.0.5" />
-        <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+        <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
         <PackageReference Include="System.ValueTuple" Version="4.6.1" />
     </ItemGroup>
 

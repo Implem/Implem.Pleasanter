@@ -1,7 +1,7 @@
 ﻿using Implem.IRds;
 using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 namespace Implem.SqlServer
 {
     internal class SqlServerConnection : ISqlConnection

@@ -3493,7 +3493,8 @@ namespace Implem.Pleasanter.Models
                             formula: dataChange.Value,
                             notUseDisplayName: false,
                             isDisplayError: dataChange.ValueFormulaIsDisplayError,
-                            outOfCondition: null);
+                            outOfCondition: null,
+                            disabled: false);
                         if (err == Error.Types.None)
                         {
                             formData[key] = ExecFormulaExtended(
@@ -3628,6 +3629,7 @@ namespace Implem.Pleasanter.Models
             {
                 StatusControlHash = new Dictionary<string, StatusControl.ControlConstraintsTypes>();
                 ss.StatusControls?
+                    .Where(statusControl => statusControl.Disabled != true)
                     .Where(statusControl => statusControl.Status == -1
                         || statusControl.Status == Status.Value)
                     .Where(statusControl => statusControl.Accessable(context: context))
@@ -3737,7 +3739,7 @@ namespace Implem.Pleasanter.Models
         {
             SetByFormula(context: context, ss: ss);
             var param = Rds.IssuesParam();
-            ss.Formulas?
+            ss.GetFormulas()?
                 .Where(o => selected == null || selected.Contains(o.Id))
                 .ForEach(formulaSet =>
                 {
@@ -3836,7 +3838,7 @@ namespace Implem.Pleasanter.Models
             SetByBeforeFormulaServerScript(
                 context: context,
                 ss: ss);
-            ss.Formulas?.ForEach(formulaSet =>
+            ss.GetFormulas()?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
                 var view = ss.Views?.Get(formulaSet.Condition);

@@ -281,6 +281,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool readOnly = false,
             bool allowImage = true,
             bool allowBulkUpdate = false,
+            bool comment = false,
+            bool disabled = false,
             bool mobile = false,
             bool alwaysSend = false,
             bool validateRequired = false,
@@ -290,62 +292,50 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true,
             int validateMaxLength = 0,
             string validateRegex = null,
-            string validateRegexErrorMessage = null)
+            string validateRegexErrorMessage = null,
+            Action action = null)
         {
             if (!_using) return hb;
             if (preview) controlId = Strings.NewGuid();
-            if (viewerSwitchingTypes != Column.ViewerSwitchingTypes.Disabled)
+            string viewerTypesValue = viewerSwitchingTypes switch
             {
-                hb
-                    .Div(attributes: new HtmlAttributes()
-                        .Id(controlId + ".viewer")
-                        .Class("control-markup not-send")
-                        .OnDblClick($"$p.editMarkdown($('#{controlId}'));"))
-                    .Div(
+                Column.ViewerSwitchingTypes.Manual => "manual",
+                Column.ViewerSwitchingTypes.Disabled => "disabled",
+                _ => "",
+            };
+            hb.MarkdownField(
+                action: () => {
+                    action?.Invoke();
+                    hb.TextArea(
+                        disabled: disabled,
                         attributes: new HtmlAttributes()
-                            .Id(controlId + ".editor")
-                            .Class("ui-icon ui-icon-pencil button-edit-markdown")
-                            .OnClick($"$p.editMarkdown($('#{controlId}'));"),
-                       _using: !readOnly);
-            }
-            hb
-                .TextArea(
-                    attributes: new HtmlAttributes()
-                        .Id(controlId)
-                        .Name(controlId)
-                        .Class(Css.Class((viewerSwitchingTypes == Column.ViewerSwitchingTypes.Disabled
-                            ? "control-textarea"
-                            : "control-markdown")
-                                + (viewerSwitchingTypes == Column.ViewerSwitchingTypes.Manual
-                                    ? " manual"
-                                    : string.Empty)
-                                + (CanUploadImage(
-                                    context: context,
-                                    ss: ss,
-                                    readOnly: readOnly,
-                                    allowImage: allowImage,
-                                    preview: preview)
-                                        ? " upload-image"
-                                        : string.Empty),
-                                controlCss))
-                                    .Placeholder(placeholder)
-                                    .DataAlwaysSend(alwaysSend)
-                                    .DataValidateMaxLength(validateMaxLength)
-                                    .DataValidateRequired(validateRequired, _using: !readOnly)
-                                    .DataValidateRegex(validateRegex)
-                                    .DataValidateRegexErrorMessage(validateRegexErrorMessage)
-                                    .DataReadOnly(readOnly)
-                                    .Add(attributes)
-                        .Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
-                    text: text)
-                .MarkDownCommands(
-                    context: context,
-                    ss: ss,
-                    controlId: controlId,
-                    readOnly: readOnly,
-                    allowImage: allowImage,
-                    mobile: mobile,
-                    preview: preview);
+                            .Id(controlId)
+                            .Name(controlId)
+                            .Class(Css.Class("control-markdown"
+                                    + (CanUploadImage(
+                                        context: context,
+                                        ss: ss,
+                                        readOnly: readOnly,
+                                        allowImage: allowImage,
+                                        preview: preview)
+                                            ? " upload-image"
+                                            : string.Empty),
+                                    controlCss))
+                            .Placeholder(placeholder)
+                            .DataAlwaysSend(alwaysSend)
+                            .DataValidateMaxLength(validateMaxLength)
+                            .DataValidateRequired(validateRequired, _using: !readOnly)
+                            .DataValidateRegex(validateRegex)
+                            .DataValidateRegexErrorMessage(validateRegexErrorMessage)
+                            .DataViewerType(viewerTypesValue)
+                            .DataComment(comment)
+                            .DataCameraDisabled(mobile && !Parameters.Mobile.EnableMobileCamera)
+                            .DataReadOnly(readOnly)
+                            .Add(attributes)
+                            .Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
+                        text: text);
+                }
+            );
             return hb;
         }
 
@@ -392,40 +382,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb;
         }
 
-        public static HtmlBuilder MarkDownCommands(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            string controlId,
-            bool readOnly,
-            bool allowImage,
-            bool mobile,
-            bool preview)
-        {
-            return CanUploadImage(
-                context: context,
-                ss: ss,
-                readOnly: readOnly,
-                allowImage: allowImage,
-                preview: preview)
-                    ? hb
-                        .Div(
-                            attributes: new HtmlAttributes()
-                                .Class("ui-icon ui-icon-image button-upload-image")
-                                .OnClick($"$p.selectImage('{controlId}');"))
-                        .Div(
-                            attributes: new HtmlAttributes()
-                                .Class("ui-icon ui-icon-video")
-                                .OnClick($"$p.openVideo('{controlId}');"),
-                            _using: (!mobile || Parameters.Mobile.EnableMobileCamera))
-                        .TextBox(
-                            controlId: controlId + ".upload-image-file",
-                            controlCss: "hidden upload-image-file",
-                            textType: HtmlTypes.TextTypes.File,
-                            accept: "image/*",
-                            dataId: controlId)
-                    : hb;
-        }
 
         private static bool CanUploadImage(
             Context context,
@@ -440,24 +396,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 && !readOnly
                 && allowImage
                 && !preview;
-        }
-
-        public static HtmlBuilder MarkUp(
-            this HtmlBuilder hb,
-            string controlId = null,
-            string controlCss = null,
-            string text = null,
-            Dictionary<string, string> attributes = null,
-            bool _using = true)
-        {
-            return _using
-                ? hb.Div(
-                    attributes: new HtmlAttributes()
-                        .Id(controlId)
-                        .Class(Css.Class("control-markup markup", controlCss)),
-                    action: () => hb
-                        .Text(text: text))
-                : hb;
         }
 
         public static HtmlBuilder DropDown(

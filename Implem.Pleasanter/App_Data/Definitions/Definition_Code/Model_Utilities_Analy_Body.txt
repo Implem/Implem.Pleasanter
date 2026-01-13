@@ -1,12 +1,6 @@
 ﻿public static string OpenAnalyPartDialog(Context context, SiteSettings ss)
 {
-    if (context.ContractSettings.Export == false)
-    {
-        return HtmlTemplates.Error(
-            context: context,
-            errorData: new ErrorData(type: Error.Types.InvalidRequest));
-    }
-    var invalid = #ModelName#Validators.OnExporting(
+    var invalid = #ModelName#Validators.OnGet(
         context: context,
         ss: ss);
     switch (invalid.Type)

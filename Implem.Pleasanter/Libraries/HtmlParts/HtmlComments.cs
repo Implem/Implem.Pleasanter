@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
@@ -62,13 +63,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     validateRegex: column.ClientRegexValidation,
                     validateRegexErrorMessage: column.RegexValidationMessage)
                 .Div(id: "CommentList", css: css, action: () => comments
-                     .ForEach(comment => hb
-                         .Comment(
-                             context: context,
-                             ss: ss,
-                             column: column,
-                             comment: comment,
-                             readOnly: readOnly)));
+                    .ForEach(comment => hb
+                        .Comment(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            comment: comment,
+                            readOnly: readOnly)));
         }
 
         public static HtmlBuilder Comment(
@@ -108,30 +109,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             int validateMaxLength = 0)
         {
             return _using
-                ? hb.Div(id: "CommentField", css: css, action: () =>
-                    hb
-                        .TextArea(
-                            attributes: new HtmlAttributes()
-                                .Id("Comments")
-                                .Name("Comments")
-                                .Class("control-textarea" +
-                                    (context.ContractSettings.Images() && allowImage
-                                        ? " upload-image"
-                                        : string.Empty) +
-                                    css)
-                                .Title(title)
-                                .DataValidateMaxLength(validateMaxLength)
-                                .DataValidateRegex(validateRegex)
-                                .DataValidateRegexErrorMessage(validateRegexErrorMessage)
-                                .Placeholder(placeholder))
-                        .MarkDownCommands(
+                ? hb.Div(
+                    id: "CommentField",
+                    css: css,
+                    attributes: new HtmlAttributes().Title(title),
+                    action: () =>
+                        hb.MarkDown(
                             context: context,
                             ss: ss,
                             controlId: "Comments",
-                            readOnly: false,
-                            allowImage: allowImage,
+                            controlCss: "control-markdown" +
+                                (context.ContractSettings.Images() && allowImage
+                                    ? " upload-image"
+                                    : string.Empty),
+                            placeholder: placeholder,
                             mobile: mobile,
-                            preview: false))
+                            validateMaxLength: validateMaxLength,
+                            validateRegex: validateRegex,
+                            validateRegexErrorMessage: validateRegexErrorMessage))
                 : hb;
         }
 
@@ -139,16 +134,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb, Comment comment, bool readOnly)
         {
             return !readOnly
-                ? hb.P(
+                ? hb.Button(
                     attributes: new HtmlAttributes()
                         .Id("DeleteComment," + comment.CommentId)
-                        .Class("button delete")
+                        .Class("md-btn is-delete")
+                        .Type("button")
                         .OnClick("$p.send($(this));")
                         .DataAction("DeleteComment")
                         .DataMethod("delete")
                         .DataConfirm("ConfirmDelete"),
                     action: () => hb
-                        .Icon(iconCss: "ui-icon ui-icon-closethick"))
+                        .Span(
+                            css: "md-btn-icon material-symbols-outlined",
+                            action: () => hb.Text(text: "delete")))
                 : hb;
         }
     }

@@ -3,7 +3,7 @@
     SetByBeforeFormulaServerScript(
         context: context,
         ss: ss);
-    ss.Formulas?.ForEach(formulaSet =>
+    ss.GetFormulas()?.ForEach(formulaSet =>
     {
         var columnName = formulaSet.Target;
         var view = ss.Views?.Get(formulaSet.Condition);

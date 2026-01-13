@@ -831,6 +831,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
+        public static HtmlBuilder MarkdownField(
+            this HtmlBuilder hb,
+            HtmlAttributes attributes = null,
+            string text = null,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "markdown-field",
+                    attributes: (attributes ?? new HtmlAttributes()),
+                    action: action)
+                : hb;
+        }
+
         public static HtmlBuilder CodeEditor(
             this HtmlBuilder hb,
             HtmlAttributes attributes = null,

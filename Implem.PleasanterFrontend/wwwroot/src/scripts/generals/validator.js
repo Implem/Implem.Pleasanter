@@ -50,7 +50,10 @@
     $p.setValidationError = function ($form) {
         $form.find('.ui-tabs li').each(function () {
             $('.control-markdown.error').each(function () {
-                $p.toggleEditor($(this), true);
+                var markdownField = $(this).get(0).closest('markdown-field');
+                if (markdownField && !$(this).is(':visible')) {
+                    markdownField.showEditor();
+                }
             });
             var $control = $('#' + $(this).attr('aria-controls')).find(
                 'input.error:first:not(.search)'
@@ -111,12 +114,7 @@
         $form.validate({
             errorPlacement: function (error, element) {
                 // 複数選択の分類項目に対応するためエラー表示の位置をフィールドの最下段に移動する
-                // マークダウン項目は画像アイコンなどがあるため、移動しない
-                if (!element.closest('.field-markdown').length) {
-                    element.closest('.container-normal').append(error);
-                } else {
-                    error.insertAfter(element);
-                }
+                element.closest('.container-normal').append(error);
             }
         });
     };
@@ -148,12 +146,7 @@ $p.applyValidator = function () {
             ignore: '[class^="se-"]', // SunEditor 関連要素は除外
             errorPlacement: function (error, element) {
                 // 複数選択の分類項目に対応するためエラー表示の位置をフィールドの最下段に移動する
-                // マークダウン項目は画像アイコンなどがあるため、移動しない
-                if (!element.closest('.field-markdown').length) {
-                    element.closest('.container-normal').append(error);
-                } else {
-                    error.insertAfter(element);
-                }
+                element.closest('.container-normal').append(error);
             }
         });
     });

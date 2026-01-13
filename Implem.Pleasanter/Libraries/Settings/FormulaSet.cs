@@ -14,6 +14,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string FormulaScript;
         public string FormulaScriptOutOfCondition;
         public string FormulaMapping;
+        public bool? Disabled;
 
         public enum CalculationMethods
         {
@@ -41,6 +42,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             formulaSet.FormulaScript = FormulaScript;
             formulaSet.FormulaMapping = FormulaMapping;
             formulaSet.FormulaScriptOutOfCondition = FormulaScriptOutOfCondition;
+            if (Disabled == true)
+            {
+                formulaSet.Disabled = Disabled;
+            }
             return formulaSet;
         }
     }

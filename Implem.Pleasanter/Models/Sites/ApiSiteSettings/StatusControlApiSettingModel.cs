@@ -16,6 +16,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public View View { get; set; }
         public ApiSiteSettingPermission Permission { get; set; }
         public int? Delete { get; set; }
+        public bool? Disabled { get; set; }
 
         public StatusControlApiSettingModel()
         {

@@ -756,6 +756,36 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataViewerType(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-viewer-type");
+                Add(value);
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataComment(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("data-comment");
+                Add("1");
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataCameraDisabled(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("data-camera-disabled");
+                Add("1");
+            }
+            return this;
+        }
+
         public HtmlAttributes DataSupportUrl(bool value, bool _using = true)
         {
             if (_using && value)

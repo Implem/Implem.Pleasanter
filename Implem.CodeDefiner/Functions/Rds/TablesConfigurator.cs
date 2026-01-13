@@ -48,7 +48,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                         generalTableName: generalTableName,
                         checkMigration: checkMigration);
                 }
-                catch (System.Data.SqlClient.SqlException e)
+                catch (Microsoft.Data.SqlClient.SqlException e)
                 {
                     Consoles.Write($"[{e.Number}] {e.Message}", Consoles.Types.Error);
                 }
@@ -100,7 +100,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                             .Replace("#PKItems#", pkItems)
                             .Replace("#PKBinaries#", pkBinaries));
             }
-            catch (System.Data.SqlClient.SqlException e)
+            catch (Microsoft.Data.SqlClient.SqlException e)
             {
                 Consoles.Write($"[{e.Number}] [{nameof(ConfigureFullTextIndexSqlServer)}]: {e}", Consoles.Types.Error);
             }
@@ -121,7 +121,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                         dbConnection: null,
                         commandText: Def.Sql.CreateFullText);
             }
-            catch (System.Data.SqlClient.SqlException e)
+            catch (Microsoft.Data.SqlClient.SqlException e)
             {
                 Consoles.Write($"[{e.Number}] [{nameof(ConfigureFullTextIndexPostgreSql)}]: {e}", Consoles.Types.Error);
             }
@@ -156,7 +156,7 @@ namespace Implem.CodeDefiner.Functions.Rds
         {
             if (IsSkipQuartzTable(generalTableName))
             {
-                return true;
+                return false;
             }
 
             Consoles.Write(generalTableName, Consoles.Types.Info);

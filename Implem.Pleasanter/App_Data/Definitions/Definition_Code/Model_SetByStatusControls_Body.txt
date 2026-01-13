@@ -7,6 +7,7 @@
     {
         StatusControlHash = new Dictionary<string, StatusControl.ControlConstraintsTypes>();
         ss.StatusControls?
+            .Where(statusControl => statusControl.Disabled != true)
             .Where(statusControl => statusControl.Status == -1
                 || statusControl.Status == Status.Value)
             .Where(statusControl => statusControl.Accessable(context: context))

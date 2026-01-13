@@ -41,13 +41,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 css: Css.Class("comment", css),
                 action: () =>
                 {
-                    action?.Invoke();
-                    hb
-                        .P(css: "time", action: () => hb
-                            .Text(text: CreatedTimeDisplayValue(context: context)))
-                        .HtmlUser(
-                            context: context,
-                            id: Updator ?? Creator);
+                    hb.Div(
+                        css: "comment-header",
+                        action: () =>
+                        {
+                            hb.P(css: "time", action: () => hb
+                                .Text(text: CreatedTimeDisplayValue(context: context)))
+                            .HtmlUser(
+                                context: context,
+                                id: Updator ?? Creator);
+                        });
                     if (CanEdit(
                         context: context,
                         ss: ss,
@@ -59,17 +62,23 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             ss: ss,
                             controlId: controlId,
                             text: Body,
+                            comment: true,
                             allowImage: allowImage,
-                            mobile: mobile);
+                            mobile: mobile,
+                            action: action);
                     }
                     else
                     {
-                        hb
-                            .P(
-                                css: "body markup",
-                                attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
-                                action: () => hb
-                                    .Text(text: Body));
+                        hb.MarkDown(
+                            context: context,
+                            ss: ss,
+                            controlId: controlId,
+                            text: Body,
+                            comment: true,
+                            disabled: true,
+                            allowImage: allowImage,
+                            mobile: mobile,
+                            action: action);
                     }
                 });
         }

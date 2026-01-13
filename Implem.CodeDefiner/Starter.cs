@@ -413,7 +413,7 @@ namespace Implem.CodeDefiner
                     CompleteConfigureDatabase = true;
                 }
             }
-            catch (System.Data.SqlClient.SqlException e)
+            catch (Microsoft.Data.SqlClient.SqlException e)
             {
                 Consoles.Write(
                     text: $"[{e.Number}] {e.Message}",
@@ -572,7 +572,7 @@ namespace Implem.CodeDefiner
                     CompleteConfigureDatabase = true;
                 }
             }
-            catch (System.Data.SqlClient.SqlException e)
+            catch (Microsoft.Data.SqlClient.SqlException e)
             {
                 Consoles.Write(
                     text: $"[{e.Number}] {e.Message}",

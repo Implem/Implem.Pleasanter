@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+﻿FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 COPY Implem.CodeDefiner/*.csproj Implem.CodeDefiner/
 COPY Implem.DefinitionAccessor/*.csproj Implem.DefinitionAccessor/
@@ -29,8 +29,14 @@ RUN cat Implem.Pleasanter/App_Data/Parameters/Rds.json \
     | jq '.Dbms|="PostgreSQL" | .SaConnectionString|=null | .OwnerConnectionString|=null | .UserConnectionString|=null' \
     > /app/publish/Implem.Pleasanter/App_Data/Parameters/Rds.json
 
-FROM mcr.microsoft.com/dotnet/runtime:8.0 AS final
+FROM mcr.microsoft.com/dotnet/runtime:10.0 AS final
 WORKDIR /app
+
+#GSSAPI/Kerberos ライブラリのインストール
+RUN apt-get update && \
+    apt-get install -y libkrb5-3 libgssapi-krb5-2 && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY --from=publish /app/publish .
 WORKDIR /app/Implem.CodeDefiner
 

@@ -2989,6 +2989,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CsvFormatInvalidColumnCount(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CsvFormatInvalidColumnCount",
+                data: data);
+        }
+
+        public static string CsvFormatInvalidFirstColumn(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CsvFormatInvalidFirstColumn",
+                data: data);
+        }
+
+        public static string CsvFormatInvalidSecondColumn(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CsvFormatInvalidSecondColumn",
+                data: data);
+        }
+
         public static string Currency(
             Context context,
             params string[] data)
@@ -5589,6 +5619,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ImportColumnNotFound(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ImportColumnNotFound",
+                data: data);
+        }
+
         public static string Imported(
             Context context,
             params string[] data)
@@ -7546,6 +7586,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "MultilingualDisplay",
+                data: data);
+        }
+
+        public static string MultilingualLabelSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MultilingualLabelSettings",
+                data: data);
+        }
+
+        public static string MultilingualLabelsUpdated(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MultilingualLabelsUpdated",
                 data: data);
         }
 
@@ -11916,6 +11976,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ViewSettings",
+                data: data);
+        }
+
+        public static string Warnings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Warnings",
                 data: data);
         }
 

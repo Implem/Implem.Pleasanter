@@ -78,10 +78,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                     text: Body));
                                 break;
                             default:
-                                hb.Div(
-                                    css: "markup",
+                                hb.MarkdownField(action: () => hb.TextArea(
+                                    disabled: true,
                                     attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
-                                    action: () => hb.Text(text: Body)
+                                    text: Body)
                                 );
                                 break;
                         }

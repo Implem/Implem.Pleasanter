@@ -13,7 +13,7 @@
     {
         context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
     }
-    if(HasInvalidValueAsApiDataAtUpdate(#modelName#ApiModel))
+    if (HasInvalidValueAsApiDataAtUpdate(#modelName#ApiModel))
     {
         context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
     }
@@ -167,6 +167,8 @@ private static bool HasInvalidValueAsApiDataAtUpdate(#ModelName#ApiModel model)
         foreach (var attachment in o.Value)
         {
             if (attachment.Deleted ?? false)
+                continue;
+            if (!attachment.Guid.IsNullOrEmpty())
                 continue;
             if (attachment.Name.IsNullOrEmpty())
                 return true;

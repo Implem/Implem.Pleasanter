@@ -484,10 +484,11 @@ namespace Implem.Pleasanter.Models
             return hb.Td(
                 css: css,
                 action: () => hb
-                    .Div(
-                        css: "markup",
-                        action: () => hb
-                            .Text(text: gridDesign)));
+                    .MarkDown(
+                        context: context,
+                        ss: ss,
+                        disabled: true,
+                        text: gridDesign));
         }
 
         /// <summary>
@@ -2352,6 +2353,8 @@ namespace Implem.Pleasanter.Models
                 foreach (var attachment in o.Value)
                 {
                     if (attachment.Deleted ?? false)
+                        continue;
+                    if (!attachment.Guid.IsNullOrEmpty())
                         continue;
                     if (attachment.Name.IsNullOrEmpty())
                         return true;

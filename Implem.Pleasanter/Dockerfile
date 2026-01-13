@@ -8,7 +8,7 @@ RUN npm audit --audit-level high || true
 COPY Implem.PleasanterFrontend/wwwroot/ ./
 RUN npm run build -- --outDir=/app/dist/assets
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 COPY Implem.Pleasanter/Implem.Pleasanter.csproj Implem.Pleasanter/
 COPY Implem.DefinitionAccessor/Implem.DefinitionAccessor.csproj Implem.DefinitionAccessor/
@@ -46,7 +46,10 @@ RUN cat App_Data/Parameters/User.json \
     | jq '.Theme|="sunny"' \
     > /app/publish/App_Data/Parameters/User.json
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+RUN apt-get update && \
+    apt-get install -y libkrb5-3 libgssapi-krb5-2 && \
+    rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 EXPOSE 8080
 

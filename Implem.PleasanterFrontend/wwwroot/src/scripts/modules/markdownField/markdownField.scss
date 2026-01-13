@@ -1,0 +1,217 @@
+td {
+    .field-markdown {
+        padding: 0;
+    }
+}
+markdown-field {
+    position: relative;
+    clear: both;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    .md-editor,
+    .md-viewer {
+        float: none;
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        min-height: 100px;
+        padding: 8px 28px 8px 8px;
+        overflow: hidden;
+        font-family: 'メイリオ', Meiryo, 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
+        overflow-wrap: anywhere;
+        border-radius: 4px;
+        .notes {
+            white-space: pre-wrap;
+        }
+    }
+    .md-code-block {
+        position: relative;
+        float: none;
+        margin: 1em 0;
+        .md-code-copy {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            display: block;
+            padding: 4px;
+            color: var(--nonColor10, #fff);
+            outline: 0;
+            background-color: transparent;
+            border: 0;
+            .md-btn-icon {
+                display: block;
+                font-size: 14px;
+                pointer-events: none;
+            }
+            .md-code-copy-item {
+                display: none;
+            }
+        }
+        .md-code-copied {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            display: none;
+            padding: 4px;
+            font-size: 11px;
+            color: var(--nonColor10, #fff);
+        }
+        &.is-copied {
+            .md-code-copy {
+                display: none;
+            }
+            .md-code-copied {
+                display: block;
+            }
+        }
+    }
+    .md-editor {
+        float: none;
+        min-width: 260px;
+        height: var(--component-height);
+        outline: none;
+        &.control-markdown,
+        &.control-textarea {
+            resize: none;
+        }
+    }
+    .md-viewer {
+        color: var(--base-text, #383838);
+        border: 1px solid var(--control-border, silver);
+        &:not(.control-text) {
+            background-color: var(--control-bg, #fff);
+        }
+    }
+    .md-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+        color: var(--nonColor07, inherit);
+        cursor: pointer;
+        outline: 0;
+        background-color: transparent;
+        border: 0;
+        &.is-editor,
+        &.is-viewer {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: var(--nonColor07, #383838);
+        }
+        &.is-delete {
+            position: absolute;
+            right: -10px;
+            color: var(--nonColor07, #383838);
+        }
+        &.is-viewer {
+            display: none;
+        }
+        &.is-files {
+            input {
+                display: none;
+            }
+        }
+    }
+    .md-btn-icon {
+        padding: 0;
+        margin: 0;
+        font-size: 18px;
+        font-variation-settings:
+            'FILL' 1,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 20;
+    }
+    .bottom-tools {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+    }
+    &.is-comment {
+        overflow: visible;
+        .md-viewer {
+            min-height: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+        }
+        .md-editor {
+            background-color: var(--control-bg, #fff);
+        }
+        .md-btn {
+            &.is-editor,
+            &.is-delete {
+                top: -28px;
+            }
+            &.is-delete {
+                right: -16px;
+            }
+        }
+        .bottom-tools {
+            display: none;
+        }
+        &[data-editable] {
+            .bottom-tools {
+                display: flex;
+            }
+        }
+    }
+    &.is-disabled {
+        .md-viewer {
+            min-height: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+        }
+    }
+    &[data-editable] {
+        .md-viewer {
+            display: none;
+        }
+        .md-btn {
+            &.is-editor,
+            &.is-delete {
+                display: none;
+            }
+            &.is-viewer {
+                display: block;
+            }
+        }
+    }
+    &:not([data-editable]) {
+        .md-editor {
+            display: none;
+        }
+    }
+
+    &:has(.control-markdown.error) {
+        .md-viewer,
+        .md-editor {
+            border: solid 1px var(--control-error, red);
+        }
+    }
+
+    .theme-version-1_0 & {
+        &.is-comment {
+            .md-btn {
+                &.is-editor,
+                &.is-delete {
+                    top: -25px;
+                }
+                &.is-editor {
+                    right: 24px;
+                }
+                &.is-delete {
+                    right: 0;
+                }
+            }
+        }
+    }
+}

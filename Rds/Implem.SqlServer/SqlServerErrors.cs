@@ -1,6 +1,6 @@
 ﻿using Implem.IRds;
 using System.Data.Common;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 namespace Implem.SqlServer
 {
     internal class SqlServerErrors : ISqlErrors

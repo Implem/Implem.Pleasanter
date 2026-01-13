@@ -1,5 +1,5 @@
 ﻿using Implem.IRds;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 namespace Implem.SqlServer
 {
     internal class SqlServerConnectionStringBuilder : ISqlConnectionStringBuilder

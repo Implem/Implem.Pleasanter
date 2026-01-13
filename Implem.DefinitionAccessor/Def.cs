@@ -14274,6 +14274,7 @@ namespace Implem.DefinitionAccessor
         public string ModifyColumn;
         public string MigrateDatabaseInsert;
         public string MigrateDatabaseSelectSetval;
+        public string DeleteByUnusedReferenceId;
     }
 
     /// <summary>

@@ -3,7 +3,7 @@
 {
     SetByFormula(context: context, ss: ss);
     var param = Rds.#TableName#Param();
-    ss.Formulas?
+    ss.GetFormulas()?
         .Where(o => selected == null || selected.Contains(o.Id))
         .ForEach(formulaSet =>
         {

@@ -64,11 +64,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .DataMethod("post"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-minusthick"))
-                    .Div(css: "markup", action: () => hb
-                        .Text(text: text)))
+                        .MarkDown(
+                            context: context,
+                            ss: ss,
+                            disabled: true,
+                            text: text
+                        ))
                 : hb.Div(action: () => hb
-                    .Div(css: "markup", action: () => hb
-                        .Text(text: text)));
+                    .MarkDown(
+                        context: context,
+                        ss: ss,
+                        disabled: true,
+                        text: text
+                    ));
         }
 
         private static string ConvertGuide(SiteSettings ss, string text)

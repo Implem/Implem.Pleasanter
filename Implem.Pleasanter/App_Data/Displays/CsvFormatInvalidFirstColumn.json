@@ -1,0 +1,33 @@
+{
+    "Id": "CsvFormatInvalidFirstColumn",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid CSV format: the first column must be 'ColumnName'."
+        },
+        {
+            "Language": "ja",
+            "Body": "CSVフォーマットが不正です: 1列目は 'ColumnName' である必要があります。"
+        },
+        {
+            "Language": "zh",
+            "Body": "CSV格式无效：第一列必须是'ColumnName'。"
+        },
+        {
+            "Language": "de",
+            "Body": "Ungültiges CSV-Format: Die erste Spalte muss 'ColumnName' sein."
+        },
+        {
+            "Language": "ko",
+            "Body": "CSV 형식이 잘못되었습니다: 첫 번째 열은 'ColumnName'이어야 합니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Formato CSV no válido: la primera columna debe ser 'ColumnName'."
+        },
+        {
+            "Language": "vn",
+            "Body": "Định dạng CSV không hợp lệ: cột đầu tiên phải là 'ColumnName'."
+        }
+    ]
+}

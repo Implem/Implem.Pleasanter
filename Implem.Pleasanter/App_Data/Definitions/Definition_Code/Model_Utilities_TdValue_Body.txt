@@ -212,8 +212,9 @@ private static HtmlBuilder TdCustomValue(
     return hb.Td(
         css: css,
         action: () => hb
-            .Div(
-                css: "markup",
-                action: () => hb
-                    .Text(text: gridDesign)));
+            .MarkDown(
+                context: context,
+                ss: ss,
+                disabled: true,
+                text: gridDesign));
 }

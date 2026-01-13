@@ -1586,55 +1586,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-
-        public static HtmlBuilder FieldMarkUp(
-            this HtmlBuilder hb,
-            string fieldId = null,
-            string controlId = null,
-            string fieldCss = null,
-            string fieldDescription = null,
-            string labelCss = null,
-            string controlContainerCss = null,
-            string controlCss = null,
-            string labelText = null,
-            string labelRaw = null,
-            string labelTitle = null,
-            string labelIcon = null,
-            bool controlOnly = false,
-            string text = null,
-            bool validateRequired = false,
-            Dictionary<string, string> attributes = null,
-            string extendedHtmlBeforeLabel = null,
-            string extendedHtmlBetweenLabelAndControl = null,
-            string extendedHtmlAfterControl = null,
-            bool _using = true)
-        {
-            return _using
-                ? hb.Field(
-                    fieldId: fieldId,
-                    controlId: controlId,
-                    fieldCss: fieldCss,
-                    fieldDescription: fieldDescription,
-                    labelCss: labelCss,
-                    controlContainerCss: controlContainerCss,
-                    labelText: labelText,
-                    labelRaw: labelRaw,
-                    labelTitle: labelTitle,
-                    labelIcon: labelIcon,
-                    controlOnly: controlOnly,
-                    validateRequired: validateRequired,
-                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
-                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
-                    extendedHtmlAfterControl: extendedHtmlAfterControl,
-                    controlAction: () => hb
-                        .MarkUp(
-                            controlId: controlId,
-                            controlCss: controlCss,
-                            text: text,
-                            attributes: attributes))
-                : hb;
-        }
-
         public static HtmlBuilder FieldCodeEditor(
             this HtmlBuilder hb,
             Context context,

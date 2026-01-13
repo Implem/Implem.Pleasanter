@@ -1488,7 +1488,7 @@ namespace Implem.Pleasanter.Models
         {
             SetByFormula(context: context, ss: ss);
             var param = Rds.WikisParam();
-            ss.Formulas?
+            ss.GetFormulas()?
                 .Where(o => selected == null || selected.Contains(o.Id))
                 .ForEach(formulaSet =>
                 {
@@ -1578,7 +1578,7 @@ namespace Implem.Pleasanter.Models
             SetByBeforeFormulaServerScript(
                 context: context,
                 ss: ss);
-            ss.Formulas?.ForEach(formulaSet =>
+            ss.GetFormulas()?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
                 var view = ss.Views?.Get(formulaSet.Condition);

@@ -17,6 +17,9 @@ namespace Implem.ParameterAccessor.Parts
         public bool DeleteTrashBox;
         public List<string> DeleteTrashBoxTime;
         public int DeleteTrashBoxRetentionPeriod;
+        public bool DeleteUnusedRecord;
+        public List<string> DeleteUnusedRecordTime;
+        public int DeleteUnusedRecordChunkSize;
 
         public bool TimerEnabled(string deploymentEnvironment)
         {
@@ -25,7 +28,8 @@ namespace Implem.ParameterAccessor.Parts
                 || DeleteSysLogs
                 || DeleteTemporaryFiles
                 || DeleteTrashBox
-                || Reminder);
+                || Reminder
+                || DeleteUnusedRecord);
         }
 
         private bool ServiceEnabled(string deploymentEnvironment)

@@ -110,6 +110,7 @@ namespace Implem.Pleasanter.Models
                     case DashboardPartType.Custom:
                         return CustomLayout(
                             context: context,
+                            ss: ss,
                             view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.CustomHtml:
@@ -989,10 +990,11 @@ namespace Implem.Pleasanter.Models
             return hb.Td(
                 css: css,
                 action: () => hb
-                    .Div(
-                        css: "markup",
-                        action: () => hb
-                            .Text(text: gridDesign)));
+                    .MarkDown(
+                        context: context,
+                        ss: ss,
+                        disabled: true,
+                        text: gridDesign));
         }
 
         private static List<long> GetSwitchTargets(Context context, SiteSettings ss, long dashboardId, long siteId)
@@ -1400,6 +1402,7 @@ namespace Implem.Pleasanter.Models
                         case DashboardPartType.Custom:
                             return CustomLayout(
                                 context: context,
+                                ss: ss,
                                 view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.CustomHtml:
@@ -1606,11 +1609,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static DashboardPartLayout CustomLayout(
             Context context,
+            SiteSettings ss,
             View view,
             DashboardPart dashboardPart)
         {
             var content = new HtmlBuilder()
-                .Custom(context: context, dashboardPart: dashboardPart).ToString();
+                .Custom(context: context, ss: ss, dashboardPart: dashboardPart).ToString();
             return DashboardReturn(
                 view: view,
                 dashboardPart: dashboardPart,
@@ -1620,7 +1624,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Custom(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
+        private static HtmlBuilder Custom(this HtmlBuilder hb, Context context, SiteSettings ss, DashboardPart dashboardPart)
         {
             return hb.Div(
                 id: $"DashboardPart_{dashboardPart.Id}",
@@ -1636,8 +1640,13 @@ namespace Implem.Pleasanter.Models
                     }
                     hb
                         .Div(
-                            css: "dashboard-custom-body markup",
-                            action: () => hb.Text(text: dashboardPart.Content));
+                            css: "dashboard-custom-body",
+                            action: () => hb
+                                .MarkDown(
+                                    context: context,
+                                    ss: ss,
+                                    disabled: true,
+                                    text: dashboardPart.Content));
                 });
         }
 
@@ -1859,6 +1868,7 @@ namespace Implem.Pleasanter.Models
                         {
                             hb.TimeLineItem(
                                 context: context,
+                                ss: ss,
                                 item: item,
                                 dashboardPart.TimeLineDisplayType
                                     ?? TimeLineDisplayType.Standard);
@@ -1873,7 +1883,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void TimeLineItem(this HtmlBuilder hb, Context context, DashboardTimeLineItem item, TimeLineDisplayType displayType)
+        private static void TimeLineItem(this HtmlBuilder hb, Context context, SiteSettings ss, DashboardTimeLineItem item, TimeLineDisplayType displayType)
         {
             hb.Div(
                 css: "dashboard-timeline-item",
@@ -1924,11 +1934,16 @@ namespace Implem.Pleasanter.Models
                                     css: "dashboard-timeline-title",
                                     action: () => hb.Text(item.Title))
                                 .Div(
-                                    css: "dashboard-timeline-body markup"
+                                    css: "dashboard-timeline-body"
                                         + (displayType != TimeLineDisplayType.Detailed
                                         ? " dashboard-timeline-body-closed"
                                         : ""),
-                                    action: () => hb.Text(text: item.Body)));
+                                    action: () => hb
+                                        .MarkDown(
+                                            ss: ss,
+                                            context: context,
+                                            disabled: true,
+                                            text: item.Body)));
                 });
         }
 

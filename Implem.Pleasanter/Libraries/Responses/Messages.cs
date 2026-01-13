@@ -664,6 +664,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CsvFormatInvalidColumnCount(Context context, params string[] data)
+        {
+            return Get(
+                id: "CsvFormatInvalidColumnCount",
+                text: Displays.CsvFormatInvalidColumnCount(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message CsvFormatInvalidFirstColumn(Context context, params string[] data)
+        {
+            return Get(
+                id: "CsvFormatInvalidFirstColumn",
+                text: Displays.CsvFormatInvalidFirstColumn(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message CsvFormatInvalidSecondColumn(Context context, params string[] data)
+        {
+            return Get(
+                id: "CsvFormatInvalidSecondColumn",
+                text: Displays.CsvFormatInvalidSecondColumn(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message CustomAppsLimit(Context context, params string[] data)
         {
             return Get(
@@ -922,6 +952,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message ImportColumnNotFound(Context context, params string[] data)
+        {
+            return Get(
+                id: "ImportColumnNotFound",
+                text: Displays.ImportColumnNotFound(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message Imported(Context context, params string[] data)
@@ -1299,6 +1339,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "Moved",
                 text: Displays.Moved(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message MultilingualLabelsUpdated(Context context, params string[] data)
+        {
+            return Get(
+                id: "MultilingualLabelsUpdated",
+                text: Displays.MultilingualLabelsUpdated(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -1939,6 +1989,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "UserSwitched",
                 text: Displays.UserSwitched(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message Warnings(Context context, params string[] data)
+        {
+            return Get(
+                id: "Warnings",
+                text: Displays.Warnings(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -2637,6 +2697,39 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCsvFormatInvalidColumnCount(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CsvFormatInvalidColumnCount(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCsvFormatInvalidFirstColumn(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CsvFormatInvalidFirstColumn(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCsvFormatInvalidSecondColumn(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CsvFormatInvalidSecondColumn(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCustomAppsLimit(
             Context context, string target = null, params string[] data)
         {
@@ -2918,6 +3011,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: HistoryDeleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseImportColumnNotFound(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ImportColumnNotFound(
                     context: context,
                     data: data),
                 target: target);
@@ -3336,6 +3440,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: Moved(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseMultilingualLabelsUpdated(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: MultilingualLabelsUpdated(
                     context: context,
                     data: data),
                 target: target);
@@ -4040,6 +4155,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: UserSwitched(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseWarnings(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: Warnings(
                     context: context,
                     data: data),
                 target: target);

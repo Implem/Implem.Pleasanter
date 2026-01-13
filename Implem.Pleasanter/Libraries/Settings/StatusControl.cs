@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<int> Groups { get; set; }
         public List<int> Users { get; set; }
         public int? Delete {  get; set; }
+        public bool? Disabled { get; set; }
 
         public StatusControl()
         {
@@ -46,7 +47,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? readOnly,
             Dictionary<string, ControlConstraintsTypes> columnHash,
             View view,
-            List<Permission> permissions)
+            List<Permission> permissions,
+            bool? disabled)
         {
             Id = id;
             Name = name;
@@ -56,6 +58,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Description = description;
             View = view;
             SetPermissions(permissions: permissions);
+            Disabled = disabled;
         }
 
         public void Update(
@@ -65,7 +68,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? readOnly,
             Dictionary<string, ControlConstraintsTypes> columnHash,
             View view,
-            List<Permission> permissions)
+            List<Permission> permissions,
+            bool? disabled)
         {
             if (name != null)
             {
@@ -94,6 +98,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (permissions != null)
             {
                 SetPermissions(permissions: permissions);
+            }
+            if (disabled != null)
+            {
+                Disabled = disabled;
             }
         }
 
@@ -194,6 +202,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Users?.Any() == true)
             {
                 statusControl.Users = Users;
+            }
+            if (Disabled == true)
+            {
+                statusControl.Disabled = Disabled;
             }
             return statusControl;
         }

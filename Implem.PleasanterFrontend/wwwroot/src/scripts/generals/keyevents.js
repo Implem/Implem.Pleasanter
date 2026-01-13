@@ -35,8 +35,10 @@
 
         function setFocus($control) {
             if ($control.hasClass('control-markdown')) {
-                $p.toggleEditor($control, true);
-                $('#' + $control.attr('id')).focus();
+                var markdownField = $control.get(0).closest('markdown-field');
+                if (markdownField) {
+                    markdownField.showEditor(true);
+                }
                 return 2;
             } else if ($control.hasClass('control-textbox anchor')) {
                 $p.toggleAnchor($control, true);

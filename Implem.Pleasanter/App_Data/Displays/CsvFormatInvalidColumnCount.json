@@ -1,0 +1,33 @@
+{
+    "Id": "CsvFormatInvalidColumnCount",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid CSV format: insufficient columns."
+        },
+        {
+            "Language": "ja",
+            "Body": "CSVフォーマットが不正です: 列が不足しています。"
+        },
+        {
+            "Language": "zh",
+            "Body": "CSV格式无效：列数不足。"
+        },
+        {
+            "Language": "de",
+            "Body": "Ungültiges CSV-Format: Spalten fehlen."
+        },
+        {
+            "Language": "ko",
+            "Body": "CSV 형식이 잘못되었습니다: 열이 부족합니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Formato CSV no válido: columnas insuficientes."
+        },
+        {
+            "Language": "vn",
+            "Body": "Định dạng CSV không hợp lệ: thiếu cột."
+        }
+    ]
+}

@@ -74,7 +74,6 @@
     .control-textarea,
     .control-dropdown,
     .control-spinner,
-    .control-markup,
     .control-markdown,
     .ui-widget.ui-state-default.ui-multiselect {
         &:not(.has-css) {
@@ -142,9 +141,8 @@
         }
     }
 
-    /* markup,markdown  */
+    /* markdown  */
     .field-control {
-        .control-markup,
         .control-markdown {
             min-height: 6lh;
             padding: 8px 16px;
@@ -903,9 +901,26 @@
                 &:not(:empty) {
                     padding: 16px;
                 }
-                .control-markup {
-                    background-color: transparent;
-                    border-color: transparent;
+                .comment-header {
+                    &:has(+ markdown-field textarea) {
+                        padding-right: 48px;
+                    }
+                }
+                .comment markdown-field {
+                    &.is-comment {
+                        .md-btn {
+                            &.is-editor,
+                            &.is-delete {
+                                top: -36px;
+                            }
+                            &.is-editor {
+                                right: 24px;
+                            }
+                            &.is-delete {
+                                right: 0;
+                            }
+                        }
+                    }
                 }
                 .control-markdown {
                     background-color: var(--editor-bg);
@@ -998,8 +1013,7 @@
             background-color: var(--nonColor07);
             border-radius: 4px;
         }
-        .control-text,
-        .control-markup {
+        .control-text {
             color: var(--base-text);
             background-color: transparent;
         }

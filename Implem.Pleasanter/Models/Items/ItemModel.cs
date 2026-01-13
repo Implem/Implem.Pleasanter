@@ -3853,6 +3853,113 @@ namespace Implem.Pleasanter.Models
             OnConstructed(context: context);
         }
 
+        public string OpenExportMultilingualLabelsDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!context.CanManageSite(ss: Site.SiteSettings))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            return new ResponseCollection(context: context)
+                .Html(
+                    "#ExportMultilingualLabelsDialog",
+                    SiteUtilities.ExportMultilingualLabelsDialog(
+                        context: context,
+                        ss: Site.SiteSettings))
+                .ToJson();
+        }
+
+        public string OpenImportMultilingualLabelsDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!context.CanManageSite(ss: Site.SiteSettings))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            return new ResponseCollection(context: context)
+                .Html(
+                    "#ImportMultilingualLabelsDialog",
+                    SiteUtilities.ImportMultilingualLabelsDialog(
+                        context: context,
+                        ss: Site.SiteSettings))
+                .ToJson();
+        }
+
+        public string ImportMultilingualLabels(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!context.CanManageSite(ss: Site.SiteSettings))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var file = context.PostedFiles?.FirstOrDefault();
+            if (file == null)
+            {
+                return Messages.ResponseFileNotFound(context: context).ToJson();
+            }
+            if (Parameters.General.ImportMax > 0 && file.Size > Parameters.General.ImportMax)
+            {
+                return Messages.ResponseOverLimitSize(
+                    context: context,
+                    data: Parameters.General.ImportMax.ToString()).ToJson();
+            }
+            var encoding = context.Forms.Data("ImportMultilingualLabelsEncoding");
+            if (string.IsNullOrEmpty(encoding))
+            {
+                encoding = "UTF-8";
+            }
+            var result = MultilingualLabelExportImport.ImportMultilingualLabels(
+                context: context,
+                ss: Site.SiteSettings,
+                csvBytes: file.Byte(),
+                encoding: encoding);
+            if (!result.Success)
+            {
+                switch (result.ErrorType)
+                {
+                    case ImportErrorType.InvalidColumnCount:
+                        return Messages.ResponseCsvFormatInvalidColumnCount(context: context).ToJson();
+                    case ImportErrorType.InvalidFirstColumn:
+                        return Messages.ResponseCsvFormatInvalidFirstColumn(context: context).ToJson();
+                    case ImportErrorType.InvalidSecondColumn:
+                        return Messages.ResponseCsvFormatInvalidSecondColumn(context: context).ToJson();
+                    default:
+                        return new ResponseCollection(context: context)
+                            .Message(message: new Libraries.Responses.Message { Text = result.ErrorMessage })
+                            .ToJson();
+                }
+            }
+            Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: Rds.UpdateSites(
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId)
+                        .SiteId(Site.SiteId),
+                    param: Rds.SitesParam()
+                        .SiteSettings(Site.SiteSettings.RecordingJson(context: context))));
+            var message = Displays.MultilingualLabelsUpdated(
+                context: context,
+                data: result.UpdatedCount.ToString());
+            if (result.Warnings.Any())
+            {
+                message += "\n\n" + Displays.Warnings(context: context) + "\n" + string.Join("\n", result.Warnings);
+            }
+            return new ResponseCollection(context: context)
+                .CloseDialog()
+                .Message(message: new Libraries.Responses.Message(
+                    id: null,
+                    text: message,
+                    css: "alert-success"))
+                .ToJson();
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

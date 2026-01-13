@@ -1,0 +1,33 @@
+{
+    "Id": "CsvFormatInvalidSecondColumn",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid CSV format: the second column must be 'Attribute'."
+        },
+        {
+            "Language": "ja",
+            "Body": "CSVフォーマットが不正です: 2列目は '属性' である必要があります。"
+        },
+        {
+            "Language": "zh",
+            "Body": "CSV格式无效：第二列必须是'属性'。"
+        },
+        {
+            "Language": "de",
+            "Body": "Ungültiges CSV-Format: Die zweite Spalte muss 'Attribut' sein."
+        },
+        {
+            "Language": "ko",
+            "Body": "CSV 형식이 잘못되었습니다: 두 번째 열은 '속성'이어야 합니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Formato CSV no válido: la segunda columna debe ser 'Atributo'."
+        },
+        {
+            "Language": "vn",
+            "Body": "Định dạng CSV không hợp lệ: cột thứ hai phải là 'Thuộc tính'."
+        }
+    ]
+}

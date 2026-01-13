@@ -15,7 +15,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string formula,
             bool notUseDisplayName,
             bool isDisplayError,
-            string outOfCondition)
+            string outOfCondition,
+            bool? disabled)
         {
             var formulaSet = new FormulaSet();
             var err = SetFormula(
@@ -27,10 +28,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 formula: formula,
                 notUseDisplayName: notUseDisplayName,
                 isDisplayError: isDisplayError,
-                outOfCondition: outOfCondition);
+                outOfCondition: outOfCondition,
+                disabled: disabled);
             if (err == Error.Types.None)
             {
-                formulaSet.Id = ss.Formulas?.Any() == true
+                formulaSet.Id = ss.GetFormulas()?.Any() == true
                     ? ss.Formulas.Max(o => o.Id) + 1
                     : 1;
                 (ss.Formulas ??= new SettingList<FormulaSet>()).Add(formulaSet);
@@ -47,7 +49,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string formula,
             bool notUseDisplayName,
             bool isDisplayError,
-            string outOfCondition)
+            string outOfCondition,
+            bool? disabled)
         {
             var formulaSet = ss.Formulas.FirstOrDefault(o => o.Id == id);
             if (formulaSet == null)
@@ -63,7 +66,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 formula: formula,
                 notUseDisplayName: notUseDisplayName,
                 isDisplayError: isDisplayError,
-                outOfCondition: outOfCondition);
+                outOfCondition: outOfCondition,
+                disabled: disabled);
         }
 
         public static Error.Types SetFormula(
@@ -75,7 +79,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string formula,
             bool notUseDisplayName,
             bool isDisplayError,
-            string outOfCondition)
+            string outOfCondition,
+            bool? disabled)
         {
             if (ss.FormulaColumn(target, calculationMethod) == null)
             {
@@ -131,6 +136,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss: ss,
                     formulaSet: formulaSet);
             }
+            formulaSet.Disabled = disabled;
             return Error.Types.None;
         }
 

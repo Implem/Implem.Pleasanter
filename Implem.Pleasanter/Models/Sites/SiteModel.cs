@@ -3084,7 +3084,8 @@ namespace Implem.Pleasanter.Models
                      permissions: statusControlSetting.Permission != null ? ParsePermissions(
                          apiSettingPermission: statusControlSetting.Permission,
                          ss: siteSetting,
-                         target: statusControl) : null);
+                         target: statusControl) : null,
+                     disabled: statusControlSetting.Disabled);
                 }
                 else
                 {
@@ -3098,7 +3099,8 @@ namespace Implem.Pleasanter.Models
                      columnHash: statusControlSetting.ColumnHash,
                      permissions: ParsePermissions(
                          apiSettingPermission: statusControlSetting.Permission,
-                         ss: siteSetting)));
+                         ss: siteSetting),
+                     disabled: statusControlSetting.Disabled));
                 }
             });
             if (deleteSelected.Count() != 0)
@@ -3693,6 +3695,18 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "SearchExportAccessControl":
                     SearchExportAccessControl(
+                        context: context,
+                        res: res);
+                    break;
+                case "ExportMultilingualLabels":
+                case "OpenExportMultilingualLabelsDialog":
+                    OpenExportMultilingualLabelsDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "ImportMultilingualLabels":
+                case "OpenImportMultilingualLabelsDialog":
+                    OpenImportMultilingualLabelsDialog(
                         context: context,
                         res: res);
                     break;
@@ -5144,7 +5158,8 @@ namespace Implem.Pleasanter.Models
                 context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
-                    : null);
+                    : null,
+                disabled: context.Forms.Bool("FormulaDisabled"));
             if (error.Has())
             {
                 res.Message(error.Message(context: context));
@@ -5175,7 +5190,8 @@ namespace Implem.Pleasanter.Models
                 context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
-                    : null);
+                    : null,
+                disabled: context.Forms.Bool("FormulaDisabled"));
             if (error.Has())
             {
                 res.Message(error.Message(context: context));
@@ -6156,7 +6172,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: SiteSettings,
                     prefix: "StatusControl"),
-                permissions: StatusControlPermissions(context: context));
+                permissions: StatusControlPermissions(context: context),
+                disabled: context.Forms.Bool("StatusControlDisabled"));
             SiteSettings.StatusControls.Add(statusControl);
             res
                 .ReplaceAll("#EditStatusControlWrap", new HtmlBuilder()
@@ -6191,7 +6208,8 @@ namespace Implem.Pleasanter.Models
                     readOnly: context.Forms.Bool("StatusControlReadOnly"),
                     columnHash: StatusControlColumnHash(context: context),
                     view: view,
-                    permissions: StatusControlPermissions(context: context));
+                    permissions: StatusControlPermissions(context: context),
+                    disabled: context.Forms.Bool("StatusControlDisabled"));
                 res
                     .ReplaceAll("#EditStatusControlWrap", new HtmlBuilder()
                         .EditStatusControl(
@@ -7424,6 +7442,42 @@ namespace Implem.Pleasanter.Models
                     ss: SiteSettings,
                     controlId: context.Forms.ControlId(),
                     exportColumn: column));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenExportMultilingualLabelsDialog(
+            Context context, ResponseCollection res)
+        {
+            if (!context.CanManageSite(ss: SiteSettings))
+            {
+                res.Message(Messages.HasNotPermission(context: context));
+            }
+            else
+            {
+                res.Html("#ExportMultilingualLabelsDialog", SiteUtilities.ExportMultilingualLabelsDialog(
+                    context: context,
+                    ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenImportMultilingualLabelsDialog(
+            Context context, ResponseCollection res)
+        {
+            if (!context.CanManageSite(ss: SiteSettings))
+            {
+                res.Message(Messages.HasNotPermission(context: context));
+            }
+            else
+            {
+                res.Html("#ImportMultilingualLabelsDialog", SiteUtilities.ImportMultilingualLabelsDialog(
+                    context: context,
+                    ss: SiteSettings));
             }
         }
 

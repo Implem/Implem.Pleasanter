@@ -347,7 +347,6 @@ html .ui-button.ui-state-disabled:active {
 .control-textarea,
 .control-dropdown,
 .control-spinner,
-.control-markup,
 .control-markdown,
 .ui-widget.ui-state-default.ui-multiselect {
     outline: none;
@@ -669,20 +668,15 @@ input {
     }
 }
 
-/* markup,markdown  */
+/* markdown  */
 .field-control {
-    .container-normal {
-        &:has(.control-markup) {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-    }
-    .control-markup,
     .control-markdown {
         padding: 8px 28px 8px 8px;
         border: 1px solid var(--control-border);
         border-radius: 4px;
+        &:focus {
+            border: 1px solid var(--control-border-focus);
+        }
         &.not-send {
             &:not(:has(+ .button-edit-markdown)) {
                 background: var(--control-bg-read);
@@ -691,67 +685,6 @@ input {
                 }
             }
         }
-    }
-    .control-markup {
-        color: var(--control-text);
-        background-color: var(--control-bg);
-        .md,
-        pre {
-            color: var(--control-text);
-        }
-        &:has(~ .control-markdown.error) {
-            border: solid 1px var(--warning-color);
-        }
-        ~ .ui-icon {
-            padding: 0;
-            margin: 0;
-            font-family: 'Material Symbols Outlined';
-            font-size: 16px;
-            font-variation-settings:
-                'FILL' 1,
-                'wght' 400,
-                'GRAD' 0,
-                'opsz' 24;
-            font-style: normal;
-            font-weight: normal;
-            font-feature-settings: 'liga';
-            line-height: 1;
-            color: var(--control-border-focus);
-            text-indent: 0;
-            text-transform: none;
-            letter-spacing: normal;
-            overflow-wrap: normal;
-            white-space: nowrap;
-            cursor: pointer;
-            background: none;
-            direction: ltr;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizelegibility;
-            -webkit-font-smoothing: antialiased;
-            &::after {
-                display: block;
-                line-height: 1;
-            }
-            &.ui-icon-pencil {
-                &::after {
-                    content: 'edit';
-                }
-            }
-            &.ui-icon-image {
-                &::after {
-                    content: 'imagesmode';
-                }
-            }
-            &.ui-icon-video {
-                margin-left: 4px;
-                &::after {
-                    content: 'add_a_photo';
-                }
-            }
-        }
-    }
-    .control-markdown {
-        border: 1px solid var(--control-border-focus);
     }
     .container-radio {
         display: flex;
@@ -821,6 +754,7 @@ input {
 .radio-clear-both {
     .container-radio {
         flex-direction: column;
+        align-items: flex-start;
     }
 }
 
@@ -967,7 +901,148 @@ input {
 }
 
 .md {
+    line-height: 1.5;
     color: var(--base-text);
+    > * {
+        float: none;
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+    a {
+        color: var(--link-text);
+    }
+
+    /* 見出し */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: bold;
+        &:not(:first-child) {
+            margin: 1em 0 0;
+        }
+    }
+    h1 {
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    h3 {
+        font-size: 1.4em;
+    }
+    h4 {
+        font-size: 1.1em;
+    }
+    h5 {
+        font-size: 1.05em;
+    }
+    h6 {
+        font-size: 1em;
+        font-weight: normal;
+    }
+
+    /* 段落 */
+    p {
+        margin: 0.8em 0;
+    }
+
+    /* リスト */
+    ul,
+    ol {
+        padding-left: 1.6em;
+        margin: 0.8em 0;
+        li {
+            + li {
+                margin-top: 0.4em;
+            }
+        }
+    }
+    ul {
+        li {
+            &:has(> input[type='checkbox']),
+            &:has(> p > input[type='checkbox']) {
+                padding-left: 0;
+                margin-left: -1.2em;
+                list-style: none;
+            }
+        }
+    }
+
+    /* 引用 */
+    blockquote {
+        padding: 4px 1em;
+        border-left: 4px solid var(--base-border);
+        p {
+            margin: 0;
+            + p {
+                margin-top: 0.8em;
+            }
+        }
+    }
+
+    /* コード */
+    code {
+        padding: 2px 4px;
+        font-family: inherit;
+        background-color: var(--base-dark-layer);
+        border-radius: 4px;
+    }
+    pre {
+        margin: 0;
+        color: var(--nonColor16);
+        white-space: pre;
+        background: var(--nonColor02);
+        border-radius: 4px;
+        > code.hljs {
+            padding: 1.2em 1em;
+            font-family: Consolas, 'Courier New', monospace;
+            font-size: 1.2em;
+            border-radius: 0;
+            &::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+                margin: 0;
+            }
+            &::-webkit-scrollbar-track {
+                margin: 0;
+            }
+            &::-webkit-scrollbar-thumb {
+                cursor: grab;
+                background-color: var(--nonColor10);
+                border: 2px solid var(--nonColor01);
+                border-radius: 8px;
+                &:hover {
+                    background-color: var(--nonColor14);
+                }
+                &:active {
+                    cursor: grabbing;
+                }
+            }
+            &::-webkit-scrollbar-corner {
+                background-color: var(--nonColor10);
+            }
+        }
+    }
+
+    hr {
+        margin: 1em 0;
+        border: none;
+        border-top: 1px solid var(--base-border);
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    em {
+        font-style: italic;
+    }
+
     table {
         margin: 1em 0;
     }
@@ -991,6 +1066,31 @@ input {
     td {
         color: var(--base-text);
         border: solid 1px var(--grid-cell-border);
+    }
+}
+
+.right-align,
+.center-align {
+    .md {
+        ul,
+        ol {
+            list-style-position: inside;
+        }
+        blockquote {
+            width: fit-content;
+        }
+        blockquote,
+        table {
+            margin-left: auto;
+        }
+    }
+}
+.center-align {
+    .md {
+        blockquote,
+        table {
+            margin-right: auto;
+        }
     }
 }
 
@@ -2246,6 +2346,7 @@ body {
     #EditorComments {
         position: sticky;
         top: 0;
+        z-index: 1;
         order: 1;
         padding: 16px;
         margin-bottom: 0;
@@ -2261,109 +2362,12 @@ body {
         }
         #Comments {
             min-height: 100px;
-            ~ .ui-icon {
-                padding: 0;
-                margin: 0;
-                font-family: 'Material Symbols Outlined';
-                font-size: 16px;
-                font-variation-settings:
-                    'FILL' 1,
-                    'wght' 400,
-                    'GRAD' 0,
-                    'opsz' 24;
-                font-style: normal;
-                font-weight: normal;
-                font-feature-settings: 'liga';
-                line-height: 1;
-                color: var(--control-border-focus);
-                text-indent: 0;
-                text-transform: none;
-                letter-spacing: normal;
-                overflow-wrap: normal;
-                white-space: nowrap;
-                cursor: pointer;
-                background: none;
-                direction: ltr;
-                -moz-osx-font-smoothing: grayscale;
-                text-rendering: optimizelegibility;
-                -webkit-font-smoothing: antialiased;
-                &::after {
-                    display: block;
-                    line-height: 1;
-                }
-                &.ui-icon-pencil {
-                    &::after {
-                        content: 'edit';
-                    }
-                }
-                &.ui-icon-image {
-                    &::after {
-                        content: 'imagesmode';
-                    }
-                }
-                &.ui-icon-video {
-                    margin-left: 4px;
-                    &::after {
-                        content: 'add_a_photo';
-                    }
-                }
-            }
         }
         #CommentList {
-            .control-markup {
-                background-color: transparent;
-                border-color: transparent;
-                ~ .ui-icon {
-                    padding: 0;
-                    margin: 0;
-                    font-family: 'Material Symbols Outlined';
-                    font-size: 16px;
-                    font-variation-settings:
-                        'FILL' 1,
-                        'wght' 400,
-                        'GRAD' 0,
-                        'opsz' 24;
-                    font-style: normal;
-                    font-weight: normal;
-                    font-feature-settings: 'liga';
-                    line-height: 1;
-                    color: var(--control-border-focus);
-                    text-indent: 0;
-                    text-transform: none;
-                    letter-spacing: normal;
-                    overflow-wrap: normal;
-                    white-space: nowrap;
-                    cursor: pointer;
-                    background: none;
-                    direction: ltr;
-                    -moz-osx-font-smoothing: grayscale;
-                    text-rendering: optimizelegibility;
-                    -webkit-font-smoothing: antialiased;
-                    &::after {
-                        display: block;
-                        line-height: 1;
-                    }
-                    &.ui-icon-pencil {
-                        &::after {
-                            content: 'edit';
-                        }
-                    }
-                    &.ui-icon-image {
-                        &::after {
-                            content: 'imagesmode';
-                        }
-                    }
-                    &.ui-icon-video {
-                        margin-left: 4px;
-                        &::after {
-                            content: 'add_a_photo';
-                        }
-                    }
+            .comment-header {
+                &:has(+ markdown-field textarea) {
+                    padding-right: 32px;
                 }
-            }
-            .control-markdown {
-                background-color: var(--editor-bg);
-                border-color: var(--editor-border);
             }
         }
     }
@@ -2814,9 +2818,6 @@ body:not(:has(#Editor)) {
         border: 0;
         border-top: 1px solid var(--base-border);
         border-radius: 0;
-    }
-    .control-markup {
-        background-color: var(--control-bg-read);
     }
     .command-right {
         padding: 0 10px;

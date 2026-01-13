@@ -1,0 +1,33 @@
+{
+    "Id": "MultilingualLabelsUpdated",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "{0} column(s) have been updated."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 件のカラムを更新しました。"
+        },
+        {
+            "Language": "zh",
+            "Body": "已更新 {0} 个列。"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} Spalte(n) wurden aktualisiert."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}개의 열이 업데이트되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se han actualizado {0} columna(s)."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} cột đã được cập nhật."
+        }
+    ]
+}

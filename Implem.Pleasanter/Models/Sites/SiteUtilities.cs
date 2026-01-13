@@ -940,10 +940,11 @@ namespace Implem.Pleasanter.Models
             return hb.Td(
                 css: css,
                 action: () => hb
-                    .Div(
-                        css: "markup",
-                        action: () => hb
-                            .Text(text: gridDesign)));
+                    .MarkDown(
+                        context: context,
+                        ss: ss,
+                        disabled: true,
+                        text: gridDesign));
         }
 
         public static string EditorJson(Context context, SiteModel siteModel)
@@ -5456,6 +5457,14 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.Export(context: context)),
                     _using: context.ContractSettings.Export != false)
+                .Div(attributes: new HtmlAttributes()
+                    .Id("ExportMultilingualLabelsDialog")
+                    .Class("dialog")
+                    .Title(Displays.Export(context: context)), _using: false)
+                .Div(attributes: new HtmlAttributes()
+                    .Id("ImportMultilingualLabelsDialog")
+                    .Class("dialog")
+                    .Title(Displays.Import(context: context)), _using: false)
                 .PermissionsDialog(context: context)
                 .PermissionForCreatingDialog(context: context)
                 .PermissionForUpdatingDialog(context: context)
@@ -6780,6 +6789,27 @@ namespace Implem.Pleasanter.Models
                     .EditRelatingColumns(
                         context: context,
                         ss: ss))
+                .FieldSet(id: "MultilingualLabelSettingsEditor",
+                    css: " enclosed",
+                    legendText: Displays.MultilingualLabelSettings(context: context),
+                    action: () => hb
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "ImportMultilingualLabels",
+                            text: Displays.Import(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.openImportMultilingualLabelsDialog($(this));",
+                            icon: "ui-icon-arrowreturnthick-1-e",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "ExportMultilingualLabels",
+                            text: Displays.Export(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.openExportMultilingualLabelsDialog($(this));",
+                            icon: "ui-icon-arrowreturnthick-1-w",
+                            action: "SetSiteSettings",
+                            method: "post")), _using: false)
                 .FieldDropDown(
                     context: context,
                     controlId: "AutoVerUpType",
@@ -9581,17 +9611,19 @@ namespace Implem.Pleasanter.Models
                             _checked: ss.Formulas?.Any() == true && ss.Formulas?.All(o =>
                                 selected?.Contains(o.Id) == true) == true))
                     .Th(action: () => hb
-                            .Text(text: Displays.Id(context: context)))
+                        .Text(text: Displays.Id(context: context)))
                     .Th(action: () => hb
-                            .Text(text: Displays.CalculationMethod(context: context)))
+                        .Text(text: Displays.CalculationMethod(context: context)))
                     .Th(action: () => hb
-                            .Text(text: Displays.Target(context: context)))
+                        .Text(text: Displays.Target(context: context)))
                     .Th(action: () => hb
-                            .Text(text: Displays.Formulas(context: context)))
+                        .Text(text: Displays.Formulas(context: context)))
                     .Th(action: () => hb
-                            .Text(text: Displays.Condition(context: context)))
+                        .Text(text: Displays.Condition(context: context)))
                     .Th(action: () => hb
-                            .Text(text: Displays.OutOfCondition(context: context)))));
+                        .Text(text: Displays.OutOfCondition(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))));
         }
 
         /// <summary>
@@ -9695,7 +9727,11 @@ namespace Implem.Pleasanter.Models
                                     .Text(text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
                                         || string.IsNullOrEmpty(formulaSet.CalculationMethod))
                                             ? formulaSet.OutOfCondition?.ToString(ss)
-                                            : formulaSet.FormulaScriptOutOfCondition)));
+                                            : formulaSet.FormulaScriptOutOfCondition))
+                                .Td(action: () => hb
+                                    .Span(
+                                        css: "ui-icon ui-icon-circle-check",
+                                        _using: formulaSet.Disabled == true)));
                     });
                 });
             }
@@ -9787,6 +9823,11 @@ namespace Implem.Pleasanter.Models
                                 : FormulaBuilder.UpdateColumnDisplayText(
                                     ss: ss,
                                     formulaSet: formulaSet).FormulaScriptOutOfCondition)
+                    .FieldCheckBox(
+                        controlId: "FormulaDisabled",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: formulaSet.Disabled == true)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -11473,7 +11514,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Description(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.ReadOnly(context: context)))));
+                        .Text(text: Displays.ReadOnly(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))));
         }
 
         /// <summary>
@@ -11516,7 +11559,11 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Span(
                                         css: "ui-icon ui-icon-circle-check",
-                                        _using: statusControl.ReadOnly == true)));
+                                        _using: statusControl.ReadOnly == true))
+                                .Td(action: () => hb
+                                    .Span(
+                                        css: "ui-icon ui-icon-circle-check",
+                                        _using: statusControl.Disabled == true)));
                     });
                 });
             }
@@ -11576,6 +11623,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Description(context: context),
                         text: statusControl.Description)
+                    .FieldCheckBox(
+                        fieldId: "StatusControlDisabledField",
+                        controlId: "StatusControlDisabled",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: statusControl.Disabled == true)
                     .Div(
                         id: "StatusControlTabsContainer",
                         css: "tab-container",
@@ -14471,6 +14524,92 @@ namespace Implem.Pleasanter.Models
                             onClick: "$p.setExportColumn($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon button-neutral",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ExportMultilingualLabelsDialog(
+            Context context, SiteSettings ss)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ExportMultilingualLabelsForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ExportMultilingualLabelsEncoding",
+                        labelText: Displays.CharacterCode(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            { "Shift-JIS", "Shift-JIS" },
+                            { "UTF-8", "UTF-8" }
+                        },
+                        selectedValue: "Shift-JIS")
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "ExportMultilingualLabelsButton",
+                            text: Displays.Export(context: context),
+                            controlCss: "button-icon button-positive",
+                            onClick: "$p.exportMultilingualLabels();",
+                            icon: "ui-icon-arrowthickstop-1-s")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon button-neutral",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ImportMultilingualLabelsDialog(
+            Context context, SiteSettings ss)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ImportMultilingualLabelsForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.File,
+                        controlId: "ImportMultilingualLabelsFile",
+                        fieldCss: "field-wide",
+                        labelText: Displays.CsvFile(context: context))
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ImportMultilingualLabelsEncoding",
+                        fieldCss: "field-wide",
+                        labelText: Displays.CharacterCode(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            { "Shift-JIS", "Shift-JIS" },
+                            { "UTF-8", "UTF-8" }
+                        },
+                        selectedValue: "Shift-JIS")
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "ImportMultilingualLabelsButton",
+                            text: Displays.Import(context: context),
+                            controlCss: "button-icon button-positive",
+                            onClick: "$p.importMultilingualLabels($(this));",
+                            icon: "ui-icon-arrowthickstop-1-n",
+                            action: "ImportMultilingualLabels",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),

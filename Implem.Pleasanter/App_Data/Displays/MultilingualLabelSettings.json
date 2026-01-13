@@ -1,0 +1,33 @@
+﻿{
+    "Id": "MultilingualLabelSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Multilingual label settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "多语言标签设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "多言語ラベル設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Mehrsprachige beschriftungseinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "다국어 레이블 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de etiquetas multilingües"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt nhãn đa ngôn ngữ"
+        }
+    ]
+}

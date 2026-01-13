@@ -10,6 +10,7 @@ declare global {
                 statusBar?: object,
                 callback?: function
             ) => void;
+            openVideo: (controlId: string) => void;
             openEditorColumnDialog: (target: JQuery<HTMLElement>) => void;
             set: (target: JQuery<HTMLElement>, value: string) => void;
             send: (target: JQuery<HTMLElement>) => void;

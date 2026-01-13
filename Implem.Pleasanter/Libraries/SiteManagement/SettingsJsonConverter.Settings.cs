@@ -3110,6 +3110,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     public string Formula;
                     public bool? NotUseDisplayName;
                     public bool? IsDisplayError;
+                    public bool? Disabled;
                     public string Condition;
                     public string OutOfCondition;
                     public List<string> ChangedColumns = new();
@@ -3141,6 +3142,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                 || formula.CalculationMethod == null)
                                 ? null
                                 : formula.IsDisplayError == true;
+                        dst.Disabled = formula.Disabled == true;
                         dst.Condition = ss.Views?.Any() == true
                             ? ss.ViewSelectableOptions()
                                 .Where(kv => kv.Key == formula.Condition?.ToString())
@@ -3221,6 +3223,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                 new (){Key="IsDisplayError",Text=Displays.FormulaIsDisplayError(context: context)},
                                 new (){Key="Condition",Text=Displays.Condition(context: context)},
                                 new (){Key="OutOfCondition",Text=Displays.OutOfCondition(context: context)},
+                                new (){Key="Disabled",Text=Displays.Disabled(context: context)},
                             }
                         };
                     }
@@ -4043,6 +4046,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                     new ("Name",Displays.Name(context: context)),
                                     new ("Status",Displays.Status(context: context)),
                                     new ("Description",Displays.Description(context: context)),
+                                    new ("Disabled",Displays.Disabled(context: context)),
                                 }),
                             new (
                                 tabName: new ("GeneralTab", Displays.General(context: context)),
@@ -4090,10 +4094,11 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                         public List<ViewFiltersColumn.FilterConditionItem> ColumnFilterHash;
                         public List<string> Permissions;
                         public List<string> ChangedColumns = new();
+                        public bool? Disabled;
 
                         public static void StatusControlBasePanel(
                             ColumnModel dst,
-                            Implem.Pleasanter.Libraries.Requests.Context context,
+                            Context context,
                             StatusControl statusControl,
                             SiteModel siteModel,
                             SiteSettings ss)
@@ -4116,6 +4121,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                 .Select(kv => kv.Value.Text)
                                 .FirstOrDefault(string.Empty);
                             dst.Description = statusControl.Description;
+                            dst.Disabled = statusControl.Disabled == true;
                         }
 
                         public static void StatusControlGeneralTab(

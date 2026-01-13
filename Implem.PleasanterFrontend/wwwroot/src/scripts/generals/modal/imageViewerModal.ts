@@ -123,7 +123,8 @@ export class ImageViewerModal extends HTMLElement {
     private imgDisplay(imgSrc: string, minWaitMs: number) {
         this.loadImageWithMinWait(imgSrc, minWaitMs)
             .then(img => {
-                this.imgElem.src = img.src;
+                const imgSrc = img.src.split('?thumbnail')[0];
+                this.imgElem.src = imgSrc;
                 this.customModalElem.removeAttribute('is-loading');
                 this.customModalElem.removeAttribute('no-display-close');
                 if (this.imgCurrent !== undefined) {
@@ -152,7 +153,7 @@ export class ImageViewerModal extends HTMLElement {
                 reject(e);
             };
             this.customModalElem.open = true;
-            img.src = src;
+            img.src = src.split('?thumbnail')[0];
         });
     }
 

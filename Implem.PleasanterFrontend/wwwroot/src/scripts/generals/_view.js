@@ -8,7 +8,10 @@
             break;
         case 'textarea':
             $control.val(value);
-            $p.showMarkDownViewer($control);
+            var markdownField = $control.get(0).closest('markdown-field');
+            if (markdownField && !$control.is(':visible')) {
+                markdownField.showViewer();
+            }
             break;
         default:
             switch ($control.prop('tagName')) {
