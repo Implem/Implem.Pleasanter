@@ -8,6 +8,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -157,6 +158,8 @@ namespace Implem.Pleasanter.Libraries.Models
                                     .Select(dataRow => dataRow.Long("IssueId"))
                                     .ToList()
                     : issueIds;
+                var linkColumnMultipleSelections =
+                    LinkColumnMultipleSelections(context: context, ss: ss, linkColumn: linkColumn);
                 var data = issueIds.Any()
                     ? Data(
                         context: context,
@@ -166,6 +169,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         sourceSiteId: sourceSiteId,
                         sourceReferenceType: sourceReferenceType,
                         linkColumn: linkColumn,
+                        linkColumnMultipleSelections: linkColumnMultipleSelections,
                         type: type,
                         sourceColumn: sourceColumn,
                         sourceCondition: sourceCondition)
@@ -320,6 +324,8 @@ namespace Implem.Pleasanter.Libraries.Models
                                     .Select(dataRow => dataRow.Long("ResultId"))
                                     .ToList()
                     : resultIds;
+                var linkColumnMultipleSelections =
+                    LinkColumnMultipleSelections(context: context, ss: ss, linkColumn: linkColumn);
                 var data = resultIds.Any()
                     ? Data(
                         context: context,
@@ -329,6 +335,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         sourceSiteId: sourceSiteId,
                         sourceReferenceType: sourceReferenceType,
                         linkColumn: linkColumn,
+                        linkColumnMultipleSelections: linkColumnMultipleSelections,
                         type: type,
                         sourceColumn: sourceColumn,
                         sourceCondition: sourceCondition)
@@ -431,10 +438,24 @@ namespace Implem.Pleasanter.Libraries.Models
             long sourceSiteId,
             string sourceReferenceType,
             string linkColumn,
+            bool linkColumnMultipleSelections,
             string type,
             string sourceColumn,
             View sourceCondition)
         {
+            if (linkColumnMultipleSelections)
+            {
+                return DataMultiple(
+                    context: context,
+                    ss: ss,
+                    destinations: destinations,
+                    sourceSiteId: sourceSiteId,
+                    sourceReferenceType: sourceReferenceType,
+                    linkColumn: linkColumn,
+                    type: type,
+                    sourceColumn: sourceColumn,
+                    sourceCondition: sourceCondition);
+            }
             switch (sourceReferenceType)
             {
                 case "Issues":
@@ -469,6 +490,330 @@ namespace Implem.Pleasanter.Libraries.Models
                                 o => o["Value"].ToDecimal());
                 default: return null;
             }
+        }
+
+        private static Dictionary<long, decimal> DataMultiple(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> destinations,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string type,
+            string sourceColumn,
+            View sourceCondition)
+        {
+            if (linkColumn.IsNullOrEmpty()
+                || !Def.ExtendedColumnTypes.ContainsKey(linkColumn))
+            {
+                return new Dictionary<long, decimal>();
+            }
+            if (type != "Count" && sourceColumn.IsNullOrEmpty())
+            {
+                return new Dictionary<long, decimal>();
+            }
+            var destinationSet = destinations != null
+                ? new HashSet<long>(destinations.Where(id => id > 0))
+                : new HashSet<long>();
+            if (destinationSet.Count == 0)
+            {
+                return new Dictionary<long, decimal>();
+            }
+            var dataRows = SourceRowsForMultiple(
+                context: context,
+                ss: ss,
+                sourceSiteId: sourceSiteId,
+                sourceReferenceType: sourceReferenceType,
+                linkColumn: linkColumn,
+                type: type,
+                sourceColumn: sourceColumn,
+                sourceCondition: sourceCondition);
+            if (dataRows == null)
+            {
+                return new Dictionary<long, decimal>();
+            }
+            var aggregates = new Dictionary<long, SummaryAggregate>();
+            foreach (var dataRow in dataRows)
+            {
+                var linkValue = dataRow.String("LinkValue");
+                var linkIds = ParseLinkIds(linkValue)
+                    .Where(destinationSet.Contains)
+                    .Distinct()
+                    .ToList();
+                if (!linkIds.Any())
+                {
+                    continue;
+                }
+                if (type == "Count")
+                {
+                    linkIds.ForEach(id =>
+                        GetAggregate(aggregates, id).Count++);
+                    continue;
+                }
+                var rawValue = dataRow.Object("Value");
+                if (rawValue == null)
+                {
+                    continue;
+                }
+                var value = rawValue.ToDecimal();
+                linkIds.ForEach(id =>
+                {
+                    var aggregate = GetAggregate(aggregates, id);
+                    aggregate.Count++;
+                    aggregate.Sum += value;
+                    aggregate.Min = aggregate.Min.HasValue
+                        ? Math.Min(aggregate.Min.Value, value)
+                        : value;
+                    aggregate.Max = aggregate.Max.HasValue
+                        ? Math.Max(aggregate.Max.Value, value)
+                        : value;
+                });
+            }
+            var results = new Dictionary<long, decimal>();
+            aggregates.ForEach(data =>
+            {
+                switch (type)
+                {
+                    case "Count":
+                        results[data.Key] = data.Value.Count;
+                        break;
+                    case "Total":
+                        results[data.Key] = data.Value.Sum;
+                        break;
+                    case "Average":
+                        results[data.Key] = data.Value.Count > 0
+                            ? data.Value.Sum / data.Value.Count
+                            : 0;
+                        break;
+                    case "Min":
+                        results[data.Key] = data.Value.Min ?? 0;
+                        break;
+                    case "Max":
+                        results[data.Key] = data.Value.Max ?? 0;
+                        break;
+                }
+            });
+            return results;
+        }
+
+        private static EnumerableRowCollection<DataRow> SourceRowsForMultiple(
+            Context context,
+            SiteSettings ss,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string type,
+            string sourceColumn,
+            View sourceCondition)
+        {
+            switch (sourceReferenceType)
+            {
+                case "Issues":
+                    return IssuesSourceRowsMultiple(
+                        context: context,
+                        ss: ss,
+                        sourceSiteId: sourceSiteId,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition);
+                case "Results":
+                    return ResultsSourceRowsMultiple(
+                        context: context,
+                        ss: ss,
+                        sourceSiteId: sourceSiteId,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition);
+                default:
+                    return null;
+            }
+        }
+
+        private static EnumerableRowCollection<DataRow> IssuesSourceRowsMultiple(
+            Context context,
+            SiteSettings ss,
+            long sourceSiteId,
+            string linkColumn,
+            string type,
+            string sourceColumn,
+            View sourceCondition)
+        {
+            var column = IssuesSourceColumns(
+                linkColumn: linkColumn,
+                type: type,
+                sourceColumn: sourceColumn);
+            if (column == null)
+            {
+                return null;
+            }
+            var where = SourceWhereForMultiple(
+                context: context,
+                ss: ss,
+                tableName: "Issues",
+                linkColumn: linkColumn,
+                sourceCondition: sourceCondition,
+                where: Rds.IssuesWhere().SiteId(value: sourceSiteId));
+            return Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectIssues(
+                    column: column,
+                    where: where)).AsEnumerable();
+        }
+
+        private static EnumerableRowCollection<DataRow> ResultsSourceRowsMultiple(
+            Context context,
+            SiteSettings ss,
+            long sourceSiteId,
+            string linkColumn,
+            string type,
+            string sourceColumn,
+            View sourceCondition)
+        {
+            var column = ResultsSourceColumns(
+                linkColumn: linkColumn,
+                type: type,
+                sourceColumn: sourceColumn);
+            if (column == null)
+            {
+                return null;
+            }
+            var where = SourceWhereForMultiple(
+                context: context,
+                ss: ss,
+                tableName: "Results",
+                linkColumn: linkColumn,
+                sourceCondition: sourceCondition,
+                where: Rds.ResultsWhere().SiteId(value: sourceSiteId));
+            return Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectResults(
+                    column: column,
+                    where: where)).AsEnumerable();
+        }
+
+        private static SqlColumnCollection IssuesSourceColumns(
+            string linkColumn,
+            string type,
+            string sourceColumn)
+        {
+            var issuesColumn = Rds.IssuesColumn()
+                .IssuesColumn(linkColumn, _as: "LinkValue");
+            if (type == "Count")
+            {
+                return issuesColumn;
+            }
+            switch (sourceColumn)
+            {
+                case "WorkValue":
+                    return issuesColumn.WorkValue(_as: "Value");
+                case "RemainingWorkValue":
+                    return issuesColumn.RemainingWorkValue(_as: "Value");
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
+                    {
+                        case "Num":
+                            return issuesColumn.Add(
+                                columnBracket: $"\"{sourceColumn}\"",
+                                columnName: sourceColumn,
+                                _as: "Value");
+                        default:
+                            return null;
+                    }
+            }
+        }
+
+        private static SqlColumnCollection ResultsSourceColumns(
+            string linkColumn,
+            string type,
+            string sourceColumn)
+        {
+            var resultsColumn = Rds.ResultsColumn()
+                .ResultsColumn(linkColumn, _as: "LinkValue");
+            if (type == "Count")
+            {
+                return resultsColumn;
+            }
+            switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
+            {
+                case "Num":
+                    return resultsColumn.Add(
+                        columnBracket: $"\"{sourceColumn}\"",
+                        columnName: sourceColumn,
+                        _as: "Value");
+                default:
+                    return null;
+            }
+        }
+
+        private static SqlWhereCollection SourceWhereForMultiple(
+            Context context,
+            SiteSettings ss,
+            string tableName,
+            string linkColumn,
+            View sourceCondition,
+            SqlWhereCollection where)
+        {
+            if (!linkColumn.IsNullOrEmpty()
+                && Def.ExtendedColumnTypes.ContainsKey(linkColumn))
+            {
+                where.Add(
+                    tableName: tableName,
+                    columnBrackets: new[] { $"\"{linkColumn}\"" },
+                    _operator: " is not null");
+                where.Add(
+                    tableName: tableName,
+                    columnBrackets: new[] { $"\"{linkColumn}\"" },
+                    _operator: "!=''");
+                where.Add(
+                    tableName: tableName,
+                    columnBrackets: new[] { $"\"{linkColumn}\"" },
+                    _operator: "!='[]'");
+            }
+            return Where(
+                context: context,
+                ss: ss,
+                view: sourceCondition,
+                where: where);
+        }
+
+        private static IEnumerable<long> ParseLinkIds(string linkValue)
+        {
+            if (linkValue.IsNullOrEmpty())
+            {
+                return new List<long>();
+            }
+            var ids = linkValue.Deserialize<List<long>>();
+            if (ids?.Any() == true)
+            {
+                return ids.Where(id => id > 0);
+            }
+            var id = linkValue.ToLong();
+            return id > 0
+                ? id.ToSingleList()
+                : new List<long>();
+        }
+
+        private static SummaryAggregate GetAggregate(
+            Dictionary<long, SummaryAggregate> aggregates, long id)
+        {
+            if (!aggregates.TryGetValue(id, out var aggregate))
+            {
+                aggregate = new SummaryAggregate();
+                aggregates.Add(id, aggregate);
+            }
+            return aggregate;
+        }
+
+        private static bool LinkColumnMultipleSelections(
+            Context context,
+            SiteSettings ss,
+            string linkColumn)
+        {
+            return ss?.GetColumn(
+                context: context,
+                columnName: linkColumn)?.MultipleSelections == true;
         }
 
         private static SqlSelect Select(
@@ -917,6 +1262,14 @@ namespace Implem.Pleasanter.Libraries.Models
                             .Join(",")),
                         _operator: " in ")
                 : null;
+        }
+
+        private class SummaryAggregate
+        {
+            public decimal Sum;
+            public int Count;
+            public decimal? Min;
+            public decimal? Max;
         }
 
         private static SqlWhereCollection Where(
