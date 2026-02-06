@@ -16,6 +16,8 @@ namespace Implem.Pleasanter.Libraries.Models
 {
     public static class Summaries
     {
+        private const string MultipleLinkAlias = "Link";
+
         public static void Synchronize(Context context, SiteSettings ss)
         {
             ss.Summaries?.ForEach(summary => Synchronize(
@@ -519,9 +521,10 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 return new Dictionary<long, decimal>();
             }
-            var dataRows = SourceRowsForMultiple(
+            var dataRows = AggregateRowsForMultiple(
                 context: context,
                 ss: ss,
+                destinations: destinationSet,
                 sourceSiteId: sourceSiteId,
                 sourceReferenceType: sourceReferenceType,
                 linkColumn: linkColumn,
@@ -532,73 +535,15 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 return new Dictionary<long, decimal>();
             }
-            var aggregates = new Dictionary<long, SummaryAggregate>();
-            foreach (var dataRow in dataRows)
-            {
-                var linkValue = dataRow.String("LinkValue");
-                var linkIds = ParseLinkIds(linkValue)
-                    .Where(destinationSet.Contains)
-                    .Distinct()
-                    .ToList();
-                if (!linkIds.Any())
-                {
-                    continue;
-                }
-                if (type == "Count")
-                {
-                    linkIds.ForEach(id =>
-                        GetAggregate(aggregates, id).Count++);
-                    continue;
-                }
-                var rawValue = dataRow.Object("Value");
-                if (rawValue == null)
-                {
-                    continue;
-                }
-                var value = rawValue.ToDecimal();
-                linkIds.ForEach(id =>
-                {
-                    var aggregate = GetAggregate(aggregates, id);
-                    aggregate.Count++;
-                    aggregate.Sum += value;
-                    aggregate.Min = aggregate.Min.HasValue
-                        ? Math.Min(aggregate.Min.Value, value)
-                        : value;
-                    aggregate.Max = aggregate.Max.HasValue
-                        ? Math.Max(aggregate.Max.Value, value)
-                        : value;
-                });
-            }
-            var results = new Dictionary<long, decimal>();
-            aggregates.ForEach(data =>
-            {
-                switch (type)
-                {
-                    case "Count":
-                        results[data.Key] = data.Value.Count;
-                        break;
-                    case "Total":
-                        results[data.Key] = data.Value.Sum;
-                        break;
-                    case "Average":
-                        results[data.Key] = data.Value.Count > 0
-                            ? data.Value.Sum / data.Value.Count
-                            : 0;
-                        break;
-                    case "Min":
-                        results[data.Key] = data.Value.Min ?? 0;
-                        break;
-                    case "Max":
-                        results[data.Key] = data.Value.Max ?? 0;
-                        break;
-                }
-            });
-            return results;
+            return dataRows.ToDictionary(
+                o => o["Id"].ToLong(),
+                o => o["Value"].ToDecimal());
         }
 
-        private static EnumerableRowCollection<DataRow> SourceRowsForMultiple(
+        private static EnumerableRowCollection<DataRow> AggregateRowsForMultiple(
             Context context,
             SiteSettings ss,
+            IEnumerable<long> destinations,
             long sourceSiteId,
             string sourceReferenceType,
             string linkColumn,
@@ -609,18 +554,20 @@ namespace Implem.Pleasanter.Libraries.Models
             switch (sourceReferenceType)
             {
                 case "Issues":
-                    return IssuesSourceRowsMultiple(
+                    return IssuesAggregateRowsMultiple(
                         context: context,
                         ss: ss,
+                        destinations: destinations,
                         sourceSiteId: sourceSiteId,
                         linkColumn: linkColumn,
                         type: type,
                         sourceColumn: sourceColumn,
                         sourceCondition: sourceCondition);
                 case "Results":
-                    return ResultsSourceRowsMultiple(
+                    return ResultsAggregateRowsMultiple(
                         context: context,
                         ss: ss,
+                        destinations: destinations,
                         sourceSiteId: sourceSiteId,
                         linkColumn: linkColumn,
                         type: type,
@@ -631,23 +578,22 @@ namespace Implem.Pleasanter.Libraries.Models
             }
         }
 
-        private static EnumerableRowCollection<DataRow> IssuesSourceRowsMultiple(
+        private static EnumerableRowCollection<DataRow> IssuesAggregateRowsMultiple(
             Context context,
             SiteSettings ss,
+            IEnumerable<long> destinations,
             long sourceSiteId,
             string linkColumn,
             string type,
             string sourceColumn,
             View sourceCondition)
         {
-            var column = IssuesSourceColumns(
-                linkColumn: linkColumn,
-                type: type,
-                sourceColumn: sourceColumn);
+            var column = IssuesAggregateColumns(type: type, sourceColumn: sourceColumn);
             if (column == null)
             {
                 return null;
             }
+            var join = MultipleLinkJoin(tableName: "Issues", linkColumn: linkColumn);
             var where = SourceWhereForMultiple(
                 context: context,
                 ss: ss,
@@ -655,30 +601,34 @@ namespace Implem.Pleasanter.Libraries.Models
                 linkColumn: linkColumn,
                 sourceCondition: sourceCondition,
                 where: Rds.IssuesWhere().SiteId(value: sourceSiteId));
+            AddMultipleLinkDestinationWhere(where: where, destinations: destinations);
+            var groupBy = new SqlGroupByCollection()
+                .Add(columnBracket: "\"Id\"", tableName: MultipleLinkAlias);
             return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
                     column: column,
+                    join: join,
+                    groupBy: groupBy,
                     where: where)).AsEnumerable();
         }
 
-        private static EnumerableRowCollection<DataRow> ResultsSourceRowsMultiple(
+        private static EnumerableRowCollection<DataRow> ResultsAggregateRowsMultiple(
             Context context,
             SiteSettings ss,
+            IEnumerable<long> destinations,
             long sourceSiteId,
             string linkColumn,
             string type,
             string sourceColumn,
             View sourceCondition)
         {
-            var column = ResultsSourceColumns(
-                linkColumn: linkColumn,
-                type: type,
-                sourceColumn: sourceColumn);
+            var column = ResultsAggregateColumns(type: type, sourceColumn: sourceColumn);
             if (column == null)
             {
                 return null;
             }
+            var join = MultipleLinkJoin(tableName: "Results", linkColumn: linkColumn);
             var where = SourceWhereForMultiple(
                 context: context,
                 ss: ss,
@@ -686,65 +636,235 @@ namespace Implem.Pleasanter.Libraries.Models
                 linkColumn: linkColumn,
                 sourceCondition: sourceCondition,
                 where: Rds.ResultsWhere().SiteId(value: sourceSiteId));
+            AddMultipleLinkDestinationWhere(where: where, destinations: destinations);
+            var groupBy = new SqlGroupByCollection()
+                .Add(columnBracket: "\"Id\"", tableName: MultipleLinkAlias);
             return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
                     column: column,
+                    join: join,
+                    groupBy: groupBy,
                     where: where)).AsEnumerable();
         }
 
-        private static SqlColumnCollection IssuesSourceColumns(
-            string linkColumn,
+        private static SqlColumnCollection IssuesAggregateColumns(
             string type,
             string sourceColumn)
         {
-            var issuesColumn = Rds.IssuesColumn()
-                .IssuesColumn(linkColumn, _as: "LinkValue");
-            if (type == "Count")
+            var columns = new SqlColumnCollection()
+                .Add(columnBracket: "\"Id\"", tableName: MultipleLinkAlias, columnName: "Id", _as: "Id");
+            switch (type)
             {
-                return issuesColumn;
+                case "Count":
+                    columns.Add(
+                        columnBracket: "\"Id\"",
+                        tableName: MultipleLinkAlias,
+                        columnName: "Value",
+                        _as: "Value",
+                        function: Sqls.Functions.Count);
+                    return columns;
+                case "Total":
+                    return IssuesAggregateValueColumn(
+                        columns: columns,
+                        sourceColumn: sourceColumn,
+                        function: Sqls.Functions.Sum);
+                case "Average":
+                    return IssuesAggregateValueColumn(
+                        columns: columns,
+                        sourceColumn: sourceColumn,
+                        function: Sqls.Functions.Avg);
+                case "Min":
+                    return IssuesAggregateValueColumn(
+                        columns: columns,
+                        sourceColumn: sourceColumn,
+                        function: Sqls.Functions.Min);
+                case "Max":
+                    return IssuesAggregateValueColumn(
+                        columns: columns,
+                        sourceColumn: sourceColumn,
+                        function: Sqls.Functions.Max);
+                default:
+                    return null;
             }
+        }
+
+        private static SqlColumnCollection IssuesAggregateValueColumn(
+            SqlColumnCollection columns,
+            string sourceColumn,
+            Sqls.Functions function)
+        {
             switch (sourceColumn)
             {
                 case "WorkValue":
-                    return issuesColumn.WorkValue(_as: "Value");
+                    columns.Add(
+                        columnBracket: "\"WorkValue\"",
+                        tableName: "Issues",
+                        columnName: "Value",
+                        _as: "Value",
+                        function: function);
+                    return columns;
                 case "RemainingWorkValue":
-                    return issuesColumn.RemainingWorkValue(_as: "Value");
+                    columns.Add(
+                        columnBracket: "\"RemainingWorkValue\"",
+                        tableName: "Issues",
+                        columnName: "Value",
+                        _as: "Value",
+                        function: function);
+                    return columns;
                 default:
                     switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
                     {
                         case "Num":
-                            return issuesColumn.Add(
+                            columns.Add(
                                 columnBracket: $"\"{sourceColumn}\"",
-                                columnName: sourceColumn,
-                                _as: "Value");
+                                tableName: "Issues",
+                                columnName: "Value",
+                                _as: "Value",
+                                function: function);
+                            return columns;
                         default:
                             return null;
                     }
             }
         }
 
-        private static SqlColumnCollection ResultsSourceColumns(
-            string linkColumn,
+        private static SqlColumnCollection ResultsAggregateColumns(
             string type,
             string sourceColumn)
         {
-            var resultsColumn = Rds.ResultsColumn()
-                .ResultsColumn(linkColumn, _as: "LinkValue");
-            if (type == "Count")
+            var columns = new SqlColumnCollection()
+                .Add(columnBracket: "\"Id\"", tableName: MultipleLinkAlias, columnName: "Id", _as: "Id");
+            switch (type)
             {
-                return resultsColumn;
-            }
-            switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
-            {
-                case "Num":
-                    return resultsColumn.Add(
-                        columnBracket: $"\"{sourceColumn}\"",
-                        columnName: sourceColumn,
-                        _as: "Value");
+                case "Count":
+                    columns.Add(
+                        columnBracket: "\"Id\"",
+                        tableName: MultipleLinkAlias,
+                        columnName: "Value",
+                        _as: "Value",
+                        function: Sqls.Functions.Count);
+                    return columns;
+                case "Total":
+                    return ResultsAggregateValueColumn(
+                        columns: columns,
+                        sourceColumn: sourceColumn,
+                        function: Sqls.Functions.Sum);
+                case "Average":
+                    return ResultsAggregateValueColumn(
+                        columns: columns,
+                        sourceColumn: sourceColumn,
+                        function: Sqls.Functions.Avg);
+                case "Min":
+                    return ResultsAggregateValueColumn(
+                        columns: columns,
+                        sourceColumn: sourceColumn,
+                        function: Sqls.Functions.Min);
+                case "Max":
+                    return ResultsAggregateValueColumn(
+                        columns: columns,
+                        sourceColumn: sourceColumn,
+                        function: Sqls.Functions.Max);
                 default:
                     return null;
             }
+        }
+
+        private static SqlColumnCollection ResultsAggregateValueColumn(
+            SqlColumnCollection columns,
+            string sourceColumn,
+            Sqls.Functions function)
+        {
+            switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
+            {
+                case "Num":
+                    columns.Add(
+                        columnBracket: $"\"{sourceColumn}\"",
+                        tableName: "Results",
+                        columnName: "Value",
+                        _as: "Value",
+                        function: function);
+                    return columns;
+                default:
+                    return null;
+            }
+        }
+
+        private static SqlJoinCollection MultipleLinkJoin(string tableName, string linkColumn)
+        {
+            var joinTable = MultipleLinkJoinTable(tableName: tableName, linkColumn: linkColumn);
+            switch (Parameters.Rds.Dbms)
+            {
+                case "SQLServer":
+                    return new SqlJoinCollection().Add(
+                        tableName: $"cross apply {joinTable}",
+                        joinExpression: null);
+                case "PostgreSQL":
+                case "MySQL":
+                    return new SqlJoinCollection().Add(
+                        tableName: joinTable,
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: "1=1");
+                default:
+                    throw new NotSupportedException($"Unsupported DBMS: {Parameters.Rds.Dbms}");
+            }
+        }
+
+        private static string MultipleLinkJoinTable(string tableName, string linkColumn)
+        {
+            var linkExpression = MultipleLinkJsonExpression(
+                tableName: tableName,
+                linkColumn: linkColumn);
+            switch (Parameters.Rds.Dbms)
+            {
+                case "PostgreSQL":
+                    return $"lateral jsonb_array_elements_text({linkExpression}) as \"{MultipleLinkAlias}\"(\"Id\")";
+                case "SQLServer":
+                    return $"openjson({linkExpression}) with (\"Id\" bigint '$') as \"{MultipleLinkAlias}\"";
+                case "MySQL":
+                    return $"JSON_TABLE({linkExpression}, '$[*]' columns (\"Id\" bigint path '$')) as \"{MultipleLinkAlias}\"";
+                default:
+                    throw new NotSupportedException($"Unsupported DBMS: {Parameters.Rds.Dbms}");
+            }
+        }
+
+        private static string MultipleLinkJsonExpression(string tableName, string linkColumn)
+        {
+            var column = $"\"{tableName}\".\"{linkColumn}\"";
+            switch (Parameters.Rds.Dbms)
+            {
+                case "PostgreSQL":
+                    return $"case when {column} is null or {column} = '' then '[]'::jsonb " +
+                        $"else (case when jsonb_typeof({column}::jsonb) = 'array' " +
+                        $"then {column}::jsonb else jsonb_build_array({column}::jsonb) end) end";
+                case "SQLServer":
+                    return $"case when {column} is null or {column} = '' then '[]' " +
+                        $"when isjson({column})=1 and json_query({column},'$') is not null then {column} " +
+                        $"else concat('[',{column},']') end";
+                case "MySQL":
+                    return $"case when {column} is null or {column} = '' then json_array() " +
+                        $"when json_type({column})='ARRAY' then {column} else json_array({column}) end";
+                default:
+                    throw new NotSupportedException($"Unsupported DBMS: {Parameters.Rds.Dbms}");
+            }
+        }
+
+        private static void AddMultipleLinkDestinationWhere(
+            SqlWhereCollection where,
+            IEnumerable<long> destinations)
+        {
+            var destinationList = destinations?.Where(id => id > 0).Distinct().ToList();
+            if (destinationList?.Any() != true)
+            {
+                return;
+            }
+            where.Add(
+                tableName: MultipleLinkAlias,
+                columnBrackets: new[] { "\"Id\"" },
+                raw: "({0})".Params(destinationList
+                    .Select(o => "'" + o + "'")
+                    .Join(",")),
+                _operator: " in ");
         }
 
         private static SqlWhereCollection SourceWhereForMultiple(
@@ -776,34 +896,6 @@ namespace Implem.Pleasanter.Libraries.Models
                 ss: ss,
                 view: sourceCondition,
                 where: where);
-        }
-
-        private static IEnumerable<long> ParseLinkIds(string linkValue)
-        {
-            if (linkValue.IsNullOrEmpty())
-            {
-                return new List<long>();
-            }
-            var ids = linkValue.Deserialize<List<long>>();
-            if (ids?.Any() == true)
-            {
-                return ids.Where(id => id > 0);
-            }
-            var id = linkValue.ToLong();
-            return id > 0
-                ? id.ToSingleList()
-                : new List<long>();
-        }
-
-        private static SummaryAggregate GetAggregate(
-            Dictionary<long, SummaryAggregate> aggregates, long id)
-        {
-            if (!aggregates.TryGetValue(id, out var aggregate))
-            {
-                aggregate = new SummaryAggregate();
-                aggregates.Add(id, aggregate);
-            }
-            return aggregate;
         }
 
         private static bool LinkColumnMultipleSelections(
@@ -1262,14 +1354,6 @@ namespace Implem.Pleasanter.Libraries.Models
                             .Join(",")),
                         _operator: " in ")
                 : null;
-        }
-
-        private class SummaryAggregate
-        {
-            public decimal Sum;
-            public int Count;
-            public decimal? Min;
-            public decimal? Max;
         }
 
         private static SqlWhereCollection Where(
