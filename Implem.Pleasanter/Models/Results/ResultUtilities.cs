@@ -6286,6 +6286,16 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 type: "DeleteWithLinks",
                 sub: sub);
+            var deletedResultIds = Rds.ExecuteTable(
+                context: context,
+                statements: sub)
+                    .AsEnumerable()
+                    .Select(dataRow => dataRow.Long("ResultId"))
+                    .ToList();
+            LinkedRecordReferenceUtilities.CleanupDeletedReferences(
+                context: context,
+                ss: ss,
+                deletedRecordIds: deletedResultIds);
             var sites = ss.IntegratedSites?.Any() == true
                 ? ss.AllowedIntegratedSites
                 : ss.SiteId.ToSingleList();
