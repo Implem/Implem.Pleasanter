@@ -280,13 +280,14 @@ namespace Implem.Libraries.Utilities
         {
             if (self is string value)
             {
-                self = new string(value
-                    .SkipWhile(c => c == (char)92 || c == (char)165)
-                    .ToArray());
+                self = self.NormalizeYenSymbol();
             }
             decimal data;
             if (self != null && decimal.TryParse(
-                self.ToString(), NumberStyles.Any, cultureInfo, out data))
+                self.ToString(),
+                NumberStyles.Any,
+                CultureInfo.CreateSpecificCulture(cultureInfo.Name),
+                out data))
             {
                 return data;
             }

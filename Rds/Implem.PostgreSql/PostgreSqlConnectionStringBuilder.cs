@@ -34,7 +34,19 @@ namespace Implem.PostgreSql
             }
             set
             {
-                instance.Database = value; ;
+                instance.Database = value;
+            }
+        }
+
+        public string SearchPath
+        {
+            get
+            {
+                return instance.SearchPath;
+            }
+            set
+            {
+                instance.SearchPath = value;
             }
         }
 

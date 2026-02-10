@@ -71,6 +71,11 @@ namespace Implem.MySql
             return $"date_add({columnBracket},interval {hour} hour)";
         }
 
+        public string DateAddMinute(int minute, string columnBracket)
+        {
+            return $"date_add({columnBracket},interval {minute} minute)";
+        }
+
         public string DateGroupYearly { get; } = "date_format({0}, '%Y')";
 
         public string DateGroupMonthly { get; } = "date_format({0}, '%Y/%m')";

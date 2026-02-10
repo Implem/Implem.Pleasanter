@@ -1,6 +1,7 @@
 ﻿{
     "Id": "WrapTextInCell",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Wrap text by cell width"

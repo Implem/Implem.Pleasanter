@@ -8,15 +8,15 @@ This guide explains how to set up your environment for development using Visual 
 
 ### 1. Tool Installation
 
-#### Install Visual Studio 2022
+#### Install Visual Studio 2026
 
-Download and install Visual Studio 2022 from the following link:  
+Download and install Visual Studio 2026 from the following link:  
 https://visualstudio.microsoft.com/downloads/
 
-#### Install .NET 8 SDK
+#### Install .NET 10 SDK
 
-Download and install the latest .NET SDK 8.0 from the following link:
-https://dotnet.microsoft.com/download/dotnet/8.0
+Download and install the latest .NET SDK 10.0 from the following link:
+https://dotnet.microsoft.com/download/dotnet/10.0
 
 #### Install Node.js
 
@@ -43,7 +43,7 @@ https://code.visualstudio.com/
 Pleasanter works with one of the following databases: SQLServer, PostgreSQL, or MySQL.
 Choose the database you want to use in your development environment and follow the instructions below to install it.
 
-- SQLServer: https://pleasanter.org/manual/install-sql-server2022-express
+- SQLServer: https://pleasanter.org/manual/install-sql-server2025-express
 - PostgreSQL: https://pleasanter.org/manual/install-postgresql-on-windows
 - MySQL: https://pleasanter.org/manual/install-mysql-on-windows
 

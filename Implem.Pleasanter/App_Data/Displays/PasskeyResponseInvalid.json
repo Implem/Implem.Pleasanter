@@ -1,0 +1,32 @@
+﻿{
+    "Id": "PasskeyResponseInvalid",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        { "Body": "The passkey response received is invalid or incomplete. Please refresh the page and try again." },
+        {
+            "Language": "zh",
+            "Body": "收到的 Passkey 响应无效或不完整，请刷新页面后重试。"
+        },
+        {
+            "Language": "ja",
+            "Body": "受信した Passkey 応答が無効または不完全です。ページを更新して再試行してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die empfangene Passkey-Antwort ist ungültig oder unvollständig. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut."
+        },
+        {
+            "Language": "ko",
+            "Body": "수신한 Passkey 응답이 유효하지 않거나 불완전합니다. 페이지를 새로고침한 후 다시 시도하세요."
+        },
+        {
+            "Language": "es",
+            "Body": "La respuesta de Passkey recibida es inválida o incompleta. Actualiza la página e inténtalo de nuevo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Phản hồi Passkey nhận được không hợp lệ hoặc chưa đầy đủ. Hãy làm mới trang và thử lại."
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+﻿{
+    "Id": "PasskeyServerUnavailable",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        { "Body": "The server is temporarily unable to process passkey requests. Please try again later or contact your administrator." },
+        {
+            "Language": "zh",
+            "Body": "服务器暂时无法处理 Passkey 请求，请稍后再试或联系管理员。"
+        },
+        {
+            "Language": "ja",
+            "Body": "サーバーが一時的に Passkey リクエストを処理できません。しばらくしてから再試行するか、管理者に連絡してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Server kann Passkey-Anfragen derzeit nicht verarbeiten. Bitte versuchen Sie es später erneut oder wenden Sie sich an Ihren Administrator."
+        },
+        {
+            "Language": "ko",
+            "Body": "서버에서 Passkey 요청을 일시적으로 처리할 수 없습니다. 잠시 후 다시 시도하거나 관리자에게 문의하세요."
+        },
+        {
+            "Language": "es",
+            "Body": "El servidor no puede procesar solicitudes de Passkey temporalmente. Vuelve a intentarlo más tarde o contacta con el administrador."
+        },
+        {
+            "Language": "vn",
+            "Body": "Máy chủ tạm thời không thể xử lý yêu cầu Passkey. Vui lòng thử lại sau hoặc liên hệ quản trị viên."
+        }
+    ]
+}

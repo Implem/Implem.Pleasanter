@@ -1351,7 +1351,7 @@ namespace Implem.Pleasanter.Models
                                 errors: errors,
                                 value: value);
                         }
-                        var validationType = ss.Processes
+                        var validationType = ss.GetProcesses()
                             ?.FirstOrDefault(o => $"Process_{o.Id}" == context.Forms.ControlId())
                             ?.ValidationType;
                         if (validationType == Process.ValidationTypes.Merge || validationType == null)
@@ -1363,7 +1363,7 @@ namespace Implem.Pleasanter.Models
                                 errors: errors,
                                 value: value);
                         }
-                        ss.Processes
+                        ss.GetProcesses()
                             ?.Where(o => o.ValidationType != Process.ValidationTypes.None)
                             ?.FirstOrDefault(o => $"Process_{o.Id}" == context.Forms.ControlId())
                             ?.ValidateInputs

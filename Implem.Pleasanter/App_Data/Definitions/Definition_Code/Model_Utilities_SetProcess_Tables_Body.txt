@@ -1,6 +1,11 @@
-﻿var processes = ss.Processes
+﻿var processes = ss.GetProcesses()
     ?.Where(process => process.IsTarget(context: context))
     .ToList() ?? new List<Process>();
+var controlId = context.Forms.ControlId();
+if (controlId.RegexExists("Process_[0-9]+") && !processes.Any())
+{
+    return Messages.ResponseProcessNotFound(context: context).ToJson();
+}
 foreach (var process in processes)
 {
     process.MatchConditions = #modelName#Model.GetProcessMatchConditions(

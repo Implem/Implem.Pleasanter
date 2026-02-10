@@ -92,6 +92,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysSend = false,
             bool disableAutoPostBack = false,
             string idSuffix = null,
+            bool isResponse = false,
             bool preview = false,
             bool disableSection = false,
             bool _using = true)
@@ -126,9 +127,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     context: context,
                     id: "ColumnTop",
                     columnName: column.ColumnName))
-                .Raw(Strings.CoalesceEmpty(
+                .Raw(!isResponse ? Strings.CoalesceEmpty(
                     serverScriptModelColumn?.ExtendedHtmlBeforeField,
-                    column.ExtendedHtmlBeforeField))
+                    column.ExtendedHtmlBeforeField) : null)
                 .SwitchField(
                     context: context,
                     ss: ss,
@@ -198,9 +199,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     extendedHtmlAfterControl: Strings.CoalesceEmpty(
                         serverScriptModelColumn?.ExtendedHtmlAfterControl,
                         column.ExtendedHtmlAfterControl))
-                .Raw(Strings.CoalesceEmpty(
+                .Raw(!isResponse ? Strings.CoalesceEmpty(
                     serverScriptModelColumn?.ExtendedHtmlAfterField,
-                    column.ExtendedHtmlAfterField))
+                    column.ExtendedHtmlAfterField) : null)
                 .Raw(HtmlHtmls.ExtendedHtmls(
                     context: context,
                     id: "ColumnBottom",

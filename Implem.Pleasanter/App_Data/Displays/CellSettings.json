@@ -1,0 +1,34 @@
+﻿{
+    "Id": "CellSettings",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Cell settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "单元格设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "セルの設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Zelleinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "셀 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajustes de celda"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt ô"
+        }
+    ]
+}

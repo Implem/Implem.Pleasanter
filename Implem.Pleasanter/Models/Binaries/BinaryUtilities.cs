@@ -1083,7 +1083,8 @@ namespace Implem.Pleasanter.Models
                             column: column,
                             null),
                         controlOnly: controlOnly,
-                        idSuffix: System.Text.RegularExpressions.Regex.Match(controlId, "_\\d+_-?\\d+").Value))
+                        idSuffix: System.Text.RegularExpressions.Regex.Match(controlId, "_\\d+_-?\\d+").Value,
+                        isResponse: true))
                 .SetData("#" + controlId)
                 .ToJson();
         }

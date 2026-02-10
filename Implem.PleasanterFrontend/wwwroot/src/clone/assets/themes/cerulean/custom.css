@@ -238,10 +238,15 @@
     --sd-unit-edit-delete-bg: var(--btn-negative-bg);
     --sd-unit-grid-header-text: var(--nonColor16);
     --sd-unit-grid-header-bg: var(--primaryColor);
+    --sd-unit-grid-header-hover: var(--primaryDark);
     --sd-unit-grid-cell-bg: var(--grid-cell-bg);
     --sd-unit-grid-cell-border: var(--grid-cell-border);
     --sd-unit-grid-cell-vborder: var(--grid-cell-vborder);
     --sd-unit-grid-shadow-color: var(--nonColor12);
+    --sd-unit-grid-tag-text: var(--nonColor06);
+    --sd-unit-grid-tag-bg: var(--nonColor12);
+    --sd-unit-grid-tag-enabled-text: var(--nonColor16);
+    --sd-unit-grid-tag-enabled-bg: var(--primaryColor);
     --sd-modal-bg: var(--sd-base-bg);
     --sd-modal-text: var(--sd-base-text);
     --sd-modal-border: var(--sd-base-border);

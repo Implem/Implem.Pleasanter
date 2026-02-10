@@ -1,4 +1,4 @@
-import SunEditor from 'suneditor';
+﻿import SunEditor from 'suneditor';
 import DOMPurify from 'dompurify';
 import $ from 'jquery';
 
@@ -217,6 +217,7 @@ class RichTextEditorElement extends HTMLElement {
             } else {
                 this.controller.value = contents;
                 $p.set($(this.controller), contents);
+                this.controller?.dispatchEvent(new Event('change', { bubbles: true }));
                 this.smartDesignValueBind(contents);
             }
         }

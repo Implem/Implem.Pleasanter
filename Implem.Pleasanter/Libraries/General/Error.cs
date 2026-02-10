@@ -48,6 +48,7 @@ namespace Implem.Pleasanter.Libraries.General
             FailedReadFile,
             FailedWriteFile,
             FileNotFound,
+            FormulaExecutionFailed,
             GroupDepthMax,
             HasNotChangeColumnPermission,
             HasNotPermission,
@@ -104,6 +105,7 @@ namespace Implem.Pleasanter.Libraries.General
             PermissionNotSelfChange,
             PleaseInputData,
             PleaseUncheck,
+            ProcessNotFound,
             RejectNullImport,
             ReminderErrorContent,
             ReminderErrorTitle,
@@ -117,6 +119,9 @@ namespace Implem.Pleasanter.Libraries.General
             SelectFile,
             SelectOne,
             SelectTargets,
+            ServerScriptErrorDetail,
+            ServerScriptErrorPosition,
+            ServerScriptExecutionFailed,
             SitesLimit,
             TooLongText,
             TooManyCases,
@@ -289,6 +294,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.FileNotFound:
                     return Messages.FileNotFound(
+                        context: context,
+                        data: data);
+                case Types.FormulaExecutionFailed:
+                    return Messages.FormulaExecutionFailed(
                         context: context,
                         data: data);
                 case Types.GroupDepthMax:
@@ -515,6 +524,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.PleaseUncheck(
                         context: context,
                         data: data);
+                case Types.ProcessNotFound:
+                    return Messages.ProcessNotFound(
+                        context: context,
+                        data: data);
                 case Types.RejectNullImport:
                     return Messages.RejectNullImport(
                         context: context,
@@ -565,6 +578,18 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.SelectTargets:
                     return Messages.SelectTargets(
+                        context: context,
+                        data: data);
+                case Types.ServerScriptErrorDetail:
+                    return Messages.ServerScriptErrorDetail(
+                        context: context,
+                        data: data);
+                case Types.ServerScriptErrorPosition:
+                    return Messages.ServerScriptErrorPosition(
+                        context: context,
+                        data: data);
+                case Types.ServerScriptExecutionFailed:
+                    return Messages.ServerScriptExecutionFailed(
                         context: context,
                         data: data);
                 case Types.SitesLimit:

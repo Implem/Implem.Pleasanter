@@ -304,7 +304,8 @@ namespace Implem.Pleasanter.Models
             string columnName,
             bool copy = false,
             Context context = null,
-            Column column = null)
+            Column column = null,
+            bool paramDefault = false)
         {
             var value = GetClass(columnName: columnName);
             if (copy && column?.CopyByDefault == true)
@@ -312,7 +313,8 @@ namespace Implem.Pleasanter.Models
                 return column.GetDefaultInput(context: context) != value;
             }
             return value != GetSavedClass(columnName: columnName)
-                && (column == null
+                && (paramDefault
+                    || column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context) != value);
         }
@@ -466,7 +468,8 @@ namespace Implem.Pleasanter.Models
             string columnName,
             bool copy = false,
             Context context = null,
-            Column column = null)
+            Column column = null,
+            bool paramDefault = false)
         {
             var value = GetDate(columnName: columnName);
             if (copy && column?.CopyByDefault == true)
@@ -474,7 +477,8 @@ namespace Implem.Pleasanter.Models
                 return column.GetDefaultInput(context: context).ToDateTime() != value;
             }
             return value != GetSavedDate(columnName: columnName)
-                && (column == null
+                && (paramDefault
+                    || column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToDateTime() != value);
         }
@@ -541,7 +545,8 @@ namespace Implem.Pleasanter.Models
             string columnName,
             bool copy = false,
             Context context = null,
-            Column column = null)
+            Column column = null,
+            bool paramDefault = false)
         {
             var value = GetDescription(columnName: columnName);
             if (copy && column?.CopyByDefault == true)
@@ -549,7 +554,8 @@ namespace Implem.Pleasanter.Models
                 return column.GetDefaultInput(context: context) != value;
             }
             return value != GetSavedDescription(columnName: columnName)
-                && (column == null
+                && (paramDefault
+                    || column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context) != value);
         }
@@ -616,7 +622,8 @@ namespace Implem.Pleasanter.Models
             string columnName,
             bool copy = false,
             Context context = null,
-            Column column = null)
+            Column column = null,
+            bool paramDefault = false)
         {
             var value = GetCheck(columnName: columnName);
             if (copy && column?.CopyByDefault == true)
@@ -624,7 +631,8 @@ namespace Implem.Pleasanter.Models
                 return column.GetDefaultInput(context: context).ToBool() != value;
             }
             return value != GetSavedCheck(columnName: columnName)
-                && (column == null
+                && (paramDefault
+                    || column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToBool() != value);
         }
@@ -694,9 +702,9 @@ namespace Implem.Pleasanter.Models
             Column column = null)
         {
             var value = GetAttachments(columnName: columnName).RecordingJson();
-            if (copy && column?.CopyByDefault == true)
+            if (copy)
             {
-                return column.GetDefaultInput(context: context) != value;
+                return false;
             }
             return value != GetSavedAttachments(columnName: columnName)
                 && (column == null

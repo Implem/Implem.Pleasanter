@@ -2264,6 +2264,10 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: issueSs);
                     }
+                    else if (model != null)
+                    {
+                        context.ApiRequestBody = model.ToString();
+                    }
                     else
                     {
                         return false;
@@ -2288,6 +2292,10 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: resultSs);
                     }
+                    else if (model != null)
+                    {
+                        context.ApiRequestBody = model.ToString();
+                    }
                     else
                     {
                         return false;
@@ -2311,6 +2319,10 @@ namespace Implem.Pleasanter.Models
                         context.ApiRequestBody = wikiApiModel.ToJsonString(
                             context: context,
                             ss: wikiSs);
+                    }
+                    else if (model != null)
+                    {
+                        context.ApiRequestBody = model.ToString();
                     }
                     else
                     {
@@ -3786,37 +3798,42 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
-        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        private bool UpdatedWithColumn(Context context, SiteSettings ss, bool paramDefault = false)
         {
             return ClassHash.Any(o => Class_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || NumHash.Any(o => Num_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || DateHash.Any(o => Date_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || DescriptionHash.Any(o => Description_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || CheckHash.Any(o => Check_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || AttachmentsHash.Any(o => Attachments_Updated(
                     columnName: o.Key,
                     context: context,
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
-        public bool Updated(Context context, SiteSettings ss)
+        public bool Updated(Context context, SiteSettings ss, bool paramDefault = false)
         {
-            return UpdatedWithColumn(context: context, ss: ss)
+            return UpdatedWithColumn(context: context, ss: ss, paramDefault: paramDefault)
                 || ReferenceId_Updated(context: context)
                 || Ver_Updated(context: context)
                 || ReferenceType_Updated(context: context)
@@ -3853,42 +3870,6 @@ namespace Implem.Pleasanter.Models
             OnConstructed(context: context);
         }
 
-        public string OpenExportMultilingualLabelsDialog(Context context)
-        {
-            SetSite(
-                context: context,
-                initSiteSettings: true);
-            if (!context.CanManageSite(ss: Site.SiteSettings))
-            {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
-            }
-            return new ResponseCollection(context: context)
-                .Html(
-                    "#ExportMultilingualLabelsDialog",
-                    SiteUtilities.ExportMultilingualLabelsDialog(
-                        context: context,
-                        ss: Site.SiteSettings))
-                .ToJson();
-        }
-
-        public string OpenImportMultilingualLabelsDialog(Context context)
-        {
-            SetSite(
-                context: context,
-                initSiteSettings: true);
-            if (!context.CanManageSite(ss: Site.SiteSettings))
-            {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
-            }
-            return new ResponseCollection(context: context)
-                .Html(
-                    "#ImportMultilingualLabelsDialog",
-                    SiteUtilities.ImportMultilingualLabelsDialog(
-                        context: context,
-                        ss: Site.SiteSettings))
-                .ToJson();
-        }
-
         public string ImportMultilingualLabels(Context context)
         {
             SetSite(
@@ -3897,6 +3878,14 @@ namespace Implem.Pleasanter.Models
             if (!context.CanManageSite(ss: Site.SiteSettings))
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            Site.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: Site,
+                referenceId: Site.SiteId);
+            if (Site.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
             var file = context.PostedFiles?.FirstOrDefault();
             if (file == null)
@@ -3930,34 +3919,82 @@ namespace Implem.Pleasanter.Models
                     case ImportErrorType.InvalidSecondColumn:
                         return Messages.ResponseCsvFormatInvalidSecondColumn(context: context).ToJson();
                     default:
-                        return new ResponseCollection(context: context)
-                            .Message(message: new Libraries.Responses.Message { Text = result.ErrorMessage })
-                            .ToJson();
+                        return Messages.ResponseFailedReadFile(context: context).ToJson();
                 }
             }
-            Repository.ExecuteNonQuery(
+            Site.VerUp = true;
+            var errorData = Site.Update(
                 context: context,
-                transactional: true,
-                statements: Rds.UpdateSites(
-                    where: Rds.SitesWhere()
-                        .TenantId(context.TenantId)
-                        .SiteId(Site.SiteId),
-                    param: Rds.SitesParam()
-                        .SiteSettings(Site.SiteSettings.RecordingJson(context: context))));
-            var message = Displays.MultilingualLabelsUpdated(
-                context: context,
-                data: result.UpdatedCount.ToString());
-            if (result.Warnings.Any())
+                ss: Site.SiteSettings,
+                setBySession: false);
+            switch (errorData.Type)
             {
-                message += "\n\n" + Displays.Warnings(context: context) + "\n" + string.Join("\n", result.Warnings);
+                case Error.Types.None:
+                    var message = Displays.MultilingualLabelsUpdated(
+                        context: context,
+                        data: result.UpdatedCount.ToString());
+                    if (result.Warnings.Count != 0)
+                    {
+                        message += "\n\n" + Displays.Warnings(context: context) + "\n" + string.Join("\n", result.Warnings);
+                    }
+                    SetSite(context, initSiteSettings: true);
+                    Site.SetSiteSettings(
+                        context: context,
+                        setSiteSettingsPropertiesBySession: false);
+                    var res = new SitesResponseCollection(
+                        context: context,
+                        siteModel: Site);
+                    res
+                        .ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(
+                            context: context,
+                            ss: Site.SiteSettings))
+                        .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
+                            context: context,
+                            ss: Site.SiteSettings));
+                    var verUp = Versions.VerUp(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        verUp: Site.VerUp);
+                    return res
+                        .Ver(context: context, ss: Site.SiteSettings)
+                        .Timestamp(context: context, ss: Site.SiteSettings)
+                        .Val("#VerUp", Site.VerUp)
+                        .Val("#Ver", Site.Ver)
+                        .Disabled("#VerUp", verUp)
+                        .CloseDialog()
+                        .Html("#HeaderTitle", System.Web.HttpUtility.HtmlEncode(Site.Title.Value))
+                        .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                            context: context,
+                            baseModel: Site,
+                            tableName: "Sites"))
+                        .SetMemory("formChanged", false)
+                        .Message(message: new Message(
+                            id: null,
+                            text: message,
+                            css: "alert-success"))
+                        .Messages(context.Messages)
+                        .Comment(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            column: Site.SiteSettings.GetColumn(context: context, columnName: "Comments"),
+                            comments: Site.Comments,
+                            deleteCommentId: Site.DeleteCommentId)
+                        .ClearFormData()
+                        .PrependComment(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            column: Site.SiteSettings.GetColumn(context: context, columnName: "Comments"),
+                            comments: Site.Comments,
+                            verType: Site.VerType)
+                        .ToJson();
+                case Error.Types.UpdateConflicts:
+                    return Messages.ResponseUpdateConflicts(
+                        context: context,
+                        data: Site.Updator.Name)
+                            .ToJson();
+                default:
+                    return errorData.MessageJson(context: context);
             }
-            return new ResponseCollection(context: context)
-                .CloseDialog()
-                .Message(message: new Libraries.Responses.Message(
-                    id: null,
-                    text: message,
-                    css: "alert-success"))
-                .ToJson();
         }
 
         /// <summary>
@@ -4004,7 +4041,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                 case "Results":
                     var hb = new HtmlBuilder();
-                    var message = ReplaceFormBinarySrcIfForm(context: context, message: ss.FormUnavailableMessage, defaultMessage:Displays.FormUnavailableMessageDefault(context:context));
+                    var message = ReplaceFormBinarySrcIfForm(context: context, message: ss.FormUnavailableMessage, defaultMessage: Displays.FormUnavailableMessageDefault(context: context));
                     var html = HtmlTemplates.SimpleMessages(context: context, message: message);
                     return html;
                 default:

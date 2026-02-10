@@ -882,6 +882,7 @@ namespace Implem.Pleasanter.Models
             bool controlOnly = false,
             bool alwaysSend = false,
             string idSuffix = null,
+            bool isResponse = false,
             bool preview = false,
             bool disableSection = false)
         {
@@ -904,6 +905,7 @@ namespace Implem.Pleasanter.Models
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
+                    isResponse: isResponse,
                     preview: preview,
                     disableSection: disableSection);
             }
@@ -1126,7 +1128,8 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 tenantModel: tenantModel,
                                 column: column,
-                                idSuffix: idSuffix));
+                                idSuffix: idSuffix,
+                                isResponse: true));
                     }
                     else
                     {

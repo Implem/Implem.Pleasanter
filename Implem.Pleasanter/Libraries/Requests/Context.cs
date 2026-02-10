@@ -563,9 +563,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                         Forms.AddIfNotConainsKey(key, request.Form[key]));
             IsNew = Forms.Bool("IsNew") || Action == "new";
             var controlId = Forms.ControlId();
+            ControlledOrder = Forms.List("ControlledOrder");
             if (!controlId.IsNullOrEmpty())
             {
-                ControlledOrder = Forms.List("ControlledOrder");
                 ControlledOrder.RemoveAll(o => o == controlId);
                 ControlledOrder.Insert(0, controlId);
             }

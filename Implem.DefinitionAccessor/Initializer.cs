@@ -184,6 +184,14 @@ namespace Implem.DefinitionAccessor
                 Parameters.Mail.SmtpPassword,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_SmtpPassword"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_SmtpPassword"));
+            Parameters.Mail.OAuthClientId = Strings.CoalesceEmpty(
+                Parameters.Mail.OAuthClientId,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_OAuthClientId"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_OAuthClientId"));
+            Parameters.Mail.OAuthClientSecret = Strings.CoalesceEmpty(
+                Parameters.Mail.OAuthClientSecret,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_OAuthClientSecret"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_OAuthClientSecret"));
             Parameters.General.HtmlUrlPrefix = Strings.CoalesceEmpty(
                 Parameters.General.HtmlUrlPrefix,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_HtmlUrlPrefix"),

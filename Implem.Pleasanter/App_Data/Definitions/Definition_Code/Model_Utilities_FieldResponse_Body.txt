@@ -38,7 +38,8 @@
                         ss: ss,
                         #modelName#Model: #modelName#Model,
                         column: column,
-                        idSuffix: idSuffix));
+                        idSuffix: idSuffix,
+                        isResponse: true));
             }
             else
             {

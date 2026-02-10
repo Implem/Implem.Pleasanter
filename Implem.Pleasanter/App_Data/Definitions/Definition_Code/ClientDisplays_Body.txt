@@ -1,13 +1,23 @@
-﻿$p.display = function (defaultId) {
-    var displays = {
+﻿const displays = {
 <!--ClientDisplays_Parts-->
-    };
-    var localId = defaultId + '_' + $('#Language').val();
-    if (displays[localId]) {
-        return displays[localId];
-    } else if (displays[defaultId]) {
-        return displays[defaultId];
-    } else {
-        return defaultId;
-    }
+} as const;
+
+type KeysWithoutUnderscore<T> = keyof {
+    [K in keyof T as K extends `${string}_${string}` ? never : K]: true;
+};
+
+export type DisplayIdAll = keyof typeof displays;
+
+export type DisplayId = KeysWithoutUnderscore<typeof displays>;
+
+function display(defaultId: DisplayId): string {
+    const language = ($('#Language').val() ?? '').toString();
+    const localId = (language ? `${defaultId}_${language}` : defaultId) as DisplayIdAll;
+    return displays[localId] ?? displays[defaultId] ?? defaultId;
 }
+
+export const Display = {
+    display
+};
+
+$p.display = display;

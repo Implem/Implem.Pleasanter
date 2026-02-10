@@ -3246,6 +3246,14 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                             Type = "bool",
                             Value = (ss.OutputFormulaLogs == true).ToString().ToLower(),
                             Changed = ss.OutputFormulaLogs != ssNew.OutputFormulaLogs
+                        },
+                        new()
+                        {
+                            Label = Displays.GetErrorDetails(context: context),
+                            Name = "FormulasGetErrorDetails",
+                            Type = "bool",
+                            Value = (ss.FormulasGetErrorDetails == true).ToString().ToLower(),
+                            Changed = ss.FormulasGetErrorDetails != ssNew.FormulasGetErrorDetails
                         }
                     }
                         .Where(v => v != null)
@@ -7173,6 +7181,14 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                             Type = "bool",
                             Value = (ss.ServerScriptsAllDisabled == true).ToString().ToLower(),
                             Changed = ss.ServerScriptsAllDisabled != ssNew.ServerScriptsAllDisabled
+                        },
+                        new ()
+                        {
+                            Label = Displays.GetErrorDetails(context: context),
+                            Name = "ServerScriptsGetErrorDetails",
+                            Type = "bool",
+                            Value = (ss.ServerScriptsGetErrorDetails == true).ToString().ToLower(),
+                            Changed = ss.ServerScriptsGetErrorDetails != ssNew.ServerScriptsGetErrorDetails
                         }
                     }
                         .Where(v => v != null)

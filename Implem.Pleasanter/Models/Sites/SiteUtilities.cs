@@ -4167,7 +4167,7 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#FormSettingsEditor",
                                             text: Displays.Form(context: context)),
-                                    _using: FormEnabled(context: context)); 
+                                    _using: FormEnabled(context: context));
                             break;
                     }
                     hb
@@ -5457,14 +5457,22 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.Export(context: context)),
                     _using: context.ContractSettings.Export != false)
-                .Div(attributes: new HtmlAttributes()
-                    .Id("ExportMultilingualLabelsDialog")
-                    .Class("dialog")
-                    .Title(Displays.Export(context: context)), _using: false)
-                .Div(attributes: new HtmlAttributes()
-                    .Id("ImportMultilingualLabelsDialog")
-                    .Class("dialog")
-                    .Title(Displays.Import(context: context)), _using: false)
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("ExportMultilingualLabelsDialog")
+                        .Class("dialog")
+                        .Title(Displays.Export(context: context)),
+                    action: () => hb.ExportMultilingualLabelsDialog(
+                        context: context,
+                        ss: ss))
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("ImportMultilingualLabelsDialog")
+                        .Class("dialog")
+                        .Title(Displays.Import(context: context)),
+                    action: () => hb.ImportMultilingualLabelsDialog(
+                        context: context,
+                        ss: ss))
                 .PermissionsDialog(context: context)
                 .PermissionForCreatingDialog(context: context)
                 .PermissionForUpdatingDialog(context: context)
@@ -6798,7 +6806,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "ImportMultilingualLabels",
                             text: Displays.Import(context: context),
                             controlCss: "button-icon",
-                            onClick: "$p.openImportMultilingualLabelsDialog($(this));",
+                            onClick: "$p.openImportMultilingualLabelsDialog();",
                             icon: "ui-icon-arrowreturnthick-1-e",
                             action: "SetSiteSettings",
                             method: "post")
@@ -6806,10 +6814,10 @@ namespace Implem.Pleasanter.Models
                             controlId: "ExportMultilingualLabels",
                             text: Displays.Export(context: context),
                             controlCss: "button-icon",
-                            onClick: "$p.openExportMultilingualLabelsDialog($(this));",
+                            onClick: "$p.openExportMultilingualLabelsDialog();",
                             icon: "ui-icon-arrowreturnthick-1-w",
                             action: "SetSiteSettings",
-                            method: "post")), _using: false)
+                            method: "post")))
                 .FieldDropDown(
                     context: context,
                     controlId: "AutoVerUpType",
@@ -7706,7 +7714,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 dataLang: "json",
                                 controlId: "MultilingualLabelText",
-                                controlCss: "o-low",
+                                controlCss: " o-low",
                                 fieldCss: "field-wide",
                                 labelText: Displays.MultilingualDisplay(context: context),
                                 text: column.MultilingualLabelText)));
@@ -9563,11 +9571,17 @@ namespace Implem.Pleasanter.Models
                         confirm: Displays.ConfirmSynchronize(context: context)))
                 .EditFormula(context: context, ss: ss)
                 .FieldCheckBox(
-                        controlId: "OutputFormulaLogs",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.OutputLog(context: context),
-                        _checked: ss.OutputFormulaLogs == true,
-                        labelPositionIsRight: true));
+                    controlId: "OutputFormulaLogs",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.OutputLog(context: context),
+                    _checked: ss.OutputFormulaLogs == true,
+                    labelPositionIsRight: true)
+                .FieldCheckBox(
+                    controlId: "FormulasGetErrorDetails",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.GetErrorDetails(context: context),
+                    _checked: ss.FormulasGetErrorDetails == true,
+                    labelPositionIsRight: true));
         }
 
         /// <summary>
@@ -9984,7 +9998,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.AfterProcessStatusChangeActionType(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.AllowBulkProcessing(context: context)))));
+                        .Text(text: Displays.AllowBulkProcessing(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))));
         }
 
         /// <summary>
@@ -10061,7 +10077,11 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Span(
                                         css: "ui-icon ui-icon-circle-check",
-                                        _using: process.AllowBulkProcessing == true)));
+                                        _using: process.AllowBulkProcessing == true))
+                                .Td(action: () => hb
+                                    .Span(
+                                        css: "ui-icon ui-icon-circle-check",
+                                        _using: process.Disabled == true)));
                     });
                 });
             }
@@ -10347,7 +10367,12 @@ namespace Implem.Pleasanter.Models
                         controlId: "ProcessAllowBulkProcessing",
                         controlCss: " always-send",
                         labelText: Displays.AllowBulkProcessing(context: context),
-                        _checked: process.AllowBulkProcessing == true)));
+                        _checked: process.AllowBulkProcessing == true)
+                    .FieldCheckBox(
+                        controlId: "ProcessDisabled",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: process.Disabled == true)));
         }
 
         /// <summary>
@@ -14535,10 +14560,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder ExportMultilingualLabelsDialog(
-            Context context, SiteSettings ss)
+        public static HtmlBuilder ExportMultilingualLabelsDialog(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ExportMultilingualLabelsForm")
@@ -14552,10 +14575,10 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.CharacterCode(context: context),
                         optionCollection: new Dictionary<string, string>
                         {
-                            { "Shift-JIS", "Shift-JIS" },
-                            { "UTF-8", "UTF-8" }
+                            { "UTF-8", "UTF-8" },
+                            { "Shift-JIS", "Shift-JIS" }
                         },
-                        selectedValue: "Shift-JIS")
+                        selectedValue: "UTF-8")
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -14574,10 +14597,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder ImportMultilingualLabelsDialog(
-            Context context, SiteSettings ss)
+        public static HtmlBuilder ImportMultilingualLabelsDialog(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ImportMultilingualLabelsForm")
@@ -14597,10 +14618,10 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.CharacterCode(context: context),
                         optionCollection: new Dictionary<string, string>
                         {
-                            { "Shift-JIS", "Shift-JIS" },
-                            { "UTF-8", "UTF-8" }
+                            { "UTF-8", "UTF-8" },
+                            { "Shift-JIS", "Shift-JIS" }
                         },
-                        selectedValue: "Shift-JIS")
+                        selectedValue: "UTF-8")
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -16510,7 +16531,13 @@ namespace Implem.Pleasanter.Models
                         _checked: ss.ServerScriptsAllDisabled == true))
                 .EditServerScript(
                     context: context,
-                    ss: ss));
+                    ss: ss)
+                .FieldCheckBox(
+                    controlId: "ServerScriptsGetErrorDetails",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.GetErrorDetails(context: context),
+                    _checked: ss.ServerScriptsGetErrorDetails == true,
+                    labelPositionIsRight: true));
         }
 
         /// <summary>
@@ -16958,7 +16985,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.ExposeFormToAnonymousUsers(context: context),
                         _checked: !guid.IsNullOrEmpty(),
                         onChange: "$p.toggleSitesForm(this);")
-                    .Hidden( controlId: "Sites_Form", value: guid) //DB操作要の値
+                    .Hidden(controlId: "Sites_Form", value: guid) //DB操作要の値
                     .FieldTextBox(
                         controlId: "FormUrl",
                         fieldCss: "field-wide",

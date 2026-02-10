@@ -8,4 +8,14 @@
             $p.openDropDownSearchDialog($(this));
         }
     });
+    $(document).on('dblclick', '#DropDownSearchResults > li', function () {
+        if ($('#ToDisableDropDownSearchResults').length) {
+            $('#ToDisableDropDownSearchResults').click();
+        } else {
+            $('[data-action="SelectSearchDropDown"]').click();
+        }
+    });
+    $(document).on('dblclick', '#DropDownSearchSourceResults > li', function () {
+        $('#ToEnableDropDownSearchResults').click();
+    });
 });

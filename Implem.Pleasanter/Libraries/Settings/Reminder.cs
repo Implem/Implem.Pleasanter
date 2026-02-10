@@ -51,7 +51,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             LineGroup = 5,
             Teams = 6,
             RocketChat = 7,
-            InCircle = 8
+            InCircle = 8,
+            LineWorks = 9,
         }
 
         public Reminder()
@@ -275,6 +276,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 _username: From,
                                 _token: Token)
                                     .Send(To, ReminderType == ReminderTypes.LineGroup);
+                        }
+                        break;
+                    case ReminderTypes.LineWorks:
+                        if (Parameters.Reminder.LineWorks && !notSend)
+                        {
+                            new LineWorks(
+                                _context: context,
+                                _title: $"{title}",
+                                _text: $"{body}")
+                                    .Send(To);
                         }
                         break;
                     case ReminderTypes.Teams:

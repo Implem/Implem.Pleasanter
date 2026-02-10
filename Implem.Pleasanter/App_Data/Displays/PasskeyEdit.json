@@ -1,0 +1,31 @@
+﻿{
+    "Id": "PasskeyEdit",
+    "Type": 110,
+    "Languages": [
+        { "Body": "Edit passkey" },
+        {
+            "Language": "zh",
+            "Body": "编辑通行密钥"
+        },
+        {
+            "Language": "ja",
+            "Body": "パスキーの編集"
+        },
+        {
+            "Language": "de",
+            "Body": "Passkey bearbeiten"
+        },
+        {
+            "Language": "ko",
+            "Body": "패스키 편집"
+        },
+        {
+            "Language": "es",
+            "Body": "Editar clave de acceso"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chỉnh sửa khóa truy cập"
+        }
+    ]
+}

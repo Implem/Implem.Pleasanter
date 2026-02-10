@@ -151,5 +151,24 @@ namespace Implem.Libraries.Utilities
             var json = self.ToSingleList().ToJson();
             return $"{json.Substring(1, json.Length - 2)}";
         }
+
+        public static string NormalizeYenSymbol(this object self)
+        {
+            if (self == null) return null;
+            var value = self.ToString().Trim();
+            if (value.IsNullOrEmpty())
+            {
+                return value;
+            }
+            if (value[0] == '\\' || value[0] == '￥')
+            {
+                value = '¥' + value.Substring(1);
+            }
+            else if (value.Length >= 2 && value[0] == '-' && (value[1] == '\\' || value[1] == '￥'))
+            {
+                value = "-" + '¥' + value.Substring(2);
+            }
+            return value;
+        }
     }
 }

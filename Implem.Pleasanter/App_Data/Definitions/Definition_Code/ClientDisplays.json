@@ -1,5 +1,5 @@
 ﻿{
     "Id": "ClientDisplays",
-    "OutputPath": "..\\Implem.PleasanterFrontend\\wwwroot\\src\\scripts\\generals\\display.js",
+    "OutputPath": "..\\Implem.PleasanterFrontend\\wwwroot\\src\\scripts\\generals\\display.ts",
     "Source": "Mvc"
 }

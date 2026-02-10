@@ -1,4 +1,4 @@
-import { Marked } from 'marked';
+﻿import { Marked } from 'marked';
 import DOMPurify from 'dompurify';
 import hljs from 'highlight.js';
 import $ from 'jquery';
@@ -104,6 +104,7 @@ class MarkdownFieldElement extends HTMLElement {
             this.querySelector('.md-btn.is-viewer')?.remove();
             this.querySelector('.bottom-tools')?.remove();
             this.viewerElem?.classList.add('control-text', 'not-send');
+            this.controller.disabled = true;
             if (this.isDisabled) {
                 this.classList.add('is-disabled');
                 this.controller.remove();

@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Exceptions;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -84,7 +85,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetIsErrorScript()
                     + GetIfErrorScript()
                     + GetDateTimeScript();
-                var value = engine.Evaluate(functionScripts + formulaScript);
+                object value;
+                try
+                {
+                    value = engine.Evaluate(functionScripts + formulaScript);
+                }
+                catch (Exception ex)
+                {
+                    if (ex is ScriptEngineException se)
+                    {
+                        throw new FormulaErrorException(se.Message, se.ErrorDetails);
+                    }
+                    throw new FormulaErrorException(ex.Message);
+                }
                 return value == Undefined.Value ? string.Empty : value;
             }
         }

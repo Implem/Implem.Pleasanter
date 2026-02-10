@@ -1773,6 +1773,7 @@ namespace Implem.Pleasanter.Models
             bool controlOnly = false,
             bool alwaysSend = false,
             string idSuffix = null,
+            bool isResponse = false,
             bool preview = false,
             bool disableSection = false)
         {
@@ -1795,6 +1796,7 @@ namespace Implem.Pleasanter.Models
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
+                    isResponse: isResponse,
                     preview: preview,
                     disableSection: disableSection);
             }
@@ -2137,6 +2139,16 @@ namespace Implem.Pleasanter.Models
                             .UserId(userModel.UserId)
                             .Password(_operator: "is not null"))))
             {
+                if (Parameters.Authentication.PasskeyParameters.Enabled && userModel.Self(context))
+                {
+                    hb.Button(
+                        controlId: "OpenPasskeyDialog",
+                        text: Displays.Passkey(context: context),
+                        controlCss: "button-icon button-positive",
+                        onClick: "$p.openPasskeyDialog();",
+                        icon: "ui-icon-key",
+                        selector: "#PasskeyDialog");
+                }
                 if (userModel.Self(context: context)
                     && context.UserSettings?.EnableManageTenant != true)
                 {
@@ -2192,7 +2204,10 @@ namespace Implem.Pleasanter.Models
                 .ResetPasswordDialog(
                     context: context,
                     ss: ss,
-                    userId: userModel.UserId);
+                    userId: userModel.UserId)
+                .PasskeyDialog(
+                    context: context,
+                    _using: Parameters.Authentication.PasskeyParameters.Enabled && userModel.Self(context));
         }
 
         public static string EditorJson(Context context, SiteSettings ss, int userId)
@@ -2312,7 +2327,8 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 userModel: userModel,
                                 column: column,
-                                idSuffix: idSuffix));
+                                idSuffix: idSuffix,
+                                isResponse: true));
                     }
                     else
                     {
@@ -4454,6 +4470,17 @@ namespace Implem.Pleasanter.Models
                                                 action: "Authenticate",
                                                 method: "post",
                                                 type: "submit"))
+                                        .Div(id: "PasskeyLoginDiv",
+                                            css: " command-center",
+                                            action: () => hb
+                                                .Button(
+                                                    controlId: "PasskeyLogin",
+                                                    controlCss: "button-icon button-right-justified button-positive",
+                                                    text: Displays.PasskeyLogin(context: context),
+                                                    icon: "ui-icon-key",
+                                                    action: "PasskeyLogin",
+                                                    onClick: "$p.passkeyGetAssertionOptions();"),
+                                            _using: Parameters.Authentication.PasskeyParameters.Enabled)
                                         .Div(id: "SsoLogin",
                                             css: " command-center",
                                             action: () => hb

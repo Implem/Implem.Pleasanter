@@ -1,5 +1,4 @@
 ﻿using Implem.CodeDefiner.Functions.Rds.Parts;
-using Implem.CodeDefiner.Functions.Rds.Parts.PostgreSql;
 using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "FormulaExecutionFailed",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Formula calculation failed.\nPlease check the formula, fix it, and try again."
+        },
+        {
+            "Language": "zh",
+            "Body": "公式计算失败。\n请检查公式并修正后重试。"
+        },
+        {
+            "Language": "ja",
+            "Body": "計算式の計算に失敗しました。\n計算式を確認・修正してから、再度お試しください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Berechnung der Formel ist fehlgeschlagen.\nBitte überprüfen und korrigieren Sie die Formel und versuchen Sie es erneut."
+        },
+        {
+            "Language": "ko",
+            "Body": "공식 계산에 실패했습니다.\n공식을 확인 및 수정한 후 다시 시도해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "El cálculo de la fórmula falló.\nRevisa y corrige la fórmula y vuelve a intentarlo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tính toán công thức thất bại.\nVui lòng kiểm tra và sửa công thức rồi thử lại."
+        }
+    ]
+}

@@ -9,6 +9,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool Slack;
         public bool ChatWork;
         public bool Line;
+        public bool LineWorks;
         public bool Teams;
         public bool RocketChat;
         public bool InCircle;

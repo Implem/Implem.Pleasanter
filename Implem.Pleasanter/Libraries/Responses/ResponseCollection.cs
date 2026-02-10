@@ -187,7 +187,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             {
                 return this;
             }
-            var process = ss.Processes.FirstOrDefault(process => process.IsTarget(Context));
+            var process = ss.GetProcesses()?.FirstOrDefault(process => process.IsTarget(Context));
             if (process != null)
             {
                 if (process.AfterProcessStatusChangeActionType == Process.AfterProcessStatusChangeActionTypes.ReturnToList)

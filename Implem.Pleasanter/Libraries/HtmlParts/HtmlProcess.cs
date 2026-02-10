@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             ServerScriptModelRow serverScriptModelRow = null)
         {
             var serverScriptElements = serverScriptModelRow?.Elements;
-            ss.Processes
+            ss.GetProcesses()
                 ?.Where(process => process.Accessable(
                     context: context,
                     ss: ss))

@@ -104,7 +104,7 @@ namespace Implem.CodeDefiner
                     case "ConvertTime":
                         ConvertTime(
                             factory: factory,
-                            hourOffset: int.Parse(argHash.Get("h") ?? "-9"));
+                            timeOffset: argHash.Get("h") ?? "-9");
                         break;
                     case "merge":
                         MergeParameters(
@@ -541,15 +541,32 @@ namespace Implem.CodeDefiner
 
         private static void ConvertTime(
             ISqlObjectFactory factory,
-            int hourOffset)
+            string timeOffset)
         {
             TryOpenConnections(factory);
-            Functions.Rds.TimeConverter.Convert(
-                factory: factory,
-                hourOffset: hourOffset);
-            Consoles.Write(
-                DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
-                Consoles.Types.Success);
+            try
+            {
+                Functions.Rds.TimeConverter.Convert(
+                    factory: factory,
+                    timeOffset: timeOffset);
+                Consoles.Write(
+                    DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
+                    Consoles.Types.Success);
+            }
+            catch (FormatException e)
+            {
+                Consoles.Write(
+                    $"Invalid time format: {e.Message}",
+                    Consoles.Types.Error,
+                    abort: true);
+            }
+            catch (ArgumentException e)
+            {
+                Consoles.Write(
+                    $"Invalid argument: {e.Message}",
+                    Consoles.Types.Error,
+                    abort: true);
+            }
         }
 
         private static void TrialConfigureDatabase(

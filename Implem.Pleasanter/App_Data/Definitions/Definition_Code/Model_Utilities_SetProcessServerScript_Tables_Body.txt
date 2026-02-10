@@ -1,0 +1,23 @@
+﻿var processes = #modelName#ApiModel?.ProcessId.HasValue == true
+    ? ss.Processes?.Where(process => process.Id == #modelName#ApiModel.ProcessId.Value).ToList()
+    : null;
+foreach (var process in processes ?? new List<Process>())
+{
+    process.MatchConditions = #modelName#Model.GetProcessMatchConditions(
+        context: context,
+        ss: ss,
+        process: process);
+    if (process.MatchConditions && process.Accessable(
+        context: context,
+        ss: ss))
+    {
+        #modelName#Model.SetByProcess(
+            context: context,
+            ss: ss,
+            process: process);
+    }
+    else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
+    {
+        return false;
+    }
+}

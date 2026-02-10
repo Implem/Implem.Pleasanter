@@ -2346,12 +2346,14 @@ body {
     #EditorComments {
         position: sticky;
         top: 0;
-        z-index: 1;
         order: 1;
         padding: 16px;
         margin-bottom: 0;
         color: var(--base-text);
-        background: var(--editer-comment-bg);
+
+        @supports (-webkit-touch-callout: none) {
+            z-index: 1;
+        }
         .comment {
             color: var(--base-text);
             background: none;

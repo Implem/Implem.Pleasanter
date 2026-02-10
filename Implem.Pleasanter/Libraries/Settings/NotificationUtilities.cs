@@ -39,6 +39,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Notification.Types.LineGroup.ToInt().ToString(),
                     Displays.LineGroup(context: context));
             }
+            if (Parameters.Notification.LineWorks)
+            {
+                notificationTypes.Add(
+                    Notification.Types.LineWorks.ToInt().ToString(),
+                    Displays.LineWorks(context: context));
+            }
             if (Parameters.Notification.Teams)
             {
                 notificationTypes.Add(
@@ -120,6 +126,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                             notificationTypes.Add(
                                 type.ToInt().ToString(),
                                 Displays.LineGroup(context: context));
+                        }
+                        break;
+                    case Notification.Types.LineWorks:
+                        if (Parameters.Notification.LineWorks)
+                        {
+                            notificationTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.LineWorks(context: context));
                         }
                         break;
                     case Notification.Types.Teams:

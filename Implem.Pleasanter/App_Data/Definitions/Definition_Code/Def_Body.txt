@@ -160,6 +160,7 @@ namespace Implem.DefinitionAccessor
             {
                 var builder = factory.CreateSqlConnectionStringBuilder(connectionString);
                 builder.InitialCatalog = initialCatalog;
+                builder.SearchPath = initialCatalog;
                 connectionString = builder.ConnectionString;
             }
             return new SqlIo(

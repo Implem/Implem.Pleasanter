@@ -1,4 +1,6 @@
-﻿type CaptionsLanguage = {
+﻿import { DisplayId } from '../../generals/display';
+
+type CaptionsLanguage = {
     ja: string[];
     en: string[];
 };
@@ -286,13 +288,13 @@ const POPUP_IMAGE_MAP: Record<string, PopupImageConfig> = {
     }
 };
 
-const buildPopupContents = (dataType: string) => {
+const buildPopupContents = (dataType: DataType) => {
     const dataTypeLower = String(dataType || '').toLowerCase();
     const isBasic = dataTypeLower === 'basic';
     const languageElement = document.getElementById('Language') as HTMLInputElement | null;
     const language = languageElement ? languageElement.value : 'ja';
 
-    const getHeaderTag = (dataTypeLower: string, dataType: string) => {
+    const getHeaderTag = (dataTypeLower: string, dataType: DataType) => {
         const iconMap: { [key: string]: string } = {
             class: 'text_fields',
             num: 'timer_10',
@@ -310,7 +312,7 @@ const buildPopupContents = (dataType: string) => {
 </header>`;
     };
 
-    const getDescriptionTag = (dataType: string) => {
+    const getDescriptionTag = (dataType: DataType) => {
         const descriptionContent = $p.display(`EditorColumnsPopup${dataType}`);
         return `
 <div class="popup-body-description">
@@ -320,7 +322,7 @@ const buildPopupContents = (dataType: string) => {
 </div>`;
     };
 
-    const getAnchorTag = (dataTypeLower: string, dataType: string, isBasic: boolean) => {
+    const getAnchorTag = (dataTypeLower: string, dataType: DataType, isBasic: boolean) => {
         const suffix = isBasic ? 'column' : dataTypeLower;
         const userManualUrlBase = `${$p.display('UserManualUrl')}${suffix}`;
         const utmSource = (document.getElementById('utmSource') as HTMLInputElement | null)?.value ?? '';
@@ -388,6 +390,11 @@ const buildPopupContents = (dataType: string) => {
     `;
 };
 
+type EditorColumnsPopupId = Extract<DisplayId, `EditorColumnsPopup${string}`>;
+type DataType = EditorColumnsPopupId extends `EditorColumnsPopup${infer Rest}` ? Rest : never;
+type DataTypeKey = Uncapitalize<DataType>;
+type DataTypeMapType = { [K in DataTypeKey]: Capitalize<K> };
+
 const getTypeFromControl = (controlElement: HTMLElement) => {
     const el = controlElement;
     if (!el) {
@@ -396,8 +403,8 @@ const getTypeFromControl = (controlElement: HTMLElement) => {
     const id = el.id || '';
     const match = id.match(/^(?:left|right)-editor-columns-filter-button-([a-z_]+)$/i);
     if (match && match[1]) {
-        const token = match[1].toLowerCase();
-        const map: { [key: string]: string } = {
+        const token = match[1].toLowerCase() as DataTypeKey;
+        const map: DataTypeMapType = {
             basic: 'Basic',
             class: 'Class',
             num: 'Num',

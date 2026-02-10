@@ -1,0 +1,33 @@
+﻿{
+    "Id": "GetErrorDetails",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Get error details"
+        },
+        {
+            "Language": "zh",
+            "Body": "获取错误详情"
+        },
+        {
+            "Language": "ja",
+            "Body": "エラーの詳細を取得する"
+        },
+        {
+            "Language": "de",
+            "Body": "Fehlerdetails abrufen"
+        },
+        {
+            "Language": "ko",
+            "Body": "오류 상세 정보 가져오기"
+        },
+        {
+            "Language": "es",
+            "Body": "Obtener detalles del error"
+        },
+        {
+            "Language": "vn",
+            "Body": "Lấy chi tiết lỗi"
+        }
+    ]
+}

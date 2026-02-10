@@ -30,6 +30,17 @@ namespace Implem.SqlServer
             }
         }
 
+        public string SearchPath
+        {
+            get
+            {
+                return string.Empty;
+            }
+            set
+            {
+            }
+        }
+
         public SqlServerConnectionStringBuilder(string connectionString)
         {
             instance = new SqlConnectionStringBuilder(connectionString);

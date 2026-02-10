@@ -2,7 +2,7 @@
     Context context,
     SiteSettings ss)
 {
-    ss.Processes?.ForEach(process =>
+    ss.GetProcesses()?.ForEach(process =>
         process.MatchConditions = GetProcessMatchConditions(
             context: context,
             ss: ss,

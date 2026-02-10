@@ -869,6 +869,7 @@ namespace Implem.Pleasanter.Models
             bool alwaysSend = false,
             bool disableAutoPostBack = false,
             string idSuffix = null,
+            bool isResponse = false,
             bool preview = false,
             bool disableSection = false)
         {
@@ -910,6 +911,7 @@ namespace Implem.Pleasanter.Models
                     alwaysSend: alwaysSend,
                     disableAutoPostBack: disableAutoPostBack,
                     idSuffix: idSuffix,
+                    isResponse: isResponse,
                     preview: preview,
                     disableSection: disableSection);
             }
@@ -1450,7 +1452,8 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 wikiModel: wikiModel,
                                 column: column,
-                                idSuffix: idSuffix));
+                                idSuffix: idSuffix,
+                                isResponse: true));
                     }
                     else
                     {
@@ -2203,7 +2206,7 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
-            if(HasInvalidValueAsApiDataAtUpdate(wikiApiModel))
+            if (HasInvalidValueAsApiDataAtUpdate(wikiApiModel))
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
@@ -2287,7 +2290,7 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
-            if(HasInvalidValueAsApiDataAtUpdate(wikiApiModel))
+            if (HasInvalidValueAsApiDataAtUpdate(wikiApiModel))
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }

@@ -58,7 +58,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Teams = 6,
             RocketChat = 7,
             InCircle = 8,
-            HttpClient = 9
+            HttpClient = 9,
+            LineWorks = 10,
         }
 
         public enum Expressions : int
@@ -312,6 +313,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                             _username: from,
                             _token: Token)
                                 .Send(Address, Type == Types.LineGroup);
+                    }
+                    break;
+                case Types.LineWorks:
+                    if (Parameters.Notification.LineWorks)
+                    {
+                        new LineWorks(
+                            _context: context,
+                            _title: $"{Prefix}{title}",
+                            _text: $"{body}")
+                                .Send(Address);
                     }
                     break;
                 case Types.Teams:

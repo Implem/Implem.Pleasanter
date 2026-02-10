@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ServerScriptErrorPosition",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Location: line {0}, column {1}\n\nError code:\n{2}"
+        },
+        {
+            "Language": "zh",
+            "Body": "位置：第 {0} 行，第 {1} 列\n\n出错代码：\n{2}"
+        },
+        {
+            "Language": "ja",
+            "Body": "位置: {0} 行目、{1} 列目\n\nエラーコード:\n{2}"
+        },
+        {
+            "Language": "de",
+            "Body": "Position: Zeile {0}, Spalte {1}\n\nFehlercode:\n{2}"
+        },
+        {
+            "Language": "ko",
+            "Body": "위치: {0}행, {1}열\n\n오류 코드:\n{2}"
+        },
+        {
+            "Language": "es",
+            "Body": "Ubicación: línea {0}, columna {1}\n\nCódigo de error:\n{2}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Vị trí: dòng {0}, cột {1}\n\nMã lỗi:\n{2}"
+        }
+    ]
+}

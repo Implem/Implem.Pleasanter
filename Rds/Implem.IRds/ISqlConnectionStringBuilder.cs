@@ -4,5 +4,6 @@
     {
         string InitialCatalog { get; set; }
         string ConnectionString { get; set; }
+        string SearchPath { get; set; }
     }
 }

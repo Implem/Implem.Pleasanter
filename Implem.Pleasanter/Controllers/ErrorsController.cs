@@ -196,5 +196,29 @@ namespace Implem.Pleasanter.Controllers
             ViewBag.HtmlBody = html;
             return View();
         }
+
+        [AllowAnonymous]
+        public ActionResult ServerScriptError()
+        {
+            Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
+            var context = new Context();
+            var html = HtmlTemplates.Error(
+                context: context,
+                errorData: new ErrorData(type: Error.Types.ServerScriptExecutionFailed));
+            ViewBag.HtmlBody = html;
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult FormulaError()
+        {
+            Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
+            var context = new Context();
+            var html = HtmlTemplates.Error(
+                context: context,
+                errorData: new ErrorData(type: Error.Types.FormulaExecutionFailed));
+            ViewBag.HtmlBody = html;
+            return View();
+        }
     }
 }

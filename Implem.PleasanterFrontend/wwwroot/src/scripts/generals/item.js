@@ -56,7 +56,7 @@ $p.copy = function ($control) {
 $p.search = function (searchWord, redirect, offset) {
     offset = offset !== undefined ? offset : 0;
     if ($p.searchWord !== searchWord + offset) {
-        var url = $('#ApplicationPath').val() + 'items/search?text=' + escape(searchWord);
+        var url = $('#ApplicationPath').val() + 'items/search?text=' + encodeURIComponent(searchWord);
         if (offset > 0) url += '&offset=' + offset;
         if (redirect) {
             $p.transition(url);

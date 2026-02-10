@@ -189,6 +189,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Link> Links;
         public SettingList<Summary> Summaries;
         public SettingList<FormulaSet> Formulas;
+        public bool? FormulasGetErrorDetails;
         public SettingList<Process> Processes;
         public SettingList<StatusControl> StatusControls;
         public int? ViewLatestId;
@@ -212,6 +213,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? HtmlsAllDisabled;
         public SettingList<ServerScript> ServerScripts;
         public bool? ServerScriptsAllDisabled;
+        public bool? ServerScriptsGetErrorDetails;
         public SettingList<BulkUpdateColumn> BulkUpdateColumns;
         public SettingList<RelatingColumn> RelatingColumns;
         public SettingList<DashboardPart> DashboardParts;
@@ -433,6 +435,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ScriptsAllDisabled = ScriptsAllDisabled ?? false;
             StylesAllDisabled = StylesAllDisabled ?? false;
             HtmlsAllDisabled = HtmlsAllDisabled ?? false;
+            ServerScriptsGetErrorDetails = ServerScriptsGetErrorDetails ?? false;
+            FormulasGetErrorDetails = FormulasGetErrorDetails ?? false;
         }
 
         public void SetLinkedSiteSettings(
@@ -1099,6 +1103,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (HtmlsAllDisabled == true)
             {
                 ss.HtmlsAllDisabled = HtmlsAllDisabled;
+            }
+            if (ServerScriptsGetErrorDetails == true)
+            {
+                ss.ServerScriptsGetErrorDetails = ServerScriptsGetErrorDetails;
+            }
+            if (FormulasGetErrorDetails == true)
+            {
+                ss.FormulasGetErrorDetails = FormulasGetErrorDetails;
             }
             Aggregations?.ForEach(aggregations =>
             {
@@ -1952,12 +1964,14 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<string> GetDefaultColumns(Context context)
         {
-            List<string> defaultColumns = DefaultGridColumns(context)
+            var targetColumnNames = DefaultGridColumns(context)
                 .Concat(DefaultEditorColumns(context))
-                .Concat(DefaultFilterColumns().Where(o => o == "Locked"))
-                .Distinct()
+                .Concat(new[] { "Creator", "CreatedTime", "Locked" })
+                .ToHashSet();
+            return Columns
+                .Where(column => targetColumnNames.Contains(column.ColumnName))
+                .Select(column => column.ColumnName)
                 .ToList();
-            return defaultColumns;
         }
 
         private bool EditorColumn(ColumnDefinition columnDefinition)
@@ -3282,9 +3296,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                         attributes: ProcessValidateInputColumnAttributes(column: column)));
         }
 
+        public IEnumerable<Process> GetProcesses()
+        {
+            return Processes?.Where(process => process.Disabled != true);
+        }
+
         public Dictionary<string, ControlData> BulkProcessingItems(Context context, SiteSettings ss)
         {
-            var items = Processes
+            var items = GetProcesses()
                 ?.Where(process => process.Accessable(
                     context: context,
                     ss: ss))
@@ -4169,6 +4188,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "FormEndDate": FormEndDateTime = value.IsNullOrEmpty() ? null : value.ToDateTime().ToUniversal(context: context); break;
                 case "FormUnavailableMessage": FormUnavailableMessage = value; break;
                 case "FormThanksMessage": FormThanksMessage = value; break;
+                case nameof(ServerScriptsGetErrorDetails): ServerScriptsGetErrorDetails = value.ToBool(); break;
+                case nameof(FormulasGetErrorDetails): FormulasGetErrorDetails = value.ToBool(); break;
             }
         }
 
@@ -6142,7 +6163,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Process GetProcess(Context context, int id)
         {
             return Processes
-                ?.Where(o => o.Accessable(
+                ?.Where(o => o.Disabled != true)
+                .Where(o => o.Accessable(
                     context: context,
                     ss: this))
                 .FirstOrDefault(o => o.Id == id);

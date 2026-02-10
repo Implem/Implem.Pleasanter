@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private readonly Context Context;
         public BaseItemModel Model;
         private readonly bool OnTesting;
+        public int? ProcessId { get; set; }
 
         public ServerScriptModelApiModel(Context context, BaseItemModel model, bool onTesting)
         {
@@ -94,6 +95,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         return true;
                     case nameof(BaseItemModel.Title):
                         result = Model.Title.Value;
+                        return true;
+                    case "ProcessId":
+                        result = ProcessId;
                         return true;
                 }
                 if (Model is SiteModel siteModel)
@@ -267,6 +271,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 case nameof(BaseItemModel.Title):
                     Model.Title.Value = value.ToStr();
                     return true;
+                case "ProcessId":
+                    ProcessId = value.ToInt();
+                    return true;
             }
             if (Model is SiteModel siteModel)
             {
@@ -438,6 +445,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss);
                 apiModel.Comments = null;
+                apiModel.ProcessId = ProcessId;
                 return apiModel.ToJson();
             }
             else if (Model is ResultModel resultModel)
@@ -446,6 +454,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss);
                 apiModel.Comments = null;
+                apiModel.ProcessId = ProcessId;
                 return apiModel.ToJson();
             }
             else if (Model is WikiModel wikiModel)

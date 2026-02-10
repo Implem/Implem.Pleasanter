@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ServerScriptExecutionFailed",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Server script execution failed.\nPlease check the server script, fix it, and try again."
+        },
+        {
+            "Language": "zh",
+            "Body": "服务器脚本执行失败。\n请检查服务器脚本并修正后重试。"
+        },
+        {
+            "Language": "ja",
+            "Body": "サーバスクリプトの実行に失敗しました。\nサーバスクリプトを確認・修正してから、再度お試しください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Ausführung des Serverskripts ist fehlgeschlagen.\nBitte überprüfen und korrigieren Sie das Serverskript und versuchen Sie es erneut."
+        },
+        {
+            "Language": "ko",
+            "Body": "서버 스크립트 실행에 실패했습니다.\n서버 스크립트를 확인 및 수정한 후 다시 시도해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Error al ejecutar la secuencia de comandos del servidor.\nRevisa y corrige la secuencia de comandos del servidor y vuelve a intentarlo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Thực thi bản thảo máy chủ thất bại.\nVui lòng kiểm tra và sửa bản thảo máy chủ rồi thử lại."
+        }
+    ]
+}

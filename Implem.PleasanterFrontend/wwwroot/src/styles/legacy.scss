@@ -2934,6 +2934,7 @@ label.required::after {
     z-index: 90;
     width: 100%;
     text-align: center;
+    white-space: pre-line;
 }
 
 .message .body {

@@ -124,7 +124,7 @@ private string ExecFormulaExtended(
         case "Invalid Parameter":
             if (formulaSet.IsDisplayError == true)
             {
-                throw new Exception($"Formula error {value}");
+                throw new Implem.Libraries.Exceptions.FormulaErrorException($"Formula error {value}");
             }
             new SysLogModel(
                 context: context,

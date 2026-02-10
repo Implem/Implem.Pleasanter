@@ -3989,37 +3989,42 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
-        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        private bool UpdatedWithColumn(Context context, SiteSettings ss, bool paramDefault = false)
         {
             return ClassHash.Any(o => Class_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || NumHash.Any(o => Num_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || DateHash.Any(o => Date_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || DescriptionHash.Any(o => Description_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || CheckHash.Any(o => Check_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || AttachmentsHash.Any(o => Attachments_Updated(
                     columnName: o.Key,
                     context: context,
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
-        public bool Updated(Context context, SiteSettings ss)
+        public bool Updated(Context context, SiteSettings ss, bool paramDefault = false)
         {
-            return UpdatedWithColumn(context: context, ss: ss)
+            return UpdatedWithColumn(context: context, ss: ss, paramDefault: paramDefault)
                 || TenantId_Updated(context: context)
                 || UserId_Updated(context: context)
                 || Ver_Updated(context: context)
@@ -4253,7 +4258,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Authenticate(Context context, string returnUrl, bool isAuthenticationByMail, bool noHttpContext = false)
+        public string Authenticate(Context context, string returnUrl, bool isAuthenticationByMail, bool noHttpContext = false, bool isAuthenticationByPasskey = false)
         {
             if (Parameters.Security?.SecondaryAuthentication?.NotificationType == ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationModeNotificationTypes.Mail)
             {
@@ -4267,7 +4272,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Deny(context: context);
             }
-            if (Authenticate(context: context))
+            if (isAuthenticationByPasskey || Authenticate(context: context))
             {
                 if (LoginExpired())
                 {

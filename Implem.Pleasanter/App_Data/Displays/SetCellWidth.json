@@ -1,6 +1,7 @@
 ﻿{
     "Id": "SetCellWidth",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Cell width"

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ViewDetails",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "View Details"
+        },
+        {
+            "Language": "zh",
+            "Body": "查看详情"
+        },
+        {
+            "Language": "ja",
+            "Body": "詳細を表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Details anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "자세히 보기"
+        },
+        {
+            "Language": "es",
+            "Body": "Ver detalles"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xem chi tiết"
+        }
+    ]
+}

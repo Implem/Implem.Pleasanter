@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.32014.148
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.Libraries", "Implem.Libraries\Implem.Libraries.csproj", "{CBE3EE93-92E6-4347-842F-DE597048DA29}"
 EndProject
@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		global.json = global.json
 		LICENSE = LICENSE
+		nuget.config = nuget.config
 		README.md = README.md
 		README_Pleasanter.md = README_Pleasanter.md
 	EndProjectSection

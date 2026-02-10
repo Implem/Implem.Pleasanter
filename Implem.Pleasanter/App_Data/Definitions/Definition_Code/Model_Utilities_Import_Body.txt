@@ -197,7 +197,7 @@
                             switch (#modelName#Model.AccessStatus)
                             {
                                 case Databases.AccessStatuses.Selected:
-                                    if (#modelName#Model.Updated(context: context, ss: ss))
+                                    if (#modelName#Model.Updated(context: context, ss: ss, paramDefault: true))
                                     {
                                         #modelName#Model.VerUp = Versions.MustVerUp(
                                             context: context,
@@ -535,7 +535,7 @@ public static ContentResultInheritance ImportByApi(
                             switch (#modelName#Model.AccessStatus)
                             {
                                 case Databases.AccessStatuses.Selected:
-                                    if (#modelName#Model.Updated(context: context, ss: ss))
+                                    if (#modelName#Model.Updated(context: context, ss: ss, paramDefault: true))
                                     {
                                         #modelName#Model.VerUp = Versions.MustVerUp(
                                             context: context,
@@ -851,7 +851,7 @@ public static string ImportByServerScript(
                             switch (#modelName#Model.AccessStatus)
                             {
                                 case Databases.AccessStatuses.Selected:
-                                    if (#modelName#Model.Updated(context: context, ss: ss))
+                                    if (#modelName#Model.Updated(context: context, ss: ss, paramDefault: true))
                                     {
                                         #modelName#Model.VerUp = Versions.MustVerUp(
                                             context: context,

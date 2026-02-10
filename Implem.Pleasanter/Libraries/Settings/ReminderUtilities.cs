@@ -46,6 +46,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Reminder.ReminderTypes.LineGroup.ToInt().ToString(),
                     Displays.LineGroup(context: context));
             }
+            if (Parameters.Reminder.LineWorks)
+            {
+                reminderTypes.Add(
+                    Reminder.ReminderTypes.LineWorks.ToInt().ToString(),
+                    Displays.LineWorks(context: context));
+            }
             if (Parameters.Reminder.Teams)
             {
                 reminderTypes.Add(
@@ -121,6 +127,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                             reminderTypes.Add(
                                 type.ToInt().ToString(),
                                 Displays.LineGroup(context: context));
+                        }
+                        break;
+                    case Reminder.ReminderTypes.LineWorks:
+                        if (Parameters.Reminder.LineWorks)
+                        {
+                            reminderTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.LineWorks(context: context));
                         }
                         break;
                     case Reminder.ReminderTypes.Teams:

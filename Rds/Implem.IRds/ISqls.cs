@@ -23,6 +23,7 @@ namespace Implem.IRds
         string IntegerColumnLike(string tableName, string columnName);
         string DateAddDay(int day, string columnBracket);
         string DateAddHour(int hour, string columnBracket);
+        string DateAddMinute(int minute, string columnBracket);
         string DateGroupYearly { get; }
         string DateGroupMonthly { get; }
         string DateGroupWeeklyPart { get; }

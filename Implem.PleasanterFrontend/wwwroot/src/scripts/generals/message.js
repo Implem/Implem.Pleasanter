@@ -56,6 +56,12 @@ $p.setServerErrorMessage = function (responseJSON) {
     var messages = responseJSON.filter(function (i) {
         return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
     });
+    var logs = responseJSON.filter(i => i.Method === 'Log');
+    if (logs.length) {
+        logs.forEach(log => {
+            console.log(log.Value ?? '');
+        });
+    }
     if (!messages.length) {
         return false;
     }

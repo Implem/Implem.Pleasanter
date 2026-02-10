@@ -1,12 +1,12 @@
-﻿{
+{
   "profiles": {
     "Implem.CodeDefiner": {
       "commandName": "Project",
       "commandLineArgs": "def"
     },
     "Implem.CodeDefiner_rds": {
-       "commandName": "Project",
-       "commandLineArgs": "_rds"
+      "commandName": "Project",
+      "commandLineArgs": "_rds"
     },
     "WSL": {
       "commandName": "WSL2",
@@ -15,6 +15,14 @@
     "Docker": {
       "commandName": "Docker",
       "commandLineArgs": "_rds"
+    },
+    "Implem.CodeDefiner ConvertTime /h -9": {
+      "commandName": "Project",
+      "commandLineArgs": "ConvertTime /h -9"
+    },
+    "Implem.CodeDefiner ConvertTime /h +9:00": {
+      "commandName": "Project",
+      "commandLineArgs": "ConvertTime /h +9:00"
     }
   }
 }

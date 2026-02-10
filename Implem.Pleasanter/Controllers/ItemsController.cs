@@ -1415,5 +1415,53 @@ namespace Implem.Pleasanter.Controllers
                 responseSize: json.Length);
             return json;
         }
+
+        [HttpGet]
+        public FileContentResult ExportMultilingualLabels(long id, string encoding)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var itemModel = new ItemModel(context: context, referenceId: id);
+            itemModel.SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            var ss = itemModel.Site.SiteSettings;
+            if (!context.CanManageSite(ss: ss))
+            {
+                return null;
+            }
+            var csv = MultilingualLabelExportImport.ExportMultilingualLabels(
+                context: context,
+                ss: ss);
+            var fileName = ExportUtilities.FileName(
+                context: context,
+                title: Displays.MultilingualLabelSettings(context: context),
+                extension: "csv");
+            byte[] bytes;
+            if (encoding == "Shift-JIS")
+            {
+                bytes = Encoding.GetEncoding("Shift_JIS").GetBytes(csv);
+            }
+            else
+            {
+                var preamble = Encoding.UTF8.GetPreamble();
+                var contentBytes = Encoding.UTF8.GetBytes(csv);
+                bytes = [.. preamble, .. contentBytes];
+            }
+            log.Finish(context: context, responseSize: bytes.Length);
+            return File(bytes, "text/csv", fileName);
+        }
+
+        [HttpPost]
+        public string ImportMultilingualLabels(long id, ICollection<IFormFile> file)
+        {
+            var context = new Context(files: file);
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id)
+                .ImportMultilingualLabels(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
     }
 }

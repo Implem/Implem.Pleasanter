@@ -1458,10 +1458,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.DefaultMode = DefaultMode;
             }
-            if (GridColumns != null && GridColumns.Join() != ss.GridColumns?.Join())
-            {
-                view.GridColumns = GridColumns;
-            }
+            view.GridColumns = GridColumns;
             if (FilterColumns != null && FilterColumns.Join() != ss.FilterColumns?.Join())
             {
                 view.FilterColumns = FilterColumns;

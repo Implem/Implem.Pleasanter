@@ -241,47 +241,47 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "new":
                 case "edit":
                     hb.Script(
-                        script: "$p.execEvents('on_editor_load','');",
+                        script: "window.addEventListener('load', () => { $p.execEvents('on_editor_load',''); });",
                         nonce: context.Nonce);
                     break;
                 case "index":
                     hb.Script(
-                        script: "$p.execEvents('on_grid_load','');",
+                        script: "window.addEventListener('load', () => { $p.execEvents('on_grid_load',''); });",
                         nonce: context.Nonce);
                     break;
                 case "calendar":
                     hb.Script(
-                        script: "$p.execEvents('on_calendar_load','');",
+                        script: "window.addEventListener('load', () => { $p.execEvents('on_calendar_load',''); });",
                         nonce: context.Nonce);
                     break;
                 case "crosstab":
                     hb.Script(
-                        script: "$p.execEvents('on_crosstab_load','');",
+                        script: "window.addEventListener('load', () => { $p.execEvents('on_crosstab_load',''); });",
                         nonce: context.Nonce);
                     break;
                 case "timeseries":
                     hb.Script(
-                        script: "$p.execEvents('on_timeseries_load','');",
+                        script: "window.addEventListener('load', () => { $p.execEvents('on_timeseries_load',''); });",
                         nonce: context.Nonce);
                     break;
                 case "analy":
                     hb.Script(
-                        script: "$p.execEvents('on_analy_load','');",
+                        script: "window.addEventListener('load', () => { $p.execEvents('on_analy_load',''); });",
                         nonce: context.Nonce);
                     break;
                 case "kamban":
                     hb.Script(
-                        script: "$p.execEvents('on_kamban_load','');",
+                        script: "window.addEventListener('load', () => { $p.execEvents('on_kamban_load',''); });",
                         nonce: context.Nonce);
                     break;
                 case "gantt":
                     hb.Script(
-                        script: "$p.execEvents('on_gantt_load','');",
+                        script: "window.addEventListener('load', () => { $p.execEvents('on_gantt_load',''); });",
                         nonce: context.Nonce);
                     break;
                 case "burndown":
                     hb.Script(
-                        script: "$p.execEvents('on_burndown_load','');",
+                        script: "window.addEventListener('load', () => { $p.execEvents('on_burndown_load',''); });",
                         nonce: context.Nonce);
                     break;
             }

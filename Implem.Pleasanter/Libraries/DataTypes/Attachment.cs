@@ -233,7 +233,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                 .IssueId(referenceId)
                                 .Add(
                                     tableName: "Issues",
-                                    columnBrackets: column.ColumnName.ToSingleArray(),
+                                    columnBrackets: $"\"{column.ColumnName}\"".ToSingleArray(),
                                     value: $"%\"Guid\":\"{Guid}\"%",
                                     name: Strings.NewGuid(),
                                     _operator: context.Sqls.LikeWithEscape))) >= 1;
@@ -248,7 +248,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                 .ResultId(referenceId)
                                 .Add(
                                     tableName: "Results",
-                                    columnBrackets: column.ColumnName.ToSingleArray(),
+                                    columnBrackets: $"\"{column.ColumnName}\"".ToSingleArray(),
                                     value: $"%\"Guid\":\"{Guid}\"%",
                                     name: Strings.NewGuid(),
                                     _operator: context.Sqls.LikeWithEscape))) >= 1;

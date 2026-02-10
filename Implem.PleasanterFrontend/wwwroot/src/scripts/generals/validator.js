@@ -4,19 +4,22 @@
         return $control.find('.control-attachments-item:not(.preparation-delete)').length > 0;
     });
     $.validator.addMethod('c_num', function (value, element) {
-        return this.optional(element) || /^(-)?(¥|\\|\$)?[\d,.]+$/.test(value);
+        const lang = $('#Language').val();
+        return this.optional(element) || $p.parseCurrencyString(value, lang) !== null;
     });
     $.validator.addMethod('c_min_num', function (value, element, params) {
-        return (
-            this.optional(element) ||
-            parseFloat(value.replace(/[\uC2A5|\u005C,¥]/g, '')) >= parseFloat(params)
-        );
+        if (this.optional(element)) return true;
+        const lang = $('#Language').val();
+        const num = $p.parseCurrencyString(value, lang);
+        if (num === null) return false;
+        return num >= parseFloat(params);
     });
     $.validator.addMethod('c_max_num', function (value, element, params) {
-        return (
-            this.optional(element) ||
-            parseFloat(value.replace(/[\uC2A5|\u005C,¥]/g, '')) <= parseFloat(params)
-        );
+        if (this.optional(element)) return true;
+        const lang = $('#Language').val();
+        const num = $p.parseCurrencyString(value, lang);
+        if (num === null) return false;
+        return num <= parseFloat(params);
     });
     $.validator.addMethod('c_regex', function (value, element, params) {
         try {
@@ -30,13 +33,13 @@
             if ($('#data-validation-maxlength-type').val() === 'Regex') {
                 return (
                     value.length +
-                        value.replace(
-                            new RegExp(
-                                '[' + $('#data-validation-maxlength-regex').val() + ']',
-                                'g'
-                            ),
-                            ''
-                        ).length <=
+                    value.replace(
+                        new RegExp(
+                            '[' + $('#data-validation-maxlength-regex').val() + ']',
+                            'g'
+                        ),
+                        ''
+                    ).length <=
                     parseFloat(params)
                 );
             } else {
@@ -118,6 +121,121 @@
             }
         });
     };
+
+    $p.parseCurrencyString = function (input, lang) {
+        if (!input || input.trim() === '') return 0;
+        const raw = input.trim();
+        let format;
+        switch (lang) {
+            case 'en':
+                format = {
+                    currencyRegex: /\$/,
+                    mainPattern: /^-?\s?(\$\s?)?[0-9][0-9,]*(\.[0-9]+)?$/,
+                    bannedPatterns: [
+                        /\$\$/,
+                        /,,/,
+                        /,$/,
+                        /\.[0-9]*,/,
+                        /\$-/,
+                        /[0-9]\s*\$/,
+                        /^[.,]/,
+                        /[.,]\s*$/,
+                        /\$.*\$/,
+                        /[^0-9$,\\.\-\s]/
+                    ]
+                };
+                break;
+            case 'zh':
+            case 'ja':
+                // zh-CN / ja-JP: -¥1,000,000.00 または ¥1,000,000.00
+                format = {
+                    currencyRegex: /[¥\\￥]/,
+                    mainPattern: /^-?\s?([¥\\￥])?[0-9][0-9,]*(\.[0-9]+)?$/,
+                    bannedPatterns: [
+                        /,,/,
+                        /,$/,
+                        /\.[0-9]*,/,
+                        /^\s*[¥\\￥]-/,
+                        /[0-9]\s*[¥\\￥]$/,
+                        /^\./
+                    ]
+                };
+                break;
+            case 'es':
+            case 'de':
+                format = {
+                    currencyRegex: /[€]/,
+                    mainPattern: /^-?\s?[0-9][0-9.,]*(\s?€)?$/,
+                    bannedPatterns: [
+                        /\.{2,}/,
+                        /,{2,}/,
+                        /,[0-9]*\./,
+                        /[€].*[€]/,
+                        /^[,\\.]/,
+                        /\s\d/,
+                        /[.,]\s*€/,
+                        /[.,]\s*$/,
+                        /^€/
+                    ]
+                };
+                break;
+            case 'ko':
+                format = {
+                    currencyRegex: /₩/,
+                    mainPattern: /^-?\s?(₩\s?)?[0-9][0-9,]*(\.[0-9]+)?$/,
+                    bannedPatterns: [
+                        /₩₩/,
+                        /,,/,
+                        /,$/,
+                        /\.[0-9]*,/,
+                        /₩-/,
+                        /[0-9]\s*₩/,
+                        /^[.,]/,
+                        /[.,]\s*$/,
+                        /[₩].*[₩]/,
+                        /[^0-9₩,.\-\s]/
+                    ]
+                };
+                break;
+            case 'vn':
+                format = {
+                    currencyRegex: /[₫]/,
+                    mainPattern: /^-?\s?[0-9][0-9.,]*(\s?₫)?$/,
+                    bannedPatterns: [
+                        /\.{2,}/,
+                        /,{2,}/,
+                        /,[0-9]*\./,
+                        /[₫].*[₫]/,
+                        /^[,\\.]/,
+                        /\s\d/,
+                        /[.,]\s*₫/,
+                        /[.,]\s*$/,
+                        /^₫/
+                    ]
+                };
+                break;
+            default:
+                return null;
+        }
+        if (!format.mainPattern.test(raw)) return null;
+        for (let i = 0; i < format.bannedPatterns.length; i++) {
+            if (format.bannedPatterns[i].test(raw)) {
+                return null;
+            }
+        }
+        let normalized = raw.replace(format.currencyRegex, '').replace(/\s/g, '');
+        if (lang === 'de' || lang === 'es' || lang === 'vn') {
+            // ドットは千区切りなので除去、カンマを小数点に
+            normalized = normalized.replace(/\./g, '').replace(/,/g, '.');
+        } else {
+            // 英語・日本語・中国語・韓国語: カンマ除去、小数点ドットは残す
+            normalized = normalized.replace(/,/g, '');
+        }
+        const num = parseFloat(normalized);
+        if (isNaN(num)) return null;
+        return num; // 符号は parseFloat が処理するので再適用しない
+    };
+
     $p.applyValidator();
 });
 $p.applyValidator = function () {

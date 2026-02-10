@@ -265,6 +265,12 @@ namespace Implem.Pleasanter.NetCore
             services.AddHttpContextAccessor();
             services.AddSingleton<ICaptchaServiceFactory, CaptchaServiceFactory>();
             services.AddScoped<ICaptchaVerificationService, CaptchaVerificationService>();
+            services.AddFido2(options =>
+            {
+                options.Origins = Parameters.Authentication.PasskeyParameters.Origins;
+                options.ServerDomain = Parameters.Authentication.PasskeyParameters.ServerDomain;
+                options.ServerName = Parameters.Authentication.PasskeyParameters.ServerName;
+            });
         }
 
         private void ConfigureIISIntegration(IServiceCollection services)
@@ -361,7 +367,7 @@ namespace Implem.Pleasanter.NetCore
             app.UseRouting();
 
             if (env.IsDevelopment())
-            { 
+            {
                 app.Use(async (context, next) =>
                 {
                     await next.Invoke();
@@ -433,7 +439,7 @@ namespace Implem.Pleasanter.NetCore
                         await context.Response.WriteAsJsonAsync(routes, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
                     });
                 }
-                    endpoints.MapRazorPages();
+                endpoints.MapRazorPages();
                 if (Parameters.Security.HealthCheck.Enabled)
                 {
                     if (Parameters.Security.HealthCheck.EnableDetailedResponse)

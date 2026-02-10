@@ -1,0 +1,33 @@
+﻿{
+    "Id": "PasskeyLogin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Log in with Passkey"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用通行密钥登录"
+        },
+        {
+            "Language": "ja",
+            "Body": "パスキーでログイン"
+        },
+        {
+            "Language": "de",
+            "Body": "Mit Passkey anmelden"
+        },
+        {
+            "Language": "ko",
+            "Body": "Passkey 로 로그인"
+        },
+        {
+            "Language": "es",
+            "Body": "Iniciar sesión con Passkey"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đăng nhập bằng Passkey"
+        }
+    ]
+}

@@ -467,6 +467,7 @@ public static HtmlBuilder Field(
     bool alwaysSend = false,
     bool disableAutoPostBack = false,
     string idSuffix = null,
+    bool isResponse = false,
     bool preview = false,
     bool disableSection = false)
 {
@@ -511,6 +512,7 @@ public static HtmlBuilder Field(
             alwaysSend: alwaysSend,
             disableAutoPostBack: disableAutoPostBack,
             idSuffix: idSuffix,
+            isResponse: isResponse,
             preview: preview,
             disableSection: disableSection);
     }

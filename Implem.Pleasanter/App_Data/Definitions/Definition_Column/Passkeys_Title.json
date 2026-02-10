@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Passkeys_Title",
+    "ModelName": "Passkey",
+    "TableName": "Passkeys",
+    "Label": "パスキー",
+    "ColumnName": "Title",
+    "LabelText": "タイトル",
+    "No": "102",
+    "History": "102",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "LabelText_en": "Title",
+    "LabelText_zh": "标题",
+    "LabelText_de": "Titel",
+    "LabelText_ko": "제목",
+    "LabelText_es": "Título",
+    "LabelText_vn": "Tiêu đề"
+}

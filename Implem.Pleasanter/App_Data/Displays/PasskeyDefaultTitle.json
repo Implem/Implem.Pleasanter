@@ -1,0 +1,33 @@
+﻿{
+    "Id": "PasskeyDefaultTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0}'s passkey {1}"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0} 的通行密钥 {1}"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}のパスキー {1}"
+        },
+        {
+            "Language": "de",
+            "Body": "{0}s Passkey {1}"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}의 패스키 {1}"
+        },
+        {
+            "Language": "es",
+            "Body": "Passkey de {0} {1}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Passkey của {0} {1}"
+        }
+    ]
+}

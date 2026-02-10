@@ -70,6 +70,11 @@ namespace Implem.PostgreSql
             return $"{columnBracket} + interval '{hour} hour'";
         }
 
+        public string DateAddMinute(int minute, string columnBracket)
+        {
+            return $"{columnBracket} + interval '{minute} minute'";
+        }
+
         public string DateGroupYearly { get; } = "to_char({0}, 'YYYY')";
 
         public string DateGroupMonthly { get; } = "to_char({0}, 'YYYY/MM')";

@@ -1,11 +1,33 @@
-$p.openExportMultilingualLabelsDialog = function ($control) {
+﻿$p.openExportMultilingualLabelsDialog = function () {
+    if ($p.formChanged) {
+        $p.setErrorMessage('SiteSettingsUnsavedChangesBlocker');
+        return;
+    }
     $p.data.ExportMultilingualLabelsForm = {};
-    $p.openSiteSettingsDialog($control, '#ExportMultilingualLabelsDialog', '520px');
+    $('#ExportMultilingualLabelsDialog').dialog({
+        autoOpen: true,
+        modal: true,
+        width: '520px',
+        height: 'auto',
+        appendTo: '#Editor',
+        resizable: false
+    });
 };
 
-$p.openImportMultilingualLabelsDialog = function ($control) {
+$p.openImportMultilingualLabelsDialog = function () {
+    if ($p.formChanged) {
+        $p.setErrorMessage('SiteSettingsUnsavedChangesBlocker');
+        return;
+    }
     $p.data.ImportMultilingualLabelsForm = {};
-    $p.openSiteSettingsDialog($control, '#ImportMultilingualLabelsDialog', '520px');
+    $('#ImportMultilingualLabelsDialog').dialog({
+        autoOpen: true,
+        modal: true,
+        width: '520px',
+        height: 'auto',
+        appendTo: '#Editor',
+        resizable: false
+    });
 };
 
 $p.exportMultilingualLabels = function () {
@@ -21,7 +43,6 @@ $p.exportMultilingualLabels = function () {
     input.setAttribute('value', encoding);
     form.appendChild(input);
     document.body.appendChild(form);
-    $p.formChanged = false;
     form.submit();
     document.body.removeChild(form);
     $p.closeDialog($('#ExportMultilingualLabelsDialog'));
@@ -30,19 +51,12 @@ $p.exportMultilingualLabels = function () {
 $p.importMultilingualLabels = function ($control) {
     var file = $('#ImportMultilingualLabelsFile').prop('files')[0];
     if (!file) {
-        $p.setMessage(
-            '#Message',
-            JSON.stringify({
-                Css: 'alert-error',
-                Text: $p.display('SelectFile')
-            })
-        );
+        $p.setErrorMessage('SelectFile');
         return;
     }
     var data = new FormData();
     data.append('file', file);
     data.append('ImportMultilingualLabelsEncoding', $('#ImportMultilingualLabelsEncoding').val());
-
     $p.multiUpload(
         $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
         data,

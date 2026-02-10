@@ -137,6 +137,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "mailaddresses": return MailAddressesSiteSettings(context: context);
                 case "orders": return OrdersSiteSettings(context: context);
                 case "outgoingmails": return OutgoingMailsSiteSettings(context: context);
+                case "passkeys": return PasskeysSiteSettings(context: context);
                 case "registrations": return RegistrationsSiteSettings(context: context);
                 case "reminderschedules": return ReminderSchedulesSiteSettings(context: context);
                 case "sessions": return SessionsSiteSettings(context: context);
@@ -309,6 +310,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings()
             {
                 ReferenceType = "OutgoingMails"
+            };
+            ss.Init(context: context);
+            ss.TableType = tableTypes;
+            return ss;
+        }
+
+        public static SiteSettings PasskeysSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Passkeys"
             };
             ss.Init(context: context);
             ss.TableType = tableTypes;

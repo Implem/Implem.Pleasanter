@@ -101,7 +101,7 @@ public static bool UpdateByServerScript(
     {
         context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
     }
-    if(HasInvalidValueAsApiDataAtUpdate(#modelName#ApiModel))
+    if (HasInvalidValueAsApiDataAtUpdate(#modelName#ApiModel))
     {
         context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
     }
@@ -134,9 +134,13 @@ public static bool UpdateByServerScript(
         context: context,
         ss: ss,
         baseModel: #modelName#Model);
+
+<!--Model_Utilities_SetProcessServerScript_Tables-->
+
     var errorData = #modelName#Model.Update(
         context: context,
         ss: ss,
+<!--Model_Update_Parameter_Processes-->
         notice: true,
         previousTitle: previousTitle);
     switch (errorData.Type)

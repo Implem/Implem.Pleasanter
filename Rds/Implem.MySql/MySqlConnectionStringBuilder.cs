@@ -33,7 +33,18 @@ namespace Implem.MySql
             }
             set
             {
-                instance.Database = value; ;
+                instance.Database = value;
+            }
+        }
+
+        public string SearchPath
+        {
+            get
+            {
+                return string.Empty;
+            }
+            set
+            {
             }
         }
 

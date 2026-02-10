@@ -1851,6 +1851,7 @@ namespace Implem.Pleasanter.Models
             bool alwaysSend = false,
             bool disableAutoPostBack = false,
             string idSuffix = null,
+            bool isResponse = false,
             bool preview = false,
             bool disableSection = false)
         {
@@ -1896,6 +1897,7 @@ namespace Implem.Pleasanter.Models
                     alwaysSend: alwaysSend,
                     disableAutoPostBack: disableAutoPostBack,
                     idSuffix: idSuffix,
+                    isResponse: isResponse,
                     preview: preview,
                     disableSection: disableSection);
             }
@@ -2667,7 +2669,8 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 resultModel: resultModel,
                                 column: column,
-                                idSuffix: idSuffix));
+                                idSuffix: idSuffix,
+                                isResponse: true));
                     }
                     else
                     {
@@ -3241,9 +3244,14 @@ namespace Implem.Pleasanter.Models
             {
                 resultModel.Comments.RemoveAll(o => !o.Created);
             }
-            var processes = ss.Processes
+            var processes = ss.GetProcesses()
                 ?.Where(process => process.IsTarget(context: context))
                 .ToList() ?? new List<Process>();
+            var controlId = context.Forms.ControlId();
+            if (controlId.RegexExists("Process_[0-9]+") && !processes.Any())
+            {
+                return Messages.ResponseProcessNotFound(context: context).ToJson();
+            }
             foreach (var process in processes)
             {
                 process.MatchConditions = resultModel.GetProcessMatchConditions(
@@ -3388,8 +3396,8 @@ namespace Implem.Pleasanter.Models
                 resultId: 0,
                 resultApiModel: resultApiModel);
             var processes = resultApiModel?.ProcessIds != null
-                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
-                : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
+                ? ss.GetProcesses()?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.GetProcesses()?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
             var errorData = ApplyCreateByApi(
                 context: context,
                 ss: ss,
@@ -3574,9 +3582,14 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            var processes = ss.Processes
+            var processes = ss.GetProcesses()
                 ?.Where(process => process.IsTarget(context: context))
                 .ToList() ?? new List<Process>();
+            var controlId = context.Forms.ControlId();
+            if (controlId.RegexExists("Process_[0-9]+") && !processes.Any())
+            {
+                return Messages.ResponseProcessNotFound(context: context).ToJson();
+            }
             foreach (var process in processes)
             {
                 process.MatchConditions = resultModel.GetProcessMatchConditions(
@@ -4403,9 +4416,9 @@ namespace Implem.Pleasanter.Models
                 id: processId);
             if (process == null || !process.GetAllowBulkProcessing())
             {
-                return Messages.NotFound(context: context).ToJson();
+                return Messages.ResponseProcessNotFound(context: context).ToJson();
             }
-            var processes = ss.Processes
+            var processes = ss.GetProcesses()
                 ?.Where(o => o.Id == processId 
                 || (o.ExecutionType == Process.ExecutionTypes.AddedButtonOrCreateOrUpdate
                     && ((process.ExecutionType == Process.ExecutionTypes.CreateOrUpdate)
@@ -4569,7 +4582,7 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
-            if(HasInvalidValueAsApiDataAtUpdate(resultApiModel))
+            if (HasInvalidValueAsApiDataAtUpdate(resultApiModel))
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
@@ -4583,8 +4596,8 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
             var processes = resultApiModel?.ProcessIds != null
-                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
-                : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
+                ? ss.GetProcesses()?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.GetProcesses()?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
             var errorData = ApplyUpdateByApi(
                 context: context,
                 ss: ss,
@@ -4688,7 +4701,7 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
-            if(HasInvalidValueAsApiDataAtUpdate(resultApiModel))
+            if (HasInvalidValueAsApiDataAtUpdate(resultApiModel))
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
@@ -4721,9 +4734,33 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 baseModel: resultModel);
+            var processes = resultApiModel?.ProcessId.HasValue == true
+                ? ss.Processes?.Where(process => process.Id == resultApiModel.ProcessId.Value).ToList()
+                : null;
+            foreach (var process in processes ?? new List<Process>())
+            {
+                process.MatchConditions = resultModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
+                {
+                    resultModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
+                }
+                else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
+                {
+                    return false;
+                }
+            }
             var errorData = resultModel.Update(
                 context: context,
                 ss: ss,
+        processes: processes,
                 notice: true,
                 previousTitle: previousTitle);
             switch (errorData.Type)
@@ -5186,8 +5223,8 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.NotFound);
                     }
                     var processes = resultApiModel?.ProcessIds != null
-                        ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
-                        : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
+                        ? ss.GetProcesses()?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                        : ss.GetProcesses()?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         error = ApplyUpdateByApi(
@@ -7138,7 +7175,7 @@ namespace Implem.Pleasanter.Models
                                     switch (resultModel.AccessStatus)
                                     {
                                         case Databases.AccessStatuses.Selected:
-                                            if (resultModel.Updated(context: context, ss: ss))
+                                            if (resultModel.Updated(context: context, ss: ss, paramDefault: true))
                                             {
                                                 resultModel.VerUp = Versions.MustVerUp(
                                                     context: context,
@@ -7496,7 +7533,7 @@ namespace Implem.Pleasanter.Models
                                     switch (resultModel.AccessStatus)
                                     {
                                         case Databases.AccessStatuses.Selected:
-                                            if (resultModel.Updated(context: context, ss: ss))
+                                            if (resultModel.Updated(context: context, ss: ss, paramDefault: true))
                                             {
                                                 resultModel.VerUp = Versions.MustVerUp(
                                                     context: context,
@@ -7812,7 +7849,7 @@ namespace Implem.Pleasanter.Models
                                     switch (resultModel.AccessStatus)
                                     {
                                         case Databases.AccessStatuses.Selected:
-                                            if (resultModel.Updated(context: context, ss: ss))
+                                            if (resultModel.Updated(context: context, ss: ss, paramDefault: true))
                                             {
                                                 resultModel.VerUp = Versions.MustVerUp(
                                                     context: context,

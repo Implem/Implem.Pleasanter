@@ -54,63 +54,58 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                 .SelectMany(kvp => kvp.Value)
                 .ToList();
             SetColumnsParams(
-                ss,
-                smartDesignParamHash,
-                editorColumnList);
+                context: context,
+                ss: ss,
+                smartDesignParamHash: smartDesignParamHash,
+                editorColumnList: editorColumnList);
             if (ss.Destinations != null && ss.Destinations.Count() > 0)
             {
                 SetDestinationLink(
-                    ss,
-                    editorColumnList,
-                    smartDesignParamHash,
-                    otherEditorColumns);
+                    ss: ss,
+                    editorColumnList: editorColumnList,
+                    smartDesignParamHash: smartDesignParamHash,
+                    otherEditorColumns: otherEditorColumns);
             }
             if (ss.Sources != null && ss.Sources.Count > 0)
             {
                 SetSourcesLink(
-                    ss,
-                    editorColumnList,
-                    smartDesignParamHash,
-                    otherEditorColumns);
+                    ss: ss,
+                    editorColumnList: editorColumnList,
+                    smartDesignParamHash: smartDesignParamHash,
+                    otherEditorColumns: otherEditorColumns);
             }
             return smartDesignParamHash;
         }
 
         public void SetColumnsParams(
+            Context context,
             SiteSettings ss,
-            Dictionary<string,DragParamsApiSettingModel> smartDesignParamHash,
+            Dictionary<string, DragParamsApiSettingModel> smartDesignParamHash,
             List<string> editorColumnList)
         {
             var notInEditorColumnList = ss.GetEditorColumnNames()
                 .Where(o => !editorColumnList.Contains(o))
-                .ToList(); ;
+                .ToList();       
+            var editorDefinitionColumnNames = ss.ColumnDefinitionHash
+                .EditorDefinitions(context: context, enableOnly: false)
+                .Select(def => def.ColumnName)
+                .ToHashSet();
             ss.Columns.ForEach(column =>
             {
                 var dragParamsApiSettingModel = new DragParamsApiSettingModel();
-                if (notInEditorColumnList.Contains(column.ColumnName))
-                {
-                    dragParamsApiSettingModel.SetType(column);
-                    dragParamsApiSettingModel.SetCategory(column);
-                    dragParamsApiSettingModel = SetState(
-                        ss,
-                        column,
-                        editorColumnList,
-                        notInEditorColumnList,
-                        dragParamsApiSettingModel);
-                    smartDesignParamHash.Add(column.ColumnName, dragParamsApiSettingModel);
-                    return;
-                }
                 dragParamsApiSettingModel.SetType(column);
                 dragParamsApiSettingModel.SetCategory(column);
                 dragParamsApiSettingModel = SetState(
-                    ss,
-                    column,
-                    editorColumnList,
-                    notInEditorColumnList,
-                    dragParamsApiSettingModel);
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    editorColumnList: editorColumnList,
+                    notInEditorColumnList: notInEditorColumnList,
+                    dragParamsApiSettingModel: dragParamsApiSettingModel,
+                    editorDefinitionColumnNames: editorDefinitionColumnNames);
                 smartDesignParamHash.Add(column.ColumnName, dragParamsApiSettingModel);
             });
-            var linksColumn =  ss.GridColumns
+            var linksColumn = ss.GridColumns
                 .Where(o => o.Contains("~"))
                 .ToList();
             var filterColumns = ss.FilterColumns
@@ -129,7 +124,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                     var dragParamsApiSettingModel = new DragParamsApiSettingModel();
                     UnusedColumn(dragParamsApiSettingModel, column);
                     smartDesignParamHash.Add(column, dragParamsApiSettingModel);
-                };
+                }
             });
         }
 
@@ -145,17 +140,29 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         }
 
         public DragParamsApiSettingModel SetState(
+            Context context,
             SiteSettings ss,
             Libraries.Settings.Column column,
             List<string> editorColumnList,
             List<string> notInEditorColumnList,
-            DragParamsApiSettingModel dragParamsApiSettingModel)
+            DragParamsApiSettingModel dragParamsApiSettingModel,
+            HashSet<string> editorDefinitionColumnNames)
         {
             if (editorColumnList.Contains(column.ColumnName) || !notInEditorColumnList.Contains(column.ColumnName))
             {
-                dragParamsApiSettingModel.State.Grid = GetStateValue(column.GridColumn, ss.GridColumns, column.ColumnName);
-                dragParamsApiSettingModel.State.Edit = GetStateValue(column.EditorColumn, editorColumnList, column.ColumnName);
-                dragParamsApiSettingModel.State.Filter = GetStateValue(column.FilterColumn, ss.FilterColumns, column.ColumnName);
+                var canEdit = editorDefinitionColumnNames.Contains(column.ColumnName);             
+                dragParamsApiSettingModel.State.Grid = GetStateValue(
+                    column.GridColumn,
+                    ss.GridColumns,
+                    column.ColumnName);
+                dragParamsApiSettingModel.State.Edit = GetStateValue(
+                    canEdit,
+                    editorColumnList,
+                    column.ColumnName);
+                dragParamsApiSettingModel.State.Filter = GetStateValue(
+                    column.FilterColumn,
+                    ss.FilterColumns,
+                    column.ColumnName);
             }
             else
             {

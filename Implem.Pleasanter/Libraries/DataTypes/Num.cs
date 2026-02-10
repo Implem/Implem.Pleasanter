@@ -44,11 +44,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     return;
                 }
                 if (!decimal.TryParse(
-                    new string(value
-                        .SkipWhile(c => c == (char)92 || c == (char)165)
-                        .ToArray()),
+                    value.NormalizeYenSymbol(),
                     NumberStyles.Any,
-                    context.CultureInfo(),
+                    CultureInfo.CreateSpecificCulture(context.CultureInfo().Name),
                     out _))
                 {
                     return;

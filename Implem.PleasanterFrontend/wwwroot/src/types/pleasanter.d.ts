@@ -1,8 +1,10 @@
+import { type Display } from '../scripts/generals/display';
+import { type Passkey } from '../scripts/generals/passkey';
+
 declare global {
     interface Window {
         $p: {
             isForm: () => boolean;
-            display: (defaultId: string) => string;
             multiUpload: (
                 url: string,
                 data: FormData,
@@ -10,6 +12,15 @@ declare global {
                 statusBar?: object,
                 callback?: function
             ) => void;
+            ajax: (
+                url: string,
+                methodType: string,
+                data?: unknown,
+                $control?: JQuery<HTMLElement> | null,
+                _async?: boolean,
+                clearMessage?: boolean
+            ) => number | false | void;
+            getData: (target: JQuery<HTMLElement>) => Record<string, unknown>;
             openVideo: (controlId: string) => void;
             openEditorColumnDialog: (target: JQuery<HTMLElement>) => void;
             set: (target: JQuery<HTMLElement>, value: string) => void;
@@ -33,7 +44,8 @@ declare global {
                 type?: string
             ) => void;
             modal?: Record<string, HTMLElement>;
-        };
+        } & typeof Passkey &
+            typeof Display;
     }
 
     const $p: Window['$p'];

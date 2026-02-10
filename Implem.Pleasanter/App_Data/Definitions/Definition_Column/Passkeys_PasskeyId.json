@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Passkeys_PasskeyId",
+    "ModelName": "Passkey",
+    "TableName": "Passkeys",
+    "Label": "パスキー",
+    "ColumnName": "PasskeyId",
+    "LabelText": "パスキーID",
+    "No": "1",
+    "History": "1",
+    "TypeName": "int",
+    "Pk": "1",
+    "Identity": "1",
+    "Seed": "1",
+    "Required": "1",
+    "LabelText_en": "Passkey ID",
+    "LabelText_zh": "通行密钥 ID",
+    "LabelText_de": "Passkey‑ID",
+    "LabelText_ko": "Passkey ID",
+    "LabelText_es": "ID de passkey",
+    "LabelText_vn": "ID passkey"
+}

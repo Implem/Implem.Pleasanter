@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ServerScriptErrorDetail",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Error details: {0}{1}"
+        },
+        {
+            "Language": "zh",
+            "Body": "错误详情：{0}{1}"
+        },
+        {
+            "Language": "ja",
+            "Body": "エラーの詳細: {0}{1}"
+        },
+        {
+            "Language": "de",
+            "Body": "Fehlerinformationen: {0}{1}"
+        },
+        {
+            "Language": "ko",
+            "Body": "오류 상세: {0}{1}"
+        },
+        {
+            "Language": "es",
+            "Body": "Detalles del error: {0}{1}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chi tiết lỗi: {0}{1}"
+        }
+    ]
+}

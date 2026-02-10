@@ -1,0 +1,34 @@
+﻿{
+    "Id": "NotSetForLabel",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Not set"
+        },
+        {
+            "Language": "zh",
+            "Body": "未设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "未設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Nicht eingerichtet"
+        },
+        {
+            "Language": "ko",
+            "Body": "설정되지 않음"
+        },
+        {
+            "Language": "es",
+            "Body": "No establecido"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chưa thiết lập"
+        }
+    ]
+}

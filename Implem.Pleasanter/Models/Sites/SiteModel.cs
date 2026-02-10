@@ -2173,37 +2173,42 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
-        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        private bool UpdatedWithColumn(Context context, SiteSettings ss, bool paramDefault = false)
         {
             return ClassHash.Any(o => Class_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || NumHash.Any(o => Num_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || DateHash.Any(o => Date_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || DescriptionHash.Any(o => Description_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || CheckHash.Any(o => Check_Updated(
                     columnName: o.Key,
                     context: context,
-                    column: ss.GetColumn(context: context, o.Key)))
+                    column: ss.GetColumn(context: context, o.Key),
+                    paramDefault: paramDefault))
                 || AttachmentsHash.Any(o => Attachments_Updated(
                     columnName: o.Key,
                     context: context,
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
-        public bool Updated(Context context, SiteSettings ss)
+        public bool Updated(Context context, SiteSettings ss, bool paramDefault = false)
         {
-            return UpdatedWithColumn(context: context, ss: ss)
+            return UpdatedWithColumn(context: context, ss: ss, paramDefault: paramDefault)
                 || TenantId_Updated(context: context)
                 || Ver_Updated(context: context)
                 || Title_Updated(context: context)
@@ -2622,7 +2627,10 @@ namespace Implem.Pleasanter.Models
                         limitSize: ssApiSetting.LimitSize,
                         totalLimitSize: ssApiSetting.TotalLimitSize,
                         thumbnailLimitSize: ssApiSetting.ThumbnailLimitSize,
-                        dateTimeStep: ssApiSetting.DateTimeStep);
+                        dateTimeStep: ssApiSetting.DateTimeStep,
+                        cellSticky: ssApiSetting.CellSticky,
+                        cellWidth: ssApiSetting.CellWidth,
+                        cellWordWrap: ssApiSetting.CellWordWrap);
                     siteSetting.SetLinks(context, currentColumnsApi);
                 }
             });
@@ -3010,7 +3018,8 @@ namespace Implem.Pleasanter.Models
                         autoNumbering: processApiSiteSetting.AutoNumbering,
                         notifications: ParseNotifications(
                             notifications: processApiSiteSetting.Notifications,
-                            process: currentProcess));
+                            process: currentProcess),
+                        disabled: processApiSiteSetting.Disabled);
                 }
                 else
                 {
@@ -3046,7 +3055,8 @@ namespace Implem.Pleasanter.Models
                         autoNumbering: processApiSiteSetting.AutoNumbering,
                         notifications: ParseNotifications(
                             notifications: processApiSiteSetting.Notifications,
-                            process: currentProcess)));
+                            process: currentProcess),
+                        disabled: processApiSiteSetting.Disabled));
                 }
             });
             if (deleteSelected.Count() != 0)
@@ -3695,18 +3705,6 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "SearchExportAccessControl":
                     SearchExportAccessControl(
-                        context: context,
-                        res: res);
-                    break;
-                case "ExportMultilingualLabels":
-                case "OpenExportMultilingualLabelsDialog":
-                    OpenExportMultilingualLabelsDialog(
-                        context: context,
-                        res: res);
-                    break;
-                case "ImportMultilingualLabels":
-                case "OpenImportMultilingualLabelsDialog":
-                    OpenImportMultilingualLabelsDialog(
                         context: context,
                         res: res);
                     break;
@@ -5350,7 +5348,8 @@ namespace Implem.Pleasanter.Models
                     Default = context.Forms.Int("ProcessAutoNumberingDefault"),
                     Step = context.Forms.Int("ProcessAutoNumberingStep")
                 },
-                notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
+                notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>(),
+                disabled: context.Forms.Bool("ProcessDisabled"));
             SiteSettings.Processes.Add(process);
             res
                 .ReplaceAll("#EditProcessWrap", new HtmlBuilder()
@@ -5408,7 +5407,8 @@ namespace Implem.Pleasanter.Models
                         Default = context.Forms.Int("ProcessAutoNumberingDefault"),
                         Step = context.Forms.Int("ProcessAutoNumberingStep")
                     },
-                    notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
+                    notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>(),
+                    disabled: context.Forms.Bool("ProcessDisabled"));
                 res
                     .ReplaceAll("#EditProcessWrap", new HtmlBuilder()
                         .EditProcess(
@@ -7442,42 +7442,6 @@ namespace Implem.Pleasanter.Models
                     ss: SiteSettings,
                     controlId: context.Forms.ControlId(),
                     exportColumn: column));
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OpenExportMultilingualLabelsDialog(
-            Context context, ResponseCollection res)
-        {
-            if (!context.CanManageSite(ss: SiteSettings))
-            {
-                res.Message(Messages.HasNotPermission(context: context));
-            }
-            else
-            {
-                res.Html("#ExportMultilingualLabelsDialog", SiteUtilities.ExportMultilingualLabelsDialog(
-                    context: context,
-                    ss: SiteSettings));
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OpenImportMultilingualLabelsDialog(
-            Context context, ResponseCollection res)
-        {
-            if (!context.CanManageSite(ss: SiteSettings))
-            {
-                res.Message(Messages.HasNotPermission(context: context));
-            }
-            else
-            {
-                res.Html("#ImportMultilingualLabelsDialog", SiteUtilities.ImportMultilingualLabelsDialog(
-                    context: context,
-                    ss: SiteSettings));
             }
         }
 

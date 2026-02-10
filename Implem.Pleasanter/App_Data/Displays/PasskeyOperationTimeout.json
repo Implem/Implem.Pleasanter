@@ -1,0 +1,32 @@
+﻿{
+    "Id": "PasskeyOperationTimeout",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        { "Body": "The passkey operation timed out. Please try again." },
+        {
+            "Language": "zh",
+            "Body": "Passkey 操作已超时，请重试。"
+        },
+        {
+            "Language": "ja",
+            "Body": "パスキーの操作が制限時間をオーバーしました。もう一度お試しください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Passkey-Vorgang hat das Zeitlimit überschritten. Bitte versuchen Sie es erneut."
+        },
+        {
+            "Language": "ko",
+            "Body": "패스키 작업이 시간 제한을 초과했습니다. 다시 시도해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "La operación de clave de acceso superó el tiempo límite. Vuelve a intentarlo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Thao tác khóa truy cập đã quá thời gian chờ. Vui lòng thử lại."
+        }
+    ]
+}

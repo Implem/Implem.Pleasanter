@@ -8,15 +8,15 @@ WindowsでVisual Studioを使用して開発を行う場合の環境構築手順
 
 ### 1. ツールのインストール
 
-#### Visual Studio 2022のインストール
+#### Visual Studio 2026のインストール
 
-Visual Studio 2022を下記リンクからダウンロードし、インストールしてください。  
+Visual Studio 2026を下記リンクからダウンロードし、インストールしてください。  
 https://visualstudio.microsoft.com/downloads/
 
-#### .NET 8 SDKのインストール
+#### .NET 10 SDKのインストール
 
-.NET SDK 8.0の最新バージョンを下記リンクからダウンロードし、インストールしてください。
-https://dotnet.microsoft.com/download/dotnet/8.0
+.NET SDK 10.0の最新バージョンを下記リンクからダウンロードし、インストールしてください。
+https://dotnet.microsoft.com/download/dotnet/10.0
 
 #### Node.jsのインストール
 
@@ -43,7 +43,7 @@ https://code.visualstudio.com/
 プリザンターは、SQLServer、PostgreSQL、MySQLのいずれかのデータベースを使用して動作します。
 開発環境で利用するデータベースを選び、下記の手順に従ってインストールしてください。
 
-- SQLServer: https://pleasanter.org/manual/install-sql-server2022-express
+- SQLServer: https://pleasanter.org/ja/manual/install-sql-server2025-express
 - PostgreSQL: https://pleasanter.org/manual/install-postgresql-on-windows
 - MySQL: https://pleasanter.org/manual/install-mysql-on-windows
 

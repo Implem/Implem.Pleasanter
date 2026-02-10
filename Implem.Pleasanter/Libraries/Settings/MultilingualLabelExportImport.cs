@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -243,6 +244,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 result.Success = false;
                 result.ErrorMessage = e.Message;
                 result.Exception = e;
+                _ = new SysLogModel(context: context, e: e);
             }
 
             return result;

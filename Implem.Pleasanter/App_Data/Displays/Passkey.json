@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Passkey",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Passkey"
+        },
+        {
+            "Language": "zh",
+            "Body": "通行密钥"
+        },
+        {
+            "Language": "ja",
+            "Body": "パスキー"
+        },
+        {
+            "Language": "de",
+            "Body": "Zugangsschlüssel"
+        },
+        {
+            "Language": "ko",
+            "Body": "패스키"
+        },
+        {
+            "Language": "es",
+            "Body": "Clave de acceso"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khóa truy cập"
+        }
+    ]
+}

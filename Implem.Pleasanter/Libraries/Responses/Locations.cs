@@ -565,6 +565,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 ? Parameters.Service.AbsoluteUri
                 : context.Server + context.ApplicationPath).TrimEnd('/');
         }
-        
+
+        public static string ServerScriptError(Context context)
+        {
+            return Get(
+                context: context,
+                parts: [
+                    "Errors",
+                    "ServerScriptError"
+                ]);
+        }
+
+        public static string FormulaError(Context context)
+        {
+            return Get(
+                context: context,
+                parts: [
+                    "Errors",
+                    "FormulaError"
+                ]);
+
+        }
     }
 }

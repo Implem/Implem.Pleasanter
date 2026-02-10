@@ -71,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<DataChange> DataChanges { get; set; }
         public AutoNumbering AutoNumbering { get; set; }
         public SettingList<Notification> Notifications { get; set; }
+        public bool? Disabled { get; set; }
         [NonSerialized]
         public bool MatchConditions;
 
@@ -102,7 +103,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string errorMessage,
             SettingList<DataChange> dataChanges,
             AutoNumbering autoNumbering,
-            SettingList<Notification> notifications)
+            SettingList<Notification> notifications,
+            bool? disabled)
         {
             Id = id;
             Name = name;
@@ -128,6 +130,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             DataChanges = dataChanges;
             AutoNumbering = autoNumbering;
             Notifications = notifications;
+            Disabled = disabled;
         }
 
         public void Update(
@@ -153,7 +156,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string errorMessage,
             SettingList<DataChange> dataChanges,
             AutoNumbering autoNumbering,
-            SettingList<Notification> notifications)
+            SettingList<Notification> notifications,
+            bool? disabled)
         {
             if (name != null)
             {
@@ -246,6 +250,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (notifications != null)
             {
                 Notifications = notifications;
+            }
+            if (disabled != null)
+            {
+                Disabled = disabled;
             }
         }
 
@@ -419,6 +427,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     ss: ss));
             });
+            if (Disabled == true)
+            {
+                process.Disabled = Disabled;
+            }
             return process;
         }
 
@@ -521,7 +533,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             Func<Process, bool> getProcessMatchConditions)
         {
-            return ss.Processes
+            return ss.GetProcesses()
                 ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
                 .Where(o => o.Accessable(
                     context: context,

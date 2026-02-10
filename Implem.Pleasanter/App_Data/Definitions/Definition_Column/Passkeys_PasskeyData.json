@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Passkeys_PasskeyData",
+    "ModelName": "Passkey",
+    "TableName": "Passkeys",
+    "Label": "パスキー",
+    "ColumnName": "PasskeyData",
+    "LabelText": "パスキーデータ",
+    "No": "104",
+    "History": "104",
+    "TypeName": "nvarchar",
+    "TypeCs": "PasskeyData",
+    "RecordingData": ".ToJson()",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "NotForm": "1",
+    "ByDataRow": "dataRow[column.ColumnName].ToString().Deserialize<PasskeyData>() ?? new PasskeyData()",
+    "LabelText_en": "Passkey data",
+    "LabelText_zh": "通行密钥数据",
+    "LabelText_de": "Passkey‑Daten",
+    "LabelText_ko": "Passkey 데이터",
+    "LabelText_es": "Datos de Passkey",
+    "LabelText_vn": "Dữ liệu Passkey"
+}

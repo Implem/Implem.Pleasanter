@@ -884,6 +884,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message FormulaExecutionFailed(Context context, params string[] data)
+        {
+            return Get(
+                id: "FormulaExecutionFailed",
+                text: Displays.FormulaExecutionFailed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message GroupDepthMax(Context context, params string[] data)
         {
             return Get(
@@ -1604,6 +1614,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message ProcessNotFound(Context context, params string[] data)
+        {
+            return Get(
+                id: "ProcessNotFound",
+                text: Displays.ProcessNotFound(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message ReadOnlyBecausePreviousVer(Context context, params string[] data)
         {
             return Get(
@@ -1802,6 +1822,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message ServerScriptErrorDetail(Context context, params string[] data)
+        {
+            return Get(
+                id: "ServerScriptErrorDetail",
+                text: Displays.ServerScriptErrorDetail(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message ServerScriptErrorPosition(Context context, params string[] data)
+        {
+            return Get(
+                id: "ServerScriptErrorPosition",
+                text: Displays.ServerScriptErrorPosition(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message ServerScriptExecutionFailed(Context context, params string[] data)
+        {
+            return Get(
+                id: "ServerScriptExecutionFailed",
+                text: Displays.ServerScriptExecutionFailed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message SitePackageImported(Context context, params string[] data)
@@ -2939,6 +2989,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseFormulaExecutionFailed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: FormulaExecutionFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseGroupDepthMax(
             Context context, string target = null, params string[] data)
         {
@@ -3731,6 +3792,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseProcessNotFound(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ProcessNotFound(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseReadOnlyBecausePreviousVer(
             Context context, string target = null, params string[] data)
         {
@@ -3946,6 +4018,39 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: Separated(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseServerScriptErrorDetail(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ServerScriptErrorDetail(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseServerScriptErrorPosition(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ServerScriptErrorPosition(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseServerScriptExecutionFailed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ServerScriptExecutionFailed(
                     context: context,
                     data: data),
                 target: target);

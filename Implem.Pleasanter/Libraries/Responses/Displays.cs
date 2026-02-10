@@ -1879,6 +1879,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CellSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CellSettings",
+                data: data);
+        }
+
         public static string CellWidthMinPx(
             Context context,
             params string[] data)
@@ -4849,6 +4859,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string FormulaExecutionFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormulaExecutionFailed",
+                data: data);
+        }
+
         public static string FormulaIsDisplayError(
             Context context,
             params string[] data)
@@ -5066,6 +5086,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "GeneralUser",
+                data: data);
+        }
+
+        public static string GetErrorDetails(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "GetErrorDetails",
                 data: data);
         }
 
@@ -6749,6 +6779,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string LineWorks(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LineWorks",
+                data: data);
+        }
+
         public static string LinkColumn(
             Context context,
             params string[] data)
@@ -8009,6 +8049,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NotSetForLabel(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotSetForLabel",
+                data: data);
+        }
+
         public static string NotShowZeroRows(
             Context context,
             params string[] data)
@@ -8609,6 +8659,106 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Passkey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkey",
+                data: data);
+        }
+
+        public static string PasskeyDefaultTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasskeyDefaultTitle",
+                data: data);
+        }
+
+        public static string PasskeyEdit(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasskeyEdit",
+                data: data);
+        }
+
+        public static string PasskeyLogin(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasskeyLogin",
+                data: data);
+        }
+
+        public static string PasskeyNotAvailable(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasskeyNotAvailable",
+                data: data);
+        }
+
+        public static string PasskeyOperationAborted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasskeyOperationAborted",
+                data: data);
+        }
+
+        public static string PasskeyOperationTimeout(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasskeyOperationTimeout",
+                data: data);
+        }
+
+        public static string PasskeyOperationTimeoutOrAbort(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasskeyOperationTimeoutOrAbort",
+                data: data);
+        }
+
+        public static string PasskeyResponseInvalid(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasskeyResponseInvalid",
+                data: data);
+        }
+
+        public static string PasskeyServerUnavailable(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasskeyServerUnavailable",
+                data: data);
+        }
+
         public static string Password(
             Context context,
             params string[] data)
@@ -8906,6 +9056,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ProcessExecuted",
+                data: data);
+        }
+
+        public static string ProcessNotFound(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ProcessNotFound",
                 data: data);
         }
 
@@ -10089,6 +10249,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ServerScriptErrorDetail(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ServerScriptErrorDetail",
+                data: data);
+        }
+
+        public static string ServerScriptErrorPosition(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ServerScriptErrorPosition",
+                data: data);
+        }
+
+        public static string ServerScriptExecutionFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ServerScriptExecutionFailed",
+                data: data);
+        }
+
         public static string SetCellWidth(
             Context context,
             params string[] data)
@@ -10306,6 +10496,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SiteSettings",
+                data: data);
+        }
+
+        public static string SiteSettingsUnsavedChangesBlocker(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SiteSettingsUnsavedChangesBlocker",
                 data: data);
         }
 
@@ -11959,6 +12159,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ViewDetails(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ViewDetails",
+                data: data);
+        }
+
         public static string ViewerSwitchingType(
             Context context,
             params string[] data)
@@ -13526,6 +13736,56 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "OutgoingMails_To",
+                data: data);
+        }
+
+        public static string Passkeys_CredentialId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_CredentialId",
+                data: data);
+        }
+
+        public static string Passkeys_PasskeyData(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_PasskeyData",
+                data: data);
+        }
+
+        public static string Passkeys_PasskeyId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_PasskeyId",
+                data: data);
+        }
+
+        public static string Passkeys_Title(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_Title",
+                data: data);
+        }
+
+        public static string Passkeys_UserId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_UserId",
                 data: data);
         }
 
@@ -17746,6 +18006,86 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "OutgoingMails_VerUp",
+                data: data);
+        }
+
+        public static string Passkeys_Comments(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_Comments",
+                data: data);
+        }
+
+        public static string Passkeys_CreatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_CreatedTime",
+                data: data);
+        }
+
+        public static string Passkeys_Creator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_Creator",
+                data: data);
+        }
+
+        public static string Passkeys_Timestamp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_Timestamp",
+                data: data);
+        }
+
+        public static string Passkeys_UpdatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_UpdatedTime",
+                data: data);
+        }
+
+        public static string Passkeys_Updator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_Updator",
+                data: data);
+        }
+
+        public static string Passkeys_Ver(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_Ver",
+                data: data);
+        }
+
+        public static string Passkeys_VerUp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys_VerUp",
                 data: data);
         }
 
@@ -27486,6 +27826,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "OutgoingMails",
+                data: data);
+        }
+
+        public static string Passkeys(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Passkeys",
                 data: data);
         }
 

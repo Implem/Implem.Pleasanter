@@ -112,8 +112,8 @@
                     return new ErrorData(type: Error.Types.NotFound);
             }
             var processes = #modelName#ApiModel?.ProcessIds != null
-                ? ss.Processes?.Where(process => #modelName#ApiModel.ProcessIds.Contains(process.Id)).ToList()
-                : ss.Processes?.Where(process => process.Id == #modelName#ApiModel?.ProcessId).ToList();
+                ? ss.GetProcesses()?.Where(process => #modelName#ApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.GetProcesses()?.Where(process => process.Id == #modelName#ApiModel?.ProcessId).ToList();
             if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 error = ApplyUpdateByApi(

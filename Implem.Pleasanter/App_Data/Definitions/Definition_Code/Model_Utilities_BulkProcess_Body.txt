@@ -10,9 +10,9 @@
         id: processId);
     if (process == null || !process.GetAllowBulkProcessing())
     {
-        return Messages.NotFound(context: context).ToJson();
+        return Messages.ResponseProcessNotFound(context: context).ToJson();
     }
-    var processes = ss.Processes
+    var processes = ss.GetProcesses()
         ?.Where(o => o.Id == processId 
         || (o.ExecutionType == Process.ExecutionTypes.AddedButtonOrCreateOrUpdate
             && ((process.ExecutionType == Process.ExecutionTypes.CreateOrUpdate)

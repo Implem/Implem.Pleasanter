@@ -1,0 +1,32 @@
+﻿{
+    "Id": "PasskeyOperationTimeoutOrAbort",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        { "Body": "The passkey operation timed out or was interrupted. Please check your authenticator and try again." },
+        {
+            "Language": "zh",
+            "Body": "Passkey 操作已超时或被中断，请检查验证设备后重试。"
+        },
+        {
+            "Language": "ja",
+            "Body": "Passkey 操作がタイムアウトまたは中断されました。認証デバイスを確認してから再試行してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Passkey-Aktion wurde wegen Zeitüberschreitung oder Abbruch beendet. Bitte überprüfen Sie Ihr Authentifizierungsgerät und versuchen Sie es erneut."
+        },
+        {
+            "Language": "ko",
+            "Body": "Passkey 작업이 시간 초과되었거나 중단되었습니다. 인증 장치를 확인한 뒤 다시 시도하세요."
+        },
+        {
+            "Language": "es",
+            "Body": "La operación de Passkey se agotó o se interrumpió. Comprueba tu autenticador y vuelve a intentarlo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Thao tác Passkey đã hết thời gian chờ hoặc bị gián đoạn. Vui lòng kiểm tra thiết bị xác thực và thử lại."
+        }
+    ]
+}

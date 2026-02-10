@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public AutoNumbering AutoNumbering { get; set; }
         public ApiSiteSettingPermission Permission { get; set; }
         public SettingList<Notification> Notifications { get; set; }
+        public bool? Disabled { get; set; }
         [NonSerialized]
         public bool? MatchConditions;
         public int? Delete;

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ProcessNotFound",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The specified process could not be found."
+        },
+        {
+            "Language": "zh",
+            "Body": "未找到指定的进程。"
+        },
+        {
+            "Language": "ja",
+            "Body": "指定されたプロセスは見つかりませんでした。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der angegebene Prozess wurde nicht gefunden."
+        },
+        {
+            "Language": "ko",
+            "Body": "지정된 프로세스를 찾을 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se pudo encontrar el proceso especificado."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không tìm thấy tiến trình được chỉ định."
+        }
+    ]
+}

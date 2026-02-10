@@ -4,6 +4,12 @@
     "ServiceId": null,
     "ExtensionUrl": null,
     "RejectUnregisteredUser": false,
+    "PasskeyParameters": {
+        "Enabled": false,
+        "ServerName": "Pleasanter",
+        "ServerDomain": "localhost",
+        "Origins": [ "https://localhost:44331" ]
+    },
     "LdapParameters": [
         {
             "LdapSearchRoot": null,

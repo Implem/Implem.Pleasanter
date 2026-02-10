@@ -316,6 +316,30 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class PasskeysResponseCollection : ResponseCollection
+    {
+        public PasskeyModel PasskeyModel;
+
+        public PasskeysResponseCollection(
+            Context context,
+            PasskeyModel passkeyModel) : base(context: context)
+        {
+            PasskeyModel = passkeyModel;
+        }
+
+        public PasskeysResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public PasskeysResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class RegistrationsResponseCollection : ResponseCollection
     {
         public RegistrationModel RegistrationModel;
@@ -4764,6 +4788,226 @@ namespace Implem.Pleasanter.Libraries.Responses
             this OutgoingMailsResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#OutgoingMails_Timestamp", value);
+        }
+
+        public static PasskeysResponseCollection Ver(
+            this PasskeysResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Passkeys_Ver",
+                res.PasskeyModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static PasskeysResponseCollection Ver(
+            this PasskeysResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Passkeys_Ver", value);
+        }
+
+        public static PasskeysResponseCollection Ver_FormData(
+            this PasskeysResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Passkeys_Ver",
+                res.PasskeyModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static PasskeysResponseCollection Ver_FormData(
+            this PasskeysResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Passkeys_Ver", value);
+        }
+
+        public static PasskeysResponseCollection Comments(
+            this PasskeysResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Passkeys_Comments",
+                res.PasskeyModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static PasskeysResponseCollection Comments(
+            this PasskeysResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Passkeys_Comments", value);
+        }
+
+        public static PasskeysResponseCollection Comments_FormData(
+            this PasskeysResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Passkeys_Comments",
+                res.PasskeyModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static PasskeysResponseCollection Comments_FormData(
+            this PasskeysResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Passkeys_Comments", value);
+        }
+
+        public static PasskeysResponseCollection CreatedTime(
+            this PasskeysResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Passkeys_CreatedTime",
+                res.PasskeyModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static PasskeysResponseCollection CreatedTime(
+            this PasskeysResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Passkeys_CreatedTime", value);
+        }
+
+        public static PasskeysResponseCollection CreatedTime_FormData(
+            this PasskeysResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Passkeys_CreatedTime",
+                res.PasskeyModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static PasskeysResponseCollection CreatedTime_FormData(
+            this PasskeysResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Passkeys_CreatedTime", value);
+        }
+
+        public static PasskeysResponseCollection UpdatedTime(
+            this PasskeysResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Passkeys_UpdatedTime",
+                res.PasskeyModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static PasskeysResponseCollection UpdatedTime(
+            this PasskeysResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Passkeys_UpdatedTime", value);
+        }
+
+        public static PasskeysResponseCollection UpdatedTime_FormData(
+            this PasskeysResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Passkeys_UpdatedTime",
+                res.PasskeyModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static PasskeysResponseCollection UpdatedTime_FormData(
+            this PasskeysResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Passkeys_UpdatedTime", value);
+        }
+
+        public static PasskeysResponseCollection Timestamp(
+            this PasskeysResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Passkeys_Timestamp",
+                res.PasskeyModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static PasskeysResponseCollection Timestamp(
+            this PasskeysResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Passkeys_Timestamp", value);
+        }
+
+        public static PasskeysResponseCollection Timestamp_FormData(
+            this PasskeysResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Passkeys_Timestamp",
+                res.PasskeyModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static PasskeysResponseCollection Timestamp_FormData(
+            this PasskeysResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Passkeys_Timestamp", value);
         }
 
         public static RegistrationsResponseCollection Ver(

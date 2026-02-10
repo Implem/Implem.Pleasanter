@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.5.0.0</AssemblyVersion>
-    <FileVersion>1.5.0.0</FileVersion>
-    <Version>1.5.0.0</Version>
+    <AssemblyVersion>1.5.1.0</AssemblyVersion>
+    <FileVersion>1.5.1.0</FileVersion>
+    <Version>1.5.1.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -43,6 +43,8 @@
     <PackageReference Include="DiffMatchPatch" Version="5.0.0" />
 	  <PackageReference Include="Fare" Version="2.2.1" />
     <PackageReference Include="MailKit" Version="4.14.1" />
+	<PackageReference Include="Fido2" Version="4.0.0" />
+	<PackageReference Include="Fido2.AspNet" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
@@ -130,6 +132,11 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_SavedProperty.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_View.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_WriteAttachmentsExecute_Create.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Passkeys_CredentialId.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Passkeys_PasskeyData.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Passkeys_PasskeyId.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Passkeys_Title.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Passkeys_UserId.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Tenants_AllowExtensionsApi.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Tenants_Language.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Tenants_TimeZone.json" />

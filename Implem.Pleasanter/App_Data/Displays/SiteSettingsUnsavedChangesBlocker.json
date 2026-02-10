@@ -1,0 +1,34 @@
+﻿{
+    "Id": "SiteSettingsUnsavedChangesBlocker",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "There are changed settings. Click “Update” to save your changes, or reload the page to discard them."
+        },
+        {
+            "Language": "zh",
+            "Body": "存在已更改的设置。请点击“更新”按钮保存更改，或重新加载页面以清除更改。"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更された設定があります。「更新」ボタンで設定内容を保存するか、ページを再読み込みして変更をクリアしてください"
+        },
+        {
+            "Language": "de",
+            "Body": "Es gibt geänderte Einstellungen. Klicken Sie auf „Aktualisieren“, um die Änderungen zu speichern, oder laden Sie die Seite neu, um sie zu verwerfen."
+        },
+        {
+            "Language": "ko",
+            "Body": "변경된 설정이 있습니다. “업데이트” 버튼을 눌러 변경 사항을 저장하거나, 페이지를 다시 로드하여 변경 사항을 취소해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Hay ajustes modificados. Haz clic en “Actualizar” para guardar los cambios o recarga la página para descartarlos."
+        },
+        {
+            "Language": "vn",
+            "Body": "Có cài đặt đã thay đổi. Hãy nhấn “Cập nhật” để lưu thay đổi hoặc tải lại trang để hủy thay đổi."
+        }
+    ]
+}

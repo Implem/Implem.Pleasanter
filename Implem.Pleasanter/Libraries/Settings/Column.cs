@@ -1520,7 +1520,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             decimal? limitSize,
             decimal? totalLimitSize,
             decimal? thumbnailLimitSize,
-            int? dateTimeStep)
+            int? dateTimeStep,
+            bool? cellSticky,
+            int? cellWidth,
+            bool? cellWordWrap)
         {
             if (columnName != null) ColumnName = columnName;
             if (labelText != null)
@@ -1562,6 +1565,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (totalLimitSize != null) TotalLimitSize = totalLimitSize;
             if (thumbnailLimitSize != null) ThumbnailLimitSize = thumbnailLimitSize;
             if (dateTimeStep != null) DateTimeStep = dateTimeStep;
+            if (cellSticky != null) CellSticky = cellSticky;
+            if (cellWidth != null) CellWidth = cellWidth;
+            if (cellWordWrap != null) CellWordWrap = cellWordWrap;
             MaxLength = maxLength;
         }
 

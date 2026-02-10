@@ -45,7 +45,9 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public decimal? TotalLimitSize { get; set; }
         public decimal? ThumbnailLimitSize { get; set; }
         public int? DateTimeStep { get; set; }
-
+        public bool? CellSticky { get; set; }
+        public int? CellWidth { get; set; }
+        public bool? CellWordWrap { get; set; }
         public DragParamsApiSettingModel DragParams;
 
         public ColumnApiSettingModel()

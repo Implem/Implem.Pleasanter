@@ -66,6 +66,11 @@ namespace Implem.SqlServer
             return $"dateadd(hour,{hour},{columnBracket})";
         }
 
+        public string DateAddMinute(int minute, string columnBracket)
+        {
+            return $"dateadd(minute,{minute},{columnBracket})";
+        }
+
         public string DateGroupYearly { get; } = "substring(convert(varchar,{0},111),1,4)";
 
         public string DateGroupMonthly { get; } = "substring(convert(varchar,{0},111),1,7)";

@@ -1,6 +1,7 @@
 ﻿{
     "Id": "StickyOnLeftEdge",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Sticky on left edge"
