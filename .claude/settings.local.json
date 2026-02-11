@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:hashtagfail.com)",
+      "Bash(dir:*)",
+      "Bash(powershell:*)",
+      "Bash(dotnet build:*)",
+      "Read(//c/Users/KosukeKida/ModernApplicationStack/SnowSQL-login/**)",
+      "Bash(where:*)",
+      "Bash(snow:*)",
+      "Bash(snowsql:*)",
+      "Bash(docker:*)",
+      "Bash(del:*)"
+    ]
+  }
+}
