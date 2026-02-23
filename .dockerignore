@@ -24,6 +24,7 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+**/.env.example
 
 **/TestResults/**
 **/*.trx
