@@ -43,7 +43,7 @@
         "@codemirror/theme-one-dark": "^6.1.3",
         "@glidejs/glide": "^3.7.1",
         "codemirror": "^6.0.2",
-        "dompurify": "^3.3.1",
+        "dompurify": "^3.3.2",
         "flatpickr": "^4.6.13",
         "highlight.js": "^11.11.1",
         "jquery": "3.7.1",
