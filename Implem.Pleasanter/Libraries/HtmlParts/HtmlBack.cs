@@ -52,6 +52,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "tenants":
                     return AdminsOrTop(context: context);
                 case "syslogs":
+                case "mcplogs":
                 case "depts":
                 case "groups":
                 case "users":

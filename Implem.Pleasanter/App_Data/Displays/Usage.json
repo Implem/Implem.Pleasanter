@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Usage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Usage"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用量"
+        },
+        {
+            "Language": "ja",
+            "Body": "使用量"
+        },
+        {
+            "Language": "de",
+            "Body": "Nutzung"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용량"
+        },
+        {
+            "Language": "es",
+            "Body": "Uso"
+        },
+        {
+            "Language": "vn",
+            "Body": "Lượng sử dụng"
+        }
+    ]
+}

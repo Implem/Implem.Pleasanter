@@ -28,5 +28,8 @@ $p.changeColumnAccessControl = function ($control, type) {
     data.ColumnAccessControl = mainFormData[type + 'ColumnAccessControl'];
     data.ColumnAccessControlAll = mainFormData[type + 'ColumnAccessControlAll'];
     data.ColumnAccessControlType = type;
+    data.ColumnAccessControl_ShowUsedColumnsOnly = $(
+        '#ColumnAccessControl_ShowUsedColumnsOnly'
+    ).prop('checked');
     $p.send($control);
 };

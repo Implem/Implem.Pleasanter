@@ -118,9 +118,13 @@ public static bool CreateByServerScript(Context context, SiteSettings ss, object
     }
     #modelName#Model.SiteId = ss.SiteId;
     #modelName#Model.SetTitle(context: context, ss: ss);
+
+<!--Model_Utilities_SetProcessServerScript_Tables-->
+
     var errorData = #modelName#Model.Create(
         context: context,
         ss: ss,
+<!--Model_Update_Parameter_Processes-->
         notice: true);
     switch (errorData.Type)
     {

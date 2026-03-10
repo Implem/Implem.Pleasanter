@@ -2539,6 +2539,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectUsers(
                     column: Rds.UsersColumn()
+                        .TenantId()
                         .UserId()
                         .DeptId()
                         .LoginId()

@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     .ForEach(dataRow =>
                         users.Add(new ServerScriptModelUserModel(
                             context: Context,
-                            tenantId: dataRow.Int("DeptId"),
+                            tenantId: dataRow.Int("TenantId"),
                             userId: dataRow.Int("UserId"),
                             deptId: dataRow.Int("DeptId"),
                             loginId: dataRow.String("LoginId"),

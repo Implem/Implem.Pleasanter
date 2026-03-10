@@ -1,0 +1,33 @@
+{
+    "Id": "HelpfulContentsSg",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Promote Usage\n[Helpful Content]"
+        },
+        {
+            "Language": "zh",
+            "Body": "促进使用\n【实用内容】"
+        },
+        {
+            "Language": "ja",
+            "Body": "活用促進\n【お役立ちコンテンツ】"
+        },
+        {
+            "Language": "de",
+            "Body": "Nutzungsförderung\n[Nützliche Inhalte]"
+        },
+        {
+            "Language": "ko",
+            "Body": "활용 촉진\n[유용한 콘텐츠]"
+        },
+        {
+            "Language": "es",
+            "Body": "Fomento del uso\n[Contenido útil]"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thúc đẩy việc sử dụng\n[Nội dung hữu ích]"
+        }
+    ]
+}

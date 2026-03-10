@@ -1,0 +1,33 @@
+{
+    "Id": "EnterpriseEditionSg",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Feature Expansion\n[Enterprise Edition]"
+        },
+        {
+            "Language": "zh",
+            "Body": "功能扩展\n【企业版】"
+        },
+        {
+            "Language": "ja",
+            "Body": "機能拡張\n【Enterprise edition】"
+        },
+        {
+            "Language": "de",
+            "Body": "Funktionserweiterung\n[Enterprise Edition]"
+        },
+        {
+            "Language": "ko",
+            "Body": "기능 확장\n[Enterprise Edition]"
+        },
+        {
+            "Language": "es",
+            "Body": "Ampliación de funciones\n[Edición de Empresa]"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mở rộng tính năng\n[Phiên bản doanh nghiệp]"
+        }
+    ]
+}

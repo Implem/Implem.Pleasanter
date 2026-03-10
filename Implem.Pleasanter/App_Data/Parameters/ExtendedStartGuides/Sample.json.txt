@@ -1,0 +1,19 @@
+﻿{
+    "Disabled": "",
+    "DeptIdList": [],
+    "GroupIdList": [],
+    "UserIdList": [],
+    "TargetId": "",
+    "Action": "",
+    "StartGuides": [
+        {
+            "Id": "",
+            "Text": "",
+            "Url": "",
+            "ImgNameLight": "",
+            "ImgNameDark": "",
+            "Target": "",
+            "Disabled": ""
+        }
+    ]
+}

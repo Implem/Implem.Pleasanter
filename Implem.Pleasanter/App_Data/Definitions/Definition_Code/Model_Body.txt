@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 <!--Model_ApiSiteSettingsUsing-->
 <!--Model_SysLogUsing-->
+<!--Model_McpLogUsing-->
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -32,6 +33,7 @@ namespace Implem.Pleasanter.Models
     {
 
 <!--Model_SysLogLogger-->
+<!--Model_McpLogLogger-->
 <!--Model_ItemProperties_Sites-->
 <!--Model_GroupProperties_GroupMembers-->
 <!--Model_GroupProperties_GroupChildren-->

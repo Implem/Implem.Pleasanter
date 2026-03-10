@@ -345,7 +345,7 @@ const buildPopupContents = (dataType: DataType) => {
         const captionLanguage = language === 'ja' ? 'ja' : 'en';
         const figures = popupImageConfig.captions[captionLanguage]
             .map((caption, index) => {
-                const image = `/assets/images/editorColumns/popup-${dataTypeLower}-${index}.svg`;
+                const image = `${$('#ApplicationPath').val()}assets/images/editorColumns/popup-${dataTypeLower}-${index}.svg`;
                 return `
 <figure>
     <span><img src="${image}" alt="${dataTypeLower}"></span>

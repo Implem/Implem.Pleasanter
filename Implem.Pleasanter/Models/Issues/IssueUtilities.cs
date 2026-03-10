@@ -3731,9 +3731,35 @@ namespace Implem.Pleasanter.Models
             }
             issueModel.SiteId = ss.SiteId;
             issueModel.SetTitle(context: context, ss: ss);
+            var processes = issueApiModel?.ProcessIds != null
+                ? ss.GetProcesses()?.Where(process => issueApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : issueApiModel?.ProcessId.HasValue == true
+                ? ss.GetProcesses()?.Where(process => process.Id == issueApiModel.ProcessId.Value).ToList()
+                : null;
+            foreach (var process in processes ?? [])
+            {
+                process.MatchConditions = issueModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
+                {
+                    issueModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
+                }
+                else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
+                {
+                    return false;
+                }
+            }
             var errorData = issueModel.Create(
                 context: context,
                 ss: ss,
+                processes: processes,
                 notice: true);
             switch (errorData.Type)
             {
@@ -4957,10 +4983,12 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 baseModel: issueModel);
-            var processes = issueApiModel?.ProcessId.HasValue == true
-                ? ss.Processes?.Where(process => process.Id == issueApiModel.ProcessId.Value).ToList()
+            var processes = issueApiModel?.ProcessIds != null
+                ? ss.GetProcesses()?.Where(process => issueApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : issueApiModel?.ProcessId.HasValue == true
+                ? ss.GetProcesses()?.Where(process => process.Id == issueApiModel.ProcessId.Value).ToList()
                 : null;
-            foreach (var process in processes ?? new List<Process>())
+            foreach (var process in processes ?? [])
             {
                 process.MatchConditions = issueModel.GetProcessMatchConditions(
                     context: context,
@@ -4983,7 +5011,7 @@ namespace Implem.Pleasanter.Models
             var errorData = issueModel.Update(
                 context: context,
                 ss: ss,
-        processes: processes,
+                processes: processes,
                 notice: true,
                 previousTitle: previousTitle);
             switch (errorData.Type)
@@ -6498,6 +6526,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     statements: Rds.SelectIssues(
                         column: Rds.IssuesColumn().IssuesCount(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                where
+                            }),
                         where: where,
                         param: param))))
             {
@@ -6546,6 +6580,12 @@ namespace Implem.Pleasanter.Models
         {
             var sub = Rds.SelectIssues(
                 column: Rds.IssuesColumn().IssueId(),
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        where
+                    }),
                 where: where,
                 param: param);
             var guid = Strings.NewGuid();
@@ -6562,7 +6602,8 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .ReferenceType(guid)),
                     Rds.UpdateIssues(
-                        where: where,
+                        where: Rds.IssuesWhere()
+                            .IssueId_In(sub: sub),
                         param: Rds.IssuesParam()
                             .SiteId(siteId)),
                     Rds.RowCount(),
@@ -9426,7 +9467,7 @@ namespace Implem.Pleasanter.Models
             if (groupByX?.TypeName != "datetime")
             {
                 var column = Rds.IssuesColumn()
-                    .WithItemTitle(
+                    .WithItemTitleCoalesced(
                         context: context,
                         ss: ss,
                         column: groupByX)
@@ -9445,11 +9486,11 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
                 var groupBy = Rds.IssuesGroupBy()
-                    .WithItemTitle(
+                    .WithItemTitleCoalesced(
                         context: context,
                         ss: ss,
                         column: groupByX)
-                    .WithItemTitle(
+                    .WithItemTitleCoalesced(
                         context: context,
                         ss: ss,
                         column: groupByY);
@@ -9501,7 +9542,7 @@ namespace Implem.Pleasanter.Models
                     ss: ss);
                 var groupBy = Rds.IssuesGroupBy()
                     .Add(dateGroup)
-                    .WithItemTitle(
+                    .WithItemTitleCoalesced(
                         context: context,
                         ss: ss,
                         column: groupByY);
@@ -9541,7 +9582,7 @@ namespace Implem.Pleasanter.Models
             if (view.CrosstabGroupByY != "Columns")
             {
                 return self
-                    .WithItemTitle(
+                    .WithItemTitleCoalesced(
                         context: context,
                         ss: ss,
                         column: groupByY)

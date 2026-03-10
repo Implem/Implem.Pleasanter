@@ -34,7 +34,9 @@ class MarkdownFieldElement extends HTMLElement {
     private uncPathRegex: RegExp =
         /\B\\\\[^\\/:*?"<>|\r\n\s]+\\[^\\/:*?"<>|\r\n\s]+(?:\\[^\\/:*?"<>|\r\n()\s]*(?:\([^\\/:*?"<>|\r\n()]*\)[^\\/:*?"<>|\r\n()\s]*)?)*[^\\/:*?"<>|\r\n()[\]\s]/gi;
     private encodedUncPathRegex: RegExp =
-        /(?<!data-href=")%5C%5C(?:[A-Za-z0-9\-_.!'()]+|%(?:[0-9A-Fa-f]{2}))+(?:%5C(?:[A-Za-z0-9\-_.!'()]+|%(?:[0-9A-Fa-f]{2}))+)+/gi;
+        /(?<!data-href=")%5C%5C(?:[A-Za-z0-9_.!'()-]|%(?:[0-9A-Fa-f]{2}))+(?:%5C(?:[A-Za-z0-9_.!'()-]|%(?:[0-9A-Fa-f]{2}))+)+/gi;
+    private mdLinkCustomSchemeRegex: RegExp =
+        /(\[(?:[^\\\]]|\\.)*\]\()((?:\\\\|notes:\/\/)[^)]*?)(\s+(?:"[^"]*"|'[^']*'))?(\))/gi;
     private notesLinkRegex: RegExp = /\bnotes:\/\/[^\s<()>[\]"]+/gi;
     private encodedNotesLinkRegex: RegExp = /notes%3A%2F%2F[\w%\-.!~*'()%]+/gi;
 
@@ -159,21 +161,80 @@ class MarkdownFieldElement extends HTMLElement {
         }
     });
 
+    private renderLinkText = (token: Tokens.Link): string => {
+        if ('tokens' in token && token.tokens && token.tokens.length > 0) {
+            return token.tokens.map(t => this.renderInlineToken(t)).join('');
+        }
+        return this.escapeHtml(decodeURIComponent(token.text));
+    };
+
+    private renderInlineToken = (token: Token): string => {
+        switch (token.type) {
+            case 'link': {
+                return this.mdRenderLink(token as Tokens.Link);
+            }
+            case 'image': {
+                const imgToken = token as Tokens.Image;
+                const href = imgToken.href.toLowerCase();
+                if (href.startsWith('javascript:') || href.startsWith('data:')) {
+                    return `<span class="invalid-image" title="Invalid image URL">${this.escapeHtml(imgToken.text)}</span>`;
+                }
+                return `<img src="${this.escapeHtml(encodeURI(imgToken.href))}?thumbnail=1" alt="${this.escapeHtml(imgToken.text)}"${imgToken.title ? ` title="${this.escapeHtml(imgToken.title)}"` : ''}>`;
+            }
+            case 'strong':
+                if ('tokens' in token && token.tokens) {
+                    return `<strong>${token.tokens.map(t => this.renderInlineToken(t)).join('')}</strong>`;
+                }
+                return `<strong>${this.escapeHtml(token.text)}</strong>`;
+            case 'em':
+                if ('tokens' in token && token.tokens) {
+                    return `<em>${token.tokens.map(t => this.renderInlineToken(t)).join('')}</em>`;
+                }
+                return `<em>${this.escapeHtml(token.text)}</em>`;
+            case 'del':
+                if ('tokens' in token && token.tokens) {
+                    return `<del>${token.tokens.map(t => this.renderInlineToken(t)).join('')}</del>`;
+                }
+                return `<del>${this.escapeHtml(token.text)}</del>`;
+            case 'codespan':
+                return `<code>${this.escapeHtml(token.text)}</code>`;
+            case 'text':
+                return this.escapeHtml(token.text);
+            case 'escape':
+                return this.escapeHtml(token.text);
+            case 'br':
+                return '<br>';
+            case 'html':
+                return this.escapeHtml(token.raw);
+            default:
+                if ('text' in token) {
+                    return this.escapeHtml(token.text || '');
+                }
+                return this.escapeHtml(token.raw || '');
+        }
+    };
+
     private mdRenderLink = (token: Tokens.Link) => {
-        const blank = MarkdownFieldElement.AnchorTargetBlank ? ' target="_blank"' : undefined;
+        const blank = MarkdownFieldElement.AnchorTargetBlank ? ' target="_blank"' : '';
+        const title = token.title ? ` title="${this.escapeHtml(token.title)}"` : '';
+        const linkText = this.renderLinkText(token);
         this.encodedUncPathRegex.lastIndex = 0;
         this.encodedNotesLinkRegex.lastIndex = 0;
         if (this.encodedUncPathRegex.test(token.href)) {
-            return `<a data-href="file://${decodeURIComponent(token.href)}"${blank}>${this.escapeHtml(decodeURIComponent(token.text))}</a>`;
+            return `<a data-href="file://${this.escapeHtml(decodeURIComponent(token.href))}"${blank}${title}>${linkText}</a>`;
         } else if (this.encodedNotesLinkRegex.test(token.href)) {
-            return `<a data-href="${decodeURIComponent(token.href)}"${blank}>${this.escapeHtml(decodeURIComponent(token.text))}</a>`;
+            return `<a data-href="${this.escapeHtml(decodeURIComponent(token.href))}"${blank}${title}>${linkText}</a>`;
         } else {
-            return `<a href="${token.href}"${blank}>${this.escapeHtml(decodeURIComponent(token.text))}</a>`;
+            return `<a href="${this.escapeHtml(token.href)}"${blank}${title}>${linkText}</a>`;
         }
     };
 
     private mdRenderImage = (token: Tokens.Image) => {
-        return /*html */ `<figure><img src="${encodeURI(token.href)}?thumbnail=1" alt="${this.escapeHtml(token.text)}"${token.title ? ` title="${this.escapeHtml(token.title)}"` : ''}></figure>`;
+        const href = token.href.toLowerCase();
+        if (href.startsWith('javascript:') || href.startsWith('data:')) {
+            return `<figure><span class="invalid-image" title="Invalid image URL">${this.escapeHtml(token.text)}</span></figure>`;
+        }
+        return /*html */ `<figure><img src="${this.escapeHtml(encodeURI(token.href))}?thumbnail=1" alt="${this.escapeHtml(token.text)}"${token.title ? ` title="${this.escapeHtml(token.title)}"` : ''}></figure>`;
     };
 
     private mdRenderCode = (token: Tokens.Code) => {
@@ -233,8 +294,6 @@ class MarkdownFieldElement extends HTMLElement {
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&apos;')
             .replace(/#/g, '&#35;')
             .replace(/\*/g, '&#42;')
             .replace(/_/g, '&#95;')
@@ -259,6 +318,10 @@ class MarkdownFieldElement extends HTMLElement {
     }
 
     private encodeCustomSchemeLink(md: string) {
+        this.mdLinkCustomSchemeRegex.lastIndex = 0;
+        md = md.replace(this.mdLinkCustomSchemeRegex, (_, prefix, url, title, suffix) => {
+            return `${prefix}${encodeURIComponent(url)}${title || ''}${suffix}`;
+        });
         this.uncPathRegex.lastIndex = 0;
         md = md.replace(this.uncPathRegex, url => {
             return `${encodeURIComponent(url)}`;
@@ -307,7 +370,7 @@ class MarkdownFieldElement extends HTMLElement {
             let md = this.controller.value;
             md = this.encodeCustomSchemeLink(md);
             if (md.indexOf('[md]') === 0) {
-                md = md.split('\n').slice(1).join('\n');
+                md = md.slice(4);
                 md = String(this.viewerMarked!.parse(md));
             } else {
                 const tokens = this.viewerMarked?.lexer(this.escapeMarkdown(md));
@@ -315,10 +378,10 @@ class MarkdownFieldElement extends HTMLElement {
                 md = `<div class="notes">${md}<br></div>`;
             }
             md = this.createCustomSchemeLink(md);
-            md = md.replace(/&amp;#(\d+);/g, '&#$1;');
             md = DOMPurify.sanitize(md, {
-                ADD_ATTR: ['target']
+                ADD_ATTR: ['target', 'title', 'data-href']
             });
+            md = md.replace(/&amp;#(\d+);/g, '&#$1;');
             this.viewerElem!.innerHTML = md;
             this.finalizeViewerDom();
             this.removeAttribute('data-editable');
@@ -421,7 +484,7 @@ class MarkdownFieldElement extends HTMLElement {
 
     private openImageViewer = (event: Event) => {
         const path = event.composedPath();
-        if ((path[0] as HTMLElement).tagName === 'IMG') {
+        if ((path[0] as HTMLElement).tagName === 'IMG' && (path[1] as HTMLElement).tagName === 'FIGURE') {
             const imgNode = path[0] as HTMLImageElement;
             const wrap = this.closest('tr') ?? document;
             if (wrap !== document) event.stopPropagation();
@@ -442,7 +505,13 @@ class MarkdownFieldElement extends HTMLElement {
             event.stopPropagation();
             const buttonNode = path[0] as HTMLImageElement;
             const wrap = buttonNode.closest('.md-code-block');
-            const code = decodeURIComponent(buttonNode.querySelector('.md-code-copy-item')?.textContent || '');
+            const rawText = buttonNode.querySelector('.md-code-copy-item')?.textContent || '';
+            let code: string;
+            try {
+                code = decodeURIComponent(rawText);
+            } catch {
+                code = rawText;
+            }
             navigator.clipboard.writeText(code);
             wrap?.classList.add('is-copied');
             setTimeout(() => wrap?.classList.remove('is-copied'), 1500);

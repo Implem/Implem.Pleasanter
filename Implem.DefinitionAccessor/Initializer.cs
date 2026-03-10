@@ -115,12 +115,14 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedPlugins = ExtendedPlugins();
             Parameters.ExtendedTags = ExtendedTags();
+            Parameters.ExtendedStartGuides = ExtendedStartGuides();
             Parameters.Form = Read<Form>();
             Parameters.General = Read<General>();
             Parameters.GroupMembers = Read<GroupMembers>();
             Parameters.History = Read<History>();
             Parameters.Version = Read<ParameterAccessor.Parts.Version>();
             Parameters.Mail = Read<Mail>();
+            Parameters.McpServer = Read<McpServer>();
             Parameters.Mobile = Read<Mobile>();
             Parameters.NavigationMenus = NavigationMenus();
             Parameters.Migration = Read<Migration>();
@@ -676,6 +678,35 @@ namespace Implem.DefinitionAccessor
             foreach (var dir in dirs)
             {
                 list = ExtendedStyles(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<ExtendedStartGuide> ExtendedStartGuides(
+            string path = null,
+            List<ExtendedStartGuide> list = null)
+        {
+            list = list ?? new List<ExtendedStartGuide>();
+            path = path ?? Path.Combine(
+                ParametersPath,
+                "ExtendedStartGuides");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
+            {
+                var extendedStartGuides = Files.Read(file.FullName)
+                    .Deserialize<ExtendedStartGuide>();
+                if (extendedStartGuides != null)
+                {
+                    extendedStartGuides.Path = file.FullName;
+                    list.Add(extendedStartGuides);
+                }
+                else
+                {
+                    throw new ParametersIllegalSyntaxException(file.FullName);
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedStartGuides(dir.FullName, list);
             }
             return list;
         }

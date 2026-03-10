@@ -498,6 +498,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "tenants":
                     return false;
                 case "syslogs":
+                case "mcplogs":
                     return false;
                 case "depts":
                     return CanManageTenant(context: context)
@@ -546,6 +547,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant(context: context)
                         || context.UserSettings?.EnableManageTenant == true;
                 case "syslogs":
+                case "mcplogs":
                     return false;
                 case "depts":
                     return CanManageTenant(context: context)
@@ -590,6 +592,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "tenants":
                     return false;
                 case "syslogs":
+                case "mcplogs":
                     return false;
                 case "depts":
                     return CanManageTenant(context: context)
@@ -626,6 +629,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "tenants":
                     return false;
                 case "syslogs":
+                case "mcplogs":
                     return false;
                 case "depts":
                     return CanManageTenant(context: context)
@@ -678,6 +682,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "tenants":
                     return false;
                 case "syslogs":
+                case "mcplogs":
                     return context.HasPrivilege;
                 case "depts":
                     return CanManageTenant(context: context)

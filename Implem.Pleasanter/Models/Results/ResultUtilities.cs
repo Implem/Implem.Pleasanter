@@ -3520,9 +3520,35 @@ namespace Implem.Pleasanter.Models
             }
             resultModel.SiteId = ss.SiteId;
             resultModel.SetTitle(context: context, ss: ss);
+            var processes = resultApiModel?.ProcessIds != null
+                ? ss.GetProcesses()?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : resultApiModel?.ProcessId.HasValue == true
+                ? ss.GetProcesses()?.Where(process => process.Id == resultApiModel.ProcessId.Value).ToList()
+                : null;
+            foreach (var process in processes ?? [])
+            {
+                process.MatchConditions = resultModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
+                {
+                    resultModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
+                }
+                else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
+                {
+                    return false;
+                }
+            }
             var errorData = resultModel.Create(
                 context: context,
                 ss: ss,
+                processes: processes,
                 notice: true);
             switch (errorData.Type)
             {
@@ -4734,10 +4760,12 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 baseModel: resultModel);
-            var processes = resultApiModel?.ProcessId.HasValue == true
-                ? ss.Processes?.Where(process => process.Id == resultApiModel.ProcessId.Value).ToList()
+            var processes = resultApiModel?.ProcessIds != null
+                ? ss.GetProcesses()?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : resultApiModel?.ProcessId.HasValue == true
+                ? ss.GetProcesses()?.Where(process => process.Id == resultApiModel.ProcessId.Value).ToList()
                 : null;
-            foreach (var process in processes ?? new List<Process>())
+            foreach (var process in processes ?? [])
             {
                 process.MatchConditions = resultModel.GetProcessMatchConditions(
                     context: context,
@@ -4760,7 +4788,7 @@ namespace Implem.Pleasanter.Models
             var errorData = resultModel.Update(
                 context: context,
                 ss: ss,
-        processes: processes,
+                processes: processes,
                 notice: true,
                 previousTitle: previousTitle);
             switch (errorData.Type)
@@ -6130,6 +6158,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     statements: Rds.SelectResults(
                         column: Rds.ResultsColumn().ResultsCount(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                where
+                            }),
                         where: where,
                         param: param))))
             {
@@ -6178,6 +6212,12 @@ namespace Implem.Pleasanter.Models
         {
             var sub = Rds.SelectResults(
                 column: Rds.ResultsColumn().ResultId(),
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        where
+                    }),
                 where: where,
                 param: param);
             var guid = Strings.NewGuid();
@@ -6194,7 +6234,8 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .ReferenceType(guid)),
                     Rds.UpdateResults(
-                        where: where,
+                        where: Rds.ResultsWhere()
+                            .ResultId_In(sub: sub),
                         param: Rds.ResultsParam()
                             .SiteId(siteId)),
                     Rds.RowCount(),
@@ -9051,7 +9092,7 @@ namespace Implem.Pleasanter.Models
             if (groupByX?.TypeName != "datetime")
             {
                 var column = Rds.ResultsColumn()
-                    .WithItemTitle(
+                    .WithItemTitleCoalesced(
                         context: context,
                         ss: ss,
                         column: groupByX)
@@ -9070,11 +9111,11 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
                 var groupBy = Rds.ResultsGroupBy()
-                    .WithItemTitle(
+                    .WithItemTitleCoalesced(
                         context: context,
                         ss: ss,
                         column: groupByX)
-                    .WithItemTitle(
+                    .WithItemTitleCoalesced(
                         context: context,
                         ss: ss,
                         column: groupByY);
@@ -9126,7 +9167,7 @@ namespace Implem.Pleasanter.Models
                     ss: ss);
                 var groupBy = Rds.ResultsGroupBy()
                     .Add(dateGroup)
-                    .WithItemTitle(
+                    .WithItemTitleCoalesced(
                         context: context,
                         ss: ss,
                         column: groupByY);
@@ -9166,7 +9207,7 @@ namespace Implem.Pleasanter.Models
             if (view.CrosstabGroupByY != "Columns")
             {
                 return self
-                    .WithItemTitle(
+                    .WithItemTitleCoalesced(
                         context: context,
                         ss: ss,
                         column: groupByY)

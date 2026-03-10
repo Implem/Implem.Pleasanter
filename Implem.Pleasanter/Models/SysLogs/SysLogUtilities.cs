@@ -2655,14 +2655,14 @@ namespace Implem.Pleasanter.Models
         public static void PhysicalDelete(Context context)
         {
             var chunkSize = Parameters.BackgroundService.DeleteSysLogsChunkSize;
+            var retentionPeriod = Parameters.SysLog.RetentionPeriod;
             if (chunkSize <= 0)
             {
                 Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.PhysicalDeleteSysLogs(
                         where: Rds.SysLogsWhere().CreatedTime(
-                            DateTime.Now.Date.AddDays(
-                                Parameters.SysLog.RetentionPeriod * -1),
+                            Times.RetentionDate(retentionPeriod),
                             _operator: "<")));
             }
             else
@@ -2674,8 +2674,7 @@ namespace Implem.Pleasanter.Models
                             .SysLogs_SysLogId(function: Sqls.Functions.Min, _as: "SysLogIdMin")
                             .SysLogs_SysLogId(function: Sqls.Functions.Max, _as: "SysLogIdMax"),
                         where: Rds.SysLogsWhere().CreatedTime(
-                                DateTime.Now.Date.AddDays(
-                                    Parameters.SysLog.RetentionPeriod * -1),
+                                Times.RetentionDate(retentionPeriod),
                                 _operator: "<")))
                             .AsEnumerable()
                             .Select(o => ( min: o["SysLogIdMin"].ToLong(), max: o["SysLogIdMax"].ToLong() ))
@@ -2689,8 +2688,7 @@ namespace Implem.Pleasanter.Models
                             statements: Rds.PhysicalDeleteSysLogs(
                                 where: Rds.SysLogsWhere()
                                     .CreatedTime(
-                                        DateTime.Now.Date.AddDays(
-                                            Parameters.SysLog.RetentionPeriod * -1),
+                                        Times.RetentionDate(retentionPeriod),
                                         _operator: "<")
                                     .SysLogId_Between(
                                         begin: i,

@@ -1,0 +1,19 @@
+﻿{
+    "Id": "TenantQuotaUsages_Usage",
+    "ModelName": "TenantQuotaUsages",
+    "TableName": "TenantQuotaUsages",
+    "Label": "テナント別割当利用状況",
+    "ColumnName": "Usage",
+    "LabelText": "利用量",
+    "No": "3",
+    "TypeName": "int",
+    "Default": "0",
+    "History": "3",
+    "HistoryColumn": "3",
+    "LabelText_en": "Usage",
+    "LabelText_zh": "使用量",
+    "LabelText_de": "Nutzung",
+    "LabelText_ko": "사용량",
+    "LabelText_es": "Uso",
+    "LabelText_vn": "Sử dụng"
+}

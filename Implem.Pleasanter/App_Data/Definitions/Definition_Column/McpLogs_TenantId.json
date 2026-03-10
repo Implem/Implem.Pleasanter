@@ -1,0 +1,21 @@
+{
+    "Id": "McpLogs_TenantId",
+    "ModelName": "McpLog",
+    "TableName": "McpLogs",
+    "Label": "MCPログ",
+    "ColumnName": "TenantId",
+    "LabelText": "テナントID",
+    "No": "8",
+    "TypeName": "int",
+    "Default": "0",
+    "Required": "1",
+    "NotForm": "1",
+    "EditorReadOnly": "1",
+    "UpdateAccessControl": "ManageService",
+    "LabelText_en": "Tenant ID",
+    "LabelText_zh": "租户ID",
+    "LabelText_de": "Mandanten-ID",
+    "LabelText_ko": "테넌트 ID",
+    "LabelText_es": "ID de arrendatario",
+    "LabelText_vn": "ID Khu vực"
+}

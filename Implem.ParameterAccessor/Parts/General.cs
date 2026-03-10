@@ -9,15 +9,11 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlHeadViewport { get; set; }
         public string HtmlLogoText { get; set; }
         public string HtmlPortalUrl { get; set; }
-        public string HtmlApplicationBuildingGuideUrl { get; set; }
-        public string HtmlUserManualUrl { get; set; }
         public string HtmlBlogUrl { get; set; }
-        public string HtmlSupportUrl { get; set; }
         public string HtmlContactUrl { get; set; }
         public string HtmlAGPLUrl { get; set; }
         public string HtmlEnterPriseEditionUrl { get; set; }
         public string HtmlTrialLicenseUrl { get; set; }
-        public string HtmlCasesUrl { get; set; }
         public string HtmlUrlPrefix { get; set; }
         public string RecommendUrl1 { get; set; }
         public string RecommendUrl2 { get; set; }
@@ -45,6 +41,7 @@ namespace Implem.ParameterAccessor.Parts
         public string ImportEncoding { get; set; }
         public bool UpdatableImport { get; set; }
         public bool AllowStandardExport { get; set; }
+        public int StandardExportType { get; set; }
         public int ImportMax { get; set; }
         public int ViewerSwitchingType { get; set; }
         public bool UseNegativeFilters { get; set; }

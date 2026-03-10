@@ -3656,20 +3656,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                 && ColumnFilterNegatives?.Contains(name) == true;
         }
 
-        public void CopyViewFilters(View view)
+        public void MergeViewFilters(View view)
         {
-            view.Own = Own;
-            view.NearCompletionTime = NearCompletionTime;
-            view.Delay = Delay;
-            view.Overdue = Overdue;
-            view.ColumnFilterHash = ColumnFilterHash?.ToDictionary(
-                o => o.Key,
-                o => o.Value)
-                    ?? new Dictionary<string, string>();
-            view.ColumnFilterSearchTypes = ColumnFilterSearchTypes?.ToDictionary(
-                o => o.Key,
-                o => o.Value)
-                    ?? new Dictionary<string, Column.SearchTypes>();
+            if (view == null) return;
+            if (view.Incomplete == true) Incomplete = view.Incomplete;
+            if (view.Own == true) Own = view.Own;
+            if (view.NearCompletionTime == true) NearCompletionTime = view.NearCompletionTime;
+            if (view.Delay == true) Delay = view.Delay;
+            if (view.Overdue == true) Overdue = view.Overdue;
+            if (ColumnFilterHash == null)
+            {
+                ColumnFilterHash = new Dictionary<string, string>();
+            }
+            view.ColumnFilterHash?.ForEach(o => ColumnFilterHash[o.Key] = o.Value);
+            if (ColumnFilterSearchTypes == null)
+            {
+                ColumnFilterSearchTypes = new Dictionary<string, Column.SearchTypes>();
+            }
+            view.ColumnFilterSearchTypes?.ForEach(o => ColumnFilterSearchTypes[o.Key] = o.Value);
         }
 
         public void AddAnalyPart(Context context)

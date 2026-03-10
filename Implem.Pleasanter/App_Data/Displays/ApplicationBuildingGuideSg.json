@@ -1,0 +1,33 @@
+{
+    "Id": "ApplicationBuildingGuideSg",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Practical Guide\n[Application building guide]"
+        },
+        {
+            "Language": "zh",
+            "Body": "实践讲解\n【应用程序构建指南】"
+        },
+        {
+            "Language": "ja",
+            "Body": "実践解説\n【アプリ作成ガイド】"
+        },
+        {
+            "Language": "de",
+            "Body": "Praxisleitfaden\n[Anwendungserstellungshandbuch]"
+        },
+        {
+            "Language": "ko",
+            "Body": "실전 해설\n[응용 프로그램 구축 가이드]"
+        },
+        {
+            "Language": "es",
+            "Body": "Guía práctica\n[Guía de construcción de aplicaciones]"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hướng dẫn thực hành\n[Hướng dẫn tạo ứng dụng]"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Limit",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Limit"
+        },
+        {
+            "Language": "zh",
+            "Body": "上限"
+        },
+        {
+            "Language": "ja",
+            "Body": "利用上限"
+        },
+        {
+            "Language": "de",
+            "Body": "Limit"
+        },
+        {
+            "Language": "ko",
+            "Body": "이용 한도"
+        },
+        {
+            "Language": "es",
+            "Body": "Límite de uso"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hạn mức sử dụng"
+        }
+    ]
+}

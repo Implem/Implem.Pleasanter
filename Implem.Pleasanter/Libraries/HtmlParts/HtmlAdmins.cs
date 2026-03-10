@@ -49,6 +49,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Text(Displays.SysLogs(context: context)))
                                             .StackStyles()),
                                 _using: context.HasPrivilege)
+                            .Li(
+                                css: "nav-site", action: () => hb
+                                    .A(
+                                        attributes: new HtmlAttributes()
+                                            .Href(Locations.Index(
+                                                context: context,
+                                                controller: "McpLogs")),
+                                        action: () => hb
+                                            .Div(action: () => hb
+                                            .Text(Displays.McpLogs(context: context)))
+                                            .StackStyles()),
+                                _using: context.HasPrivilege)
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()

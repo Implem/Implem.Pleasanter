@@ -1,0 +1,21 @@
+﻿{
+    "Id": "TenantQuotaUsages_QuotaKey",
+    "ModelName": "TenantQuotaUsages",
+    "TableName": "TenantQuotaUsages",
+    "Label": "テナント別割当利用状況",
+    "ColumnName": "QuotaKey",
+    "LabelText": "割当キー",
+    "No": "2",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Pk": "2",
+    "PkHistory": "2",
+    "History": "2",
+    "HistoryColumn": "2",
+    "LabelText_en": "Quota Key",
+    "LabelText_zh": "配额键",
+    "LabelText_de": "Kontingentschlüssel",
+    "LabelText_ko": "할당 키",
+    "LabelText_es": "Clave de cuota",
+    "LabelText_vn": "Khóa hạn ngạch"
+}

@@ -3465,6 +3465,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ProcessedRequestData(Context context)
         {
+            var requestInfo = Implem.Pleasanter.MCP.McpContext.McpRequestContextHolder.Current;
+            if (requestInfo != null && !string.IsNullOrEmpty(requestInfo.RawRequestBody))
+            {
+                return MaskApiData(requestInfo.RawRequestBody) ?? string.Empty;
+            }
             if (!context.ApiRequestBody.IsNullOrEmpty())
             {
                 return MaskApiData(context.ApiRequestBody) ?? string.Empty;

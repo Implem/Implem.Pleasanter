@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NextReset",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Next Reset"
+        },
+        {
+            "Language": "zh",
+            "Body": "下次重置"
+        },
+        {
+            "Language": "ja",
+            "Body": "次回リセット"
+        },
+        {
+            "Language": "de",
+            "Body": "Nächster Reset"
+        },
+        {
+            "Language": "ko",
+            "Body": "다음 리셋"
+        },
+        {
+            "Language": "es",
+            "Body": "Próximo reinicio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Lần đặt lại tới"
+        }
+    ]
+}

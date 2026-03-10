@@ -820,6 +820,7 @@ namespace Implem.Pleasanter.Models
                             text: ((UsedStorageCapacity.ToDecimal()
                                 / context.ContractSettings.StorageSize.ToDecimal()) * 100).ToString("F4") + "%"),
                     _using: context.ContractSettings.StorageSize.ToDecimal() > 0)
+                .RenderQuotaFieldSet(context)
                 .FieldSet(
                     id: "StyleField",
                     css: " enclosed",

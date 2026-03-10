@@ -3497,13 +3497,24 @@ body:not(:has(#Editor)) {
             flex-direction: column;
             align-items: center;
             width: 216px;
+            height: 170px;
             padding: 16px;
             margin: 0;
+            white-space: pre-line;
             border-radius: 4px;
             transition: background 150ms ease-out;
             &:hover {
                 background-color: var(--start-guide-hover);
             }
+            img {
+                width: 80px;
+            }
+        }
+        a:not(:has(img)) > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
         }
     }
     #DisableStartGuideField {

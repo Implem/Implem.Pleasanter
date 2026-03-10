@@ -1,0 +1,21 @@
+﻿{
+    "Id": "McpLogs_ClientName",
+    "ModelName": "McpLog",
+    "TableName": "McpLogs",
+    "Label": "MCPログ",
+    "ColumnName": "ClientName",
+    "LabelText": "クライアント名",
+    "No": "11",
+    "TypeName": "nvarchar",
+    "MaxLength": "200",
+    "Nullable": "1",
+    "NotForm": "1",
+    "EditorReadOnly": "1",
+    "UpdateAccessControl": "ManageService",
+    "LabelText_en": "Client Name",
+    "LabelText_zh": "客户端名称",
+    "LabelText_de": "Clientname",
+    "LabelText_ko": "클라이언트 이름",
+    "LabelText_es": "Nombre del cliente",
+    "LabelText_vn": "Tên máy khách"
+}

@@ -89,6 +89,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         switch (context.Controller)
                         {
                             case "syslogs":
+                            case "mcplogs":
                                 hb.Common(
                                     context: context,
                                     ss: ss,

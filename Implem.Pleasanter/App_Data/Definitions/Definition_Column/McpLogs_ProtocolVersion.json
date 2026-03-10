@@ -1,0 +1,21 @@
+﻿{
+    "Id": "McpLogs_ProtocolVersion",
+    "ModelName": "McpLog",
+    "TableName": "McpLogs",
+    "Label": "MCPログ",
+    "ColumnName": "ProtocolVersion",
+    "LabelText": "プロトコルバージョン",
+    "No": "13",
+    "TypeName": "nvarchar",
+    "MaxLength": "20",
+    "Nullable": "1",
+    "NotForm": "1",
+    "EditorReadOnly": "1",
+    "UpdateAccessControl": "ManageService",
+    "LabelText_en": "Protocol Version",
+    "LabelText_zh": "协议版本",
+    "LabelText_de": "Protokollversion",
+    "LabelText_ko": "프로토콜 버전",
+    "LabelText_es": "Versión del protocolo",
+    "LabelText_vn": "Phiên bản giao thức"
+}

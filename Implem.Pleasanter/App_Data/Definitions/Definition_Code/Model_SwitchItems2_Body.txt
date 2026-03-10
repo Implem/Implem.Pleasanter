@@ -295,7 +295,29 @@ public bool CreateByServerScript(Context context, object model)
     }
     switch (Site.ReferenceType)
     {
-
+        case "Sites":
+            var siteSs = Site.SitesSiteSettings(
+                context: context,
+                referenceId: ReferenceId);
+            if (model is string siteRequestString)
+            {
+                context.ApiRequestBody = siteRequestString;
+            }
+            else if (model is ServerScriptModelApiModel serverScriptModelApiModel)
+            {
+                context.ApiRequestBody = serverScriptModelApiModel.ToJsonString(
+                    context: context,
+                    ss: siteSs);
+            }
+            else
+            {
+                return false;
+            }
+            return SiteUtilities.CreateByServerScript(
+                context: context,
+                ss: siteSs,
+                model: model);
+                
 <!--Model_CreateByServerScriptCases-->
 
         default:

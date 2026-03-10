@@ -28,5 +28,7 @@ namespace Implem.ParameterAccessor.Parts
         public ContentSecurityPolicy ContentSecurityPolicy;
         public bool ShowLoginPageOnAuthError;
         public CaptchaConfig CaptchaConfig;
+        public ForwardedHeadersParameters ForwardedHeaders;
+        public List<string> ExcludeCookiePrefixes;
     }
 }

@@ -33,15 +33,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public List<ServerScriptModelGroupMemberModel> GetMembers()
         {
             var groupMembers = new List<ServerScriptModelGroupMemberModel>();
-            GroupUtilities.GroupMembers(
+            GroupUtilities.GroupMembersDetail(
                 context: Context,
                 groupId: GroupId)
                     .ForEach(dataRow =>
                         groupMembers.Add(new ServerScriptModelGroupMemberModel(
                             context: Context,
                             groupId: dataRow.Int("GroupId"),
+                            groupName: dataRow.String("GroupName"),
                             deptId: dataRow.Int("DeptId"),
+                            deptName: dataRow.String("DeptName"),
+                            deptCode: dataRow.String("DeptCode"),
                             userId: dataRow.Int("UserId"),
+                            loginId: dataRow.String("LoginId"),
+                            name: dataRow.String("Name"),
+                            userCode: dataRow.String("UserCode"),
+                            tenantManager: dataRow.Bool("TenantManager"),
+                            disabled: dataRow.Bool("Disabled"),
                             admin: dataRow.Bool("Admin"))));
             return groupMembers;
         }

@@ -23,6 +23,10 @@
     "Implem.CodeDefiner ConvertTime /h +9:00": {
       "commandName": "Project",
       "commandLineArgs": "ConvertTime /h +9:00"
+    },   
+    "Implem.CodeDefiner_splits_rds": {
+      "commandName": "Project",
+      "commandLineArgs": "splits_rds"
     }
   }
 }

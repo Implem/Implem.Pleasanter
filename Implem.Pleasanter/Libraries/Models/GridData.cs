@@ -164,6 +164,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 var rowData = new Dictionary<string, object>();
                 var depts = new Dictionary<string, DeptModel>();
                 var groups = new Dictionary<string, GroupModel>();
+                var mcpLogs = new Dictionary<string, McpLogModel>();
                 var registrations = new Dictionary<string, RegistrationModel>();
                 var sites = new Dictionary<string, SiteModel>();
                 var sysLogs = new Dictionary<string, SysLogModel>();
@@ -262,6 +263,43 @@ namespace Implem.Pleasanter.Libraries.Models
                                         ss: ss,
                                         column: column,
                                         mine: groupModel.Mine(context: context)));
+                                    break;
+                            }
+                            break;
+                        case "McpLogs":
+                            var mcpLogModel = mcpLogs.Get(key);
+                            if (mcpLogModel == null)
+                            {
+                                mcpLogModel = new McpLogModel(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    dataRow: dataRow,
+                                    tableAlias: column.TableAlias);
+                                mcpLogs.Add(key, mcpLogModel);
+                                ss.ClearColumnAccessControlCaches(baseModel: mcpLogModel);
+                            }
+                            switch (valueDisplayType)
+                            {
+                                case ApiColumn.ValueDisplayTypes.Value:
+                                    rowData.AddIfNotConainsKey(columnKey, mcpLogModel.ToApiValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: mcpLogModel.Mine(context: context)));
+                                    break;
+                                case ApiColumn.ValueDisplayTypes.Text:
+                                    rowData.AddIfNotConainsKey(columnKey, mcpLogModel.ToDisplay(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: mcpLogModel.Mine(context: context)));
+                                    break;
+                                default:
+                                    rowData.AddIfNotConainsKey(columnKey, mcpLogModel.ToApiDisplayValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: mcpLogModel.Mine(context: context)));
                                     break;
                             }
                             break;
@@ -458,6 +496,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 var data = new List<string>();
                 var depts = new Dictionary<string, DeptModel>();
                 var groups = new Dictionary<string, GroupModel>();
+                var mcpLogs = new Dictionary<string, McpLogModel>();
                 var registrations = new Dictionary<string, RegistrationModel>();
                 var sites = new Dictionary<string, SiteModel>();
                 var sysLogs = new Dictionary<string, SysLogModel>();

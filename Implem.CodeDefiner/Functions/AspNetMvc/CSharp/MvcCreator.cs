@@ -57,5 +57,14 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                         Creators.Create(codeDefinition, new DataContainer("Table")),
                         codeDefinition.MergeToExisting));
         }
+
+        public static void SplitRds(string target)
+        {
+            if (target.IsNullOrEmpty() || target == "Rds")
+            {
+                var rdsPath = Directories.Outputs(@"Libraries\DataSources\Rds.cs");
+                RdsSplitter.Split(rdsPath);
+            }
+        }
     }
 }

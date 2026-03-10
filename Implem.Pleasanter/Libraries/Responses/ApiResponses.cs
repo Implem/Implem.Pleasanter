@@ -67,6 +67,10 @@ namespace Implem.Pleasanter.Libraries.Responses
                     return InvalidUpsertKey(
                         context: context,
                         errorData: errorData);
+                case General.Error.Types.OverTenantQuota:
+                    return OverTenantQuota(
+                        context: context,
+                        data: dataList.ToArray());
                 default:
                     var message = Displays.Get(context: context, id: errorData.Type.ToString());
                     if (dataList?.Any() == true) message = message.Params(dataList.ToArray());
@@ -93,6 +97,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 case General.Error.Types.HasNotPermission:
                     return 403;
                 case General.Error.Types.OverLimitApi:
+                case General.Error.Types.OverTenantQuota:
                     return 429;
                 case General.Error.Types.OverLimitQuantity:
                     return 441;
@@ -246,6 +251,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 message: Displays.NotMatchRegex(
                     context: context,
                     data: errorData.Data));
+        }
+
+        public static ApiResponse OverTenantQuota(Context context, params string[] data)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 429,
+                message: Displays.OverTenantQuota(
+                    context: context,
+                    data: data));
         }
 
         public static ApiResponse Duplicated(Context context, string message)

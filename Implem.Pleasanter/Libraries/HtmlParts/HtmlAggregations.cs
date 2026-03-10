@@ -350,8 +350,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     hb
                         .Span(
-                            css: label != string.Empty ? "bold ui-icon ui-icon-check" : "bold ui-icon ui-icon-cancel");
-                }   
+                            css: label.ToBool()
+                                ? "bold ui-icon ui-icon-check"
+                                : "bold ui-icon ui-icon-cancel");
+                }
                 else
                 {
                     if (label != string.Empty)

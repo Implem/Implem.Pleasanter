@@ -37,6 +37,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 case "ViewFilters_Reset":
                 case "ReduceViewFilters":
                 case "ExpandViewFilters":
+                case "BulkProcessingItems":
                     return res
                         .ReplaceAll("#ViewFilters",
                             new HtmlBuilder().ViewFilters(
@@ -53,21 +54,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                                 _checked: view.ShowHistory == true,
                                 labelText: Displays.ShowHistory(context: context),
                                 _using: ss.HistoryOnGrid == true));
-                case "BulkProcessingItems":
-                    var processId = context.Forms.Int("BulkProcessingItems");
-                    var process = ss.GetProcess(
-                        context: context,
-                        id: processId);
-                    return process == null
-                        ? res.ReplaceAll("#ViewFilters",
-                            new HtmlBuilder().ViewFilters(
-                                context: context,
-                                ss: ss,
-                                view: view))
-                        : res.ReplaceAll("#ViewFilters",
-                            new HtmlBuilder().Div(
-                                id: "ViewFilters",
-                                css: "always-hidden"));
                 default:
                     return res;
             }

@@ -1,0 +1,21 @@
+﻿{
+    "Id": "McpLogs_ClientVersion",
+    "ModelName": "McpLog",
+    "TableName": "McpLogs",
+    "Label": "MCPログ",
+    "ColumnName": "ClientVersion",
+    "LabelText": "クライアントバージョン",
+    "No": "12",
+    "TypeName": "nvarchar",
+    "MaxLength": "50",
+    "Nullable": "1",
+    "NotForm": "1",
+    "EditorReadOnly": "1",
+    "UpdateAccessControl": "ManageService",
+    "LabelText_en": "Client Version",
+    "LabelText_zh": "客户端版本",
+    "LabelText_de": "Clientversion",
+    "LabelText_ko": "클라이언트 버전",
+    "LabelText_es": "Versión del cliente",
+    "LabelText_vn": "Phiên bản máy khách"
+}

@@ -50,6 +50,16 @@ namespace Implem.Pleasanter.Libraries.Requests
         public Dictionary<string, string> UserSessionData { get; set; } = new Dictionary<string, string>();
         public bool Publish { get; set; }
         public bool IsForm { get; private set; } // formsコントロールである場合のみに制御される。（trueであれば、formsコントロールにより制御されていることも含まれる）
+
+        public bool IsMcp
+        {
+            get
+            {
+                return AbsolutePath != null &&
+                       AbsolutePath.StartsWith(Implem.Pleasanter.MCP.Infrastructure.McpConstants.BasePath, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
         public List<string> ControlledOrder { get; set; }
         public QueryStrings QueryStrings { get; set; } = new QueryStrings();
         public Forms Forms { get; set; } = new Forms();
@@ -1211,10 +1221,16 @@ namespace Implem.Pleasanter.Libraries.Requests
             var setCookieNames = AspNetCoreHttpContext.Current.Response.Headers.SetCookie
                 .Select(o => o.Split_1st(';').Split_1st('=').Trim());
             var responceCookies = AspNetCoreHttpContext.Current.Response.Cookies;
-            foreach (var requestCookie in AspNetCoreHttpContext.Current.Request.Cookies
-                .Where(o => !setCookieNames.Contains(o.Key) && !o.Key.StartsWith("Pleasanter_")))
+            var requestCookies = AspNetCoreHttpContext.Current.Request.Cookies;
+            var configuredPrefixes = Parameters.Security?.ExcludeCookiePrefixes?.Where(prefix => !prefix.IsNullOrWhiteSpace()) ?? [];
+            var excludePrefixes = configuredPrefixes.Union(["Pleasanter_"]);
+            var cookieKeys = requestCookies
+                .Where(o => !setCookieNames.Contains(o.Key)
+                            && !excludePrefixes.Any(prefix => o.Key.StartsWith(prefix)))
+                .Select(o => o.Key);
+            foreach (var key in cookieKeys)
             {
-                responceCookies.Delete(requestCookie.Key);
+                responceCookies.Delete(key);
             }
         }
 

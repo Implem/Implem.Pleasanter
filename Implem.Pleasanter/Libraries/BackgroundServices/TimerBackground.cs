@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     await AddTimer(timer: DeleteTrashBoxTimer.GetParam());
                     await AddTimer(timer: ReminderBackgroundTimer.GetParam());
                     await AddTimer(timer: DeleteUnusedRecordTimer.GetParam());
+                    await AddTimer(timer: DeleteMcpLogsTimer.GetParam());
                 });
             }
         }

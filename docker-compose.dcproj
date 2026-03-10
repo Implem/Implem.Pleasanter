@@ -14,5 +14,8 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="MCP\McpServerFactory.cs" />
+    <None Include="MCP\McpServiceExtensions.cs" />
+    <None Include="MCP\McpSseController.cs" />
   </ItemGroup>
 </Project>

@@ -12,6 +12,10 @@
             context: context,
             ss: #modelName#Ss);
     }
+    else if (model != null)
+    {
+        context.ApiRequestBody = model.ToString();
+    }
     else
     {
         return false;

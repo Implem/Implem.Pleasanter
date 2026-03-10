@@ -39,6 +39,12 @@
             context: context,
             statements: Rds.Select#TableName#(
                 column: Rds.#TableName#Column().#TableName#Count(),
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        where
+                    }),
                 where: where,
                 param: param))))
     {
@@ -87,6 +93,12 @@ private static int BulkMove(
 {
     var sub = Rds.Select#TableName#(
         column: Rds.#TableName#Column().#ModelName#Id(),
+        join: ss.Join(
+            context: context,
+            join: new IJoin[]
+            {
+                where
+            }),
         where: where,
         param: param);
     var guid = Strings.NewGuid();
@@ -103,7 +115,8 @@ private static int BulkMove(
                 param: Rds.ItemsParam()
                     .ReferenceType(guid)),
             Rds.Update#TableName#(
-                where: where,
+                where: Rds.#TableName#Where()
+                    .#ModelName#Id_In(sub: sub),
                 param: Rds.#TableName#Param()
                     .SiteId(siteId)),
             Rds.RowCount(),

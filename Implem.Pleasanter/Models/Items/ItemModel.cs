@@ -1911,6 +1911,10 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: issueSs);
                     }
+                    else if (model != null)
+                    {
+                        context.ApiRequestBody = model.ToString();
+                    }
                     else
                     {
                         return false;
@@ -1933,6 +1937,10 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: resultSs);
                     }
+                    else if (model != null)
+                    {
+                        context.ApiRequestBody = model.ToString();
+                    }
                     else
                     {
                         return false;
@@ -1954,6 +1962,10 @@ namespace Implem.Pleasanter.Models
                         context.ApiRequestBody = serverScriptModelApiModel.ToJsonString(
                             context: context,
                             ss: wikiSs);
+                    }
+                    else if (model != null)
+                    {
+                        context.ApiRequestBody = model.ToString();
                     }
                     else
                     {
@@ -2423,6 +2435,10 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: issueSs);
                     }
+                    else if (model != null)
+                    {
+                        context.ApiRequestBody = model.ToString();
+                    }
                     else
                     {
                         return false;
@@ -2445,6 +2461,10 @@ namespace Implem.Pleasanter.Models
                         context.ApiRequestBody = resultApiModel.ToJsonString(
                             context: context,
                             ss: resultSs);
+                    }
+                    else if (model != null)
+                    {
+                        context.ApiRequestBody = model.ToString();
                     }
                     else
                     {

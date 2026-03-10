@@ -1,7 +1,9 @@
-﻿var processes = #modelName#ApiModel?.ProcessId.HasValue == true
-    ? ss.Processes?.Where(process => process.Id == #modelName#ApiModel.ProcessId.Value).ToList()
+﻿var processes = #modelName#ApiModel?.ProcessIds != null
+    ? ss.GetProcesses()?.Where(process => #modelName#ApiModel.ProcessIds.Contains(process.Id)).ToList()
+    : #modelName#ApiModel?.ProcessId.HasValue == true
+    ? ss.GetProcesses()?.Where(process => process.Id == #modelName#ApiModel.ProcessId.Value).ToList()
     : null;
-foreach (var process in processes ?? new List<Process>())
+foreach (var process in processes ?? [])
 {
     process.MatchConditions = #modelName#Model.GetProcessMatchConditions(
         context: context,

@@ -269,7 +269,7 @@ private static EnumerableRowCollection<DataRow> CrosstabDataRows(
     if (groupByX?.TypeName != "datetime")
     {
         var column = Rds.#TableName#Column()
-            .WithItemTitle(
+            .WithItemTitleCoalesced(
                 context: context,
                 ss: ss,
                 column: groupByX)
@@ -288,11 +288,11 @@ private static EnumerableRowCollection<DataRow> CrosstabDataRows(
             context: context,
             ss: ss);
         var groupBy = Rds.#TableName#GroupBy()
-            .WithItemTitle(
+            .WithItemTitleCoalesced(
                 context: context,
                 ss: ss,
                 column: groupByX)
-            .WithItemTitle(
+            .WithItemTitleCoalesced(
                 context: context,
                 ss: ss,
                 column: groupByY);
@@ -344,7 +344,7 @@ private static EnumerableRowCollection<DataRow> CrosstabDataRows(
             ss: ss);
         var groupBy = Rds.#TableName#GroupBy()
             .Add(dateGroup)
-            .WithItemTitle(
+            .WithItemTitleCoalesced(
                 context: context,
                 ss: ss,
                 column: groupByY);
@@ -384,7 +384,7 @@ private static SqlColumnCollection CrosstabColumns(
     if (view.CrosstabGroupByY != "Columns")
     {
         return self
-            .WithItemTitle(
+            .WithItemTitleCoalesced(
                 context: context,
                 ss: ss,
                 column: groupByY)

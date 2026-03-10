@@ -20,6 +20,10 @@ namespace Implem.ParameterAccessor.Parts
         public bool DeleteUnusedRecord;
         public List<string> DeleteUnusedRecordTime;
         public int DeleteUnusedRecordChunkSize;
+        public bool DeleteMcpLogs = false;
+        public List<string> DeleteMcpLogsTime = new List<string>();
+        public int McpLogsRetentionPeriod = 90;
+        public int DeleteMcpLogsChunkSize;
 
         public bool TimerEnabled(string deploymentEnvironment)
         {
@@ -29,7 +33,8 @@ namespace Implem.ParameterAccessor.Parts
                 || DeleteTemporaryFiles
                 || DeleteTrashBox
                 || Reminder
-                || DeleteUnusedRecord);
+                || DeleteUnusedRecord
+                || DeleteMcpLogs);
         }
 
         private bool ServiceEnabled(string deploymentEnvironment)

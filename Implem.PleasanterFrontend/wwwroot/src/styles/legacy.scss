@@ -2362,6 +2362,10 @@ label.required::after {
     margin: 10px 0 2px;
 }
 
+.md a {
+    color: inherit;
+}
+
 .md hr {
     float: none;
     clear: both;
@@ -2427,6 +2431,13 @@ label.required::after {
     display: block;
     width: 100%;
     height: auto;
+}
+
+.md a,
+.md em,
+.md del,
+.md code {
+    font-weight: inherit;
 }
 
 .right-align .md > .notes,
@@ -3595,26 +3606,26 @@ textarea:focus {
 
 #EnterPriseBanner {
     position: fixed;
-    right: 8px;
-    bottom: 280px;
+    right: 5px;
+    bottom: 285px;
     z-index: 3;
-    width: 238px;
+    width: 270px;
 }
 
 #SupportBanner {
     position: fixed;
-    right: 8px;
-    bottom: 180px;
+    right: 5px;
+    bottom: 175px;
     z-index: 3;
-    width: 238px;
+    width: 270px;
 }
 
 #CasesBanner {
     position: fixed;
-    right: 8px;
-    bottom: 80px;
+    right: 5px;
+    bottom: 65px;
     z-index: 3;
-    width: 238px;
+    width: 270px;
 }
 
 .annonymous .close-announcement {

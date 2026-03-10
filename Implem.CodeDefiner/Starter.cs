@@ -1,4 +1,5 @@
-﻿using Implem.CodeDefiner.Settings;
+﻿using Implem.CodeDefiner.Functions.AspNetMvc.CSharp;
+using Implem.CodeDefiner.Settings;
 using Implem.DefinitionAccessor;
 using Implem.Factory;
 using Implem.IRds;
@@ -89,6 +90,9 @@ namespace Implem.CodeDefiner
                         break;
                     case "mvc":
                         CreateMvcCode(target);
+                        break;
+                    case "splits_rds":
+                        MvcCreator.SplitRds(target);
                         break;
                     case "backup":
                         CreateSolutionBackup();

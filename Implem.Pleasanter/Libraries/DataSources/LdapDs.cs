@@ -261,34 +261,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 pattern: pattern,
                                 synchronizedTime: synchronizedTime,
                                 users: users);
-                            if (ldap.AutoDisable)
-                            {
-                                Repository.ExecuteNonQuery(
-                                    context: context,
-                                    statements: Rds.UpdateUsers(
-                                        param: Rds.UsersParam().Disabled(true),
-                                        where: Rds.UsersWhere()
-                                            .Disabled(false)
-                                            .LdapSearchRoot(ldap.LdapSearchRoot)
-                                            .SynchronizedTime(_operator: " is not null")
-                                            .SynchronizedTime(synchronizedTime, _operator: "<>"),
-                                        addUpdatorParam: false,
-                                        addUpdatedTimeParam: false));
-                            }
-                            if (ldap.AutoEnable)
-                            {
-                                Repository.ExecuteNonQuery(
-                                    context: context,
-                                    statements: Rds.UpdateUsers(
-                                        param: Rds.UsersParam().Disabled(false),
-                                        where: Rds.UsersWhere()
-                                            .Disabled(true)
-                                            .LdapSearchRoot(ldap.LdapSearchRoot)
-                                            .SynchronizedTime(_operator: " is not null")
-                                            .SynchronizedTime(synchronizedTime),
-                                        addUpdatorParam: false,
-                                        addUpdatedTimeParam: false));
-                            }
                         });
                     ldap.LdapSyncGroupPatterns?
                         .ForEach(pattern =>
@@ -300,6 +272,34 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 synchronizedTime: synchronizedTime,
                                 groups: groups);
                         });
+                    if (ldap.AutoDisable)
+                    {
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.UpdateUsers(
+                                param: Rds.UsersParam().Disabled(true),
+                                where: Rds.UsersWhere()
+                                    .Disabled(false)
+                                    .LdapSearchRoot(ldap.LdapSearchRoot)
+                                    .SynchronizedTime(_operator: " is not null")
+                                    .SynchronizedTime(synchronizedTime, _operator: "<>"),
+                                addUpdatorParam: false,
+                                addUpdatedTimeParam: false));
+                    }
+                    if (ldap.AutoEnable)
+                    {
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.UpdateUsers(
+                                param: Rds.UsersParam().Disabled(false),
+                                where: Rds.UsersWhere()
+                                    .Disabled(true)
+                                    .LdapSearchRoot(ldap.LdapSearchRoot)
+                                    .SynchronizedTime(_operator: " is not null")
+                                    .SynchronizedTime(synchronizedTime),
+                                addUpdatorParam: false,
+                                addUpdatedTimeParam: false));
+                    }
                 });
             UpdateGroup(
                 context: context,

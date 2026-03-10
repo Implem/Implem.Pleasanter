@@ -319,6 +319,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             ServerScriptModelRow serverScriptModelRow = null;
             var depts = new Dictionary<string, DeptModel>();
             var groups = new Dictionary<string, GroupModel>();
+            var mcpLogs = new Dictionary<string, McpLogModel>();
             var registrations = new Dictionary<string, RegistrationModel>();
             var sites = new Dictionary<string, SiteModel>();
             var sysLogs = new Dictionary<string, SysLogModel>();
@@ -456,6 +457,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss: column.SiteSettings,
                                     column: column,
                                     groupModel: groupModel);
+                                break;
+                            case "McpLogs":
+                                var mcpLogModel = mcpLogs.Get(key);
+                                if (mcpLogModel == null)
+                                {
+                                    mcpLogModel = new McpLogModel(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        dataRow: dataRow,
+                                        tableAlias: column.TableAlias);
+                                    mcpLogs.Add(key, mcpLogModel);
+                                    ss.ClearColumnAccessControlCaches(baseModel: mcpLogModel);
+                                }
+                                hb.TdValue(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    column: column,
+                                    mcpLogModel: mcpLogModel);
                                 break;
                             case "Registrations":
                                 var registrationModel = registrations.Get(key);

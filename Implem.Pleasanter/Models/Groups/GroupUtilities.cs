@@ -3359,6 +3359,77 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static EnumerableRowCollection<DataRow> GroupMembersDetail(
+            Context context, int groupId)
+        {
+            return Repository.ExecuteTable(
+                context: context,
+                statements: new SqlStatement[]
+                {
+                    Rds.SelectGroupMembers(
+                        column: new SqlColumnCollection()
+                            .Add(columnBracket: "0", _as: "GroupId")
+                            .Add(columnBracket: "null", _as: "GroupName")
+                            .Add(tableName: "GroupMembers", columnBracket: "\"DeptId\"")
+                            .Add(tableName: "Depts", columnBracket: "\"DeptName\"")
+                            .Add(tableName: "Depts", columnBracket: "\"DeptCode\"")
+                            .Add(tableName: "GroupMembers", columnBracket: "\"UserId\"")
+                            .Add(tableName: "Users", columnBracket: "\"LoginId\"")
+                            .Add(tableName: "Users", columnBracket: "\"Name\"")
+                            .Add(tableName: "Users", columnBracket: "\"UserCode\"")
+                            .Add(tableName: "Users", columnBracket: "\"TenantManager\"")
+                            .Add(tableName: "Users", columnBracket: "\"Disabled\"")
+                            .Add(tableName: "GroupMembers", columnBracket: "\"Admin\""),
+                        join: Rds.GroupMembersJoin()
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Groups\"",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "\"GroupMembers\".\"GroupId\"=\"Groups\".\"GroupId\""))
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Users\"",
+                                joinType: SqlJoin.JoinTypes.LeftOuter,
+                                joinExpression: "\"GroupMembers\".\"UserId\"=\"Users\".\"UserId\""))
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Depts\"",
+                                joinType: SqlJoin.JoinTypes.LeftOuter,
+                                joinExpression: "\"GroupMembers\".\"DeptId\"=\"Depts\".\"DeptId\"")),
+                        where: Rds.GroupMembersWhere()
+                            .GroupId(groupId)
+                            .ChildGroup(false)
+                            .Groups_TenantId(context.TenantId)),
+                    Rds.SelectGroupChildren(
+                        column: Rds.GroupsColumn()
+                            .GroupId()
+                            .GroupName()
+                            .Add(columnBracket: "0", _as: "DeptId")
+                            .Add(columnBracket: "null", _as: "DeptName")
+                            .Add(columnBracket: "null", _as: "DeptCode")
+                            .Add(columnBracket: "0", _as: "UserId")
+                            .Add(columnBracket: "null", _as: "LoginId")
+                            .Add(columnBracket: "null", _as: "Name")
+                            .Add(columnBracket: "null", _as: "UserCode")
+                            .Add(columnBracket: context.Sqls.FalseString, _as: "TenantManager")
+                            .Add(columnBracket: context.Sqls.FalseString, _as: "Disabled")
+                            .Add(columnBracket: context.Sqls.FalseString, _as: "Admin"),
+                        join: Rds.GroupChildrenJoin()
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Groups\"",
+                                joinExpression: "\"GroupChildren\".\"ChildId\"=\"Groups\".\"GroupId\"")),
+                        where: Rds.GroupChildrenWhere()
+                            .GroupId(groupId)
+                            .Groups_TenantId(context.TenantId),
+                        unionType: Sqls.UnionTypes.UnionAll,
+                        orderBy: new SqlOrderByCollection()
+                            .Add(raw: "\"UserId\" asc")
+                            .Add(raw: "\"DeptId\" asc")
+                            .Add(raw: "\"GroupId\" asc"))
+                })
+                    .AsEnumerable();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static bool Contains(Context context, int groupId, Dept dept)
         {
             return Contains(

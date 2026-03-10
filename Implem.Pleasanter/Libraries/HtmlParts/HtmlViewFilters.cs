@@ -17,6 +17,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view)
         {
+            var process = ss.GetProcess(
+                context: context,
+                id: context.Forms.Int("BulkProcessingItems"));
             return ss.ReferenceType != "Sites"
                 && ss.UseFiltersArea == true
                 && view?.FiltersDisplayType != View.DisplayTypes.AlwaysHidden
@@ -36,31 +39,38 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Incomplete(
                                     context: context,
                                     ss: ss,
-                                    view: view)
+                                    view: view,
+                                    disabled: process?.View?.Incomplete == true)
                                 .Own(
                                     context: context,
                                     ss: ss,
-                                    view: view)
+                                    view: view,
+                                    disabled: process?.View?.Own == true)
                                 .NearCompletionTime(
                                     context: context,
                                     ss: ss,
-                                    view: view)
+                                    view: view,
+                                    disabled: process?.View?.NearCompletionTime == true)
                                 .Delay(
                                     context: context,
                                     ss: ss,
-                                    view: view)
+                                    view: view,
+                                    disabled: process?.View?.Delay == true)
                                 .Limit(
                                     context: context,
                                     ss: ss,
-                                    view: view)
+                                    view: view,
+                                    disabled: process?.View?.Overdue == true)
                                 .Columns(
                                     context: context,
                                     ss: ss,
-                                    view: view)
+                                    view: view,
+                                    process: process)
                                 .Search(
                                     context: context,
                                     ss: ss,
-                                    view: view)
+                                    view: view,
+                                    disabled: process?.View?.Search?.Any() == true)
                                 .FilterButton(
                                     context: context,
                                     ss: ss)
@@ -122,7 +132,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            View view)
+            View view,
+            bool disabled = false)
         {
             var labelIcon = LabelIcon(
                 ss: ss,
@@ -140,6 +151,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.Incomplete(context: context),
                         labelIcon: labelIcon,
                         _checked: view.Incomplete == true,
+                        disabled: disabled,
                         method: "post",
                         labelPositionIsRight: true,
                         _using: view.HasIncompleteColumns(context: context, ss: ss)
@@ -151,7 +163,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            View view)
+            View view,
+            bool disabled = false)
         {
             var labelIcon = LabelIcon(
                 ss: ss,
@@ -169,6 +182,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.Own(context: context),
                         labelIcon: labelIcon,
                         _checked: view.Own == true,
+                        disabled: disabled,
                         method: "post",
                         labelPositionIsRight: true,
                         _using: view.HasOwnColumns(context: context, ss: ss)
@@ -180,7 +194,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            View view)
+            View view,
+            bool disabled = false)
         {
             var labelIcon = LabelIcon(
                 ss: ss,
@@ -198,6 +213,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.NearCompletionTime(context: context),
                         labelIcon: labelIcon,
                         _checked: view.NearCompletionTime == true,
+                        disabled: disabled,
                         method: "post",
                         labelPositionIsRight: true,
                         _using: view.HasNearCompletionTimeColumns(context: context, ss: ss)
@@ -206,7 +222,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder Delay(
-            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            bool disabled = false)
         {
             var labelIcon = LabelIcon(
                 ss: ss,
@@ -224,6 +244,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.Delay(context: context),
                         labelIcon: labelIcon,
                         _checked: view.Delay == true,
+                        disabled: disabled,
                         method: "post",
                         labelPositionIsRight: true,
                         _using: view.HasDelayColumns(context: context, ss: ss)
@@ -232,7 +253,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder Limit(
-            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            bool disabled = false)
         {
             var labelIcon = LabelIcon(
                 ss: ss,
@@ -250,6 +275,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.Overdue(context: context),
                         labelIcon: labelIcon,
                         _checked: view.Overdue == true,
+                        disabled: disabled,
                         method: "post",
                         labelPositionIsRight: true,
                         _using: view.HasOverdueColumns(context: context, ss: ss)
@@ -297,7 +323,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            View view)
+            View view,
+            Process process = null)
         {
             ss.GetFilterColumns(
                 context: context,
@@ -308,7 +335,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss,
                         view: view,
-                        column: column));
+                        column: column,
+                        process: process));
             return hb;
         }
 
@@ -335,11 +363,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view,
             Column column,
-            bool onGridHeader = false)
+            bool onGridHeader = false,
+            Process process = null)
         {
             var idPrefix = onGridHeader ? "ViewFiltersOnGridHeader__" : "ViewFilters__";
             var action = onGridHeader ? "GridRows" : null;
             var controlOnly = onGridHeader;
+            var disabled = process != null
+                && ((column.ColumnName == "Status" && process.CurrentStatus != -1)
+                    || process.View?.ColumnFilterHash?.ContainsKey(column.ColumnName) == true);
             string labelIcon = LabelIcon(
                 ss: ss,
                 view: view,
@@ -360,7 +392,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         idPrefix: idPrefix,
                         action: action,
                         labelIcon: labelIcon,
-                        controlOnly: controlOnly);
+                        controlOnly: controlOnly,
+                        disabled: disabled);
                     break;
                 case Types.CsNumeric:
                     if (column.Id_Ver)
@@ -378,6 +411,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelTitle: ss.LabelTitle(column),
                                 labelIcon: labelIcon,
                                 controlOnly: controlOnly,
+                                disabled: disabled,
                                 method: "post");
                         }
                         else
@@ -391,7 +425,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 idPrefix: idPrefix,
                                 action: action,
                                 labelIcon: labelIcon,
-                                controlOnly: controlOnly);
+                                controlOnly: controlOnly,
+                                disabled: disabled);
                         }
                     }
                     else if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
@@ -414,7 +449,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlOnly: controlOnly,
                             action: action,
                             labelIcon: labelIcon,
-                            useFilterButton: ss.UseFilterButton);
+                            useFilterButton: ss.UseFilterButton,
+                            disabled: disabled);
                     }
                     else
                     {
@@ -427,7 +463,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             idPrefix: idPrefix,
                             action: action,
                             labelIcon: labelIcon,
-                            controlOnly: controlOnly);
+                            controlOnly: controlOnly,
+                            disabled: disabled);
                     }
                     break;
                 case Types.CsDateTime:
@@ -443,7 +480,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlOnly: controlOnly,
                             action: action,
                             labelIcon: labelIcon,
-                            useFilterButton: ss.UseFilterButton);
+                            useFilterButton: ss.UseFilterButton,
+                            disabled: disabled);
                     }
                     else
                     {
@@ -461,6 +499,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 context: context,
                                 value: view.ColumnFilter(column.ColumnName),
                                 timepicker: column.DateTimepicker()),
+                            disabled: disabled,
                             method: "post",
                             attributes: new Dictionary<string, string>
                             {
@@ -509,7 +548,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlOnly: controlOnly,
                             action: action,
                             labelIcon: labelIcon,
-                            useFilterButton: ss.UseFilterButton);
+                            useFilterButton: ss.UseFilterButton,
+                            disabled: disabled);
                     }
                     else
                     {
@@ -526,6 +566,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlOnly: controlOnly,
                             action: action,
                             text: view.ColumnFilter(column.ColumnName),
+                            disabled: disabled,
                             method: "post");
                     }
                     break;
@@ -543,7 +584,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string idPrefix,
             string action,
             string labelIcon,
-            bool controlOnly)
+            bool controlOnly,
+            bool disabled = false)
         {
             hb
                 .FieldTextBox(
@@ -561,6 +603,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlOnly: controlOnly,
                     action: "openSetNumericRangeDialog",
                     text: GetNumericFilterRange(view.ColumnFilter(column.ColumnName)),
+                    disabled: disabled,
                     method: "post",
                     attributes: new Dictionary<string, string>
                     {
@@ -587,7 +630,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string idPrefix = "ViewFilters__",
             string action = null,
             string labelIcon = null,
-            bool controlOnly = false)
+            bool controlOnly = false,
+            bool disabled = false)
         {
             var labelText = Strings.CoalesceEmpty(
                 ColumnUtilities.GetMultilingualLabelText(
@@ -615,6 +659,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         selectedValue: view.ColumnFilter(column.ColumnName),
                         addSelectedValue: false,
                         insertBlank: true,
+                        disabled: disabled,
                         method: "post");
                 default:
                     return hb.FieldCheckBox(
@@ -630,6 +675,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlOnly: controlOnly,
                         action: action,
                         _checked: view.ColumnFilter(column.ColumnName).ToBool(),
+                        disabled: disabled,
                         method: "post");
             }
         }
@@ -645,7 +691,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             string labelIcon = null,
             bool controlOnly = false,
-            bool? useFilterButton = false)
+            bool? useFilterButton = false,
+            bool disabled = false)
         {
             var selectedValue = view.ColumnFilter(column.ColumnName);
             if (column.UseSearch == true
@@ -703,6 +750,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 selectedValue: selectedValue,
                 multiple: true,
                 addSelectedValue: false,
+                disabled: disabled,
                 method: "post",
                 column: column);
         }
@@ -711,7 +759,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            View view)
+            View view,
+            bool disabled = false)
         {
             var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_Search") == true
                 ? "ui-icon-info"
@@ -728,6 +777,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.Search(context: context),
                         labelIcon: labelIcon,
                         text: view.Search,
+                        disabled: disabled,
                         method: "post",
                         _using: context.Controller == "items"
                             || context.Controller == "publishes")

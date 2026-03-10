@@ -1,0 +1,33 @@
+{
+    "Id": "SolutionSupportSg",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Reliable Operation\n[Issue Resolution Support]"
+        },
+        {
+            "Language": "zh",
+            "Body": "安心运维\n【问题解决支持】"
+        },
+        {
+            "Language": "ja",
+            "Body": "安心運用\n【課題解決支援】"
+        },
+        {
+            "Language": "de",
+            "Body": "Sicherer Betrieb\n[Unterstützung bei der Problemlösung]"
+        },
+        {
+            "Language": "ko",
+            "Body": "안심 운영\n[문제 해결 지원]"
+        },
+        {
+            "Language": "es",
+            "Body": "Operación confiable\n[Soporte para la resolución de problemas]"
+        },
+        {
+            "Language": "vn",
+            "Body": "Vận hành an tâm\n[Hỗ trợ giải quyết vấn đề]"
+        }
+    ]
+}

@@ -346,7 +346,8 @@ namespace Implem.Pleasanter.Models
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }
             if (currentId == 0
-                && context.UserSettings?.AllowMovingFromTopSite(context: context) != true)
+                && context.UserSettings?.AllowMovingFromTopSite(context: context) != true
+                && Parameters.User.DisableMovingFromTopSite)
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }

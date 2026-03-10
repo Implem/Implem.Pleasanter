@@ -1,0 +1,33 @@
+﻿{
+    "Id": "McpRequests",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "MCP Requests"
+        },
+        {
+            "Language": "zh",
+            "Body": "存储容量"
+        },
+        {
+            "Language": "ja",
+            "Body": "MCPリクエスト"
+        },
+        {
+            "Language": "de",
+            "Body": "Speicherkapazität"
+        },
+        {
+            "Language": "ko",
+            "Body": "저장 용량"
+        },
+        {
+            "Language": "es",
+            "Body": "Capacidad de almacenamiento"
+        },
+        {
+            "Language": "vn",
+            "Body": "Dung lượng lưu trữ"
+        }
+    ]
+}

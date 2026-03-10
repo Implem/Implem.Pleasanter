@@ -13,5 +13,9 @@
     "DeleteTrashBoxRetentionPeriod": 90,
     "DeleteUnusedRecord": false,
     "DeleteUnusedRecordTime": [ "03:00" ],
-    "DeleteUnusedRecordChunkSize": 1000
+    "DeleteUnusedRecordChunkSize": 1000,
+    "DeleteMcpLogs": false,
+    "DeleteMcpLogsTime": [ "02:00" ],
+    "McpLogsRetentionPeriod": 90,
+    "DeleteMcpLogsChunkSize": 0
 }

@@ -184,14 +184,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .OrderBy(o => o.No);
         }
 
-        public static IEnumerable<ColumnDefinition> ExportDefinitions(
+        public static List<ColumnDefinition> ExportDefinitions(
             this Dictionary<string, ColumnDefinition> definitions)
         {
             return definitions.Values
                 .Where(o => o.GridColumn > 0)
                 .Where(o => o.ControlType != "Attachment")
                 .Where(o => !o.LowSchemaVersion())
-                .OrderBy(o => o.GridColumn);
+                .OrderBy(o => o.GridColumn)
+                .ToList();
         }
 
         public static Dictionary<string, ControlData> SelectableOptions(

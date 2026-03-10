@@ -96,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.General
             OverLimitSize,
             OverLocalFolderLimitSize,
             OverLocalFolderTotalLimitSize,
+            OverTenantQuota,
             OverTenantStorageSize,
             OverTotalLimitSize,
             ParameterSyntaxError,
@@ -486,6 +487,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.OverLocalFolderTotalLimitSize:
                     return Messages.OverLocalFolderTotalLimitSize(
+                        context: context,
+                        data: data);
+                case Types.OverTenantQuota:
+                    return Messages.OverTenantQuota(
                         context: context,
                         data: data);
                 case Types.OverTenantStorageSize:

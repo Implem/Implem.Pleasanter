@@ -135,6 +135,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "links": return LinksSiteSettings(context: context);
                 case "loginkeys": return LoginKeysSiteSettings(context: context);
                 case "mailaddresses": return MailAddressesSiteSettings(context: context);
+                case "mcplogs": return McpLogsSiteSettings(context: context);
                 case "orders": return OrdersSiteSettings(context: context);
                 case "outgoingmails": return OutgoingMailsSiteSettings(context: context);
                 case "passkeys": return PasskeysSiteSettings(context: context);
@@ -143,6 +144,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "sessions": return SessionsSiteSettings(context: context);
                 case "statuses": return StatusesSiteSettings(context: context);
                 case "syslogs": return SysLogsSiteSettings(context: context);
+                case "tenantquotausages": return TenantQuotaUsagesSiteSettings(context: context);
                 case "tenants": return TenantsSiteSettings(context: context);
                 case "users": return UsersSiteSettings(context: context);
                 case "items": return Get(
@@ -294,6 +296,38 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
+        public static SiteSettings McpLogsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "McpLogs"
+            };
+            ss.Init(context: context);
+            ss.SetLinks(context: context);
+            ss.SetChoiceHash(context: context, withLink: false);
+            ss.PermissionType = Permissions.Admins(context: context);
+            ss.UseFilterButton = true;
+            ss.AlwaysRequestSearchCondition = true;
+            ss.UseIncompleteFilter = false;
+            ss.Views = new List<View>
+            {
+                new View
+                {
+                    Id = 1,
+                    Name = "Default",
+                    ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>
+                    {
+                        { "StartTime", SqlOrderBy.Types.desc },
+                        { "EndTime", SqlOrderBy.Types.desc },
+                        { "McpRequestId", SqlOrderBy.Types.desc }
+                    }
+                }
+            };
+            ss.GridView = 1;
+            ss.TableType = tableTypes;
+            return ss;
+        }
+
         public static SiteSettings OrdersSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
@@ -386,6 +420,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.PermissionType = Permissions.Admins(context: context);
             ss.UseFilterButton = true;
             ss.AlwaysRequestSearchCondition = true;
+            ss.TableType = tableTypes;
+            return ss;
+        }
+
+        public static SiteSettings TenantQuotaUsagesSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "TenantQuotaUsages"
+            };
+            ss.Init(context: context);
             ss.TableType = tableTypes;
             return ss;
         }

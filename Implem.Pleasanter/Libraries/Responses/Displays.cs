@@ -769,13 +769,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string ApplicationBuildingGuide(
+        public static string ApplicationBuildingGuideSg(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "ApplicationBuildingGuide",
+                id: "ApplicationBuildingGuideSg",
                 data: data);
         }
 
@@ -4189,6 +4189,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string EnterpriseEditionSg(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EnterpriseEditionSg",
+                data: data);
+        }
+
         public static string EnterTitle(
             Context context,
             params string[] data)
@@ -5296,6 +5306,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Height",
+                data: data);
+        }
+
+        public static string HelpfulContentsSg(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HelpfulContentsSg",
                 data: data);
         }
 
@@ -6459,6 +6479,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Limit(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Limit",
+                data: data);
+        }
+
         public static string LimitAfterDay(
             Context context,
             params string[] data)
@@ -7279,6 +7309,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string McpRequests(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpRequests",
+                data: data);
+        }
+
         public static string Md(
             Context context,
             params string[] data)
@@ -7776,6 +7816,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Next",
+                data: data);
+        }
+
+        public static string NextReset(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NextReset",
                 data: data);
         }
 
@@ -8576,6 +8626,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "OverLocalFolderTotalLimitSize",
+                data: data);
+        }
+
+        public static string OverTenantQuota(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OverTenantQuota",
                 data: data);
         }
 
@@ -10409,6 +10469,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ShowUsedColumnsOnly(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ShowUsedColumnsOnly",
+                data: data);
+        }
+
         public static string SiteAccessControl(
             Context context,
             params string[] data)
@@ -10569,6 +10639,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SolutionSupportSg(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SolutionSupportSg",
+                data: data);
+        }
+
         public static string SortBy(
             Context context,
             params string[] data)
@@ -10646,6 +10726,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Standard",
+                data: data);
+        }
+
+        public static string StandardExportTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "StandardExportTypes",
                 data: data);
         }
 
@@ -11669,6 +11759,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Usage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Usage",
+                data: data);
+        }
+
         public static string UseColumnsExtension(
             Context context,
             params string[] data)
@@ -11896,6 +11996,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UserManual",
+                data: data);
+        }
+
+        public static string UserManualSg(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UserManualSg",
                 data: data);
         }
 
@@ -13546,6 +13656,256 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "MailAddresses_Title",
+                data: data);
+        }
+
+        public static string McpLogs_ApiKeyPrefix(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_ApiKeyPrefix",
+                data: data);
+        }
+
+        public static string McpLogs_ClientName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_ClientName",
+                data: data);
+        }
+
+        public static string McpLogs_ClientVersion(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_ClientVersion",
+                data: data);
+        }
+
+        public static string McpLogs_Comments(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_Comments",
+                data: data);
+        }
+
+        public static string McpLogs_Elapsed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_Elapsed",
+                data: data);
+        }
+
+        public static string McpLogs_EndTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_EndTime",
+                data: data);
+        }
+
+        public static string McpLogs_ErrMessage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_ErrMessage",
+                data: data);
+        }
+
+        public static string McpLogs_JsonRpcErrorCode(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_JsonRpcErrorCode",
+                data: data);
+        }
+
+        public static string McpLogs_McpLogId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_McpLogId",
+                data: data);
+        }
+
+        public static string McpLogs_McpMethod(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_McpMethod",
+                data: data);
+        }
+
+        public static string McpLogs_McpRequestId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_McpRequestId",
+                data: data);
+        }
+
+        public static string McpLogs_McpSessionId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_McpSessionId",
+                data: data);
+        }
+
+        public static string McpLogs_ProtocolVersion(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_ProtocolVersion",
+                data: data);
+        }
+
+        public static string McpLogs_RequestData(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_RequestData",
+                data: data);
+        }
+
+        public static string McpLogs_ResponseData(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_ResponseData",
+                data: data);
+        }
+
+        public static string McpLogs_StartTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_StartTime",
+                data: data);
+        }
+
+        public static string McpLogs_Status(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_Status",
+                data: data);
+        }
+
+        public static string McpLogs_TargetName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_TargetName",
+                data: data);
+        }
+
+        public static string McpLogs_TenantId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_TenantId",
+                data: data);
+        }
+
+        public static string McpLogs_Title(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_Title",
+                data: data);
+        }
+
+        public static string McpLogs_UpdatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_UpdatedTime",
+                data: data);
+        }
+
+        public static string McpLogs_Updator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_Updator",
+                data: data);
+        }
+
+        public static string McpLogs_UserAgent(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_UserAgent",
+                data: data);
+        }
+
+        public static string McpLogs_UserHostAddress(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_UserHostAddress",
+                data: data);
+        }
+
+        public static string McpLogs_UserId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_UserId",
                 data: data);
         }
 
@@ -15809,6 +16169,46 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string TenantQuotaUsages_QuotaKey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_QuotaKey",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages_ResetTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_ResetTime",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages_TenantId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_TenantId",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages_Usage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_Usage",
+                data: data);
+        }
+
         public static string Tenants_AllowExtensionsApi(
             Context context,
             params string[] data)
@@ -17849,6 +18249,56 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string McpLogs_CreatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_CreatedTime",
+                data: data);
+        }
+
+        public static string McpLogs_Creator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_Creator",
+                data: data);
+        }
+
+        public static string McpLogs_Timestamp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_Timestamp",
+                data: data);
+        }
+
+        public static string McpLogs_Ver(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_Ver",
+                data: data);
+        }
+
+        public static string McpLogs_VerUp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs_VerUp",
+                data: data);
+        }
+
         public static string Orders_Comments(
             Context context,
             params string[] data)
@@ -19606,6 +20056,86 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SysLogs_VerUp",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages_Comments(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_Comments",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages_CreatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_CreatedTime",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages_Creator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_Creator",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages_Timestamp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_Timestamp",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages_UpdatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_UpdatedTime",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages_Updator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_Updator",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages_Ver(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_Ver",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages_VerUp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages_VerUp",
                 data: data);
         }
 
@@ -27809,6 +28339,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string McpLogs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "McpLogs",
+                data: data);
+        }
+
         public static string Orders(
             Context context,
             params string[] data)
@@ -28026,6 +28566,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SysLogs",
+                data: data);
+        }
+
+        public static string TenantQuotaUsages(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantQuotaUsages",
                 data: data);
         }
 

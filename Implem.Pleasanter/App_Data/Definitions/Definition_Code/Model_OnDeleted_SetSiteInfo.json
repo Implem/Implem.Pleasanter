@@ -1,7 +1,7 @@
-﻿{
+{
     "Id": "Model_OnDeleted_SetSiteInfo",
     "Indent": "3",
     "NotItem": "1",
     "GenericUi": "1",
-    "Exclude": "Groups,Registrations,SysLogs"
+    "Exclude": "Groups,Registrations,SysLogs,McpLogs"
 }

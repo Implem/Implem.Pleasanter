@@ -8,6 +8,7 @@
 
 <!--SiteSettings_GetModels_GeneralUi-->
 <!--SiteSettings_GetModels_SysLogs_UseFilterButton-->
+<!--SiteSettings_GetModels_McpLogs_UseFilterButton-->
 
     ss.TableType = tableTypes;
     return ss;

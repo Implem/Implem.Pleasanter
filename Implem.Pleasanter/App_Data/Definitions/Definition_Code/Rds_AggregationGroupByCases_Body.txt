@@ -1,4 +1,11 @@
 ﻿case "#ColumnName#":
-    groupBy.#ColumnName#();
-    column.#ColumnName#();
+{
+    var columnBracket = $"({context.Sqls.IsNull}(#TableBracket#.\"#ColumnName#\",0))";
+    groupBy.Add(
+        columnBracket: columnBracket,
+        tableName: "#TableName#");
+    column.Add(
+        columnBracket: columnBracket,
+        columnName: "#ColumnName#");
     break;
+}

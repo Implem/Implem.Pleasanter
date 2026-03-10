@@ -268,6 +268,30 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class McpLogsResponseCollection : ResponseCollection
+    {
+        public McpLogModel McpLogModel;
+
+        public McpLogsResponseCollection(
+            Context context,
+            McpLogModel mcpLogModel) : base(context: context)
+        {
+            McpLogModel = mcpLogModel;
+        }
+
+        public McpLogsResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public McpLogsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class OrdersResponseCollection : ResponseCollection
     {
         public OrderModel OrderModel;
@@ -478,6 +502,30 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
 
         public SysLogsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
+    public class TenantQuotaUsagesResponseCollection : ResponseCollection
+    {
+        public TenantQuotaUsagesModel TenantQuotaUsagesModel;
+
+        public TenantQuotaUsagesResponseCollection(
+            Context context,
+            TenantQuotaUsagesModel tenantQuotaUsagesModel) : base(context: context)
+        {
+            TenantQuotaUsagesModel = tenantQuotaUsagesModel;
+        }
+
+        public TenantQuotaUsagesResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public TenantQuotaUsagesResponseCollection ValAndFormData(string selector, string value)
         {
             base.ValAndFormData(selector, value);
             return this;
@@ -3864,6 +3912,886 @@ namespace Implem.Pleasanter.Libraries.Responses
             this MailAddressesResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#MailAddresses_Timestamp", value);
+        }
+
+        public static McpLogsResponseCollection McpLogId(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_McpLogId",
+                res.McpLogModel.McpLogId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "McpLogId")));
+        }
+
+        public static McpLogsResponseCollection McpLogId(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_McpLogId", value);
+        }
+
+        public static McpLogsResponseCollection McpLogId_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_McpLogId",
+                res.McpLogModel.McpLogId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "McpLogId")));
+        }
+
+        public static McpLogsResponseCollection McpLogId_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_McpLogId", value);
+        }
+
+        public static McpLogsResponseCollection StartTime(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_StartTime",
+                res.McpLogModel.StartTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "StartTime")));
+        }
+
+        public static McpLogsResponseCollection StartTime(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_StartTime", value);
+        }
+
+        public static McpLogsResponseCollection StartTime_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_StartTime",
+                res.McpLogModel.StartTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "StartTime")));
+        }
+
+        public static McpLogsResponseCollection StartTime_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_StartTime", value);
+        }
+
+        public static McpLogsResponseCollection EndTime(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_EndTime",
+                res.McpLogModel.EndTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "EndTime")));
+        }
+
+        public static McpLogsResponseCollection EndTime(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_EndTime", value);
+        }
+
+        public static McpLogsResponseCollection EndTime_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_EndTime",
+                res.McpLogModel.EndTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "EndTime")));
+        }
+
+        public static McpLogsResponseCollection EndTime_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_EndTime", value);
+        }
+
+        public static McpLogsResponseCollection McpRequestId(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_McpRequestId",
+                res.McpLogModel.McpRequestId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "McpRequestId")));
+        }
+
+        public static McpLogsResponseCollection McpRequestId(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_McpRequestId", value);
+        }
+
+        public static McpLogsResponseCollection McpRequestId_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_McpRequestId",
+                res.McpLogModel.McpRequestId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "McpRequestId")));
+        }
+
+        public static McpLogsResponseCollection McpRequestId_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_McpRequestId", value);
+        }
+
+        public static McpLogsResponseCollection McpSessionId(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_McpSessionId",
+                res.McpLogModel.McpSessionId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "McpSessionId")));
+        }
+
+        public static McpLogsResponseCollection McpSessionId(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_McpSessionId", value);
+        }
+
+        public static McpLogsResponseCollection McpSessionId_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_McpSessionId",
+                res.McpLogModel.McpSessionId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "McpSessionId")));
+        }
+
+        public static McpLogsResponseCollection McpSessionId_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_McpSessionId", value);
+        }
+
+        public static McpLogsResponseCollection McpMethod(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_McpMethod",
+                res.McpLogModel.McpMethod.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "McpMethod")));
+        }
+
+        public static McpLogsResponseCollection McpMethod(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_McpMethod", value);
+        }
+
+        public static McpLogsResponseCollection McpMethod_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_McpMethod",
+                res.McpLogModel.McpMethod.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "McpMethod")));
+        }
+
+        public static McpLogsResponseCollection McpMethod_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_McpMethod", value);
+        }
+
+        public static McpLogsResponseCollection TargetName(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_TargetName",
+                res.McpLogModel.TargetName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "TargetName")));
+        }
+
+        public static McpLogsResponseCollection TargetName(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_TargetName", value);
+        }
+
+        public static McpLogsResponseCollection TargetName_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_TargetName",
+                res.McpLogModel.TargetName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "TargetName")));
+        }
+
+        public static McpLogsResponseCollection TargetName_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_TargetName", value);
+        }
+
+        public static McpLogsResponseCollection UserId(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_UserId",
+                res.McpLogModel.UserId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserId")));
+        }
+
+        public static McpLogsResponseCollection UserId(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_UserId", value);
+        }
+
+        public static McpLogsResponseCollection UserId_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_UserId",
+                res.McpLogModel.UserId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserId")));
+        }
+
+        public static McpLogsResponseCollection UserId_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_UserId", value);
+        }
+
+        public static McpLogsResponseCollection ApiKeyPrefix(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_ApiKeyPrefix",
+                res.McpLogModel.ApiKeyPrefix.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ApiKeyPrefix")));
+        }
+
+        public static McpLogsResponseCollection ApiKeyPrefix(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_ApiKeyPrefix", value);
+        }
+
+        public static McpLogsResponseCollection ApiKeyPrefix_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_ApiKeyPrefix",
+                res.McpLogModel.ApiKeyPrefix.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ApiKeyPrefix")));
+        }
+
+        public static McpLogsResponseCollection ApiKeyPrefix_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_ApiKeyPrefix", value);
+        }
+
+        public static McpLogsResponseCollection Elapsed(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_Elapsed",
+                res.McpLogModel.Elapsed.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Elapsed")));
+        }
+
+        public static McpLogsResponseCollection Elapsed(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_Elapsed", value);
+        }
+
+        public static McpLogsResponseCollection Elapsed_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_Elapsed",
+                res.McpLogModel.Elapsed.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Elapsed")));
+        }
+
+        public static McpLogsResponseCollection Elapsed_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_Elapsed", value);
+        }
+
+        public static McpLogsResponseCollection Status(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_Status",
+                res.McpLogModel.Status.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Status")));
+        }
+
+        public static McpLogsResponseCollection Status(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_Status", value);
+        }
+
+        public static McpLogsResponseCollection Status_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_Status",
+                res.McpLogModel.Status.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Status")));
+        }
+
+        public static McpLogsResponseCollection Status_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_Status", value);
+        }
+
+        public static McpLogsResponseCollection JsonRpcErrorCode(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_JsonRpcErrorCode",
+                res.McpLogModel.JsonRpcErrorCode.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "JsonRpcErrorCode")));
+        }
+
+        public static McpLogsResponseCollection JsonRpcErrorCode(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_JsonRpcErrorCode", value);
+        }
+
+        public static McpLogsResponseCollection JsonRpcErrorCode_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_JsonRpcErrorCode",
+                res.McpLogModel.JsonRpcErrorCode.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "JsonRpcErrorCode")));
+        }
+
+        public static McpLogsResponseCollection JsonRpcErrorCode_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_JsonRpcErrorCode", value);
+        }
+
+        public static McpLogsResponseCollection ErrMessage(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_ErrMessage",
+                res.McpLogModel.ErrMessage.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ErrMessage")));
+        }
+
+        public static McpLogsResponseCollection ErrMessage(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_ErrMessage", value);
+        }
+
+        public static McpLogsResponseCollection ErrMessage_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_ErrMessage",
+                res.McpLogModel.ErrMessage.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ErrMessage")));
+        }
+
+        public static McpLogsResponseCollection ErrMessage_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_ErrMessage", value);
+        }
+
+        public static McpLogsResponseCollection RequestData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_RequestData",
+                res.McpLogModel.RequestData.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "RequestData")));
+        }
+
+        public static McpLogsResponseCollection RequestData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_RequestData", value);
+        }
+
+        public static McpLogsResponseCollection RequestData_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_RequestData",
+                res.McpLogModel.RequestData.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "RequestData")));
+        }
+
+        public static McpLogsResponseCollection RequestData_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_RequestData", value);
+        }
+
+        public static McpLogsResponseCollection ResponseData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_ResponseData",
+                res.McpLogModel.ResponseData.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ResponseData")));
+        }
+
+        public static McpLogsResponseCollection ResponseData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_ResponseData", value);
+        }
+
+        public static McpLogsResponseCollection ResponseData_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_ResponseData",
+                res.McpLogModel.ResponseData.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ResponseData")));
+        }
+
+        public static McpLogsResponseCollection ResponseData_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_ResponseData", value);
+        }
+
+        public static McpLogsResponseCollection UserHostAddress(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_UserHostAddress",
+                res.McpLogModel.UserHostAddress.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserHostAddress")));
+        }
+
+        public static McpLogsResponseCollection UserHostAddress(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_UserHostAddress", value);
+        }
+
+        public static McpLogsResponseCollection UserHostAddress_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_UserHostAddress",
+                res.McpLogModel.UserHostAddress.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserHostAddress")));
+        }
+
+        public static McpLogsResponseCollection UserHostAddress_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_UserHostAddress", value);
+        }
+
+        public static McpLogsResponseCollection UserAgent(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_UserAgent",
+                res.McpLogModel.UserAgent.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserAgent")));
+        }
+
+        public static McpLogsResponseCollection UserAgent(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_UserAgent", value);
+        }
+
+        public static McpLogsResponseCollection UserAgent_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_UserAgent",
+                res.McpLogModel.UserAgent.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserAgent")));
+        }
+
+        public static McpLogsResponseCollection UserAgent_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_UserAgent", value);
+        }
+
+        public static McpLogsResponseCollection Ver(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_Ver",
+                res.McpLogModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static McpLogsResponseCollection Ver(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_Ver", value);
+        }
+
+        public static McpLogsResponseCollection Ver_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_Ver",
+                res.McpLogModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static McpLogsResponseCollection Ver_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_Ver", value);
+        }
+
+        public static McpLogsResponseCollection CreatedTime(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_CreatedTime",
+                res.McpLogModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static McpLogsResponseCollection CreatedTime(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_CreatedTime", value);
+        }
+
+        public static McpLogsResponseCollection CreatedTime_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_CreatedTime",
+                res.McpLogModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static McpLogsResponseCollection CreatedTime_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_CreatedTime", value);
+        }
+
+        public static McpLogsResponseCollection Timestamp(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#McpLogs_Timestamp",
+                res.McpLogModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static McpLogsResponseCollection Timestamp(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#McpLogs_Timestamp", value);
+        }
+
+        public static McpLogsResponseCollection Timestamp_FormData(
+            this McpLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#McpLogs_Timestamp",
+                res.McpLogModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static McpLogsResponseCollection Timestamp_FormData(
+            this McpLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#McpLogs_Timestamp", value);
         }
 
         public static OrdersResponseCollection Ver(
@@ -8484,6 +9412,226 @@ namespace Implem.Pleasanter.Libraries.Responses
             this SysLogsResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#SysLogs_Timestamp", value);
+        }
+
+        public static TenantQuotaUsagesResponseCollection Ver(
+            this TenantQuotaUsagesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#TenantQuotaUsages_Ver",
+                res.TenantQuotaUsagesModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static TenantQuotaUsagesResponseCollection Ver(
+            this TenantQuotaUsagesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#TenantQuotaUsages_Ver", value);
+        }
+
+        public static TenantQuotaUsagesResponseCollection Ver_FormData(
+            this TenantQuotaUsagesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#TenantQuotaUsages_Ver",
+                res.TenantQuotaUsagesModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static TenantQuotaUsagesResponseCollection Ver_FormData(
+            this TenantQuotaUsagesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#TenantQuotaUsages_Ver", value);
+        }
+
+        public static TenantQuotaUsagesResponseCollection Comments(
+            this TenantQuotaUsagesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#TenantQuotaUsages_Comments",
+                res.TenantQuotaUsagesModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static TenantQuotaUsagesResponseCollection Comments(
+            this TenantQuotaUsagesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#TenantQuotaUsages_Comments", value);
+        }
+
+        public static TenantQuotaUsagesResponseCollection Comments_FormData(
+            this TenantQuotaUsagesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#TenantQuotaUsages_Comments",
+                res.TenantQuotaUsagesModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static TenantQuotaUsagesResponseCollection Comments_FormData(
+            this TenantQuotaUsagesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#TenantQuotaUsages_Comments", value);
+        }
+
+        public static TenantQuotaUsagesResponseCollection CreatedTime(
+            this TenantQuotaUsagesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#TenantQuotaUsages_CreatedTime",
+                res.TenantQuotaUsagesModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static TenantQuotaUsagesResponseCollection CreatedTime(
+            this TenantQuotaUsagesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#TenantQuotaUsages_CreatedTime", value);
+        }
+
+        public static TenantQuotaUsagesResponseCollection CreatedTime_FormData(
+            this TenantQuotaUsagesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#TenantQuotaUsages_CreatedTime",
+                res.TenantQuotaUsagesModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static TenantQuotaUsagesResponseCollection CreatedTime_FormData(
+            this TenantQuotaUsagesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#TenantQuotaUsages_CreatedTime", value);
+        }
+
+        public static TenantQuotaUsagesResponseCollection UpdatedTime(
+            this TenantQuotaUsagesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#TenantQuotaUsages_UpdatedTime",
+                res.TenantQuotaUsagesModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static TenantQuotaUsagesResponseCollection UpdatedTime(
+            this TenantQuotaUsagesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#TenantQuotaUsages_UpdatedTime", value);
+        }
+
+        public static TenantQuotaUsagesResponseCollection UpdatedTime_FormData(
+            this TenantQuotaUsagesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#TenantQuotaUsages_UpdatedTime",
+                res.TenantQuotaUsagesModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static TenantQuotaUsagesResponseCollection UpdatedTime_FormData(
+            this TenantQuotaUsagesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#TenantQuotaUsages_UpdatedTime", value);
+        }
+
+        public static TenantQuotaUsagesResponseCollection Timestamp(
+            this TenantQuotaUsagesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#TenantQuotaUsages_Timestamp",
+                res.TenantQuotaUsagesModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static TenantQuotaUsagesResponseCollection Timestamp(
+            this TenantQuotaUsagesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#TenantQuotaUsages_Timestamp", value);
+        }
+
+        public static TenantQuotaUsagesResponseCollection Timestamp_FormData(
+            this TenantQuotaUsagesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#TenantQuotaUsages_Timestamp",
+                res.TenantQuotaUsagesModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static TenantQuotaUsagesResponseCollection Timestamp_FormData(
+            this TenantQuotaUsagesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#TenantQuotaUsages_Timestamp", value);
         }
 
         public static TenantsResponseCollection Ver(

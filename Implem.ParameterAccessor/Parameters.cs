@@ -28,6 +28,7 @@ namespace Implem.DefinitionAccessor
         public static List<ExtendedStyle> ExtendedStyles;
         public static List<ExtendedHeadLink> ExtendedHeadLinks;
         public static List<ExtendedPlugin> ExtendedPlugins;
+        public static List<ExtendedStartGuide> ExtendedStartGuides;
         public static Dictionary<string, string> ExtendedTags;
         public static PleasanterExtensions PleasanterExtensions;
         public static Form Form;
@@ -39,6 +40,7 @@ namespace Implem.DefinitionAccessor
         public static Mail Mail;
         public static Mobile Mobile;
         public static List<NavigationMenu> NavigationMenus;
+        public static McpServer McpServer;
         public static Migration Migration;
         public static Notification Notification;
         public static Parameter Parameter;

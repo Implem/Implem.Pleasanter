@@ -2829,19 +2829,23 @@ namespace Implem.Pleasanter.Models
             var notReturnParentRecord = context.RequestData("NotReturnParentRecord").ToBool();
             if (formsSiteId > 0 && !notReturnParentRecord)
             {
-                var column = ss.GetColumn(
-                    context: context,
-                    columnName: ss.Links
-                        ?.Where(o => o.SiteId > 0)
-                        .FirstOrDefault(o => o.SiteId == formsSiteId).ColumnName);
-                if (column != null)
+                var link = ss.Links
+                    ?.Where(o => o.SiteId > 0)
+                    .FirstOrDefault(o => o.SiteId == formsSiteId);
+                if (link != null)
                 {
-                    var value = PropertyValue(
+                    var column = ss.GetColumn(
                         context: context,
-                        column: column);
-                    column.Linking = column.MultipleSelections == true
-                        ? value.Deserialize<List<string>>()?.Contains(context.RequestData("LinkId")) == true
-                        : value == context.RequestData("LinkId");
+                        columnName: link.ColumnName);
+                    if (column != null)
+                    {
+                        var value = PropertyValue(
+                            context: context,
+                            column: column);
+                        column.Linking = column.MultipleSelections == true
+                            ? value.Deserialize<List<string>>()?.Contains(context.RequestData("LinkId")) == true
+                            : value == context.RequestData("LinkId");
+                    }
                 }
             }
             var queryStringsSiteId = context.RequestData("FromSiteId").ToLong();

@@ -1461,7 +1461,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 controller: "Items",
                 action: "Create",
                 id: id,
-                apiRequestBody: string.Empty);
+                apiRequestBody: GetApiRequestBody(model: model));
             return new ItemModel(
                 context: apiContext,
                 referenceId: id)

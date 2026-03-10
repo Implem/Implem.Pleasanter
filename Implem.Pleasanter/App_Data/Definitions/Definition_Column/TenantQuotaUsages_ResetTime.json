@@ -1,0 +1,18 @@
+﻿{
+    "Id": "TenantQuotaUsages_ResetTime",
+    "ModelName": "TenantQuotaUsages",
+    "TableName": "TenantQuotaUsages",
+    "Label": "テナント別割当利用状況",
+    "ColumnName": "ResetTime",
+    "LabelText": "リセット日時",
+    "No": "4",
+    "TypeName": "datetime",
+    "History": "4",
+    "HistoryColumn": "4",
+    "LabelText_en": "Reset Time",
+    "LabelText_zh": "重置时间",
+    "LabelText_de": "Zurücksetzzeit",
+    "LabelText_ko": "재설정 시간",
+    "LabelText_es": "Hora de reinicio",
+    "LabelText_vn": "Thời gian đặt lại"
+}

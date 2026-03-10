@@ -1969,36 +1969,72 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ColumnAccessControl(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
+            var showUsedColumnsOnly = context.Forms.ContainsKey("ColumnAccessControl_ShowUsedColumnsOnly")
+                ? context.Forms.Bool("ColumnAccessControl_ShowUsedColumnsOnly")
+                : true;
             return hb.FieldSet(
                 id: "FieldSetColumnAccessControl",
                 css: " enclosed",
                 legendText: Displays.ColumnAccessControl(context: context),
                 action: () => hb
+                    .FieldCheckBox(
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        controlId: "ColumnAccessControl_ShowUsedColumnsOnly",
+                        labelText: Displays.ShowUsedColumnsOnly(context: context),
+                        _checked: showUsedColumnsOnly,
+                        action: "ColumnAccessControl",
+                        method: "post")
                     .Div(
                         id: "ColumnAccessControl",
+                        css: "both",
                         action: () => hb
                             .ColumnAccessControl(
                                 context: context,
                                 ss: ss,
                                 type: "Create",
-                                labelText: Displays.CreateColumnAccessControl(context: context))
+                                labelText: Displays.CreateColumnAccessControl(context: context),
+                                showUsedColumnsOnly: showUsedColumnsOnly,
+                                columnAccessControls: context.Forms.ControlId() == "ColumnAccessControl_ShowUsedColumnsOnly"
+                                    ? GetColumnAccessControl(
+                                        context: context,
+                                        prefix: "Create")
+                                    : null)
                             .ColumnAccessControl(
                                 context: context,
                                 ss: ss,
                                 type: "Read",
-                                labelText: Displays.ReadColumnAccessControl(context: context))
+                                labelText: Displays.ReadColumnAccessControl(context: context),
+                                showUsedColumnsOnly: showUsedColumnsOnly,
+                                columnAccessControls: context.Forms.ControlId() == "ColumnAccessControl_ShowUsedColumnsOnly"
+                                    ? GetColumnAccessControl(
+                                        context: context,
+                                        prefix: "Read")
+                                    : null)
                             .ColumnAccessControl(
                                 context: context,
                                 ss: ss,
                                 type: "Update",
-                                labelText: Displays.UpdateColumnAccessControl(context: context))));
+                                labelText: Displays.UpdateColumnAccessControl(context: context),
+                                showUsedColumnsOnly: showUsedColumnsOnly,
+                                columnAccessControls: context.Forms.ControlId() == "ColumnAccessControl_ShowUsedColumnsOnly"
+                                    ? GetColumnAccessControl(
+                                        context: context,
+                                        prefix: "Update")
+                                    : null)));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static HtmlBuilder ColumnAccessControl(
-            this HtmlBuilder hb, Context context, SiteSettings ss, string type, string labelText)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string type,
+            string labelText,
+            bool showUsedColumnsOnly,
+            IEnumerable<ColumnAccessControl> columnAccessControls)
         {
             return hb.FieldSelectable(
                 controlId: type + "ColumnAccessControl",
@@ -2009,7 +2045,9 @@ namespace Implem.Pleasanter.Models
                 labelText: labelText,
                 listItemCollection: ss.ColumnAccessControlOptions(
                     context: context,
-                    type: type),
+                    type: type,
+                    showUsedColumnsOnly: showUsedColumnsOnly,
+                    columnAccessControls: columnAccessControls),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-left", action: () => hb
@@ -2039,6 +2077,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SetColumnAccessControl(Context context, long referenceId)
         {
+            var showUsedColumnsOnly = context.Forms.ContainsKey("ColumnAccessControl_ShowUsedColumnsOnly")
+                ? context.Forms.Bool("ColumnAccessControl_ShowUsedColumnsOnly")
+                : true;
             var itemModel = new ItemModel(
                 context: context,
                 referenceId: referenceId);
@@ -2063,15 +2104,13 @@ namespace Implem.Pleasanter.Models
             var selected = context.Forms.List("ColumnAccessControl")
                 .Select(o => o.Deserialize<ColumnAccessControl>())
                 .ToList();
-            var columnAccessControl = context.Forms.List("ColumnAccessControlAll")
-                .Select(o => ColumnAccessControl(
-                    context: context,
-                    columnAccessControl: o.Deserialize<ColumnAccessControl>(),
-                    selected: selected))
-                .ToList();
+            var columnAccessControl = GetColumnAccessControl(
+                context: context,
+                selected: selected);
             var listItemCollection = siteModel.SiteSettings.ColumnAccessControlOptions(
                 context: context,
                 type: type,
+                showUsedColumnsOnly: showUsedColumnsOnly,
                 columnAccessControls: columnAccessControl);
             res
                 .CloseDialog()
@@ -2084,6 +2123,25 @@ namespace Implem.Pleasanter.Models
             return res
                 .SetMemory("formChanged", true)
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static List<ColumnAccessControl> GetColumnAccessControl(
+            Context context,
+            string prefix = "",
+            List<ColumnAccessControl> selected = null)
+        {
+            var columnAccessControls = context.Forms.ContainsKey($"{prefix}ColumnAccessControlAll")
+                ? context.Forms.List($"{prefix}ColumnAccessControlAll")
+                    .Select(o => ColumnAccessControl(
+                        context: context,
+                        columnAccessControl: o.Deserialize<ColumnAccessControl>(),
+                        selected: selected))
+                    .ToList()
+                : null;
+            return columnAccessControls;
         }
 
         /// <summary>
@@ -2104,7 +2162,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Value)
                 .Select(o => o.Key)
                 .ToList();
-            if (selected.Any(o => o.ColumnName == columnAccessControl.ColumnName))
+            if (selected?.Any(o => o.ColumnName == columnAccessControl.ColumnName) == true)
             {
                 columnAccessControl.Depts = new List<int>();
                 columnAccessControl.Groups = new List<int>();

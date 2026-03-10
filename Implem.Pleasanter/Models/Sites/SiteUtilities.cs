@@ -18,6 +18,8 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
 using Implem.Pleasanter.Models.ApiSiteSettings;
+using AccessorParts = Implem.ParameterAccessor.Parts;
+using Microsoft.AspNetCore.StaticAssets;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -3324,7 +3326,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string SiteMenuResponse(Context context, SiteModel siteModel)
         {
-            return new ResponseCollection(context: context)
+            var sortable = CanSortTable(context, siteModel.SiteId);
+            var res = new ResponseCollection(context: context)
                 .CloseDialog()
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
                     context: context,
@@ -3336,9 +3339,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: siteModel.SiteSettings,
                     verType: siteModel.VerType,
-                    backButton: siteModel.SiteId != 0))
-                .Invoke("setSiteMenu")
-                .ToJson();
+                    backButton: siteModel.SiteId != 0));
+            res = SetSiteMenuInvoke(res, sortable);
+            return res.ToJson();
         }
 
         /// <summary>
@@ -3471,10 +3474,11 @@ namespace Implem.Pleasanter.Models
                     siteModel: siteModel,
                     invalid: invalid);
             }
+            var sortable = CanSortTable(context, id);
             var columns = sourceSiteModel.SiteSettings.Columns
                 .Where(o => o.ColumnName.StartsWith("Class"));
             var hb = new HtmlBuilder();
-            return new ResponseCollection(context: context)
+            var res = new ResponseCollection(context: context)
                 .Html("#LinkDialog", hb.Div(action: () => hb
                     .FieldSet(
                         css: "fieldset",
@@ -3531,9 +3535,9 @@ namespace Implem.Pleasanter.Models
                     siteConditions: SiteInfo.TenantCaches
                         .Get(context.TenantId)?
                         .SiteMenu
-                        .SiteConditions(context: context, ss: siteModel.SiteSettings)))
-                .Invoke("setSiteMenu")
-                .Invoke("openLinkDialog").ToJson();
+                        .SiteConditions(context: context, ss: siteModel.SiteSettings)));
+            res = SetSiteMenuInvoke(res, sortable);
+            return res.Invoke("openLinkDialog").ToJson();
         }
 
         /// <summary>
@@ -3665,7 +3669,8 @@ namespace Implem.Pleasanter.Models
                         .Distinct()
                         .ToDictionary(o => o, o => sourceSiteModel.SiteId))
                 });
-            return new ResponseCollection(context: context)
+            var sortable = CanSortTable(context, id);
+            var res = new ResponseCollection(context: context)
                 .CloseDialog()
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
                     context: context,
@@ -3673,10 +3678,9 @@ namespace Implem.Pleasanter.Models
                     siteConditions: SiteInfo.TenantCaches
                         .Get(context.TenantId)?
                         .SiteMenu
-                        .SiteConditions(context: context, ss: siteModel.SiteSettings)))
-                .Invoke("setSiteMenu")
-                .Message(Messages.LinkCreated(context: context))
-                .ToJson();
+                        .SiteConditions(context: context, ss: siteModel.SiteSettings)));
+            res = SetSiteMenuInvoke(res, sortable);
+            return res.Message(Messages.LinkCreated(context: context)).ToJson();
         }
 
         /// <summary>
@@ -3732,7 +3736,8 @@ namespace Implem.Pleasanter.Models
         private static string SiteMenuError(
             Context context, long id, SiteModel siteModel, ErrorData invalid)
         {
-            return new ResponseCollection(context: context)
+            var sortable = CanSortTable(context, id);
+            var res = new ResponseCollection(context: context)
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
                     context: context,
                     siteModel: id != 0 ? siteModel : null,
@@ -3740,9 +3745,9 @@ namespace Implem.Pleasanter.Models
                         .Get(context.TenantId)?
                         .SiteMenu
                         .SiteConditions(context: context, ss: siteModel.SiteSettings)))
-                .Invoke("setSiteMenu")
-                .Message(invalid.Message(context: context))
-                .ToJson();
+                .Message(invalid.Message(context: context));
+            res = SetSiteMenuInvoke(res, sortable);
+            return res.ToJson();
         }
 
         /// <summary>
@@ -4253,17 +4258,16 @@ namespace Implem.Pleasanter.Models
                 .Get(context.TenantId)?
                 .SiteMenu
                 .SiteConditions(context: context, ss: ss);
+            var sortable = CanSortTable(context, 0);
             return hb.Template(
                 context: context,
                 ss: ss,
                 view: null,
                 referenceType: "Sites",
                 useTitle: false,
-                script: (Parameters.Site.TopOrderBy <= 0
-                    || context.UserId == Parameters.Site.TopOrderBy
-                    || Permissions.PrivilegedUsers(loginId: context.LoginId))
-                        ? "$p.setSiteMenu();"
-                        : null,
+                script: sortable
+                    ? $"$p.setSiteMenu(true);"
+                    : "$p.setSiteMenu(false);",
                 action: () =>
                 {
                     hb
@@ -4300,6 +4304,34 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static bool CanSortTable(Context context, long id)
+        {
+            return id == 0
+                    ? Parameters.Site.TopOrderBy <= 0
+                    || context.UserId == Parameters.Site.TopOrderBy
+                    || Permissions.PrivilegedUsers(loginId: context.LoginId)
+                    : true;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static ResponseCollection SetSiteMenuInvoke(ResponseCollection res, bool sortable)
+        {
+            if (sortable)
+            {
+                res.Invoke(methodName: "setSiteMenu", args: "true");
+            }
+            else
+            {
+                res.Invoke(methodName: "setSiteMenu", args: "false");
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string SiteMenu(Context context, SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
@@ -4316,6 +4348,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return HtmlTemplates.Error(context, invalid);
             }
+            var sortable = CanSortTable(context, siteModel.SiteId);
             var hb = new HtmlBuilder();
             var siteConditions = SiteInfo.TenantCaches
                 .Get(context.TenantId)?
@@ -4331,7 +4364,9 @@ namespace Implem.Pleasanter.Models
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
                 useTitle: false,
-                script: "$p.setSiteMenu();",
+                script: sortable
+                    ? $"$p.setSiteMenu(true);"
+                    : "$p.setSiteMenu(false);",
                 action: () =>
                 {
                     hb
@@ -4849,52 +4884,16 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .Div(
                             id: "StartGuideContents",
-                            action: () => hb
-                                .A(
-                                    href: Parameters.General.HtmlApplicationBuildingGuideUrl.Params(
-                                        Parameters.General.PleasanterSource,
-                                        "hands-on1",
-                                        "startguide"),
-                                    action: () => hb
-                                        .Img(src: Locations.Get(
-                                            context: context,
-                                            "Images",
-                                            "Hayato1.png"))
-                                        .Div(action: () => hb
-                                            .Text(text: Displays.ApplicationBuildingGuide(context: context))))
-                                .A(
-                                    href: Parameters.General.HtmlUserManualUrl.Params(
-                                        Parameters.General.PleasanterSource,
-                                        "manual",
-                                        "startguide"),
-                                    action: () => hb
-                                        .Img(src: Locations.Get(
-                                            context: context,
-                                            "Images",
-                                            "Hayato2.png"))
-                                        .Text(text: Displays.UserManual(context: context)))
-                                .A(
-                                    href: Parameters.General.HtmlEnterPriseEditionUrl.Params(
-                                        Parameters.General.PleasanterSource,
-                                        "enterprise",
-                                        "startguide"),
-                                    action: () => hb
-                                        .Img(src: Locations.Get(
-                                            context: context,
-                                            "Images",
-                                            "Hayato3.png"))
-                                        .Text(text: Displays.EnterpriseEdition(context: context)))
-                                .A(
-                                    href: Parameters.General.HtmlSupportUrl.Params(
-                                        Parameters.General.PleasanterSource,
-                                        "support",
-                                        "startguide"),
-                                    action: () => hb
-                                        .Img(src: Locations.Get(
-                                            context: context,
-                                            "Images",
-                                            "Hayato4.png"))
-                                        .Text(text: Displays.NeedHelp(context: context))))
+                            action: () =>
+                                {
+                                    var nowTheme = !string.IsNullOrEmpty(context.UserTheme) ? context.UserTheme : context.TenantTheme;
+                                    var darkMode = DarkModeThemes.Any(item => item == nowTheme);
+                                    var startGuideItems = ExtendedAssembleStartGuide(GetDefaultGuides(context), ExtendedStartGuide(context: context));
+                                    foreach (var item in startGuideItems.ExtensionWhere<AccessorParts.StartGuide>(context: context))
+                                    {
+                                        BuildStartGuideItem(hb, context, item, darkMode);
+                                    }
+                                })
                         .FieldCheckBox(
                             fieldId: "DisableStartGuideField",
                             controlId: "DisableStartGuide",
@@ -4905,6 +4904,212 @@ namespace Implem.Pleasanter.Models
                             iconCss: "ui-icon ui-icon-closethick",
                             onClick: "$('#StartGuide').hide();"))
                 : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static List<AccessorParts.StartGuide> GetDefaultGuides(Context context)
+        {
+            var utmContent = "startguide";
+            var guides = new List<AccessorParts.StartGuide>();
+            guides.Add(new AccessorParts.StartGuide { 
+                Id = "SgManual",
+                Text = Displays.UserManualSg(context: context),
+                Url = string.Format("https://pleasanter.org/manual?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}", Parameters.General.PleasanterSource, "manual", utmContent),
+                ImgNameLight = "sg-manual.svg",
+                ImgNameDark = "sg-manual-d.svg"
+            });
+            guides.Add(new AccessorParts.StartGuide {
+                Id = "SgGoHandsOn01",
+                Text = Displays.ApplicationBuildingGuideSg(context: context),
+                Url = string.Format("https://pleasanter.org/redirects/go-hands-on01?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}", Parameters.General.PleasanterSource, "hands-on1", utmContent),
+                ImgNameLight = "sg-handson.svg",
+                ImgNameDark = "sg-handson-d.svg"
+            });
+            guides.Add(new AccessorParts.StartGuide {
+                Id = "SgMaterials",
+                Text = Displays.HelpfulContentsSg(context: context),
+                Url = string.Format("https://pleasanter.org/materials/?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}", Parameters.General.PleasanterSource, "materials", utmContent),
+                ImgNameLight = "sg-materials.svg",
+                ImgNameDark = "sg-materials-d.svg"
+            });
+            guides.Add(new AccessorParts.StartGuide {
+                Id = "SgExtensions",
+                Text = Displays.EnterpriseEditionSg(context: context),
+                Url = string.Format("https://pleasanter.org/enterprise-edition?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}", Parameters.General.PleasanterSource, "enterprise", utmContent),
+                ImgNameLight = "sg-extensions.svg",
+                ImgNameDark = "sg-extensions-d.svg"
+            });
+            guides.Add(new AccessorParts.StartGuide {
+                Id = "SgSupport",
+                Text = Displays.SolutionSupportSg(context: context),
+                Url = string.Format("https://pleasanter.org/support?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}", Parameters.General.PleasanterSource, "support", utmContent),
+                ImgNameLight = "sg-support.svg",
+                ImgNameDark = "sg-support-d.svg"
+            });
+            return guides;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static List<ParameterAccessor.Parts.ExtendedStartGuide> ExtendedStartGuide(Context context)
+        {
+            return ExtendedStartGuide(
+                deptId: context.DeptId,
+                groups: context.Groups,
+                userId: context.UserId,
+                siteId: context.SiteId,
+                id: context.Id,
+                controller: context.Controller,
+                action: context.Action);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static List<ParameterAccessor.Parts.ExtendedStartGuide> ExtendedStartGuide(
+            int deptId,
+            List<int> groups,
+            int userId,
+            long siteId,
+            long id,
+            string controller,
+            string action)
+        {
+            var extendedStartGuides = ExtensionUtilities.ExtensionWhere<ParameterAccessor.Parts.ExtendedStartGuide>(
+                extensions: Parameters.ExtendedStartGuides,
+                name: null,
+                deptId: deptId,
+                groups: groups,
+                userId: userId,
+                siteId: siteId,
+                id: id,
+                controller: controller,
+                action: action);
+            return extendedStartGuides.ToList();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static List<AccessorParts.StartGuide> ExtendedAssembleStartGuide(
+            List<AccessorParts.StartGuide> startGuides,
+            List<ParameterAccessor.Parts.ExtendedStartGuide> extendedStartGuides)
+        {
+            var guides = new List<AccessorParts.StartGuide>(startGuides);
+            var exGuides = extendedStartGuides
+                .ToJson()
+                .Deserialize<List<ParameterAccessor.Parts.ExtendedStartGuide>>();
+            exGuides?.ForEach(extendedGuide =>
+            {
+                extendedGuide.StartGuides?.ForEach(exStGuide =>
+                {
+                    var imgNameLight = !exStGuide.ImgNameLight.IsNullOrEmpty() ? exStGuide.ImgNameLight : exStGuide.ImgNameDark;
+                    exStGuide.ImgNameLight = imgNameLight;
+                    var imgNameDark = !exStGuide.ImgNameDark.IsNullOrEmpty() ? exStGuide.ImgNameDark : exStGuide.ImgNameLight;
+                    exStGuide.ImgNameDark = imgNameDark;
+                });
+                switch (extendedGuide.Action)
+                {
+                    case "Append":
+                        AppendExtendedStartGuide(
+                            guides: guides,
+                            targetId: extendedGuide.TargetId,
+                            extendedGuides: extendedGuide.StartGuides);
+                        break;
+                    case "Prepend":
+                        PrependExtendedStartGuide(
+                            guides: guides,
+                            targetId: extendedGuide.TargetId,
+                            extendedGuides: extendedGuide.StartGuides);
+                        break;
+                    case "Remove":
+                        RemoveExtendedStartGuide(
+                            guides: guides,
+                            targetId: extendedGuide.TargetId);
+                        break;
+                    case "Replace":
+                        ReplaceExtendedStartGuide(
+                            guides: guides,
+                            targetId: extendedGuide.TargetId,
+                            extendedGuides: extendedGuide.StartGuides);
+                        break;
+                    case "ReplaceAll":
+                        guides = extendedGuide.StartGuides;
+                        break;
+                    default:
+                        break;
+                }
+            });
+            return guides;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void AppendExtendedStartGuide(
+            List<AccessorParts.StartGuide> guides,
+            string targetId,
+            List<AccessorParts.StartGuide> extendedGuides)
+        {
+            var targetGuide = guides?
+                .Select((m, i) => new { Index = i, Menu = m })
+                .FirstOrDefault(o => o.Menu.Id == targetId);
+            if (targetGuide != null && extendedGuides != null)
+            {
+                guides.InsertRange(targetGuide.Index + 1, extendedGuides);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void PrependExtendedStartGuide(
+            List<AccessorParts.StartGuide> guides,
+            string targetId,
+            List<AccessorParts.StartGuide> extendedGuides)
+        {
+            var targetGuide = guides?
+                .Select((m, i) => new { Index = i, Menu = m })
+                .FirstOrDefault(o => o.Menu.Id == targetId);
+            if (targetGuide != null && extendedGuides != null)
+            {
+                guides.InsertRange(targetGuide.Index, extendedGuides);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void RemoveExtendedStartGuide(
+            List<AccessorParts.StartGuide> guides,
+            string targetId)
+        {
+            var targetGuide = guides?.FirstOrDefault(o => o.Id == targetId);
+            if (targetGuide != null)
+            {
+                guides.Remove(targetGuide);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void ReplaceExtendedStartGuide(
+            List<AccessorParts.StartGuide> guides,
+            string targetId,
+            List<AccessorParts.StartGuide> extendedGuides)
+        {
+            var targetGuide = guides?
+                .Select((m, i) => new { Index = i, Menu = m })
+                .FirstOrDefault(o => o.Menu.Id == targetId);
+            if (targetGuide != null && extendedGuides != null)
+            {
+                guides.RemoveAt(targetGuide.Index);
+                guides.InsertRange(targetGuide.Index, extendedGuides);
+            }
         }
 
         /// <summary>
@@ -4949,6 +5154,29 @@ namespace Implem.Pleasanter.Models
                                     controlCss: "button-icon button-neutral",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void BuildStartGuideItem(HtmlBuilder hb, Context context, AccessorParts.StartGuide item, bool darkMode)
+        {
+            var imgName = darkMode ? item.ImgNameDark : item.ImgNameLight;
+            hb.A(
+                id: item.Id,
+                href: item.Url,
+                target: item.Target,
+                action: () =>
+                {
+                    if (!imgName.IsNullOrEmpty())
+                    {
+                        hb.Img(src: Locations.Get(
+                            context: context,
+                            "Images",
+                            imgName));
+                        }
+                        hb.Div(action: () => hb.Text(text: item.Text));
+                    });
         }
 
         /// <summary>
@@ -5160,6 +5388,7 @@ namespace Implem.Pleasanter.Models
             var showBanner = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             var tabsCss = showComments ? null : "max";
+            var bannerList = GetBanner();
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
@@ -5168,8 +5397,8 @@ namespace Implem.Pleasanter.Models
                         .Action(Locations.ItemAction(
                             context: context,
                             id: siteModel.SiteId)),
-                    action: () => hb
-                        .RecordHeader(
+                    action: () => {
+                        hb.RecordHeader(
                             context: context,
                             ss: ss,
                             baseModel: siteModel,
@@ -5184,53 +5413,25 @@ namespace Implem.Pleasanter.Models
                                     column: commentsColumn,
                                     verType: siteModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
-                            _using: showComments)
-                        .Div(
-                            id: "EnterPriseBanner", action: () => hb
+                            _using: showComments);
+                        foreach (var banner in bannerList)
+                        {
+                            hb.Div(
+                                id: banner.Id,
+                                action: () => hb
                                 .A(
-                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlEnterPriseEditionUrl.Params(
-                                        Parameters.General.PleasanterSource,
-                                        "enterprise",
-                                        "table-management")),
+                                    attributes: new HtmlAttributes().Href(banner.Url),
+                                    target: banner.Target,
                                     action: () => hb
                                         .Img(
-                                            id: "EnterPriseBannerImage",
+                                            id: banner.ImgId,
                                             src: Locations.Get(
                                                 context: context,
                                                 "Images",
-                                                "enterprise-banner.png"))),
-                            _using: showBanner)
-                        .Div(
-                            id: "SupportBanner", action: () => hb
-                                .A(
-                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlSupportUrl.Params(
-                                        Parameters.General.PleasanterSource,
-                                        "support",
-                                        "table-management")),
-                                    action: () => hb
-                                        .Img(
-                                            id: "SupportBannerImage",
-                                            src: Locations.Get(
-                                                context: context,
-                                                "Images",
-                                                "support-banner.png"))),
-                            _using: showBanner)
-                        .Div(
-                            id: "CasesBanner", action: () => hb
-                                .A(
-                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlCasesUrl.Params(
-                                        Parameters.General.PleasanterSource,
-                                        "cases",
-                                        "table-management")),
-                                    action: () => hb
-                                        .Img(
-                                            id: "CasesBannerImage",
-                                            src: Locations.Get(
-                                                context: context,
-                                                "Images",
-                                                "cases-banner.png"))),
-                            _using: showBanner)
-                        .Div(
+                                                banner.ImgName))),
+                                _using: showBanner);
+                        }
+                        hb.Div(
                             id: "EditorTabsContainer",
                             css: "tab-container" + tabsCss,
                             action: () => hb
@@ -5280,7 +5481,8 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "Sites_Timestamp",
                             css: "control-hidden always-send",
-                            value: siteModel.Timestamp))
+                            value: siteModel.Timestamp);
+                        })
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,
@@ -5477,6 +5679,39 @@ namespace Implem.Pleasanter.Models
                 .PermissionForCreatingDialog(context: context)
                 .PermissionForUpdatingDialog(context: context)
                 .ColumnAccessControlDialog(context: context));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static List<AccessorParts.Banner> GetBanner()
+        {
+            var banners = new List<AccessorParts.Banner>();
+            banners.Add(new AccessorParts.Banner
+            {
+                Id = "EnterPriseBanner",
+                Url = string.Format("https://pleasanter.org/support?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}", Parameters.General.PleasanterSource, "support", "table-management"),
+                ImgId = "EnterPriseBannerImage",
+                ImgName = "table-kanri-bnr01.png",
+                Target = "_self"
+            });
+            banners.Add(new AccessorParts.Banner
+            {
+                Id = "SupportBanner",
+                Url = string.Format("https://pleasanter.org/tec-service/?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}#tec-service-dev", Parameters.General.PleasanterSource, "cases", "table-management"),
+                ImgId = "SupportBannerImage",
+                ImgName = "table-kanri-bnr02.png",
+                Target = "_self"
+            });
+            banners.Add(new AccessorParts.Banner
+            {
+                Id = "CasesBanner",
+                Url = string.Format("https://pleasanter.org/tec-service/?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}#tec-service-tec-con", Parameters.General.PleasanterSource, "cases", "table-management"),
+                ImgId = "CasesBannerImage",
+                ImgName = "table-kanri-bnr03.png",
+                Target = "_self"
+            });
+            return banners;
         }
 
         /// <summary>
@@ -14295,7 +14530,27 @@ namespace Implem.Pleasanter.Models
                     controlId: "AllowStandardExport",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.AllowStandardExport(context: context),
-                    _checked: ss.AllowStandardExport == true));
+                    _checked: ss.AllowStandardExport == true)
+                .FieldDropDown(
+                    context: context,
+                    controlId: "StandardExportType",
+                    labelText: Displays.StandardExportTypes(context: context),
+                    optionCollection: new Dictionary<string, string>
+                    {
+                        {
+                            SiteSettings.StandardExportTypes.Default.ToInt().ToString(),
+                            Displays.Default(context: context)
+                        },
+                        {
+                            SiteSettings.StandardExportTypes.Grid.ToInt().ToString(),
+                            Displays.Grid(context: context)
+                        },
+                        {
+                            SiteSettings.StandardExportTypes.Editor.ToInt().ToString(),
+                            Displays.Editor(context: context)
+                        }
+                    },
+                    selectedValue: ss.StandardExportType.ToInt().ToString()));
         }
 
         /// <summary>
@@ -19087,5 +19342,7 @@ namespace Implem.Pleasanter.Models
         {
             return Parameters.Form.Enabled || context.ContractSettings.Extensions.Get("Form");
         }
+
+        private static IReadOnlyList<string> DarkModeThemes = new List<string> { "midnight" };
     }
 }

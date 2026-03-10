@@ -151,5 +151,10 @@
     "ShowLoginPageOnAuthError": true,
     "CaptchaConfig": {
         "Type": "None"
-    }
+    },
+    "ForwardedHeaders": {
+        "KnownNetworks": [],
+        "KnownProxies": []
+    },
+    "ExcludeCookiePrefixes": []
 }     

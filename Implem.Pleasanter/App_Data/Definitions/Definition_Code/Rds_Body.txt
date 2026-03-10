@@ -599,6 +599,107 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        private static string CoalesceDefaultValue(Context context, Column column)
+        {
+            if (column == null) return null;
+            switch (column.Name)
+            {
+                case "Status":
+                case "Manager":
+                case "Owner":
+                    return "0";
+                default:
+                    if (Def.ExtendedColumnTypes.TryGetValue(
+                        column.ColumnName ?? string.Empty,
+                        out var columnTypeName)
+                            && columnTypeName == "Class")
+                    {
+                        return "''";
+                    }
+                    return null;
+            }
+        }
+
+        private static string CoalesceColumnBracket(
+            Context context, Column column, string defaultValue)
+        {
+            return $"({context.Sqls.IsNull}(#TableBracket#.\"{column.ColumnName}\",{defaultValue}))";
+        }
+
+        public static SqlColumnCollection WithItemTitleCoalesced(
+            this SqlColumnCollection sqlColumn,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            if (column == null) return sqlColumn;
+            var defaultValue = CoalesceDefaultValue(context, column);
+            if (defaultValue != null)
+            {
+                sqlColumn.Add(
+                    tableName: column.TableName(),
+                    columnBracket: CoalesceColumnBracket(context, column, defaultValue),
+                    _as: column.ColumnName);
+            }
+            else
+            {
+                sqlColumn.Add(
+                    context: context,
+                    column: column);
+            }
+            var link = column.SiteSettings.Links
+                .Where(o => o.SiteId > 0)
+                .Where(o => ss.JoinedSsHash.ContainsKey(o.SiteId))
+                .FirstOrDefault(o => o.ColumnName == column.Name);
+            if (link != null)
+            {
+                var linkedTableName = (!column.TableAlias.IsNullOrEmpty()
+                    ? column.TableAlias + "-"
+                    : string.Empty)
+                        + link.LinkedTableName();
+                sqlColumn.Add(
+                    columnBracket: "\"Title\"",
+                    tableName: linkedTableName + "_Items",
+                    _as: linkedTableName + ",ItemTitle");
+            }
+            return sqlColumn;
+        }
+
+        public static SqlGroupByCollection WithItemTitleCoalesced(
+            this SqlGroupByCollection groupBy,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            if (column == null) return groupBy;
+            var defaultValue = CoalesceDefaultValue(context, column);
+            if (defaultValue != null)
+            {
+                groupBy.Add(
+                    tableName: column.TableName(),
+                    columnBracket: CoalesceColumnBracket(context, column, defaultValue));
+            }
+            else
+            {
+                groupBy.Add(column: column);
+            }
+            var link = column.SiteSettings.Links
+                .Where(o => o.SiteId > 0)
+                .Where(o => ss.JoinedSsHash.ContainsKey(o.SiteId))
+                .FirstOrDefault(o => o.ColumnName == column.Name);
+            if (link != null)
+            {
+                var linkedTableName = (!column.TableAlias.IsNullOrEmpty()
+                    ? column.TableAlias + "-"
+                    : string.Empty)
+                        + link.LinkedTableName();
+                groupBy.Add(
+                    columnBracket: "\"Title\"",
+                    tableName: linkedTableName + "_Items");
+            }
+            return groupBy;
+        }
+
 
         public static string ColumnBracket(Column column)
         {

@@ -1,0 +1,33 @@
+{
+    "Id": "OverTenantQuota",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The quota limit for \"{0}\" ({1} Requests/{2}) has been exceeded."
+        },
+        {
+            "Language": "ja",
+            "Body": "「{0}」のクォータ制限（{1} 件/{2}）を超えました。"
+        },
+        {
+            "Language": "zh",
+            "Body": "\"{0}\"的配额限制（{1} 次/{2}）已超过。"
+        },
+        {
+            "Language": "de",
+            "Body": "Das Kontingentlimit für \"{0}\" ({1} Anfragen/{2}) wurde überschritten."
+        },
+        {
+            "Language": "ko",
+            "Body": "\"{0}\"의 할당 제한({1}건/{2})을 초과했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha excedido el límite de cuota de \"{0}\" ({1} solicitudes/{2})."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã vượt quá giới hạn hạn ngạch cho \"{0}\" ({1} yêu cầu/{2})."
+        }
+    ]
+}

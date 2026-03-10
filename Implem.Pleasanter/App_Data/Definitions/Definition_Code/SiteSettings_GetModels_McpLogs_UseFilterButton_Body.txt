@@ -1,0 +1,18 @@
+﻿ss.UseFilterButton = true;
+ss.AlwaysRequestSearchCondition = true;
+ss.UseIncompleteFilter = false;
+ss.Views = new List<View>
+{
+    new View
+    {
+        Id = 1,
+        Name = "Default",
+        ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>
+        {
+            { "StartTime", SqlOrderBy.Types.desc },
+            { "EndTime", SqlOrderBy.Types.desc },
+            { "McpRequestId", SqlOrderBy.Types.desc }
+        }
+    }
+};
+ss.GridView = 1;

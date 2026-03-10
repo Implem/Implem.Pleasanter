@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.5.1.0</AssemblyVersion>
-    <FileVersion>1.5.1.0</FileVersion>
-    <Version>1.5.1.0</Version>
+    <AssemblyVersion>1.5.2.0</AssemblyVersion>
+    <FileVersion>1.5.2.0</FileVersion>
+    <Version>1.5.2.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -25,9 +25,13 @@
 
   <ItemGroup>
     <Compile Remove="App_Data\Temp\**" />
+    <Compile Remove="MCP\ApiFunctions\**" />
     <Content Remove="App_Data\Temp\**" />
+    <Content Remove="MCP\ApiFunctions\**" />
     <EmbeddedResource Remove="App_Data\Temp\**" />
+    <EmbeddedResource Remove="MCP\ApiFunctions\**" />
     <None Remove="App_Data\Temp\**" />
+    <None Remove="MCP\ApiFunctions\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,7 +65,9 @@
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="2.0.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="MimeKit" Version="4.14.0" />
+    <PackageReference Include="MimeKit" Version="4.15.1" />
+    <PackageReference Include="ModelContextProtocol.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="ModelContextProtocol" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="NLog.Extensions.AzureDataTables" Version="4.7.1" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.5.0" />
@@ -107,9 +113,11 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Base_PropertyUpdated_Num.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_DashboardGridRowsCases.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_ImportByApi.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_ParameterAccessorPartUsing.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefaultParameter.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetTimeZoneAndLanguage.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_StaticAssetsUsing.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SysLogLogger.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SysLogUsing.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage.json" />
@@ -118,6 +126,7 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage_Table.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_CheckRow.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetCopyDefault.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DarkModeThemes.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardCheckRow.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardGridRowsReturn.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardHeaderCss.json" />

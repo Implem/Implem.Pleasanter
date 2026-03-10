@@ -1,0 +1,33 @@
+{
+    "Id": "UserManualSg",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Feature Overview\n[User Manual]"
+        },
+        {
+            "Language": "zh",
+            "Body": "功能介绍\n【用户手册】"
+        },
+        {
+            "Language": "ja",
+            "Body": "機能解説\n【ユーザマニュアル】"
+        },
+        {
+            "Language": "de",
+            "Body": "Funktionsübersicht\n[Benutzerhandbuch]"
+        },
+        {
+            "Language": "ko",
+            "Body": "기능 해설\n[사용자 매뉴얼]"
+        },
+        {
+            "Language": "es",
+            "Body": "Explicación de funciones\n[Manual de usuario]"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giải thích tính năng\n[Sổ tay người dùng]"
+        }
+    ]
+}

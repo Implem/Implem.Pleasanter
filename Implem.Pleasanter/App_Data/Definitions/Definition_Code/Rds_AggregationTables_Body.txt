@@ -1,9 +1,9 @@
 ﻿public static IEnumerable<SqlStatement> #TableName#Aggregations(
-    Context context,
-    IEnumerable<Aggregation> aggregations,
-    Sqls.TableTypes tableType,
-    SqlWhereCollection where,
-    SqlParamCollection param)
+Context context,
+IEnumerable<Aggregation> aggregations,
+Sqls.TableTypes tableType,
+SqlWhereCollection where,
+SqlParamCollection param)
 {
     var statementCollection = new List<SqlStatement>()
     {
@@ -32,6 +32,28 @@
                 case "\"NotGroupBy\"":
                     break;
                 default:
+                    if (Def.ExtendedColumnTypes.TryGetValue(
+                        data.Aggregation.GroupBy ?? string.Empty,
+                        out var aggregationColumnTypeName))
+                    {
+                        var defaultValue = aggregationColumnTypeName switch
+                        {
+                            "Check" => context.Sqls.FalseString,
+                            "Class" => "''",
+                            _ => (string)null
+                        };
+                        if (defaultValue != null)
+                        {
+                            var columnBracket = $"({context.Sqls.IsNull}(#TableBracket#.\"{data.Aggregation.GroupBy}\",{defaultValue}))";
+                            groupBy.Add(
+                                columnBracket: columnBracket,
+                                tableName: "#TableName#");
+                            column.Add(
+                                columnBracket: columnBracket,
+                                columnName: data.Aggregation.GroupBy);
+                            break;
+                        }
+                    }
                     groupBy.#TableName#GroupBy(columnName: data.Aggregation.GroupBy);
                     column.#TableName#Column(columnName: data.Aggregation.GroupBy);
                     break;

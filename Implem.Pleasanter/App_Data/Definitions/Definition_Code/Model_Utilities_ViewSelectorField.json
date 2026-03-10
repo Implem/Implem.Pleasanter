@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_Utilities_ViewSelectorField",
     "Indent": "7",
-    "Exclude": "Issues,Results"
+    "Exclude": "Issues,Results,McpLogs"
 }

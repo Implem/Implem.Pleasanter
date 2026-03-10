@@ -70,6 +70,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             FullCalendar = 2
         }
 
+        public enum StandardExportTypes : int
+        {
+            Default = 0,
+            Grid = 1,
+            Editor = 2
+        }
+
         public decimal Version;
         [NonSerialized]
         public bool Migrated;
@@ -203,6 +210,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowMigrationMode;
         public SettingList<Export> Exports;
         public bool? AllowStandardExport;
+        public StandardExportTypes? StandardExportType;
         public SettingList<Style> Styles;
         public bool? StylesAllDisabled;
         public bool? Responsive;
@@ -374,6 +382,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdatableImport = UpdatableImport ?? Parameters.General.UpdatableImport;
             if (Exports == null) Exports = new SettingList<Export>();
             AllowStandardExport = AllowStandardExport ?? Parameters.General.AllowStandardExport;
+            StandardExportType = StandardExportType ?? (StandardExportTypes)Parameters.General.StandardExportType;
             if (Styles == null) Styles = new SettingList<Style>();
             if (Responsive == null) Responsive = Parameters.Mobile.SiteSettingsResponsive;
             if (DashboardPartsAsynchronousLoading == null) DashboardPartsAsynchronousLoading = Parameters.Dashboard.AsynchronousLoadingDefault;
@@ -1225,6 +1234,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AllowStandardExport != Parameters.General.AllowStandardExport)
             {
                 ss.AllowStandardExport = AllowStandardExport;
+            }
+            if (StandardExportType != (StandardExportTypes)Parameters.General.StandardExportType)
+            {
+                ss.StandardExportType = StandardExportType;
             }
             Styles?.ForEach(style =>
             {
@@ -3040,6 +3053,68 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
+        public Dictionary<string, string> ViewFilterOptionsHasChoicesOnly(
+            Context context,
+            View view,
+            bool currentTableOnly,
+            long siteId)
+        {
+            var hash = new Dictionary<string, string>();
+            JoinOptions(currentTableOnly: currentTableOnly).ForEach(join =>
+            {
+                var ss = JoinedSsHash.Get(siteId);
+                if (ss != null)
+                {
+                    hash.AddRange(ss.ColumnDefinitionHash.Values
+                        .Where(o => o.FilterColumn > 0)
+                        .Where(o => view?.ColumnFilterHash?.ContainsKey(o.ColumnName) != true)
+                        .OrderBy(o => o.FilterColumn)
+                        .Select(o => ss.GetColumn(
+                            context: context,
+                            columnName: o.ColumnName))
+                        .Where(column => column != null &&
+                            column.HasChoices())
+                        .ToDictionary(
+                            o => ColumnUtilities.ColumnName(join.Key, o.Name),
+                            o => o.LabelText));
+                }
+            });
+            return hash;
+        }
+
+        public Dictionary<string, (string LabelText, string ChoicesText)> ViewFilterOptionsHasChoicesOnly2(
+            Context context,
+            View view,
+            bool currentTableOnly,
+            long siteId)
+        {
+            var hash = new Dictionary<string, (string, string)>();
+
+            JoinOptions(currentTableOnly: currentTableOnly).ForEach(join =>
+            {
+                var ss = JoinedSsHash.Get(siteId);
+                if (ss != null)
+                {
+                    foreach (var column in ss.ColumnDefinitionHash.Values
+                                 .Where(o => o.FilterColumn > 0)
+                                 .Where(o => view?.ColumnFilterHash?.ContainsKey(o.ColumnName) != true)
+                                 .OrderBy(o => o.FilterColumn)
+                                 .Select(o => ss.GetColumn(context, o.ColumnName))
+                                 .Where(c => c != null && c.HasChoices()))
+                    {
+                        hash.Add(ColumnUtilities.ColumnName(
+                            join.Key,
+                            column.Name),
+                                 (column.LabelText,
+                                 column.ChoicesText));
+                    }
+                }
+            });
+
+            return hash;
+        }
+
+
         public Dictionary<string, string> ViewSorterOptions(
             Context context,
             bool currentTableOnly = false)
@@ -3501,16 +3576,40 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> ColumnAccessControlOptions(
             Context context,
             string type,
+            bool showUsedColumnsOnly,
             IEnumerable<ColumnAccessControl> columnAccessControls = null)
         {
-            return columnAccessControls != null
-                ? columnAccessControls
-                    .ToDictionary(o => o.ToJson(), o => o.ControlData(
-                        context: context, ss: this, type: type))
-                : ColumnAccessControl(type)
-                    .OrderBy(o => o.No)
-                    .ToDictionary(o => o.ToJson(), o => o.ControlData(
-                        context: context, ss: this, type: type));
+            var options = ColumnAccessControl(type)
+                .Select(columnAccessControl => MergeColumnAccessControls(
+                    columnAccessControl: columnAccessControl,
+                    columnAccessControls: columnAccessControls))
+                .Where(o => !showUsedColumnsOnly
+                    || GridColumns.Contains(o.ColumnName)
+                    || GetEditorColumnNames().Contains(o.ColumnName)
+                    || o.Depts?.Any() == true
+                    || o.Groups?.Any() == true
+                    || o.Users?.Any() == true)
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ToJson(), o => o.ControlData(
+                    context: context,
+                    ss: this,
+                    type: type));
+            return options;
+        }
+
+        private ColumnAccessControl MergeColumnAccessControls(
+            ColumnAccessControl columnAccessControl,
+            IEnumerable<ColumnAccessControl> columnAccessControls)
+        {
+            var data = columnAccessControls?.FirstOrDefault(o =>
+                o.ColumnName == columnAccessControl.ColumnName);
+            if (data != null)
+            {
+                columnAccessControl.Depts = data.Depts;
+                columnAccessControl.Groups = data.Groups;
+                columnAccessControl.Users = data.Users;
+            }
+            return columnAccessControl;
         }
 
         private List<ColumnAccessControl> ColumnAccessControl(string type)
@@ -4080,6 +4179,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DefaultImportKey": DefaultImportKey = value; break;
                 case "AllowMigrationMode": AllowMigrationMode = value.ToBool(); break;
                 case "AllowStandardExport": AllowStandardExport = value.ToBool(); break;
+                case "StandardExportType": StandardExportType = (StandardExportTypes)value.ToInt(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "CalendarType": CalendarType = value.ToEnum(defaultValue: (CalendarTypes)Parameters.General.DefaultCalendarType); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
@@ -5167,20 +5267,41 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<ExportColumn> DefaultExportColumns(Context context)
         {
-            var columns = GetEditorColumnNames(
-                context: context,
-                columnOnly: true)
-                    .Concat(GridColumns)
-                    .Where(o => o != "Ver")
-                    .ToList();
-            return ColumnDefinitionHash.ExportDefinitions()
-                .Where(o => columns.Contains(o.ColumnName) || o.ExportColumn)
+            var columns = new List<string>();
+            var def = ColumnDefinitionHash.ExportDefinitions();
+            IEnumerable<ColumnDefinition> defs = null;
+            switch (StandardExportType)
+            {
+                case StandardExportTypes.Grid:
+                    defs = GridColumns
+                        .Select(columnName => def.FirstOrDefault(o => o.ColumnName == columnName))
+                        .Where(o => o != null);
+                    break;
+                case StandardExportTypes.Editor:
+                    defs = EditorColumnHash
+                        .SelectMany(o => o.Value)
+                        .Select(columnName => def.FirstOrDefault(o => o.ColumnName == columnName))
+                        .Where(o => o != null);
+                    break;
+                default:
+                    columns = GetEditorColumnNames(
+                        context: context,
+                        columnOnly: true)
+                            .Concat(GridColumns)
+                            .Where(o => o != "Ver")
+                            .ToList();
+                    defs = ColumnDefinitionHash.ExportDefinitions()
+                        .Where(o => columns.Contains(o.ColumnName) || o.ExportColumn);
+                    break;
+            }
+            var ret = defs
                 .Select(o => new ExportColumn(
                     context: context,
                     column: GetColumn(
                         context: context,
                         columnName: o.ColumnName)))
                 .ToList();
+            return ret;
         }
 
         public List<ExportColumn> ExportColumns(Context context, string join = null)

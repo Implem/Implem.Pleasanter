@@ -39,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? AllowOriginalLogin;
         public bool? AllowNewFeatures;
         public int? ApiLimitPerSite;
+        public Dictionary<string, QuotaDetails?> Quotas;
 
         public ContractSettings()
         {
@@ -140,6 +141,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             return (ApiLimitPerSite != null)
                 ? (int)ApiLimitPerSite
                 : Parameters.Api.LimitPerSite;
+        }
+    }
+    public class QuotaDetails
+    {
+        public int Limit;
+        public string ResetUnit;
+        public int ResetInterval;
+        public string LimitSummary()
+        {
+            var unit = (ResetUnit ?? string.Empty).ToLowerInvariant();
+            var pluralizedUnit = ResetInterval == 1 ? unit : unit + "s";
+            var intervalText = ResetInterval == 1 ? string.Empty : ResetInterval.ToString();
+            return $"{Limit.ToString()} / {intervalText}{pluralizedUnit}";
         }
     }
 }

@@ -1708,6 +1708,109 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                     }
                     break;
+                case "McpLogs":
+                    switch (columnName)
+                    {
+                        case "McpLogId":
+                            sql.McpLogs_McpLogId(tableName: path, _as: _as);
+                            break;
+                        case "StartTime":
+                            sql.McpLogs_StartTime(tableName: path, _as: _as);
+                            break;
+                        case "EndTime":
+                            sql.McpLogs_EndTime(tableName: path, _as: _as);
+                            break;
+                        case "McpRequestId":
+                            sql.McpLogs_McpRequestId(tableName: path, _as: _as);
+                            break;
+                        case "McpSessionId":
+                            sql.McpLogs_McpSessionId(tableName: path, _as: _as);
+                            break;
+                        case "McpMethod":
+                            sql.McpLogs_McpMethod(tableName: path, _as: _as);
+                            break;
+                        case "TargetName":
+                            sql.McpLogs_TargetName(tableName: path, _as: _as);
+                            break;
+                        case "TenantId":
+                            sql.McpLogs_TenantId(tableName: path, _as: _as);
+                            break;
+                        case "UserId":
+                            sql.McpLogs_UserId(tableName: path, _as: _as);
+                            break;
+                        case "ApiKeyPrefix":
+                            sql.McpLogs_ApiKeyPrefix(tableName: path, _as: _as);
+                            break;
+                        case "ClientName":
+                            sql.McpLogs_ClientName(tableName: path, _as: _as);
+                            break;
+                        case "ClientVersion":
+                            sql.McpLogs_ClientVersion(tableName: path, _as: _as);
+                            break;
+                        case "ProtocolVersion":
+                            sql.McpLogs_ProtocolVersion(tableName: path, _as: _as);
+                            break;
+                        case "Elapsed":
+                            sql.McpLogs_Elapsed(tableName: path, _as: _as);
+                            break;
+                        case "Status":
+                            sql.McpLogs_Status(tableName: path, _as: _as);
+                            break;
+                        case "JsonRpcErrorCode":
+                            sql.McpLogs_JsonRpcErrorCode(tableName: path, _as: _as);
+                            break;
+                        case "ErrMessage":
+                            sql.McpLogs_ErrMessage(tableName: path, _as: _as);
+                            break;
+                        case "RequestData":
+                            sql.McpLogs_RequestData(tableName: path, _as: _as);
+                            break;
+                        case "ResponseData":
+                            sql.McpLogs_ResponseData(tableName: path, _as: _as);
+                            break;
+                        case "UserHostAddress":
+                            sql.McpLogs_UserHostAddress(tableName: path, _as: _as);
+                            break;
+                        case "UserAgent":
+                            sql.McpLogs_UserAgent(tableName: path, _as: _as);
+                            break;
+                        case "Ver":
+                            sql.McpLogs_Ver(tableName: path, _as: _as);
+                            break;
+                        case "Comments":
+                            sql.McpLogs_Comments(tableName: path, _as: _as);
+                            break;
+                        case "Updator":
+                            sql.McpLogs_Updator(tableName: path, _as: _as);
+                            break;
+                        case "UpdatedTime":
+                            sql.McpLogs_UpdatedTime(tableName: path, _as: _as);
+                            break;
+                        case "Creator":
+                            sql.McpLogs_Creator(tableName: path, _as: _as);
+                            break;
+                        case "CreatedTime":
+                            sql.McpLogs_CreatedTime(tableName: path, _as: _as);
+                            break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
+                            {
+                                case "Class":
+                                case "Num":
+                                case "Date":
+                                case "Description":
+                                case "Check":
+                                case "Attachments":
+                                    sql.Add(
+                                        columnBracket: $"\"{columnName}\"",
+                                        tableName: path,
+                                        columnName: columnName,
+                                        _as: _as);
+                                break;
+                            }
+                            break;
+                    }
+                    break;
                 case "Registrations":
                     switch (columnName)
                     {

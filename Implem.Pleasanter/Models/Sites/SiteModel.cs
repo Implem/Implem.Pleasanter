@@ -9526,6 +9526,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public bool WithinApiLimits(Context context)
         {
+            if (context.IsMcp) return true;
             var limit = context.ContractSettings.ApiLimit();
             var reset = false;
             var beforeResetCount = ApiCount;

@@ -132,6 +132,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss,
                         controller: context.Controller,
                         display: Displays.SysLogs(context: context));
+                case "mcplogs":
+                    hb.CopyDirectUrlToClipboard(
+                        context: context,
+                        view: view);
+                    return Breadcrumb(
+                        hb: hb,
+                        context: context,
+                        ss: ss,
+                        controller: context.Controller,
+                        display: Displays.McpLogs(context: context));
                 case "registrations":
                     return Permissions.CanManageTenant(context: context)
                         ? Breadcrumb(

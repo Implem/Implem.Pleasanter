@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ShowUsedColumnsOnly",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Show used columns only"
+        },
+        {
+            "Language": "zh",
+            "Body": "仅显示已使用的列"
+        },
+        {
+            "Language": "ja",
+            "Body": "使用中の項目のみ表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Nur verwendete Spalten anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용 중인 열만 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Mostrar solo las columnas usadas"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chỉ hiển thị các cột đang được sử dụng"
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_CsvData",
     "Indent": "2",
-    "Include": "SysLogs,Depts,Groups,Users,Issues,Results"
+    "Include": "SysLogs,McpLogs,Depts,Groups,Users,Issues,Results"
 }

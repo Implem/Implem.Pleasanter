@@ -1,0 +1,33 @@
+﻿{
+    "Id": "StandardExportTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Standard export types"
+        },
+        {
+            "Language": "zh",
+            "Body": "标准导出类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "標準エクスポート種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Standard-Exporttypen"
+        },
+        {
+            "Language": "ko",
+            "Body": "표준 내보내기 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipos de exportación estándar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Các loại xuất tiêu chuẩn"
+        }
+    ]
+}

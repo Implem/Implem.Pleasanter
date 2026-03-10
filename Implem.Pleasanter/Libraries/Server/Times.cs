@@ -318,5 +318,10 @@ namespace Implem.Pleasanter.Libraries.Server
                     return self;
             }
         }
+
+        public static DateTime RetentionDate(int retentionPeriod)
+        {
+            return DateTime.Now.Date.AddDays(retentionPeriod * -1);
+        }
     }
 }
