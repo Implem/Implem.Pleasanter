@@ -3337,26 +3337,20 @@ namespace Implem.Pleasanter.Models
         {
             ss.Summaries.ForEach(summary =>
             {
-                var id = SynchronizeSummaryDestinationId(linkColumn: summary.LinkColumn);
-                var savedId = SynchronizeSummaryDestinationId(
-                    linkColumn: summary.LinkColumn,
-                    saved: true);
-                if (id != 0)
-                {
+                var targetIds = SynchronizeSummaryDestinationIds(
+                        linkColumn: summary.LinkColumn)
+                    .Concat(SynchronizeSummaryDestinationIds(
+                        linkColumn: summary.LinkColumn,
+                        saved: true))
+                    .Where(id => id > 0)
+                    .Distinct()
+                    .ToList();
+                targetIds.ForEach(id =>
                     SynchronizeSummary(
                         context: context,
                         ss: ss,
                         summary: summary,
-                        id: id);
-                }
-                if (savedId != 0 && id != savedId)
-                {
-                    SynchronizeSummary(
-                        context: context,
-                        ss: ss,
-                        summary: summary,
-                        id: savedId);
-                }
+                        id: id));
             });
             SynchronizeSourceSummary(
                 context: context,
@@ -3413,11 +3407,21 @@ namespace Implem.Pleasanter.Models
                             id: ResultId)));
         }
 
-        private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)
+        private IEnumerable<long> SynchronizeSummaryDestinationIds(
+            string linkColumn, bool saved = false)
         {
-            return saved
-                ? GetSavedClass(linkColumn).ToLong()
-                : GetClass(linkColumn).ToLong();
+            var value = saved
+                ? GetSavedClass(linkColumn)
+                : GetClass(linkColumn);
+            var ids = value.Deserialize<List<long>>();
+            if (ids?.Any() == true)
+            {
+                return ids.Where(id => id > 0).Distinct().ToList();
+            }
+            var id = value.ToLong();
+            return id > 0
+                ? id.ToSingleList()
+                : new List<long>();
         }
 
         public void UpdateFormulaColumns(
