@@ -2461,6 +2461,10 @@ namespace Implem.Pleasanter.Models
                     where: Rds.IssuesWhere()
                         .SiteId(ss.SiteId)
                         .IssueId(IssueId)));
+            LinkedRecordReferenceUtilities.CleanupDeletedReferences(
+                context: context,
+                ss: ss,
+                deletedRecordIds: IssueId.ToSingleList());
             var statements = new List<SqlStatement>();
             var where = Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId);
             statements.OnDeletingExtendedSqls(
