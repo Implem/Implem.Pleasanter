@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static string AesKey
             => Parameters.Security.AspNetCoreDataProtection.XmlAesKey + GetHashStr(Parameters.Security.AspNetCoreDataProtection.XmlAesKey);
 
-        public static string AesIv => "pleasanterimplem";
+        public static string AesIv => null;
 
         private static string GetHashStr(string value)
         {
