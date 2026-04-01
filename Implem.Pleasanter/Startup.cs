@@ -377,6 +377,11 @@ namespace Implem.Pleasanter.NetCore
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseForwardedHeaders();
+            if (Parameters.Service.DisableHtmlCache
+                || !Environment.GetEnvironmentVariable("PLEASANTER_DISABLE_HTML_CACHE").IsNullOrEmpty())
+            {
+                app.UseNoCacheHtml();
+            }
             app.UseCurrentRequestContext();
             if (env.IsDevelopment())
             {
