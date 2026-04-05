@@ -1243,13 +1243,24 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return null;
             }
-            var scripts = ss
+            var serverScripts = ss
                 ?.GetServerScripts(context: context)
+                ?.ToArray();
+            var scripts = serverScripts
                 ?.Where(where)
                 .ToArray();
             if (scripts?.Any() != true)
             {
                 return null;
+            }
+            var sharedBody = serverScripts?
+                .Where(script => script.Shared == true)
+                .Select(script => script.Body)
+                .Join("\n");
+            if (!sharedBody.IsNullOrEmpty())
+            {
+                scripts[0] = scripts[0].GetRecordingData();
+                scripts[0].Body = sharedBody + "\n" + scripts[0].Body;
             }
             var scriptValues = Execute(
                 context: context,

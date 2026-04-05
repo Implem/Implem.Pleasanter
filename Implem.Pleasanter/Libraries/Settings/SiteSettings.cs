@@ -6164,13 +6164,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .ForEach(serverScript =>
                     {
                         serverScript.SetDebug();
-                        var body = serverScript.Body;
-                        var sharedServerScripts = SharedServerScripts(serverScripts: ServerScriptsAndExtended);
-                        if (!sharedServerScripts.IsNullOrEmpty())
-                        {
-                            body = sharedServerScripts + "\n" + body;
-                        }
-                        serverScript.Body = body;
                     });
                 ServerScriptsAndExtended.ForEach(serverScript =>
                 {
@@ -6182,14 +6175,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
                 return ServerScriptsAndExtended;
             }
-        }
-
-        private string SharedServerScripts(List<ServerScript> serverScripts)
-        {
-            return serverScripts
-                .Where(o => o.Shared == true)
-                .Select(o => o.Body)
-                .Join("\n");
         }
 
         private string IncludedServerScripts(
