@@ -11,14 +11,28 @@
     data.ClassHash?.ForEach(o => SetClass(
         columnName: o.Key,
         value: o.Value));
-    data.NumHash?.ForEach(o => SetNum(
-        columnName: o.Key,
-        value: new Num(
+    data.NumHash?.ForEach(o =>
+    {
+        var column = ss.GetColumn(
             context: context,
-            column: ss.GetColumn(
+            columnName: o.Key);
+        SetNum(
+            columnName: o.Key,
+            value: new Num(
                 context: context,
-                columnName: o.Key),
-            value: o.Value.ToString())));
+                column: column,
+                value: o.Value.ToString()));
+        // Keep explicit API zero on create for non-nullable numeric columns.
+        if (AccessStatus == Databases.AccessStatuses.Initialized
+            && column?.Nullable != true
+            && o.Value.HasValue
+            && o.Value.Value == 0)
+        {
+            SetSavedNum(
+                columnName: o.Key,
+                value: decimal.MinValue);
+        }
+    });
     data.DateHash?.ForEach(o => SetDate(
         columnName: o.Key,
         value: o.Value.ToDateTime().ToUniversal(context: context)));
