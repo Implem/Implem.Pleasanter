@@ -3233,11 +3233,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column,
                         value: o.Value.ToString()));
-                // Keep explicit API zero on create for non-nullable numeric columns.
-                if (AccessStatus == Databases.AccessStatuses.Initialized
-                    && column?.Nullable != true
+                // Keep explicit API zero when the saved value is null.
+                if (column?.Nullable != true
                     && o.Value.HasValue
-                    && o.Value.Value == 0)
+                    && o.Value.Value == 0
+                    && GetSavedNum(columnName: o.Key) == null)
                 {
                     SetSavedNum(
                         columnName: o.Key,
