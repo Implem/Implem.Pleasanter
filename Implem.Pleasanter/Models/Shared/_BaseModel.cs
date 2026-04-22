@@ -104,6 +104,7 @@ namespace Implem.Pleasanter.Models
         public Dictionary<string, string> SavedDescriptionHash = new Dictionary<string, string>();
         public Dictionary<string, bool> CheckHash = new Dictionary<string, bool>();
         public Dictionary<string, bool> SavedCheckHash = new Dictionary<string, bool>();
+        public HashSet<string> SavedCheckNullHash = new HashSet<string>();
         public Dictionary<string, Attachments> AttachmentsHash = new Dictionary<string, Attachments>();
         public Dictionary<string, string> SavedAttachmentsHash = new Dictionary<string, string>();
         public Dictionary<string, PostedFile> PostedImageHash = new Dictionary<string, PostedFile>();
@@ -259,7 +260,9 @@ namespace Implem.Pleasanter.Models
 
         public string GetSavedClass(string columnName)
         {
-            return SavedClassHash.Get(columnName) ?? string.Empty;
+            return SavedClassHash.ContainsKey(columnName)
+                ? SavedClassHash.Get(columnName)
+                : string.Empty;
         }
 
         public void SetClass(Column column, string value)
@@ -500,7 +503,9 @@ namespace Implem.Pleasanter.Models
 
         public string GetSavedDescription(string columnName)
         {
-            return SavedDescriptionHash.Get(columnName) ?? string.Empty;
+            return SavedDescriptionHash.ContainsKey(columnName)
+                ? SavedDescriptionHash.Get(columnName)
+                : string.Empty;
         }
 
         public void SetDescription(Column column, string value)
@@ -580,6 +585,13 @@ namespace Implem.Pleasanter.Models
             return SavedCheckHash.Get(columnName);
         }
 
+        public bool? GetSavedCheckNullable(string columnName)
+        {
+            return SavedCheckNullHash.Contains(columnName)
+                ? null
+                : SavedCheckHash.Get(columnName);
+        }
+
         public void SetCheck(Column column, bool value)
         {
             SetCheck(
@@ -608,13 +620,26 @@ namespace Implem.Pleasanter.Models
 
         public void SetSavedCheck(string columnName, bool value)
         {
-            if (!CheckHash.ContainsKey(columnName))
+            if (!SavedCheckHash.ContainsKey(columnName))
             {
                 SavedCheckHash.Add(columnName, value);
             }
             else
             {
                 SavedCheckHash[columnName] = value;
+            }
+            SavedCheckNullHash.Remove(columnName);
+        }
+
+        public void SetSavedCheckNull(string columnName, bool isNull)
+        {
+            if (isNull)
+            {
+                SavedCheckNullHash.Add(columnName);
+            }
+            else
+            {
+                SavedCheckNullHash.Remove(columnName);
             }
         }
 
@@ -626,11 +651,12 @@ namespace Implem.Pleasanter.Models
             bool paramDefault = false)
         {
             var value = GetCheck(columnName: columnName);
+            var savedValue = GetSavedCheckNullable(columnName: columnName);
             if (copy && column?.CopyByDefault == true)
             {
                 return column.GetDefaultInput(context: context).ToBool() != value;
             }
-            return value != GetSavedCheck(columnName: columnName)
+            return value != savedValue
                 && (paramDefault
                     || column == null
                     || column.DefaultInput.IsNullOrEmpty()

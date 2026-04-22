@@ -2901,9 +2901,21 @@ namespace Implem.Pleasanter.Models
             if (data.Locked != null) Locked = data.Locked.ToBool().ToBool();
             if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            data.ClassHash?.ForEach(o => SetClass(
-                columnName: o.Key,
-                value: o.Value));
+            data.ClassHash?.ForEach(o =>
+            {
+                SetClass(
+                    columnName: o.Key,
+                    value: o.Value);
+                // 作成時、または保存済み値がnullの場合でも、APIで指定された空文字を保持する。
+                if (o.Value == string.Empty
+                    && (AccessStatus == Databases.AccessStatuses.Initialized
+                        || GetSavedClass(columnName: o.Key) == null))
+                {
+                    SetSavedClass(
+                        columnName: o.Key,
+                        value: null);
+                }
+            });
             data.NumHash?.ForEach(o =>
             {
                 var column = ss.GetColumn(
@@ -2915,7 +2927,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column,
                         value: o.Value.ToString()));
-                // Keep explicit API zero when the saved value is null.
+                // 保存済み値がnullの場合でも、APIで指定された0を保持する。
                 if (column?.Nullable != true
                     && o.Value.HasValue
                     && o.Value.Value == 0
@@ -2929,12 +2941,36 @@ namespace Implem.Pleasanter.Models
             data.DateHash?.ForEach(o => SetDate(
                 columnName: o.Key,
                 value: o.Value.ToDateTime().ToUniversal(context: context)));
-            data.DescriptionHash?.ForEach(o => SetDescription(
-                columnName: o.Key,
-                value: o.Value));
-            data.CheckHash?.ForEach(o => SetCheck(
-                columnName: o.Key,
-                value: o.Value));
+            data.DescriptionHash?.ForEach(o =>
+            {
+                SetDescription(
+                    columnName: o.Key,
+                    value: o.Value);
+                // 作成時、または保存済み値がnullの場合でも、APIで指定された空文字を保持する。
+                if (o.Value == string.Empty
+                    && (AccessStatus == Databases.AccessStatuses.Initialized
+                        || GetSavedDescription(columnName: o.Key) == null))
+                {
+                    SetSavedDescription(
+                        columnName: o.Key,
+                        value: null);
+                }
+            });
+            data.CheckHash?.ForEach(o =>
+            {
+                SetCheck(
+                    columnName: o.Key,
+                    value: o.Value);
+                // 作成時、または保存済み値がnullの場合でも、APIで指定されたfalseを保持する。
+                if (o.Value == false
+                    && (AccessStatus == Databases.AccessStatuses.Initialized
+                        || GetSavedCheckNullable(columnName: o.Key) == null))
+                {
+                    SetSavedCheckNull(
+                        columnName: o.Key,
+                        isNull: true);
+                }
+            });
             data.AttachmentsHash?.ForEach(o =>
             {
                 string columnName = o.Key;
@@ -4345,12 +4381,15 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
+                                    var classValue = dataRow[column.ColumnName] == DBNull.Value
+                                        ? null
+                                        : dataRow[column.ColumnName].ToString();
                                     SetClass(
                                         columnName: column.Name,
-                                        value: dataRow[column.ColumnName].ToString());
+                                        value: classValue);
                                     SetSavedClass(
                                         columnName: column.Name,
-                                        value: GetClass(columnName: column.Name));
+                                        value: classValue);
                                     break;
                                 case "Num":
                                     SetNum(
@@ -4371,20 +4410,29 @@ namespace Implem.Pleasanter.Models
                                         value: GetDate(columnName: column.Name));
                                     break;
                                 case "Description":
+                                    var descriptionValue = dataRow[column.ColumnName] == DBNull.Value
+                                        ? null
+                                        : dataRow[column.ColumnName].ToString();
                                     SetDescription(
                                         columnName: column.Name,
-                                        value: dataRow[column.ColumnName].ToString());
+                                        value: descriptionValue);
                                     SetSavedDescription(
                                         columnName: column.Name,
-                                        value: GetDescription(columnName: column.Name));
+                                        value: descriptionValue);
                                     break;
                                 case "Check":
+                                    var hasCheckValue = dataRow[column.ColumnName] != DBNull.Value;
                                     SetCheck(
                                         columnName: column.Name,
-                                        value: dataRow[column.ColumnName].ToBool());
+                                        value: hasCheckValue
+                                            ? dataRow[column.ColumnName].ToBool()
+                                            : false);
                                     SetSavedCheck(
                                         columnName: column.Name,
                                         value: GetCheck(columnName: column.Name));
+                                    SetSavedCheckNull(
+                                        columnName: column.Name,
+                                        isNull: !hasCheckValue);
                                     break;
                                 case "Attachments":
                                     SetAttachments(

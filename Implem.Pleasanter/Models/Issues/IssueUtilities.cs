@@ -4649,6 +4649,7 @@ namespace Implem.Pleasanter.Models
                 updatedIssueModel.SavedDateHash = new Dictionary<string, DateTime>(before.SavedDateHash ?? new Dictionary<string, DateTime>());
                 updatedIssueModel.SavedDescriptionHash = new Dictionary<string, string>(before.SavedDescriptionHash ?? new Dictionary<string, string>());
                 updatedIssueModel.SavedCheckHash = new Dictionary<string, bool>(before.SavedCheckHash ?? new Dictionary<string, bool>());
+                updatedIssueModel.SavedCheckNullHash = new HashSet<string>(before.SavedCheckNullHash ?? new HashSet<string>());
                 updatedIssueModel.SavedAttachmentsHash = new Dictionary<string, string>(before.SavedAttachmentsHash ?? new Dictionary<string, string>());
             }
         }
