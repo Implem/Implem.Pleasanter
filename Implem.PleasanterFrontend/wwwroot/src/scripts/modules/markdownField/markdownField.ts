@@ -290,6 +290,14 @@ class MarkdownFieldElement extends HTMLElement {
     }
 
     private escapeMarkdown(str: string): string {
+        const mailAddressLinks: string[] = [];
+        str = str.replace(
+            /(^|[^A-Za-z0-9!#$%&'*+/=?^_`{|}~.-])([A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+)/g,
+            (_match, prefix, mailAddress) => {
+                const index = mailAddressLinks.push(this.renderMailAddressLink(mailAddress)) - 1;
+                return `${prefix}\x00MAILADDRESS${index}\x00`;
+            }
+        );
         return str
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
@@ -307,7 +315,18 @@ class MarkdownFieldElement extends HTMLElement {
             .replace(/\\/g, '\\\\')
             .replace(/`/g, '&#96;')
             .replace(/\|/g, '&#124;')
-            .replace(/---/g, '&#45;&#45;&#45;');
+            .replace(/---/g, '&#45;&#45;&#45;')
+            .replace(/\x00MAILADDRESS(\d+)\x00/g, (_, index) => mailAddressLinks[Number(index)] ?? '');
+    }
+
+    private renderMailAddressLink(mailAddress: string): string {
+        const blank = MarkdownFieldElement.AnchorTargetBlank ? ' target="_blank"' : '';
+        return `<a href="mailto:${this.escapeHtml(this.encodeMailAddress(mailAddress))}"${blank}>${this.escapeHtml(mailAddress)}</a>`;
+    }
+
+    private encodeMailAddress(mailAddress: string): string {
+        const [localPart, domain] = mailAddress.split('@');
+        return `${encodeURIComponent(localPart)}@${domain}`;
     }
 
     private decodeHtmlEntities(input: string) {
