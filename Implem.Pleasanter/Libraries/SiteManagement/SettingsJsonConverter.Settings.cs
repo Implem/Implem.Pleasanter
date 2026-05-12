@@ -95,9 +95,9 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     param.Logs.Add(new Log(Log.LogLevel.Error, "ConvertSite", $"SiteId {siteId} not found."));
                     return null;
                 }
-                if (context.CanManageSite(ss: ss) == false)
+                if (context.CanManageSite(ss: ss, site: true) == false)
                 {
-                    param.Logs.Add(new Log(Log.LogLevel.Error, "ConvertSite", $"SiteId {siteId} access denied."));
+                    param.Logs.Add(new Log(Log.LogLevel.Error, "ConvertSite", $"SiteId {siteId} not found."));
                     return null;
                 }
                 ss.Update_ColumnAccessControls();

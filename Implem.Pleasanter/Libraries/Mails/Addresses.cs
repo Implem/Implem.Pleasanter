@@ -16,7 +16,10 @@ namespace Implem.Pleasanter.Libraries.Mails
     {
         public static MailboxAddress SupportFrom()
         {
-            return MailboxAddress.Parse(Parameters.Mail.SupportFrom);
+            var from = Parameters.Mail.SupportFrom;
+            return string.IsNullOrEmpty(from)
+                ? null
+                : MailboxAddress.Parse(from);
         }
 
         public static IEnumerable<string> Get(
@@ -179,6 +182,10 @@ namespace Implem.Pleasanter.Libraries.Mails
 
         public static string ExternalMailAddress(string addresses)
         {
+            if (Parameters.Mail.InternalDomains.IsNullOrEmpty())
+            {
+                return string.Empty;
+            }
             var domains = Parameters.Mail.InternalDomains
                 .Split(',')
                 .Select(o => o.Trim())

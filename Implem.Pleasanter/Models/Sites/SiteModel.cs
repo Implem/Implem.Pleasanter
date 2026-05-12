@@ -3980,6 +3980,8 @@ namespace Implem.Pleasanter.Models
                         case DashboardPartType.Index:
                             BaseSiteId = context.Forms.Long("DashboardPartIndexBaseSiteId");
                             break;
+                        default:
+                            break;
                     }
                     var ss = SiteSettingsUtilities.Get(
                         context: context,
@@ -4236,6 +4238,7 @@ namespace Implem.Pleasanter.Models
                 {
                     res.Message(Messages.CanNotPerformed(context: context));
                 }
+                else
                 {
                     SiteSettings.FilterColumns = context.Forms.List("FilterColumnsAll");
                     res.Html(
@@ -5575,6 +5578,11 @@ namespace Implem.Pleasanter.Models
         {
             var validateInputs = context.Forms.Data("ProcessValidateInputsTemp").Deserialize<SettingList<ValidateInput>>();
             var validateInput = validateInputs?.Get(context.Forms.Int("ProcessValidateInputIdTemp"));
+            if (validateInputs == null || validateInput == null)
+            {
+                res.Message(Messages.InvalidRequest(context: context));
+                return;
+            }
             validateInput.ColumnName = context.Forms.Data("ProcessValidateInputColumnName");
             validateInput.Required = context.Forms.Bool("ProcessValidateInputRequired");
             validateInput.ClientRegexValidation = context.Forms.Data("ProcessValidateInputClientRegexValidation");
@@ -5772,6 +5780,11 @@ namespace Implem.Pleasanter.Models
         {
             var dataChanges = context.Forms.Data("ProcessDataChangesTemp").Deserialize<SettingList<DataChange>>();
             var dataChange = dataChanges?.Get(context.Forms.Int("ProcessDataChangeIdTemp"));
+            if (dataChanges == null || dataChange == null)
+            {
+                res.Message(Messages.InvalidRequest(context: context));
+                return;
+            }
             dataChange.Update(
                 type: context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
                 columnName: context.Forms.Data("ProcessDataChangeColumnName"),
@@ -6027,6 +6040,11 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None:
                     var notifications = context.Forms.Data("ProcessNotificationsTemp").Deserialize<SettingList<Notification>>();
                     var notification = notifications?.Get(context.Forms.Int("ProcessNotificationIdTemp"));
+                    if (notifications == null || notification == null)
+                    {
+                        res.Message(Messages.InvalidRequest(context: context));
+                        return;
+                    }
                     notification.Type = (Notification.Types)context.Forms.Int("ProcessNotificationType");
                     notification.Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject"));
                     notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
@@ -6474,6 +6492,7 @@ namespace Implem.Pleasanter.Models
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets(context: context)).ToJson();
+                return;
             }
             if (SiteSettings.Views != null)
             {
@@ -7375,6 +7394,11 @@ namespace Implem.Pleasanter.Models
             Context context, ResponseCollection res, string controlId)
         {
             Export = Session_Export(context: context);
+            if (Export == null)
+            {
+                res.Message(Messages.NotFound(context: context));
+                return;
+            }
             var selected = context.Forms.List("ExportColumns");
             if (selected.Count() != 1)
             {
@@ -7385,10 +7409,15 @@ namespace Implem.Pleasanter.Models
                 int id = 1;
                 var columns = new List<ExportColumn>();
                 var selectedNewId = "";
-                context.Forms.List("ExportColumnsAll").ForEach(o =>
+                foreach (var o in context.Forms.List("ExportColumnsAll"))
                 {
                     var export = o.Deserialize<ExportColumn>()
-                        ?? Export.Columns.Where(c => c.ToJson() == o).FirstOrDefault();
+                        ?? Export.Columns?.Where(c => c.ToJson() == o).FirstOrDefault();
+                    if (export == null)
+                    {
+                        res.Message(Messages.InvalidRequest(context: context));
+                        return;
+                    }
                     if (export.ToJson() == selected[0]) selectedNewId = id.ToString();
                     columns.Add(new ExportColumn()
                     {
@@ -7401,7 +7430,7 @@ namespace Implem.Pleasanter.Models
                         SiteTitle = export.SiteTitle,
                         Column = export.Column
                     });
-                });
+                }
                 Export.Columns = columns;
                 Export.SetColumns(
                     context: context,
@@ -7411,7 +7440,8 @@ namespace Implem.Pleasanter.Models
                     value: Export.ToJson());
                 var column = Export.Columns.FirstOrDefault(o =>
                     o.Id.ToString() == selectedNewId);
-                if (column == null)
+                if (column == null
+                    || column.Column == null)
                 {
                     res.Message(Messages.NotFound(context: context));
                 }
@@ -8929,9 +8959,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string SearchDashboardPartAccessControl(Context context, ResponseCollection res)
         {
-            var process = SiteSettings.Processes.Get(context.Forms.Int("ProcessId"))
-                ?? new Process();
-            var currentPermissions = process.GetPermissions(ss: SiteSettings);
+            var currentPermissions = DashboardPartPermissions(context: context);
             var sourcePermissions = PermissionUtilities.SourceCollection(
                 context: context,
                 ss: SiteSettings,

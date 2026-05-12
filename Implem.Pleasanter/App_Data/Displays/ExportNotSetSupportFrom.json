@@ -1,0 +1,33 @@
+{
+    "Id": "ExportNotSetSupportFrom",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The sender email address (SupportFrom) has not been configured. Export mail notification cannot be sent."
+        },
+        {
+            "Language": "zh",
+            "Body": "未配置发件人电子邮件地址（SupportFrom）。无法发送导出邮件通知。"
+        },
+        {
+            "Language": "ja",
+            "Body": "差出人メールアドレス（SupportFrom）が設定されていません。エクスポート通知メールを送信できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Absender-E-Mail-Adresse (SupportFrom) wurde nicht konfiguriert. Die Export-E-Mail-Benachrichtigung kann nicht gesendet werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "발신자 이메일 주소(SupportFrom)가 설정되지 않았습니다. 내보내기 메일 알림을 보낼 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "La dirección de correo electrónico del remitente (SupportFrom) no está configurada. No se puede enviar la notificación de exportación por correo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Địa chỉ email người gửi (SupportFrom) chưa được cấu hình. Không thể gửi thông báo xuất dữ liệu qua email."
+        }
+    ]
+}

@@ -89,6 +89,9 @@ Env.json
 /Implem.Pleasanter/wwwroot/operations-tools
 
 # Claude / AI tools
-CLAUDE.md
-.claude/
+.claude/settings.local.json
 .serena/
+
+# Copilot / ZAP reports
+/.copilot/va/reports/*report.md
+!/.copilot/va/reports/README.md

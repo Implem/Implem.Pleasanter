@@ -1,4 +1,4 @@
-import { DisplayId } from './display';
+import type { DisplayId } from './display';
 
 type PasskeyDisplayId = Extract<DisplayId, `Passkey${string}`>;
 

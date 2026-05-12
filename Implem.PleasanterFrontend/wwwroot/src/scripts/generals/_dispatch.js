@@ -27,6 +27,17 @@
     }
 };
 
+$p.handleMessageFromJson = function (jsonData) {
+    var messageEntry = jsonData.find(function (entry) {
+        return entry.Method === 'Message';
+    });
+    if (messageEntry && messageEntry.Value) {
+        $p.setMessage(messageEntry.Target || '#Message', messageEntry.Value);
+        return true;
+    }
+    return false;
+};
+
 $p.setByJsonElement = function (jsonElement, data, $control) {
     var method = jsonElement.Method;
     var target = jsonElement.Target;

@@ -26,7 +26,8 @@
         "typeRoots": [
             "types",
             "./node_modules/@types"
-        ]
+        ],
+        "types": ["node", "jquery", "jqueryui"]
     },
     "include": ["src"]
 }

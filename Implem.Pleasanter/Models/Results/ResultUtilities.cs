@@ -2925,8 +2925,7 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 mine: null)
                             && !column.Id_Ver
-                            && column.EditorColumn
-                            && column.GridDesign.IsNullOrEmpty())
+                            && column.EditorColumn)
                         {
                             hb.Td(action: () => hb
                                 .Field(
@@ -3023,7 +3022,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
-                column: Rds.ResultsColumn().ResultId(),
+                column: Rds.ResultsColumn().ResultId()
+                    .Ver(_using: view.ShowHistory == true)
+                    .UpdatedTime(_using: view.ShowHistory == true),
                 where: where)
                     .DataRows
                     .Select(dataRow => dataRow.Long("ResultId"))
@@ -8110,6 +8111,10 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            if (Libraries.Mails.Addresses.SupportFrom() == null)
+            {
+                return Messages.ResponseExportNotSetSupportFrom(context: context).ToJson();
+            }
             System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
                 var export = ss.GetExport(
@@ -10292,9 +10297,13 @@ namespace Implem.Pleasanter.Models
 
         private static bool InRange(Context context, SiteSettings ss, View view, int limit)
         {
-            var where = view.Where(
+            var where = ss.DashboardParts?.Any() == true
+                ? ss.DashboardParts[0].View.Where(context: context, ss: ss)
+                : new SqlWhereCollection();
+            where = view.Where(
                 context: context,
-                ss: ss);
+                ss: ss,
+                where: where);
             var param = view.Param(
                 context: context,
                 ss: ss);

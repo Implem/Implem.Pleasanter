@@ -44,7 +44,9 @@ private static List<long> SelectedIdsList(Context context, SiteSettings ss)
         context: context,
         ss: ss,
         view: view,
-        column: Rds.#TableName#Column().#ModelName#Id(),
+        column: Rds.#TableName#Column().#ModelName#Id()
+            .Ver(_using: view.ShowHistory == true)
+            .UpdatedTime(_using: view.ShowHistory == true),
         where: where)
             .DataRows
             .Select(dataRow => dataRow.Long("#ModelName#Id"))

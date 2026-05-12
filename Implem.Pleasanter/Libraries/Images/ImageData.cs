@@ -10,11 +10,29 @@ using System.Data;
 using System.IO;
 namespace Implem.Pleasanter.Libraries.Images
 {
-    public class ImageData
+    public class ImageData : IDisposable
     {
         public Image Data;
         public long ReferenceId;
         public Types Type;
+        private bool disposed;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed) return;
+            if (disposing)
+            {
+                Data?.Dispose();
+                Data = null;
+            }
+            disposed = true;
+        }
 
         public enum Types : int
         {

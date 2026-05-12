@@ -29,12 +29,19 @@ $p.openDropDownSearchDialog = function ($control) {
     // always-sendが指定されている項目をMainFormにセット
     $p.setMustData($('#MainForm'));
     // SetChoiceHashByFilterExpressions内で入力データを検証するためメインフォームの内容を転記
-    $p.data.DropDownSearchDialogForm = $p.data.MainForm;
+    $p.data.DropDownSearchDialogForm = $.extend({}, $p.data.MainForm);
     var referenceId = $p.id();
     // 一覧編集の場合にはtrからreferenceIdを取得
     var $tr = $control.closest('tr');
     if ($tr.length) {
         referenceId = $tr.data('id');
+    }
+    const $form = $control.closest('form');
+    if ($form.length && $form.attr('id') === 'DashboardPartForm') {
+        // ダッシュボードパーツのフォームからデータを取得
+        for (const formItem of $form.serializeArray()) {
+            $p.data.DropDownSearchDialogForm[formItem.name] = formItem.value;
+        }
     }
     // ダイアログ編集の場合にはEditorInDialogRecordIdからreferenceIdを取得
     // ダイアログ編集の場合には$p.data.DialogEditorFormから入力データを取得

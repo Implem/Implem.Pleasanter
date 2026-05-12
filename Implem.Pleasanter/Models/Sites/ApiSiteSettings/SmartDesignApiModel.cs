@@ -230,7 +230,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             }
             if (ss.GridColumns != null) SiteSettings.GridColumns = ss.GridColumns;
             if (ss.FilterColumns != null) SiteSettings.FilterColumns = ss.FilterColumns;
-            if (ss.Links != null) SiteSettings.Links = ss.Links;
+            if (ss.Links != null) SiteSettings.Links = ss.Links.ToList();
             if (ss.SectionLatestId != null) SiteSettings.SectionLatestId = ss.SectionLatestId;
             if (ss.GeneralTabLabelText != null) SiteSettings.GeneralTabLabelText = ss.GeneralTabLabelText;
             if (ss.TabLatestId != null) SiteSettings.TabLatestId = ss.TabLatestId;
@@ -297,7 +297,10 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             ss.Sources.ForEach(source =>
             {
                 var dragParamsApiSettingModel = new DragParamsApiSettingModel();
-                SiteSettings.Links.Add(new Link { SiteId = source.Key });
+                if (!SiteSettings.Links.Any(link => link.SiteId == source.Key))
+                {
+                    SiteSettings.Links.Add(new Link { SiteId = source.Key });
+                }
                 var linkColumn = ss.LinkId(source.Key);
                 dragParamsApiSettingModel.LinkName = source.Value.Title;
                 if (editorColumnList.Contains(linkColumn))
@@ -348,6 +351,15 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                 }
                 return false;
             });
+            if (SiteSettings?.Links != null)
+            {
+                SiteSettings.Links = SiteSettings.Links
+                    .GroupBy(link => link.SiteId)
+                    .Select(group =>
+                        group.FirstOrDefault(link => !string.IsNullOrEmpty(link.ColumnName))
+                        ?? group.First())
+                    .ToList();
+            }
         }
     }
 }

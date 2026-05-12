@@ -75,6 +75,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
         public FileInfoData Info;
         public SiteSettingData SiteSetting;
         public EntityRelationshipDiagramsData ERDiagrams;
+        public ProcessData Process;
 
         public static SettingsJsonConverter Convert(
             Context context,
@@ -90,6 +91,10 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
             if (param.Types.Contains("erd"))
             {
                 converter.ERDiagrams = SettingsJsonConverter.ConvertERDiagrams(context: context, param: param);
+            }
+            if (param.Types.Contains("process"))
+            {
+                converter.Process = SettingsJsonConverter.ConvertProcess(context: context, param: param);
             }
             if ((converter.Info.Logs?.Count ?? 0) == 0) converter.Info.Logs = null;
             return converter;

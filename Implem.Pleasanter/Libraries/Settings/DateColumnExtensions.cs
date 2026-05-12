@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Classes;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
@@ -43,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         hash: hash,
                         now: now,
-                        current:  now.AddMonths(m),
+                        current: now.AddMonths(m),
                         recordedTime: column.RecordedTime,
                         diff: 0);
                 }
@@ -79,12 +80,14 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private static int Min(Column column, DateTime now)
         {
-            return (now.AddYears(column.DateFilterMinSpan.ToInt()) - now).Months();
+            var target = now.AddYears(column.DateFilterMinSpan.ToInt());
+            return (target.Year - now.Year) * 12 + (target.Month - now.Month);
         }
 
         private static int Max(Column column, DateTime now)
         {
-            return (now.AddYears(column.DateFilterMaxSpan.ToInt() + 1) - now).Months();
+            var target = now.AddYears(column.DateFilterMaxSpan.ToInt() + 1);
+            return (target.Year - now.Year) * 12 + (target.Month - now.Month);
         }
 
         private static void SetMonth(
@@ -95,8 +98,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool recordedTime,
             int diff)
         {
-            var timePeriod = new Implem.Libraries.Classes.TimePeriod(
-                Implem.Libraries.Classes.TimePeriod.Types.Month, current, diff);
+            var timePeriod = new TimePeriod(
+                TimePeriod.Types.Month, current, diff);
             if (!recordedTime || timePeriod.From <= now)
             {
                 hash.Add(
@@ -114,8 +117,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool recordedTime,
             int diff)
         {
-            var timePeriod = new Implem.Libraries.Classes.TimePeriod(
-                Implem.Libraries.Classes.TimePeriod.Types.Quarter, current, diff);
+            var timePeriod = new TimePeriod(
+                TimePeriod.Types.Quarter, current, diff);
             if (!recordedTime || timePeriod.From <= now)
             {
                 hash.Add(
@@ -136,8 +139,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool recordedTime,
             int diff)
         {
-            var timePeriod = new Implem.Libraries.Classes.TimePeriod(
-                Implem.Libraries.Classes.TimePeriod.Types.Half, current, diff);
+            var timePeriod = new TimePeriod(
+                TimePeriod.Types.Half, current, diff);
             if (!recordedTime || timePeriod.From <= now)
             {
                 hash.Add(
@@ -161,8 +164,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool recordedTime,
             int diff)
         {
-            var timePeriod = new Implem.Libraries.Classes.TimePeriod(
-                Implem.Libraries.Classes.TimePeriod.Types.Fy, current, diff);
+            var timePeriod = new TimePeriod(
+                TimePeriod.Types.Fy, current, diff);
             if (!recordedTime || timePeriod.From <= now)
             {
                 hash.Add(
@@ -173,14 +176,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private static string Period(Implem.Libraries.Classes.TimePeriod timePeriod)
+        private static string Period(TimePeriod timePeriod)
         {
             return
                 timePeriod.From.ToString() + "," +
                 timePeriod.To.ToString("yyyy/M/d H:m:s.fff");
         }
 
-        private static string InRange(Implem.Libraries.Classes.TimePeriod timePeriod, DateTime now)
+        private static string InRange(TimePeriod timePeriod, DateTime now)
         {
             return timePeriod.InRange(now)
                 ? " *"

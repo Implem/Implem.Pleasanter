@@ -37,8 +37,11 @@ button textarea,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default,
 .ui-button,
+.ui-material-button,
 html .ui-button.ui-state-disabled:hover,
-html .ui-button.ui-state-disabled:active {
+html .ui-button.ui-state-disabled:active,
+html .ui-material-button.ui-state-disabled:hover,
+html .ui-material-button.ui-state-disabled:active {
     color: var(--invert-text);
     background-color: var(--primaryColor);
     border-color: var(--primaryColor);
@@ -53,7 +56,10 @@ html .ui-button.ui-state-disabled:active {
 .ui-widget-content,
 .ui-button,
 .ui-button:hover,
-.ui-button:focus {
+.ui-button:focus,
+.ui-material-button,
+.ui-material-button:hover,
+.ui-material-button:focus {
     background-image: none;
 }
 
@@ -286,6 +292,36 @@ html .ui-button.ui-state-disabled:active {
     }
     &:hover {
         box-shadow: 0 2px 4px var(--base-shadow);
+    }
+}
+
+.ui-material-button {
+    padding: 4px 8px 4px 6px;
+    font-weight: bold;
+    color: var(--btn-normal-label);
+    background: var(--btn-normal-bg);
+    border: 1px solid var(--btn-normal-border);
+    border-radius: 4px;
+    box-shadow: 0 1px 2px var(--base-shadow);
+    transition:
+        background 150ms ease-out,
+        box-shadow 150ms ease-out;
+    &:hover,
+    &:focus,
+    &:active {
+        color: var(--btn-normal-label);
+        background: var(--btn-normal-hover);
+        border: 1px solid var(--btn-normal-border);
+    }
+    &:hover {
+        box-shadow: 0 2px 4px var(--base-shadow);
+    }
+    .material-symbols-sharp-label {
+        font-size: 16px;
+        vertical-align: middle;
+        line-height: 1;
+        margin-right: 4px;
+        padding-bottom: 3px;
     }
 }
 
@@ -741,6 +777,17 @@ input {
                     }
                 }
             }
+
+            @media print {
+                padding-bottom: 0.2em;
+                border: none;
+                &::before {
+                    display: none;
+                }
+                input {
+                    display: block;
+                }
+            }
         }
         .radio-text {
             display: block;
@@ -822,6 +869,17 @@ input {
                 + .check-text {
                     color: var(--control-text-read);
                 }
+            }
+        }
+
+        @media print {
+            padding-bottom: 0.4em;
+            border: none;
+            &::before {
+                display: none;
+            }
+            input {
+                display: block;
             }
         }
     }

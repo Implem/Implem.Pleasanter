@@ -494,6 +494,9 @@ class MarkdownFieldElement extends HTMLElement {
                 Value?: string;
                 [key: string]: unknown;
             }
+            if ($p.handleMessageFromJson(jsonData)) {
+                return;
+            }
             const obj = (jsonData as JsonDataEntry[]).find(
                 entry => entry.Method === 'InsertText' && entry.Target === `#${this.ColumnId}`
             );

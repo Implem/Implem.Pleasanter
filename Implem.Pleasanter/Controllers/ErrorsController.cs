@@ -14,19 +14,19 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            Response.StatusCode = (int)HttpStatusCode.NotFound;
             var context = new Context();
             if (!context.Ajax)
             {
                 var html = HtmlTemplates.Error(
                     context: context,
-                    errorData: new ErrorData(type: Error.Types.ApplicationError));
+                    errorData: new ErrorData(type: Error.Types.NotFound));
                 ViewBag.HtmlBody = html;
                 return View();
             }
             else
             {
-                return Content(Error.Types.ApplicationError.MessageJson(context: context));
+                return Content(Error.Types.NotFound.MessageJson(context: context));
             }
         }
 
@@ -77,6 +77,25 @@ namespace Implem.Pleasanter.Controllers
             else
             {
                 return Content(Error.Types.NotFound.MessageJson(context: context));
+            }
+        }
+
+        [AllowAnonymous]
+        public ActionResult Forbidden()
+        {
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            var context = new Context();
+            if (!context.Ajax)
+            {
+                var html = HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+                ViewBag.HtmlBody = html;
+                return View();
+            }
+            else
+            {
+                return Content(Error.Types.HasNotPermission.MessageJson(context: context));
             }
         }
 

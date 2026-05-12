@@ -176,11 +176,11 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                         continue;
                     }
                     var ss = siteModel.SiteSettings;
-                    if (context.CanManageSite(ss: ss) == false)
+                    if (context.CanManageSite(ss: ss, site: true) == false)
                     {
                         if (userSelectedSiteIds.Any(v => v == siteId))
                         {
-                            param.Logs.Add(new Log(Log.LogLevel.Error, "ConvertERD", $"SiteId {siteId} was access denied."));
+                            param.Logs.Add(new Log(Log.LogLevel.Error, "ConvertERD", $"SiteId {siteId} was not found."));
                         }
                         continue;
                     }

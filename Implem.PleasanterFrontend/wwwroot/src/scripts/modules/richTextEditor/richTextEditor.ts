@@ -311,6 +311,9 @@ class RichTextEditorElement extends HTMLElement {
                 Value?: string;
                 [key: string]: unknown;
             }
+            if (window.$p.handleMessageFromJson(jsonData)) {
+                return;
+            }
             const obj = (jsonData as JsonDataEntry[]).find(
                 entry => entry.Method === 'InsertText' && entry.Target === `#${controllerID}`
             );

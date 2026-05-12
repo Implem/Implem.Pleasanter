@@ -1,0 +1,42 @@
+{
+    "extends": [
+        "stylelint-config-recess-order",
+        "stylelint-config-standard",
+        "stylelint-config-recommended-scss"
+    ],
+    "plugins": [
+        "stylelint-order",
+        "stylelint-declaration-block-no-ignored-properties"
+    ],
+    "rules": {
+        "selector-id-pattern": null,
+        "selector-class-pattern": null,
+        "custom-property-pattern": null,
+        "rule-empty-line-before": null,
+        "no-descending-specificity": null,
+        "no-duplicate-selectors": null,
+        "keyframes-name-pattern": null,
+        "selector-pseudo-class-no-unknown": [
+            true,
+            {
+                "ignorePseudoClasses": ["global"]
+            }
+        ],
+        "font-family-no-missing-generic-family-keyword": [
+            true,
+            {
+                "ignoreFontFamilies": [
+                    "Material Symbols Sharp",
+                    "Material Symbols Outlined",
+                    "responsive"
+                ]
+            }
+        ]
+    },
+    "overrides": [
+        {
+            "files": ["**/*.svelte"],
+            "customSyntax": "postcss-html"
+        }
+    ]
+}

@@ -106,6 +106,11 @@ namespace Implem.Pleasanter.NetCore
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SameSite = SameSiteMode.Lax;
+                options.Cookie.SecurePolicy = Parameters.Security.SecureCookies
+                    ? CookieSecurePolicy.Always
+                    : CookieSecurePolicy.SameAsRequest;
             });
             var mvcBuilder = services.AddMvc(
                 options =>
@@ -250,11 +255,15 @@ namespace Implem.Pleasanter.NetCore
                 var blobClient = blobContainer.GetBlobClient(Parameters.Security.AspNetCoreDataProtection?.KeyFileName ?? "keys.xml");
                 services
                     .AddDataProtection()
+                    .SetApplicationName(Implem.Libraries.Utilities.Environments.ServiceName)
                     .PersistKeysToAzureBlobStorage(blobClient)
                     .ProtectKeysWithAzureKeyVault(new Uri(keyIdentifier), new DefaultAzureCredential());
             }
             else
             {
+                services
+                    .AddDataProtection()
+                    .SetApplicationName(Implem.Libraries.Utilities.Environments.ServiceName);
                 services
                     .AddOptions<KeyManagementOptions>()
                     .Configure<IServiceScopeFactory>((options, factory) =>
@@ -415,13 +424,10 @@ namespace Implem.Pleasanter.NetCore
             app.UseStatusCodePages(context =>
             {
                 var statusCode = context.HttpContext.Response.StatusCode;
-                if (statusCode == 400) context.HttpContext.Response.Redirect("/errors/badrequest");
-                else if (statusCode == 404) context.HttpContext.Response.Redirect("/errors/notfound");
-                else if (statusCode == 405) context.HttpContext.Response.Redirect("/errors/badrequest");
-                else if (statusCode == 500) context.HttpContext.Response.Redirect("/errors/internalservererror");
-                else if (statusCode == 401
+                var isAjax401 = statusCode == 401
                     && !context.HttpContext.User.Identity.IsAuthenticated
-                    && context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    && context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+                if (isAjax401)
                 {
                     context.HttpContext.Response.StatusCode = 403;
                     context.HttpContext.Response.ContentType = "application/json";
@@ -430,7 +436,20 @@ namespace Implem.Pleasanter.NetCore
                         Message = Libraries.Responses.Displays.Unauthorized(context: new Context())
                     }));
                 }
-                else context.HttpContext.Response.Redirect("/errors/internalservererror");
+                else
+                {
+                    var redirectPath = statusCode switch
+                    {
+                        400 or 405 => "/errors/badrequest",
+                        401 => "/users/login",
+                        403 => "/errors/forbidden",
+                        404 => "/errors/notfound",
+                        500 => "/errors/internalservererror",
+                        >= 400 and < 500 => "/errors/badrequest",
+                        _ => "/errors/internalservererror"
+                    };
+                    context.HttpContext.Response.Redirect(redirectPath);
+                }
                 return Task.CompletedTask;
             });
             app.UsePathBase(configuration["pathBase"]);
@@ -725,25 +744,14 @@ namespace Implem.Pleasanter.NetCore
         }
     }
 
-    public class SessionMiddleware
+    public class SessionMiddleware(RequestDelegate next)
     {
-        private readonly RequestDelegate _next;
-
-        public SessionMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
-
         public async Task Invoke(HttpContext httpContext)
         {
-            const string enabled = "Enabled";
-            if (!httpContext.Session.Keys.Any(key => key == enabled))
+            if (string.IsNullOrWhiteSpace(Context.GetSessionGuidFromCookie()))
             {
-                AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current.Session.Set("SessionGuid", System.Text.Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(Strings.NewGuid())));
                 SetClientId();
-                httpContext.Session.Set(enabled, new byte[] { 1 });
-
-                Context context = null;
+                Context context;
                 try
                 {
                     context = SessionStartContext();
@@ -757,6 +765,7 @@ namespace Implem.Pleasanter.NetCore
                 SessionUtilities.SetStartTime(context: context);
                 if (WindowsAuthenticated(context))
                 {
+                    context.RotateSessionGuid();
                     Ldap.UpdateOrInsert(
                         context: context,
                         loginId: context.LoginId);
@@ -775,7 +784,7 @@ namespace Implem.Pleasanter.NetCore
                         break;
                 }
             }
-            await _next.Invoke(httpContext);
+            await next.Invoke(httpContext);
         }
 
         private static Context SessionStartContext()

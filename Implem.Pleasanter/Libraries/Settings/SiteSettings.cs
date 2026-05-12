@@ -3588,7 +3588,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     || GetEditorColumnNames().Contains(o.ColumnName)
                     || o.Depts?.Any() == true
                     || o.Groups?.Any() == true
-                    || o.Users?.Any() == true)
+                    || o.Users?.Any() == true
+                    || o.RecordUsers?.Any() == true
+                    || (o.Type != null && o.Type != Permissions.Types.NotSet))
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ToJson(), o => o.ControlData(
                     context: context,
@@ -3608,6 +3610,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 columnAccessControl.Depts = data.Depts;
                 columnAccessControl.Groups = data.Groups;
                 columnAccessControl.Users = data.Users;
+                columnAccessControl.Type = data.Type;
+                columnAccessControl.RecordUsers = data.RecordUsers;
             }
             return columnAccessControl;
         }
@@ -6161,17 +6165,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         || serverScript.AfterBulkDelete == true
                         || serverScript.BeforeOpeningPage == true
                         || serverScript.BeforeOpeningRow == true)
-                    .ForEach(serverScript =>
-                    {
-                        serverScript.SetDebug();
-                        var body = serverScript.Body;
-                        var sharedServerScripts = SharedServerScripts(serverScripts: ServerScriptsAndExtended);
-                        if (!sharedServerScripts.IsNullOrEmpty())
-                        {
-                            body = sharedServerScripts + "\n" + body;
-                        }
-                        serverScript.Body = body;
-                    });
+                    .ForEach(serverScript => serverScript.SetDebug());
                 ServerScriptsAndExtended.ForEach(serverScript =>
                 {
                     var body = serverScript.Body;
@@ -6182,14 +6176,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
                 return ServerScriptsAndExtended;
             }
-        }
-
-        private string SharedServerScripts(List<ServerScript> serverScripts)
-        {
-            return serverScripts
-                .Where(o => o.Shared == true)
-                .Select(o => o.Body)
-                .Join("\n");
         }
 
         private string IncludedServerScripts(

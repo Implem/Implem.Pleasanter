@@ -5071,7 +5071,6 @@ namespace Implem.Pleasanter.Models
                 var originalSessionGuid = context.SessionGuid;
                 var iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
                 iDatabase.HashDelete(originalSessionGuid, "SwitchLoginId");
-                Context.SetSessionData("SessionGuid", originalSessionGuid);
             }
             else
             {

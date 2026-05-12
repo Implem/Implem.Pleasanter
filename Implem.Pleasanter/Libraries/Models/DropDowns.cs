@@ -26,6 +26,11 @@ namespace Implem.Pleasanter.Libraries.Models
                 || controlId.StartsWith("StatusControlViewFilters__")
                 || controlId.StartsWith("DashboardViewFilters__")
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
+            if (controlId.StartsWith("DashboardPartViewFilters__"))
+            {
+                ss = ResolveDashboardSiteSettings(context: context, ss: ss);
+                filter = true;
+            }
             var searchText = context.Forms.Data("DropDownSearchText");
             string parentClass = context.Forms.Data("DropDownSearchParentClass");
             var parentDataId = context.Forms.Data("DropDownSearchParentDataId");
@@ -448,6 +453,11 @@ namespace Implem.Pleasanter.Libraries.Models
                 || controlId.StartsWith("StatusControlViewFilters__")
                 || controlId.StartsWith("DashboardViewFilters__")
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
+            if (controlId.StartsWith("DashboardPartViewFilters__"))
+            {
+                ss = ResolveDashboardSiteSettings(context: context, ss: ss);
+                filter = true;
+            }
             var multiple = context.Forms.Bool("DropDownSearchMultiple");
             var selected = multiple
                 ? context.Forms.List("DropDownSearchResultsAll")
@@ -724,6 +734,31 @@ namespace Implem.Pleasanter.Libraries.Models
                     ? null
                     : selected.FirstOrDefault();
             }
+        }
+
+        private static SiteSettings ResolveDashboardSiteSettings(Context context, SiteSettings ss)
+        {
+            var baseSiteId = 0L;
+            switch ((DashboardPartType)context.Forms.Long("DashboardPartType"))
+            {
+                case DashboardPartType.TimeLine:
+                    baseSiteId = context.Forms.Long("DashboardPartBaseSiteId");
+                    break;
+                case DashboardPartType.Calendar:
+                    baseSiteId = context.Forms.Long("DashboardPartCalendarBaseSiteId");
+                    break;
+                case DashboardPartType.Kamban:
+                    baseSiteId = context.Forms.Long("DashboardPartKambanBaseSiteId");
+                    break;
+                case DashboardPartType.Index:
+                    baseSiteId = context.Forms.Long("DashboardPartIndexBaseSiteId");
+                    break;
+                default:
+                    break;
+            }
+            return baseSiteId > 0
+                ? SiteSettingsUtilities.Get(context: context, siteId: baseSiteId)
+                : ss;
         }
     }
 }

@@ -303,13 +303,18 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel(context: context);
             if (Parameters.Authentication.Provider == "SAML-MultiTenant" && ssocode != string.Empty)
             {
+                log.Finish(context: context);
                 return ChallengeBySsoCode(ssocode, context);
             }
             var (redirectUrl, html) = Login(
                 context: context,
                 returnUrl: returnUrl,
                 isLocalUrl: Url.IsLocalUrl(returnUrl));
-            if (!string.IsNullOrEmpty(redirectUrl)) return base.Redirect(redirectUrl);
+            if (!string.IsNullOrEmpty(redirectUrl))
+            {
+                log.Finish(context: context);
+                return base.Redirect(redirectUrl);
+            }
             ViewBag.HtmlBody = html;
             log.Finish(context: context, responseSize: html.Length);
             return View();
@@ -373,14 +378,12 @@ namespace Implem.Pleasanter.Controllers
         private (string redirectUrl, string html) Login(
             Context context, string returnUrl, bool isLocalUrl)
         {
-            var log = new SysLogModel(context: context);
             if (context.Authenticated)
             {
                 if (context.QueryStrings.Bool("new"))
                 {
                     Authentications.SignOut(context: context);
                 }
-                log.Finish(context: context);
                 return (isLocalUrl
                     ? returnUrl
                     : Locations.Top(context: context), null);
@@ -393,7 +396,6 @@ namespace Implem.Pleasanter.Controllers
                 message: context.QueryStrings.ContainsKey("expired") && context.QueryStrings["expired"] == "1" && !context.Ajax
                     ? Messages.Expired(context: context).Text
                     : string.Empty);
-            log.Finish(context: context, responseSize: html.Length);
             return (null, html);
         }
 

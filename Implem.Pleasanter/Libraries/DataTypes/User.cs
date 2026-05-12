@@ -122,6 +122,23 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             ServiceManager = false;
         }
 
+        private static User CreateSpecialUser(int tenantId, string loginId, string name) => new User
+        {
+            TenantId = tenantId,
+            Id = 0,
+            DeptId = 0,
+            LoginId = loginId,
+            Name = name,
+            TenantManager = false,
+            ServiceManager = false
+        };
+
+        public static User CreateFormUser(int tenantId) =>
+            CreateSpecialUser(tenantId, "FormUsers", "Form Users");
+
+        public static User CreatePublishUser(int tenantId) =>
+            CreateSpecialUser(tenantId, "PublishUsers", "Publish Users");
+
         public string ToControl(Context context, SiteSettings ss, Column column)
         {
             return Id.ToString();

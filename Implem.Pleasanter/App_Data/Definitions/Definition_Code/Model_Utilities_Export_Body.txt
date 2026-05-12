@@ -77,6 +77,10 @@ public static string ExportAndMailNotify(Context context, SiteSettings ss)
         case Error.Types.None: break;
         default: return invalid.MessageJson(context: context);
     }
+    if (Libraries.Mails.Addresses.SupportFrom() == null)
+    {
+        return Messages.ResponseExportNotSetSupportFrom(context: context).ToJson();
+    }
     System.Threading.Tasks.Task.Factory.StartNew(() =>
     {
         var export = ss.GetExport(

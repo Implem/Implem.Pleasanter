@@ -1,4 +1,14 @@
-﻿using AspNetCoreCurrentRequestContext;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Dynamic;
+using System.Globalization;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+using AspNetCoreCurrentRequestContext;
 using Implem.DefinitionAccessor;
 using Implem.Factory;
 using Implem.IRds;
@@ -16,22 +26,19 @@ using Implem.Pleasanter.Models;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Dynamic;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Web;
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public class Context : ISqlObjectFactory
     {
+        private const string AspNetCoreSessionCookieName = ".AspNetCore.Session";
+        private const string SessionGuidCookiePurpose = "Pleasanter.SessionGuidCookie";
+        private const string SessionGuidCookieName = "Pleasanter_SessionGuid";
+
         public Stopwatch Stopwatch { get; set; } = new Stopwatch();
         public StringBuilder LogBuilder { get; set; } = new StringBuilder();
         public int SysLogsStatus { get; set; } = 200;
@@ -236,6 +243,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (item) SetSwitchTenant(sessionStatus, setData);
             SetTenantProperties();
             if (request) SetPublish();
+            if (User == null)
+            {
+                if (IsForm) { User = User.CreateFormUser(TenantId); }
+                else if (Publish) { User = User.CreatePublishUser(TenantId); }
+            }
             if (request && setPermissions) SetPermissions();
             SetTenantCaches();
         }
@@ -312,23 +324,80 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private void SetSessionGuid()
         {
-            try
+            var cookieSessionGuid = GetSessionGuidFromCookie();
+            if (!string.IsNullOrWhiteSpace(cookieSessionGuid))
             {
-                var session = AspNetCoreHttpContext.Current?.Session;
-            }
-            catch (InvalidOperationException)
-            {
+                SessionGuid = cookieSessionGuid;
                 return;
             }
-            var sessionGuid = GetSessionData<string>("SessionGuid");
-            if (!string.IsNullOrWhiteSpace(sessionGuid))
+            SetSessionGuidCookie(SessionGuid);
+        }
+
+        public static string GetSessionGuidFromCookie()
+        {
+            var protectedSessionGuid = AspNetCoreHttpContext.Current?.Request?.Cookies?[SessionGuidCookieName];
+            if (string.IsNullOrWhiteSpace(protectedSessionGuid)) return null;
+            var protector = GetSessionGuidProtector();
+            if (protector == null)
             {
-                SessionGuid = sessionGuid;
+                DeleteSessionGuidCookie();
+                return null;
             }
-            else
+            try
             {
-                SetSessionData("SessionGuid", SessionGuid);
+                return protector.Unprotect(protectedSessionGuid);
             }
+            catch (CryptographicException)
+            {
+                DeleteSessionGuidCookie();
+                return null;
+            }
+        }
+
+        public static void SetSessionGuidCookie(string sessionGuid)
+        {
+            if (string.IsNullOrWhiteSpace(sessionGuid)) return;
+            var httpContext = AspNetCoreHttpContext.Current;
+            if (httpContext?.Response == null) return;
+            var protectedSessionGuid = ProtectSessionGuid(sessionGuid);
+            if (string.IsNullOrWhiteSpace(protectedSessionGuid)) return;
+            httpContext.Response.Cookies.Append(
+                SessionGuidCookieName,
+                protectedSessionGuid,
+                CreateSessionGuidCookieOptions(httpContext));
+        }
+
+        public static void DeleteSessionGuidCookie()
+        {
+            var httpContext = AspNetCoreHttpContext.Current;
+            httpContext?.Response?.Cookies.Delete(SessionGuidCookieName, CreateSessionGuidCookieOptions(httpContext));
+        }
+
+        private static CookieOptions CreateSessionGuidCookieOptions(HttpContext httpContext)
+        {
+            return new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = Parameters.Security.SecureCookies
+                    || (httpContext?.Request?.IsHttps ?? false),
+                SameSite = SameSiteMode.Lax,
+                Path = httpContext?.Request.PathBase.HasValue == true
+                    ? httpContext.Request.PathBase.Value
+                    : "/"
+            };
+        }
+
+        private static IDataProtector GetSessionGuidProtector()
+        {
+            return AspNetCoreHttpContext.Current?.RequestServices
+                ?.GetService<IDataProtectionProvider>()
+                ?.CreateProtector(SessionGuidCookiePurpose);
+        }
+
+        private static string ProtectSessionGuid(string sessionGuid)
+        {
+            if (string.IsNullOrWhiteSpace(sessionGuid)) return null;
+            return GetSessionGuidProtector()?.Protect(sessionGuid);
         }
 
         public void SetItemProperties()
@@ -744,7 +813,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         break;
 
                     case "publishbinaries":
-                        where = Guid.IsNullOrEmpty()? Rds.ItemsWhere().ReferenceId(value: Id)
+                        where = Guid.IsNullOrEmpty() ? Rds.ItemsWhere().ReferenceId(value: Id)
                             : Rds.ItemsWhere().ReferenceId(sub: Rds.SelectBinaries(
                                                         column: Rds.BinariesColumn().ReferenceId(),
                                                         where: Rds.BinariesWhere().Guid(Guid)));
@@ -1182,6 +1251,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public void FormsAuthenticationSignIn(string userName, bool createPersistentCookie)
         {
+            RotateSessionGuid();
             var userClaims = new List<Claim> { new Claim(ClaimTypes.Name, userName) };
             var principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "Forms"));
             var properties = new AuthenticationProperties() { IsPersistent = createPersistentCookie };
@@ -1202,6 +1272,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 AspNetCoreHttpContext.Current.Session.Clear();
             }
+            DeleteSessionGuidCookie();
         }
 
         public void SessionAbandon()
@@ -1214,6 +1285,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 AspNetCoreHttpContext.Current.Session.Clear();
             }
+            DeleteSessionGuidCookie();
         }
 
         public void FederatedAuthenticationSessionAuthenticationModuleDeleteSessionTokenCookie()
@@ -1285,9 +1357,92 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public string Token()
         {
-            return Request
-                ? AspNetCoreHttpContext.Current?.Request?.Cookies[".AspNetCore.Session"]?.Sha512Cng()
-                : string.Empty;
+            if (!Request)
+            {
+                return string.Empty;
+            }
+            var tokenSource =
+                GetSessionGuidFromCookie()
+                ?? AspNetCoreHttpContext.Current?.Request?.Cookies?[AspNetCoreSessionCookieName];
+            return tokenSource?.Sha512Cng();
+        }
+
+        public void RotateSessionGuid()
+        {
+            if (!Request)
+            {
+                return;
+            }
+            var oldSessionGuid = SessionGuid;
+            if (string.IsNullOrWhiteSpace(oldSessionGuid))
+            {
+                return;
+            }
+            var newSessionGuid = Strings.NewGuid();
+            MoveSharedSessionData(
+                oldSessionGuid: oldSessionGuid,
+                newSessionGuid: newSessionGuid);
+            SessionGuid = newSessionGuid;
+            SetSessionGuidCookie(sessionGuid: SessionGuid);
+        }
+
+        private void MoveSharedSessionData(string oldSessionGuid, string newSessionGuid)
+        {
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                RenameSessionGuidOnKeyValueStore(
+                    oldSessionGuid: oldSessionGuid,
+                    newSessionGuid: newSessionGuid);
+            }
+            RenameSessionGuidOnRds(
+                oldSessionGuid: oldSessionGuid,
+                newSessionGuid: newSessionGuid);
+        }
+
+        private static void RenameSessionGuidOnKeyValueStore(string oldSessionGuid, string newSessionGuid)
+        {
+            var connection = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection;
+            if (connection == null) return;
+            var iDatabase = connection.GetDatabase();
+            try
+            {
+                RenameRedisSessionKey(
+                    iDatabase: iDatabase,
+                    oldKey: oldSessionGuid,
+                    newKey: newSessionGuid);
+                RenameRedisSessionKey(
+                    iDatabase: iDatabase,
+                    oldKey: oldSessionGuid + "_readOnce",
+                    newKey: newSessionGuid + "_readOnce");
+            }
+            catch
+            {
+            }
+        }
+
+        private static void RenameRedisSessionKey(
+            StackExchange.Redis.IDatabase iDatabase,
+            string oldKey,
+            string newKey)
+        {
+            if (!iDatabase.KeyExists(oldKey))
+            {
+                return;
+            }
+            iDatabase.KeyRename(oldKey, newKey);
+            iDatabase.KeyExpire(newKey, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
+        }
+
+        private void RenameSessionGuidOnRds(string oldSessionGuid, string newSessionGuid)
+        {
+            Repository.ExecuteNonQuery(
+                context: this,
+                statements: Rds.UpdateSessions(
+                    where: Rds.SessionsWhere()
+                        .SessionGuid(oldSessionGuid),
+                    param: Rds.SessionsParam()
+                        .SessionGuid(newSessionGuid),
+                    addUpdatorParam: false));
         }
 
         public string Theme()

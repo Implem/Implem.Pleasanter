@@ -1,0 +1,1450 @@
+﻿/* Modernized Process view styles */
+
+:root {
+	--bg: #f7fafc;
+	--card: #fff;
+	--muted: #6b7280;
+	--accent: #2a6f97;
+	--accent-2: #f08a55;
+	--line: #e6eef5;
+	--btn-positive-label: #fff;
+	--btn-positive-bg: #1876c9;
+	--btn-positive-border: #0f63ad;
+	--btn-positive-bg-hover: #166ebd;
+	--btn-positive-border-hover: #0d599b;
+	--radius: 10px;
+	--glass: rgba(255, 255, 255, 0.6);
+	--shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.06);
+	--shadow-md: 0 12px 30px rgba(15, 23, 42, 0.08);
+	--font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Helvetica Neue", Arial;
+}
+
+/* Base layout */
+html,
+body {
+	font-family: var(--font-sans);
+	min-height: 100%;
+	background: linear-gradient(180deg, #f8fbfe, #f4f8fc 45%, #f3f7fb);
+	color: #0b2436;
+}
+
+/* 01. 背景の奥行き強化 */
+#processContainer {
+	position: relative;
+	isolation: isolate;
+}
+
+#processContainer::before {
+	position: absolute;
+	inset: 10px 18px auto;
+	height: 160px;
+	z-index: -1;
+	pointer-events: none;
+	content: "";
+	background: linear-gradient(180deg, rgba(42, 111, 151, 0.06), rgba(42, 111, 151, 0));
+	border-radius: 18px;
+	filter: blur(6px);
+}
+
+.ps-main-areas {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	align-items: stretch;
+	position: relative;
+	margin: 0 18px 18px;
+	min-width: 360px;
+	min-height: 0;
+	overflow: visible;
+	background: #fff;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	box-shadow: var(--shadow-sm);
+}
+
+.ps-main-content {
+	display: flex;
+	position: sticky;
+	top: 0;
+	height: calc(100vh - 150px);
+	overflow: hidden;
+	align-items: stretch;
+}
+
+.ps-left-panel {
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 360px;
+	min-width: 260px;
+	max-width: 360px;
+	box-sizing: border-box;
+	height: 100%;
+	max-height: none;
+	position: relative;
+	top: auto;
+	align-self: auto;
+	padding: 12px;
+	overflow: hidden;
+	background: #f4f8fc;
+	border-right: 1px solid var(--line);
+}
+
+
+
+.ps-left-panel-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-bottom: 10px;
+	padding-right: 4px;
+	flex-shrink: 0;
+}
+
+.ps-left-panel-title {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 700;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	min-width: 0;
+}
+
+.ps-right-pane {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding-left: 4px;
+	padding-right: 4px;
+	box-sizing: border-box;
+}
+
+.ps-top-area {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 45%;
+	min-height: 180px;
+	padding: 16px 16px 0;
+	margin-bottom: 16px;
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	overflow: hidden;
+}
+
+.ps-top-nav {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	gap: 8px 12px;
+	top: 56px;
+	z-index: 80;
+	margin: 0;
+	padding: 10px 16px 10px 20px;
+	background: #fff;
+	border-bottom: 1px solid var(--line);
+	box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+	border-top-left-radius: 14px;
+	border-top-right-radius: 14px;
+}
+
+.ps-top-nav-title {
+	margin: 0;
+	padding: 2px 0;
+	font-size: 24px;
+	letter-spacing: 0.01em;
+	flex-shrink: 0;
+}
+
+.ps-top-area-actions {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.ps-process-selected-count {
+	display: inline-flex;
+	align-items: center;
+	padding: 3px 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #34556f;
+	background: #f2f7fd;
+	border: 1px solid #dbe7f2;
+	border-radius: 999px;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+.ps-open-process-selector {
+	padding: 7px 12px;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1;
+	cursor: pointer;
+	color: #124669;
+	background: #fff;
+	border: 1px solid #c8d9ea;
+	border-radius: 10px;
+	box-shadow: var(--shadow-sm);
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ps-open-process-selector:hover {
+	border-color: #9fc0da;
+	box-shadow: var(--shadow-md);
+}
+
+#ps-openProcessSelectorMobile {
+	display: none;
+}
+
+
+.ps-top-left {
+	position: relative;
+	flex: 0 0 auto;
+	min-width: 0;
+	min-height: auto;
+	overflow: visible;
+}
+
+.ps-grid-wrap {
+	position: relative;
+	width: 100%;
+	flex: 0 0 auto;
+	min-height: auto;
+	/* 縦スクロールなし・下に伸ばす */
+	max-height: none;
+	height: auto;
+	box-sizing: border-box;
+	padding: 12px;
+	padding-top: 8px;
+	padding-bottom: 0;
+	/* 横は必要時のみスクロールバーを表示 */
+	overflow-x: auto;
+	overflow-y: auto;
+	scrollbar-gutter: stable;
+	scrollbar-width: auto;
+	scrollbar-color: #90a8c0 #eef3f8;
+	background: #fff;
+	border: 0;
+	border-radius: 8px 8px 0 0;
+	box-shadow: none;
+}
+
+.ps-grid-wrap:hover {
+	border-color: transparent;
+	box-shadow: none;
+}
+
+.ps-grid-wrap::before {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	content: "";
+	border: 0;
+	border-radius: 14px;
+}
+
+svg#ps-gridSvg {
+	display: block;
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	height: auto;
+	background: #fff;
+}
+
+.ps-grid-wrap::-webkit-scrollbar {
+	width: 12px;
+	height: 12px;
+}
+
+.ps-grid-wrap::-webkit-scrollbar-track {
+	background: #eef3f8;
+	border-radius: 8px;
+}
+
+.ps-grid-wrap::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg, #b7c7d8, #90a8c0);
+	border-radius: 8px;
+}
+
+
+
+/* Bottom area reserved for mermaid / process diagram */
+.ps-bottom-area {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 55%;
+	min-height: 180px;
+	margin: 0;
+	margin-top: 16px;
+	padding: 16px 16px 0;
+	overflow: visible;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-sizing: border-box;
+	box-shadow: none;
+	transition: height 220ms ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ps-bottom-area:hover {
+	border-color: transparent;
+	box-shadow: none;
+}
+
+.ps-bottom-area h3 {
+	position: static;
+	flex: 0 0 auto;
+	margin: 0;
+	padding: 2px 0;
+	font-size: 24px;
+	letter-spacing: 0.01em;
+	background: transparent;
+}
+
+.ps-mermaid-wrap {
+	position: relative;
+	flex: 1 1 auto;
+	width: 100%;
+	min-height: 100px;
+	padding: 12px 0px 12px 0px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	scrollbar-gutter: stable;
+	scrollbar-width: auto;
+	scrollbar-color: #90a8c0 #eef3f8;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(145deg, #f5f9ff 0%, #eef4fb 60%, #f3f8ff 100%);
+	border: 1px solid #c8dced;
+	border-radius: 12px;
+	box-shadow: 0 4px 18px rgba(15, 60, 100, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.ps-mermaid-wrap .mermaid,
+.ps-mermaid-wrap svg {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	height: 100%;
+	max-height: 100%;
+}
+
+.ps-mermaid-render-host {
+	width: 100%;
+	max-width: 100%;
+	height: 100%;
+	min-height: 0;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+.ps-mermaid-wrap svg {
+	background: transparent !important;
+	border: 0;
+	border-radius: 12px;
+	box-shadow: none;
+}
+
+.ps-mermaid-wrap .mermaid {
+	padding: 8px;
+	border-radius: 12px;
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+}
+
+.ps-mermaid-wrap .mermaid .node rect,
+.ps-mermaid-wrap .mermaid .node polygon,
+.ps-mermaid-wrap .mermaid .node path,
+.ps-mermaid-wrap svg .node rect,
+.ps-mermaid-wrap svg .node polygon,
+.ps-mermaid-wrap svg .node path,
+.ps-mermaid-full-body .ps-mermaid-render-host svg .node rect,
+.ps-mermaid-full-body .ps-mermaid-render-host svg .node polygon,
+.ps-mermaid-full-body .ps-mermaid-render-host svg .node path {
+	/* fill/stroke はMermaid側のstyleコマンドで制御するため上書きしない */
+	stroke-width: 2px;
+	rx: 10px !important;
+	ry: 10px !important;
+	filter: drop-shadow(0 3px 8px rgba(15, 55, 100, 0.18));
+}
+
+.ps-mermaid-wrap svg foreignObject > div {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 100% !important;
+	height: 100% !important;
+	text-align: center !important;
+}
+
+.ps-mermaid-wrap .mermaid .nodeLabel,
+.ps-mermaid-wrap .mermaid .label,
+.ps-mermaid-wrap svg .nodeLabel,
+.ps-mermaid-wrap svg .label {
+	/* color はMermaid側のstyleコマンドで制御するため上書きしない */
+	font-weight: 700 !important;
+	font-size: 16px !important;
+	line-height: 1.5 !important;
+}
+
+.ps-mermaid-wrap .mermaid .edgePath .path,
+.ps-mermaid-wrap svg .edgePath .path {
+	/* stroke は linkStyle コマンドで制御するため上書きしない */
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	filter: drop-shadow(0 1px 2px rgba(15, 50, 90, 0.12));
+}
+
+.ps-mermaid-wrap .mermaid .edgeLabel,
+.ps-mermaid-wrap svg .edgeLabel {
+	background: transparent !important;
+	color: #1a3f62 !important;
+	font-weight: 700 !important;
+	font-size: 16px !important;
+}
+
+.ps-mermaid-wrap .mermaid .edgeLabel rect,
+.ps-mermaid-wrap svg .edgeLabel rect {
+	fill: #f0f5ff !important;
+	stroke: #9ec4e0 !important;
+	stroke-width: 1px !important;
+	rx: 6px;
+	ry: 6px;
+	filter: drop-shadow(0 1px 3px rgba(15, 55, 100, 0.08));
+}
+
+.ps-mermaid-wrap .mermaid .marker,
+.ps-mermaid-wrap svg .marker {
+	/* fill/stroke は linkStyle コマンドで制御 */
+	stroke-width: 1.2px;
+}
+
+/* 全体表示ボタン（mermaidWrap の右下に配置） */
+.ps-mermaid-expand-btn {
+	position: absolute;
+	bottom: 12px;
+	right: 20px;
+	z-index: 11;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	color: #3a6b96;
+	background: rgba(255, 255, 255, 0.92);
+	border: 1px solid #c8d9ea;
+	border-radius: 8px;
+	cursor: pointer;
+	box-shadow: var(--shadow-sm);
+	transition: background 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+}
+
+.ps-mermaid-expand-btn:hover {
+	background: #eef5fb;
+	border-color: #9fc0da;
+	color: #1a4f77;
+	box-shadow: var(--shadow-md);
+}
+
+.ps-mermaid-expand-btn:active {
+	background: #ddeef8;
+}
+
+/* フロー図全体表示モーダル */
+.ps-mermaid-full-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 10002;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	/* 歯車アイコン等と重ならないようにパディング */
+	padding: 40px 24px 24px;
+}
+
+.ps-mermaid-full-modal[aria-hidden="false"] {
+	display: flex;
+}
+
+.ps-mermaid-full-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(8, 12, 20, 0.46);
+}
+
+.ps-mermaid-full-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: min(1400px, 96vw);
+	max-height: calc(100vh - 80px);
+	background: #fff;
+	border-radius: 14px;
+	box-shadow: 0 24px 72px rgba(2, 6, 23, 0.3);
+	overflow: hidden;
+}
+
+.ps-mermaid-full-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 10px 14px;
+	flex-shrink: 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+	background: #f7fbff;
+}
+
+.ps-mermaid-full-title-text {
+	font-weight: 700;
+	font-size: 15px;
+}
+
+.ps-mermaid-full-header-actions {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.ps-mermaid-full-body {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow-x: auto;
+	overflow-y: auto;
+	padding: 16px;
+	background: linear-gradient(145deg, #f5f9ff 0%, #eef4fb 60%, #f3f8ff 100%);
+}
+
+/* 全体表示モーダル内の SVG は幅フィット・高さは自然サイズ（縦スクロール） */
+.ps-mermaid-full-body .ps-mermaid-render-host {
+	max-height: none;
+	height: auto;
+}
+
+.ps-mermaid-full-body svg {
+	max-height: none !important;
+	width: 100% !important;
+	height: auto !important;
+}
+
+.ps-mermaid-empty {
+	width: 100%;
+	padding: 12px;
+	text-align: center;
+	color: var(--muted);
+}
+
+.ps-empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 80px 32px;
+	gap: 24px;
+	min-height: 480px;
+	user-select: none;
+	opacity: 0.7;
+}
+
+.ps-empty-state-logo {
+	width: 180px;
+	height: auto;
+}
+
+.ps-empty-state-text {
+	margin: 0;
+	font-size: 22px;
+	font-weight: 500;
+	color: #6b7280;
+	letter-spacing: 0.03em;
+}
+
+.ps-png-download-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	align-self: flex-end;
+	flex-shrink: 0;
+	gap: 4px;
+	width: auto;
+	height: 28px;
+	padding: 0 10px;
+	margin-bottom: 4px;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1;
+	color: #124669;
+	cursor: pointer;
+	background: #fff;
+	border: 1px solid #c8d9ea;
+	border-radius: 7px;
+	box-shadow: var(--shadow-sm);
+	transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ps-png-download-btn svg {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+}
+
+.ps-png-download-btn:hover {
+	box-shadow: var(--shadow-md);
+	background: #eef5fb;
+	border-color: #9fc0da;
+}
+
+.ps-png-download-btn:active {
+	box-shadow: var(--shadow-sm);
+	background: #e0edf8;
+}
+
+/* 上図ボタン群コンテナ: mermaid図に重ねて右上に固定 */
+.ps-top-btn-group {
+	position: absolute;
+	top: 24px;
+	right: 20px;
+	z-index: 10;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 6px;
+	max-width: calc(100% - 40px);
+}
+
+/* 上図ボタン: コンテナ内のフロー配置 */
+.ps-png-btn-top {
+	position: static;
+	z-index: 10;
+	margin-bottom: 0;
+	background: rgba(255, 255, 255, 0.92);
+}
+
+/* 下図PNGボタン: 右端を上のボタンと揃える */
+.ps-png-btn-bottom {
+	align-self: flex-end;
+	z-index: 10;
+	margin-bottom: 4px;
+	margin-right: 8px;
+	max-width: calc(100% - 16px);
+}
+
+/* Typography and small helpers */
+.ps-col-label {
+	fill: #ffffff;
+	font-size: 13px;
+	font-weight: 700;
+}
+
+.ps-col-head-box {
+	fill: #2a6fa8;
+	stroke: #1d5a8a;
+	/* stroke-width: 1; */
+}
+
+/* 終端ステータス列ヘッダー（Mermaidフロー図の緑と統一） */
+.ps-col-head-box-sink {
+	fill: #2e7d32;
+	stroke: #1b5e20;
+	/* stroke-width: 2.5px; */
+}
+
+.ps-col-label-sink {
+	fill: #ffffff;
+	font-weight: 700;
+}
+
+.ps-col-head-box-invalid {
+	fill: #fff5f5;
+	stroke: #d32f2f;
+	/* stroke-width: 2.5px; */
+}
+.ps-col-label-invalid {
+	fill: #d32f2f;
+	font-weight: 700;
+}
+.ps-status-line-invalid {
+	stroke: #ef9a9a;
+}
+.ps-invalid-status-warning {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	margin: 0 16px 10px;
+	padding: 8px 12px;
+	background: linear-gradient(90deg, rgba(211, 47, 47, 0.08), rgba(211, 47, 47, 0.03));
+	border: 0;
+	border-radius: 8px;
+	color: #8f1f1f;
+	font-size: 13px;
+	line-height: 1.6;
+}
+.ps-invalid-status-warning-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	margin-top: 1px;
+	flex-shrink: 0;
+	color: #d32f2f;
+}
+.ps-invalid-status-warning-icon svg {
+	width: 20px;
+	height: 20px;
+	display: block;
+}
+.ps-invalid-status-warning-text {
+	min-width: 0;
+	flex: 1 1 auto;
+}
+.ps-invalid-status-warning a {
+	color: #0f5ea8;
+	text-decoration: underline;
+}
+
+.ps-proc-button {
+	fill: #5046e5;
+	stroke: #4338ca;
+	stroke-width: 1;
+}
+
+.ps-proc-button-text {
+	fill: #fff;
+	font-size: 13px;
+	font-weight: 700;
+}
+
+.ps-proc-button-wrap:hover .ps-proc-button {
+	fill: #4338ca;
+	stroke: #3730a3;
+}
+
+.ps-proc-button-wrap:active .ps-proc-button {
+	fill: #4338ca;
+	stroke: #3730a3;
+}
+
+.ps-row-label {
+	fill: #4a4a4a;
+	font-size: 13px;
+	font-weight: 600;
+	alignment-baseline: middle;
+}
+
+.ps-status-line {
+	stroke: #a3c4e0;
+	stroke-width: 2;
+}
+
+.ps-transition-line {
+	stroke: #5046e5;
+	stroke-linecap: round;
+}
+
+.ps-transition-line:hover {
+	stroke: #4338ca;
+}
+
+.ps-helper-line {
+	stroke: #8f8f8f;
+	stroke-width: 1;
+	stroke-dasharray: 0;
+}
+
+.ps-transition-name-bg {
+	fill: #ffffff;
+	stroke: #5046e5;
+	stroke-width: 1;
+}
+
+.ps-transition-name-text {
+	fill: #4a4a4a;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+/* 後退系ボタン（取下・差戻など） */
+.ps-proc-button-backward .ps-proc-button {
+	fill: #d85a30;
+	stroke: #c04e28;
+}
+
+.ps-proc-button-backward:hover .ps-proc-button {
+	fill: #c04e28;
+	stroke: #a94320;
+}
+
+.ps-proc-button-backward:active .ps-proc-button {
+	fill: #c04e28;
+	stroke: #a94320;
+}
+
+/* 後退系の遷移線（破線 + コーラル） */
+.ps-transition-line-backward {
+	stroke: #e07050 !important;
+	stroke-dasharray: 8 4;
+}
+
+.ps-transition-line-backward:hover {
+	stroke: #d85a30 !important;
+}
+
+/* 後退系のプロセス名ラベル枠 */
+.ps-transition-name-bg-backward {
+	stroke: #e07050 !important;
+}
+
+.ps-perm-icon-bg {
+	fill: #e8f2ff;
+	stroke: #a9d6ff;
+}
+
+.ps-perm-icon-glyph {
+	fill: #2d5a87;
+	stroke: none;
+}
+
+.ps-notif-bg {
+	fill: #6b9bd6;
+}
+
+.ps-controls {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+	position: static;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	box-shadow: none;
+}
+
+.ps-left-controls {
+	flex-direction: column;
+	align-items: stretch;
+	gap: 2px;
+	padding-right: 4px;
+	flex-shrink: 0;
+}
+
+.ps-site-select {
+	flex: 0 1 auto;
+	width: auto;
+	padding: 4px 8px;
+	font-size: 14px;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	background: #fff;
+	color: #1e293b;
+	cursor: pointer;
+	max-width: 100%;
+	min-width: min(200px, 100%);
+	box-sizing: border-box;
+}
+
+.ps-left-controls .ps-process-selector-actions {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+	width: 100%;
+	padding: 4px 0 2px;
+	border-bottom: 0;
+	background: transparent;
+}
+
+.ps-left-controls .ps-process-selector-action {
+	width: 100%;
+	min-height: 34px;
+	padding: 7px 4px;
+	font-size: 11px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ps-process-search-wrap {
+	position: relative;
+	width: 100%;
+}
+
+.ps-process-search-icon {
+	position: absolute;
+	left: 8px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 15px;
+	height: 15px;
+	fill: #7a9ab8;
+	pointer-events: none;
+}
+
+.ps-process-search {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 6px 10px 6px 28px;
+	font-size: 12px;
+	background: #fff;
+	border: 1px solid #dbe7f2;
+	border-radius: 2px;
+}
+
+.ps-left-process-list {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	scrollbar-gutter: stable;
+	max-height: none;
+	padding: 6px 6px 0 6px;
+	padding-bottom: 8px;
+	margin-top: 10px;
+	margin-right: 0;
+	background: #fff;
+	border: 1px solid #dbe7f2;
+	border-radius: 8px;
+}
+
+.ps-controls input[type="file"],
+.ps-controls select {
+	padding: 5px 8px;
+	font-size: 12px;
+	background: #fff;
+	border: 1px solid #dbe7f2;
+	border-radius: 999px;
+	box-shadow: inset 0 1px 0 #fff;
+}
+
+/* Detail modal */
+.ps-detail-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 10000;
+	display: none;
+	align-items: center;
+	justify-content: center;
+}
+
+.ps-detail-modal[aria-hidden="false"] {
+	display: flex;
+}
+
+.ps-detail-modal-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(8, 12, 20, 0.18);
+}
+
+.ps-detail-modal-content,
+.ps-process-selector-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 20px 60px rgba(2, 6, 23, 0.24);
+	overflow: hidden;
+}
+
+.ps-detail-modal-content {
+	width: min(1100px, 92vw);
+	max-height: 88vh;
+}
+
+.ps-detail-modal-title,
+.ps-process-selector-title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 14px;
+	user-select: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+	background: #f7fbff;
+}
+
+.ps-detail-modal-title-text {
+	font-weight: 700;
+}
+
+.ps-detail-modal-close,
+.ps-process-selector-close {
+	padding: 6px 8px;
+	font-size: 14px;
+	cursor: pointer;
+	background: #fff;
+	border: 1px solid var(--line);
+	border-radius: 8px;
+}
+
+.ps-detail-modal-body {
+	padding: 12px;
+	overflow: auto;
+}
+
+.ps-process-selector-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 10001;
+	display: none;
+	align-items: center;
+	justify-content: center;
+}
+
+.ps-process-selector-modal[aria-hidden="false"] {
+	display: flex;
+}
+
+.ps-process-selector-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(8, 12, 20, 0.18);
+}
+
+.ps-process-selector-content {
+	width: min(520px, 92vw);
+	max-height: 80vh;
+}
+
+.ps-process-selector-title-text {
+	font-weight: 700;
+}
+
+.ps-process-selector-actions {
+	display: flex;
+	gap: 8px;
+	padding: 10px 14px;
+	border-bottom: 1px solid #eef2f5;
+	background: #fff;
+}
+
+.ps-process-selector-action {
+	padding: 6px 10px;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	background: #fff;
+	border: 1px solid #dbe7f2;
+	border-radius: 4px;
+}
+
+.ps-process-selector-body {
+	padding: 12px 14px;
+	overflow: auto;
+}
+
+.ps-process-selector-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ps-process-selector-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 8px;
+	min-height: 56px;
+	height: auto;
+	box-sizing: border-box;
+	overflow: hidden;
+	cursor: pointer;
+	border: 1px solid #cfdcea;
+	border-left: 1px solid #cfdcea;
+	border-radius: 8px;
+	background: #fff;
+	transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.ps-process-selector-item:focus-visible {
+	outline: 2px solid #9fc0da;
+	outline-offset: 1px;
+}
+
+.ps-process-selector-item.is-selected {
+	border-left-color: #4b63d3;
+	border-color: #b0bcee;
+	background: #eef3ff;
+}
+
+/* チェックインジケーター */
+.ps-process-selector-check {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	flex-shrink: 0;
+	color: #4b63d3;
+}
+
+.ps-process-selector-check svg {
+	width: 20px;
+	height: 20px;
+}
+
+/* バッジ */
+.ps-process-selector-badges {
+	display: inline-flex;
+	gap: 4px;
+	margin-top: 6px;
+	flex-wrap: wrap;
+}
+
+.ps-card-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	padding: 0;
+	font-size: 11px;
+	font-weight: 600;
+	border-radius: 0;
+	line-height: 1;
+}
+
+.ps-card-badge-notif {
+	color: #8a6500;
+	background: none;
+	border: none;
+}
+
+.ps-card-badge-perm {
+	color: #4a7299;
+	background: none;
+	border: none;
+}
+
+/* 詳細ボタン */
+.ps-card-detail-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	margin-left: auto;
+	flex-shrink: 0;
+	color: #4a7299;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.ps-card-detail-btn:hover {
+	background: #eef5fb;
+	border-color: #c8d9ea;
+}
+
+.ps-card-detail-btn svg {
+	pointer-events: none;
+}
+
+.ps-process-selector-main {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+	flex: 1 1 auto;
+}
+
+.ps-process-selector-item:hover {
+	border-color: #8fa8c8;
+	background: #f4f9ff;
+}
+
+.ps-process-selector-item:hover .ps-card-detail-btn {
+	border-color: #c8d9ea;
+}
+
+.ps-process-selector-name {
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #0f2d45;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ps-process-selector-meta-wrap {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	flex-wrap: nowrap;
+	overflow: hidden;
+	max-width: 100%;
+}
+
+.ps-process-selector-meta {
+	display: inline-block;
+	font-size: 11px;
+	line-height: 1.3;
+	color: #5b7084;
+	border: 1px solid #c8d9ea;
+	border-radius: 4px;
+	padding: 1px 6px;
+	background: #f4f8fc;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 100px;
+}
+
+.ps-process-selector-meta-arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: #5b7084;
+	flex-shrink: 0;
+}
+
+.ps-process-selector-meta-arrow svg {
+	width: 14px;
+	height: 14px;
+	flex-shrink: 0;
+}
+
+.ps-process-selector-tags {
+	font-size: 11px;
+	line-height: 1.3;
+	color: #5b7084;
+}
+
+.ps-process-selector-empty {
+	padding: 10px;
+	color: var(--muted);
+	text-align: center;
+}
+
+/* Details panel */
+.ps-process-detail h3 {
+	margin: 6px 0 10px;
+	padding: 0 0 8px;
+	font-size: 18px;
+	border-bottom: 1px solid #e8f0f7;
+}
+
+.ps-pdTable {
+	width: 100%;
+	margin-bottom: 12px;
+	font-size: 13px;
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	border: 1px solid #eef2f5;
+	border-radius: 10px;
+	background: #fff;
+}
+
+.ps-pdTable th {
+	width: 140px;
+	padding: 10px;
+	color: #1c344c;
+	text-align: left;
+	font-weight: 700;
+	background: #eaf2fb;
+	border: 1px solid #d6e3f0;
+}
+
+.ps-pdTable td {
+	padding: 10px;
+	border: 1px solid #f1f5f8;
+	word-break: break-word;
+	overflow-wrap: break-word;
+	max-width: 320px;
+}
+
+.ps-validateInputs {
+	margin-top: 10px;
+}
+
+.ps-viTable {
+	width: 100%;
+	font-size: 13px;
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	border: 1px solid #eef2f5;
+	border-radius: 10px;
+	background: #fff;
+}
+
+.ps-viTable th,
+.ps-viTable td {
+	padding: 8px;
+	border: 1px solid #eef2f5;
+	word-break: break-word;
+	overflow-wrap: break-word;
+	max-width: 280px;
+}
+
+.ps-viTable thead th {
+	background: #fbfdfe;
+}
+
+.ps-viTable tr:nth-child(even) {
+	background: #fbfbfb;
+}
+
+.ps-permissions-detail {
+	margin-top: 14px;
+}
+
+.ps-permissions-detail strong {
+	display: block;
+	margin: 0 0 6px;
+}
+
+.ps-permissions-section {
+	margin-top: 8px;
+}
+
+.ps-permissions-table {
+	width: 100%;
+	margin-top: 6px;
+	font-size: 13px;
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	border: 1px solid #eef2f5;
+	border-radius: 10px;
+	background: #fff;
+}
+
+.ps-pdTable thead th,
+.ps-viTable thead th,
+.ps-permissions-table thead th {
+	color: #1c344c;
+	font-weight: 700;
+	background: #eaf2fb;
+	border-color: #d6e3f0;
+}
+
+.ps-permissions-table th,
+.ps-permissions-table td {
+	padding: 8px;
+	border: 1px solid #eef2f5;
+	word-break: break-word;
+	overflow-wrap: break-word;
+	max-width: 280px;
+}
+
+.ps-permissions-table th:first-child,
+.ps-permissions-table td:first-child {
+	width: 120px;
+}
+
+.ps-permissions-table thead th {
+	background: #eaf2fb;
+}
+
+.ps-permissions-table tr:nth-child(even) {
+	background: #fbfbfb;
+}
+
+/* Prevent table headers in details from sticking to viewport */
+.ps-process-detail .ps-pdTable th,
+.ps-process-detail .ps-viTable thead th,
+.ps-process-detail .ps-permissions-table thead th {
+	position: static;
+	top: auto;
+}
+
+/* ColumnFilterHash チップ（条件セクション用） */
+.ps-filter-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0;
+	border: 1px solid #8f8f8f;
+	border-radius: 6px;
+	padding: 2px;
+	margin: 2px;
+	font-size: 12px;
+	line-height: 1.4;
+	vertical-align: middle;
+	background: #fff;
+}
+
+.ps-filter-chip-label {
+	padding: 1px 3px;
+}
+
+.ps-filter-chip-val {
+	padding: 1px 3px;
+	background-color: #f5d9ae;
+	border-radius: 4px;
+}
+
+/* Scrollbar refinement for modern look */
+*::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg, #cbd6de, #9fb3c6);
+	border-radius: 8px;
+}
+
+@media (max-width: 1100px) {
+	.ps-main-areas {
+		gap: 0;
+	}
+
+	.ps-top-left {
+		min-height: 0;
+	}
+}
+
+@media (max-width: 760px) {
+	.ps-main-areas {
+		flex-direction: column;
+		min-height: 0;
+		overflow: visible;
+	}
+
+	.ps-main-content {
+		flex-direction: column;
+	}
+
+	.ps-left-panel {
+		display: none;
+	}
+
+	#ps-openProcessSelectorMobile {
+		display: inline-flex;
+	}
+
+	.ps-top-left {
+		min-height: 52vh;
+	}
+
+	.ps-mermaid-wrap {
+		min-height: 28vh;
+	}
+}

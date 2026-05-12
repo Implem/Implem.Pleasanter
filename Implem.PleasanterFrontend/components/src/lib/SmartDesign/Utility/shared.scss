@@ -1,0 +1,21 @@
+@use 'modern-css-reset';
+
+.material-symbols-sharp {
+    display: inline-block;
+    font-family: 'Material Symbols Sharp';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: normal;
+    font-feature-settings: 'liga';
+    line-height: 1;
+    vertical-align: bottom;
+    text-transform: none;
+    letter-spacing: normal;
+    overflow-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    &.is-fill {
+        font-variation-settings: 'FILL' 1;
+    }
+}

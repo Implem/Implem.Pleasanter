@@ -1,8 +1,12 @@
 ﻿private static bool InRange(Context context, SiteSettings ss, View view, int limit)
 {
-    var where = view.Where(
+    var where = ss.DashboardParts?.Any() == true
+        ? ss.DashboardParts[0].View.Where(context: context, ss: ss)
+        : new SqlWhereCollection();
+    where = view.Where(
         context: context,
-        ss: ss);
+        ss: ss,
+        where: where);
     var param = view.Param(
         context: context,
         ss: ss);

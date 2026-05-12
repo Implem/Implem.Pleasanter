@@ -1008,7 +1008,7 @@ namespace Implem.Pleasanter.Models
             byte[] bin)
         {
             BinaryType = "SiteImage";
-            var imageData = new Libraries.Images.ImageData(
+            using var imageData = new Libraries.Images.ImageData(
                 bin,
                 ReferenceId,
                 Libraries.Images.ImageData.Types.SiteImage);
@@ -1047,7 +1047,7 @@ namespace Implem.Pleasanter.Models
             byte[] bin)
         {
             BinaryType = "TenantImage";
-            var imageData = new Libraries.Images.ImageData(
+            using var imageData = new Libraries.Images.ImageData(
                 bin,
                 ReferenceId,
                 Libraries.Images.ImageData.Types.TenantImage);

@@ -1,15 +1,22 @@
 {
-  "_vendor_BvD3Vg9F.js": {
-    "file": "vendor_BvD3Vg9F.js",
-    "name": "vendor"
+  "_rolldown-runtime_Dbp0PGrG.js": {
+    "file": "rolldown-runtime_Dbp0PGrG.js",
+    "name": "rolldown-runtime"
+  },
+  "_vendor_5p-RcryD.js": {
+    "file": "vendor_5p-RcryD.js",
+    "name": "vendor",
+    "imports": [
+      "_rolldown-runtime_Dbp0PGrG.js"
+    ]
   },
   "src/main.ts": {
-    "file": "components_BmNmxHOV.js",
+    "file": "components_byWJcT0q.js",
     "name": "main",
     "src": "src/main.ts",
     "isEntry": true,
     "imports": [
-      "_vendor_BvD3Vg9F.js"
+      "_vendor_5p-RcryD.js"
     ]
   }
 }

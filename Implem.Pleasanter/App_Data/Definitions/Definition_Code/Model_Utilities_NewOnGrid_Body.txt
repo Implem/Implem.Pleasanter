@@ -37,8 +37,7 @@
                         ss: ss,
                         mine: null)
                     && !column.Id_Ver
-                    && column.EditorColumn
-                    && column.GridDesign.IsNullOrEmpty())
+                    && column.EditorColumn)
                 {
                     hb.Td(action: () => hb
                         .Field(

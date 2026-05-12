@@ -108,6 +108,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public void Update(Context context, SiteSettings ss, string body)
         {
+            if (Body == body) return;
             UpdatedTime = DateTime.Now;
             Updator = context.UserId;
             Body = body;

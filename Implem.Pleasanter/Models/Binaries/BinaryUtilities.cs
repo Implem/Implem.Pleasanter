@@ -435,9 +435,11 @@ namespace Implem.Pleasanter.Models
                 columnName = "Comments";
             }
             var file = context.PostedFiles.FirstOrDefault();
+            var bin = file.Byte();
             var invalid = BinaryValidators.OnUploadingImage(
                 context: context,
-                file: file);
+                bin: bin,
+                contentType: file.ContentType);
             switch (invalid)
             {
                 case Error.Types.OverTenantStorageSize:
@@ -447,11 +449,16 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            UploadImage(
+            var uploadError = UploadImage(
                 context: context,
                 id: id,
                 columnName: columnName,
-                file: file);
+                file: file,
+                bin: bin);
+            if (uploadError != Error.Types.None)
+            {
+                return uploadError.MessageJson(context: context);
+            }
             return new ResponseCollection(context: context)
                 .InsertText(
                     "#" + context.Forms.ControlId(),
@@ -473,11 +480,13 @@ namespace Implem.Pleasanter.Models
             var invalid = Error.Types.None;
             foreach (var file in postedFileHash)
             {
+                var bin = file.Value.Byte();
                 invalid = BinaryValidators.OnUploadingImage(
                     context: context,
                     ss: ss,
                     columnName: file.Key,
-                    file: file.Value);
+                    bin: bin,
+                    contentType: file.Value.ContentType);
                 switch (invalid)
                 {
                     case Error.Types.None:
@@ -485,7 +494,8 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             id: id,
                             columnName: file.Key,
-                            file: file.Value);
+                            file: file.Value,
+                            bin: bin);
                         break;
                     default:
                         break;
@@ -501,9 +511,9 @@ namespace Implem.Pleasanter.Models
             Context context,
             long id,
             string columnName,
-            PostedFile file)
+            PostedFile file,
+            byte[] bin)
         {
-            var bin = file.Byte();
             var ss = new ItemModel(
                 context: context,
                 referenceId: id)
@@ -515,17 +525,29 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 columnName: columnName)?.ThumbnailLimitSize
                     ?? Parameters.BinaryStorage.ThumbnailLimitSize;
-            var imageData = new Libraries.Images.ImageData(
-                bin,
-                ss.ReferenceId,
-                Libraries.Images.ImageData.Types.SiteImage);
-            if (Parameters.BinaryStorage.ImageLimitSize?.ToInt() > 0)
+            byte[] thumbnail;
+            try
             {
-                bin = imageData.ReSizeBytes(Parameters.BinaryStorage.ImageLimitSize);
+                using var imageData = new Libraries.Images.ImageData(
+                    bin,
+                    ss.ReferenceId,
+                    Libraries.Images.ImageData.Types.SiteImage);
+                if (Parameters.BinaryStorage.ImageLimitSize?.ToInt() > 0)
+                {
+                    bin = imageData.ReSizeBytes(Parameters.BinaryStorage.ImageLimitSize);
+                }
+                thumbnail = thumbnailLimitSize > 0
+                    ? imageData.ReSizeBytes(thumbnailLimitSize)
+                    : null;
             }
-            var thumbnail = thumbnailLimitSize > 0
-                ? imageData.ReSizeBytes(thumbnailLimitSize)
-                : null;
+            catch (SixLabors.ImageSharp.UnknownImageFormatException)
+            {
+                return Error.Types.IncorrectFileFormat;
+            }
+            catch (SixLabors.ImageSharp.InvalidImageContentException)
+            {
+                return Error.Types.IncorrectFileFormat;
+            }
             if (Parameters.BinaryStorage.IsLocal())
             {
                 bin.Write(System.IO.Path.Combine(

@@ -1084,7 +1084,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ServerScript[] scripts,
             ServerScriptConditions condition,
             bool debug,
-            bool onTesting = false)
+            bool onTesting = false,
+            ServerScript[] sharedScripts = null)
         {
             if (ss?.ServerScriptsAllDisabled == true)
             {
@@ -1162,10 +1163,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.Execute(model.Csv.Script(), debug: false);
                         engine.Execute(ServerScriptJsLibraries.Scripts(), debug: false);
                         engine.Execute(
-                            code: scripts.Select(script =>
-                                ProcessedBody(
-                                    ss: ss,
-                                    script: script)).Join("\n"),
+                            code: new[]
+                            {
+                                (sharedScripts ?? []).Select(script =>
+                                    script.Body).Join("\n"),
+                                scripts.Select(script =>
+                                    ProcessedBody(
+                                        ss: ss,
+                                        script: script)).Join("\n")
+                            }
+                            .Where(o => !o.IsNullOrEmpty())
+                            .Join("\n"),
                             debug: debug);
                     }
                     finally
@@ -1243,14 +1251,24 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return null;
             }
-            var scripts = ss
+            var allScripts = ss
                 ?.GetServerScripts(context: context)
-                ?.Where(where)
-                .ToArray();
-            if (scripts?.Any() != true)
+                ?.ToArray();
+            if (allScripts == null)
             {
                 return null;
             }
+            var scripts = allScripts
+                .Where(where)
+                .Where(script => script.Shared != true) // 共有スクリプト以外でフィルタ
+                .ToArray();
+            if (!scripts.Any())
+            {
+                return null;
+            }
+            var sharedScripts = allScripts
+                .Where(script => script.Shared == true)
+                .ToArray();
             var scriptValues = Execute(
                 context: context,
                 ss: ss,
@@ -1258,6 +1276,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 itemModel: itemModel,
                 view: view,
                 scripts: scripts,
+                sharedScripts: sharedScripts,
                 condition: condition,
                 debug: scripts.Any(o => o.Debug));
             return scriptValues;

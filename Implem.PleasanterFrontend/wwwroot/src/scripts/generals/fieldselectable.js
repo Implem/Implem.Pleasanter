@@ -33,6 +33,12 @@ $p.moveAllColumns = function (event, $control, columnHeader, isKeepSource, isJoi
     $p.moveColumns(event, $control, columnHeader, isKeepSource, isJoin, type);
 };
 $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepSource, joinId) {
+    function findByDataValue(containerId, value) {
+        var expected = String(value);
+        return $('#' + containerId + ' li').filter(function () {
+            return String($(this).attr('data-value')) === expected;
+        });
+    }
     if ($p.outsideDialog($control)) {
         alert('outsideDialog');
         return false;
@@ -120,9 +126,7 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
                                 .val()
                                 .replace(
                                     'COLUMNNAME',
-                                    $(
-                                        '#' + columnsId + " li[data-value='" + selected[i] + "'"
-                                    ).html()
+                                    findByDataValue(columnsId, selected[i]).html()
                                 )
                         );
                         return false;
@@ -144,29 +148,15 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
                         selected[i].indexOf(',') < 0)) &&
                 !keepSource
             ) {
-                if (
-                    $('#' + columnsId + " li[data-value='" + selected[i] + "']").attr(
-                        'data-order'
-                    ) !== undefined
-                ) {
+                var selectedElement = findByDataValue(columnsId, selected[i]);
+                if (selectedElement.attr('data-order') !== undefined) {
                     for (j = 0; j < afterSourceColumns.length; j++) {
-                        o = $('#' + columnsId + " li[data-value='" + afterSourceColumns[j] + "']");
-                        if (!$(o).get(0))
-                            o = $(
-                                '#' +
-                                    srcColumnsId +
-                                    " li[data-value='" +
-                                    afterSourceColumns[j] +
-                                    "']"
-                            );
+                        o = findByDataValue(columnsId, afterSourceColumns[j]);
+                        if (!$(o).get(0)) o = findByDataValue(srcColumnsId, afterSourceColumns[j]);
                         if ($(o).attr('data-order') === undefined) break;
                         if (
-                            parseInt(
-                                $('#' + columnsId + " li[data-value='" + selected[i] + "']").attr(
-                                    'data-order'
-                                ),
-                                10
-                            ) < parseInt($(o).attr('data-order'), 10)
+                            parseInt(selectedElement.attr('data-order'), 10) <
+                            parseInt($(o).attr('data-order'), 10)
                         ) {
                             pos = j;
                             break;
@@ -191,18 +181,18 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
     var srchtml = '';
     o = null;
     for (i = 0; i < afterColumns.length; i++) {
-        o = $('#' + columnsId + " li[data-value='" + afterColumns[i] + "']");
+        o = findByDataValue(columnsId, afterColumns[i]);
         if (!$(o).get(0)) {
-            o = $('#' + srcColumnsId + " li[data-value='" + afterColumns[i] + "']");
+            o = findByDataValue(srcColumnsId, afterColumns[i]);
         }
         if ($(o).get(0)) {
             html += $(o).get(0).outerHTML;
         }
     }
     for (i = 0; i < afterSourceColumns.length; i++) {
-        o = $('#' + columnsId + " li[data-value='" + afterSourceColumns[i] + "']");
+        o = findByDataValue(columnsId, afterSourceColumns[i]);
         if (!$(o).get(0)) {
-            o = $('#' + srcColumnsId + " li[data-value='" + afterSourceColumns[i] + "']");
+            o = findByDataValue(srcColumnsId, afterSourceColumns[i]);
         }
         if ($(o).get(0)) {
             srchtml += $(o).get(0).outerHTML;

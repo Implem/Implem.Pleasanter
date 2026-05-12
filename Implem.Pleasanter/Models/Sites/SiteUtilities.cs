@@ -2605,7 +2605,7 @@ namespace Implem.Pleasanter.Models
                                 controlCss: "button-icon button-neutral",
                                 accessKey: "q",
                                 onClick: "$p.send($(this),'MainForm');",
-                                icon: "ui-icon-disk",
+                                icon: "ui-icon-circle-arrow-w",
                                 action: "SiteMenu",
                                 method: "post")
                             .Button(
@@ -7732,12 +7732,12 @@ namespace Implem.Pleasanter.Models
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
                             method: "post")
-                        .Button(
-                            controlId: "ResetEditorColumn",
+                        .MaterialIconButton(
+                            id: "ResetEditorColumn",
                             text: Displays.Reset(context: context),
-                            controlCss: "button-icon",
+                            iconName: "reset_settings",
+                            title: Displays.Reset(context: context),
                             onClick: "$p.resetEditorColumn($(this));",
-                            icon: "ui-icon-gear",
                             action: "SetSiteSettings",
                             method: "post",
                             confirm: "ConfirmReset")
@@ -7806,12 +7806,12 @@ namespace Implem.Pleasanter.Models
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
                             method: "post")
-                        .Button(
-                            controlId: "ResetEditorColumn",
+                        .MaterialIconButton(
+                            id: "ResetEditorColumn",
                             text: Displays.Reset(context: context),
-                            controlCss: "button-icon",
+                            iconName: "reset_settings",
+                            title: Displays.Reset(context: context),
                             onClick: "$p.resetEditorColumn($(this));",
-                            icon: "ui-icon-gear",
                             action: "SetSiteSettings",
                             method: "post",
                             confirm: "ConfirmReset")
@@ -15033,7 +15033,7 @@ namespace Implem.Pleasanter.Models
                                             text: Displays.AdvancedSetting(context: context),
                                             controlCss: "button-icon",
                                             onClick: "$p.openExportColumnsDialog($(this));",
-                                            icon: "ui-icon-circle-triangle-s",
+                                            icon: "ui-icon-gear",
                                             action: "SetSiteSettings",
                                             method: "post")
                                         .Button(

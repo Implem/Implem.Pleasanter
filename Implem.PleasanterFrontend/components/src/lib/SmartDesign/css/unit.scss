@@ -1,0 +1,85 @@
+.unit {
+    position: relative;
+    cursor: grab;
+    // hidden
+    &.is-hidden {
+        display: none !important;
+    }
+    .unit-inner {
+        height: 100%;
+        padding: 8px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        .unit-header {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            color: var(--sd-unit-icon-symbol);
+            background: var(--sd-unit-icon-bg);
+            border-radius: 4px;
+            .material-symbols-sharp {
+                font-size: 20px;
+            }
+        }
+        .label {
+            display: -webkit-box;
+            flex: 1;
+            overflow: hidden;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            font-size: 13px;
+            -webkit-box-orient: vertical;
+        }
+        .handler {
+            display: flex;
+            align-items: center;
+            color: var(--sd-unit-handler);
+            span {
+                font-size: 16px;
+            }
+        }
+    }
+    &:active {
+        cursor: grabbing;
+    }
+    // filter
+    &.is-added {
+        cursor: default;
+        opacity: var(--sd-unit-filter-opacity);
+    }
+
+    /* -------------------------------------------
+    [common].column-resource
+    ------------------------------------------- */
+    :global(.column-resource) & {
+        .unit-inner {
+            background-color: var(--sd-unit-resource-bg);
+            border-color: var(--sd-unit-border);
+        }
+        &:global(.drag-ghost) {
+            display: none;
+        }
+    }
+
+    /* -------------------------------------------
+    .column-sortable
+    ------------------------------------------- */
+    :global(.column-sortable) &,
+    &.drag-ghost {
+        &:is(:global(.drag-ghost)) {
+            .unit-inner {
+                border: 1px dashed var(--sd-unit-ghost-border);
+                box-shadow: 0 0 10px var(--sd-base-shadow);
+                opacity: var(--sd-unit-ghost-opacity);
+            }
+        }
+    }
+}

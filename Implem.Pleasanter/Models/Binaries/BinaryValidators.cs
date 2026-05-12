@@ -117,15 +117,33 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss = null,
             string columnName = null,
-            PostedFile file = null)
+            byte[] bin = null,
+            string contentType = null)
         {
             if (!context.ContractSettings.Attachments())
             {
                 return Error.Types.BadRequest;
             }
-            if (!file.ContentType.StartsWith("image/"))
+            if (bin == null || bin.Length == 0)
             {
                 return Error.Types.InvalidRequest;
+            }
+            if (contentType?.StartsWith("image/") != true)
+            {
+                return Error.Types.InvalidRequest;
+            }
+            try
+            {
+                using var ms = new System.IO.MemoryStream(bin);
+                SixLabors.ImageSharp.Image.Identify(ms);
+            }
+            catch (SixLabors.ImageSharp.UnknownImageFormatException)
+            {
+                return Error.Types.IncorrectFileFormat;
+            }
+            catch (SixLabors.ImageSharp.InvalidImageContentException)
+            {
+                return Error.Types.IncorrectFileFormat;
             }
             var newTotalFileSize = context.PostedFiles.Sum(x => x.Size);
             if (OverTenantStorageSize(

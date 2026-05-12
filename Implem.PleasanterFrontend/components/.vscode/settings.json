@@ -1,0 +1,33 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 4,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "files.eol": "\r\n",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.stylelint": "explicit"
+    },
+    "stylelint.validate": [
+        "css",
+        "scss",
+        "svelte"
+    ],
+    "eslint.validate": [
+        "javascript",
+        "typescript"
+    ],
+    "svelte.plugin.svelte.compilerWarnings": {
+        "css-unused-selector": "ignore",
+        "css_unused_selector": "ignore",
+        "a11y-click-events-have-key-events": "ignore",
+        "a11y-no-static-element-interactions": "ignore"
+    },
+    "[svelte]": {
+        "editor.formatOnSave": true
+    },
+    "svelte.enable-ts-plugin": true,
+    "emmet.includeLanguages": {
+        "svelte": "html"
+    }
+}

@@ -1149,27 +1149,41 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder MaterialIconButton(
             this HtmlBuilder hb,
             string id = null,
+            string text = null,
+            string controlCss = null,
             string title = null,
             string onClick = null,
             string action = null,
             string method = null,
+            string confirm = null,
             string iconName = null,
             bool isFill = true,
             bool _using = true)
         {
-            var css = $"material-symbols-sharp{(isFill ? " is-fill" : "")}";
+            var hasText = !string.IsNullOrEmpty(text);
+            var iconCss = hasText
+                ? $"material-symbols-sharp material-symbols-sharp-label{(isFill ? " is-fill" : "")}"
+                : $"material-symbols-sharp{(isFill ? " is-fill" : "")}";
+            var baseCss = hasText
+                ? "ui-material-button ui-corner-all"
+                : "button-icon ui-button ui-corner-all ui-widget applied";
+            var buttonCss = string.IsNullOrEmpty(controlCss)
+                ? baseCss
+                : $"{baseCss} {controlCss}";
             return hb.Button(
                     attributes: new HtmlAttributes()
                         .Id(id)
                         .Title(title)
-                        .Class("button-icon ui-button ui-corner-all ui-widget applied")
+                        .Class(buttonCss)
                         .OnClick(onClick)
                         .DataAction(action)
-                        .DataMethod(method),
+                        .DataMethod(method)
+                        .DataConfirm(confirm),
                     action: () => hb
                         .Span(
-                            css: css,
-                            action: () => hb.Text(text: iconName)));
+                            css: iconCss,
+                            action: () => hb.Text(text: iconName))
+                        .Text(text: text));
         }
 
         public static IReadOnlyDictionary<string, string> GetMaterialIconTypes(bool isListIcon = false)

@@ -1,0 +1,211 @@
+/* ER diagram related styles extracted from smt-json-to-table.html */
+
+#erDiagramArea {
+    /*position: fixed;*/
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 60px;
+    /* 余白を減らす: h2直下に広げる */
+    background: #fff;
+    z-index: 10;
+    height: calc(100vh - 60px);
+    /* 余白を減らす */
+    overflow: hidden;
+    /* ← 縦スクロール不要 */
+    transition: top 0.2s;
+    margin-top: 10px;
+    /* 上余白 */
+    margin-left: 10px;
+    /* 左余白 */
+    margin-right: 10px;
+    /* 右余白 */
+    margin-bottom: 10px;
+    /* 下余白 */
+}
+
+#erDiagramArea.no-tab {
+    top: 60px !important;
+    height: calc(100vh - 70px) !important;
+}
+
+.er-search-result-btn.selected {
+    background: #fffde7 !important;
+    border-color: #2196f3 !important;
+    color: #1976d2 !important;
+    font-weight: bold;
+}
+
+.er-search-result-btn {
+    width: 98%;
+    text-align: left;
+    padding: 4px 8px;
+    border: 1px solid #bbb;
+    background: #f8faff;
+    cursor: pointer;
+    color: #333;
+    font-size: 15px;
+    margin-bottom: 2px;
+    transition: background 0.2s;
+}
+
+.er-search-result-btn .er-search-result-type-table {
+    color: #1976d2;
+    font-weight: bold;
+}
+
+.er-search-result-btn .er-search-result-type-column {
+    color: #333;
+    font-weight: normal;
+}
+
+.er-search-result-btn .er-search-result-table-name {
+    color: #888;
+    font-size: 13px;
+    margin-left: 6px;
+}
+
+.er-search-result-count {
+    margin-bottom: 4px;
+    color: #2196f3;
+}
+
+.er-search-result-none {
+    color: #888;
+}
+
+.er-search-result-btn:hover {
+    background: #e6f2ff;
+}
+
+.er-search-highlight {
+    background-color: #fefe2a !important;
+}
+
+.er-search-svg-highlight {
+    fill: #e53935 !important;
+    stroke: #e53935 !important;
+    font-weight: bold !important;
+}
+
+.er-tool-btn {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+}
+
+.er-tool-btn:hover {
+    background: #f7fafc;
+    border-color: #4299e1;
+    color: #4299e1;
+}
+
+.er-tool-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+.er-tool-save-btn {
+    width: 60px;
+}
+
+.er-tool-search-btn {
+    padding: 2px;
+}
+
+#erSearchInputArea {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#erSearchInput,
+#erSearchExecBtn {
+    height: 26px;
+    padding: 0 12px;
+    border: 1px solid #666;
+    border-radius: 2px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+#erSearchInput { width: 84%; }
+
+#erSearchResultArea {
+    max-height: 220px;
+    overflow: auto;
+    border: 1px solid #eee;
+    padding: 4px 2px;
+    background: #fafcff;
+}
+
+#erSearchDialog {
+    position: fixed;
+    top: 120px;
+    left: calc(50vw - 180px);
+    transform: none;
+    z-index: 9997;
+    min-width: 360px;
+    max-width: 90vw;
+    max-height: 80vh;
+    cursor: default;
+}
+
+.png-dialog-label { margin-bottom: 8px; display:flex; align-items:center; gap:16px }
+.png-dialog-label input[type="number"] { width:80px }
+.png-dialog-priority { margin-bottom:16px; display:flex; align-items:center; gap:16px }
+.png-dialog-actions { margin:10px 8px 8px 8px; display:flex; justify-content:center; align-items:center; gap:12px }
+
+#pngExportExecBtn, #pngExportCancelBtn { font-size:15px; min-width:100px }
+
+/* ダイアログ共通スタイル（ER図のPNGエクスポート・検索ダイアログ用） */
+.settings-dialog-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.18);
+    z-index: 9998;
+}
+
+.settings-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+    min-width: 320px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow: auto;
+    z-index: 9999;
+    padding: 18px 24px 18px 24px;
+}
+
+.settings-dialog-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.settings-dialog-close {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    font-size: 20px;
+    color: #888;
+    cursor: pointer;
+}
+
+/* End ER diagram styles */

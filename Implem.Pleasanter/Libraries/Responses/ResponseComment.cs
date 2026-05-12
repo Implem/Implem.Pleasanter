@@ -43,6 +43,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             comments
                 .Where(o => context.Forms.Exists("Comment" + o.CommentId))
                 .ForEach(comment =>
+                {
                     res.ReplaceAll(
                         Selector(comment.CommentId),
                         new HtmlBuilder().Comment(
@@ -50,7 +51,9 @@ namespace Implem.Pleasanter.Libraries.Responses
                             ss: ss,
                             column: column,
                             comment: comment,
-                            readOnly: false)));
+                            readOnly: false));
+                    res.ClearFormData("Comment" + comment.CommentId);
+                });
             if (deleteCommentId != 0)
             {
                 res

@@ -58,6 +58,8 @@ declare global {
             fullCalendars: Record<string, Calendar>;
             moveCalendar: (type: string, calendarSuffix: string | number) => void;
             setCalendar: (suffix?: string) => void;
+            setMessage: (target: string, value: string) => void;
+            handleMessageFromJson: (jsonData: unknown[]) => boolean;
             modal?: Record<string, HTMLElement>;
         } & typeof Passkey &
             typeof Display;
