@@ -12,6 +12,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.TrialLicenses;
+using Implem.Pleasanter.Libraries.Redis;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -258,6 +259,13 @@ namespace Implem.Pleasanter.NetCore
                     .SetApplicationName(Implem.Libraries.Utilities.Environments.ServiceName)
                     .PersistKeysToAzureBlobStorage(blobClient)
                     .ProtectKeysWithAzureKeyVault(new Uri(keyIdentifier), new DefaultAzureCredential());
+            }
+            else if (Parameters.Security.AspNetCoreDataProtection?.UseKeyValueStore == true && !Parameters.Kvs.ConnectionStringForDataProtection.IsNullOrEmpty())
+            {
+                services
+                    .AddDataProtection()
+                    .SetApplicationName(Implem.Libraries.Utilities.Environments.ServiceName)
+                    .PersistKeysToStackExchangeRedis(DataProtectionForRedisConnection.Connection);
             }
             else
             {

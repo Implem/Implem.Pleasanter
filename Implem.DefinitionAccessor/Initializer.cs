@@ -241,6 +241,10 @@ namespace Implem.DefinitionAccessor
                 Parameters.Kvs.ConnectionStringForSession,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Kvs_ConnectionStringForSession"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Kvs_ConnectionStringForSession"));
+            Parameters.Kvs.ConnectionStringForDataProtection = Strings.CoalesceEmpty(
+                Parameters.Kvs.ConnectionStringForDataProtection,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Kvs_ConnectionStringForDataProtection"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Kvs_ConnectionStringForDataProtection"));
         }
 
         public static void ReloadParameters()
