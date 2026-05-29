@@ -40,7 +40,7 @@
         "vite": "^8.0.10"
     },
     "dependencies": {
-        "axios": "^1.15.2",
+        "axios": "^1.16.0",
         "date-fns": "^4.1.0",
         "flatpickr": "^4.6.13",
         "lodash": "^4.18.1",
