@@ -6,5 +6,6 @@
         public string KeyIdentifier;
         public string KeyFileName;
         public string XmlAesKey;
+        public bool UseKeyValueStore;
     }
 }

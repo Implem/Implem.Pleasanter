@@ -59,6 +59,7 @@
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="10.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="10.0.7" />
     <PackageReference Include="Microsoft.Bcl.Memory" Version="9.0.14" />
     <PackageReference Include="Microsoft.ClearScript.Complete" Version="7.5.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
