@@ -2,5 +2,5 @@
     "Id": "Model_Utilities_TrashBox",
     "Indent": "2",
     "GenericUi": "1",
-    "Exclude": "Tenants,Wikis"
+    "Exclude": "Parameters,Tenants,Wikis"
 }

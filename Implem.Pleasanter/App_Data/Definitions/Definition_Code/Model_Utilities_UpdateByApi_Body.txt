@@ -55,7 +55,8 @@ private static ErrorData ApplyUpdateByApi(
     SiteSettings ss,
     #ModelName#Model #modelName#Model,
     List<Process> processes,
-    string previousTitle)
+    string previousTitle,
+    bool synchronizeSummary = true)
 {
     var invalid = #ModelName#Validators.OnUpdating(
         context: context,
@@ -80,6 +81,7 @@ private static ErrorData ApplyUpdateByApi(
         ss: ss,
         processes: processes,
         notice: true,
+        synchronizeSummary: synchronizeSummary,
         previousTitle: previousTitle);
     BinaryUtilities.UploadImage(
         context: context,

@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 <!--Model_ApiSiteSettingsUsing-->
 <!--Model_SysLogUsing-->
+<!--Model_OutgoingMailUsing-->
 <!--Model_McpLogUsing-->
 using System;
 using System.Collections.Generic;

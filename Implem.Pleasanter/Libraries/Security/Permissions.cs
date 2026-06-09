@@ -453,6 +453,8 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             switch (context.Controller)
             {
+                case "parameters":
+                    return CanManageParameters(context: context);
                 case "tenants":
                     return CanManageTenant(context: context)
                         || context.UserSettings?.EnableManageTenant == true;
@@ -495,8 +497,8 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             switch (context.Controller)
             {
+                case "parameters":
                 case "tenants":
-                    return false;
                 case "syslogs":
                 case "mcplogs":
                     return false;
@@ -543,6 +545,8 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             switch (context.Controller)
             {
+                case "parameters":
+                    return CanManageParameters(context: context);
                 case "tenants":
                     return CanManageTenant(context: context)
                         || context.UserSettings?.EnableManageTenant == true;
@@ -589,8 +593,8 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             switch (context.Controller)
             {
+                case "parameters":
                 case "tenants":
-                    return false;
                 case "syslogs":
                 case "mcplogs":
                     return false;
@@ -626,8 +630,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 context.Forms.Get("Controller"),
                 context.Controller))
             {
+                case "parameters":
                 case "tenants":
-                    return false;
                 case "syslogs":
                 case "mcplogs":
                     return false;
@@ -657,8 +661,8 @@ namespace Implem.Pleasanter.Libraries.Security
             if (context.ContractSettings.Import == false) return false;
             switch (context.Controller)
             {
+                case "parameters":
                 case "tenants":
-                    return false;
                 case "syslogs":
                     return false;
                 case "depts":
@@ -679,6 +683,7 @@ namespace Implem.Pleasanter.Libraries.Security
             if (context.ContractSettings.Export == false) return false;
             switch (context.Controller)
             {
+                case "parameters":
                 case "tenants":
                     return false;
                 case "syslogs":
@@ -706,6 +711,11 @@ namespace Implem.Pleasanter.Libraries.Security
         public static bool CanManagePermission(this Context context, SiteSettings ss, bool site = false)
         {
             return context.ItemsCan(ss: ss, type: Types.ManagePermission, site: site);
+        }
+
+        public static bool CanRestart(this Context context)
+        {
+            return context.HasPrivilege && Parameters.ParameterSetting.EnableRestart;
         }
 
         public static ColumnPermissionTypes ColumnPermissionType(
@@ -748,6 +758,12 @@ namespace Implem.Pleasanter.Libraries.Security
                                     ? ColumnPermissionTypes.Read
                                     : ColumnPermissionTypes.Deny;
             }
+        }
+
+        public static bool CanManageParameters(Context context)
+        {
+            return Parameters.ParameterSetting.EnableScreenManagement
+                && context.HasPrivilege;
         }
 
         public static bool CanManageTenant(Context context)

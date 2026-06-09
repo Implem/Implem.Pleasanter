@@ -141,7 +141,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         internal static string FormattedCode(this CodeDefinition codeRow)
         {
             string code = string.Empty;
-            if (codeRow.Body.IndexOf("\r\n") == -1)
+            if (codeRow.Body.IndexOf("\r\n") == -1 && codeRow.Body.IndexOf("\n") == -1)
             {
                 code += Strings.Tab(codeRow.Indent) + codeRow.Body;
             }

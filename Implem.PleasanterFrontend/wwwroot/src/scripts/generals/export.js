@@ -49,6 +49,7 @@ $p.export = function () {
         }
         document.body.appendChild(form);
         form.submit();
+        document.body.removeChild(form);
     }
     $p.closeDialog($('#ExportSelectorDialog'));
 };

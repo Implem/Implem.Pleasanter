@@ -11,12 +11,14 @@
         if ($('.menu-negative:visible').length) {
             $('.menu-negative:visible').hide();
         }
-        if ($('.ui-multiselect-close:visible').length) {
-            $('.ui-multiselect-close:visible').click();
-        }
         $('#ViewFiltersLabelMenus p').remove();
         timer = setTimeout(
             function ($this) {
+                $('select[multiple].applied').each(function () {
+                    if ($(this).multiselect('isOpen')) {
+                        $(this).multiselect('close');
+                    }
+                });
                 var dataName = $this[0].htmlFor;
                 var textbox_element = document.getElementById('ViewFilters__');
                 var new_element = document.createElement('p');
@@ -25,9 +27,9 @@
                 var $menuNegative = $(".menu-negative[id='ViewFilters__']");
                 $menuNegative.css('width', '');
                 $menuNegative
-                    .css('position', 'fixed')
-                    .css('top', $this.offset().top + $this.outerHeight())
-                    .css('left', $this.offset().left)
+                    .css('position', 'absolute')
+                    .css('top', $this.position().top + $this.outerHeight())
+                    .css('left', $this.position().left)
                     .outerWidth(
                         $this.outerWidth() > $menuNegative.outerWidth()
                             ? $this.outerWidth()

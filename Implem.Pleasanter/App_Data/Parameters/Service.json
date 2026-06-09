@@ -14,5 +14,6 @@
     "ShowChangePassword": false,
     "ShowStartGuide": true,
     "Demo": false,
-    "DemoUsagePeriod": 60
+    "DemoUsagePeriod": 60,
+    "DisableHtmlCache": null
 }

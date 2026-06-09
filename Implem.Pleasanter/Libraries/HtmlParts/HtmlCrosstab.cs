@@ -194,11 +194,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         groupByX: groupByX,
                         view: view,
                         timePeriod: timePeriod,
-                        month: month),
+                        month: month,
+                        dataRows: dataRows),
                     choicesY: CrosstabUtilities.ChoicesY(
                         context: context,
                         groupByY: groupByY,
-                        view: view),
+                        view: view,
+                        dataRows: dataRows),
                     aggregateType: aggregateType,
                     value: value,
                     daily: Daily(
@@ -224,7 +226,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         groupByX: groupByX,
                         view: view,
                         timePeriod: timePeriod,
-                        month: month),
+                        month: month,
+                        dataRows: dataRows),
                     choicesY: CrosstabUtilities.ChoicesY(
                         columnList: columnList),
                     aggregateType: aggregateType,

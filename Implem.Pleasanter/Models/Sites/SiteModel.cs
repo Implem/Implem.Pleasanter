@@ -3532,8 +3532,18 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "ViewFilterTableSelector":
+                    ViewFilterTableSelector(
+                        context: context,
+                        res: res);
+                    break;
                 case "AddViewFilter":
                     AddViewFilter(
+                        context: context,
+                        res: res);
+                    break;
+                case "ViewSorterTableSelector":
+                    ViewSorterTableSelector(
                         context: context,
                         res: res);
                     break;
@@ -5652,9 +5662,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string SearchProcessAccessControl(Context context, ResponseCollection res)
         {
-            var process = SiteSettings.Processes.Get(context.Forms.Int("ProcessId"))
-                ?? new Process();
-            var currentPermissions = process.GetPermissions(ss: SiteSettings);
+            var currentPermissions = ProcessPermissions(context: context);
             var sourcePermissions = PermissionUtilities.SourceCollection(
                 context: context,
                 ss: SiteSettings,
@@ -6390,6 +6398,34 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void ViewFilterTableSelector(
+            Context context,
+            ResponseCollection res,
+            string prefix = "")
+        {
+            var ss = SiteSettings;
+            ss.SetChoiceHash(context: context);
+            var view = SiteSettings.Views.Get(context.Forms.Int("ViewId"))
+                ?? new View(context: context, ss: SiteSettings);
+            view.SetByForm(
+                context: context,
+                ss: SiteSettings);
+            var joinKey = context.Forms.Data($"{prefix}ViewFilterTableSelector");
+            res.Html(
+                $"#{prefix}ViewFilterSelector",
+                new HtmlBuilder().OptionCollection(
+                    context: context,
+                    optionCollection: ss.ViewFilterOptions(
+                        context: context,
+                        view: view,
+                        joinKey: joinKey,
+                        currentTableOnly: false)
+                            ?.ToDictionary(o => o.Key, o => new ControlData(o.Value))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void AddViewFilter(
             Context context,
             ResponseCollection res,
@@ -6413,6 +6449,28 @@ namespace Implem.Pleasanter.Models
                             prefix: prefix))
                     .Remove($"#{prefix}ViewFilterSelector option:selected");
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ViewSorterTableSelector(
+            Context context,
+            ResponseCollection res,
+            string prefix = "")
+        {
+            var ss = SiteSettings;
+            ss.SetChoiceHash(context: context);
+            var joinKey = context.Forms.Data($"{prefix}ViewSorterTableSelector");
+            res.Html(
+                $"#{prefix}ViewSorterSelector",
+                new HtmlBuilder().OptionCollection(
+                    context: context,
+                    optionCollection: ss.ViewSorterOptions(
+                        context: context,
+                        joinKey: joinKey,
+                        currentTableOnly: false)
+                            ?.ToDictionary(o => o.Key, o => new ControlData(o.Value))));
         }
 
         /// <summary>

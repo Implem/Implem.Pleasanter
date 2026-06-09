@@ -962,7 +962,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
-            ServerScriptUtilities.Execute(
+            var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
                 gridData: null,
@@ -970,6 +970,10 @@ namespace Implem.Pleasanter.Models
                 view: null,
                 where: script => script.AfterUpdate == true,
                 condition: ServerScriptConditions.AfterUpdate);
+            if (scriptValues != null)
+            {
+                ServerScriptModelRow = scriptValues;
+            }
         }
 
         public void SetByBeforeUpdateServerScript(

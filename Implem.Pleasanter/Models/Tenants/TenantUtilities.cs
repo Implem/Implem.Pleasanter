@@ -1244,6 +1244,12 @@ namespace Implem.Pleasanter.Models
                                     value: tenantModel.TimeZone.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
+                            case "RestartScheduledTime":
+                                res.Val(
+                                    target: "#Tenants_RestartScheduledTime" + idSuffix,
+                                    value: tenantModel.RestartScheduledTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
                             default:
                                 switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                 {

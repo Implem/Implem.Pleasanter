@@ -1,4 +1,12 @@
-﻿using Implem.DisplayAccessor;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using Implem.DisplayAccessor;
+using Implem.Factory;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Exceptions;
@@ -6,12 +14,6 @@ using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
 namespace Implem.DefinitionAccessor
 {
     public class Initializer
@@ -48,10 +50,12 @@ namespace Implem.DefinitionAccessor
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
             Environments.AssemblyVersion = assemblyVersion;
             SetDefinitions();
+            SetSqls();
+            PatchParameters();
+            ApplyPatchedEnvironmentDefaults();
             WriteToServiceJson(setTimeZone, setLanguage);
             SetTimeZone();
             SetLanguage();
-            SetSqls();
             DateTimes.FirstDayOfWeek = Parameters.General.FirstDayOfWeek;
             DateTimes.FirstMonth = Parameters.General.FirstMonth;
             DateTimes.MinTime = Parameters.General.MinTime;
@@ -88,11 +92,15 @@ namespace Implem.DefinitionAccessor
 
         public static void SetParameters()
         {
-            Parameters.Env = Read<Env>(required: false);
+            Parameters.Env = Read<Env>(
+                required: false,
+                patch: false);
+            Parameters.ParameterSetting = Read<ParameterSetting>(patch: false);
             if (Parameters.Env?.ParametersPath.IsNullOrEmpty() == false)
             {
                 ParametersPath = Parameters.Env?.ParametersPath;
             }
+            Parameters.Rds = Read<Rds>(patch: false);
             Parameters.Api = Read<Api>();
             Parameters.Authentication = Read<Authentication>();
             Parameters.BackgroundService = Read<BackgroundService>();
@@ -101,7 +109,9 @@ namespace Implem.DefinitionAccessor
             Parameters.BinaryStorage = Read<BinaryStorage>();
             Parameters.CustomDefinitions = CustomDefinitionsHash();
             Parameters.Deleted = Read<Deleted>();
-            Parameters.ExtendedAutoTestSettings = Read<AutoTestSettings>(required: false);
+            Parameters.ExtendedAutoTestSettings = Read<AutoTestSettings>(
+                required: false,
+                patch: false);
             Parameters.ExtendedAutoTestScenarios = ExtendedAutoTestScenarios();
             Parameters.ExtendedAutoTestOperations = ExtendedAutoTestOperations();
             Parameters.ExtendedColumnDefinitions = ExtendedColumnDefinitions();
@@ -125,10 +135,9 @@ namespace Implem.DefinitionAccessor
             Parameters.McpServer = Read<McpServer>();
             Parameters.Mobile = Read<Mobile>();
             Parameters.NavigationMenus = NavigationMenus();
-            Parameters.Migration = Read<Migration>();
+            Parameters.Migration = Read<Migration>(patch: false);
             Parameters.Notification = Read<Notification>();
             Parameters.Permissions = Read<Permissions>();
-            Parameters.Rds = Read<Rds>();
             Parameters.Kvs = Read<Kvs>();
             Parameters.Registration = Read<Registration>();
             Parameters.Reminder = Read<Reminder>();
@@ -139,6 +148,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Session = Read<Session>();
             Parameters.Site = Read<Site>();
             Parameters.SitePackage = Read<SitePackage>();
+            Parameters.SummarySync = Read<SummarySync>();
             Parameters.SysLog = Read<SysLog>();
             Parameters.TextEditorUI = Read<TextEditorUI>();
             Parameters.User = Read<User>();
@@ -178,6 +188,12 @@ namespace Implem.DefinitionAccessor
                 Parameters.Rds.MySqlConnectingHost,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Rds_MySqlConnectingHost"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_MySqlConnectingHost"));
+            ApplyPatchedEnvironmentDefaults();
+        }
+
+
+        public static void ApplyPatchedEnvironmentDefaults()
+        {
             Parameters.Mail.SmtpUserName = Strings.CoalesceEmpty(
                 Parameters.Mail.SmtpUserName,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_SmtpUserName"),
@@ -194,6 +210,30 @@ namespace Implem.DefinitionAccessor
                 Parameters.Mail.OAuthClientSecret,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_OAuthClientSecret"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_OAuthClientSecret"));
+            Parameters.Mail.SendGrid.ApiKey = Strings.CoalesceEmpty(
+                Parameters.Mail.SendGrid.ApiKey,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_SendGrid_ApiKey"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_SendGrid_ApiKey"));
+            Parameters.Mail.AwsSes.AccessKeyId = Strings.CoalesceEmpty(
+                Parameters.Mail.AwsSes.AccessKeyId,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_AwsSes_AccessKeyId"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_AwsSes_AccessKeyId"));
+            Parameters.Mail.AwsSes.SecretAccessKey = Strings.CoalesceEmpty(
+                Parameters.Mail.AwsSes.SecretAccessKey,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_AwsSes_SecretAccessKey"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_AwsSes_SecretAccessKey"));
+            Parameters.Mail.AwsSes.SessionToken = Strings.CoalesceEmpty(
+                Parameters.Mail.AwsSes.SessionToken,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_AwsSes_SessionToken"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_AwsSes_SessionToken"));
+            if (Parameters.Mail.SmtpHost == "smtp.sendgrid.net"
+                && Parameters.Mail.Provider == MailProvider.Smtp)
+            {
+                Parameters.Mail.Provider = MailProvider.SendGrid;
+                Parameters.Mail.SendGrid.ApiKey = Strings.CoalesceEmpty(
+                    Parameters.Mail.SendGrid.ApiKey,
+                    Parameters.Mail.SmtpPassword);
+            }
             Parameters.General.HtmlUrlPrefix = Strings.CoalesceEmpty(
                 Parameters.General.HtmlUrlPrefix,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_HtmlUrlPrefix"),
@@ -237,6 +277,15 @@ namespace Implem.DefinitionAccessor
                 Parameters.Service.DeploymentEnvironment,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Service_DeploymentEnvironment"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Service_DeploymentEnvironment"));
+            var disableHtmlCacheEnvName = bool.TryParse(Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Service_DisableHtmlCache"), out var envName)
+                ? envName
+                : (bool?)null;
+            var disableHtmlCacheServiceName = bool.TryParse(Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Service_DisableHtmlCache"), out var serviceName)
+                ? serviceName
+                : (bool?)null;
+            Parameters.Service.DisableHtmlCache ??= disableHtmlCacheEnvName
+                ?? disableHtmlCacheServiceName
+                ?? false;
             Parameters.Kvs.ConnectionStringForSession = Strings.CoalesceEmpty(
                 Parameters.Kvs.ConnectionStringForSession,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Kvs_ConnectionStringForSession"),
@@ -247,9 +296,11 @@ namespace Implem.DefinitionAccessor
         {
             SetParameters();
             SetRdsParameters();
+            PatchParameters();
+            ApplyPatchedEnvironmentDefaults();
         }
 
-        private static T Read<T>(bool required = true)
+        private static T Read<T>(bool required = true, bool patch = true)
         {
             var name = typeof(T).Name;
             var json = Files.Read(JsonFilePath(name));
@@ -265,7 +316,116 @@ namespace Implem.DefinitionAccessor
                     throw new ParametersIllegalSyntaxException(name + ".json");
                 }
             }
+            if (patch)
+            {
+                Parameters.ParameterHash[name] = data.ToJson(
+                    formatting: Formatting.Indented,
+                    nullValueHandling: NullValueHandling.Include);
+            }
             return data;
+        }
+
+        public static void PatchParameters()
+        {
+            Parameters.ParameterHash.ForEach(o =>
+            {
+                var value = o.Value;
+                var patch = GetPatch(o.Key);
+                if (!patch.IsNullOrEmpty())
+                {
+                    value = Jsons.ApplyPatch(
+                        original: value,
+                        patch: patch,
+                        typeName: o.Key);
+                    if (o.Key == "Security")
+                    {
+                        value = Jsons.MergeArrayUnion(
+                            original: o.Value,
+                            target: value,
+                            propertyName: "PrivilegedUsers");
+                    }
+                    switch (o.Key)
+                    {
+                        case "Api": Parameters.Api = value.Deserialize<Api>(); break;
+                        case "Authentication": Parameters.Authentication = value.Deserialize<Authentication>(); break;
+                        case "BackgroundService": Parameters.BackgroundService = value.Deserialize<BackgroundService>(); break;
+                        case "BackgroundTask": Parameters.BackgroundTask = value.Deserialize<BackgroundTask>(); break;
+                        case "BinaryStorage": Parameters.BinaryStorage = value.Deserialize<BinaryStorage>(); break;
+                        case "CustomDefinitions": Parameters.CustomDefinitions = value.Deserialize<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(); break;
+                        case "Deleted": Parameters.Deleted = value.Deserialize<Deleted>(); break;
+                        case "ExtendedColumnDefinitions": Parameters.ExtendedColumnDefinitions = value.Deserialize<Dictionary<string, string>>(); break;
+                        case "ExtendedAutoTestSettings": Parameters.ExtendedAutoTestSettings = value.Deserialize<AutoTestSettings>(); break;
+                        case "ExtendedAutoTestScenarios": Parameters.ExtendedAutoTestScenarios = value.Deserialize<List<AutoTestScenario>>(); break;
+                        case "ExtendedAutoTestOperations": Parameters.ExtendedAutoTestOperations = value.Deserialize<List<AutoTestOperation>>(); break;
+                        case "ExtendedColumnsSet": Parameters.ExtendedColumnsSet = value.Deserialize<List<ExtendedColumns>>(); break;
+                        case "ExtendedFields": Parameters.ExtendedFields = value.Deserialize<List<ExtendedField>>(); break;
+                        case "ExtendedHtmls": Parameters.ExtendedHtmls = value.Deserialize<List<ExtendedHtml>>(); break;
+                        case "ExtendedNavigationMenus": Parameters.ExtendedNavigationMenus = value.Deserialize<List<ExtendedNavigationMenu>>(); break;
+                        case "ExtendedScripts": Parameters.ExtendedScripts = value.Deserialize<List<ExtendedScript>>(); break;
+                        case "ExtendedServerScripts": Parameters.ExtendedServerScripts = value.Deserialize<List<ExtendedServerScript>>(); break;
+                        case "ExtendedSqls": Parameters.ExtendedSqls = value.Deserialize<List<ExtendedSql>>(); break;
+                        case "ExtendedStyles": Parameters.ExtendedStyles = value.Deserialize<List<ExtendedStyle>>(); break;
+                        case "ExtendedPlugins": Parameters.ExtendedPlugins = value.Deserialize<List<ExtendedPlugin>>(); break;
+                        case "ExtendedStartGuides": Parameters.ExtendedStartGuides = value.Deserialize<List<ExtendedStartGuide>>(); break;
+                        case "ExtendedTags": Parameters.ExtendedTags = value.Deserialize<Dictionary<string, string>>(); break;
+                        case "PleasanterExtensions": Parameters.PleasanterExtensions = value.Deserialize<PleasanterExtensions>(); break;
+                        case "Form": Parameters.Form = value.Deserialize<Form>(); break;
+                        case "General": Parameters.General = value.Deserialize<General>(); break;
+                        case "GroupMembers": Parameters.GroupMembers = value.Deserialize<GroupMembers>(); break;
+                        case "History": Parameters.History = value.Deserialize<History>(); break;
+                        case "Locations": Parameters.Locations = value.Deserialize<Locations>(); break;
+                        case "Mail": Parameters.Mail = value.Deserialize<Mail>(); break;
+                        case "Mobile": Parameters.Mobile = value.Deserialize<Mobile>(); break;
+                        case "NavigationMenus": Parameters.NavigationMenus = value.Deserialize<List<NavigationMenu>>(); break;
+                        case "McpServer": Parameters.McpServer = value.Deserialize<McpServer>(); break;
+                        case "Notification": Parameters.Notification = value.Deserialize<Notification>(); break;
+                        case "Parameter": Parameters.Parameter = value.Deserialize<Parameter>(); break;
+                        case "Permissions": Parameters.Permissions = value.Deserialize<Permissions>(); break;
+                        case "Rds": Parameters.Rds = value.Deserialize<Rds>(); break;
+                        case "Kvs": Parameters.Kvs = value.Deserialize<Kvs>(); break;
+                        case "Registration": Parameters.Registration = value.Deserialize<Registration>(); break;
+                        case "Reminder": Parameters.Reminder = value.Deserialize<Reminder>(); break;
+                        case "Script": Parameters.Script = value.Deserialize<Script>(); break;
+                        case "Search": Parameters.Search = value.Deserialize<Search>(); break;
+                        case "Security": Parameters.Security = value.Deserialize<Security>(); break;
+                        case "Service": Parameters.Service = value.Deserialize<Service>(); break;
+                        case "Session": Parameters.Session = value.Deserialize<Session>(); break;
+                        case "Site": Parameters.Site = value.Deserialize<Site>(); break;
+                        case "SitePackage": Parameters.SitePackage = value.Deserialize<SitePackage>(); break;
+                        case "SysLog": Parameters.SysLog = value.Deserialize<SysLog>(); break;
+                        case "User": Parameters.User = value.Deserialize<User>(); break;
+                        case "TextEditorUI": Parameters.TextEditorUI = value.Deserialize<TextEditorUI>(); break;
+                        case "UserTemplate": Parameters.UserTemplate = value.Deserialize<CustomApps>(); break;
+                        case "Version": Parameters.Version = value.Deserialize<ParameterAccessor.Parts.Version>(); break;
+                        case "Validation": Parameters.Validation = value.Deserialize<Validation>(); break;
+                        case "Dashboard": Parameters.Dashboard = value.Deserialize<Dashboard>(); break;
+                        case "GroupChildren": Parameters.GroupChildren = value.Deserialize<GroupChildren>(); break;
+                        case "OutputCache": Parameters.OutputCache = value.Deserialize<OutputCache>(); break;
+                        case "Quartz": Parameters.Quartz = value.Deserialize<Quartz>(); break;
+                    }
+                }
+            });
+        }
+
+        private static string GetPatch(string title)
+        {
+            try
+            {
+                var factory = RdsFactory.Create(Parameters.Rds.Dbms);
+                using var sqlIo = Def.SqlIoByUser(
+                    factory: factory,
+                    statements: new SqlStatement(
+                        commandText: "select \"Body\" from \"Parameters\" where \"Title\" = @Title#CommandCount#;",
+                        param: new SqlParamCollection { { "Title", title } }));
+                var table = sqlIo.ExecuteTable(factory: factory);
+                return table.Rows.Count == 1
+                    ? table.Rows[0]["Body"].ToString()
+                    : string.Empty;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
         }
 
         private static Dictionary<string, Dictionary<string, Dictionary<string, string>>> CustomDefinitionsHash(
@@ -742,6 +902,7 @@ namespace Implem.DefinitionAccessor
             {
                 throw new ParametersIllegalSyntaxException(name + ".json");
             }
+            Parameters.ParameterHash[name] = data.ToJson(formatting: Formatting.Indented);
             return data;
         }
 

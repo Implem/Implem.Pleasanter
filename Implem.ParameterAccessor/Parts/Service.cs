@@ -2,24 +2,24 @@
 {
     public class Service
     {
-        public string Name;
-        public string EnvironmentName;
-        public string TimeZoneDefault;
-        public string DefaultPassword;
-        public string DeploymentEnvironment;
-        public bool WithoutChangeDefaultPassword;
-        public string DefaultLanguage;
-        public string AbsoluteUri;
-        public long MaxRequestBodySize;
-        public bool RequireHttps;
-        public long AnnouncementSiteId;
-        public bool ShowProfiles;
-        public bool ShowChangePassword;
-        public bool ShowStartGuide;
-        public bool Demo;
-        public bool DemoApi;
-        public int DemoUsagePeriod;
-        public bool RestrictNewFeatures;
-        public bool DisableHtmlCache;
+        public string Name { get; set; }
+        public string EnvironmentName { get; set; }
+        public string TimeZoneDefault { get; set; }
+        public string DefaultPassword { get; set; }
+        public string DeploymentEnvironment { get; set; }
+        public bool WithoutChangeDefaultPassword { get; set; }
+        public string DefaultLanguage { get; set; }
+        public string AbsoluteUri { get; set; }
+        public long MaxRequestBodySize { get; set; }
+        public bool RequireHttps { get; set; }
+        public long AnnouncementSiteId { get; set; }
+        public bool ShowProfiles { get; set; }
+        public bool ShowChangePassword { get; set; }
+        public bool ShowStartGuide { get; set; }
+        public bool Demo { get; set; }
+        public bool DemoApi { get; set; }
+        public int DemoUsagePeriod { get; set; }
+        public bool RestrictNewFeatures { get; set; }
+        public bool? DisableHtmlCache { get; set; } = null;
     }
 }

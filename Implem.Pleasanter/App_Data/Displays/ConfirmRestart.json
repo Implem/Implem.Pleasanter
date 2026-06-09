@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ConfirmRestart",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "The system will be unavailable during the restart. Are you sure you want to restart?"
+        },
+        {
+            "Language": "zh",
+            "Body": "系统重启期间将无法使用。确定要重新启动吗？"
+        },
+        {
+            "Language": "ja",
+            "Body": "再起動中はシステムを利用できません。本当に再起動しますか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Während des Neustarts ist das System nicht verfügbar. Möchten Sie wirklich neu starten?"
+        },
+        {
+            "Language": "ko",
+            "Body": "재시작 중에는 시스템을 사용할 수 없습니다. 정말로 재시작하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "El sistema no estará disponible durante el reinicio. ¿Está seguro de que desea reiniciar?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hệ thống sẽ không khả dụng trong quá trình khởi động lại. Bạn có chắc chắn muốn khởi động lại không?"
+        }
+    ]
+}

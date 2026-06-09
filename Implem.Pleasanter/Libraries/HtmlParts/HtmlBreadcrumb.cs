@@ -53,6 +53,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 hb: hb,
                                 context: context,
                                 ss: ss);
+                case "parameters":
+                    return hb.ParametersBreadcrumb(
+                        context: context,
+                        ss: ss);
                 case "tenants":
                     return hb.TenantsBreadcrumb(
                         context: context,
@@ -168,6 +172,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     return hb;
             }
+        }
+
+        public static HtmlBuilder ParametersBreadcrumb(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
+        {
+            return Permissions.CanManageParameters(context: context)
+                ? Breadcrumb(
+                    hb: hb,
+                    context: context,
+                    ss: ss,
+                    controller: context.Controller,
+                    display: Displays.Parameters(context: context),
+                    action: "Edit")
+                : Breadcrumb(
+                    hb: hb,
+                    context: context,
+                    ss: ss);
         }
 
         public static HtmlBuilder TenantsBreadcrumb(

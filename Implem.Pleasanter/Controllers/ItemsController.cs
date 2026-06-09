@@ -993,7 +993,7 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        [HttpGet]
+        [HttpPost]
         public FileContentResult ExportSitePackage(long id)
         {
             var context = new Context();

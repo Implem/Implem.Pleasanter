@@ -121,7 +121,8 @@
                     ss: ss,
                     #modelName#Model: #modelName#Model,
                     processes: processes,
-                    previousTitle: null);
+                    previousTitle: null,
+                    synchronizeSummary: false);
                 if (error.Type != Error.Types.None) return error;
                 updateCount++;
             }
@@ -132,7 +133,8 @@
                     context: context,
                     ss: ss,
                     #modelName#Model: #modelName#Model,
-                    processes: processes);
+                    processes: processes,
+                    synchronizeSummary: false);
                 if (error.Type != Error.Types.None) return error;
                 insertCount++;
             }
@@ -186,6 +188,12 @@
                     errMessage
                 })));
     }
+    Summaries.Synchronize(
+        context: context,
+        ss: ss);
+    Summaries.SynchronizeSources(
+        context: context,
+        ss: ss);
     ss.Notifications.ForEach(notification =>
     {
         var body = new System.Text.StringBuilder();

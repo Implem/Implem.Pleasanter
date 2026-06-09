@@ -8,6 +8,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+<!--Model_OutgoingMailUsing-->
 namespace Implem.Pleasanter.Models
 {
     public static class #ModelName#Validators

@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -56,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Context = context;
             Host = host;
             Port = port;
-            From = from;
+            From = Addresses.From(from);
             To = to;
             Cc = cc;
             Bcc = bcc;
@@ -69,9 +68,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             try
             {
                 var message = new MimeMessage();
-                var enc = GetEncodingOrDefault(context: context,
+                var enc = MailEncodings.GetEncodingOrDefault(context: context,
                     encoding: Parameters.Mail.Encoding);
-                message.From.Add(Addresses.From(From).SetEncoding(enc));
+                message.From.Add(From.SetEncoding(enc));
                 Addresses.Get(
                     context: context,
                     addresses: To)
@@ -87,7 +86,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 message.Headers.Replace(HeaderId.Subject, enc, Subject);
                 var textPart = new TextPart(MimeKit.Text.TextFormat.Plain);
                 textPart.SetText(enc, Body);
-                textPart.ContentTransferEncoding = GetContentEncodingForTransfer(
+                textPart.ContentTransferEncoding = MailEncodings.GetContentEncodingForTransfer(
                     encoding: enc,
                     contentEncoding: Parameters.Mail.ContentEncoding);
                 var mimeParts = attachments
@@ -151,43 +150,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 new SysLogModel(Context, e);
             }
-        }
-
-        private Encoding GetEncodingOrDefault(Context context, string encoding)
-        {
-            if (encoding == null)
-            {
-                return Encoding.UTF8;
-            }
-            var encodingInfo = Encoding.GetEncodings()
-                .FirstOrDefault(o => o.Name == encoding
-                    || o.DisplayName == encoding
-                    || o.CodePage.ToString() == encoding);
-            if (encodingInfo == null)
-            {
-                new SysLogModel(
-                    context: context,
-                    method: nameof(GetEncodingOrDefault),
-                    message: $"{encoding} is not supported Encoding. Falling back to UTF-8.",
-                    errStackTrace: $"Supported Encodings are {Encoding.GetEncodings().Select(o => o.Name).Join(",")}.",
-                    sysLogType: SysLogModel.SysLogTypes.Exception);
-                return Encoding.UTF8;
-            }
-            return Encoding.GetEncoding(encodingInfo.Name);
-        }
-
-        private ContentEncoding GetContentEncodingForTransfer(Encoding encoding, ParameterAccessor.Parts.Types.ContentEncodings? contentEncoding)
-        {
-            if (encoding == Encoding.UTF8 || contentEncoding == null)
-            {
-                return ContentEncoding.Default;
-            }
-            if (Enum.TryParse(contentEncoding.ToString(), out ContentEncoding type)
-                && Enum.IsDefined(typeof(ContentEncoding), type))
-            {
-                return type;
-            }
-            return ContentEncoding.Default;
         }
 
         private async Task<string> GetAccessTokenAsync()

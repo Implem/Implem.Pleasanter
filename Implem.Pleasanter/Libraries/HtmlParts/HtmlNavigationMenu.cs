@@ -642,6 +642,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageUsers = Permissions.CanManageUser(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
             var canManageRegistrations = Permissions.CanManageRegistrations(context: context);
+            var canManageParameters = Permissions.CanManageParameters(context: context);
             var canManageTenants = Permissions.CanManageTenant(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
             var canManageTrashBox = CanManageTrashBox(
@@ -717,6 +718,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return canManageDeptTrashBox;
                 case "SettingsMenu_UserTrashBox":
                     return canManageUserTrashBox;
+                case "SettingsMenu_ParametersAdmin":
+                    return canManageParameters;
                 case "SettingsMenu_TenantAdmin":
                     return canManageTenants;
                 case "SettingsMenu_ImportSitePackage":

@@ -718,6 +718,16 @@ pre {
     float: left;
     height: 32px;
     padding: 0;
+    .container-normal:has(.check-option) {
+        position: static;
+        .check-option {
+            padding-bottom: 8px;
+            margin-bottom: 0;
+        }
+    }
+    .select-field {
+        width: 100%;
+    }
 }
 
 #ViewFilters_Reset {

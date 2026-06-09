@@ -1,0 +1,33 @@
+{
+    "Id": "DisabledGroup",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "(Disabled Group)"
+        },
+        {
+            "Language": "zh",
+            "Body": "(已禁用的组)"
+        },
+        {
+            "Language": "ja",
+            "Body": "(削除済グループ)"
+        },
+        {
+            "Language": "de",
+            "Body": "(Deaktivierte Gruppe)"
+        },
+        {
+            "Language": "ko",
+            "Body": "(비활성화된 그룹)"
+        },
+        {
+            "Language": "es",
+            "Body": "(Grupo Desactivado)"
+        },
+        {
+            "Language": "vn",
+            "Body": "(Nhóm vô hiệu hóa)"
+        }
+    ]
+}

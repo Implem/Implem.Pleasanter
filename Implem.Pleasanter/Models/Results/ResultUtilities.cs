@@ -3441,7 +3441,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             ResultModel resultModel,
             List<Process> processes,
-            bool migrationMode = false)
+            bool migrationMode = false,
+            bool synchronizeSummary = true)
         {
             var invalid = ResultValidators.OnCreating(
                 context: context,
@@ -3478,6 +3479,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 processes: processes,
                 notice: true,
+                synchronizeSummary: synchronizeSummary,
                 migrationMode: migrationMode);
             BinaryUtilities.UploadImage(
                 context: context,
@@ -3656,10 +3658,13 @@ namespace Implem.Pleasanter.Models
                     var res = new ResultsResponseCollection(
                         context: context,
                         resultModel: resultModel);
+                    var afterUpdateHidden = resultModel.ServerScriptModelRow?.Hidden
+                        ?.ToDictionary(kv => kv.Key, kv => kv.Value);
                     switch (Parameters.General.UpdateResponseType)
                     {
                         case 1:
                             return ResponseByUpdate(res, context, ss, resultModel, processes)
+                                .HiddenByAfterUpdateServerScript(hidden: afterUpdateHidden)
                                 .PrependComment(
                                     context: context,
                                     ss: ss,
@@ -3670,6 +3675,7 @@ namespace Implem.Pleasanter.Models
                                 .ToJson();
                         default:
                             return ResponseByUpdate(res, context, ss, resultModel, processes)
+                                .HiddenByAfterUpdateServerScript(hidden: afterUpdateHidden)
                                 .AfterUpdate(ss: ss)
                                 .ToJson();
                     }
@@ -3822,6 +3828,22 @@ namespace Implem.Pleasanter.Models
                                 processes: processes));
                 }
             }
+        }
+
+        private static ResponseCollection HiddenByAfterUpdateServerScript(
+            this ResponseCollection res,
+            Dictionary<string, string> hidden)
+        {
+            hidden?.ForEach(kv =>
+            {
+                res.Remove(target: "#" + kv.Key);
+                res.After(
+                    target: "#MainForm",
+                    value: new HtmlBuilder().Hidden(
+                        controlId: kv.Key,
+                        value: kv.Value));
+            });
+            return res;
         }
 
         private static Message UpdatedMessage(
@@ -4666,7 +4688,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             ResultModel resultModel,
             List<Process> processes,
-            string previousTitle)
+            string previousTitle,
+            bool synchronizeSummary = true)
         {
             var invalid = ResultValidators.OnUpdating(
                 context: context,
@@ -4707,6 +4730,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 processes: processes,
                 notice: true,
+                synchronizeSummary: synchronizeSummary,
                 previousTitle: previousTitle);
             BinaryUtilities.UploadImage(
                 context: context,
@@ -5261,7 +5285,8 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             resultModel: resultModel,
                             processes: processes,
-                            previousTitle: null);
+                            previousTitle: null,
+                            synchronizeSummary: false);
                         if (error.Type != Error.Types.None) return error;
                         updateCount++;
                     }
@@ -5272,7 +5297,8 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             resultModel: resultModel,
-                            processes: processes);
+                            processes: processes,
+                            synchronizeSummary: false);
                         if (error.Type != Error.Types.None) return error;
                         insertCount++;
                     }
@@ -5325,6 +5351,12 @@ namespace Implem.Pleasanter.Models
                             errMessage
                         })));
             }
+            Summaries.Synchronize(
+                context: context,
+                ss: ss);
+            Summaries.SynchronizeSources(
+                context: context,
+                ss: ss);
             ss.Notifications.ForEach(notification =>
             {
                 var body = new System.Text.StringBuilder();
@@ -7227,6 +7259,7 @@ namespace Implem.Pleasanter.Models
                                                     context: context,
                                                     ss: ss,
                                                     extendedSqls: false,
+                                                    synchronizeSummary: false,
                                                     previousTitle: previousTitle,
                                                     get: false);
                                                 updateCount++;
@@ -7243,6 +7276,7 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 ss: ss,
                                                 extendedSqls: false,
+                                                synchronizeSummary: false,
                                                 migrationMode: migrationMode);
                                             insertCount++;
                                             break;
@@ -7263,6 +7297,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             extendedSqls: false,
+                            synchronizeSummary: false,
                             migrationMode: migrationMode);
                         switch (errorData.Type)
                         {
@@ -7297,6 +7332,12 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
+                Summaries.Synchronize(
+                    context: context,
+                    ss: ss);
+                Summaries.SynchronizeSources(
+                    context: context,
+                    ss: ss);
                 ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {
@@ -7585,6 +7626,7 @@ namespace Implem.Pleasanter.Models
                                                     context: context,
                                                     ss: ss,
                                                     extendedSqls: false,
+                                                    synchronizeSummary: false,
                                                     previousTitle: previousTitle,
                                                     get: false);
                                                 updateCount++;
@@ -7601,6 +7643,7 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 ss: ss,
                                                 extendedSqls: false,
+                                                synchronizeSummary: false,
                                                 migrationMode: migrationMode);
                                             insertCount++;
                                             break;
@@ -7626,6 +7669,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             extendedSqls: false,
+                            synchronizeSummary: false,
                             migrationMode: migrationMode);
                         switch (errorData.Type)
                         {
@@ -7651,6 +7695,12 @@ namespace Implem.Pleasanter.Models
                     }
                 }
                 exclusiveObj.Refresh();
+                Summaries.Synchronize(
+                    context: context,
+                    ss: ss);
+                Summaries.SynchronizeSources(
+                    context: context,
+                    ss: ss);
                 ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {
@@ -7901,6 +7951,7 @@ namespace Implem.Pleasanter.Models
                                                     context: context,
                                                     ss: ss,
                                                     extendedSqls: false,
+                                                    synchronizeSummary: false,
                                                     previousTitle: previousTitle,
                                                     get: false);
                                                 updateCount++;
@@ -7917,6 +7968,7 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 ss: ss,
                                                 extendedSqls: false,
+                                                synchronizeSummary: false,
                                                 migrationMode: migrationMode);
                                             insertCount++;
                                             break;
@@ -7937,6 +7989,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             extendedSqls: false,
+                            synchronizeSummary: false,
                             migrationMode: migrationMode);
                         switch (errorData.Type)
                         {
@@ -7960,6 +8013,12 @@ namespace Implem.Pleasanter.Models
                     }
                 }
                 exclusiveObj.Refresh();
+                Summaries.Synchronize(
+                    context: context,
+                    ss: ss);
+                Summaries.SynchronizeSources(
+                    context: context,
+                    ss: ss);
                 ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {

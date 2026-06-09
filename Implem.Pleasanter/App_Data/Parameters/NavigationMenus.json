@@ -105,6 +105,12 @@
                 "Function": "SendMainForm"
             },
             {
+                "MenuId": "SettingsMenu_ParametersAdmin",
+                "Name": "ParametersAdmin",
+                "Icon": "ui-icon ui-icon-gear",
+                "LinkParams": [ "Parameters", "Edit" ]
+            },
+            {
                 "MenuId": "SettingsMenu_TenantAdmin",
                 "Name": "TenantAdmin",
                 "Icon": "ui-icon ui-icon-gear",

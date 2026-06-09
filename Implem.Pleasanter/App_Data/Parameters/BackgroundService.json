@@ -1,6 +1,7 @@
 ﻿{
     "EnvironmentVariables": null,
     "Reminder": false,
+    "ReminderCheckIntervalSeconds": 60,
     "SyncByLdap": false,
     "SyncByLdapTime": [ "02:00" ],
     "DeleteSysLogs": false,

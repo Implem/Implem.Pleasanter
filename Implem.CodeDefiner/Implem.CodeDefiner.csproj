@@ -6,15 +6,15 @@
     <Year>$([System.DateTime]::Now.Year.ToString())</Year>
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>This program does the automatic code creation and merging of existing code based on the definition. Also it will make the configuration change of sql server database.</Description>
-    <AssemblyVersion>1.5.4.0</AssemblyVersion>
-    <FileVersion>1.5.4.0</FileVersion>
-    <Version>1.5.4.0</Version>
+    <AssemblyVersion>1.5.5.0</AssemblyVersion>
+    <FileVersion>1.5.5.0</FileVersion>
+    <Version>1.5.5.0</Version>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="JsonDiffPatch.Net" Version="2.5.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
     <PackageReference Include="Npgsql" Version="10.0.2" />
   </ItemGroup>

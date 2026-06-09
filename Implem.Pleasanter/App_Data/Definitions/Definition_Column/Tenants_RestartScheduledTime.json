@@ -1,0 +1,18 @@
+{
+    "Id": "Tenants_RestartScheduledTime",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "RestartScheduledTime",
+    "LabelText": "再起動指示日時",
+    "No": "190",
+    "History": "190",
+    "TypeName": "datetime",
+    "Nullable": "1",
+    "LabelText_en": "Restart Scheduled Time",
+    "LabelText_zh": "重启预定时间",
+    "LabelText_de": "Neustart-Zeitplan",
+    "LabelText_ko": "재시작 예약 시간",
+    "LabelText_es": "Hora programada de reinicio",
+    "LabelText_vn": "Thời gian khởi động lại"
+}

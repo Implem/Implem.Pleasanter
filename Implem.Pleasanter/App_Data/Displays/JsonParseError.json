@@ -1,0 +1,33 @@
+﻿{
+    "Id": "JsonParseError",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The input JSON is invalid."
+        },
+        {
+            "Language": "zh",
+            "Body": "输入的JSON无效。"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力されたJSONが正しくありません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die eingegebene JSON ist ungültig."
+        },
+        {
+            "Language": "ko",
+            "Body": "입력된 JSON이 올바르지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El JSON ingresado no es válido."
+        },
+        {
+            "Language": "vn",
+            "Body": "JSON được nhập không hợp lệ."
+        }
+    ]
+}

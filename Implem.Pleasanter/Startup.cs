@@ -383,11 +383,14 @@ namespace Implem.Pleasanter.NetCore
             return list;
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            IHostApplicationLifetime lifetime)
         {
+            SiteInfo.ApplicationLifetime = lifetime;
             app.UseForwardedHeaders();
-            if (Parameters.Service.DisableHtmlCache
-                || !Environment.GetEnvironmentVariable("PLEASANTER_DISABLE_HTML_CACHE").IsNullOrEmpty())
+            if (Parameters.Service.DisableHtmlCache == true)
             {
                 app.UseNoCacheHtml();
             }

@@ -1274,6 +1274,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message JsonParseError(Context context, params string[] data)
+        {
+            return Get(
+                id: "JsonParseError",
+                text: Displays.JsonParseError(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message LinkCreated(Context context, params string[] data)
         {
             return Get(
@@ -1812,6 +1822,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-error");
+        }
+
+        public static Message Restarting(Context context, params string[] data)
+        {
+            return Get(
+                id: "Restarting",
+                text: Displays.Restarting(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
         public static Message RestoredFromHistory(Context context, params string[] data)
@@ -3498,6 +3518,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseJsonParseError(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: JsonParseError(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseLinkCreated(
             Context context, string target = null, params string[] data)
         {
@@ -4087,6 +4118,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: RequireTo(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseRestarting(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: Restarting(
                     context: context,
                     data: data),
                 target: target);

@@ -1,4 +1,5 @@
 ﻿{
+    "Provider": "Smtp",
     "SmtpHost": null,
     "SmtpPort": 25,
     "SmtpUserName": null,
@@ -14,6 +15,16 @@
     "OAuthTokenEndpoint": null,
     "OAuthDefaultExpiresIn": 3600,
     "OAuthTokenRefreshBufferTime": 300,
+    "SendGrid": {
+        "ApiKey": null
+    },
+    "AwsSes": {
+        "AccessKeyId": null,
+        "SecretAccessKey": null,
+        "SessionToken": null,
+        "Region": null,
+        "ConfigurationSetName": null
+    },
     "FixedFrom": null,
     "AllowedFrom": null,
     "SupportFrom": "\"Pleasanter.org\" <support@pleasanter.org>",

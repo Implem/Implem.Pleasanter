@@ -6,6 +6,7 @@ namespace Implem.DefinitionAccessor
     public static class Parameters
     {
         public static List<string> SyntaxErrors = new List<string>();
+        public static Dictionary<string, string> ParameterHash = new Dictionary<string, string>();
         public static Api Api;
         public static Authentication Authentication;
         public static BackgroundService BackgroundService;
@@ -44,6 +45,7 @@ namespace Implem.DefinitionAccessor
         public static Migration Migration;
         public static Notification Notification;
         public static Parameter Parameter;
+        public static ParameterSetting ParameterSetting;
         public static Permissions Permissions;
         public static Rds Rds;
         public static Kvs Kvs;
@@ -56,6 +58,7 @@ namespace Implem.DefinitionAccessor
         public static Session Session;
         public static Site Site;
         public static SitePackage SitePackage;
+        public static SummarySync SummarySync;
         public static SysLog SysLog;
         public static User User;
         public static TextEditorUI TextEditorUI;

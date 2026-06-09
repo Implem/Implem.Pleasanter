@@ -4,5 +4,5 @@
     "Indent": "4",
     "Separator": "\\r\\n",
     "GenericUi": "1",
-    "Exclude": "Tenants"
+    "Exclude": "Parameters,Tenants"
 }

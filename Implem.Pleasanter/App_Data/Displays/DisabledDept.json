@@ -1,0 +1,33 @@
+{
+    "Id": "DisabledDept",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "(Disabled Dept)"
+        },
+        {
+            "Language": "zh",
+            "Body": "(已禁用的部门)"
+        },
+        {
+            "Language": "ja",
+            "Body": "(削除済組織)"
+        },
+        {
+            "Language": "de",
+            "Body": "(Deaktivierte Abteilung)"
+        },
+        {
+            "Language": "ko",
+            "Body": "(비활성화된 부서)"
+        },
+        {
+            "Language": "es",
+            "Body": "(Departamento Desactivado)"
+        },
+        {
+            "Language": "vn",
+            "Body": "(Phòng ban vô hiệu hóa)"
+        }
+    ]
+}

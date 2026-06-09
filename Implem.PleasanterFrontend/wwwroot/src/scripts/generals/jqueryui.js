@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     $p.apply();
 });
 $p.apply = function () {
@@ -197,10 +197,12 @@ function replaceMenu() {
     $header = $("body > thead:visible > tr > th.sortable[data-name='" + dataName + "']");
     if ($header.length) {
         if ($('.menu-sort:visible').length) {
+            $('.menu-sort:visible').find('select[multiple].applied').each(function () {
+                if ($(this).multiselect('isOpen')) {
+                    $(this).multiselect('close');
+                }
+            });
             $('.menu-sort:visible').hide();
-        }
-        if ($('.ui-multiselect-close:visible').length) {
-            $('.ui-multiselect-close:visible').click();
         }
     } else {
         $header = $("table > thead > tr > th.sortable[data-name='" + dataName + "']");

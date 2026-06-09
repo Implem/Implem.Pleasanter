@@ -49,6 +49,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return referer != null
                         ? referer
                         : Locations.Top(context: context);
+                case "parameters":
                 case "tenants":
                     return AdminsOrTop(context: context);
                 case "syslogs":

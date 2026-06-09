@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     $(document).on('click', '#GridCheckAll', function () {
         $('.grid-check').prop('checked', $('#GridCheckAll').prop('checked'));
         var data = $p.getData($(this));
@@ -112,12 +112,30 @@ $(function () {
     var isRwd = $('head').css('font-family') === 'responsive';
     var spToggle = false;
     var filterHide = function () {
-        if ($('.menu-sort:visible').length) $('.menu-sort:visible').hide();
-        if ($('.ui-multiselect-close:visible').length) $('.ui-multiselect-close:visible').click();
-        spToggle = false;
+        if (filterHide._running) return;
+        filterHide._running = true;
+        try {
+            var $self = $('.menu-sort:visible');
+            if ($self.length) {
+                $self.find('select[multiple].applied').each(function () {
+                    if ($(this).multiselect('isOpen')) {
+                        $(this).multiselect('close');
+                    }
+                });
+                $self.hide();
+            }
+            spToggle = false;
+        } finally {
+            filterHide._running = false;
+        }
     };
 
     var filterShow = function ($control) {
+        $('select[multiple].applied').each(function () {
+            if ($(this).multiselect('isOpen')) {
+                $(this).multiselect('close');
+            }
+        });
         filterHide();
         var dataName = $control.attr('data-name');
         $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");

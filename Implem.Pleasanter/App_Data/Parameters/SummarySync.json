@@ -1,0 +1,4 @@
+{
+    "SynchronizeSummariesDelayMilliseconds": 0,
+    "SynchronizeSummariesDelayChunkSize": 100
+}

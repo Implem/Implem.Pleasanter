@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ParametersAdmin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Parameters administration"
+        },
+        {
+            "Language": "zh",
+            "Body": "参数管理"
+        },
+        {
+            "Language": "ja",
+            "Body": "パラメータの管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Parameterverwaltung"
+        },
+        {
+            "Language": "ko",
+            "Body": "매개변수 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Administración de parámetros"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quản trị tham số"
+        }
+    ]
+}

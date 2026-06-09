@@ -7740,7 +7740,18 @@ namespace Implem.Pleasanter.Models
                             onClick: "$p.resetEditorColumn($(this));",
                             action: "SetSiteSettings",
                             method: "post",
-                            confirm: "ConfirmReset")
+                            confirm: "ConfirmReset",
+                            _using: context.ThemeVersionOver2_0())
+                        .Button(
+                            controlId: "ResetEditorColumn",
+                            text: Displays.Reset(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.resetEditorColumn($(this));",
+                            icon: "ui-icon-arrowrefresh-1-s",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            confirm: "ConfirmReset",
+                            _using: !context.ThemeVersionOver2_0())
                         .Button(
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
@@ -7814,7 +7825,18 @@ namespace Implem.Pleasanter.Models
                             onClick: "$p.resetEditorColumn($(this));",
                             action: "SetSiteSettings",
                             method: "post",
-                            confirm: "ConfirmReset")
+                            confirm: "ConfirmReset",
+                            _using: context.ThemeVersionOver2_0())
+                        .Button(
+                            controlId: "ResetEditorColumn",
+                            text: Displays.Reset(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.resetEditorColumn($(this));",
+                            icon: "ui-icon-arrowrefresh-1-s",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            confirm: "ConfirmReset",
+                            _using: !context.ThemeVersionOver2_0())
                         .Button(
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
@@ -12711,12 +12733,28 @@ namespace Implem.Pleasanter.Models
                                 .Div(css: "both", action: () => hb
                                     .FieldDropDown(
                                         context: context,
+                                        controlId: $"{prefix}ViewFilterTableSelector",
+                                        fieldCss: "field-auto-thin",
+                                        controlCss: " always-send",
+                                        labelText: Displays.Tables(context: context),
+                                        optionCollection: ss.ViewTableOptions(
+                                            context: context,
+                                            view: view,
+                                            currentTableOnly: currentTableOnly),
+                                        onChange: "$p.send($(this));",
+                                        action: "SetSiteSettings",
+                                        method: "post",
+                                        _using: !currentTableOnly)
+                                    .FieldDropDown(
+                                        context: context,
                                         controlId: $"{prefix}ViewFilterSelector",
                                         fieldCss: "field-auto-thin",
                                         controlCss: " always-send",
+                                        labelText: Displays.Column(context: context),
                                         optionCollection: ss.ViewFilterOptions(
                                             context: context,
                                             view: view,
+                                            joinKey: string.Empty,
                                             currentTableOnly: currentTableOnly))
                                     .Button(
                                         controlId: $"Add{prefix}ViewFilter",
@@ -12958,11 +12996,27 @@ namespace Implem.Pleasanter.Models
                         .Text(text: Displays.Sorters(context: context)))
                 .FieldDropDown(
                     context: context,
+                    controlId: $"{prefix}ViewSorterTableSelector",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " always-send",
+                    labelText: Displays.Tables(context: context),
+                    optionCollection: ss.ViewTableOptions(
+                        context: context,
+                        view: view,
+                        currentTableOnly: currentTableOnly),
+                    onChange: "$p.send($(this));",
+                    action: "SetSiteSettings",
+                    method: "post",
+                    _using: !currentTableOnly)
+                .FieldDropDown(
+                    context: context,
                     controlId: $"{prefix}ViewSorterSelector",
                     fieldCss: "field-auto-thin",
                     controlCss: " always-send",
+                    labelText: Displays.Column(context: context),
                     optionCollection: ss.ViewSorterOptions(
                         context: context,
+                        joinKey: string.Empty,
                         currentTableOnly: currentTableOnly))
                 .FieldDropDown(
                     context: context,
@@ -17398,7 +17452,8 @@ namespace Implem.Pleasanter.Models
                     Summaries.Synchronize(
                         context: context,
                         ss: ss,
-                        id: id);
+                        id: id,
+                        watchdog: watchdog);
                 });
                 return new ErrorData(type: Error.Types.None);
             }

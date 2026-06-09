@@ -1909,7 +1909,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             WikiModel wikiModel,
             List<Process> processes,
-            bool migrationMode = false)
+            bool migrationMode = false,
+            bool synchronizeSummary = true)
         {
             var invalid = WikiValidators.OnCreating(
                 context: context,
@@ -2248,7 +2249,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             WikiModel wikiModel,
             List<Process> processes,
-            string previousTitle)
+            string previousTitle,
+            bool synchronizeSummary = true)
         {
             var invalid = WikiValidators.OnUpdating(
                 context: context,
@@ -2269,6 +2271,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 processes: processes,
                 notice: true,
+                synchronizeSummary: synchronizeSummary,
                 previousTitle: previousTitle);
             BinaryUtilities.UploadImage(
                 context: context,

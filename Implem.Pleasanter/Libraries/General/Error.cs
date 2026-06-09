@@ -79,6 +79,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidValidateRequiredCsvData,
             ItemsLimit,
             JoeAccountCheck,
+            JsonParseError,
             LockedRecord,
             LockedTable,
             LoginExpired,
@@ -426,6 +427,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.JoeAccountCheck:
                     return Messages.JoeAccountCheck(
+                        context: context,
+                        data: data);
+                case Types.JsonParseError:
+                    return Messages.JsonParseError(
                         context: context,
                         data: data);
                 case Types.LockedRecord:

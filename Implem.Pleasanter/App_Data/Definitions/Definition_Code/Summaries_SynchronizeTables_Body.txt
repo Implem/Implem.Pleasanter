@@ -12,7 +12,8 @@
     string type,
     string sourceColumn,
     View sourceCondition,
-    long #modelName#Id = 0)
+    long #modelName#Id = 0,
+    Action watchdog = null)
 {
     if (context.CanUpdate(ss: destinationSs))
     {
@@ -57,6 +58,7 @@
                 sourceColumn: sourceColumn,
                 sourceCondition: sourceCondition)
             : new Dictionary<long, decimal>();
+        var chunkDelay = CreateChunkDelayAction(watchdog: watchdog);
         #modelName#Ids.ForEach(#modelName#Id =>
         {
             var #modelName#Model = new #ModelName#Model(
@@ -89,6 +91,7 @@
                     synchronizeSummary: false,
                     get: false);
             }
+            chunkDelay?.Invoke();
         });
     }
 }

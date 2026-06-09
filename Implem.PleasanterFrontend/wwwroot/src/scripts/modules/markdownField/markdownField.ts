@@ -1,4 +1,4 @@
-﻿import { Marked } from 'marked';
+import { Marked } from 'marked';
 import DOMPurify from 'dompurify';
 import hljs from 'highlight.js';
 import $ from 'jquery';
@@ -40,6 +40,9 @@ class MarkdownFieldElement extends HTMLElement {
         `<a\\s+href="${MarkdownFieldElement.PLACEHOLDER_BASE_ESCAPED}(\\d+)/"([^>]*)>([\\s\\S]*?)</a>`,
         'gi'
     );
+    private static readonly URL_REGEX: RegExp = /(?:(?:https?|ftp):\/\/|www\.)(?:[a-zA-Z0-9-]+\.?)+[^\s<]*/gi;
+    private static readonly EMAIL_REGEX: RegExp =
+        /[A-Za-z0-9._+-]+@[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9_-]*[a-zA-Z0-9])+(?![_-])/g;
     private customSchemeLinks: Array<{ url: string; displayText?: string }> = [];
     private uncPathRegex: RegExp =
         /\B\\\\[^\\/:*?"<>|\r\n\s]+\\[^\\/:*?"<>|\r\n\s]+(?:\\[^\\/:*?"<>|\r\n()\s]*(?:\([^\\/:*?"<>|\r\n()]*\)[^\\/:*?"<>|\r\n()\s]*)?)*[^\\/:*?"<>|\r\n()[\]\s]/gi;
@@ -94,7 +97,7 @@ class MarkdownFieldElement extends HTMLElement {
                     this.viewerMarked = undefined;
                     break;
             }
-            if (!this.isImageUsable || this.viewerType === 'disabled') {
+            if (!this.isImageUsable) {
                 this.filesBtnElem?.remove();
                 this.photoBtnElem?.remove();
                 this.querySelector('.bottom-tools')?.remove();
@@ -140,13 +143,13 @@ class MarkdownFieldElement extends HTMLElement {
             this.controller.addEventListener('change', this.onEditorChange);
         }
         if (this.viewerType !== 'disabled') {
-            if (this.isImageUsable) {
-                this.controller.addEventListener('paste', this.onEditorPaste);
-                this.filesBtnElem?.addEventListener('click', this.onFilesClick);
-                this.filesBtnElem?.addEventListener('change', this.onFilesUpdate);
-                this.photoBtnElem?.addEventListener('click', this.onPhotoBtnClick);
-            }
             this.viewerElem?.addEventListener('click', this.onViewerClick);
+        }
+        if (this.isImageUsable) {
+            this.controller.addEventListener('paste', this.onEditorPaste);
+            this.filesBtnElem?.addEventListener('click', this.onFilesClick);
+            this.filesBtnElem?.addEventListener('change', this.onFilesUpdate);
+            this.photoBtnElem?.addEventListener('click', this.onPhotoBtnClick);
         }
     }
 
@@ -299,7 +302,17 @@ class MarkdownFieldElement extends HTMLElement {
     }
 
     private escapeMarkdown(str: string): string {
-        return str
+        const autoLinks: string[] = [];
+        str = str.replace(/\uE001/g, '\uE001\uE001');
+        str = str.replace(MarkdownFieldElement.URL_REGEX, match => {
+            autoLinks.push(match);
+            return `\uE001ESC${autoLinks.length - 1}\uE001`;
+        });
+        str = str.replace(MarkdownFieldElement.EMAIL_REGEX, match => {
+            autoLinks.push(match);
+            return `\uE001ESC${autoLinks.length - 1}\uE001`;
+        });
+        str = str
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
@@ -317,15 +330,18 @@ class MarkdownFieldElement extends HTMLElement {
             .replace(/`/g, '&#96;')
             .replace(/\|/g, '&#124;')
             .replace(/---/g, '&#45;&#45;&#45;');
+        str = str.replace(/\uE001ESC(\d+)\uE001/g, (_, i) => autoLinks[parseInt(i, 10)]);
+        return str.replace(/\uE001\uE001/g, '\uE001');
     }
 
     private replaceWithPlaceholders(md: string): string {
         this.customSchemeLinks = [];
         const codeBlocks: string[] = [];
+        md = md.replace(/\uE000/g, '\uE000\uE000');
         const protectCode = (match: string): string => {
             const idx = codeBlocks.length;
             codeBlocks.push(match);
-            return `\uE000CODE${idx}\uE000`;
+            return `\uE000ESC${idx}\uE000`;
         };
         // インラインコード（複数バックティック・単体バックティック）を保護
         // URL 正規表現がバッククオートを消費してコードスパン構文を壊すのを防ぐ
@@ -345,11 +361,11 @@ class MarkdownFieldElement extends HTMLElement {
         md = md.replace(this.uncPathRegex, url => storePath(url));
         this.notesLinkRegex.lastIndex = 0;
         md = md.replace(this.notesLinkRegex, url => storePath(url));
-        md = md.replace(/\uE000CODE(\d+)\uE000/g, (match, i) => {
+        md = md.replace(/\uE000ESC(\d+)\uE000/g, (match, i) => {
             const idx = parseInt(i, 10);
             return idx < codeBlocks.length ? codeBlocks[idx] : match;
         });
-        return md;
+        return md.replace(/\uE000\uE000/g, '\uE000');
     }
 
     private restoreFromPlaceholders(html: string): string {
@@ -396,6 +412,7 @@ class MarkdownFieldElement extends HTMLElement {
     }
 
     public showViewer() {
+        if (!this.viewerMarked || !this.viewerElem) return;
         if (this.controller.value || this.isReadonly || this.isComment) {
             let md = this.controller.value;
             md = this.replaceWithPlaceholders(md);
@@ -426,12 +443,10 @@ class MarkdownFieldElement extends HTMLElement {
 
     private setEditorHeight = () => {
         const BORDER_ADJUSTMENT = 2;
-        const dummy = document.createElement('div');
+        const dummy = document.createElement('textarea');
         const ctrlStyle = window.getComputedStyle(this.controller);
         dummy.style.visibility = 'hidden';
         dummy.style.position = 'absolute';
-        dummy.style.whiteSpace = 'pre-wrap';
-        dummy.style.overflowWrap = 'break-word';
         dummy.style.width = `${this.controller.clientWidth}px`;
         dummy.style.font = ctrlStyle.font;
         dummy.style.lineHeight = ctrlStyle.lineHeight;
@@ -441,7 +456,7 @@ class MarkdownFieldElement extends HTMLElement {
         document.body.appendChild(dummy);
         const heightValue = dummy.scrollHeight + BORDER_ADJUSTMENT;
         document.body.removeChild(dummy);
-        if (heightValue) this.style.setProperty('--component-height', `${heightValue + BORDER_ADJUSTMENT}px`);
+        if (heightValue) this.style.setProperty('--component-height', `${heightValue}px`);
     };
 
     private getSelectedFileBinary(event: Event) {

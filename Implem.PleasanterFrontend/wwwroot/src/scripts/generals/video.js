@@ -156,7 +156,8 @@ $p.insertText = function ($control, value) {
     $p.setData($control);
 
     var markdownField = $control.get(0).closest('markdown-field');
-    if (markdownField && !$control.is(':visible')) {
+    var viewerType = $control.get(0).dataset.viewerType;
+    if (markdownField && !$control.is(':visible') && viewerType !== 'disabled') {
         markdownField.showViewer();
     }
 };

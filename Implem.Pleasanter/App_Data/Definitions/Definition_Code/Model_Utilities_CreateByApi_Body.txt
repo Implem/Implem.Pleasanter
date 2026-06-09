@@ -54,7 +54,8 @@ private static ErrorData ApplyCreateByApi(
     SiteSettings ss,
     #ModelName#Model #modelName#Model,
     List<Process> processes,
-    bool migrationMode = false)
+    bool migrationMode = false,
+    bool synchronizeSummary = true)
 {
     var invalid = #ModelName#Validators.OnCreating(
         context: context,
@@ -75,6 +76,7 @@ private static ErrorData ApplyCreateByApi(
         ss: ss,
         processes: processes,
         notice: true,
+<!--Model_Utilities_CreateByApiSynchronizeSummary-->
         migrationMode: migrationMode);
     BinaryUtilities.UploadImage(
         context: context,

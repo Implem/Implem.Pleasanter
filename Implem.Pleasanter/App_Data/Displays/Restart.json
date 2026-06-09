@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Restart",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Restart"
+        },
+        {
+            "Language": "zh",
+            "Body": "重新启动"
+        },
+        {
+            "Language": "ja",
+            "Body": "再起動"
+        },
+        {
+            "Language": "de",
+            "Body": "Neustart"
+        },
+        {
+            "Language": "ko",
+            "Body": "재시작"
+        },
+        {
+            "Language": "es",
+            "Body": "Reiniciar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khởi động lại"
+        }
+    ]
+}

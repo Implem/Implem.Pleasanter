@@ -201,9 +201,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 text: Displays.Export(context: context),
                                 controlCss: "button-icon button-positive",
                                 onClick: "$p.exportSitePackage();",
-                                icon: "ui-icon-arrowreturnthick-1-w",
-                                action: "ExportSitePackage",
-                                method: "get")
+                                icon: "ui-icon-arrowreturnthick-1-w")
                             .Button(
                                 text: Displays.Cancel(context: context),
                                 controlCss: "button-icon button-neutral",

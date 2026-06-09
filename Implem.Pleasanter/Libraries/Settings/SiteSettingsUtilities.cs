@@ -138,6 +138,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "mcplogs": return McpLogsSiteSettings(context: context);
                 case "orders": return OrdersSiteSettings(context: context);
                 case "outgoingmails": return OutgoingMailsSiteSettings(context: context);
+                case "parameters": return ParametersSiteSettings(context: context);
                 case "passkeys": return PasskeysSiteSettings(context: context);
                 case "registrations": return RegistrationsSiteSettings(context: context);
                 case "reminderschedules": return ReminderSchedulesSiteSettings(context: context);
@@ -346,6 +347,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ReferenceType = "OutgoingMails"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
+            return ss;
+        }
+
+        public static SiteSettings ParametersSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Parameters"
+            };
+            ss.Init(context: context);
+            ss.SetLinks(context: context);
+            ss.SetChoiceHash(context: context, withLink: false);
+            ss.PermissionType = Permissions.Admins(context: context);
             ss.TableType = tableTypes;
             return ss;
         }

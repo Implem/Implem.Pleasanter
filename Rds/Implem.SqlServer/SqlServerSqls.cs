@@ -81,124 +81,107 @@ namespace Implem.SqlServer
 
         public string DateGroupDaily { get; } = "convert(varchar,{0},111)";
 
-        public string GetPermissions { get; } = @"
+        public string GetPermissions { get; } = """
             select distinct
-                ""Sites"".""SiteId"" as ""ReferenceId"",
-                ""Permissions"".""PermissionType"" 
-            from ""Sites""
-                inner join ""Permissions"" on ""Permissions"".""ReferenceId""=""Sites"".""InheritPermission""
-                inner join ""Depts"" on ""Permissions"".""DeptId""=""Depts"".""DeptId""
-            where ""Sites"".""TenantId""=@_T
-                and ""Depts"".""DeptId""=@_D
-                and ""Depts"".""Disabled""='false'
-            union all
-            select distinct
-                ""Sites"".""SiteId"" as ""ReferenceId"",
-                ""Permissions"".""PermissionType"" 
-            from ""Sites""
-                inner join ""Permissions"" on ""Permissions"".""ReferenceId""=""Sites"".""InheritPermission""
-                inner join ""Groups"" on ""Permissions"".""GroupId""=""Groups"".""GroupId""
-                inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
-                inner join ""Depts"" on ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
-            where ""Sites"".""TenantId""=@_T
-                and ""Groups"".""Disabled""='false'
-                and ""Depts"".""DeptId""=@_D
-                and ""Depts"".""Disabled""='false'
-            union all
-            select distinct
-                ""Sites"".""SiteId"" as ""ReferenceId"",
-                ""Permissions"".""PermissionType"" 
-            from ""Sites""
-                inner join ""Permissions"" on ""Permissions"".""ReferenceId""=""Sites"".""InheritPermission""
-                inner join ""Groups"" on ""Permissions"".""GroupId""=""Groups"".""GroupId""
-                inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
-                inner join ""Users"" on ""GroupMembers"".""UserId""=""Users"".""UserId""
-            where ""Sites"".""TenantId""=@_T
-                and ""Groups"".""Disabled""='false'
-                and ""Users"".""UserId""=@_U
-                and ""Users"".""Disabled""='false'
-            union all
-            select distinct
-                ""Sites"".""SiteId"" as ""ReferenceId"",
-                ""Permissions"".""PermissionType""
-            from ""Sites""
-                inner join ""Permissions"" on ""Permissions"".""ReferenceId""=""Sites"".""InheritPermission""
-            where ""Sites"".""TenantId""=@_T
-                and ""Permissions"".""UserId"" > 0
-                and ""Permissions"".""UserId""=@_U
-            union all
-            select distinct
-                ""Sites"".""SiteId"" as ""ReferenceId"",
-                ""Permissions"".""PermissionType""
-            from ""Sites""
-                inner join ""Permissions"" on ""Permissions"".""ReferenceId""=""Sites"".""InheritPermission""
-            where ""Sites"".""TenantId""=@_T
-                and ""Permissions"".""UserId""=-1";
+                "Sites"."SiteId" as "ReferenceId",
+                "Permissions"."PermissionType"
+            from "Sites"
+                inner join "Permissions" on "Permissions"."ReferenceId" = "Sites"."InheritPermission"
+            where "Sites"."TenantId" = @_T
+                and
+                (
+                    exists
+                    (
+                        select 1
+                        from "Depts"
+                        where "Depts"."DeptId" = "Permissions"."DeptId"
+                            and "Depts"."DeptId" = @_D
+                            and "Depts"."Disabled" = 'false'
+                    )
+                    or exists
+                    (
+                        select 1
+                        from "Groups"
+                            inner join "GroupMembers" on "Groups"."GroupId" = "GroupMembers"."GroupId"
+                        where "Groups"."GroupId" = "Permissions"."GroupId"
+                            and "Groups"."Disabled" = 'false'
+                            and
+                            (
+                                exists
+                                (
+                                    select 1
+                                    from "Depts"
+                                    where "Depts"."DeptId" = "GroupMembers"."DeptId"
+                                        and "Depts"."DeptId" = @_D
+                                        and "Depts"."Disabled" = 'false'
+                                )
+                                or exists
+                                (
+                                    select 1
+                                    from "Users"
+                                    where "Users"."UserId" = "GroupMembers"."UserId"
+                                        and "Users"."UserId" = @_U
+                                        and "Users"."Disabled" = 'false'
+                                )
+                            )
+                    )
+                    or ("Permissions"."UserId" > 0 and "Permissions"."UserId" = @_U)
+                    or "Permissions"."UserId" = -1
+                )
+            """;
 
-        public string GetPermissionsById { get; } = @"
+        public string GetPermissionsById { get; } = """
+
             union all
             select distinct
-                ""Items"".""ReferenceId"",
-                ""Permissions"".""PermissionType"" 
-            from ""Items""
-                inner join ""Sites"" on ""Items"".""SiteId""=""Sites"".""SiteId""
-                inner join ""Permissions"" on ""Permissions"".""ReferenceId""=""Items"".""ReferenceId""
-                inner join ""Depts"" on ""Permissions"".""DeptId""=""Depts"".""DeptId""
-            where ""Items"".""ReferenceId""=@ReferenceId
-                and ""Sites"".""TenantId""=@_T
-                and ""Depts"".""DeptId""=@_D
-                and ""Depts"".""Disabled""='false'
-            union all
-            select distinct
-                ""Items"".""ReferenceId"",
-                ""Permissions"".""PermissionType"" 
-            from ""Items""
-                inner join ""Sites"" on ""Items"".""SiteId""=""Sites"".""SiteId""
-                inner join ""Permissions"" on ""Permissions"".""ReferenceId""=""Items"".""ReferenceId""
-                inner join ""Groups"" on ""Permissions"".""GroupId""=""Groups"".""GroupId""
-                inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
-                inner join ""Depts"" on ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
-            where ""Items"".""ReferenceId""=@ReferenceId
-                and ""Sites"".""TenantId""=@_T
-                and ""Groups"".""Disabled""='false'
-                and ""Depts"".""DeptId""=@_D
-                and ""Depts"".""Disabled""='false'
-            union all
-            select distinct
-                ""Items"".""ReferenceId"",
-                ""Permissions"".""PermissionType"" 
-            from ""Items""
-                inner join ""Sites"" on ""Items"".""SiteId""=""Sites"".""SiteId""
-                inner join ""Permissions"" on ""Permissions"".""ReferenceId""=""Items"".""ReferenceId""
-                inner join ""Groups"" on ""Permissions"".""GroupId""=""Groups"".""GroupId""
-                inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
-                inner join ""Users"" on ""GroupMembers"".""UserId""=""Users"".""UserId""
-            where ""Items"".""ReferenceId""=@ReferenceId
-                and ""Sites"".""TenantId""=@_T
-                and ""Groups"".""Disabled""='false'
-                and ""Users"".""UserId""=@_U
-                and ""Users"".""Disabled""='false'
-            union all
-            select distinct
-                ""Items"".""ReferenceId"",
-                ""Permissions"".""PermissionType""
-            from ""Items""
-                inner join ""Sites"" on ""Items"".""SiteId""=""Sites"".""SiteId""
-                inner join ""Permissions"" on ""Permissions"".""ReferenceId""=""Items"".""ReferenceId""
-            where ""Items"".""ReferenceId""=@ReferenceId
-                and ""Sites"".""TenantId""=@_T
-                and ""Permissions"".""UserId"" > 0
-                and ""Permissions"".""UserId""=@_U
-            union all
-            select distinct
-                ""Items"".""ReferenceId"",
-                ""Permissions"".""PermissionType""
-            from ""Items""
-                inner join ""Sites"" on ""Items"".""SiteId""=""Sites"".""SiteId""
-                inner join ""Permissions"" on ""Permissions"".""ReferenceId""=""Items"".""ReferenceId""
-            where ""Items"".""ReferenceId""=@ReferenceId
-                and ""Sites"".""TenantId""=@_T
-                and ""Permissions"".""UserId""=-1;";
+                "Items"."ReferenceId",
+                "Permissions"."PermissionType"
+            from "Items"
+                inner join "Sites" on "Items"."SiteId"="Sites"."SiteId"
+                inner join "Permissions" on "Permissions"."ReferenceId"="Items"."ReferenceId"
+            where "Items"."ReferenceId"=@ReferenceId
+                and "Sites"."TenantId"=@_T
+                and
+                (
+                    exists
+                    (
+                        select 1
+                        from "Depts"
+                        where "Depts"."DeptId"="Permissions"."DeptId"
+                            and "Depts"."DeptId"=@_D
+                            and "Depts"."Disabled"='false'
+                    )
+                    or exists
+                    (
+                        select 1
+                        from "Groups"
+                            inner join "GroupMembers" on "Groups"."GroupId"="GroupMembers"."GroupId"
+                        where "Groups"."GroupId"="Permissions"."GroupId"
+                            and "Groups"."Disabled"='false'
+                            and
+                            (
+                                exists
+                                (
+                                    select 1
+                                    from "Depts"
+                                    where "Depts"."DeptId"="GroupMembers"."DeptId"
+                                        and "Depts"."DeptId"=@_D
+                                        and "Depts"."Disabled"='false'
+                                )
+                                or exists
+                                (
+                                    select 1
+                                    from "Users"
+                                    where "Users"."UserId"="GroupMembers"."UserId"
+                                        and "Users"."UserId"=@_U
+                                        and "Users"."Disabled"='false'
+                                )
+                            )
+                    )
+                    or ("Permissions"."UserId" > 0 and "Permissions"."UserId"=@_U)
+                    or "Permissions"."UserId"=-1
+                );
+            """;
 
         public string GetGroup { get; } = @"
             select ""Groups"".""GroupId"" 

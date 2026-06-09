@@ -4,14 +4,15 @@
     <TargetFramework>net10.0</TargetFramework>
     <Year>$([System.DateTime]::Now.Year.ToString())</Year>
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
-    <AssemblyVersion>1.5.4.0</AssemblyVersion>
-    <FileVersion>1.5.4.0</FileVersion>
-    <Version>1.5.4.0</Version>
+    <AssemblyVersion>1.5.5.0</AssemblyVersion>
+    <FileVersion>1.5.5.0</FileVersion>
+    <Version>1.5.5.0</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\Implem.DisplayAccessor\Implem.DisplayAccessor.csproj" />
+    <ProjectReference Include="..\Implem.Factory\Implem.Factory.csproj" />
     <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj" />
     <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj" />
   </ItemGroup>

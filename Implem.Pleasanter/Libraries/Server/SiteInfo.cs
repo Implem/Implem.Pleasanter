@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -6,7 +7,9 @@ using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Models;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,6 +22,9 @@ namespace Implem.Pleasanter.Libraries.Server
         public static Dictionary<int, TenantCache> TenantCaches = new Dictionary<int, TenantCache>(); //AddはContextで行っている。
         public static DateTime SessionCleanedUpDate;
         public static int? AnonymousId;
+        public static IHostApplicationLifetime ApplicationLifetime { get; set; }
+        private static readonly object RestartCheckLock = new object();
+        private static readonly Dictionary<int, DateTime> RestartCheckedTimes = new Dictionary<int, DateTime>();
 
         public static void Refresh(Context context, bool force = false)
         {
@@ -27,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.Server
             {
                 return;
             }
+            CheckAndRestartIfScheduled(context: context);
             var tenantCache = TenantCaches.Get(context.TenantId);
             var monitor = tenantCache.GetUpdateMonitor(context: context);
             if (monitor.DeptsUpdated || monitor.GroupsUpdated || monitor.UsersUpdated || force)
@@ -498,6 +505,7 @@ namespace Implem.Pleasanter.Libraries.Server
                         .ReferenceType()
                         .ParentId()
                         .InheritPermission()
+                        .Publish()
                         .SiteSettings()
                         .UpdatedTime(),
                     where: Rds.SitesWhere()
@@ -674,6 +682,60 @@ namespace Implem.Pleasanter.Libraries.Server
                             .TenantId(0)
                             .UserId(2)));
             }
+        }
+
+        private static void CheckAndRestartIfScheduled(Context context)
+        {
+            if (RestartCheckDisabled())
+            {
+                return;
+            }
+            if (RestartCheckThrottled(tenantId: context.TenantId))
+            {
+                return;
+            }
+            var restartScheduledTime = Repository.ExecuteScalar_datetime(
+                context: context,
+                statements: Rds.SelectTenants(
+                    column: Rds.TenantsColumn().RestartScheduledTime(),
+                    where: Rds.TenantsWhere().TenantId(context.TenantId)));
+            if (restartScheduledTime == default
+                || restartScheduledTime <= AppState.StartedAt)
+            {
+                return;
+            }
+            if (AppState.TryRequestRestart())
+            {
+                ApplicationLifetime?.StopApplication();
+            }
+        }
+
+        private static bool RestartCheckDisabled()
+        {
+            var seconds = Parameters.ParameterSetting?.RestartCheckIntervalSeconds ?? 0;
+            return seconds <= 0;
+        }
+
+        private static bool RestartCheckThrottled(int tenantId)
+        {
+            var now = DateTime.Now;
+            var interval = RestartCheckInterval();
+            lock (RestartCheckLock)
+            {
+                if (RestartCheckedTimes.TryGetValue(tenantId, out var lastChecked)
+                    && now - lastChecked < interval)
+                {
+                    return true;
+                }
+                RestartCheckedTimes[tenantId] = now;
+                return false;
+            }
+        }
+
+        private static TimeSpan RestartCheckInterval()
+        {
+            var seconds = Parameters.ParameterSetting?.RestartCheckIntervalSeconds ?? 0;
+            return TimeSpan.FromSeconds(seconds);
         }
     }
 }
