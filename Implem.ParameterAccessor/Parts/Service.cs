@@ -20,5 +20,6 @@
         public bool DemoApi;
         public int DemoUsagePeriod;
         public bool RestrictNewFeatures;
+        public bool DisableHtmlCache;
     }
 }
