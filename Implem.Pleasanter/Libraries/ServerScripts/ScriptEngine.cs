@@ -25,7 +25,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 flags |= V8ScriptEngineFlags.EnableDebugging
                 | V8ScriptEngineFlags.EnableRemoteDebugging;
             }
-            v8ScriptEngine = new V8ScriptEngine(flags);
+            v8ScriptEngine = new V8ScriptEngine(flags)
+            {
+                DisableFloatNarrowing = true,
+            };
         }
 
         public void AddHostType(Type type)
