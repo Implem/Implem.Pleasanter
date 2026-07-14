@@ -1,0 +1,23 @@
+{
+    "Id": "BackgroundJobs_BackgroundJobId",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "BackgroundJobId",
+    "LabelText": "バックグラウンドジョブID",
+    "No": "1",
+    "History": "1",
+    "TypeName": "bigint",
+    "Pk": "1",
+    "PkHistory": "1",
+    "PkHistoryMySql": "1",
+    "Identity": "1",
+    "Seed": "1",
+    "Required": "1",
+    "LabelText_en": "Background Job ID",
+    "LabelText_zh": "后台作业ID",
+    "LabelText_de": "Hintergrundauftrag-ID",
+    "LabelText_ko": "백그라운드 작업 ID",
+    "LabelText_es": "ID de trabajo en segundo plano",
+    "LabelText_vn": "ID tác vụ nền"
+}

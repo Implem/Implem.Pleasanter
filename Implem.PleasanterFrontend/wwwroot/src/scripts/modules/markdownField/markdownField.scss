@@ -76,6 +76,15 @@ markdown-field {
         &.control-markdown,
         &.control-textarea {
             resize: none;
+            field-sizing: content;
+
+            &[data-viewer-type='disabled'] {
+                resize: vertical;
+
+                @supports (field-sizing: content) {
+                    resize: none;
+                }
+            }
         }
     }
     .md-viewer {

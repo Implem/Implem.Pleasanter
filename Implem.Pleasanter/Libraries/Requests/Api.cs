@@ -10,6 +10,7 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public decimal ApiVersion { get; set; } = Parameters.Api.Version;
         public string ApiKey { get; set; }
+        public bool SsCache { get; set; }
         public View View { get; set; }
         public List<string> Keys { get; set; }
         public int Offset { get; set; }

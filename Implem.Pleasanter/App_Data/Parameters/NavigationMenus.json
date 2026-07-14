@@ -284,5 +284,12 @@
                 "Function": "Responsive"
             }
         ]
+    },
+    {
+        "ContainerId": "BackgroundJobsMenuContainer",
+        "MenuId": "BackgroundJobs",
+        "Name": "BackgroundJobs",
+        "Icon": "ui-icon ui-icon-wrench",
+        "LinkParams": [ "BackgroundJobs" ]
     }
 ]

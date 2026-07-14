@@ -111,7 +111,7 @@ namespace Implem.Pleasanter.MCP.Infrastructure
             finally
             {
                 stopwatch.Stop();
-                
+
                 if (loggingEnabled && context.Request.Method == "POST" && mcpRequestInfo != null)
                 {
                     var endTime = DateTime.UtcNow;
@@ -120,7 +120,6 @@ namespace Implem.Pleasanter.MCP.Infrastructure
                     var statusCode = context.Response.StatusCode;
                     var userHostAddress = context.Connection?.RemoteIpAddress?.ToString();
                     var userAgent = context.Request.Headers["User-Agent"].ToString();
-
 
                     var tenantId = McpInfoHolder.GetTenantIdFromHttpContext(context);
                     var userId = McpInfoHolder.GetUserIdFromHttpContext(context);

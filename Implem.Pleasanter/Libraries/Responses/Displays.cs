@@ -1329,6 +1329,366 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BackgroundJobBulkDeleteFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobBulkDeleteFailed",
+                data: data);
+        }
+
+        public static string BackgroundJobCancelled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobCancelled",
+                data: data);
+        }
+
+        public static string BackgroundJobDeleted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobDeleted",
+                data: data);
+        }
+
+        public static string BackgroundJobDownloadingCanNotDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobDownloadingCanNotDelete",
+                data: data);
+        }
+
+        public static string BackgroundJobExportFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobExportFailed",
+                data: data);
+        }
+
+        public static string BackgroundJobInvalidParameters(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobInvalidParameters",
+                data: data);
+        }
+
+        public static string BackgroundJobNextJobRequested(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobNextJobRequested",
+                data: data);
+        }
+
+        public static string BackgroundJobNextJobRequestFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobNextJobRequestFailed",
+                data: data);
+        }
+
+        public static string BackgroundJobNoHandler(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobNoHandler",
+                data: data);
+        }
+
+        public static string BackgroundJobOutputFilePathNotConfigured(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobOutputFilePathNotConfigured",
+                data: data);
+        }
+
+        public static string BackgroundJobRecoverStuckFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobRecoverStuckFailed",
+                data: data);
+        }
+
+        public static string BackgroundJobResultCancelled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobResultCancelled",
+                data: data);
+        }
+
+        public static string BackgroundJobResultCompleted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobResultCompleted",
+                data: data);
+        }
+
+        public static string BackgroundJobRunNextJob(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobRunNextJob",
+                data: data);
+        }
+
+        public static string BackgroundJobRunningTimedOut(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobRunningTimedOut",
+                data: data);
+        }
+
+        public static string BackgroundJobRunningTimedOutCanNotDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobRunningTimedOutCanNotDelete",
+                data: data);
+        }
+
+        public static string BackgroundJobs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs",
+                data: data);
+        }
+
+        public static string BackgroundJobsBulkCancelConfirm(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsBulkCancelConfirm",
+                data: data);
+        }
+
+        public static string BackgroundJobsCancelFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsCancelFailed",
+                data: data);
+        }
+
+        public static string BackgroundJobsCancelled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsCancelled",
+                data: data);
+        }
+
+        public static string BackgroundJobsDetail(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsDetail",
+                data: data);
+        }
+
+        public static string BackgroundJobsJobEnqueuedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsJobEnqueuedTime",
+                data: data);
+        }
+
+        public static string BackgroundJobsJobFinishedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsJobFinishedTime",
+                data: data);
+        }
+
+        public static string BackgroundJobsJobStartedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsJobStartedTime",
+                data: data);
+        }
+
+        public static string BackgroundJobsJobType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsJobType",
+                data: data);
+        }
+
+        public static string BackgroundJobsNoDownloadableFile(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsNoDownloadableFile",
+                data: data);
+        }
+
+        public static string BackgroundJobsRegisteredUser(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsRegisteredUser",
+                data: data);
+        }
+
+        public static string BackgroundJobsResultMessage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsResultMessage",
+                data: data);
+        }
+
+        public static string BackgroundJobsSiteName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsSiteName",
+                data: data);
+        }
+
+        public static string BackgroundJobStatusCancelled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobStatusCancelled",
+                data: data);
+        }
+
+        public static string BackgroundJobStatusCompleted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobStatusCompleted",
+                data: data);
+        }
+
+        public static string BackgroundJobStatusFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobStatusFailed",
+                data: data);
+        }
+
+        public static string BackgroundJobStatusPending(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobStatusPending",
+                data: data);
+        }
+
+        public static string BackgroundJobStatusRunning(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobStatusRunning",
+                data: data);
+        }
+
+        public static string BackgroundJobStatusRunningOverdue(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobStatusRunningOverdue",
+                data: data);
+        }
+
+        public static string BackgroundJobsTotalCount(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobsTotalCount",
+                data: data);
+        }
+
         public static string BadFormat(
             Context context,
             params string[] data)
@@ -4219,6 +4579,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string EnqueuedToBackgroundJob(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EnqueuedToBackgroundJob",
+                data: data);
+        }
+
         public static string EnterpriseEdition(
             Context context,
             params string[] data)
@@ -6536,6 +6906,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Licensee",
+                data: data);
+        }
+
+        public static string LicenseExpiredAlert(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LicenseExpiredAlert",
                 data: data);
         }
 
@@ -9349,6 +9729,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string RateLimitExceeded(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RateLimitExceeded",
+                data: data);
+        }
+
         public static string Read(
             Context context,
             params string[] data)
@@ -10389,6 +10779,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ServerConnectionError(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ServerConnectionError",
+                data: data);
+        }
+
         public static string ServerRegexValidation(
             Context context,
             params string[] data)
@@ -10436,6 +10836,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ServerScriptExecutionFailed",
+                data: data);
+        }
+
+        public static string ServiceUnavailable(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ServiceUnavailable",
                 data: data);
         }
 
@@ -11526,6 +11936,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Token",
+                data: data);
+        }
+
+        public static string TooLargeFile(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TooLargeFile",
                 data: data);
         }
 
@@ -12786,6 +13206,196 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AutoNumberings_TenantId",
+                data: data);
+        }
+
+        public static string BackgroundJobs_BackgroundJobId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_BackgroundJobId",
+                data: data);
+        }
+
+        public static string BackgroundJobs_Comments(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_Comments",
+                data: data);
+        }
+
+        public static string BackgroundJobs_CreatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_CreatedTime",
+                data: data);
+        }
+
+        public static string BackgroundJobs_Creator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_Creator",
+                data: data);
+        }
+
+        public static string BackgroundJobs_File(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_File",
+                data: data);
+        }
+
+        public static string BackgroundJobs_JobEnqueuedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_JobEnqueuedTime",
+                data: data);
+        }
+
+        public static string BackgroundJobs_JobFinishedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_JobFinishedTime",
+                data: data);
+        }
+
+        public static string BackgroundJobs_JobParameters(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_JobParameters",
+                data: data);
+        }
+
+        public static string BackgroundJobs_JobStartedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_JobStartedTime",
+                data: data);
+        }
+
+        public static string BackgroundJobs_JobType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_JobType",
+                data: data);
+        }
+
+        public static string BackgroundJobs_Priority(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_Priority",
+                data: data);
+        }
+
+        public static string BackgroundJobs_ResultMessage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_ResultMessage",
+                data: data);
+        }
+
+        public static string BackgroundJobs_SiteId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_SiteId",
+                data: data);
+        }
+
+        public static string BackgroundJobs_Status(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_Status",
+                data: data);
+        }
+
+        public static string BackgroundJobs_TenantId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_TenantId",
+                data: data);
+        }
+
+        public static string BackgroundJobs_UpdatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_UpdatedTime",
+                data: data);
+        }
+
+        public static string BackgroundJobs_Updator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_Updator",
+                data: data);
+        }
+
+        public static string BackgroundJobs_UserId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_UserId",
+                data: data);
+        }
+
+        public static string BackgroundJobs_Ver(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_Ver",
                 data: data);
         }
 
@@ -15579,6 +16189,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Sites_EnableSsCache(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_EnableSsCache",
+                data: data);
+        }
+
         public static string Sites_Export(
             Context context,
             params string[] data)
@@ -17286,6 +17906,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AutoNumberings_VerUp",
+                data: data);
+        }
+
+        public static string BackgroundJobs_Timestamp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_Timestamp",
+                data: data);
+        }
+
+        public static string BackgroundJobs_VerUp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobs_VerUp",
                 data: data);
         }
 

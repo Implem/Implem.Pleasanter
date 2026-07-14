@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobStatusFailed",
+    "Type": 110,
+    "Languages": [
+        { "Body": "Failed" },
+        { "Language": "zh", "Body": "失败" },
+        { "Language": "ja", "Body": "エラー" },
+        { "Language": "de", "Body": "Fehlgeschlagen" },
+        { "Language": "ko", "Body": "실패" },
+        { "Language": "es", "Body": "Fallido" },
+        { "Language": "vn", "Body": "Thất bại" }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "Id": "BackgroundJobInvalidParameters",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The background job parameters are invalid."
+        },
+        {
+            "Language": "zh",
+            "Body": "后台作业参数无效。"
+        },
+        {
+            "Language": "ja",
+            "Body": "バックグラウンドジョブのパラメータが不正です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Parameter des Hintergrundauftrags sind ungültig."
+        },
+        {
+            "Language": "ko",
+            "Body": "백그라운드 작업 매개 변수가 올바르지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Los parámetros del trabajo en segundo plano no son válidos."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tham số tác vụ nền không hợp lệ."
+        }
+    ]
+}

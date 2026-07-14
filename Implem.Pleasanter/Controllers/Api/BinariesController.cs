@@ -8,6 +8,7 @@ using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace Implem.Pleasanter.Controllers.Api
     [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
+    [EnableRateLimiting("Api")]
     public class BinariesController : ControllerBase
     {
         [HttpPost("{guid}/Get")]
@@ -55,6 +57,7 @@ namespace Implem.Pleasanter.Controllers.Api
             var log = new SysLogModel(context: context);
             if (!context.Authenticated)
             {
+                log.Finish(context: context);
                 return null;
             }
             var file = BinaryUtilities.Download(
@@ -62,6 +65,7 @@ namespace Implem.Pleasanter.Controllers.Api
                 guid: guid.ToUpper());
             if (file == null)
             {
+                log.Finish(context: context);
                 return null;
             }
             var result = CreateFileSteramResult(file);
@@ -100,10 +104,12 @@ namespace Implem.Pleasanter.Controllers.Api
             var log = new SysLogModel(context: context);
             if (!context.Authenticated)
             {
+                log.Finish(context: context);
                 return ApiResults.Unauthorized(context: context);
             }
             if (context.PostedFiles == null || context.PostedFiles.Count == 0)
             {
+                log.Finish(context: context);
                 return ApiResults.BadRequest(context: context);
             }
             var postedFile = context.PostedFiles[0];
@@ -116,6 +122,7 @@ namespace Implem.Pleasanter.Controllers.Api
                 : context.SessionData.Get(sessionGuid);
             var filePath = string.Empty;
             var uploaded = false;
+            var responseSize = 0;
             try
             {
                 if (!guid.IsNullOrEmpty())
@@ -175,9 +182,7 @@ namespace Implem.Pleasanter.Controllers.Api
                             context: context,
                             referenceId: referenceId)
                                 .UpdateByApi(context: context);
-                        log.Finish(
-                            context: context,
-                            responseSize: response?.Content?.Length ?? 0);
+                        responseSize = response?.Content?.Length ?? 0;
                         return response;
                     }
                     else
@@ -185,9 +190,7 @@ namespace Implem.Pleasanter.Controllers.Api
                         var response = ApiResults.Success(
                             id: referenceId,
                             message: guid);
-                        log.Finish(
-                            context: context,
-                            responseSize: response?.Content?.Length ?? 0);
+                        responseSize = response?.Content?.Length ?? 0;
                         return response;
                     }
                 }
@@ -241,9 +244,7 @@ namespace Implem.Pleasanter.Controllers.Api
                         var response = BinaryUtilities.CreateAttachment(
                             context: context,
                             attachment: attachment);
-                        log.Finish(
-                            context: context,
-                            responseSize: response?.Content?.Length ?? 0);
+                        responseSize = response?.Content?.Length ?? 0;
                         return response;
                     }
                     else
@@ -251,9 +252,7 @@ namespace Implem.Pleasanter.Controllers.Api
                         var response = ApiResults.Success(
                             id: 0,
                             message: targetGuid);
-                        log.Finish(
-                            context: context,
-                            responseSize: response?.Content?.Length ?? 0);
+                        responseSize = response?.Content?.Length ?? 0;
                         return response;
                     }
                 }
@@ -275,6 +274,7 @@ namespace Implem.Pleasanter.Controllers.Api
                         guid: postedFile.Guid);
                     Files.DeleteFile(path: filePath);
                 }
+                log.Finish(context: context, responseSize: responseSize);
             }
         }
 

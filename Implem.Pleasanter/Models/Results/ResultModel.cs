@@ -1506,8 +1506,8 @@ namespace Implem.Pleasanter.Models
             if (get) Get(context: context, ss: ss);
             if (ss.PermissionForCreating != null)
             {
-                ss.SetPermissions(
-                    context: context,
+                context.SetPermissions(
+                    ss: ss,
                     referenceId: ResultId);
             }
             var fullText = FullText(context, ss: ss, onCreating: true);

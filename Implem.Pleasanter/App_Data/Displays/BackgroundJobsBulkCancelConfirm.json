@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobsBulkCancelConfirm",
+    "Type": 110,
+    "Languages": [
+        { "Body": "Are you sure you want to cancel the selected jobs?" },
+        { "Language": "zh", "Body": "确定要取消所选作业吗？" },
+        { "Language": "ja", "Body": "選択したバックグラウンドジョブをキャンセルしてもよいですか？" },
+        { "Language": "de", "Body": "Möchten Sie die ausgewählten Aufträge wirklich abbrechen?" },
+        { "Language": "ko", "Body": "선택한 작업을 취소하시겠습니까?" },
+        { "Language": "es", "Body": "¿Está seguro de que desea cancelar los trabajos seleccionados?" },
+        { "Language": "vn", "Body": "Bạn có chắc chắn muốn hủy các tác vụ đã chọn không?" }
+    ]
+}

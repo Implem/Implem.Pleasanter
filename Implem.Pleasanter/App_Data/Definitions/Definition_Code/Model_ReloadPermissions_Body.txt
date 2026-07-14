@@ -1,6 +1,6 @@
 ﻿if (ss.PermissionForCreating != null)
 {
-    ss.SetPermissions(
-        context: context,
+    context.SetPermissions(
+        ss: ss,
         referenceId: #ModelName#Id);
 }

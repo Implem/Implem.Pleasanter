@@ -6,7 +6,22 @@
     bool setAllChoices = false,
     Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
 {
-    var ss = siteModel.SiteSettings ?? new SiteSettings();
+    var ss = SiteInfo.GetSsCache(
+        context: context,
+        siteModel: siteModel,
+        ssCache: SsCache(
+            context: context,
+            siteModel: siteModel),
+        setAllChoices: setAllChoices);
+    if (ss != null)
+    {
+        var copy = CopySiteSettings(ss);
+        copy.ReferenceId = referenceId;
+        copy.TableType = tableType;
+        if (setSiteIntegration) copy.SetSiteIntegration(context: context);
+        return copy;
+    }
+    ss = siteModel.SiteSettings ?? new SiteSettings();
     ss.LockedTableTime = siteModel.LockedTime;
     ss.LockedTableUser = siteModel.LockedUser;
     ss.TableType = tableType;
@@ -33,11 +48,18 @@
     ss.ApiCountDate = siteModel.ApiCountDate;
     ss.Init(context: context);
     ss.SetLinkedSiteSettings(context: context);
-    ss.SetPermissions(context: context, referenceId: referenceId);
 
 <!--SiteSettings_GetModels_Items_SiteIntegration-->
 <!--SiteSettings_GetModels_Items_Choices-->
 
+    SiteInfo.SetSsCache(
+        context: context,
+        siteModel: siteModel,
+        ss: ss,
+        ssCache: SsCache(
+            context: context,
+            siteModel: siteModel),
+        setAllChoices: setAllChoices);
     return ss;
 }
 

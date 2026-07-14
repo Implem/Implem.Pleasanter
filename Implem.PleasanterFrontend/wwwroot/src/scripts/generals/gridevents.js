@@ -7,22 +7,31 @@ $(function () {
     });
     $(document).on('change', '.grid-check', function () {
         var $control = $(this);
+        var dataId = $control.attr('data-id');
+        var isChecked = $control.prop('checked');
+        $('.grid-check[data-id="' + dataId + '"]').prop('checked', isChecked);
         if ($('#GridCheckAll').prop('checked')) {
-            $p.getData($control).GridUnCheckedItems = $('.grid-check')
-                .filter(':not(:checked)')
-                .map(function () {
-                    return $(this).attr('data-id');
-                })
-                .get()
-                .join(',');
+            $p.getData($control).GridUnCheckedItems = [
+                ...new Set(
+                    $('.grid-check')
+                        .filter(':not(:checked)')
+                        .map(function () {
+                            return $(this).attr('data-id');
+                        })
+                        .get()
+                )
+            ].join(',');
         } else {
-            $p.getData($control).GridCheckedItems = $('.grid-check')
-                .filter(':checked')
-                .map(function () {
-                    return $(this).attr('data-id');
-                })
-                .get()
-                .join(',');
+            $p.getData($control).GridCheckedItems = [
+                ...new Set(
+                    $('.grid-check')
+                        .filter(':checked')
+                        .map(function () {
+                            return $(this).attr('data-id');
+                        })
+                        .get()
+                )
+            ].join(',');
         }
     });
     $(document).on('change', '.grid .select', function () {
@@ -105,6 +114,45 @@ $(function () {
         }
     });
 });
+
+$p.backgroundJobSelectedIds = function ($button) {
+    var $checked = $('.row-check:checked');
+    var action = $button.attr('data-action');
+    if (action === 'BulkCancel') {
+        $checked = $checked.filter(function () {
+            return $(this).attr('data-can-cancel') === '1';
+        });
+    } else if (action === 'BulkNextJob') {
+        $checked = $checked.filter(function () {
+            return $(this).attr('data-can-next-job') === '1';
+        });
+    } else if (action === 'BulkDelete') {
+        $checked = $checked.filter(function () {
+            return $(this).attr('data-can-delete') === '1';
+        });
+    }
+    return $checked
+        .map(function () {
+            return $(this).attr('data-id');
+        })
+        .get();
+};
+
+$p.backgroundJobBulkCommand = function ($button) {
+    var allChecked = $('.row-check:checked');
+    var ids = $p.backgroundJobSelectedIds($button);
+    if (allChecked.length > 0 && ids.length === 0) {
+        $p.setErrorMessage('CanNotPerformed', '#Message');
+        return;
+    }
+    var data = $.extend({}, $p.data.MainForm, { Ids: JSON.stringify(ids) });
+    $p.ajax(
+        $button.attr('data-url'),
+        $button.attr('data-method') || 'post',
+        data,
+        $button,
+        true);
+};
 
 $(function () {
     var showTimer;
@@ -298,6 +346,14 @@ $(function () {
         delete data[$control.attr('id')];
     }
 });
+
+$p.clearGridCheckState = function () {
+    $('#GridCheckAll').prop('checked', false);
+    $('.grid-check').prop('checked', false);
+    $p.clearData('GridCheckAll');
+    $p.clearData('GridUnCheckedItems');
+    $p.clearData('GridCheckedItems');
+};
 
 $(function () {
     var timer;

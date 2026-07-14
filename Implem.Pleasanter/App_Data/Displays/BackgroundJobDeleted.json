@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobDeleted",
+    "Type": 210,
+    "Languages": [
+        { "Body": "The background job was deleted." },
+        { "Language": "zh", "Body": "后台作业已删除。" },
+        { "Language": "ja", "Body": "バックグラウンドジョブを削除しました。" },
+        { "Language": "de", "Body": "Der Hintergrundauftrag wurde gelöscht." },
+        { "Language": "ko", "Body": "백그라운드 작업이 삭제되었습니다." },
+        { "Language": "es", "Body": "Se eliminó el trabajo en segundo plano." },
+        { "Language": "vn", "Body": "Tác vụ nền đã được xóa." }
+    ]
+}

@@ -871,7 +871,8 @@ namespace Implem.Pleasanter.Models
             string idSuffix = null,
             bool isResponse = false,
             bool preview = false,
-            bool disableSection = false)
+            bool disableSection = false,
+            bool bulkUpdate = false)
         {
             var value = wikiModel.ControlValue(
                 context: context,
@@ -883,6 +884,10 @@ namespace Implem.Pleasanter.Models
                 column: column);
             if (value != null)
             {
+                if (bulkUpdate)
+                {
+                    column.StatusReadOnly = false;
+                }
                 value += wikiModel.NumUnit(
                     context: context,
                     ss: ss,
@@ -2226,7 +2231,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 wikiModel: wikiModel,
                 processes: processes,
-                previousTitle: previousTitle);
+                previousTitle: previousTitle,
+                wikiApiModel: wikiApiModel);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -2250,6 +2256,7 @@ namespace Implem.Pleasanter.Models
             WikiModel wikiModel,
             List<Process> processes,
             string previousTitle,
+            WikiApiModel wikiApiModel,
             bool synchronizeSummary = true)
         {
             var invalid = WikiValidators.OnUpdating(
@@ -2262,7 +2269,7 @@ namespace Implem.Pleasanter.Models
             wikiModel.SetTitle(
                 context: context,
                 ss: ss);
-            wikiModel.VerUp = Versions.MustVerUp(
+            wikiModel.VerUp = wikiApiModel?.VerUp == true || Versions.MustVerUp(
                 context: context,
                 ss: ss,
                 baseModel: wikiModel);
@@ -2322,7 +2329,7 @@ namespace Implem.Pleasanter.Models
             wikiModel.SetTitle(
                 context: context,
                 ss: ss);
-            wikiModel.VerUp = Versions.MustVerUp(
+            wikiModel.VerUp = wikiApiModel?.VerUp == true || Versions.MustVerUp(
                 context: context,
                 ss: ss,
                 baseModel: wikiModel);

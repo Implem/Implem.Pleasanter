@@ -24,3 +24,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# MSBuild フロントエンドビルド管理ファイル
+.git-branch

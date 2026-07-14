@@ -4,6 +4,7 @@ using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.IO;
 namespace Implem.Pleasanter.Controllers.Api
 {
@@ -11,6 +12,7 @@ namespace Implem.Pleasanter.Controllers.Api
     [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
+    [EnableRateLimiting("Api")]
     public class ExtendedController : ControllerBase
     {
         [HttpPost("Sql")]

@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             await Task.Run(() =>
             {
                 var sqlContext = CreateContext(tenantId: tenatId, userId: userId);
+                SysLogModel log = null;
                 try
                 {
                     var ss = SiteSettingsUtilities.TenantsSiteSettings(context: sqlContext);
@@ -48,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                             .FirstOrDefault(s => s.Id == scriptId);
                         if (targetScript == null || !BackgroundServerScriptValidators.CanExecuteUser(context: sqlContext, script: targetScript))
                         {
-                            new SysLogModel(
+                            log = new SysLogModel(
                                 context: sqlContext,
                                 method: nameof(BackgroundServerScriptJob) + ":" + nameof(Execute),
                                 message: $"Skip BGServerScript TenantId={tenatId},ScriptId={scriptId},ScheduleId={scheduleId},UserId={userId}",
@@ -57,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                         }
                         scripts.Add(targetScript);
                         targetScript.SetDebug();
-                        var log = new SysLogModel(
+                        log = new SysLogModel(
                             context: sqlContext,
                             method: nameof(BackgroundServerScriptJob) + ":" + nameof(Execute),
                             message: $"Exec BGServerScript TenantId={tenatId},ScriptId={scriptId},ScheduleId={scheduleId},UserId={userId}",
@@ -71,7 +72,6 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                             scripts: scripts.ToArray(),
                             condition: ServerScriptModel.ServerScriptConditions.BackgroundServerScript,
                             debug: paramScripts != null && targetScript.Debug);
-                        log.Finish(context: sqlContext);
                     }
                 }
                 catch (Exception e)
@@ -79,6 +79,10 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     new SysLogModel(
                         context: sqlContext,
                         e: e);
+                }
+                finally
+                {
+                    log?.Finish(context: sqlContext);
                 }
             }, jobContext.CancellationToken);
         }

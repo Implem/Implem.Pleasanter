@@ -28,6 +28,30 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class BackgroundJobsResponseCollection : ResponseCollection
+    {
+        public BackgroundJobModel BackgroundJobModel;
+
+        public BackgroundJobsResponseCollection(
+            Context context,
+            BackgroundJobModel backgroundJobModel) : base(context: context)
+        {
+            BackgroundJobModel = backgroundJobModel;
+        }
+
+        public BackgroundJobsResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public BackgroundJobsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class BinariesResponseCollection : ResponseCollection
     {
         public BinaryModel BinaryModel;
@@ -944,6 +968,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             this AutoNumberingsResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#AutoNumberings_Timestamp", value);
+        }
+
+        public static BackgroundJobsResponseCollection Timestamp(
+            this BackgroundJobsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#BackgroundJobs_Timestamp",
+                res.BackgroundJobModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static BackgroundJobsResponseCollection Timestamp(
+            this BackgroundJobsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#BackgroundJobs_Timestamp", value);
+        }
+
+        public static BackgroundJobsResponseCollection Timestamp_FormData(
+            this BackgroundJobsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#BackgroundJobs_Timestamp",
+                res.BackgroundJobModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static BackgroundJobsResponseCollection Timestamp_FormData(
+            this BackgroundJobsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#BackgroundJobs_Timestamp", value);
         }
 
         public static BinariesResponseCollection Ver(

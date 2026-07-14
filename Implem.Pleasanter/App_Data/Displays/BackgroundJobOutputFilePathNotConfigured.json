@@ -1,0 +1,33 @@
+{
+    "Id": "BackgroundJobOutputFilePathNotConfigured",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The output path (OutputFilePath) is not configured."
+        },
+        {
+            "Language": "zh",
+            "Body": "未配置输出路径(OutputFilePath)。"
+        },
+        {
+            "Language": "ja",
+            "Body": "出力先パス(OutputFilePath)が設定されていません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Ausgabepfad (OutputFilePath) ist nicht konfiguriert."
+        },
+        {
+            "Language": "ko",
+            "Body": "출력 경로(OutputFilePath)가 설정되어 있지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "La ruta de salida (OutputFilePath) no está configurada."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đường dẫn đầu ra (OutputFilePath) chưa được cấu hình."
+        }
+    ]
+}

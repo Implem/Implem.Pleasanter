@@ -1,0 +1,33 @@
+﻿{
+    "Id": "LicenseExpiredAlert",
+    "Type": 230,
+    "Languages": [
+        {
+            "Body": "Your Enterprise Edition license has expired. Please renew your contract as soon as possible if you wish to continue using the service."
+        },
+        {
+            "Language": "zh",
+            "Body": "您的企业版许可证已过期。如果您想继续使用该服务，请尽快续订合同。"
+        },
+        {
+            "Language": "ja",
+            "Body": "Enterprise Editionのライセンス有効期限が切れています。ご利用を継続される場合はお早めに契約更新の手続きを行ってください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Ihre Enterprise Edition-Lizenz ist abgelaufen. Bitte verlängern Sie Ihren Vertrag so bald wie möglich, wenn Sie den Dienst weiterhin nutzen möchten."
+        },
+        {
+            "Language": "ko",
+            "Body": "Enterprise Edition의 라이센스가 만료되었습니다. 이용을 계속되는 경우는 서둘러 계약 갱신의 수속을 실시해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Su licencia de Enterprise Edition ha caducado. Renueve su contrato lo antes posible si desea seguir utilizando el servicio."
+        },
+        {
+            "Language": "vn",
+            "Body": "Giấy phép phiên bản doanh nghiệp của bạn đã hết hạn. Vui lòng gia hạn hợp đồng càng sớm càng tốt nếu bạn muốn tiếp tục sử dụng dịch vụ."
+        }
+    ]
+}

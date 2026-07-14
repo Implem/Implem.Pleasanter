@@ -30,7 +30,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         {
             if (ss.SiteId == 0)
             {
-                ss.PermissionType = context.SiteTopPermission();
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
             }
             if (!Parameters.SitePackage.Import
                 || !context.CanManageSite(ss: ss))
@@ -71,7 +73,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     ?? context.Forms.Bool("IncludeReminders"));
             if (ss.SiteId == 0)
             {
-                ss.PermissionType = context.SiteTopPermission();
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
             }
             if (!Parameters.SitePackage.Import
                 || !context.CanManageSite(ss: ss))
@@ -328,7 +332,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             idHash: idHash);
                         sitePackage.ConvertDataId(
                             context: context,
-                            idHash: idHash);
+                            idHash: idHash,
+                            permissionIdList: sitePackage.PermissionIdList);
                         dataCount = ImportData(
                             context: context,
                             sitePackage: sitePackage,

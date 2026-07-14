@@ -1,0 +1,33 @@
+{
+    "Id": "BackgroundJobs",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Background Jobs"
+        },
+        {
+            "Language": "zh",
+            "Body": "后台作业"
+        },
+        {
+            "Language": "ja",
+            "Body": "バックグラウンドジョブ"
+        },
+        {
+            "Language": "de",
+            "Body": "Hintergrundaufträge"
+        },
+        {
+            "Language": "ko",
+            "Body": "백그라운드 작업"
+        },
+        {
+            "Language": "es",
+            "Body": "Trabajos en segundo plano"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tác vụ nền"
+        }
+    ]
+}

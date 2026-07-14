@@ -58,6 +58,7 @@ namespace Implem.Pleasanter.Models
         public DateTime ApiCountDate = 0.ToDateTime();
         public int ApiCount = 0;
         public bool DisableSiteCreatorPermission = false;
+        public bool EnableSsCache = false;
         public string Form = string.Empty;
 
         public TitleBody TitleBody
@@ -97,6 +98,7 @@ namespace Implem.Pleasanter.Models
         public DateTime SavedApiCountDate = 0.ToDateTime();
         public int SavedApiCount = 0;
         public bool SavedDisableSiteCreatorPermission = false;
+        public bool SavedEnableSsCache = false;
         public string SavedForm = string.Empty;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
@@ -351,6 +353,18 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context).ToInt() != ApiCount);
         }
 
+        public bool EnableSsCache_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != EnableSsCache;
+            }
+            return EnableSsCache != SavedEnableSsCache
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != EnableSsCache);
+        }
+
         public bool Form_Updated(Context context, bool copy = false, Column column = null)
         {
             if (copy && column?.CopyByDefault == true)
@@ -571,6 +585,7 @@ namespace Implem.Pleasanter.Models
                 case "ApiCountDate": return ApiCountDate.ToString();
                 case "ApiCount": return ApiCount.ToString();
                 case "DisableSiteCreatorPermission": return DisableSiteCreatorPermission.ToString();
+                case "EnableSsCache": return EnableSsCache.ToString();
                 case "Form": return Form;
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
@@ -616,6 +631,7 @@ namespace Implem.Pleasanter.Models
                 case "LockedUser": return SavedLockedUser.ToString();
                 case "ApiCountDate": return SavedApiCountDate.ToString();
                 case "ApiCount": return SavedApiCount.ToString();
+                case "EnableSsCache": return SavedEnableSsCache.ToString();
                 case "Form": return SavedForm;
                 case "Comments": return SavedComments;
                 case "Creator": return SavedCreator.ToString();
@@ -741,6 +757,9 @@ namespace Implem.Pleasanter.Models
                         case "DisableSiteCreatorPermission":
                             hash.Add("DisableSiteCreatorPermission", DisableSiteCreatorPermission.ToString());
                             break;
+                        case "EnableSsCache":
+                            hash.Add("EnableSsCache", EnableSsCache.ToString());
+                            break;
                         case "Form":
                             hash.Add("Form", Form);
                             break;
@@ -802,6 +821,7 @@ namespace Implem.Pleasanter.Models
                 case "LockedUser": return LockedUser_Updated(context: context);
                 case "ApiCountDate": return ApiCountDate_Updated(context: context);
                 case "ApiCount": return ApiCount_Updated(context: context);
+                case "EnableSsCache": return EnableSsCache_Updated(context: context);
                 case "Form": return Form_Updated(context: context);
                 case "Comments": return Comments_Updated(context: context);
                 case "Creator": return Creator_Updated(context: context);
@@ -1073,6 +1093,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "DisableCrossSearch":
                     return DisableCrossSearch.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "EnableSsCache":
+                    return EnableSsCache.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1549,6 +1574,7 @@ namespace Implem.Pleasanter.Models
             SiteInfo.DeleteSiteCaches(
                 context: context,
                 siteIds: siteIds);
+            SiteInfo.ClearSsCache(context: context);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1633,6 +1659,7 @@ namespace Implem.Pleasanter.Models
                     case "Sites_InheritPermission": InheritPermission = value.ToLong(); break;
                     case "Sites_Publish": Publish = value.ToBool(); break;
                     case "Sites_DisableCrossSearch": DisableCrossSearch = value.ToBool(); break;
+                    case "Sites_EnableSsCache": EnableSsCache = value.ToBool(); break;
                     case "Sites_Form": Form = value.ToString(); break;
                     case "Sites_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
@@ -1744,6 +1771,7 @@ namespace Implem.Pleasanter.Models
             ApiCountDate = siteModel.ApiCountDate;
             ApiCount = siteModel.ApiCount;
             DisableSiteCreatorPermission = siteModel.DisableSiteCreatorPermission;
+            EnableSsCache = siteModel.EnableSsCache;
             Form = siteModel.Form;
             Comments = siteModel.Comments;
             Creator = siteModel.Creator;
@@ -1779,6 +1807,7 @@ namespace Implem.Pleasanter.Models
             if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
             if (data.DisableCrossSearch != null) DisableCrossSearch = data.DisableCrossSearch.ToBool().ToBool();
+            if (data.EnableSsCache != null) EnableSsCache = data.EnableSsCache.ToBool().ToBool();
             if (data.Form != null) Form = data.Form.ToString().ToString();
             if (data.Permissions != null) RecordPermissions = data.Permissions;
             if (data.SiteSettings != null) SiteSettings = data.SiteSettings;
@@ -2053,6 +2082,10 @@ namespace Implem.Pleasanter.Models
                             ApiCount = dataRow[column.ColumnName].ToInt();
                             SavedApiCount = ApiCount;
                             break;
+                        case "EnableSsCache":
+                            EnableSsCache = dataRow[column.ColumnName].ToBool();
+                            SavedEnableSsCache = EnableSsCache;
+                            break;
                         case "Form":
                             Form = dataRow[column.ColumnName].ToString();
                             SavedForm = Form;
@@ -2167,6 +2200,7 @@ namespace Implem.Pleasanter.Models
                 || LockedUser_Updated(context: context)
                 || ApiCountDate_Updated(context: context)
                 || ApiCount_Updated(context: context)
+                || EnableSsCache_Updated(context: context)
                 || Form_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
@@ -2235,6 +2269,7 @@ namespace Implem.Pleasanter.Models
                 || LockedUser_Updated(context: context)
                 || ApiCountDate_Updated(context: context)
                 || ApiCount_Updated(context: context)
+                || EnableSsCache_Updated(context: context)
                 || Form_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
@@ -2442,8 +2477,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings.InheritPermission = InheritPermission;
             SiteSettings.AccessStatus = AccessStatus;
             SiteSettings.SetLinkedSiteSettings(context: context);
-            SiteSettings.SetPermissions(
-                context: context,
+            context.SetPermissions(
+                ss: SiteSettings,
                 referenceId: context.Id);
         }
 
@@ -9551,8 +9586,8 @@ namespace Implem.Pleasanter.Models
         public string OpenSetNumericRangeDialog(
             Context context, ResponseCollection res, string controlId)
         {
-            SiteSettings.SetPermissions(
-                context: context,
+            context.SetPermissions(
+                ss: SiteSettings,
                 referenceId: SiteId);
             if (context.CanRead(SiteSettings))
             {
@@ -9582,8 +9617,8 @@ namespace Implem.Pleasanter.Models
         public string OpenSetDateRangeDialog(
             Context context, ResponseCollection res, string controlId)
         {
-            SiteSettings.SetPermissions(
-                context: context,
+            context.SetPermissions(
+                ss: SiteSettings,
                 referenceId: SiteId);
             if (context.CanRead(SiteSettings))
             {

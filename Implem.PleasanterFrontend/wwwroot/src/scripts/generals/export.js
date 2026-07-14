@@ -1,4 +1,4 @@
-﻿$p.openExportSelectorDialog = function ($control) {
+$p.openExportSelectorDialog = function ($control) {
     var error = $p.syncSend($control);
     if (error === 0) {
         $p.changeExportIdSelector($control);
@@ -17,6 +17,15 @@ $p.export = function () {
     if (exp.mailNotify === true) {
         data['ExportId'] = exp.id;
         $p.send($('#DoExport'), 'MainForm');
+    } else if ($('#BackgroundQueueEnabled').val() === '1') {
+        data['ExportId'] = exp.id;
+        data['ExportEncoding'] = encoding;
+        data['ExportCommentsJsonFormat'] = $('#ExportCommentsJsonFormat').prop('checked');
+        var $doExport = $('#DoExport');
+        var action = $doExport.attr('data-action');
+        $doExport.attr('data-action', 'Export');
+        $p.send($doExport, 'MainForm');
+        $doExport.attr('data-action', action);
     } else {
         var addInput = function (form, name, value) {
             if (!name) return;

@@ -18,5 +18,8 @@
     "DeleteMcpLogs": false,
     "DeleteMcpLogsTime": [ "02:00" ],
     "McpLogsRetentionPeriod": 90,
-    "DeleteMcpLogsChunkSize": 0
+    "DeleteMcpLogsChunkSize": 0,
+    "DeleteBackgroundJobs": false,
+    "DeleteBackgroundJobsTime": [ "04:00" ],
+    "BackgroundJobsRetentionPeriod": 7
 }

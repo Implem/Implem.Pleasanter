@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Models
         public SiteSettings SiteSettings { get; set; }
         public bool? Publish { get; set; }
         public bool? DisableCrossSearch { get; set; }
+        public bool? EnableSsCache { get; set; }
         public DateTime? LockedTime { get; set; }
         public int? LockedUser { get; set; }
         public DateTime? ApiCountDate { get; set; }

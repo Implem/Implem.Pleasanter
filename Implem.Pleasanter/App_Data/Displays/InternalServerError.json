@@ -1,6 +1,7 @@
 {
     "Id": "InternalServerError",
     "Type": 240,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "An internal server error occurred."

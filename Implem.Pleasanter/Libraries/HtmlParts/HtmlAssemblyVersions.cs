@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Span(action: () => hb
                                         .Text(text: Displays.LicenseDeadline(context: context)))
                                     .Span(action: () => hb
-                                        .Text(text: Parameters.LicenseDeadline().ToString("yyyy/MM/dd"))),
+                                        .Text(text: Parameters.LicenseDeadline().AddDays(-1).ToString("yyyy/MM/dd"))),
                                 _using: isCommercialLicense
                                     && Parameters.Version.ShowDeadline)
                             .Div(

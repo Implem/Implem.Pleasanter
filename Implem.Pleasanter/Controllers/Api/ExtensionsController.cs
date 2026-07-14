@@ -5,6 +5,7 @@ using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.IO;
 using System.Linq;
 using Org.BouncyCastle.X509.Extension;
@@ -15,6 +16,7 @@ namespace Implem.Pleasanter.Controllers.Api
     [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
+    [EnableRateLimiting("Api")]
     public class ExtensionsController : ControllerBase
     {
         [HttpPost("Get")]
@@ -32,6 +34,7 @@ namespace Implem.Pleasanter.Controllers.Api
             var log = new SysLogModel(context: context);
             if (!context.AllowExtensionsApi)
             {
+                log.Finish(context: context);
                 return ApiResults.Forbidden(context: context);
                 
             }
@@ -61,6 +64,7 @@ namespace Implem.Pleasanter.Controllers.Api
             var log = new SysLogModel(context: context);
             if (!context.AllowExtensionsApi)
             {
+                log.Finish(context: context);
                 return ApiResults.Forbidden(context: context);
             }
             var result = context.Authenticated && context.HasPrivilege
@@ -88,6 +92,7 @@ namespace Implem.Pleasanter.Controllers.Api
             var log = new SysLogModel(context: context);
             if (!context.AllowExtensionsApi)
             {
+                log.Finish(context: context);
                 return ApiResults.Forbidden(context: context);
             }
             var result = context.Authenticated && context.HasPrivilege
@@ -116,6 +121,7 @@ namespace Implem.Pleasanter.Controllers.Api
             var log = new SysLogModel(context: context);
             if (!context.AllowExtensionsApi)
             {
+                log.Finish(context: context);
                 return ApiResults.Forbidden(context: context);
             }
             var result = context.Authenticated && context.HasPrivilege

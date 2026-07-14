@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobRunningTimedOut",
+    "Type": 110,
+    "Languages": [
+        { "Body": "The default job execution time has been exceeded. Please click the \"Run Next Job\" button if necessary." },
+        { "Language": "zh", "Body": "已超过默认作业执行时间。如有必要，请点击“运行下一个作业”按钮。" },
+        { "Language": "ja", "Body": "既定のジョブ実行時間を超過しています。必要に応じて「次のジョブを実行」ボタンをクリックしてください。" },
+        { "Language": "de", "Body": "Die Standardausführungszeit des Jobs wurde überschritten. Klicken Sie bei Bedarf auf die Schaltfläche \"Nächsten Job ausführen\"." },
+        { "Language": "ko", "Body": "기본 작업 실행 시간을 초과했습니다. 필요한 경우 \"다음 작업 실행\" 버튼을 클릭해 주세요." },
+        { "Language": "es", "Body": "Se ha superado el tiempo de ejecución predeterminado del trabajo. Haga clic en el botón \"Ejecutar siguiente trabajo\" si es necesario." },
+        { "Language": "vn", "Body": "Đã vượt quá thời gian thực thi công việc mặc định. Vui lòng nhấp vào nút \"Chạy công việc tiếp theo\" nếu cần thiết." }
+    ]
+}

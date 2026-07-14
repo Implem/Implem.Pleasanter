@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import copy from 'rollup-plugin-copy';
 import path from 'path';
-import { inputDir, outputDir, configParams, getEntries } from './vita.config.shared';
+import { inputDir, outputDir, configParams, getEntries } from './vite.config.shared';
 
 export default defineConfig({
     ...configParams,

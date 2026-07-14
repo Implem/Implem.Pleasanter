@@ -1,0 +1,33 @@
+{
+    "Id": "BackgroundJobExportFailed",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The background {0} failed."
+        },
+        {
+            "Language": "zh",
+            "Body": "后台{0}失败。"
+        },
+        {
+            "Language": "ja",
+            "Body": "バックグラウンドでの{0}に失敗しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Hintergrund-{0} ist fehlgeschlagen."
+        },
+        {
+            "Language": "ko",
+            "Body": "백그라운드 {0}에 실패했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Error en el {0} en segundo plano."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} nền không thành công."
+        }
+    ]
+}

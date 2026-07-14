@@ -1,0 +1,19 @@
+{
+    "Id": "BackgroundJobs_JobParameters",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "JobParameters",
+    "LabelText": "パラメータ",
+    "No": "14",
+    "History": "14",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "LabelText_en": "Parameters",
+    "LabelText_zh": "参数",
+    "LabelText_de": "Parameter",
+    "LabelText_ko": "매개변수",
+    "LabelText_es": "Parámetros",
+    "LabelText_vn": "Tham số"
+}

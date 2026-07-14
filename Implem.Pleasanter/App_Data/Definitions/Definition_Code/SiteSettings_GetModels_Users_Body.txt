@@ -13,7 +13,9 @@
         context: context,
         withLink: false,
         all: setAllChoices);
-    ss.PermissionType = Permissions.Admins(context: context);
+    context.SetPermissionType(
+        ss: ss,
+        type: Permissions.Admins(context: context));
     ss.TableType = tableTypes;
     if (context.ContractSettings.Api == false
         || (!DefinitionAccessor.Parameters.User.DisableApi && !context.DisableApi))

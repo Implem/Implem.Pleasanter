@@ -289,8 +289,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             {
                                 if (ss.Destinations == null && search)
                                 {
-                                    ss.SetLinkedSiteSettings(context: context, sources: false);
-                                    ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
+                                    ss.SetLinkedSiteSettings(
+                                        context: context,
+                                        sources: false);
+                                    context.SetPermissions(
+                                        ss: ss,
+                                        referenceId: ss.ReferenceId);
                                 }
                                 var currentSs = ss.Destinations?.Get(SiteId);
                                 if (currentSs != null)

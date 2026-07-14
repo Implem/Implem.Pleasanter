@@ -56,6 +56,9 @@ $p.set = function ($control, val) {
                             $('input[name="' + $control.attr('id') + '"]').val([val]);
                             // radio-valueへのデータ格納
                             $control.val(val);
+                        } else if ($control.is('.control-textbox.anchor')) {
+                            $control.val(val);
+                            $p.showAnchorViewer($control);
                         } else {
                             $control.val(val);
                         }

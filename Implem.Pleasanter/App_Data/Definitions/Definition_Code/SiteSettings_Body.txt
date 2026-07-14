@@ -1,11 +1,13 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+using Mapster;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class SiteSettingsUtilities
@@ -102,6 +104,36 @@ namespace Implem.Pleasanter.Libraries.Settings
                     referenceId: referenceId);
                 default: return null;
             }
+        }
+
+        private static bool SsCache(Context context, SiteModel siteModel)
+        {
+            if (context.Api)
+            {
+                return context.ApiSsCache;
+            }
+            else
+            {
+                return siteModel.EnableSsCache;
+            }
+        }
+
+        private static readonly TypeAdapterConfig CopySiteSettingsConfig = CreateCopySiteSettingsConfig();
+
+        private static TypeAdapterConfig CreateCopySiteSettingsConfig()
+        {
+            var config = new TypeAdapterConfig();
+            config.Default.PreserveReference(true);
+            config.ForType<View, View>()
+                .Ignore(o => o.AdditionalWhere);
+            return config;
+        }
+
+        public static SiteSettings CopySiteSettings(SiteSettings siteSettings)
+        {
+            return siteSettings != null
+                ? TypeAdapter.Adapt<SiteSettings>(siteSettings, CopySiteSettingsConfig)
+                : null;
         }
 
 <!--SiteSettings_GetModels-->

@@ -75,7 +75,8 @@ private static HtmlBuilder BulkUpdateEditor(
                     #modelName#Model: #modelName#Model,
                     column: column,
                     disableAutoPostBack: true,
-                    disableSection: true);
+                    disableSection: true,
+                    bulkUpdate: true);
             })));
     return hb;
 }

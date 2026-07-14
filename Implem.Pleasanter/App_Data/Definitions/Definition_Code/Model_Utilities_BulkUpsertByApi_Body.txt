@@ -122,6 +122,7 @@
                     #modelName#Model: #modelName#Model,
                     processes: processes,
                     previousTitle: null,
+                    #modelName#ApiModel: #modelName#ApiModel,
                     synchronizeSummary: false);
                 if (error.Type != Error.Types.None) return error;
                 updateCount++;

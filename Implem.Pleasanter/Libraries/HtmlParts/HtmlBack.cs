@@ -79,6 +79,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         default:
                             return AdminsOrTop(context: context);
                     }
+                case "backgroundjobs":
+                    switch (context.Action)
+                    {
+                        case "edit":
+                            return Locations.Get(
+                                context: context,
+                                parts: context.Controller);
+                        default:
+                            return Locations.Top(context: context);
+                    }
                 case "registrations":
                     switch (context.Action)
                     {

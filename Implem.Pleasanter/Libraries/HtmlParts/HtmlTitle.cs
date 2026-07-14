@@ -60,7 +60,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     format?
                         .Replace("[ProductName]", Displays.ProductName(context: context))
                         .Replace("[TenantTitle]", context.TenantTitle)
-                        .Replace("[SiteTitle]", context.SiteTitle)
+                        .Replace("[SiteTitle]", context.CanRead(ss: ss)
+                            ? context.SiteTitle
+                            : Displays.ProductName(context: context))
                         .Replace("[RecordTitle]", context.CanRead(ss: ss)
                             ? context.RecordTitle
                             : Displays.ProductName(context: context))

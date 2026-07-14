@@ -12,6 +12,7 @@ using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,9 +22,11 @@ using System.Text;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
+    [EnableRateLimiting("General")]
     public class ItemsController : Controller
     {
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        [EnableRateLimiting("List")]
         public ActionResult Index(long id = 0)
         {
             var context = new Context();
@@ -138,6 +141,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        [EnableRateLimiting("List")]
         public ActionResult Crosstab(long id = 0)
         {
             var context = new Context();
@@ -388,6 +392,7 @@ namespace Implem.Pleasanter.Controllers
             var json = new ItemModel(context: context, referenceId: id).UpdateSmartDesign(
                 context: context,
                 jsonBody: jsonBody);
+            log.Finish(context: context, responseSize: json.Length);
             return Content(json);
         }
 
@@ -435,6 +440,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("Heavy")]
         public string Import(long id, ICollection<IFormFile> file)
         {
             var context = new Context(files: file);
@@ -495,10 +501,60 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        public FileContentResult Export(long id)
+        [EnableRateLimiting("Heavy")]
+        public ActionResult Export(long id)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
+            var ss = BackgroundJobQueue.BackgroundQueueEnabled()
+                ? SiteSettingsUtilities.Get(context: context, siteId: id)
+                : null;
+            if (BackgroundJobQueue.ShouldQueueExport(context: context, ss: ss))
+            {
+                var invalid = BackgroundJobQueue.ValidateBeforeEnqueueExport(
+                    context: context,
+                    ss: ss);
+                if (invalid.Type != Error.Types.None)
+                {
+                    var invalidJson = invalid.MessageJson(context: context);
+                    log.Finish(
+                        context: context,
+                        responseSize: invalidJson?.Length ?? 0);
+                    return Content(
+                        content: invalidJson,
+                        contentType: "application/json;charset=utf-8");
+                }
+                var backgroundJobId = BackgroundJobQueue.EnqueueExport(
+                    context: context,
+                    siteId: id);
+                var backgroundJobsUrl = Locations.Get(
+                    context: context,
+                    parts: new string[] { "BackgroundJobs" });
+                var idLinkHtml = $"<a href=\"{backgroundJobsUrl}\">{backgroundJobId}</a>";
+                var messageText = Displays.Get(
+                    context: context,
+                    id: "EnqueuedToBackgroundJob",
+                    Displays.Get(
+                        context: context,
+                        id: "BackgroundJobs"),
+                    idLinkHtml);
+                var messageHtml = $"<div><span class=\"body alert-success\">{messageText}"
+                    + "<span class=\"ui-icon ui-icon-close close\"></span>"
+                    + "</span></div>";
+                var json = new ResponseCollection(
+                    context: context,
+                    id: backgroundJobId)
+                    .Html(
+                        target: "#Message",
+                        value: messageHtml)
+                    .ToJson();
+                log.Finish(
+                    context: context,
+                    responseSize: json.Length);
+                return Content(
+                    content: json,
+                    contentType: "application/json;charset=utf-8");
+            }
             var responseFile = new ItemModel(context: context, referenceId: id).Export(context: context);
             if (responseFile != null)
             {
@@ -513,6 +569,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("Heavy")]
         public string ExportAndMailNotify(long id)
         {
             var context = new Context();
@@ -523,6 +580,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
+        [EnableRateLimiting("Heavy")]
         public FileContentResult ExportCrosstab(long id)
         {
             var context = new Context();
@@ -541,6 +599,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        [EnableRateLimiting("List")]
         public ActionResult Search()
         {
             var context = new Context();
@@ -564,6 +623,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("List")]
         public ActionResult SearchDropDown(long id = 0)
         {
             var context = new Context();
@@ -574,6 +634,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("List")]
         public ActionResult RelatingDropDown(long id = 0)
         {
             var context = new Context();
@@ -584,6 +645,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("List")]
         public ActionResult SelectSearchDropDown(long id = 0)
         {
             var context = new Context();
@@ -594,6 +656,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("List")]
         public string GridRows(long id)
         {
             var context = new Context();
@@ -609,6 +672,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("List")]
         public string ReloadRow(long id)
         {
             var context = new Context();
@@ -639,6 +703,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("List")]
         public string TrashBoxGridRows(long id)
         {
             var context = new Context();
@@ -724,6 +789,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("Heavy")]
         public string BulkUpdate(long id)
         {
             var context = new Context();
@@ -739,6 +805,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("Heavy")]
         public string UpdateByGrid(long id)
         {
             var context = new Context();
@@ -754,6 +821,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("Heavy")]
         public string BulkProcess(long id)
         {
             var context = new Context();
@@ -839,6 +907,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPut]
+        [EnableRateLimiting("Heavy")]
         public string BulkMove(long id)
         {
             var context = new Context();
@@ -859,6 +928,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpDelete]
+        [EnableRateLimiting("Heavy")]
         public string BulkDelete(long id)
         {
             var context = new Context();
@@ -889,6 +959,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpDelete]
+        [EnableRateLimiting("Heavy")]
         public string PhysicalDelete(long id)
         {
             var context = new Context();
@@ -929,6 +1000,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPut]
+        [EnableRateLimiting("Heavy")]
         public string Separate(long id)
         {
             var context = new Context();
@@ -964,6 +1036,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("Heavy")]
         public string ImportSitePackage(long id, ICollection<IFormFile> file)
         {
             var context = new Context(files: file);
@@ -994,6 +1067,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("Heavy")]
         public FileContentResult ExportSitePackage(long id)
         {
             var context = new Context();
@@ -1046,6 +1120,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("Heavy")]
         public string RebuildSearchIndexes(long id)
         {
             var context = new Context();
@@ -1260,6 +1335,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPut]
+        [EnableRateLimiting("Heavy")]
         public string SynchronizeSummaries(long id)
         {
             var context = new Context();
@@ -1270,6 +1346,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPut]
+        [EnableRateLimiting("Heavy")]
         public string SynchronizeFormulas(long id)
         {
             var context = new Context();
@@ -1429,6 +1506,7 @@ namespace Implem.Pleasanter.Controllers
             var ss = itemModel.Site.SiteSettings;
             if (!context.CanManageSite(ss: ss))
             {
+                log.Finish(context: context);
                 return null;
             }
             var csv = MultilingualLabelExportImport.ExportMultilingualLabels(

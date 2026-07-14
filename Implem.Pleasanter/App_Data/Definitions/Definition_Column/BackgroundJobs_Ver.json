@@ -1,0 +1,21 @@
+{
+    "Id": "BackgroundJobs_Ver",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "Ver",
+    "LabelText": "バージョン",
+    "No": "2",
+    "History": "2",
+    "TypeName": "int",
+    "PkHistory": "2",
+    "PkHistoryMySql": "2",
+    "Default": "1",
+    "Required": "1",
+    "LabelText_en": "Version",
+    "LabelText_zh": "版本",
+    "LabelText_de": "Version",
+    "LabelText_ko": "버전",
+    "LabelText_es": "Versión",
+    "LabelText_vn": "Phiên bản"
+}

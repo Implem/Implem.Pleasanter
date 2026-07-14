@@ -34,7 +34,8 @@
         ss: ss,
         #modelName#Model: #modelName#Model,
         processes: processes,
-        previousTitle: previousTitle);
+        previousTitle: previousTitle,
+        #modelName#ApiModel: #modelName#ApiModel);
 
     switch (errorData.Type)
     {
@@ -56,6 +57,7 @@ private static ErrorData ApplyUpdateByApi(
     #ModelName#Model #modelName#Model,
     List<Process> processes,
     string previousTitle,
+    #ModelName#ApiModel #modelName#ApiModel,
     bool synchronizeSummary = true)
 {
     var invalid = #ModelName#Validators.OnUpdating(
@@ -69,7 +71,7 @@ private static ErrorData ApplyUpdateByApi(
     #modelName#Model.SetTitle(
         context: context,
         ss: ss);
-    #modelName#Model.VerUp = Versions.MustVerUp(
+    #modelName#Model.VerUp = #modelName#ApiModel?.VerUp == true || Versions.MustVerUp(
         context: context,
         ss: ss,
         baseModel: #modelName#Model);
@@ -132,7 +134,7 @@ public static bool UpdateByServerScript(
     #modelName#Model.SetTitle(
         context: context,
         ss: ss);
-    #modelName#Model.VerUp = Versions.MustVerUp(
+    #modelName#Model.VerUp = #modelName#ApiModel?.VerUp == true || Versions.MustVerUp(
         context: context,
         ss: ss,
         baseModel: #modelName#Model);

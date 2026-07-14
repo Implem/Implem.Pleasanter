@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
+
     public class RegistrationsController : Controller
     {
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]

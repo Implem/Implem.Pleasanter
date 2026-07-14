@@ -1978,6 +1978,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "ApiCount":
                             sql.Sites_ApiCount(tableName: path, _as: _as);
                             break;
+                        case "EnableSsCache":
+                            sql.Sites_EnableSsCache(tableName: path, _as: _as);
+                            break;
                         case "Form":
                             sql.Sites_Form(tableName: path, _as: _as);
                             break;

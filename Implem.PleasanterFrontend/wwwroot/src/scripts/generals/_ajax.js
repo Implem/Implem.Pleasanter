@@ -107,31 +107,34 @@ $p.ajax = function (url, methodType, data, $control, _async, clearMessage) {
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             ret = -1;
-            if (!jqXHR.getAllResponseHeaders()) {
+            if (textStatus === 'abort') {
                 return;
             }
-            if (jqXHR.status === 400) {
-                alert($p.display('BadRequest'));
-            } else if (jqXHR.status === 403) {
-                alert($p.display('UnauthorizedRequest'));
-            } else {
+            if (jqXHR.status === 0 || !jqXHR.getAllResponseHeaders()) {
+                $p.setErrorMessage('ServerConnectionError');
+                return;
+            }
+            try {
+                if (jqXHR.status === 400) {
+                    alert($p.display('BadRequest'));
+                    return;
+                }
+                if (jqXHR.status === 403) {
+                    alert($p.display('UnauthorizedRequest'));
+                    return;
+                }
                 $p.execEvents(
                     'ajax_before_fail',
                     $p.eventArgs(url, methodType, data, $control, _async, ret, null)
                 );
-                if (!$p.setServerErrorMessage(jqXHR.responseJSON)) {
-                    alert(
-                        (
-                            jqXHR.status +
-                            '\n' +
-                            textStatus +
-                            '\n' +
-                            JSON.parse(jqXHR.responseJSON[0].Value).Text
-                        )
-                            .trim()
-                            .replace('\n', '')
-                    );
+                if (jqXHR.status === 502 || jqXHR.status === 503 || jqXHR.status === 504) {
+                    $p.setErrorMessage('ServiceUnavailable');
+                    return;
                 }
+                if (!$p.setServerErrorMessage(jqXHR.responseJSON)) {
+                    $p.setErrorMessage('InternalServerError');
+                }
+            } finally {
                 $p.execEvents(
                     'ajax_after_fail',
                     $p.eventArgs(url, methodType, data, $control, _async, ret, null)
@@ -208,12 +211,29 @@ $p.multiUpload = function (url, data, $control, statusBar, callback) {
             return true;
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.status === 400) {
+            if (textStatus === 'abort') {
+                return;
+            }
+            if (jqXHR.status === 0 || !jqXHR.getAllResponseHeaders()) {
+                $p.setErrorMessage('ServerConnectionError');
+            } else if (jqXHR.status === 400) {
                 alert($p.display('BadRequest'));
             } else if (jqXHR.status === 403) {
                 alert($p.display('UnauthorizedRequest'));
+            } else if (jqXHR.status === 502 || jqXHR.status === 503 || jqXHR.status === 504) {
+                $p.setErrorMessage('ServiceUnavailable');
             } else {
-                alert(textStatus + '\n' + $(jqXHR.responseText).text().trim().replace('\n', ''));
+                var responseJSON = jqXHR.responseJSON;
+                if (!responseJSON && jqXHR.responseText) {
+                    try {
+                        responseJSON = JSON.parse(jqXHR.responseText);
+                    } catch (e) {
+                        responseJSON = null;
+                    }
+                }
+                if (!$p.setServerErrorMessage(responseJSON)) {
+                    $p.setErrorMessage('InternalServerError');
+                }
             }
             return false;
         })

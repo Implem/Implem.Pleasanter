@@ -1,0 +1,20 @@
+{
+    "Id": "BackgroundJobs_UserId",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "UserId",
+    "LabelText": "ユーザーID",
+    "No": "5",
+    "History": "5",
+    "TypeName": "int",
+    "Ix3": "2",
+    "Default": "0",
+    "Required": "1",
+    "LabelText_en": "User ID",
+    "LabelText_zh": "用户ID",
+    "LabelText_de": "Benutzer-ID",
+    "LabelText_ko": "사용자 ID",
+    "LabelText_es": "ID de usuario",
+    "LabelText_vn": "ID Người dùng"
+}

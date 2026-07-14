@@ -1,22 +1,15 @@
 {
-  "_rolldown-runtime_BpQH8Ho1.js": {
-    "file": "rolldown-runtime_BpQH8Ho1.js",
-    "name": "rolldown-runtime"
-  },
-  "_vendor_CwIeARQo.js": {
-    "file": "vendor_CwIeARQo.js",
-    "name": "vendor",
-    "imports": [
-      "_rolldown-runtime_BpQH8Ho1.js"
-    ]
+  "_vendor_CEfIUv3R.js": {
+    "file": "vendor_CEfIUv3R.js",
+    "name": "vendor"
   },
   "src/main.ts": {
-    "file": "components_CNQmpBCZ.js",
+    "file": "components_DnSuOq-k.js",
     "name": "main",
     "src": "src/main.ts",
     "isEntry": true,
     "imports": [
-      "_vendor_CwIeARQo.js"
+      "_vendor_CEfIUv3R.js"
     ]
   }
 }

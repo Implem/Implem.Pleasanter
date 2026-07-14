@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Sustainsys.Saml2.AspNetCore2;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ using System.Security.Claims;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
+    [EnableRateLimiting("Admin")]
     public class UsersController : Controller
     {
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
@@ -262,6 +264,7 @@ namespace Implem.Pleasanter.Controllers
             }
             else
             {
+                log.Finish(context: context);
                 return null;
             }
         }
@@ -271,6 +274,7 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet]
+        [EnableRateLimiting("AnonymousIp")]
         public ActionResult Challenge(string returnUrl = "", string idp = "")
         {
             var context = new Context();
@@ -297,6 +301,7 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet]
+        [EnableRateLimiting("AnonymousIp")]
         public ActionResult Login(string returnUrl, string ssocode = "")
         {
             var context = new Context();
@@ -404,6 +409,7 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpPost]
+        [EnableRateLimiting("AnonymousIp")]
         public string Authenticate(string returnUrl, int isAuthenticationByMail = 0)
         {
             var context = new Context();
@@ -468,6 +474,7 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpPost]
+        [EnableRateLimiting("AnonymousIp")]
         public string ChangePasswordAtLogin()
         {
             var context = new Context();

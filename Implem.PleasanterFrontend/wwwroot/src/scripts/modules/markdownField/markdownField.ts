@@ -442,6 +442,8 @@ class MarkdownFieldElement extends HTMLElement {
     }
 
     private setEditorHeight = () => {
+        if (CSS.supports('field-sizing', 'content') || this.viewerType === 'disabled') return;
+
         const BORDER_ADJUSTMENT = 2;
         const dummy = document.createElement('textarea');
         const ctrlStyle = window.getComputedStyle(this.controller);
@@ -481,6 +483,9 @@ class MarkdownFieldElement extends HTMLElement {
 
     private uploadBinary(blob: File) {
         if (!blob || !MarkdownFieldElement.ALLOWED_IMAGE_TYPES.includes(blob.type)) {
+            return;
+        }
+        if (!$p.validateImageUploadFileSize(blob)) {
             return;
         }
         const dir = $p.isForm() ? 'formbinaries' : 'binaries';

@@ -154,6 +154,156 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message BackgroundJobBulkDeleteFailed(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobBulkDeleteFailed",
+                text: Displays.BackgroundJobBulkDeleteFailed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobCancelled(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobCancelled",
+                text: Displays.BackgroundJobCancelled(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message BackgroundJobDeleted(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobDeleted",
+                text: Displays.BackgroundJobDeleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message BackgroundJobDownloadingCanNotDelete(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobDownloadingCanNotDelete",
+                text: Displays.BackgroundJobDownloadingCanNotDelete(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobExportFailed(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobExportFailed",
+                text: Displays.BackgroundJobExportFailed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobInvalidParameters(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobInvalidParameters",
+                text: Displays.BackgroundJobInvalidParameters(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobNextJobRequested(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobNextJobRequested",
+                text: Displays.BackgroundJobNextJobRequested(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message BackgroundJobNextJobRequestFailed(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobNextJobRequestFailed",
+                text: Displays.BackgroundJobNextJobRequestFailed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobNoHandler(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobNoHandler",
+                text: Displays.BackgroundJobNoHandler(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobOutputFilePathNotConfigured(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobOutputFilePathNotConfigured",
+                text: Displays.BackgroundJobOutputFilePathNotConfigured(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobRecoverStuckFailed(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobRecoverStuckFailed",
+                text: Displays.BackgroundJobRecoverStuckFailed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobRunningTimedOutCanNotDelete(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobRunningTimedOutCanNotDelete",
+                text: Displays.BackgroundJobRunningTimedOutCanNotDelete(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobs(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobs",
+                text: Displays.BackgroundJobs(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message BackgroundJobsCancelFailed(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobsCancelFailed",
+                text: Displays.BackgroundJobsCancelFailed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobsCancelled(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobsCancelled",
+                text: Displays.BackgroundJobsCancelled(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message BadFormat(Context context, params string[] data)
         {
             return Get(
@@ -1284,6 +1434,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message LicenseExpiredAlert(Context context, params string[] data)
+        {
+            return Get(
+                id: "LicenseExpiredAlert",
+                text: Displays.LicenseExpiredAlert(
+                    context: context,
+                    data: data),
+                css: "alert-warning");
+        }
+
         public static Message LinkCreated(Context context, params string[] data)
         {
             return Get(
@@ -1714,6 +1874,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message RateLimitExceeded(Context context, params string[] data)
+        {
+            return Get(
+                id: "RateLimitExceeded",
+                text: Displays.RateLimitExceeded(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message ReadOnlyBecausePreviousVer(Context context, params string[] data)
         {
             return Get(
@@ -1924,6 +2094,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message ServerConnectionError(Context context, params string[] data)
+        {
+            return Get(
+                id: "ServerConnectionError",
+                text: Displays.ServerConnectionError(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message ServerScriptErrorDetail(Context context, params string[] data)
         {
             return Get(
@@ -1949,6 +2129,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "ServerScriptExecutionFailed",
                 text: Displays.ServerScriptExecutionFailed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message ServiceUnavailable(Context context, params string[] data)
+        {
+            return Get(
+                id: "ServiceUnavailable",
+                text: Displays.ServiceUnavailable(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -2002,6 +2192,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message TooLargeFile(Context context, params string[] data)
+        {
+            return Get(
+                id: "TooLargeFile",
+                text: Displays.TooLargeFile(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message TooLongText(Context context, params string[] data)
@@ -2281,6 +2481,171 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: Authentication(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobBulkDeleteFailed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobBulkDeleteFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobCancelled(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobCancelled(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobDeleted(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobDeleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobDownloadingCanNotDelete(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobDownloadingCanNotDelete(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobExportFailed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobExportFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobInvalidParameters(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobInvalidParameters(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobNextJobRequested(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobNextJobRequested(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobNextJobRequestFailed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobNextJobRequestFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobNoHandler(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobNoHandler(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobOutputFilePathNotConfigured(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobOutputFilePathNotConfigured(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobRecoverStuckFailed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobRecoverStuckFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobRunningTimedOutCanNotDelete(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobRunningTimedOutCanNotDelete(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobs(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobs(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobsCancelFailed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobsCancelFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobsCancelled(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobsCancelled(
                     context: context,
                     data: data),
                 target: target);
@@ -3529,6 +3894,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseLicenseExpiredAlert(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: LicenseExpiredAlert(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseLinkCreated(
             Context context, string target = null, params string[] data)
         {
@@ -4002,6 +4378,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseRateLimitExceeded(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: RateLimitExceeded(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseReadOnlyBecausePreviousVer(
             Context context, string target = null, params string[] data)
         {
@@ -4233,6 +4620,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseServerConnectionError(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ServerConnectionError(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseServerScriptErrorDetail(
             Context context, string target = null, params string[] data)
         {
@@ -4261,6 +4659,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: ServerScriptExecutionFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseServiceUnavailable(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ServiceUnavailable(
                     context: context,
                     data: data),
                 target: target);
@@ -4316,6 +4725,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: SynchronizationCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseTooLargeFile(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: TooLargeFile(
                     context: context,
                     data: data),
                 target: target);

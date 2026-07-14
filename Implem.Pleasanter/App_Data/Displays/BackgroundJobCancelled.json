@@ -1,0 +1,33 @@
+{
+    "Id": "BackgroundJobCancelled",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Background job cancelled."
+        },
+        {
+            "Language": "zh",
+            "Body": "后台作业已取消。"
+        },
+        {
+            "Language": "ja",
+            "Body": "バックグラウンドジョブをキャンセルしました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Hintergrundauftrag abgebrochen."
+        },
+        {
+            "Language": "ko",
+            "Body": "백그라운드 작업이 취소되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Trabajo en segundo plano cancelado."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tác vụ nền đã bị hủy."
+        }
+    ]
+}

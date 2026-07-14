@@ -19,14 +19,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: tableName + "_CreatedTime",
                     labelText: Displays.CreatedTime(context: context),
                     format: Def.ColumnTable._Bases_CreatedTime.EditorFormat,
-                    userId: baseModel.Creator.Id,
+                    userName: baseModel.Creator.Name ?? Displays.NotSet(context: context),
                     time: baseModel.CreatedTime)
                 .RecordedTime(
                     context: context,
                     controlId: tableName + "_UpdatedTime",
                     labelText: Displays.UpdatedTime(context: context),
                     format: Def.ColumnTable._Bases_UpdatedTime.EditorFormat,
-                    userId: baseModel.Updator.Id,
+                    userName: baseModel.Updator.Name ?? Displays.NotSet(context: context),
                     time: baseModel.UpdatedTime);
         }
 
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlId,
             string labelText,
             string format,
-            int userId,
+            string userName,
             Time time)
         {
             return hb.Div(action: () => hb
@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Text(labelText))
                 .HtmlUser(
                     context: context,
-                    id: userId)
+                    text: userName)
                 .RecordedTime(
                     context: context,
                     format: format,

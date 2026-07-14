@@ -20,6 +20,8 @@ namespace Implem.ParameterAccessor.Parts
         public decimal TotalMaxSize;
         public decimal Image;
         public decimal? ImageLimitSize;
+        public decimal? ImageUploadFileSizeLimit;
+        public decimal? ImageDecodedSizeLimit;
         public decimal? ThumbnailLimitSize;
         public decimal ThumbnailMinSize;
         public decimal ThumbnailMaxSize;

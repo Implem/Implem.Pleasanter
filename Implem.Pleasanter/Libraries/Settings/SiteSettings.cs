@@ -136,12 +136,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public long InheritPermission;
         [NonSerialized]
-        public Permissions.Types? PermissionType;
-        [NonSerialized]
-        public Dictionary<long, Permissions.Types> PermissionTypeCache;
-        [NonSerialized]
-        public Permissions.Types? ItemPermissionType;
-        [NonSerialized]
         public bool Publish;
         [NonSerialized]
         public Databases.AccessStatuses AccessStatus;
@@ -284,7 +278,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<ColumnAccessControl> CreateColumnAccessControls;
         public List<ColumnAccessControl> ReadColumnAccessControls;
         public List<ColumnAccessControl> UpdateColumnAccessControls;
-        private ServerScriptModel.ServerScriptModelRow ServerScriptModelRowCache;
+        private ServerScriptModelRow ServerScriptModelRowCache;
         public Dictionary<string, long> LinkColumnSiteIdHash;
         public List<string> GridColumnsOrder;
         public List<string> FilterColumnsOrder;
@@ -312,6 +306,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string FormUnavailableMessage;
         public string FormThanksMessage;
 
+        public ServerScriptModelRow ServerScriptModelRowCache1 { get => ServerScriptModelRowCache; set => ServerScriptModelRowCache = value; }
+
         public SiteSettings()
         {
         }
@@ -328,7 +324,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 SiteId = SiteId,
                 InheritPermission = InheritPermission,
-                PermissionType = PermissionType,
                 ReferenceType = ReferenceType
             };
             ss.Init(context: context);
@@ -577,7 +572,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 sources: false,
                                 previously: previously,
                                 enableExpandLinkPath: enableExpandLinkPath);
-                            ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
                             break;
                         case "Sources":
                             ss.Links
@@ -599,7 +593,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 sources: true,
                                 previously: previously,
                                 enableExpandLinkPath: enableExpandLinkPath);
-                            ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
                             break;
                     }
                     hash.Add(ss.SiteId, ss);
@@ -656,39 +649,39 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             long referenceId = 0)
         {
+            var cp = context.GetContextPermission(ss);
             switch ((context.Publish, context.IsForm, context.Controller))
             {
                 case (true, _, _):
-                    ss.PermissionType = Permissions.Types.Read;
-                    ss.ItemPermissionType = Permissions.Types.Read;
+                    cp.PermissionType = Permissions.Types.Read;
+                    cp.ItemPermissionType = Permissions.Types.Read;
                     return;
                 case (_, true, _):
-                    ss.PermissionType = ss.Linked && ss.Publish
+                    cp.PermissionType = ss.Linked && ss.Publish
                         ? Permissions.Types.Read
                         : Permissions.Types.Create;
-                    ss.ItemPermissionType = ss.Linked && ss.Publish
+                    cp.ItemPermissionType = ss.Linked && ss.Publish
                         ? Permissions.Types.Read
                         : Permissions.Types.Create;
                     return;
                 case (_, _, "publishes"):
                     return;
             }
-
             if (context.PermissionHash?.ContainsKey(ss.InheritPermission) == true)
             {
-                ss.PermissionType = context.PermissionHash[ss.InheritPermission];
+                cp.PermissionType = context.PermissionHash[ss.InheritPermission];
             }
             if (referenceId != 0 && context.PermissionHash?.ContainsKey(referenceId) == true)
             {
-                ss.ItemPermissionType = context.PermissionHash[referenceId];
+                cp.ItemPermissionType = context.PermissionHash[referenceId];
             }
             if (LockedTable())
             {
                 var lockedPermissionType = Permissions.Types.Read
                     | Permissions.Types.Export
                     | Permissions.Types.SendMail;
-                ss.PermissionType &= lockedPermissionType;
-                ss.ItemPermissionType &= lockedPermissionType;
+                cp.PermissionType &= lockedPermissionType;
+                cp.ItemPermissionType &= lockedPermissionType;
             }
         }
 
@@ -5395,20 +5388,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public Permissions.Types GetPermissionType(Context context, bool site = false)
-        {
-            var permission = Permissions.Types.NotSet;
-            if (PermissionType != null)
-            {
-                permission |= (Permissions.Types)PermissionType;
-            }
-            if (ItemPermissionType != null && !site)
-            {
-                permission |= (Permissions.Types)ItemPermissionType;
-            }
-            return permission;
-        }
-
         public Permission GetPermissionForCreating(string key)
         {
             return PermissionForCreating?.ContainsKey(key) == true
@@ -6279,7 +6258,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return context.HasPrivilege
                 ? false
-                : PermissionType == Permissions.Types.Read && NoDisplayIfReadOnly;
+                : context.GetContextPermission(ss: this).PermissionType == Permissions.Types.Read && NoDisplayIfReadOnly;
         }
 
         public void LinkActions(

@@ -19,7 +19,26 @@ namespace Implem.ParameterAccessor.Parts
         public string SmtpPassword { get; set; }
         public bool SmtpEnableSsl { get; set; }
         public bool ServerCertificateValidationCallback { get; set; }
+        [DefaultValue(true)]
+        public bool SmtpCheckCertificateRevocation { get; set; } = true;
         public string SecureSocketOptions { get; set; }
+        public string SmtpSslProtocols { get; set; }
+        [DefaultValue(120000)]
+        public int SmtpTimeout { get; set; } = 120000;
+        public string SmtpLocalDomain { get; set; }
+        public bool SmtpRequireTls { get; set; }
+        public string SmtpLocalEndPoint { get; set; }
+        public string SmtpProxyType { get; set; }
+        public string SmtpProxyHost { get; set; }
+        public int SmtpProxyPort { get; set; }
+        public string SmtpProxyUserName { get; set; }
+        public string SmtpProxyPassword { get; set; }
+        public bool SmtpProxyServerCertificateValidationCallback { get; set; }
+        [DefaultValue(true)]
+        public bool SmtpProxyCheckCertificateRevocation { get; set; } = true;
+        public string SmtpProxySslProtocols { get; set; }
+        public SigninCertificate SmtpProxyClientCertificate { get; set; }
+        public SigninCertificate SmtpClientCertificate { get; set; }
         public bool UseOAuth { get; set; } = false;
         public string OAuthClientId { get; set; }
         public string OAuthClientSecret { get; set; }

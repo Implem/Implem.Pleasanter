@@ -25,8 +25,13 @@ namespace Implem.ParameterAccessor.Parts
         public List<string> DeleteMcpLogsTime = new List<string>();
         public int McpLogsRetentionPeriod = 90;
         public int DeleteMcpLogsChunkSize;
+        public bool DeleteBackgroundJobs = false;
+        public List<string> DeleteBackgroundJobsTime = new List<string> { "04:00" };
+        public int BackgroundJobsRetentionPeriod = 7;
 
-        public bool TimerEnabled(string deploymentEnvironment)
+        public bool TimerEnabled(
+            string deploymentEnvironment,
+            bool backgroundQueueEnabled = false)
         {
             return ServiceEnabled(deploymentEnvironment)
                 && (SyncByLdap
@@ -35,7 +40,9 @@ namespace Implem.ParameterAccessor.Parts
                 || DeleteTrashBox
                 || Reminder
                 || DeleteUnusedRecord
-                || DeleteMcpLogs);
+                || DeleteMcpLogs
+                || backgroundQueueEnabled
+                || DeleteBackgroundJobs);
         }
 
         private bool ServiceEnabled(string deploymentEnvironment)

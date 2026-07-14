@@ -125,6 +125,7 @@ $p.getVideoDeviceList = function () {
 };
 
 $p.uploadImage = function (controlId, file) {
+    if (!$p.validateImageUploadFileSize(file)) return;
     const controller = $p.isForm() ? 'formbinaries' : 'binaries';
     var $tr = $('[id="' + controlId + '"]').closest('tr');
     var $editorInDialogRecordId = $('#EditorInDialogRecordId');

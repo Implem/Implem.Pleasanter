@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import path from 'path';
-import { inputDir, configParams, getEntries } from '../vita.config.shared';
+import { inputDir, configParams, getEntries } from '../vite.config.shared';
 
 const rootDir = path.resolve(__dirname, '..');
 

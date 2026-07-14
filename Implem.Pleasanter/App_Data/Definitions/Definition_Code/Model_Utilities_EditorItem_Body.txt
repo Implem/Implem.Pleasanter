@@ -469,7 +469,8 @@ public static HtmlBuilder Field(
     string idSuffix = null,
     bool isResponse = false,
     bool preview = false,
-    bool disableSection = false)
+    bool disableSection = false,
+    bool bulkUpdate = false)
 {
     var value = #modelName#Model.ControlValue(
         context: context,
@@ -481,6 +482,10 @@ public static HtmlBuilder Field(
         column: column);
     if (value != null)
     {
+        if (bulkUpdate)
+        {
+            column.StatusReadOnly = false;
+        }
         value += #modelName#Model.NumUnit(
             context: context,
             ss: ss,

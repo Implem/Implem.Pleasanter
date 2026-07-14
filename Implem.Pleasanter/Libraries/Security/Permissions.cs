@@ -165,7 +165,7 @@ namespace Implem.Pleasanter.Libraries.Security
                             where.CheckRecordPermission(
                                 context: context,
                                 ss: ss,
-                                permissionType: permissionType ^ ((ss.PermissionType ?? Types.NotSet) & permissionType));
+                                permissionType: permissionType ^ ((context.GetContextPermission(ss: ss).PermissionType ?? Types.NotSet) & permissionType));
                         }
                     }
                     else
@@ -433,8 +433,9 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool HasPermission(this Context context, SiteSettings ss)
         {
-            return ss.PermissionType != null
-                || ss.ItemPermissionType != null
+            var cp = context.GetContextPermission(ss: ss);
+            return cp.PermissionType != null
+                || cp.ItemPermissionType != null
                 || ss.ReferenceType == null
                 || context.HasPrivilege;
         }
@@ -843,8 +844,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 if ((type & Types.Create) == Types.Create) return false;
                 if ((type & Types.Import) == Types.Import) return false;
             }
-            return (ss.GetPermissionType(
-                context: context,
+            return (context.GetPermissionType(
+                ss: ss,
                 site: site) & type) == type
                     || context.HasPrivilege;
         }

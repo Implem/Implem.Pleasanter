@@ -1,0 +1,20 @@
+{
+    "Id": "BackgroundJobs_SiteId",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "SiteId",
+    "LabelText": "サイトID",
+    "No": "4",
+    "History": "4",
+    "TypeName": "bigint",
+    "Ix2": "2",
+    "Default": "0",
+    "Required": "1",
+    "LabelText_en": "Site ID",
+    "LabelText_zh": "站点ID",
+    "LabelText_de": "Site-ID",
+    "LabelText_ko": "사이트 ID",
+    "LabelText_es": "ID del sitio",
+    "LabelText_vn": "ID Trang web"
+}

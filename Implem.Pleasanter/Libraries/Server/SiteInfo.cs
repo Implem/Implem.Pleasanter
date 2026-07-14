@@ -7,10 +7,12 @@ using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Models;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -19,7 +21,7 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public static class SiteInfo
     {
-        public static Dictionary<int, TenantCache> TenantCaches = new Dictionary<int, TenantCache>(); //AddはContextで行っている。
+        public static ConcurrentDictionary<int, TenantCache> TenantCaches = new (); //AddはContextで行っている。
         public static DateTime SessionCleanedUpDate;
         public static int? AnonymousId;
         public static IHostApplicationLifetime ApplicationLifetime { get; set; }
@@ -524,6 +526,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 SetLinks(
                     context: context,
                     tenantCache: tenantCache);
+                tenantCache.SsCache.Clear();
                 tenantCache.SitesUpdatedTime = dataRows
                     .Max(o => o.Field<DateTime>("UpdatedTime"))
                     .ToString("yyyy/M/d H:m:s.fff");
@@ -682,6 +685,54 @@ namespace Implem.Pleasanter.Libraries.Server
                             .TenantId(0)
                             .UserId(2)));
             }
+        }
+
+        private static string SsCacheKey(Context context, bool setAllChoices, long? siteId = null)
+            => $"{siteId ?? context.SiteId}_{context.UserId}_setAllChoices:{setAllChoices}";
+
+        public static SiteSettings GetSsCache(Context context, SiteModel siteModel, bool ssCache, bool setAllChoices = false)
+        {
+            if (!Parameters.AllowSsCache() || !ssCache)
+            {
+                return null;
+            }
+            var tenantCache = TenantCaches.Get(context.TenantId);
+            if (tenantCache?.SsCache == null)
+            {
+                return null;
+            }
+            var key = SsCacheKey(context, setAllChoices, siteModel.SiteId);
+            var ss = tenantCache.SsCache?.Get(key);
+            return ss;
+        }
+
+        public static void SetSsCache(Context context, SiteModel siteModel, SiteSettings ss, bool ssCache, bool setAllChoices = false)
+        {
+            if (!Parameters.AllowSsCache() || !ssCache)
+            {
+                return;
+            }
+            var tenantCache = TenantCaches.Get(context.TenantId);
+            if (tenantCache?.SsCache == null)
+            {
+                return;
+            }
+            var key = SsCacheKey(context, setAllChoices, siteModel.SiteId);
+            tenantCache.SsCache[key] = ss;
+        }
+
+        public static void ClearSsCache(Context context)
+        {
+            if (!Parameters.AllowSsCache())
+            {
+                return;
+            }
+            var tenantCache = TenantCaches.Get(context.TenantId);
+            if (tenantCache?.SsCache == null)
+            {
+                return;
+            }
+            tenantCache.SsCache.Clear();
         }
 
         private static void CheckAndRestartIfScheduled(Context context)

@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else if (Type != null
                 && Type != Permissions.Types.NotSet
-                && (Type & ss.PermissionType) == Type)
+                && (Type & context.GetContextPermission(ss: ss).PermissionType) == Type)
             {
                 return true;
             }

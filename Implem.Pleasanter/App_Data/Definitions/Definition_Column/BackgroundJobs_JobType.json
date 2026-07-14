@@ -1,0 +1,19 @@
+{
+    "Id": "BackgroundJobs_JobType",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "JobType",
+    "LabelText": "ジョブ種別",
+    "No": "6",
+    "History": "6",
+    "TypeName": "nvarchar",
+    "MaxLength": "50",
+    "Required": "1",
+    "LabelText_en": "Job Type",
+    "LabelText_zh": "作业类型",
+    "LabelText_de": "Auftragstyp",
+    "LabelText_ko": "작업 유형",
+    "LabelText_es": "Tipo de trabajo",
+    "LabelText_vn": "Loại tác vụ"
+}

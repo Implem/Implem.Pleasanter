@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public string Timestamp;
         public int? TabLatestId;
         public SettingList<Tab> Tabs;
+        public bool? VerUp { get; set; }
 
         public SiteSettingsApiModel()
         {

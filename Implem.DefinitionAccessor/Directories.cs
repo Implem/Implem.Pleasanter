@@ -85,6 +85,21 @@ namespace Implem.DefinitionAccessor
             return Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Histories");
         }
 
+        public static string BackgroundJobExport()
+        {
+            return Path.Combine(
+                BackgroundJobOutputBase(),
+                "Export");
+        }
+
+        private static string BackgroundJobOutputBase()
+        {
+            var path = Parameters.BackgroundJobs.OutputFilePath;
+            return Path.IsPathRooted(path)
+                ? path
+                : Path.Combine(Environments.CurrentDirectoryPath, path);
+        }
+
         public static string BinaryStorage()
         {
             var path = Parameters.BinaryStorage.Path;

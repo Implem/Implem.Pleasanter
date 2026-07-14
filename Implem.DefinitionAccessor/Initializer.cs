@@ -103,6 +103,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Rds = Read<Rds>(patch: false);
             Parameters.Api = Read<Api>();
             Parameters.Authentication = Read<Authentication>();
+            Parameters.BackgroundJobs = Read<BackgroundJobs>(required: false);
             Parameters.BackgroundService = Read<BackgroundService>();
             Parameters.Quartz = Read<Quartz>(required: false);
             Parameters.BackgroundTask = Read<BackgroundTask>();
@@ -133,6 +134,8 @@ namespace Implem.DefinitionAccessor
             Parameters.Version = Read<ParameterAccessor.Parts.Version>();
             Parameters.Mail = Read<Mail>();
             Parameters.McpServer = Read<McpServer>();
+            Parameters.RateLimit = Read<RateLimit>();
+            Parameters.RateLimit?.Normalize();
             Parameters.Mobile = Read<Mobile>();
             Parameters.NavigationMenus = NavigationMenus();
             Parameters.Migration = Read<Migration>(patch: false);
@@ -348,6 +351,7 @@ namespace Implem.DefinitionAccessor
                     {
                         case "Api": Parameters.Api = value.Deserialize<Api>(); break;
                         case "Authentication": Parameters.Authentication = value.Deserialize<Authentication>(); break;
+                        case "BackgroundJobs": Parameters.BackgroundJobs = value.Deserialize<BackgroundJobs>(); break;
                         case "BackgroundService": Parameters.BackgroundService = value.Deserialize<BackgroundService>(); break;
                         case "BackgroundTask": Parameters.BackgroundTask = value.Deserialize<BackgroundTask>(); break;
                         case "BinaryStorage": Parameters.BinaryStorage = value.Deserialize<BinaryStorage>(); break;

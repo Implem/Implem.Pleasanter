@@ -317,11 +317,11 @@ html .ui-material-button.ui-state-disabled:active {
         box-shadow: 0 2px 4px var(--base-shadow);
     }
     .material-symbols-sharp-label {
-        font-size: 16px;
-        vertical-align: middle;
-        line-height: 1;
-        margin-right: 4px;
         padding-bottom: 3px;
+        margin-right: 4px;
+        font-size: 16px;
+        line-height: 1;
+        vertical-align: middle;
     }
 }
 
@@ -456,7 +456,6 @@ input {
 /* select-field */
 .select-field {
     position: relative;
-    display: block;
     .control-textbox {
         float: none;
         padding-right: 24px;
@@ -815,6 +814,8 @@ input {
         width: 20px;
         height: 20px;
         overflow: hidden;
+        caret-color: transparent;
+        user-select: none;
         background-color: var(--control-bg);
         border: 1px solid var(--control-border);
         border-radius: 4px;
@@ -1715,6 +1716,15 @@ body {
 
 /* Organisms ---------------------------------------------------------------- */
 
+/* #Application > #LicenseExpiredAlert */
+#LicenseExpiredAlert {
+    display: block;
+    min-height: 32px;
+    padding: 5px;
+    color: #fff;
+    background-color: var(--warning-color);
+}
+
 /* #Application > #CopyToClipboards */
 #CopyToClipboards {
     position: absolute;
@@ -2238,6 +2248,16 @@ body {
             color: var(--invert-text);
             background: var(--warning-color);
             border: 1px solid var(--warning-color);
+        }
+    }
+    &.background-jobs {
+        .label.background-job-warning {
+            color: var(--invert-text);
+            background: var(--warning-color);
+            border: 1px solid var(--warning-color);
+        }
+        .data.background-job-warning {
+            color: var(--warning-color);
         }
     }
 }
@@ -3153,6 +3173,26 @@ body:not(:has(#Editor)) {
                 div[data-order-type] {
                     display: flex;
                     width: fit-content;
+                    max-width: 100%;
+                    > span:not(.ui-icon) {
+                        min-width: 0;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    .ui-icon {
+                        flex-shrink: 0;
+                    }
+                }
+                &[data-cell-wordwrap] {
+                    div[data-order-type] {
+                        white-space: normal;
+                        > span:not(.ui-icon) {
+                            overflow: visible;
+                            text-overflow: clip;
+                            white-space: normal;
+                        }
+                    }
                 }
                 &[data-cell-width] {
                     overflow: hidden;
@@ -3337,6 +3377,17 @@ body:not(:has(#Editor)) {
         width: 100%;
         max-width: 200px;
         white-space: nowrap;
+    }
+}
+
+#Grid .background-job-status {
+    &.background-job-warning {
+        display: inline-block;
+        padding: 4px 8px;
+        color: var(--invert-text);
+        background: var(--warning-color);
+        border: 1px solid var(--warning-color);
+        border-radius: 4px;
     }
 }
 
@@ -4054,6 +4105,14 @@ body:has(input#Controller[value='syslogs']) {
         + button {
             margin-left: 8px;
         }
+    }
+    > .select-field {
+        float: left;
+        display: block;
+        padding-bottom: 15px;
+    }
+    > .button {
+        margin-bottom: 15px;
     }
     .grid:has(.crosstab-row) {
         border-right: 1px solid var(--base-border);

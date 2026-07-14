@@ -115,11 +115,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Div(action: () => hb
                                                 .Text(Displays.Registrations(context: context)))
                                             .StackStyles()),
-                                _using: Parameters.Registration.Enabled)))
+                                _using: Parameters.Registration.Enabled))
                     .MainCommands(
                         context: context,
                         ss: ss,
-                        verType: Versions.VerTypes.Latest))
+                        verType: Versions.VerTypes.Latest)))
                             .ToString();
         }
     }

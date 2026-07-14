@@ -1,6 +1,7 @@
 {
     "Id": "CanNotPerformed",
     "Type": 240,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "This operation cannot be performed."

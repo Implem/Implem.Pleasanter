@@ -730,6 +730,13 @@ pre {
     }
 }
 
+#ViewFilters > .field-auto-thin > .field-label {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 #ViewFilters_Reset {
     float: left;
     display: block;
@@ -796,6 +803,15 @@ pre {
 #Aggregations .data.overdue {
     color: red;
     cursor: pointer;
+}
+
+#Aggregations.background-jobs .label.background-job-warning {
+    color: #fff;
+    background-color: var(--warning-color);
+}
+
+#Aggregations.background-jobs .data.background-job-warning {
+    color: var(--warning-color);
 }
 
 #Aggregations em {
@@ -1014,6 +1030,10 @@ th.calendar-header {
 
 #Crosstab .crosstab-row {
     border-bottom: dotted 1px silver;
+}
+
+#Crosstab > .select-field {
+    float: left;
 }
 
 #Crosstab .saturday {
@@ -2908,10 +2928,6 @@ label.required::after {
     float: left;
 }
 
-.grid-row p.body {
-    clear: both;
-}
-
 .grid-row[data-history] {
     background-color: lightgray;
 }
@@ -2945,6 +2961,10 @@ label.required::after {
 
 .grid .grid-title-body:has(rt-editor) .body {
     padding: 8px 0 0;
+}
+
+.grid-title-body .md p {
+    float: none;
 }
 
 .dashboard-grid-header {
@@ -3703,6 +3723,15 @@ textarea:focus {
 
 .annonymous .close-announcement {
     display: none;
+}
+
+.license-expired-alert {
+    display: block;
+    min-height: 32px;
+    padding: 5px;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(255 0 0 / 90%);
 }
 
 .grid-stack {

@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobsNoDownloadableFile",
+    "Type": 110,
+    "Languages": [
+        { "Body": "No downloadable file" },
+        { "Language": "zh", "Body": "没有可下载的文件" },
+        { "Language": "ja", "Body": "ダウンロード可能なファイルなし" },
+        { "Language": "de", "Body": "Keine herunterladbare Datei" },
+        { "Language": "ko", "Body": "다운로드 가능한 파일 없음" },
+        { "Language": "es", "Body": "No hay archivo descargable" },
+        { "Language": "vn", "Body": "Không có tệp có thể tải xuống" }
+    ]
+}

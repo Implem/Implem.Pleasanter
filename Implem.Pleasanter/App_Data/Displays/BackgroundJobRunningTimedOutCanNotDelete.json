@@ -1,0 +1,33 @@
+{
+    "Id": "BackgroundJobRunningTimedOutCanNotDelete",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This job has exceeded the default job execution time and is waiting for its stop processing to complete. Please wait and try again."
+        },
+        {
+            "Language": "zh",
+            "Body": "此作业已超过默认作业执行时间，正在等待停止处理完成。请稍后重试。"
+        },
+        {
+            "Language": "ja",
+            "Body": "このジョブは既定のジョブ実行時間を超過したため、停止処理の完了を待っています。しばらく待ってから再度お試しください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieser Auftrag hat die Standardausführungszeit des Jobs überschritten und wartet auf den Abschluss der Stoppverarbeitung. Bitte warten Sie und versuchen Sie es erneut."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 작업은 기본 작업 실행 시간을 초과하여 중지 처리가 완료되기를 기다리고 있습니다. 잠시 후 다시 시도하세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Este trabajo ha superado el tiempo de ejecución predeterminado del trabajo y está esperando a que se complete el proceso de detención. Espere e inténtelo de nuevo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tác vụ này đã vượt quá thời gian thực thi công việc mặc định và đang chờ hoàn tất quá trình dừng. Vui lòng chờ rồi thử lại."
+        }
+    ]
+}

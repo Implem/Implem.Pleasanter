@@ -1,0 +1,34 @@
+{
+    "Id": "ServerConnectionError",
+    "Type": 240,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Could not connect to the server. Please check your network connection and reload the page."
+        },
+        {
+            "Language": "zh",
+            "Body": "无法连接到服务器。请检查您的网络连接并重新加载页面。"
+        },
+        {
+            "Language": "ja",
+            "Body": "サーバーに接続できませんでした。ネットワーク接続を確認し、ページを再読み込みしてください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Verbindung zum Server konnte nicht hergestellt werden. Bitte überprüfen Sie Ihre Netzwerkverbindung und laden Sie die Seite neu."
+        },
+        {
+            "Language": "ko",
+            "Body": "서버에 연결할 수 없습니다. 네트워크 연결을 확인하고 페이지를 새로고침해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "No se pudo conectar al servidor. Verifique su conexión de red y recargue la página."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng và tải lại trang."
+        }
+    ]
+}

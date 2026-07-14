@@ -42,7 +42,7 @@
                 } else {
                     return 0;
                 }
-            } else if ($control.hasClass('control-textbox anchor')) {
+            } else if ($control.is('.control-textbox.anchor')) {
                 $p.toggleAnchor($control, true);
                 $('#' + $control.attr('id')).focus();
                 return 2;

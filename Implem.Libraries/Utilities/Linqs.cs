@@ -14,11 +14,15 @@ namespace Implem.Libraries.Utilities
             }
         }
 
-        public static V Get<K, V>(this Dictionary<K, V> self, K key)
+        public static V Get<K, V>(this IDictionary<K, V> self, K key)
         {
-            return key != null && self?.ContainsKey(key) == true
-                ? self[key]
-                : default(V);
+            if (key != null
+                && self != null
+                && self.TryGetValue(key, out var value))
+            {
+                return value;
+            }
+            return default;
         }
 
         public static void RemoveAll<K, V>(

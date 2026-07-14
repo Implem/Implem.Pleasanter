@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Sites_EnableSsCache",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "EnableSsCache",
+    "LabelText": "サイト設定のキャッシュを有効化",
+    "No": "127",
+    "History": "127",
+    "LinkColumn": "127",
+    "HistoryColumn": "127",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "LabelText_en": "Enable site settings cache",
+    "LabelText_zh": "启用站点设置缓存",
+    "LabelText_de": "Site-Settings-Cache aktivieren",
+    "LabelText_ko": "사이트 설정 캐시 활성화",
+    "LabelText_es": "Habilitar la caché de configuración del sitio",
+    "LabelText_vn": "Bật bộ nhớ đệm cài đặt site"
+}

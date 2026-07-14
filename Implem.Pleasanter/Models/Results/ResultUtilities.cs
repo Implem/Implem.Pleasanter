@@ -1853,7 +1853,8 @@ namespace Implem.Pleasanter.Models
             string idSuffix = null,
             bool isResponse = false,
             bool preview = false,
-            bool disableSection = false)
+            bool disableSection = false,
+            bool bulkUpdate = false)
         {
             var value = resultModel.ControlValue(
                 context: context,
@@ -1865,6 +1866,10 @@ namespace Implem.Pleasanter.Models
                 column: column);
             if (value != null)
             {
+                if (bulkUpdate)
+                {
+                    column.StatusReadOnly = false;
+                }
                 value += resultModel.NumUnit(
                     context: context,
                     ss: ss,
@@ -1883,10 +1888,12 @@ namespace Implem.Pleasanter.Models
                         ?.Columns.Get(column.ColumnName),
                     value: value,
                     rawValue: rawValue,
-                    controlConstraintsType: resultModel.GetStatusControl(
-                        context: context,
-                        ss: ss,
-                        column: column),
+                    controlConstraintsType: bulkUpdate
+                        ? StatusControl.ControlConstraintsTypes.None
+                        : resultModel.GetStatusControl(
+                            context: context,
+                            ss: ss,
+                            column: column),
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
                         ss: ss,
@@ -3948,7 +3955,8 @@ namespace Implem.Pleasanter.Models
                             resultModel: resultModel,
                             column: column,
                             disableAutoPostBack: true,
-                            disableSection: true);
+                            disableSection: true,
+                            bulkUpdate: true);
                     })));
             return hb;
         }
@@ -4652,7 +4660,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 resultModel: resultModel,
                 processes: processes,
-                previousTitle: previousTitle);
+                previousTitle: previousTitle,
+                resultApiModel: resultApiModel);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -4689,6 +4698,7 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             List<Process> processes,
             string previousTitle,
+            ResultApiModel resultApiModel,
             bool synchronizeSummary = true)
         {
             var invalid = ResultValidators.OnUpdating(
@@ -4701,7 +4711,7 @@ namespace Implem.Pleasanter.Models
             resultModel.SetTitle(
                 context: context,
                 ss: ss);
-            resultModel.VerUp = Versions.MustVerUp(
+            resultModel.VerUp = resultApiModel?.VerUp == true || Versions.MustVerUp(
                 context: context,
                 ss: ss,
                 baseModel: resultModel);
@@ -4781,7 +4791,7 @@ namespace Implem.Pleasanter.Models
             resultModel.SetTitle(
                 context: context,
                 ss: ss);
-            resultModel.VerUp = Versions.MustVerUp(
+            resultModel.VerUp = resultApiModel?.VerUp == true || Versions.MustVerUp(
                 context: context,
                 ss: ss,
                 baseModel: resultModel);
@@ -5286,6 +5296,7 @@ namespace Implem.Pleasanter.Models
                             resultModel: resultModel,
                             processes: processes,
                             previousTitle: null,
+                            resultApiModel: resultApiModel,
                             synchronizeSummary: false);
                         if (error.Type != Error.Types.None) return error;
                         updateCount++;

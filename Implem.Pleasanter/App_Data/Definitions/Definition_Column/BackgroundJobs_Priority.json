@@ -1,0 +1,20 @@
+{
+    "Id": "BackgroundJobs_Priority",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "Priority",
+    "LabelText": "優先度",
+    "No": "8",
+    "History": "8",
+    "TypeName": "int",
+    "Ix1": "2",
+    "Default": "100",
+    "Required": "1",
+    "LabelText_en": "Priority",
+    "LabelText_zh": "优先级",
+    "LabelText_de": "Priorität",
+    "LabelText_ko": "우선순위",
+    "LabelText_es": "Prioridad",
+    "LabelText_vn": "Độ ưu tiên"
+}

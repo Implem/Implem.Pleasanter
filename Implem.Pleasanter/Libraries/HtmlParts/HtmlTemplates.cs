@@ -726,6 +726,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlId: "data-validation-maxlength-regex",
                         value: Parameters.Validation.SingleByteCharactorRegexClient)
                     .Hidden(
+                        controlId: "ImageUploadFileSizeLimit",
+                        value: Parameters.BinaryStorage.ImageUploadFileSizeLimit?.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                        _using: Parameters.BinaryStorage.ImageUploadFileSizeLimit > 0)
+                    .Hidden(
                         controlId: "RteDefaultFont",
                         value: Parameters.TextEditorUI.RichTextEditor.DefaultFont?.Join(","),
                         _using: Parameters.TextEditorUI.RichTextEditor.DefaultFont != null)

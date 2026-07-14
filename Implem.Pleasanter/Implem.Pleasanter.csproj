@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.5.5.0</AssemblyVersion>
-    <FileVersion>1.5.5.0</FileVersion>
-    <Version>1.5.5.0</Version>
+    <AssemblyVersion>1.5.6.0</AssemblyVersion>
+    <FileVersion>1.5.6.0</FileVersion>
+    <Version>1.5.6.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -49,6 +49,7 @@
     <PackageReference Include="MailKit" Version="4.17.0" />
 	<PackageReference Include="Fido2" Version="4.0.1" />
 	<PackageReference Include="Fido2.AspNet" Version="4.0.1" />
+	<PackageReference Include="Mapster" Version="10.0.7" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
@@ -93,6 +94,7 @@
     <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj" />
     <ProjectReference Include="..\Implem.Plugins\Implem.Plugins.csproj" />
     <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj" />
+    <ProjectReference Include="..\Implem.PleasanterFrontend\Implem.PleasanterFrontend.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -188,13 +190,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(SkipBuildTask)' != 'true'">
-    <Exec Command="npm run build" WorkingDirectory="$(ProjectDir)..\Implem.PleasanterFrontend\wwwroot\" IgnoreExitCode="true">
-      <Output TaskParameter="ExitCode" PropertyName="NpmExitCode" />
-    </Exec>
-    <Error Condition="'$(NpmExitCode)' != '0'" Text="❌ 'npm run build' failed.&#xD;&#xA;&#xD;&#xA;It may be due to missing dependencies.&#xD;&#xA;Please make sure you have run the following commands:&#xD;&#xA;&#xD;&#xA;cd $(ProjectDir)..\Implem.PleasanterFrontend\wwwroot&#xD;&#xA;npm install&#xD;&#xA;&#xD;&#xA;Then try building again." />
-  </Target>
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">

@@ -412,6 +412,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
 
 <!--Rds_IdColumnCases-->
+                case "BackgroundJobs": return "BackgroundJobId";
                 case "Extensions": return "ExtensionId";
                 default: return null;
             }
@@ -620,10 +621,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        private static string CoalesceColumnBracket(
-            Context context, Column column, string defaultValue)
+        private static string CoalesceColumnBracket(Context context, Column column, string defaultValue)
         {
-            return $"({context.Sqls.IsNull}(#TableBracket#.\"{column.ColumnName}\",{defaultValue}))";
+            var colName = new ColumnNameInfo(column.ColumnName ?? column.Name).Name;
+            return $"({context.Sqls.IsNull}(#TableBracket#.\"{colName}\",{defaultValue}))";
         }
 
         public static SqlColumnCollection WithItemTitleCoalesced(

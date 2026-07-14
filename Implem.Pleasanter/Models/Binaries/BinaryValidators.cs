@@ -135,7 +135,30 @@ namespace Implem.Pleasanter.Models
             try
             {
                 using var ms = new System.IO.MemoryStream(bin);
-                SixLabors.ImageSharp.Image.Identify(ms);
+                var imageInfo = SixLabors.ImageSharp.Image.Identify(ms);
+                if (imageInfo == null)
+                {
+                    return Error.Types.IncorrectFileFormat;
+                }
+                var decodedSizeLimit = Parameters.BinaryStorage.ImageDecodedSizeLimit;
+                if (decodedSizeLimit > 0)
+                {
+                    var frameCount = imageInfo.FrameMetadataCollection?.Count ?? 1;
+                    var limitBytes = (long)decodedSizeLimit.Value * 1024 * 1024;
+                    long estimatedBytes;
+                    try
+                    {
+                        estimatedBytes = checked((long)imageInfo.Width * imageInfo.Height * frameCount * 4);
+                    }
+                    catch (System.OverflowException)
+                    {
+                        return Error.Types.IncorrectFileFormat;
+                    }
+                    if (estimatedBytes > limitBytes)
+                    {
+                        return Error.Types.TooLargeFile;
+                    }
+                }
             }
             catch (SixLabors.ImageSharp.UnknownImageFormatException)
             {

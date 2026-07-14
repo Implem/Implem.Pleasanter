@@ -146,6 +146,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss,
                         controller: context.Controller,
                         display: Displays.McpLogs(context: context));
+                case "backgroundjobs":
+                    return BreadcrumbWithoutAdmins(
+                        hb: hb,
+                        context: context,
+                        ss: ss,
+                        controller: context.Controller,
+                        display: Displays.BackgroundJobs(context: context));
                 case "registrations":
                     return Permissions.CanManageTenant(context: context)
                         ? Breadcrumb(

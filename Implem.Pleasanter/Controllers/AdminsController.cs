@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Libraries.Migrators;
@@ -7,10 +8,12 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Hosting;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
+    [EnableRateLimiting("Admin")]
     public class AdminsController : Controller
     {
         [HttpGet]
@@ -25,6 +28,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
+        [DisableRateLimiting]
         public ActionResult InitializeItems()
         {
             var context = new Context();
@@ -35,6 +39,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
+        [DisableRateLimiting]
         public ActionResult MigrateSiteSettings()
         {
             var context = new Context();
@@ -50,6 +55,17 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = ParametersInitializer.Initialize(context: context);
+            if (Parameters.RateLimit?.ValidationWarnings?.Count > 0)
+            {
+                foreach (var warning in Parameters.RateLimit.ValidationWarnings)
+                {
+                    new SysLogModel(
+                        context: context,
+                        method: nameof(ReloadParameters),
+                        message: $"[RateLimit] {warning}",
+                        sysLogType: SysLogModel.SysLogTypes.Warning);
+                }
+            }
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
