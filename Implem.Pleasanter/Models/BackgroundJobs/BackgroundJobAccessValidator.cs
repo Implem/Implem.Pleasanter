@@ -183,7 +183,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 model: model);
             if (ss != null
-                && context.CanExport(ss: ss) == false)
+                && context.CanExport(
+                    ss: ss,
+                    site: true) == false)
             {
                 return new ErrorData(
                     context: context,
@@ -236,9 +238,13 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            return SiteSettingsUtilities.Get(
+            var dataRow = dataTable.Rows[0];
+            var ss = SiteSettingsUtilities.Get(
                 context: context,
-                dataRow: dataTable.Rows[0]);
+                dataRow: dataRow);
+            ss.SiteId = dataRow.Long("SiteId");
+            ss.InheritPermission = dataRow.Long("InheritPermission");
+            return ss;
         }
     }
 }
