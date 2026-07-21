@@ -40,7 +40,7 @@
         <PackageReference Include="Selenium.WebDriverBackedSelenium" Version="4.1.0" />
         <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
         <PackageReference Include="System.Drawing.Common" Version="10.0.8" />
-        <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.3" />
+        <PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.18" />
         <PackageReference Include="System.ValueTuple" Version="4.6.2" />
     </ItemGroup>
 
