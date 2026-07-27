@@ -274,8 +274,15 @@ namespace Implem.DefinitionAccessor
             Parameters.Security.AspNetCoreDataProtection.XmlAesKey = Strings.CoalesceEmpty(
                 Parameters.Security.AspNetCoreDataProtection.XmlAesKey,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_XmlAesKey"),
-                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_XmlAesKey"),
-                Parameters.Service.Name);
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_XmlAesKey"));
+            Parameters.Security.AspNetCoreDataProtection.KeyValueStoreConnectionString = Strings.CoalesceEmpty(
+                Parameters.Security.AspNetCoreDataProtection.KeyValueStoreConnectionString,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_KeyValueStoreConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_KeyValueStoreConnectionString"));
+            Parameters.Security.AspNetCoreDataProtection.KeyValueStoreKeyName = Strings.CoalesceEmpty(
+                Parameters.Security.AspNetCoreDataProtection.KeyValueStoreKeyName,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_KeyValueStoreKeyName"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_KeyValueStoreKeyName"));
             Parameters.Service.DeploymentEnvironment = Strings.CoalesceEmpty(
                 Parameters.Service.DeploymentEnvironment,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Service_DeploymentEnvironment"),

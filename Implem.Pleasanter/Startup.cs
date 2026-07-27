@@ -260,6 +260,7 @@ namespace Implem.Pleasanter.NetCore
             BackgroundServerScriptUtilities.InitSchedule();
             var blobContainerUri = Parameters.Security.AspNetCoreDataProtection?.BlobContainerUri;
             var keyIdentifier = Parameters.Security.AspNetCoreDataProtection?.KeyIdentifier;
+            var keyValueStoreConnectionString = Parameters.Security.AspNetCoreDataProtection?.KeyValueStoreConnectionString;
             if (!blobContainerUri.IsNullOrEmpty()
                 && !keyIdentifier.IsNullOrEmpty())
             {
@@ -272,15 +273,24 @@ namespace Implem.Pleasanter.NetCore
                     .PersistKeysToAzureBlobStorage(blobClient)
                     .ProtectKeysWithAzureKeyVault(new Uri(keyIdentifier), new DefaultAzureCredential());
             }
-            else if (Parameters.Security.AspNetCoreDataProtection?.UseKeyValueStore == true && !Parameters.Kvs.ConnectionStringForDataProtection.IsNullOrEmpty())
+            else if (!keyValueStoreConnectionString.IsNullOrEmpty())
             {
+                ValidateAspNetCoreDataProtectionKeyValueStoreParameters(keyValueStoreConnectionString);
+                // Data Protectionのキーリング保存先としてRedisを使用する。
+                // 注意: 接続先Redisの永続化が無効だと、Redis再起動時にキーリングが失われ、
+                //       既存のCookie/CSRFトークン/保護済みデータが復号できなくなる。Redisは永続化を有効にして運用すること。
                 services
                     .AddDataProtection()
                     .SetApplicationName(Implem.Libraries.Utilities.Environments.ServiceName)
-                    .PersistKeysToStackExchangeRedis(DataProtectionForRedisConnection.Connection);
+                    .PersistKeysToStackExchangeRedis(
+                        DataProtectionForRedisConnection.Connection,
+                        GetAspNetCoreDataProtectionKeyValueStoreKeyName());
+                // Redisにキーリングを平文で保存しないよう、保存時にAESで暗号化する(保存先のXmlRepositoryはRedisのまま維持)。
+                AddAspNetCoreDataProtectionXmlEncryptor(services);
             }
             else
             {
+                SetDefaultAspNetCoreDataProtectionXmlAesKey();
                 services
                     .AddDataProtection()
                     .SetApplicationName(Implem.Libraries.Utilities.Environments.ServiceName);
@@ -410,6 +420,45 @@ namespace Implem.Pleasanter.NetCore
             }
         }
 
+        private static void SetDefaultAspNetCoreDataProtectionXmlAesKey()
+        {
+            var aspNetCoreDataProtection = Parameters.Security.AspNetCoreDataProtection;
+            if (aspNetCoreDataProtection != null
+                && aspNetCoreDataProtection.XmlAesKey.IsNullOrEmpty())
+            {
+                aspNetCoreDataProtection.XmlAesKey = Parameters.Service.Name;
+            }
+        }
+
+        private static void ValidateAspNetCoreDataProtectionKeyValueStoreParameters(string keyValueStoreConnectionString)
+        {
+            var xmlAesKey = Parameters.Security.AspNetCoreDataProtection?.XmlAesKey;
+            if (!keyValueStoreConnectionString.IsNullOrEmpty()
+                && xmlAesKey.IsNullOrEmpty())
+            {
+                throw new InvalidOperationException(
+                    "Security.AspNetCoreDataProtection.XmlAesKey is required when Security.AspNetCoreDataProtection.KeyValueStoreConnectionString is set.");
+            }
+        }
+
+        private static string GetAspNetCoreDataProtectionKeyValueStoreKeyName()
+        {
+            return Strings.CoalesceEmpty(
+                Parameters.Security.AspNetCoreDataProtection?.KeyValueStoreKeyName,
+                $"{Implem.Libraries.Utilities.Environments.ServiceName}:DataProtection-Keys");
+        }
+
+        private static void AddAspNetCoreDataProtectionXmlEncryptor(IServiceCollection services)
+        {
+            services
+                .AddOptions<KeyManagementOptions>()
+                .Configure<IServiceScopeFactory>((options, factory) =>
+                {
+                    options.XmlEncryptor = new AspNetCoreKeyManagementXmlEncryptor();
+                });
+        }
+
+        // 拡張DLLの探索をExtendedLibrariesディレクトリ内の一段下のディレクトリも対象をする。
         private IEnumerable<string> GetExtendedLibraryPaths()
         {
             var list = new List<string>();
@@ -754,16 +803,37 @@ namespace Implem.Pleasanter.NetCore
             {
                 try
                 {
-                    var context = new Context();
+                    Context context;
+                    try
+                    {
+                        // 通常時は従来どおり完全な Context を生成し、
+                        // セッション / ユーザー情報を含めてログに記録する。
+                        context = new Context();
+                    }
+                    catch
+                    {
+                        // Context 生成自体が失敗した場合（例: Redis / Data Protection
+                        // 障害で SetSessionGuid が失敗）は、Data Protection に依存しない
+                        // 最小構成にフォールバックしてでもログを記録する。
+                        context = new Context(
+                            request: true,
+                            sessionStatus: false,
+                            sessionData: false,
+                            user: false,
+                            item: false,
+                            setPermissions: false);
+                    }
                     var log = new SysLogModel(context: context);
                     log.SysLogType = SysLogModel.SysLogTypes.Exception;
                     log.ErrMessage = error.Message;
-                    log.ErrStackTrace = error.StackTrace;
+                    log.ErrStackTrace = Parameters.SysLog.OutputErrorDetails
+                        ? error.ToString()
+                        : error.StackTrace;
                     log.Finish(context: context);
                 }
                 catch
                 {
-                    throw;
+                    // 記録に失敗しても元の例外を優先して伝播する。
                 }
                 throw;
             }

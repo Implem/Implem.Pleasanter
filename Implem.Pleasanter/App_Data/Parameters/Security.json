@@ -96,7 +96,8 @@
         "KeyIdentifier": null,
         "KeyFileName": "Keys.xml",
         "XmlAesKey": null,
-        "UseKeyValueStore": false
+        "KeyValueStoreConnectionString": null,
+        "KeyValueStoreKeyName": null
     },
     "HttpStrictTransportSecurity": {
         "Enabled": false,
