@@ -95,7 +95,9 @@
         "BlobContainerUri": null,
         "KeyIdentifier": null,
         "KeyFileName": "Keys.xml",
-        "XmlAesKey": null
+        "XmlAesKey": null,
+        "KeyValueStoreConnectionString": null,
+        "KeyValueStoreKeyName": null
     },
     "HttpStrictTransportSecurity": {
         "Enabled": false,
@@ -157,4 +159,4 @@
         "KnownProxies": []
     },
     "ExcludeCookiePrefixes": []
-}     
+}
