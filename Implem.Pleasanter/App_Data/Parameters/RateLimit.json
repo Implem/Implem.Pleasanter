@@ -1,0 +1,107 @@
+{
+    "Mode": "Off",
+    "ApplyPaths": ["/"],
+    "ExcludePaths": [
+        "/mcp",
+        "/healthz",
+        "/favicon.ico",
+        "/Css",
+        "/Scripts",
+        "/fonts",
+        "/images",
+        "/binaries",
+        "/backgroundtasks",
+        "/reminderschedules",
+        "/api/backgroundtasks",
+        "/cspreport",
+        "/errors",
+        "/resources"
+    ],
+    "KeyResolver": {
+        "Order": ["User", "Ip"]
+    },
+    "Exclusions": {
+        "LoginIds": []
+    },
+    "GlobalLimiter": {
+        "Mode": "Inherit",
+        "Algorithm": "TokenBucket",
+        "Partition": "Auto",
+        "TokenLimit": 100,
+        "TokensPerPeriod": 50,
+        "ReplenishmentPeriodSeconds": 1,
+        "QueueLimit": 0
+    },
+    "Policies": {
+        "General": {
+            "Mode": "Inherit",
+            "Algorithm": "TokenBucket",
+            "Partition": "User",
+            "TokenLimit": 10,
+            "TokensPerPeriod": 5,
+            "ReplenishmentPeriodSeconds": 1,
+            "QueueLimit": 0
+        },
+        "List": {
+            "Mode": "Inherit",
+            "Algorithm": "SlidingWindow",
+            "Partition": "User",
+            "PermitLimit": 30,
+            "WindowSeconds": 60,
+            "SegmentsPerWindow": 6,
+            "QueueLimit": 0
+        },
+        "Admin": {
+            "Mode": "Inherit",
+            "Algorithm": "FixedWindow",
+            "Partition": "User",
+            "PermitLimit": 30,
+            "WindowSeconds": 60,
+            "QueueLimit": 0
+        },
+        "Heavy": {
+            "Mode": "Inherit",
+            "Algorithm": "Concurrency",
+            "Partition": "User",
+            "PermitLimit": 1,
+            "QueueLimit": 0
+        },
+        "ApiHeavy": {
+            "Mode": "Inherit",
+            "Algorithm": "Concurrency",
+            "Partition": "ApiKey",
+            "PermitLimit": 1,
+            "QueueLimit": 0
+        },
+        "Api": {
+            "Mode": "Inherit",
+            "Algorithm": "TokenBucket",
+            "Partition": "Auto",
+            "TokenLimit": 30,
+            "TokensPerPeriod": 10,
+            "ReplenishmentPeriodSeconds": 1,
+            "QueueLimit": 0
+        },
+        "AnonymousIp": {
+            "Mode": "Inherit",
+            "Algorithm": "FixedWindow",
+            "Partition": "Ip",
+            "PermitLimit": 60,
+            "WindowSeconds": 60,
+            "QueueLimit": 0
+        },
+        "PublicForm": {
+            "Mode": "Inherit",
+            "Algorithm": "TokenBucket",
+            "Partition": "Ip",
+            "TokenLimit": 5,
+            "TokensPerPeriod": 2,
+            "ReplenishmentPeriodSeconds": 1,
+            "QueueLimit": 0
+        }
+    },
+    "RejectedResponse": {
+        "IncludeRetryAfter": true,
+        "LogRejected": true
+    }
+}

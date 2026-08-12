@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobsCancelled",
+    "Type": 210,
+    "Languages": [
+        { "Body": "{0}: {1} item(s) cancelled." },
+        { "Language": "zh", "Body": "{0}: 已取消 {1} 个项目。" },
+        { "Language": "ja", "Body": "{0}: {1} 件 キャンセルしました。" },
+        { "Language": "de", "Body": "{0}: {1} Elemente wurden abgebrochen." },
+        { "Language": "ko", "Body": "{0}: {1} 개의 항목을 취소했습니다." },
+        { "Language": "es", "Body": "{0}: Se cancelaron {1} elemento(s)." },
+        { "Language": "vn", "Body": "{0}: Đã hủy {1} mục." }
+    ]
+}

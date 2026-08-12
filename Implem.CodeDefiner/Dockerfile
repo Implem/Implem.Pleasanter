@@ -12,6 +12,7 @@ COPY Rds/Implem.PostgreSql/*.csproj Rds/Implem.PostgreSql/
 COPY Rds/Implem.SqlServer/*.csproj Rds/Implem.SqlServer/
 COPY Rds/Implem.MySql/*.csproj Rds/Implem.MySql/
 COPY Implem.Pleasanter/*.csproj Implem.Pleasanter/
+COPY Implem.PleasanterFrontend/Implem.PleasanterFrontend.csproj Implem.PleasanterFrontend/
 RUN dotnet restore "Implem.CodeDefiner/Implem.CodeDefiner.csproj" \
  && dotnet restore "Implem.Pleasanter/Implem.Pleasanter.csproj"
 COPY . .

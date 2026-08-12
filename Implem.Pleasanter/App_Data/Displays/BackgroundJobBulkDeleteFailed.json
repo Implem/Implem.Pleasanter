@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BackgroundJobBulkDeleteFailed",
+    "Type": 240,
+    "Languages": [
+        { "Body": "{0}: {1} item(s) could not be deleted." },
+        { "Language": "zh", "Body": "{0}: 无法删除 {1} 个项目。" },
+        { "Language": "ja", "Body": "{0}: {1} 件 削除できませんでした。" },
+        { "Language": "de", "Body": "{0}: {1} Elemente konnten nicht gelöscht werden." },
+        { "Language": "ko", "Body": "{0}: {1} 개의 항목을 삭제할 수 없습니다." },
+        { "Language": "es", "Body": "{0}: No se pudieron eliminar {1} elemento(s)." },
+        { "Language": "vn", "Body": "{0}: Không thể xóa {1} mục." }
+    ]
+}

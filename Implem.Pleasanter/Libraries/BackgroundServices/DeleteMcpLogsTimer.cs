@@ -28,11 +28,17 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 var log = CreateSysLogModel(
                     context: context,
                     message: "Delete McpLogs.");
-                if (Parameters.BackgroundService.McpLogsRetentionPeriod >= 0)
+                try
                 {
-                    McpLogUtilities.PhysicalDelete(context);
+                    if (Parameters.BackgroundService.McpLogsRetentionPeriod >= 0)
+                    {
+                        McpLogUtilities.PhysicalDelete(context);
+                    }
                 }
-                log.Finish(context: context);
+                finally
+                {
+                    log.Finish(context: context);
+                }
             }, context.CancellationToken);
         }
 

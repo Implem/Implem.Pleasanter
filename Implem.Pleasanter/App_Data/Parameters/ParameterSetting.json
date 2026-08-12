@@ -1,0 +1,5 @@
+{
+    "EnableScreenManagement": false,
+    "EnableRestart": false,
+    "RestartCheckIntervalSeconds": 120
+}

@@ -95,7 +95,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                     else if (!sqlParam.ColumnBracket.IsNullOrEmpty())
                     {
                         columnNameCollection.Add(
-                            sqlParam.ColumnBracket + "=@" + sqlParam.VariableName + commandCount);
+                            sqlParam.Value != null
+                                ? sqlParam.ColumnBracket + "=@" + sqlParam.VariableName + commandCount
+                                : sqlParam.ColumnBracket + "=null");
                     }
                 });
             commandText.Append("update ", tableBracket,

@@ -1,11 +1,13 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+using Mapster;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class SiteSettingsUtilities
@@ -125,6 +127,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (reference.ToLower())
             {
                 case "autonumberings": return AutoNumberingsSiteSettings(context: context);
+                case "backgroundjobs": return BackgroundJobsSiteSettings(context: context);
                 case "binaries": return BinariesSiteSettings(context: context);
                 case "demos": return DemosSiteSettings(context: context);
                 case "depts": return DeptsSiteSettings(context: context);
@@ -138,6 +141,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "mcplogs": return McpLogsSiteSettings(context: context);
                 case "orders": return OrdersSiteSettings(context: context);
                 case "outgoingmails": return OutgoingMailsSiteSettings(context: context);
+                case "parameters": return ParametersSiteSettings(context: context);
                 case "passkeys": return PasskeysSiteSettings(context: context);
                 case "registrations": return RegistrationsSiteSettings(context: context);
                 case "reminderschedules": return ReminderSchedulesSiteSettings(context: context);
@@ -158,11 +162,52 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        private static bool SsCache(Context context, SiteModel siteModel)
+        {
+            if (context.Api)
+            {
+                return context.ApiSsCache;
+            }
+            else
+            {
+                return siteModel.EnableSsCache;
+            }
+        }
+
+        private static readonly TypeAdapterConfig CopySiteSettingsConfig = CreateCopySiteSettingsConfig();
+
+        private static TypeAdapterConfig CreateCopySiteSettingsConfig()
+        {
+            var config = new TypeAdapterConfig();
+            config.Default.PreserveReference(true);
+            config.ForType<View, View>()
+                .Ignore(o => o.AdditionalWhere);
+            return config;
+        }
+
+        public static SiteSettings CopySiteSettings(SiteSettings siteSettings)
+        {
+            return siteSettings != null
+                ? TypeAdapter.Adapt<SiteSettings>(siteSettings, CopySiteSettingsConfig)
+                : null;
+        }
+
         public static SiteSettings AutoNumberingsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "AutoNumberings"
+            };
+            ss.Init(context: context);
+            ss.TableType = tableTypes;
+            return ss;
+        }
+
+        public static SiteSettings BackgroundJobsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "BackgroundJobs"
             };
             ss.Init(context: context);
             ss.TableType = tableTypes;
@@ -200,7 +245,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init(context: context);
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
-            ss.PermissionType = Permissions.Admins(context: context);
+            context.SetPermissionType(
+                ss: ss,
+                type: Permissions.Admins(context: context));
             ss.TableType = tableTypes;
             return ss;
         }
@@ -247,7 +294,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init(context: context);
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
-            ss.PermissionType = Permissions.Admins(context: context);
+            context.SetPermissionType(
+                ss: ss,
+                type: Permissions.Admins(context: context));
             ss.TableType = tableTypes;
             return ss;
         }
@@ -305,7 +354,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init(context: context);
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
-            ss.PermissionType = Permissions.Admins(context: context);
+            context.SetPermissionType(
+                ss: ss,
+                type: Permissions.Admins(context: context));
             ss.UseFilterButton = true;
             ss.AlwaysRequestSearchCondition = true;
             ss.UseIncompleteFilter = false;
@@ -350,6 +401,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
+        public static SiteSettings ParametersSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Parameters"
+            };
+            ss.Init(context: context);
+            ss.SetLinks(context: context);
+            ss.SetChoiceHash(context: context, withLink: false);
+            context.SetPermissionType(
+                ss: ss,
+                type: Permissions.Admins(context: context));
+            ss.TableType = tableTypes;
+            return ss;
+        }
+
         public static SiteSettings PasskeysSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
@@ -370,7 +437,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init(context: context);
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
-            ss.PermissionType = Permissions.Admins(context: context);
+            context.SetPermissionType(
+                ss: ss,
+                type: Permissions.Admins(context: context));
             ss.TableType = tableTypes;
             return ss;
         }
@@ -417,7 +486,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init(context: context);
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
-            ss.PermissionType = Permissions.Admins(context: context);
+            context.SetPermissionType(
+                ss: ss,
+                type: Permissions.Admins(context: context));
             ss.UseFilterButton = true;
             ss.AlwaysRequestSearchCondition = true;
             ss.TableType = tableTypes;
@@ -444,7 +515,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init(context: context);
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
-            ss.PermissionType = Permissions.Admins(context: context);
+            context.SetPermissionType(
+                ss: ss,
+                type: Permissions.Admins(context: context));
             ss.TableType = tableTypes;
             return ss;
         }
@@ -464,7 +537,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 withLink: false,
                 all: setAllChoices);
-            ss.PermissionType = Permissions.Admins(context: context);
+            context.SetPermissionType(
+                ss: ss,
+                type: Permissions.Admins(context: context));
             ss.TableType = tableTypes;
             if (context.ContractSettings.Api == false
                 || (!DefinitionAccessor.Parameters.User.DisableApi && !context.DisableApi))
@@ -516,7 +591,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool setAllChoices = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            var ss = siteModel.SiteSettings ?? new SiteSettings();
+            var ss = SiteInfo.GetSsCache(
+                context: context,
+                siteModel: siteModel,
+                ssCache: SsCache(
+                    context: context,
+                    siteModel: siteModel),
+                setAllChoices: setAllChoices);
+            if (ss != null)
+            {
+                var copy = CopySiteSettings(ss);
+                copy.ReferenceId = referenceId;
+                copy.TableType = tableType;
+                if (setSiteIntegration) copy.SetSiteIntegration(context: context);
+                return copy;
+            }
+            ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.LockedTableTime = siteModel.LockedTime;
             ss.LockedTableUser = siteModel.LockedUser;
             ss.TableType = tableType;
@@ -543,8 +633,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
-            ss.SetPermissions(context: context, referenceId: referenceId);
             if (setSiteIntegration) ss.SetSiteIntegration(context: context);
+            SiteInfo.SetSsCache(
+                context: context,
+                siteModel: siteModel,
+                ss: ss,
+                ssCache: SsCache(
+                    context: context,
+                    siteModel: siteModel),
+                setAllChoices: setAllChoices);
             return ss;
         }
 
@@ -566,7 +663,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool setAllChoices = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            var ss = siteModel.SiteSettings ?? new SiteSettings();
+            var ss = SiteInfo.GetSsCache(
+                context: context,
+                siteModel: siteModel,
+                ssCache: SsCache(
+                    context: context,
+                    siteModel: siteModel),
+                setAllChoices: setAllChoices);
+            if (ss != null)
+            {
+                var copy = CopySiteSettings(ss);
+                copy.ReferenceId = referenceId;
+                copy.TableType = tableType;
+                if (setSiteIntegration) copy.SetSiteIntegration(context: context);
+                return copy;
+            }
+            ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.LockedTableTime = siteModel.LockedTime;
             ss.LockedTableUser = siteModel.LockedUser;
             ss.TableType = tableType;
@@ -593,9 +705,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
-            ss.SetPermissions(context: context, referenceId: referenceId);
             if (setSiteIntegration) ss.SetSiteIntegration(context: context);
             ss.SetChoiceHash(context: context, all: setAllChoices);
+            SiteInfo.SetSsCache(
+                context: context,
+                siteModel: siteModel,
+                ss: ss,
+                ssCache: SsCache(
+                    context: context,
+                    siteModel: siteModel),
+                setAllChoices: setAllChoices);
             return ss;
         }
 
@@ -618,7 +737,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool setAllChoices = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            var ss = siteModel.SiteSettings ?? new SiteSettings();
+            var ss = SiteInfo.GetSsCache(
+                context: context,
+                siteModel: siteModel,
+                ssCache: SsCache(
+                    context: context,
+                    siteModel: siteModel),
+                setAllChoices: setAllChoices);
+            if (ss != null)
+            {
+                var copy = CopySiteSettings(ss);
+                copy.ReferenceId = referenceId;
+                copy.TableType = tableType;
+                if (setSiteIntegration) copy.SetSiteIntegration(context: context);
+                return copy;
+            }
+            ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.LockedTableTime = siteModel.LockedTime;
             ss.LockedTableUser = siteModel.LockedUser;
             ss.TableType = tableType;
@@ -645,9 +779,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
-            ss.SetPermissions(context: context, referenceId: referenceId);
             if (setSiteIntegration) ss.SetSiteIntegration(context: context);
             ss.SetChoiceHash(context: context, all: setAllChoices);
+            SiteInfo.SetSsCache(
+                context: context,
+                siteModel: siteModel,
+                ss: ss,
+                ssCache: SsCache(
+                    context: context,
+                    siteModel: siteModel),
+                setAllChoices: setAllChoices);
             return ss;
         }
 
@@ -670,7 +811,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool setAllChoices = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            var ss = siteModel.SiteSettings ?? new SiteSettings();
+            var ss = SiteInfo.GetSsCache(
+                context: context,
+                siteModel: siteModel,
+                ssCache: SsCache(
+                    context: context,
+                    siteModel: siteModel),
+                setAllChoices: setAllChoices);
+            if (ss != null)
+            {
+                var copy = CopySiteSettings(ss);
+                copy.ReferenceId = referenceId;
+                copy.TableType = tableType;
+                if (setSiteIntegration) copy.SetSiteIntegration(context: context);
+                return copy;
+            }
+            ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.LockedTableTime = siteModel.LockedTime;
             ss.LockedTableUser = siteModel.LockedUser;
             ss.TableType = tableType;
@@ -697,9 +853,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
-            ss.SetPermissions(context: context, referenceId: referenceId);
             if (setSiteIntegration) ss.SetSiteIntegration(context: context);
             ss.SetChoiceHash(context: context, all: setAllChoices);
+            SiteInfo.SetSsCache(
+                context: context,
+                siteModel: siteModel,
+                ss: ss,
+                ssCache: SsCache(
+                    context: context,
+                    siteModel: siteModel),
+                setAllChoices: setAllChoices);
             return ss;
         }
 
@@ -722,7 +885,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool setAllChoices = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            var ss = siteModel.SiteSettings ?? new SiteSettings();
+            var ss = SiteInfo.GetSsCache(
+                context: context,
+                siteModel: siteModel,
+                ssCache: SsCache(
+                    context: context,
+                    siteModel: siteModel),
+                setAllChoices: setAllChoices);
+            if (ss != null)
+            {
+                var copy = CopySiteSettings(ss);
+                copy.ReferenceId = referenceId;
+                copy.TableType = tableType;
+                if (setSiteIntegration) copy.SetSiteIntegration(context: context);
+                return copy;
+            }
+            ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.LockedTableTime = siteModel.LockedTime;
             ss.LockedTableUser = siteModel.LockedUser;
             ss.TableType = tableType;
@@ -749,8 +927,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
-            ss.SetPermissions(context: context, referenceId: referenceId);
             ss.SetChoiceHash(context: context, all: setAllChoices);
+            SiteInfo.SetSsCache(
+                context: context,
+                siteModel: siteModel,
+                ss: ss,
+                ssCache: SsCache(
+                    context: context,
+                    siteModel: siteModel),
+                setAllChoices: setAllChoices);
             return ss;
         }
 

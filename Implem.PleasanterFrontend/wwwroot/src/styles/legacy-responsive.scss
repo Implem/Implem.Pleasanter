@@ -973,6 +973,11 @@
         justify-content: space-between;
     }
 
+    #Crosstab > .select-field {
+        float: none;
+        width: 100%;
+    }
+
     #Crosstab .field-auto-thin {
         display: flex;
         align-items: center;

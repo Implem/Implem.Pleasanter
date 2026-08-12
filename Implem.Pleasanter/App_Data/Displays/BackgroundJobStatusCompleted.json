@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobStatusCompleted",
+    "Type": 110,
+    "Languages": [
+        { "Body": "Completed" },
+        { "Language": "zh", "Body": "已完成" },
+        { "Language": "ja", "Body": "完了" },
+        { "Language": "de", "Body": "Abgeschlossen" },
+        { "Language": "ko", "Body": "완료" },
+        { "Language": "es", "Body": "Completado" },
+        { "Language": "vn", "Body": "Đã hoàn thành" }
+    ]
+}

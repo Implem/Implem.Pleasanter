@@ -85,8 +85,7 @@
                 {placeholder}
                 on:blur={onPreviewMode}
                 on:input={onInput}
-                on:input={onValidation}
-            ></textarea>
+                on:input={onValidation}></textarea>
         {/if}
         {#if AllowImage}
             <ul class="tools">

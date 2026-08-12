@@ -1,4 +1,4 @@
-﻿$p.setMessage = function (target, value) {
+$p.setMessage = function (target, value) {
     var message = JSON.parse(value);
     var $control =
         target !== undefined
@@ -52,11 +52,28 @@ $p.clearMessage = function () {
 };
 
 $p.setServerErrorMessage = function (responseJSON) {
+    if (!responseJSON || !Array.isArray(responseJSON)) {
+        return false;
+    }
+    var tryParse = function (value) {
+        if (typeof value !== 'string') {
+            return null;
+        }
+        try {
+            return JSON.parse(value);
+        } catch (e) {
+            return null;
+        }
+    };
     $p.clearMessage();
     var messages = responseJSON.filter(function (i) {
-        return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
+        if (!i || i.Method !== 'Message') {
+            return false;
+        }
+        var parsed = tryParse(i.Value);
+        return parsed != null && parsed.Css === 'alert-error';
     });
-    var logs = responseJSON.filter(i => i.Method === 'Log');
+    var logs = responseJSON.filter(i => i && i.Method === 'Log');
     if (logs.length) {
         logs.forEach(log => {
             console.log(log.Value ?? '');

@@ -1,0 +1,33 @@
+{
+    "Id": "DisabledUser",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "(Disabled User)"
+        },
+        {
+            "Language": "zh",
+            "Body": "(已禁用的用户)"
+        },
+        {
+            "Language": "ja",
+            "Body": "(削除済ユーザ)"
+        },
+        {
+            "Language": "de",
+            "Body": "(Deaktivierter Benutzer)"
+        },
+        {
+            "Language": "ko",
+            "Body": "(비활성화된 사용자)"
+        },
+        {
+            "Language": "es",
+            "Body": "(Usuario Desactivado)"
+        },
+        {
+            "Language": "vn",
+            "Body": "(Người dùng vô hiệu hóa)"
+        }
+    ]
+}

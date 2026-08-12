@@ -30,8 +30,14 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 var log = CreateSysLogModel(
                     context: context,
                     message: "Delete TrashBox.");
-                PhysicalDelete(context);
-                log.Finish(context: context);
+                try
+                {
+                    PhysicalDelete(context);
+                }
+                finally
+                {
+                    log.Finish(context: context);
+                }
             }, context.CancellationToken);
         }
 

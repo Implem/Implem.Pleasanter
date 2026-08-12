@@ -262,10 +262,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (groupBy.Type != Column.Types.Normal)
             {
-                return SiteInfo.Name(
+                var disabledLabel = DisabledEntityLabel(
+                    context: context,
+                    groupBy: groupBy,
+                    selectedValue: selectedValue);
+                if (disabledLabel != null)
+                {
+                    return disabledLabel;
+                }
+                var name = SiteInfo.Name(
                     context: context,
                     id: selectedValue.ToInt(),
                     type: groupBy.Type);
+                return name.IsNullOrEmpty()
+                    ? Displays.NotSet(context: context)
+                    : name;
             }
             else if (groupBy.HasChoices())
             {
@@ -392,6 +403,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static bool UserNotSet(Column groupBy, string key)
         {
             return groupBy.Type == Column.Types.User && (key == "0" || key == "2");
+        }
+
+        private static string DisabledEntityLabel(
+            Context context, Column groupBy, string selectedValue)
+        {
+            if (selectedValue.IsNullOrEmpty() || selectedValue == "0") return null;
+            var id = selectedValue.ToInt();
+            if (id == 0 || id == SiteInfo.AnonymousId) return null;
+            switch (groupBy.Type)
+            {
+                case Column.Types.User:
+                    var user = SiteInfo.User(context: context, userId: id);
+                    return user == null || user.Id != id
+                        ? Displays.DisabledUser(context: context)
+                        : null;
+                case Column.Types.Dept:
+                    var dept = SiteInfo.Dept(tenantId: context.TenantId, deptId: id);
+                    return dept == null || dept.Id != id
+                        ? Displays.DisabledDept(context: context)
+                        : null;
+                case Column.Types.Group:
+                    var group = SiteInfo.Group(tenantId: context.TenantId, groupId: id);
+                    return group == null || group.Id != id
+                        ? Displays.DisabledGroup(context: context)
+                        : null;
+                default:
+                    return null;
+            }
         }
 
         private static bool NumericZero(Column groupBy, string key)

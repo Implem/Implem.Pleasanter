@@ -23,6 +23,8 @@
     "DefaultBinaryStorageProvider": "DataBase",
     "TemporaryBinaryStorageProvider": null,
     "ImageLimitSize": null,
+    "ImageUploadFileSizeLimit": 10,
+    "ImageDecodedSizeLimit": 256,
     "ThumbnailLimitSize": null,
     "ThumbnailMinSize": 100,
     "ThumbnailMaxSize": 1000,

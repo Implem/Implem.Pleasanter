@@ -30,7 +30,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         {
             if (ss.SiteId == 0)
             {
-                ss.PermissionType = context.SiteTopPermission();
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
             }
             if (!Parameters.SitePackage.Import
                 || !context.CanManageSite(ss: ss))
@@ -71,7 +73,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     ?? context.Forms.Bool("IncludeReminders"));
             if (ss.SiteId == 0)
             {
-                ss.PermissionType = context.SiteTopPermission();
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
             }
             if (!Parameters.SitePackage.Import
                 || !context.CanManageSite(ss: ss))
@@ -328,7 +332,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             idHash: idHash);
                         sitePackage.ConvertDataId(
                             context: context,
-                            idHash: idHash);
+                            idHash: idHash,
+                            permissionIdList: sitePackage.PermissionIdList);
                         dataCount = ImportData(
                             context: context,
                             sitePackage: sitePackage,
@@ -966,7 +971,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     return null;
                 }
                 var useIndentOption = Parameters.SitePackage.UseIndentOptionOnExport != OptionTypes.Disabled
-                    && context.QueryStrings.Bool("UseIndentOption");
+                    && context.Forms.Bool("UseIndentOption");
                 var file = new ResponseFile(
                     fileContent: sitePackage.RecordingJson(
                         context: context,
@@ -994,24 +999,24 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             }
             var includeSitePermission = Parameters.SitePackage.IncludeSitePermissionOnExport != OptionTypes.Disabled
                 && (apiData?.IncludeSitePermission
-                    ?? context.QueryStrings.Bool("IncludeSitePermission"));
+                    ?? context.Forms.Bool("IncludeSitePermission"));
             var includeRecordPermission = Parameters.SitePackage.IncludeRecordPermissionOnExport != OptionTypes.Disabled
                 && (apiData?.IncludeRecordPermission
-                    ?? context.QueryStrings.Bool("IncludeRecordPermission"));
+                    ?? context.Forms.Bool("IncludeRecordPermission"));
             var includeColumnPermission = Parameters.SitePackage.IncludeColumnPermissionOnExport != OptionTypes.Disabled
                 && (apiData?.IncludeColumnPermission
-                    ?? context.QueryStrings.Bool("IncludeColumnPermission"));
+                    ?? context.Forms.Bool("IncludeColumnPermission"));
             var includeNotifications = Parameters.SitePackage.IncludeNotificationsOnExport != OptionTypes.Disabled
                 && (apiData?.IncludeNotifications
-                    ?? context.QueryStrings.Bool("IncludeNotifications"));
+                    ?? context.Forms.Bool("IncludeNotifications"));
             var includeReminders = Parameters.SitePackage.IncludeRemindersOnExport != OptionTypes.Disabled
                 && (apiData?.IncludeReminders
-                    ?? context.QueryStrings.Bool("IncludeReminders"));
+                    ?? context.Forms.Bool("IncludeReminders"));
             var sites = new List<SelectedSite>();
             if (apiData == null)
             {
                 string sitePackagesSelectableAll = Regex.Replace(
-                    context.QueryStrings.Data("SitePackagesSelectableAll"),
+                    context.Forms.Data("SitePackagesSelectableAll"),
                     @"[^0-9-,(true|false)]", "");
                 sitePackagesSelectableAll.Split(',')
                     .ForEach(e =>

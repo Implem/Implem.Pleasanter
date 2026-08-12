@@ -23,10 +23,12 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static ContentResultInheritance Error(Context context, ErrorData errorData, params string[] data)
         {
-            return Get(ApiResponses.Error(
+            var apiResponse = ApiResponses.Error(
                 context: context,
                 errorData: errorData,
-                data: data));
+                data: data);
+            context.SysLogsStatus = apiResponse.StatusCode;
+            return Get(apiResponse);
         }
 
         public static ContentResultInheritance Get(ApiResponse apiResponse)

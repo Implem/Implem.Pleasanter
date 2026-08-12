@@ -1,15 +1,18 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 namespace Implem.Pleasanter.Libraries.Server
 {
-    public class TenantCache
+    public class TenantCache(Context context)
     {
-        public int TenantId;
+        public int TenantId = context.TenantId;
         public string SitesUpdatedTime = Parameters.General.MinTime.ToString("yyyy/M/d H:m:s.fff");
         public Dictionary<long, DataRow> Sites;
+        public ConcurrentDictionary<string, SiteSettings> SsCache = new();
         public LinkKeyValues Links;
         public SiteMenu SiteMenu;
         public Dictionary<int, Dept> DeptHash;
@@ -21,13 +24,7 @@ namespace Implem.Pleasanter.Libraries.Server
         public Dictionary<long, List<int>> SiteUserHash;
         public SiteNameTree SiteNameTree;
 
-        public UpdateMonitor UpdateMonitor;
-
-        public TenantCache(Context context)
-        {
-            TenantId = context.TenantId;
-            UpdateMonitor = new UpdateMonitor(context: context);
-        }
+        public UpdateMonitor UpdateMonitor = new (context: context);
 
         public UpdateMonitor GetUpdateMonitor(Context context)
         {

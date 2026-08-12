@@ -4,9 +4,11 @@ using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
+    [EnableRateLimiting("Admin")]
     public class TenantsController : Controller
     {
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
@@ -51,6 +53,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        [DisableRateLimiting]
         public string SyncByLdap()
         {
             var context = new Context();

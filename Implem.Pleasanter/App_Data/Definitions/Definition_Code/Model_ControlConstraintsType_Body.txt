@@ -1,4 +1,6 @@
-﻿controlConstraintsType: #modelName#Model.GetStatusControl(
-    context: context,
-    ss: ss,
-    column: column),
+﻿controlConstraintsType: bulkUpdate
+    ? StatusControl.ControlConstraintsTypes.None
+    : #modelName#Model.GetStatusControl(
+        context: context,
+        ss: ss,
+        column: column),

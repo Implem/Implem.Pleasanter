@@ -1062,7 +1062,9 @@ namespace Implem.Pleasanter.Models
             }
             if (parentId == 0)
             {
-                ss.PermissionType = context.SiteTopPermission();
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
             }
             var invalid = SiteValidators.OnCreating(
                 context: context,
@@ -1134,6 +1136,7 @@ namespace Implem.Pleasanter.Models
             siteModel.SetByForm(
                 context: context,
                 formData: context.Forms);
+            SiteInfo.ClearSsCache(context: context);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
                 siteModel: siteModel,
@@ -1984,7 +1987,9 @@ namespace Implem.Pleasanter.Models
             }
             if (parentId == 0)
             {
-                ss.PermissionType = context.SiteTopPermission();
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
             }
             var invalid = SiteValidators.OnCreating(
                 context: context,
@@ -2044,7 +2049,9 @@ namespace Implem.Pleasanter.Models
             }
             if (ss.ParentId == 0)
             {
-                ss.PermissionType = context.SiteTopPermission();
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
             }
             var invalid = SiteValidators.OnCreating(
                 context: context,
@@ -2446,6 +2453,12 @@ namespace Implem.Pleasanter.Models
                     statusControlSettings: siteSettingsApiModel.StatusControls,
                     context: context);
             }
+            siteModel.VerUp = siteSettingsApiModel.VerUp == true
+                || Versions.MustVerUp(
+                    context: context,
+                    ss: ss,
+                    baseModel: siteModel,
+                    isSite: true);
             var errorData = siteModel.Update(
                context: context,
                ss: ss);
@@ -2579,7 +2592,9 @@ namespace Implem.Pleasanter.Models
             }
             if (parentId == 0)
             {
-                ss.PermissionType = context.SiteTopPermission();
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
             }
             var invalid = SiteValidators.OnCreating(
                 context: context, ss: ss, siteModel: siteModel);
@@ -3261,7 +3276,9 @@ namespace Implem.Pleasanter.Models
             }
             if (parentId == 0)
             {
-                ss.PermissionType = context.SiteTopPermission();
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
             }
             var invalid = SiteValidators.OnCreating(
                 context: context, ss: ss, siteModel: siteModel);
@@ -3325,7 +3342,9 @@ namespace Implem.Pleasanter.Models
                 context: context, referenceId: siteModel.ParentId);
             if (siteModel.ParentId == 0)
             {
-                ss.PermissionType = context.SiteTopPermission();
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
             }
             var invalid = SiteValidators.OnCreating(
                 context: context, ss: ss, siteModel: siteModel);
@@ -3365,12 +3384,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string MoveSiteMenu(Context context, long id)
         {
-            var siteModel = new SiteModel(context: context, siteId: id);
-            siteModel.SiteSettings.PermissionType = id == 0
-                ? context.SiteTopPermission()
-                : Permissions.Get(
-                    context: context,
-                    siteId: id);
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: id);
+            context.SetPermissionType(
+                ss: siteModel.SiteSettings,
+                type: id == 0
+                    ? context.SiteTopPermission()
+                    : Permissions.Get(
+                        context: context,
+                        siteId: id));
             var sourceSiteModel = new SiteModel(
                 context: context,
                 siteId: context.Forms.Long("SiteId"));
@@ -4268,7 +4291,9 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var ss = new SiteSettings();
             ss.ReferenceType = "Sites";
-            ss.PermissionType = context.SiteTopPermission();
+            context.SetPermissionType(
+                ss: ss,
+                type: context.SiteTopPermission());
             var verType = Versions.VerTypes.Latest;
             var siteConditions = SiteInfo.TenantCaches
                 .Get(context.TenantId)?
@@ -4353,7 +4378,9 @@ namespace Implem.Pleasanter.Models
             var ss = siteModel.SiteSettings;
             if (context.PermissionHash.ContainsKey(siteModel.SiteId))
             {
-                ss.PermissionType = context.PermissionHash.Get(siteModel.SiteId);
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.PermissionHash.Get(siteModel.SiteId));
             }
             var invalid = SiteValidators.OnShowingMenu(
                 context: context,
@@ -4435,9 +4462,12 @@ namespace Implem.Pleasanter.Models
                 : SiteSettingsUtilities.SitesSiteSettings(
                     context: context,
                     siteId: 0);
-            ss.PermissionType = siteModel != null
-                ? siteModel.SiteSettings.PermissionType
-                : context.SiteTopPermission();
+            if (siteModel == null)
+            {
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
+            }
             return hb.Div(id: "SiteMenu", action: () => hb
                 .Nav(css: "cf", _using: siteModel != null, action: () => hb
                     .Ul(css: "nav-sites", action: () => hb
@@ -5820,6 +5850,12 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.DisableSiteConditions(context: context),
                         _checked: Parameters.Site.DisableSiteConditions == true || ss.DisableSiteConditions == true,
                         disabled: Parameters.Site.DisableSiteConditions == true)
+                    .FieldCheckBox(
+                        controlId: "Sites_EnableSsCache",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Sites_EnableSsCache(context: context),
+                        _checked: siteModel.EnableSsCache,
+                        _using: Parameters.AllowSsCache())
                     .VerUpCheckBox(
                         context: context,
                         ss: ss,
@@ -7740,7 +7776,18 @@ namespace Implem.Pleasanter.Models
                             onClick: "$p.resetEditorColumn($(this));",
                             action: "SetSiteSettings",
                             method: "post",
-                            confirm: "ConfirmReset")
+                            confirm: "ConfirmReset",
+                            _using: context.ThemeVersionOver2_0())
+                        .Button(
+                            controlId: "ResetEditorColumn",
+                            text: Displays.Reset(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.resetEditorColumn($(this));",
+                            icon: "ui-icon-arrowrefresh-1-s",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            confirm: "ConfirmReset",
+                            _using: !context.ThemeVersionOver2_0())
                         .Button(
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
@@ -7814,7 +7861,18 @@ namespace Implem.Pleasanter.Models
                             onClick: "$p.resetEditorColumn($(this));",
                             action: "SetSiteSettings",
                             method: "post",
-                            confirm: "ConfirmReset")
+                            confirm: "ConfirmReset",
+                            _using: context.ThemeVersionOver2_0())
+                        .Button(
+                            controlId: "ResetEditorColumn",
+                            text: Displays.Reset(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.resetEditorColumn($(this));",
+                            icon: "ui-icon-arrowrefresh-1-s",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            confirm: "ConfirmReset",
+                            _using: !context.ThemeVersionOver2_0())
                         .Button(
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
@@ -12711,12 +12769,28 @@ namespace Implem.Pleasanter.Models
                                 .Div(css: "both", action: () => hb
                                     .FieldDropDown(
                                         context: context,
+                                        controlId: $"{prefix}ViewFilterTableSelector",
+                                        fieldCss: "field-auto-thin",
+                                        controlCss: " always-send",
+                                        labelText: Displays.Tables(context: context),
+                                        optionCollection: ss.ViewTableOptions(
+                                            context: context,
+                                            view: view,
+                                            currentTableOnly: currentTableOnly),
+                                        onChange: "$p.send($(this));",
+                                        action: "SetSiteSettings",
+                                        method: "post",
+                                        _using: !currentTableOnly)
+                                    .FieldDropDown(
+                                        context: context,
                                         controlId: $"{prefix}ViewFilterSelector",
                                         fieldCss: "field-auto-thin",
                                         controlCss: " always-send",
+                                        labelText: Displays.Column(context: context),
                                         optionCollection: ss.ViewFilterOptions(
                                             context: context,
                                             view: view,
+                                            joinKey: string.Empty,
                                             currentTableOnly: currentTableOnly))
                                     .Button(
                                         controlId: $"Add{prefix}ViewFilter",
@@ -12958,11 +13032,27 @@ namespace Implem.Pleasanter.Models
                         .Text(text: Displays.Sorters(context: context)))
                 .FieldDropDown(
                     context: context,
+                    controlId: $"{prefix}ViewSorterTableSelector",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " always-send",
+                    labelText: Displays.Tables(context: context),
+                    optionCollection: ss.ViewTableOptions(
+                        context: context,
+                        view: view,
+                        currentTableOnly: currentTableOnly),
+                    onChange: "$p.send($(this));",
+                    action: "SetSiteSettings",
+                    method: "post",
+                    _using: !currentTableOnly)
+                .FieldDropDown(
+                    context: context,
                     controlId: $"{prefix}ViewSorterSelector",
                     fieldCss: "field-auto-thin",
                     controlCss: " always-send",
+                    labelText: Displays.Column(context: context),
                     optionCollection: ss.ViewSorterOptions(
                         context: context,
+                        joinKey: string.Empty,
                         currentTableOnly: currentTableOnly))
                 .FieldDropDown(
                     context: context,
@@ -17398,7 +17488,8 @@ namespace Implem.Pleasanter.Models
                     Summaries.Synchronize(
                         context: context,
                         ss: ss,
-                        id: id);
+                        id: id,
+                        watchdog: watchdog);
                 });
                 return new ErrorData(type: Error.Types.None);
             }

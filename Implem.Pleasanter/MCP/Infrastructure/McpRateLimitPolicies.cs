@@ -1,6 +1,5 @@
 ﻿using Implem.ParameterAccessor.Parts;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.RateLimiting;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -11,33 +10,36 @@ namespace Implem.Pleasanter.MCP.Infrastructure
 {
     public static class McpRateLimitHelper
     {
-        public static Func<OnRejectedContext, CancellationToken, ValueTask> CreateOnRejectedHandler(
-            int defaultRetryAfterSeconds)
+        private const int DefaultRetryAfterSeconds = 60;
+
+        public static async ValueTask OnRejectedAsync(HttpContext httpContext, RateLimitLease lease, CancellationToken cancellationToken)
         {
-            return async (context, cancellationToken) =>
+            var httpResponse = httpContext.Response;
+            if (httpResponse.HasStarted)
             {
-                context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
-                context.HttpContext.Response.ContentType = "application/json";
+                return;
+            }
+            httpResponse.StatusCode = StatusCodes.Status429TooManyRequests;
+            httpResponse.ContentType = "application/json";
 
-                var retryAfter = context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfterValue)
-                    ? retryAfterValue.TotalSeconds
-                    : defaultRetryAfterSeconds;
+            var retryAfter = lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfterValue)
+                ? Math.Max(1, (int)Math.Ceiling(retryAfterValue.TotalSeconds))
+                : DefaultRetryAfterSeconds;
 
-                context.HttpContext.Response.Headers.RetryAfter = ((int)retryAfter).ToString();
+            httpResponse.Headers.RetryAfter = retryAfter.ToString();
 
-                var response = new
+            var response = new
+            {
+                jsonrpc = "2.0",
+                error = new
                 {
-                    jsonrpc = "2.0",
-                    error = new
-                    {
-                        code = -32000,
-                        message = $"Rate limit exceeded. Retry after {retryAfter:F0} seconds."
-                    },
-                    id = (string)null
-                };
-
-                await context.HttpContext.Response.WriteAsJsonAsync(response, cancellationToken);
+                    code = -32000,
+                    message = $"Rate limit exceeded. Retry after {retryAfter} seconds."
+                },
+                id = (string)null
             };
+
+            await httpResponse.WriteAsJsonAsync(response, cancellationToken);
         }
 
         private static bool TryGetMcpApiKey(HttpContext context, out string apiKey)
@@ -64,39 +66,36 @@ namespace Implem.Pleasanter.MCP.Infrastructure
 
             if (rateLimit.FixedWindow?.Enabled == true)
             {
-                System.Diagnostics.Debug.WriteLine(
-                    $"[MCP RateLimit] FixedWindow有効: PermitLimit={rateLimit.FixedWindow.PermitLimit}, WindowSeconds={rateLimit.FixedWindow.WindowSeconds}");
-
                 limiters.Add(CreateFixedWindowLimiter(rateLimit.FixedWindow));
             }
 
             if (rateLimit.SlidingWindow?.Enabled == true)
             {
-                System.Diagnostics.Debug.WriteLine(
-                    $"[MCP RateLimit] SlidingWindow有効: PermitLimit={rateLimit.SlidingWindow.PermitLimit}, WindowSeconds={rateLimit.SlidingWindow.WindowSeconds}");
-
                 limiters.Add(CreateSlidingWindowLimiter(rateLimit.SlidingWindow));
             }
 
             if (rateLimit.TokenBucket?.Enabled == true)
             {
-                System.Diagnostics.Debug.WriteLine(
-                    $"[MCP RateLimit] TokenBucket有効: TokenLimit={rateLimit.TokenBucket.TokenLimit}, TokensPerPeriod={rateLimit.TokenBucket.TokensPerPeriod}");
-
                 limiters.Add(CreateTokenBucketLimiter(rateLimit.TokenBucket));
             }
 
             if (rateLimit.Concurrency?.Enabled == true)
             {
-                System.Diagnostics.Debug.WriteLine(
-                    $"[MCP RateLimit] Concurrency有効: PermitLimit={rateLimit.Concurrency.PermitLimit}");
-
                 limiters.Add(CreateConcurrencyLimiter(rateLimit.Concurrency));
             }
 
-            System.Diagnostics.Debug.WriteLine($"[MCP RateLimit] 有効なリミッター数: {limiters.Count}");
-
             return limiters;
+        }
+
+        public static PartitionedRateLimiter<HttpContext> CreateChainedLimiter(McpRateLimitSettings rateLimit)
+        {
+            var limiters = CreateRateLimiters(rateLimit);
+            return limiters.Count switch
+            {
+                0 => null,
+                1 => limiters[0],
+                _ => PartitionedRateLimiter.CreateChained(limiters.ToArray())
+            };
         }
 
         private static PartitionedRateLimiter<HttpContext> CreateFixedWindowLimiter(McpFixedWindowSettings settings)

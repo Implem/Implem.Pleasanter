@@ -28,6 +28,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action: () => hb
                     .Nav(css: "cf", action: () => hb
                         .Ul(css: "nav-sites", action: () => hb
+                            .Li(
+                                css: "nav-site", action: () => hb
+                                    .A(
+                                        attributes: new HtmlAttributes()
+                                            .Href(Locations.Edit(
+                                                context: context,
+                                                controller: "Parameters")),
+                                        action: () => hb
+                                            .Div(action: () => hb
+                                                .Text(Displays.Parameters(context: context)))),
+                                _using: Permissions.CanManageParameters(context: context))
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()
@@ -104,11 +115,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Div(action: () => hb
                                                 .Text(Displays.Registrations(context: context)))
                                             .StackStyles()),
-                                _using: Parameters.Registration.Enabled)))
+                                _using: Parameters.Registration.Enabled))
                     .MainCommands(
                         context: context,
                         ss: ss,
-                        verType: Versions.VerTypes.Latest))
+                        verType: Versions.VerTypes.Latest)))
                             .ToString();
         }
     }

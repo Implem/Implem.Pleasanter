@@ -80,7 +80,7 @@ const passkeyGetAssertionOptions = async () => {
         alert(htmlDecodeDisplay('PasskeyNotAvailable'));
         return;
     }
-    const url = `/passkeys/getassertionoptions`;
+    const url = `${$('#ApplicationPath').val()}passkeys/getassertionoptions`;
     $p.ajax(url, 'post', null);
 };
 
@@ -134,7 +134,7 @@ const passkeyLogin = async (json: string) => {
         const Users_RememberMe = true;
 
         const queryString = window.location.search;
-        const url = `/passkeys/makeassertion${queryString}`;
+        const url = `${$('#ApplicationPath').val()}passkeys/makeassertion${queryString}`;
         const $control = $('#PasskeyLogin');
         $p.ajax(url, 'post', { data: JSON.stringify(data), Users_RememberMe }, $control);
     } catch (e) {

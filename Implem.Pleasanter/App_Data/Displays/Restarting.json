@@ -1,0 +1,33 @@
+{
+    "Id": "Restarting",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "The system is restarting."
+        },
+        {
+            "Language": "zh",
+            "Body": "系统正在重新启动。"
+        },
+        {
+            "Language": "ja",
+            "Body": "システムを再起動します。"
+        },
+        {
+            "Language": "de",
+            "Body": "Das System wird neu gestartet."
+        },
+        {
+            "Language": "ko",
+            "Body": "시스템을 재시작합니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El sistema se está reiniciando."
+        },
+        {
+            "Language": "vn",
+            "Body": "Hệ thống đang khởi động lại."
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "Id": "ServiceUnavailable",
+    "Type": 240,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "The server is temporarily unavailable. Please wait a moment and reload the page."
+        },
+        {
+            "Language": "zh",
+            "Body": "服务器暂时不可用。请稍等片刻后重新加载页面。"
+        },
+        {
+            "Language": "ja",
+            "Body": "サーバーが一時的に利用できません。しばらく待ってからページを再読み込みしてください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Server ist vorübergehend nicht verfügbar. Bitte warten Sie einen Moment und laden Sie die Seite neu."
+        },
+        {
+            "Language": "ko",
+            "Body": "서버를 일시적으로 사용할 수 없습니다. 잠시 후 페이지를 새로고침해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "El servidor no está disponible temporalmente. Espere un momento y recargue la página."
+        },
+        {
+            "Language": "vn",
+            "Body": "Máy chủ tạm thời không khả dụng. Vui lòng đợi một lát và tải lại trang."
+        }
+    ]
+}

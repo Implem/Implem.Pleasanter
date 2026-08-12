@@ -1,0 +1,33 @@
+{
+    "Id": "BackgroundJobNoHandler",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "No handler registered for JobType: {0}"
+        },
+        {
+            "Language": "zh",
+            "Body": "JobType: {0} 没有注册处理程序。"
+        },
+        {
+            "Language": "ja",
+            "Body": "JobType: {0} に対応するハンドラが登録されていません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Kein Handler für JobType: {0} registriert."
+        },
+        {
+            "Language": "ko",
+            "Body": "JobType: {0}에 대한 핸들러가 등록되어 있지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No hay controlador registrado para JobType: {0}."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không có trình xử lý nào được đăng ký cho JobType: {0}."
+        }
+    ]
+}

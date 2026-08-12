@@ -136,12 +136,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public long InheritPermission;
         [NonSerialized]
-        public Permissions.Types? PermissionType;
-        [NonSerialized]
-        public Dictionary<long, Permissions.Types> PermissionTypeCache;
-        [NonSerialized]
-        public Permissions.Types? ItemPermissionType;
-        [NonSerialized]
         public bool Publish;
         [NonSerialized]
         public Databases.AccessStatuses AccessStatus;
@@ -284,7 +278,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<ColumnAccessControl> CreateColumnAccessControls;
         public List<ColumnAccessControl> ReadColumnAccessControls;
         public List<ColumnAccessControl> UpdateColumnAccessControls;
-        private ServerScriptModel.ServerScriptModelRow ServerScriptModelRowCache;
+        private ServerScriptModelRow ServerScriptModelRowCache;
         public Dictionary<string, long> LinkColumnSiteIdHash;
         public List<string> GridColumnsOrder;
         public List<string> FilterColumnsOrder;
@@ -312,6 +306,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string FormUnavailableMessage;
         public string FormThanksMessage;
 
+        public ServerScriptModelRow ServerScriptModelRowCache1 { get => ServerScriptModelRowCache; set => ServerScriptModelRowCache = value; }
+
         public SiteSettings()
         {
         }
@@ -328,7 +324,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 SiteId = SiteId,
                 InheritPermission = InheritPermission,
-                PermissionType = PermissionType,
                 ReferenceType = ReferenceType
             };
             ss.Init(context: context);
@@ -518,6 +513,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => linkIds?.Any(siteId => siteId == o.Key) == true)
                 .Select(o => o.Value)
                 .Where(dataRow => previously?.Contains(dataRow.Long("SiteId")) != true)
+                .Where(dataRow => CanUseFormLinkTarget(context: context, site: dataRow))
                 .ToList()
                 .ForEach(dataRow =>
                 {
@@ -538,6 +534,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.ReferenceType = dataRow.String("ReferenceType");
                     ss.ParentId = dataRow.Long("ParentId");
                     ss.InheritPermission = dataRow.Long("InheritPermission");
+                    ss.Publish = dataRow.Bool("Publish");
                     ss.Linked = true;
                     if (enableExpandLinkPath == true)
                     {
@@ -575,7 +572,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 sources: false,
                                 previously: previously,
                                 enableExpandLinkPath: enableExpandLinkPath);
-                            ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
                             break;
                         case "Sources":
                             ss.Links
@@ -597,7 +593,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 sources: true,
                                 previously: previously,
                                 enableExpandLinkPath: enableExpandLinkPath);
-                            ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
                             break;
                     }
                     hash.Add(ss.SiteId, ss);
@@ -607,6 +602,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                 });
             return hash;
+        }
+
+        private static bool CanUseFormLinkTarget(Context context, Dictionary<long, DataRow> sites, long siteId)
+        {
+            return CanUseFormLinkTarget(
+                context: context,
+                site: sites.Get(siteId));
+        }
+
+        private static bool CanUseFormLinkTarget(Context context, DataRow site)
+        {
+            if (!context.IsForm)
+            {
+                return true;
+            }
+            switch (site?.String("ReferenceType"))
+            {
+                case "Wikis":
+                case "Results":
+                case "Issues":
+                    return site.Bool("Publish");
+                default:
+                    return false;
+            }
         }
 
         public void SetPermissions(Context context, long referenceId)
@@ -630,35 +649,39 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             long referenceId = 0)
         {
+            var cp = context.GetContextPermission(ss);
             switch ((context.Publish, context.IsForm, context.Controller))
             {
                 case (true, _, _):
-                    ss.PermissionType = Permissions.Types.Read;
-                    ss.ItemPermissionType = Permissions.Types.Read;
+                    cp.PermissionType = Permissions.Types.Read;
+                    cp.ItemPermissionType = Permissions.Types.Read;
                     return;
                 case (_, true, _):
-                    ss.PermissionType = Permissions.Types.Create;
-                    ss.ItemPermissionType = Permissions.Types.Create;
+                    cp.PermissionType = ss.Linked && ss.Publish
+                        ? Permissions.Types.Read
+                        : Permissions.Types.Create;
+                    cp.ItemPermissionType = ss.Linked && ss.Publish
+                        ? Permissions.Types.Read
+                        : Permissions.Types.Create;
                     return;
                 case (_, _, "publishes"):
                     return;
             }
-
             if (context.PermissionHash?.ContainsKey(ss.InheritPermission) == true)
             {
-                ss.PermissionType = context.PermissionHash[ss.InheritPermission];
+                cp.PermissionType = context.PermissionHash[ss.InheritPermission];
             }
             if (referenceId != 0 && context.PermissionHash?.ContainsKey(referenceId) == true)
             {
-                ss.ItemPermissionType = context.PermissionHash[referenceId];
+                cp.ItemPermissionType = context.PermissionHash[referenceId];
             }
             if (LockedTable())
             {
                 var lockedPermissionType = Permissions.Types.Read
                     | Permissions.Types.Export
                     | Permissions.Types.SendMail;
-                ss.PermissionType &= lockedPermissionType;
-                ss.ItemPermissionType &= lockedPermissionType;
+                cp.PermissionType &= lockedPermissionType;
+                cp.ItemPermissionType &= lockedPermissionType;
             }
         }
 
@@ -3026,30 +3049,40 @@ namespace Implem.Pleasanter.Libraries.Settings
                             : join + "," + o.ColumnName).ToList());
         }
 
-        public Dictionary<string, string> ViewFilterOptions(
+        public Dictionary<string, string> ViewTableOptions(
             Context context,
             View view,
             bool currentTableOnly)
         {
             var hash = new Dictionary<string, string>();
-            JoinOptions(currentTableOnly: currentTableOnly).ForEach(join =>
+            JoinOptions(currentTableOnly: currentTableOnly)
+                .ForEach(join => hash[join.Key] = join.Value);
+            return hash;
+        }
+
+        public Dictionary<string, string> ViewFilterOptions(
+            Context context,
+            View view,
+            string joinKey,
+            bool currentTableOnly)
+        {
+            var hash = new Dictionary<string, string>();
+            var siteId = ColumnUtilities.GetSiteIdByTableAlias(joinKey, SiteId);
+            var joinValue = JoinOptions(currentTableOnly: currentTableOnly).Get(joinKey);
+            var ss = JoinedSsHash.Get(siteId);
+            if (ss != null)
             {
-                var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
-                var ss = JoinedSsHash.Get(siteId);
-                if (ss != null)
-                {
-                    hash.AddRange(ss.ColumnDefinitionHash.Values
-                        .Where(o => o.FilterColumn > 0)
-                        .Where(o => view?.ColumnFilterHash?.ContainsKey(o.ColumnName) != true)
-                        .OrderBy(o => o.FilterColumn)
-                        .Select(o => ss.GetColumn(
-                            context: context,
-                            columnName: o.ColumnName))
-                        .ToDictionary(
-                            o => ColumnUtilities.ColumnName(join.Key, o.Name),
-                            o => join.Value + " " + o.LabelText));
-                }
-            });
+                hash.AddRange(ss.ColumnDefinitionHash.Values
+                    .Where(o => o.FilterColumn > 0)
+                    .Where(o => view?.ColumnFilterHash?.ContainsKey(ColumnUtilities.ColumnName(joinKey, o.ColumnName)) != true)
+                    .OrderBy(o => o.FilterColumn)
+                    .Select(o => ss.GetColumn(
+                        context: context,
+                        columnName: o.ColumnName))
+                    .ToDictionary(
+                        o => ColumnUtilities.ColumnName(joinKey, o.Name),
+                        o => joinValue + " " + o.LabelText));
+            }
             return hash;
         }
 
@@ -3114,27 +3147,25 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
-
         public Dictionary<string, string> ViewSorterOptions(
             Context context,
+            string joinKey,
             bool currentTableOnly = false)
         {
             var hash = new Dictionary<string, string>();
-            JoinOptions(currentTableOnly: currentTableOnly).ForEach(join =>
+            var siteId = ColumnUtilities.GetSiteIdByTableAlias(joinKey, SiteId);
+            var joinValue = JoinOptions(currentTableOnly: currentTableOnly).Get(joinKey);
+            var ss = JoinedSsHash.Get(siteId);
+            if (ss != null)
             {
-                var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
-                var ss = JoinedSsHash.Get(siteId);
-                if (ss != null)
-                {
-                    hash.AddRange(ss.ColumnDefinitionHash.Values
-                        .Where(o => o.GridColumn > 0)
-                        .OrderBy(o => o.GridColumn)
-                        .Select(o => ss.GetColumn(context: context, columnName: o.ColumnName))
-                        .ToDictionary(
-                            o => ColumnUtilities.ColumnName(join.Key, o.Name),
-                            o => join.Value + " " + o.LabelText));
-                }
-            });
+                hash.AddRange(ss.ColumnDefinitionHash.Values
+                    .Where(o => o.GridColumn > 0)
+                    .OrderBy(o => o.GridColumn)
+                    .Select(o => ss.GetColumn(context: context, columnName: o.ColumnName))
+                    .ToDictionary(
+                        o => ColumnUtilities.ColumnName(joinKey, o.Name),
+                        o => joinValue + " " + o.LabelText));
+            }
             return hash;
         }
 
@@ -4740,11 +4771,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else
             {
+                var sites = SiteInfo.Sites(context: context);
                 var siteIdList = JoinedSsHash
                     ?.SelectMany(o => o.Value.Links
                         .Where(p => p.JsonFormat != true)
                         .Where(p => p.SiteId > 0)
                         .Select(p => p.SiteId))
+                    .Where(siteId => CanUseFormLinkTarget(
+                        context: context,
+                        sites: sites,
+                        siteId: siteId))
                     .Distinct()
                     .ToList() ?? new List<long>();
                 var linkHash = withLink
@@ -4804,6 +4840,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<string, List<string>> linkHash)
         {
             var columns = new List<Column>();
+            var sites = SiteInfo.Sites(context: context);
             Columns?
                 .Where(o => o.HasChoices())
                 .Where(o => !o.AddChoiceHashByServerScript)
@@ -4822,6 +4859,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                     var link = Links?
                         .Where(o => o.JsonFormat == true)
+                        .Where(o => o.SiteId <= 0
+                            || CanUseFormLinkTarget(
+                                context: context,
+                                sites: sites,
+                                siteId: o.SiteId))
                         .FirstOrDefault(o => o.ColumnName == column.ColumnName);
                     if (link != null)
                     {
@@ -4885,7 +4927,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .CanRead(
                                     context: context,
                                     idColumnBracket: "\"Items\".\"ReferenceId\"",
-                                    _using: !context.Publish)
+                                    _using: !context.Publish && !context.IsForm)
                                 .Add(
                                     or: Rds.ItemsWhere()
                                         .ReferenceType(raw: "'Wikis'")
@@ -4917,9 +4959,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool setTotalCount = false)
         {
             var hash = new Dictionary<string, List<string>>();
+            var sites = SiteInfo.Sites(context: context);
             Links?
                 .Where(o => o.JsonFormat != true)
                 .Where(o => o.SiteId > 0)
+                .Where(o => CanUseFormLinkTarget(
+                    context: context,
+                    sites: sites,
+                    siteId: o.SiteId))
                 .Where(o => o.ColumnName == columnName)
                 .Where(o => !searchColumnOnly
                     || GetColumn(
@@ -4996,7 +5043,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     searchText: searchIndexes?.Join(" "))
                 .CanRead(
                     context: context,
-                    idColumnBracket: "\"Items\".\"ReferenceId\"");
+                    idColumnBracket: "\"Items\".\"ReferenceId\"",
+                    _using: !context.Publish && !context.IsForm);
             var statements = new List<SqlStatement>
             {
                 Rds.SelectItems(
@@ -5338,20 +5386,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ImageLib": return context.ContractSettings.Images() && EnableImageLib == true;
                 default: return false;
             }
-        }
-
-        public Permissions.Types GetPermissionType(Context context, bool site = false)
-        {
-            var permission = Permissions.Types.NotSet;
-            if (PermissionType != null)
-            {
-                permission |= (Permissions.Types)PermissionType;
-            }
-            if (ItemPermissionType != null && !site)
-            {
-                permission |= (Permissions.Types)ItemPermissionType;
-            }
-            return permission;
         }
 
         public Permission GetPermissionForCreating(string key)
@@ -6224,7 +6258,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return context.HasPrivilege
                 ? false
-                : PermissionType == Permissions.Types.Read && NoDisplayIfReadOnly;
+                : context.GetContextPermission(ss: this).PermissionType == Permissions.Types.Read && NoDisplayIfReadOnly;
         }
 
         public void LinkActions(

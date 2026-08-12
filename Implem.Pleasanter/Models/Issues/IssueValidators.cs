@@ -1347,7 +1347,9 @@ namespace Implem.Pleasanter.Models
                         {
                             Validators.ValidateMaxLength(
                                 columnName: column.ColumnName,
-                                maxLength: column.MaxLength,
+                                maxLength: column.MaxLength != null && column.ValidateMaxLength != null
+                                    ? System.Math.Min(column.MaxLength.Value, column.ValidateMaxLength.ToDecimal())
+                                    : column.MaxLength ?? column.ValidateMaxLength.ToDecimal(),
                                 errors: errors,
                                 value: value);
                         }

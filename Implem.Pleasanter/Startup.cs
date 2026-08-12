@@ -47,8 +47,8 @@ using System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.RateLimiting;
-using System.Threading.RateLimiting;
 using Implem.Pleasanter.Libraries.Security.Captcha;
+using Implem.Pleasanter.Libraries.RateLimit;
 using Implem.Pleasanter.MCP.Infrastructure;
 using Implem.Pleasanter.Middlewares;
 
@@ -75,6 +75,17 @@ namespace Implem.Pleasanter.NetCore
                     new SysLogModel(
                         context: context,
                         e: e));
+            }
+            if (Parameters.RateLimit?.ValidationWarnings?.Count > 0)
+            {
+                foreach (var warning in Parameters.RateLimit.ValidationWarnings)
+                {
+                    new SysLogModel(
+                        context: context,
+                        method: nameof(Startup),
+                        message: $"[RateLimit] {warning}",
+                        sysLogType: SysLogModel.SysLogTypes.Warning);
+                }
             }
             TrialLicenseUtilities.Initialize();
             LogManager.Setup()
@@ -197,6 +208,7 @@ namespace Implem.Pleasanter.NetCore
                 ConfigureIISIntegration(services);
             }
             ConfigureMcpServer(services);
+            ConfigureRateLimiters(services);
             services.Configure<KestrelServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
@@ -358,24 +370,43 @@ namespace Implem.Pleasanter.NetCore
                             return result;
                         });
                     });
+            }
+        }
 
-                var rateLimit = Parameters.McpServer.RateLimit;
+        private static void ConfigureRateLimiters(IServiceCollection services)
+        {
+            var bodyRateLimit = Parameters.RateLimit;
 
-                if (rateLimit?.AnyEnabled == true)
+            var hasRateLimitLicense = Parameters.AllowRateLimit();
+            var anyActive = hasRateLimitLicense && bodyRateLimit?.AnyActive == true;
+
+            if (anyActive)
+            {
+                services.AddRateLimiter(options =>
                 {
-                    services.AddRateLimiter(options =>
+                    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+                    if (bodyRateLimit.GlobalLimiter != null
+                        && bodyRateLimit.GlobalLimiter.EffectiveMode(bodyRateLimit.Mode) == "On")
                     {
-                        var limiters = McpRateLimitHelper.CreateRateLimiters(rateLimit);
+                        options.GlobalLimiter = Libraries.RateLimit.BodyRateLimitHelper.BuildGlobalLimiter(bodyRateLimit);
+                    }
 
-                        if (limiters.Count > 0)
-                        {
-                            options.GlobalLimiter = PartitionedRateLimiter.CreateChained(limiters.ToArray());
-                        }
+                    foreach (var name in Libraries.RateLimit.BodyRateLimitHelper.PolicyNames)
+                    {
+                        var policyName = name;
+                        options.AddPolicy(policyName, ctx =>
+                            Libraries.RateLimit.BodyRateLimitHelper.BuildPolicy(ctx, policyName));
+                    }
 
-                        options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-                        options.OnRejected = McpRateLimitHelper.CreateOnRejectedHandler(defaultRetryAfterSeconds: 60);
-                    });
-                }
+                    options.OnRejected = Libraries.RateLimit.BodyRateLimitHelper.OnRejectedAsync;
+                });
+            }
+
+            if (hasRateLimitLicense
+                && (bodyRateLimit?.AnyActive == true || bodyRateLimit?.AnyLogOnly == true))
+            {
+                services.AddHostedService<Libraries.RateLimit.BodyRateLimitMetricsSnapshotService>();
             }
         }
 
@@ -391,9 +422,17 @@ namespace Implem.Pleasanter.NetCore
             return list;
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            IHostApplicationLifetime lifetime)
         {
+            SiteInfo.ApplicationLifetime = lifetime;
             app.UseForwardedHeaders();
+            if (Parameters.Service.DisableHtmlCache == true)
+            {
+                app.UseNoCacheHtml();
+            }
             app.UseCurrentRequestContext();
             if (env.IsDevelopment())
             {
@@ -448,6 +487,7 @@ namespace Implem.Pleasanter.NetCore
                 {
                     var redirectPath = statusCode switch
                     {
+                        429 => null,
                         400 or 405 => "/errors/badrequest",
                         401 => "/users/login",
                         403 => "/errors/forbidden",
@@ -456,7 +496,10 @@ namespace Implem.Pleasanter.NetCore
                         >= 400 and < 500 => "/errors/badrequest",
                         _ => "/errors/internalservererror"
                     };
-                    context.HttpContext.Response.Redirect(redirectPath);
+                    if (redirectPath != null)
+                    {
+                        context.HttpContext.Response.Redirect(redirectPath);
+                    }
                 }
                 return Task.CompletedTask;
             });
@@ -471,9 +514,8 @@ namespace Implem.Pleasanter.NetCore
                 {
                     await next.Invoke();
 
-
                     var loggerFactory = context.RequestServices.GetRequiredService<ILoggerFactory>();
-                    var logger = loggerFactory.CreateLogger("RoutingDebugMiddleware"); // ログのカテゴリ名を指定
+                    var logger = loggerFactory.CreateLogger("RoutingDebugMiddleware");
 
                     var endpoint = context.GetEndpoint();
                     if (endpoint != null)
@@ -484,8 +526,8 @@ namespace Implem.Pleasanter.NetCore
                         logger.LogInformation(
                             "Path: {Path}, Matched Route Name: '{RouteName}', Pattern: '{RoutePattern}'",
                             context.Request.Path,
-                            routeName ?? "N/A",      // ルート名がnullの場合は "N/A" を表示
-                            routePattern ?? "N/A"   // パターンがnullの場合は "N/A" を表示
+                            routeName ?? "N/A",
+                            routePattern ?? "N/A"
                         );
                     }
                     else
@@ -498,14 +540,13 @@ namespace Implem.Pleasanter.NetCore
             app.UseCors();
             if (Parameters.McpServer?.Enabled == true)
             {
-                var rateLimit = Parameters.McpServer.RateLimit;
-                if (rateLimit?.AnyEnabled == true)
+                var mcpRateLimit = Parameters.McpServer.RateLimit;
+                if (mcpRateLimit?.AnyEnabled == true)
                 {
                     app.UseWhen(
                         context => context.Request.Path.StartsWithSegments(McpConstants.BasePath),
-                        appBuilder => appBuilder.UseRateLimiter());
+                        appBuilder => appBuilder.UseMcpRateLimitMiddleware(mcpRateLimit));
                 }
-
                 app.UseMcpContextMiddleware();
             }
 
@@ -517,6 +558,19 @@ namespace Implem.Pleasanter.NetCore
             app.UseAuthentication();
             app.UseTrustedProxyAuthentication();
             app.UseAuthorization();
+            var hasRateLimitLicense = Parameters.AllowRateLimit();
+            var bodyAnyActive = hasRateLimitLicense && Parameters.RateLimit?.AnyActive == true;
+            var bodyAnyLogOnly = hasRateLimitLicense && Parameters.RateLimit?.AnyLogOnly == true;
+            if (bodyAnyActive)
+            {
+                app.UseWhen(
+                    context => !context.Request.Path.StartsWithSegments(McpConstants.BasePath),
+                    appBuilder => appBuilder.UseRateLimiter());
+            }
+            if (bodyAnyLogOnly)
+            {
+                app.UseBodyRateLimitObserver();
+            }
             app.UseSessionMiddleware();
             app.UseEndpoints(endpoints =>
             {
@@ -531,7 +585,7 @@ namespace Implem.Pleasanter.NetCore
                         {
                             d.RouteValues.TryGetValue("controller", out var controllerName);
                             d.RouteValues.TryGetValue("action", out var actionName);
-                            d.RouteValues.TryGetValue("page", out var pageName); // Razor Pageの場合
+                            d.RouteValues.TryGetValue("page", out var pageName);
 
                             return new
                             {
@@ -543,9 +597,9 @@ namespace Implem.Pleasanter.NetCore
                                 HttpMethods = d.ActionConstraints?.OfType<HttpMethodActionConstraint>().FirstOrDefault()?.HttpMethods.FirstOrDefault(),
                             };
                         })
-                        .Where(r => r.DisplayName != null) // 不要な情報を除外
-                        .OrderBy(r => r.Controller)        // コントローラー名で並び替え
-                        .ThenBy(r => r.Action)           // アクション名で並び替え
+                        .Where(r => r.DisplayName != null)
+                        .OrderBy(r => r.Controller)
+                        .ThenBy(r => r.Action)
                         .ToList();
 
                         await context.Response.WriteAsJsonAsync(routes, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
@@ -571,7 +625,7 @@ namespace Implem.Pleasanter.NetCore
                     }
                 }
                 endpoints.MapControllerRoute(
-                    name: "FormBinaries", // 新規追加
+                    name: "FormBinaries",
                     pattern: "{reference}/{guid}/{controller}/{action}",
                     defaults: new
                     {
@@ -729,16 +783,22 @@ namespace Implem.Pleasanter.NetCore
                 context: context,
                 method: null,
                 message: Parameters.GetLicenseInfo().ToJson());
-            TenantInitializer.Initialize();
-            ExtensionInitializer.Initialize(context: context);
-            UsersInitializer.Initialize(context: context);
-            ItemsInitializer.Initialize(context: context);
-            StatusesMigrator.Migrate(context: context);
-            SiteSettingsMigrator.Migrate(context: context);
-            StatusesInitializer.Initialize(context: context);
-            NotificationInitializer.Initialize();
-            SiteInfo.Refresh(context: context);
-            log.Finish(context: context);
+            try
+            {
+                TenantInitializer.Initialize();
+                ExtensionInitializer.Initialize(context: context);
+                UsersInitializer.Initialize(context: context);
+                ItemsInitializer.Initialize(context: context);
+                StatusesMigrator.Migrate(context: context);
+                SiteSettingsMigrator.Migrate(context: context);
+                StatusesInitializer.Initialize(context: context);
+                NotificationInitializer.Initialize();
+                SiteInfo.Refresh(context: context);
+            }
+            finally
+            {
+                log.Finish(context: context);
+            }
         }
 
         private string CreateNonceValue()
@@ -913,6 +973,5 @@ namespace Implem.Pleasanter.NetCore
             }
         }
     }
-
 
 }

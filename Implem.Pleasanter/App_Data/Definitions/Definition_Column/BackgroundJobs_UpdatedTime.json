@@ -1,0 +1,23 @@
+{
+    "Id": "BackgroundJobs_UpdatedTime",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "UpdatedTime",
+    "LabelText": "更新日時",
+    "No": "995",
+    "History": "995",
+    "TypeName": "datetime",
+    "TypeCs": "Time",
+    "RecordingData": ".Value",
+    "Default": "now",
+    "DefaultCs": "null",
+    "Required": "1",
+    "NotForm": "1",
+    "LabelText_en": "Updated on",
+    "LabelText_zh": "更新时间",
+    "LabelText_de": "Aktualisiert am",
+    "LabelText_ko": "업데이트 날짜",
+    "LabelText_es": "Actualizado el",
+    "LabelText_vn": "Thời gian cập nhật"
+}

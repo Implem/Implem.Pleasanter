@@ -1,0 +1,23 @@
+{
+    "Id": "BackgroundJobs_CreatedTime",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "CreatedTime",
+    "LabelText": "作成日時",
+    "No": "990",
+    "History": "990",
+    "TypeName": "datetime",
+    "TypeCs": "Time",
+    "RecordingData": ".Value",
+    "Default": "now",
+    "DefaultCs": "null",
+    "Required": "1",
+    "NotForm": "1",
+    "LabelText_en": "Created on",
+    "LabelText_zh": "创建时间",
+    "LabelText_de": "Erstellt am",
+    "LabelText_ko": "생성날짜",
+    "LabelText_es": "Creado el",
+    "LabelText_vn": "Thời gian tạo"
+}

@@ -165,7 +165,7 @@ namespace Implem.Pleasanter.Libraries.Security
                             where.CheckRecordPermission(
                                 context: context,
                                 ss: ss,
-                                permissionType: permissionType ^ ((ss.PermissionType ?? Types.NotSet) & permissionType));
+                                permissionType: permissionType ^ ((context.GetContextPermission(ss: ss).PermissionType ?? Types.NotSet) & permissionType));
                         }
                     }
                     else
@@ -433,8 +433,9 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool HasPermission(this Context context, SiteSettings ss)
         {
-            return ss.PermissionType != null
-                || ss.ItemPermissionType != null
+            var cp = context.GetContextPermission(ss: ss);
+            return cp.PermissionType != null
+                || cp.ItemPermissionType != null
                 || ss.ReferenceType == null
                 || context.HasPrivilege;
         }
@@ -453,6 +454,8 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             switch (context.Controller)
             {
+                case "parameters":
+                    return CanManageParameters(context: context);
                 case "tenants":
                     return CanManageTenant(context: context)
                         || context.UserSettings?.EnableManageTenant == true;
@@ -495,8 +498,8 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             switch (context.Controller)
             {
+                case "parameters":
                 case "tenants":
-                    return false;
                 case "syslogs":
                 case "mcplogs":
                     return false;
@@ -543,6 +546,8 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             switch (context.Controller)
             {
+                case "parameters":
+                    return CanManageParameters(context: context);
                 case "tenants":
                     return CanManageTenant(context: context)
                         || context.UserSettings?.EnableManageTenant == true;
@@ -589,8 +594,8 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             switch (context.Controller)
             {
+                case "parameters":
                 case "tenants":
-                    return false;
                 case "syslogs":
                 case "mcplogs":
                     return false;
@@ -626,8 +631,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 context.Forms.Get("Controller"),
                 context.Controller))
             {
+                case "parameters":
                 case "tenants":
-                    return false;
                 case "syslogs":
                 case "mcplogs":
                     return false;
@@ -657,8 +662,8 @@ namespace Implem.Pleasanter.Libraries.Security
             if (context.ContractSettings.Import == false) return false;
             switch (context.Controller)
             {
+                case "parameters":
                 case "tenants":
-                    return false;
                 case "syslogs":
                     return false;
                 case "depts":
@@ -679,6 +684,7 @@ namespace Implem.Pleasanter.Libraries.Security
             if (context.ContractSettings.Export == false) return false;
             switch (context.Controller)
             {
+                case "parameters":
                 case "tenants":
                     return false;
                 case "syslogs":
@@ -706,6 +712,11 @@ namespace Implem.Pleasanter.Libraries.Security
         public static bool CanManagePermission(this Context context, SiteSettings ss, bool site = false)
         {
             return context.ItemsCan(ss: ss, type: Types.ManagePermission, site: site);
+        }
+
+        public static bool CanRestart(this Context context)
+        {
+            return context.HasPrivilege && Parameters.ParameterSetting.EnableRestart;
         }
 
         public static ColumnPermissionTypes ColumnPermissionType(
@@ -748,6 +759,12 @@ namespace Implem.Pleasanter.Libraries.Security
                                     ? ColumnPermissionTypes.Read
                                     : ColumnPermissionTypes.Deny;
             }
+        }
+
+        public static bool CanManageParameters(Context context)
+        {
+            return Parameters.ParameterSetting.EnableScreenManagement
+                && context.HasPrivilege;
         }
 
         public static bool CanManageTenant(Context context)
@@ -827,8 +844,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 if ((type & Types.Create) == Types.Create) return false;
                 if ((type & Types.Import) == Types.Import) return false;
             }
-            return (ss.GetPermissionType(
-                context: context,
+            return (context.GetPermissionType(
+                ss: ss,
                 site: site) & type) == type
                     || context.HasPrivilege;
         }

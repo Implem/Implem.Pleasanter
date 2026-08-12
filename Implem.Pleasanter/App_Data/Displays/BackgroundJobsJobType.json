@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobsJobType",
+    "Type": 110,
+    "Languages": [
+        { "Body": "Job Type" },
+        { "Language": "zh", "Body": "作业类型" },
+        { "Language": "ja", "Body": "ジョブ種別" },
+        { "Language": "de", "Body": "Auftragstyp" },
+        { "Language": "ko", "Body": "작업 유형" },
+        { "Language": "es", "Body": "Tipo de trabajo" },
+        { "Language": "vn", "Body": "Loại tác vụ" }
+    ]
+}

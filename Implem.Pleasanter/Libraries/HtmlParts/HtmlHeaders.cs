@@ -1,14 +1,14 @@
-﻿using Implem.DefinitionAccessor;
+﻿using System;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
-using System;
 
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -25,7 +25,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useSearch,
             ServerScriptModelRow serverScriptModelRow)
         {
-            return hb.Announcement(context: context)
+            return hb
+                .LicenseExpiredAlert(context: context)
+                .Announcement(context: context)
                 .Header(
                     id: "Header",
                     action: () => hb
@@ -44,6 +46,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             useNavigationMenu: useNavigationMenu,
                             useSearch: useSearch,
                             serverScriptModelRow: serverScriptModelRow));
+        }
+
+        public static HtmlBuilder LicenseExpiredAlert(this HtmlBuilder hb, Context context)
+        {
+            if (!Parameters.GracePeriod()) return hb;
+            if (context.IsForm) return hb; // フォーム画面ではライセンス切れアラートを表示しない
+            return hb
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("LicenseExpiredAlert")
+                        .Class("body license-expired-alert"),
+                    action: () => hb.Text(text: Displays.LicenseExpiredAlert(context: context))
+                );
         }
 
         public static HtmlBuilder Announcement(this HtmlBuilder hb, Context context)

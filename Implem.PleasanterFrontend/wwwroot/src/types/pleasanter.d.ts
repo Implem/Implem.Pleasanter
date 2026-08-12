@@ -60,6 +60,7 @@ declare global {
             setCalendar: (suffix?: string) => void;
             setMessage: (target: string, value: string) => void;
             handleMessageFromJson: (jsonData: unknown[]) => boolean;
+            validateImageUploadFileSize: (blob: File | Blob | null) => boolean;
             modal?: Record<string, HTMLElement>;
         } & typeof Passkey &
             typeof Display;

@@ -1,0 +1,19 @@
+{
+    "Id": "BackgroundJobs_ResultMessage",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "ResultMessage",
+    "LabelText": "結果メッセージ",
+    "No": "12",
+    "History": "12",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "LabelText_en": "Result Message",
+    "LabelText_zh": "结果消息",
+    "LabelText_de": "Ergebnismeldung",
+    "LabelText_ko": "결과 메시지",
+    "LabelText_es": "Mensaje del resultado",
+    "LabelText_vn": "Thông điệp kết quả"
+}

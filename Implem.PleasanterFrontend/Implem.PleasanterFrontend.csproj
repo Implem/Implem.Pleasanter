@@ -1,0 +1,143 @@
+<Project Sdk="Microsoft.Build.NoTargets/3.7.134">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+
+        <!-- node_modules をビルド対象から除外 -->
+        <DefaultItemExcludes>$(DefaultItemExcludes);node_modules\**</DefaultItemExcludes>
+
+        <!-- wwwroot への相対パス（OS問わず MSBuild の $() 変数で組み立てる） -->
+        <FrontendDir>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\wwwroot'))</FrontendDir>
+
+        <!-- ビルド成果物のパス定義 -->
+        <AssetDir>$(MSBuildProjectDirectory)\..\Implem.Pleasanter\wwwroot\assets</AssetDir>
+
+        <!-- npm コマンド：Windows は npm.cmd、それ以外は npm -->
+        <NpmCommand Condition="'$(OS)' == 'Windows_NT'">npm.cmd</NpmCommand>
+        <NpmCommand Condition="'$(OS)' != 'Windows_NT'">npm</NpmCommand>
+    </PropertyGroup>
+
+    <!-- ─── Restore ─────────────────────────────────────── -->
+    <Target Name="NpmInstall"
+            BeforeTargets="NpmBuild"
+            Condition="'$(SkipBuildTask)' != 'true'"
+            Inputs="$(FrontendDir)\package.json;$(FrontendDir)\package-lock.json"
+            Outputs="$(FrontendDir)\node_modules\.package-lock.json">
+        <Message Text="[frontend] npm install @ $(FrontendDir)" Importance="high" />
+        <Exec Command="$(NpmCommand) install"
+            WorkingDirectory="$(FrontendDir)" />
+    </Target>
+
+    <!-- ─── Build ───────────────────────────────────────── -->
+
+    <!-- 監視対象のソースファイルを定義 (clone以下のデータは変更を検知できないので除外)-->
+    <ItemGroup>
+        <FrontendSources Include="$(FrontendDir)\src\**\*" Exclude="$(FrontendDir)\src\clone\**\*" />
+        <FrontendSources Include="$(FrontendDir)\package.json" />
+        <FrontendSources Include="$(FrontendDir)\package-lock.json" />
+        <FrontendSources Include="$(FrontendDir)\tsconfig.json" />
+        <FrontendSources Include="$(FrontendDir)\vite.config.ts" />
+        <FrontendSources Include="$(FrontendDir)\vite.config.shared.ts" />
+    </ItemGroup>
+
+    <!-- ビルド成果物を定義 -->
+    <ItemGroup>
+        <!-- manifest.json は必須 -->
+        <FrontendOutputs Include="$(AssetDir)\manifest.json" />
+
+        <!-- SCSSファイルから対応するCSSファイルパスを動的生成 -->
+        <ScssFiles Include="$(FrontendDir)\src\styles\*.scss" Exclude="$(FrontendDir)\src\styles\_*.scss" />
+        <FrontendOutputs Include="@(ScssFiles->'$(AssetDir)\css\%(Filename).min.css')" />
+    </ItemGroup>
+
+    <!-- ソース一覧スナップショット（削除・リネーム検知用） -->
+    <PropertyGroup>
+        <FrontendSourcesSnapshot>$(BaseIntermediateOutputPath)frontend-sources.snapshot</FrontendSourcesSnapshot>
+    </PropertyGroup>
+
+    <!-- Git ブランチ変更検知 -->
+    <Target Name="CheckGitBranch" BeforeTargets="NpmBuild"
+            Condition="'$(SkipBuildTask)' != 'true'">
+        <!-- 現在のブランチ名を取得 -->
+        <Exec Command="git rev-parse --abbrev-ref HEAD"
+            ConsoleToMSBuild="true"
+            IgnoreExitCode="true"
+            ContinueOnError="true">
+            <Output TaskParameter="ConsoleOutput" PropertyName="CurrentBranchRaw" />
+            <Output TaskParameter="ExitCode" PropertyName="GitExitCode" />
+        </Exec>
+
+        <!-- ブランチ名を正規化（改行・空白を除去） -->
+        <PropertyGroup>
+            <CurrentBranch>$(CurrentBranchRaw.Trim())</CurrentBranch>
+        </PropertyGroup>
+
+        <!-- 前回のブランチ名を読み込み -->
+        <PropertyGroup>
+            <GitBranchFile>$(FrontendDir)\.git-branch</GitBranchFile>
+            <GitBranchFileExists>$([System.IO.File]::Exists('$(GitBranchFile)'))</GitBranchFileExists>
+        </PropertyGroup>
+        <ReadLinesFromFile File="$(GitBranchFile)" ContinueOnError="true" Condition="$(GitBranchFileExists)">
+            <Output TaskParameter="Lines" PropertyName="PreviousBranchRaw" />
+        </ReadLinesFromFile>
+
+        <!-- 前回のブランチ名も正規化 -->
+        <PropertyGroup Condition="$(GitBranchFileExists)">
+            <PreviousBranch>$(PreviousBranchRaw.Trim())</PreviousBranch>
+        </PropertyGroup>
+
+        <!-- Git環境がない場合は強制クリーン -->
+        <PropertyGroup Condition="'$(GitExitCode)' != '0'">
+            <ShouldCleanAssets>true</ShouldCleanAssets>
+            <CleanReason>Git environment not available</CleanReason>
+        </PropertyGroup>
+
+        <!-- ブランチが変わった場合はクリーン（初回は除外） -->
+        <PropertyGroup Condition="'$(GitExitCode)' == '0' AND $(GitBranchFileExists) AND '$(CurrentBranch)' != '$(PreviousBranch)'">
+            <ShouldCleanAssets>true</ShouldCleanAssets>
+            <CleanReason>Branch changed: $(PreviousBranch) → $(CurrentBranch)</CleanReason>
+        </PropertyGroup>
+
+        <!-- フロントエンド成果物のみクリーン -->
+        <RemoveDir Directories="$(AssetDir)" Condition="'$(ShouldCleanAssets)' == 'true'" />
+        <Message Text="[frontend] $(CleanReason), cleaning assets"
+                Importance="high"
+                Condition="'$(ShouldCleanAssets)' == 'true'" />
+
+        <!-- 現在のブランチ名を保存（Git環境がある場合のみ） -->
+        <WriteLinesToFile File="$(GitBranchFile)"
+                        Lines="$(CurrentBranch)"
+                        Overwrite="true"
+                        Condition="'$(GitExitCode)' == '0'" />
+    </Target>
+
+    <!-- ソース一覧をスナップショットに書き出し、削除・リネームをビルドトリガーにする -->
+    <Target Name="WriteFrontendSnapshot"
+            BeforeTargets="NpmBuild"
+            Condition="'$(SkipBuildTask)' != 'true'">
+        <MakeDir Directories="$(BaseIntermediateOutputPath)" />
+        <WriteLinesToFile File="$(FrontendSourcesSnapshot)"
+                        Lines="@(FrontendSources);@(ScssFiles)"
+                        Overwrite="true"
+                        WriteOnlyWhenDifferent="true" />
+    </Target>
+
+    <Target Name="NpmBuild"
+            BeforeTargets="Build"
+            AfterTargets="NpmInstall"
+            Condition="'$(SkipBuildTask)' != 'true'"
+            Inputs="@(FrontendSources);$(FrontendSourcesSnapshot)"
+            Outputs="@(FrontendOutputs)">
+        <Message Text="[frontend] npm run build @ $(FrontendDir)" Importance="high" />
+        <Exec Command="$(NpmCommand) run build"
+            WorkingDirectory="$(FrontendDir)" />
+    </Target>
+
+    <!-- ─── Clean ───────────────────────────────────────── -->
+    <Target Name="NpmClean"
+            BeforeTargets="Clean">
+        <Message Text="[frontend] Cleaning assets @ $(AssetDir)" Importance="high" />
+        <RemoveDir Directories="$(AssetDir)" />
+    </Target>
+
+</Project>

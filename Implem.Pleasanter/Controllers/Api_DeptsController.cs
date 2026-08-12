@@ -4,9 +4,11 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 namespace Implem.Pleasanter.Controllers
 {
     [AllowAnonymous]
+    [EnableRateLimiting("Api")]
     public class Api_DeptsController : Controller
     {
         [HttpPost]

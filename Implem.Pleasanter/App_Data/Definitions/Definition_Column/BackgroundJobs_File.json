@@ -1,0 +1,19 @@
+{
+    "Id": "BackgroundJobs_File",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "File",
+    "LabelText": "ファイル",
+    "No": "13",
+    "History": "13",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "LabelText_en": "File",
+    "LabelText_zh": "文件",
+    "LabelText_de": "Datei",
+    "LabelText_ko": "파일",
+    "LabelText_es": "Archivo",
+    "LabelText_vn": "Tệp"
+}

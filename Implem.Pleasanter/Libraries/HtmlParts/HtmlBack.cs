@@ -49,6 +49,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return referer != null
                         ? referer
                         : Locations.Top(context: context);
+                case "parameters":
                 case "tenants":
                     return AdminsOrTop(context: context);
                 case "syslogs":
@@ -77,6 +78,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     parts: context.Controller);
                         default:
                             return AdminsOrTop(context: context);
+                    }
+                case "backgroundjobs":
+                    switch (context.Action)
+                    {
+                        case "edit":
+                            return Locations.Get(
+                                context: context,
+                                parts: context.Controller);
+                        default:
+                            return Locations.Top(context: context);
                     }
                 case "registrations":
                     switch (context.Action)

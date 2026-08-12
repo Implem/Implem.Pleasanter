@@ -1,7 +1,9 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -14,6 +16,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context:context,
                 ss:ss);
             return hb
+                .Hidden(
+                    controlId: "BackgroundQueueEnabled",
+                    value: "1",
+                    _using: BackgroundJobQueue.ShouldQueueExport(
+                        context: context,
+                        ss: ss))
                 .FieldDropDown(
                     context: context,
                     controlId: "ExportId",

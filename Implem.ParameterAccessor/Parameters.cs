@@ -6,8 +6,10 @@ namespace Implem.DefinitionAccessor
     public static class Parameters
     {
         public static List<string> SyntaxErrors = new List<string>();
+        public static Dictionary<string, string> ParameterHash = new Dictionary<string, string>();
         public static Api Api;
         public static Authentication Authentication;
+        public static BackgroundJobs BackgroundJobs;
         public static BackgroundService BackgroundService;
         public static BackgroundTask BackgroundTask;
         public static BinaryStorage BinaryStorage;
@@ -41,9 +43,11 @@ namespace Implem.DefinitionAccessor
         public static Mobile Mobile;
         public static List<NavigationMenu> NavigationMenus;
         public static McpServer McpServer;
+        public static RateLimit RateLimit;
         public static Migration Migration;
         public static Notification Notification;
         public static Parameter Parameter;
+        public static ParameterSetting ParameterSetting;
         public static Permissions Permissions;
         public static Rds Rds;
         public static Kvs Kvs;
@@ -56,6 +60,7 @@ namespace Implem.DefinitionAccessor
         public static Session Session;
         public static Site Site;
         public static SitePackage SitePackage;
+        public static SummarySync SummarySync;
         public static SysLog SysLog;
         public static User User;
         public static TextEditorUI TextEditorUI;
@@ -71,6 +76,29 @@ namespace Implem.DefinitionAccessor
         public static bool CommercialLicense()
         {
             return TrialLicense?.Check() ?? License.Check();
+        }
+
+        public static bool GracePeriod()
+        {
+            if (TrialLicense != null && TrialLicense.Check()) return false;
+            var prop = License.GetType().GetProperty("GracePeriodDays");
+            return License.Deadline < DateTime.Now
+                && License.Deadline.AddDays((int)(prop?.GetValue(License) ?? 0)) >= DateTime.Now;
+        }
+
+        public static bool AllowQueue()
+        {
+            return TrialLicense?.Check() ?? License.Check() && HasQueue();
+        }
+
+        public static bool AllowSsCache()
+        {
+            return TrialLicense?.Check() ?? License.Check() && HasAdvancedCache();
+        }
+
+        public static bool AllowRateLimit()
+        {
+            return TrialLicense?.Check() ?? License.Check() && HasRateLimit();
         }
 
         public static int LicensedUsers()
@@ -141,6 +169,36 @@ namespace Implem.DefinitionAccessor
                 { "Licensee", Licensee() }
             };
             return ret;
+        }
+
+        private static LicenseOptions GetLicenseOptions()
+        {
+            if (TrialLicense?.Check() == true)
+            {
+                return LicenseOptions.Trial;
+            }
+            var prop = License.GetType().GetProperty("Options");
+            return (LicenseOptions)(int?)(prop?.GetValue(License) ?? 0);
+        }
+
+        public static bool HasAdvancedCache()
+        {
+            return GetLicenseOptions().HasFlag(LicenseOptions.AdvancedCache);
+        }
+
+        public static bool HasMultiTenants()
+        {
+            return GetLicenseOptions().HasFlag(LicenseOptions.MultiTenants);
+        }
+
+        public static bool HasQueue()
+        {
+            return GetLicenseOptions().HasFlag(LicenseOptions.Queue);
+        }
+
+        public static bool HasRateLimit()
+        {
+            return GetLicenseOptions().HasFlag(LicenseOptions.RateLimit);
         }
     }
 }

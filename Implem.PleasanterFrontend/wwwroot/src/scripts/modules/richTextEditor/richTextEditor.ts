@@ -285,6 +285,8 @@ class RichTextEditorElement extends HTMLElement {
 
         if (!typeIsValid || !nameIsValid) return;
 
+        if (!window.$p.validateImageUploadFileSize(blob)) return;
+
         // url
         const uploadController = window.$p.isForm() ? 'formbinaries' : 'binaries';
         const dialogRecordId: string | null = (document.querySelector('#EditorInDialogRecordId') as HTMLInputElement)

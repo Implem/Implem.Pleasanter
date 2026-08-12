@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
@@ -11,6 +12,7 @@ namespace Implem.Pleasanter.Controllers
     {
         [AllowAnonymous]
         [HttpPost]
+        [EnableRateLimiting("AnonymousIp")]
         public string Register()
         {
             var context = new Context();
@@ -30,6 +32,7 @@ namespace Implem.Pleasanter.Controllers
 
         [AllowAnonymous]
         [HttpGet]
+        [EnableRateLimiting("AnonymousIp")]
         public ActionResult Login()
         {
             var context = new Context();

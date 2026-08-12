@@ -155,6 +155,7 @@ namespace Implem.Pleasanter.Controllers
             }
             else
             {
+                log.Finish(context: context);
                 return null;
             }
         }

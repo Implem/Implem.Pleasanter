@@ -12,6 +12,7 @@ using Implem.Pleasanter.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -208,6 +209,7 @@ namespace Implem.Pleasanter.Controllers
 
         [AllowAnonymous]
         [HttpPost]
+        [EnableRateLimiting("AnonymousIp")]
         public string GetAssertionOptions()
         {
             var context = new Context();
@@ -260,6 +262,7 @@ namespace Implem.Pleasanter.Controllers
 
         [AllowAnonymous]
         [HttpPost]
+        [EnableRateLimiting("AnonymousIp")]
         public async Task<string> MakeAssertion(string returnUrl = "")
         {
             var context = new Context();

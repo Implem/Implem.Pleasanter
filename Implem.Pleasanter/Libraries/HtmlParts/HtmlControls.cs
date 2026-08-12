@@ -1160,6 +1160,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool isFill = true,
             bool _using = true)
         {
+            if (!_using) return hb;
             var hasText = !string.IsNullOrEmpty(text);
             var iconCss = hasText
                 ? $"material-symbols-sharp material-symbols-sharp-label{(isFill ? " is-fill" : "")}"

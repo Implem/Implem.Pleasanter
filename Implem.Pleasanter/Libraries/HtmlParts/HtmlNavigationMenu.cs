@@ -222,6 +222,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         iconName = "icon-menu-account.svg";
                                         displayText = Displays.UserMenu(context: context);
                                         goto case "MenuContainer";
+                                    case "BackgroundJobsMenuContainer":
+                                        attributesForId = "block-06";
+                                        iconName = "icon-menu-backgroundjob.svg";
+                                        displayText = Displays.BackgroundJobs(context: context);
+                                        goto case "MenuContainer";
                                     case "MenuContainer":
                                         hb.Div(
                                             css: "menubox",
@@ -642,6 +647,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageUsers = Permissions.CanManageUser(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
             var canManageRegistrations = Permissions.CanManageRegistrations(context: context);
+            var canManageParameters = Permissions.CanManageParameters(context: context);
             var canManageTenants = Permissions.CanManageTenant(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
             var canManageTrashBox = CanManageTrashBox(
@@ -717,6 +723,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return canManageDeptTrashBox;
                 case "SettingsMenu_UserTrashBox":
                     return canManageUserTrashBox;
+                case "SettingsMenu_ParametersAdmin":
+                    return canManageParameters;
                 case "SettingsMenu_TenantAdmin":
                     return canManageTenants;
                 case "SettingsMenu_ImportSitePackage":
@@ -751,6 +759,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return ss.AllowLockTable == true;
                 case "AccountMenu_Responsive":
                     return context.Mobile;
+                case "BackgroundJobs":
+                    return Parameters.BackgroundJobs?.BackgroundQueue == true
+                        && Parameters.AllowQueue();
                 default:
                     return true;
             }

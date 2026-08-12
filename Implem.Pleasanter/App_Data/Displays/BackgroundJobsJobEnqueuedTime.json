@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobsJobEnqueuedTime",
+    "Type": 110,
+    "Languages": [
+        { "Body": "Job Enqueued Time" },
+        { "Language": "zh", "Body": "作业入队时间" },
+        { "Language": "ja", "Body": "ジョブ登録日時" },
+        { "Language": "de", "Body": "Auftragseinreihungszeit" },
+        { "Language": "ko", "Body": "작업 등록 일시" },
+        { "Language": "es", "Body": "Hora de registro del trabajo" },
+        { "Language": "vn", "Body": "Thời gian đăng ký công việc" }
+    ]
+}

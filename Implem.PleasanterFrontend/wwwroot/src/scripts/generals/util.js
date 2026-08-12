@@ -26,3 +26,24 @@ $p.createGuid = function () {
         })
         .toUpperCase();
 };
+
+/**
+ * 画像アップロード前に、生ファイルサイズが上限（MB）を超えていないか検証します。
+ * 上限値は hidden の #ImageUploadFileSizeLimit（サーバーパラメータ BinaryStorage.ImageUploadFileSizeLimit）から取得します。
+ * 上限が未設定（0以下や未出力）の場合は制限なしとして true を返します。
+ * 超過時はエラーメッセージを表示して false を返します。
+ *
+ * @param {File|Blob|null} blob 検証対象のファイル/Blob
+ * @returns {boolean} 送信可能なら true、上限超過なら false
+ */
+$p.validateImageUploadFileSize = function (blob) {
+    if (!blob) return true;
+    var limitElem = document.querySelector('#ImageUploadFileSizeLimit');
+    var limitMb = limitElem ? parseFloat(limitElem.value) : NaN;
+    if (!(limitMb > 0)) return true;
+    if (blob.size > limitMb * 1024 * 1024) {
+        $p.setErrorMessage('TooLargeFile');
+        return false;
+    }
+    return true;
+};

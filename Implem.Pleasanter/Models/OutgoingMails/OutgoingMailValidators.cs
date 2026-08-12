@@ -8,6 +8,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using MailProvider = Implem.ParameterAccessor.Parts.MailProvider;
 namespace Implem.Pleasanter.Models
 {
     public static class OutgoingMailValidators
@@ -34,14 +35,16 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }
-            if (Parameters.Mail.SmtpHost == "smtp.sendgrid.net" &&
-                outgoingMailModel.To == string.Empty)
+            if (Parameters.Mail.Provider == MailProvider.SendGrid
+                && string.IsNullOrWhiteSpace(outgoingMailModel.To)
+                && string.IsNullOrWhiteSpace(Parameters.Mail.FixedFrom)
+                && string.IsNullOrWhiteSpace(Parameters.Mail.SupportFrom))
             {
-                return new ErrorData(type: Error.Types.RequireTo);
+                return new ErrorData(type: Error.Types.RequireMailAddresses);
             }
-            if ((outgoingMailModel.To +
-                outgoingMailModel.Cc +
-                outgoingMailModel.Bcc).Trim() == string.Empty)
+            if (string.IsNullOrWhiteSpace(outgoingMailModel.To)
+                && string.IsNullOrWhiteSpace(outgoingMailModel.Cc)
+                && string.IsNullOrWhiteSpace(outgoingMailModel.Bcc))
             {
                 return new ErrorData(type: Error.Types.RequireMailAddresses);
             }

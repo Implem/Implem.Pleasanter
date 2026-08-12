@@ -1,7 +1,10 @@
-﻿switch (Parameters.General.UpdateResponseType)
+﻿var afterUpdateHidden = #modelName#Model.ServerScriptModelRow?.Hidden
+    ?.ToDictionary(kv => kv.Key, kv => kv.Value);
+switch (Parameters.General.UpdateResponseType)
 {
     case 1:
         return ResponseByUpdate(res, context, ss, #modelName#Model, processes)
+            .HiddenByAfterUpdateServerScript(hidden: afterUpdateHidden)
             .PrependComment(
                 context: context,
                 ss: ss,
@@ -12,6 +15,7 @@
             .ToJson();
     default:
         return ResponseByUpdate(res, context, ss, #modelName#Model<!--Model_Utilities_ProcessProperty-->)
+            .HiddenByAfterUpdateServerScript(hidden: afterUpdateHidden)
             .AfterUpdate(ss: ss)
             .ToJson();
 }

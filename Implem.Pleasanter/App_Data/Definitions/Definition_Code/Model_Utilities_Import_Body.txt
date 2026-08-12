@@ -207,6 +207,7 @@
                                             context: context,
                                             ss: ss,
                                             extendedSqls: false,
+                                            synchronizeSummary: false,
                                             previousTitle: previousTitle,
                                             get: false);
                                         updateCount++;
@@ -223,6 +224,7 @@
                                         context: context,
                                         ss: ss,
                                         extendedSqls: false,
+                                        synchronizeSummary: false,
                                         migrationMode: migrationMode);
                                     insertCount++;
                                     break;
@@ -243,6 +245,7 @@
                     context: context,
                     ss: ss,
                     extendedSqls: false,
+                    synchronizeSummary: false,
                     migrationMode: migrationMode);
                 switch (errorData.Type)
                 {
@@ -257,6 +260,12 @@
                 insertCount++;
             }
         }
+        Summaries.Synchronize(
+            context: context,
+            ss: ss);
+        Summaries.SynchronizeSources(
+            context: context,
+            ss: ss);
         ImportUtilities.SetOnImportedExtendedSqls(context, ss);
         ss.Notifications.ForEach(notification =>
         {
@@ -545,6 +554,7 @@ public static ContentResultInheritance ImportByApi(
                                             context: context,
                                             ss: ss,
                                             extendedSqls: false,
+                                            synchronizeSummary: false,
                                             previousTitle: previousTitle,
                                             get: false);
                                         updateCount++;
@@ -561,6 +571,7 @@ public static ContentResultInheritance ImportByApi(
                                         context: context,
                                         ss: ss,
                                         extendedSqls: false,
+                                        synchronizeSummary: false,
                                         migrationMode: migrationMode);
                                     insertCount++;
                                     break;
@@ -586,6 +597,7 @@ public static ContentResultInheritance ImportByApi(
                     context: context,
                     ss: ss,
                     extendedSqls: false,
+                    synchronizeSummary: false,
                     migrationMode: migrationMode);
                 switch (errorData.Type)
                 {
@@ -611,6 +623,12 @@ public static ContentResultInheritance ImportByApi(
             }
         }
         exclusiveObj.Refresh();
+        Summaries.Synchronize(
+            context: context,
+            ss: ss);
+        Summaries.SynchronizeSources(
+            context: context,
+            ss: ss);
         ImportUtilities.SetOnImportedExtendedSqls(context, ss);
         ss.Notifications.ForEach(notification =>
         {
@@ -861,6 +879,7 @@ public static string ImportByServerScript(
                                             context: context,
                                             ss: ss,
                                             extendedSqls: false,
+                                            synchronizeSummary: false,
                                             previousTitle: previousTitle,
                                             get: false);
                                         updateCount++;
@@ -877,6 +896,7 @@ public static string ImportByServerScript(
                                         context: context,
                                         ss: ss,
                                         extendedSqls: false,
+                                        synchronizeSummary: false,
                                         migrationMode: migrationMode);
                                     insertCount++;
                                     break;
@@ -897,6 +917,7 @@ public static string ImportByServerScript(
                     context: context,
                     ss: ss,
                     extendedSqls: false,
+                    synchronizeSummary: false,
                     migrationMode: migrationMode);
                 switch (errorData.Type)
                 {
@@ -920,6 +941,12 @@ public static string ImportByServerScript(
             }
         }
         exclusiveObj.Refresh();
+        Summaries.Synchronize(
+            context: context,
+            ss: ss);
+        Summaries.SynchronizeSources(
+            context: context,
+            ss: ss);
         ImportUtilities.SetOnImportedExtendedSqls(context, ss);
         ss.Notifications.ForEach(notification =>
         {

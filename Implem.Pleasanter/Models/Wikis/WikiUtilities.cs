@@ -871,7 +871,8 @@ namespace Implem.Pleasanter.Models
             string idSuffix = null,
             bool isResponse = false,
             bool preview = false,
-            bool disableSection = false)
+            bool disableSection = false,
+            bool bulkUpdate = false)
         {
             var value = wikiModel.ControlValue(
                 context: context,
@@ -883,6 +884,10 @@ namespace Implem.Pleasanter.Models
                 column: column);
             if (value != null)
             {
+                if (bulkUpdate)
+                {
+                    column.StatusReadOnly = false;
+                }
                 value += wikiModel.NumUnit(
                     context: context,
                     ss: ss,
@@ -1909,7 +1914,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             WikiModel wikiModel,
             List<Process> processes,
-            bool migrationMode = false)
+            bool migrationMode = false,
+            bool synchronizeSummary = true)
         {
             var invalid = WikiValidators.OnCreating(
                 context: context,
@@ -2225,7 +2231,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 wikiModel: wikiModel,
                 processes: processes,
-                previousTitle: previousTitle);
+                previousTitle: previousTitle,
+                wikiApiModel: wikiApiModel);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -2248,7 +2255,9 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             WikiModel wikiModel,
             List<Process> processes,
-            string previousTitle)
+            string previousTitle,
+            WikiApiModel wikiApiModel,
+            bool synchronizeSummary = true)
         {
             var invalid = WikiValidators.OnUpdating(
                 context: context,
@@ -2260,7 +2269,7 @@ namespace Implem.Pleasanter.Models
             wikiModel.SetTitle(
                 context: context,
                 ss: ss);
-            wikiModel.VerUp = Versions.MustVerUp(
+            wikiModel.VerUp = wikiApiModel?.VerUp == true || Versions.MustVerUp(
                 context: context,
                 ss: ss,
                 baseModel: wikiModel);
@@ -2269,6 +2278,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 processes: processes,
                 notice: true,
+                synchronizeSummary: synchronizeSummary,
                 previousTitle: previousTitle);
             BinaryUtilities.UploadImage(
                 context: context,
@@ -2319,7 +2329,7 @@ namespace Implem.Pleasanter.Models
             wikiModel.SetTitle(
                 context: context,
                 ss: ss);
-            wikiModel.VerUp = Versions.MustVerUp(
+            wikiModel.VerUp = wikiApiModel?.VerUp == true || Versions.MustVerUp(
                 context: context,
                 ss: ss,
                 baseModel: wikiModel);

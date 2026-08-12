@@ -16,6 +16,16 @@ namespace Implem.Pleasanter.Libraries.General
             ApprovalMessageInvited,
             ApprovalMessageInviting,
             Authentication,
+            BackgroundJobBulkDeleteFailed,
+            BackgroundJobDownloadingCanNotDelete,
+            BackgroundJobExportFailed,
+            BackgroundJobInvalidParameters,
+            BackgroundJobNextJobRequestFailed,
+            BackgroundJobNoHandler,
+            BackgroundJobOutputFilePathNotConfigured,
+            BackgroundJobRecoverStuckFailed,
+            BackgroundJobRunningTimedOutCanNotDelete,
+            BackgroundJobsCancelFailed,
             BadFormat,
             BadMailAddress,
             BadPasswordWhenImporting,
@@ -79,6 +89,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidValidateRequiredCsvData,
             ItemsLimit,
             JoeAccountCheck,
+            JsonParseError,
             LockedRecord,
             LockedTable,
             LoginExpired,
@@ -114,6 +125,7 @@ namespace Implem.Pleasanter.Libraries.General
             PleaseInputData,
             PleaseUncheck,
             ProcessNotFound,
+            RateLimitExceeded,
             RejectNullImport,
             ReminderErrorContent,
             ReminderErrorTitle,
@@ -127,10 +139,13 @@ namespace Implem.Pleasanter.Libraries.General
             SelectFile,
             SelectOne,
             SelectTargets,
+            ServerConnectionError,
             ServerScriptErrorDetail,
             ServerScriptErrorPosition,
             ServerScriptExecutionFailed,
+            ServiceUnavailable,
             SitesLimit,
+            TooLargeFile,
             TooLongText,
             TooManyCases,
             TooManyColumnCases,
@@ -174,6 +189,46 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.Authentication:
                     return Messages.Authentication(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobBulkDeleteFailed:
+                    return Messages.BackgroundJobBulkDeleteFailed(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobDownloadingCanNotDelete:
+                    return Messages.BackgroundJobDownloadingCanNotDelete(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobExportFailed:
+                    return Messages.BackgroundJobExportFailed(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobInvalidParameters:
+                    return Messages.BackgroundJobInvalidParameters(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobNextJobRequestFailed:
+                    return Messages.BackgroundJobNextJobRequestFailed(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobNoHandler:
+                    return Messages.BackgroundJobNoHandler(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobOutputFilePathNotConfigured:
+                    return Messages.BackgroundJobOutputFilePathNotConfigured(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobRecoverStuckFailed:
+                    return Messages.BackgroundJobRecoverStuckFailed(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobRunningTimedOutCanNotDelete:
+                    return Messages.BackgroundJobRunningTimedOutCanNotDelete(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobsCancelFailed:
+                    return Messages.BackgroundJobsCancelFailed(
                         context: context,
                         data: data);
                 case Types.BadFormat:
@@ -428,6 +483,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.JoeAccountCheck(
                         context: context,
                         data: data);
+                case Types.JsonParseError:
+                    return Messages.JsonParseError(
+                        context: context,
+                        data: data);
                 case Types.LockedRecord:
                     return Messages.LockedRecord(
                         context: context,
@@ -568,6 +627,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.ProcessNotFound(
                         context: context,
                         data: data);
+                case Types.RateLimitExceeded:
+                    return Messages.RateLimitExceeded(
+                        context: context,
+                        data: data);
                 case Types.RejectNullImport:
                     return Messages.RejectNullImport(
                         context: context,
@@ -620,6 +683,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.SelectTargets(
                         context: context,
                         data: data);
+                case Types.ServerConnectionError:
+                    return Messages.ServerConnectionError(
+                        context: context,
+                        data: data);
                 case Types.ServerScriptErrorDetail:
                     return Messages.ServerScriptErrorDetail(
                         context: context,
@@ -632,8 +699,16 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.ServerScriptExecutionFailed(
                         context: context,
                         data: data);
+                case Types.ServiceUnavailable:
+                    return Messages.ServiceUnavailable(
+                        context: context,
+                        data: data);
                 case Types.SitesLimit:
                     return Messages.SitesLimit(
+                        context: context,
+                        data: data);
+                case Types.TooLargeFile:
+                    return Messages.TooLargeFile(
                         context: context,
                         data: data);
                 case Types.TooLongText:

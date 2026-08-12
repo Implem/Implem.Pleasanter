@@ -165,6 +165,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 var depts = new Dictionary<string, DeptModel>();
                 var groups = new Dictionary<string, GroupModel>();
                 var mcpLogs = new Dictionary<string, McpLogModel>();
+                var parameters = new Dictionary<string, ParameterModel>();
                 var registrations = new Dictionary<string, RegistrationModel>();
                 var sites = new Dictionary<string, SiteModel>();
                 var sysLogs = new Dictionary<string, SysLogModel>();
@@ -497,6 +498,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 var depts = new Dictionary<string, DeptModel>();
                 var groups = new Dictionary<string, GroupModel>();
                 var mcpLogs = new Dictionary<string, McpLogModel>();
+                var parameters = new Dictionary<string, ParameterModel>();
                 var registrations = new Dictionary<string, RegistrationModel>();
                 var sites = new Dictionary<string, SiteModel>();
                 var sysLogs = new Dictionary<string, SysLogModel>();

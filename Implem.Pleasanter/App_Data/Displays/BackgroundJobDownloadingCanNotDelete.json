@@ -1,0 +1,33 @@
+﻿{
+    "Id": "BackgroundJobDownloadingCanNotDelete",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This job cannot be deleted because another user is downloading the result file. Please wait and try again."
+        },
+        {
+            "Language": "zh",
+            "Body": "由于其他用户正在下载结果文件，无法删除此作业。请稍后重试。"
+        },
+        {
+            "Language": "ja",
+            "Body": "他のユーザーが結果ファイルをダウンロード中のため削除できません。しばらく待ってから再度お試しください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieser Auftrag kann nicht gelöscht werden, da ein anderer Benutzer die Ergebnisdatei herunterlädt. Bitte warten Sie und versuchen Sie es erneut."
+        },
+        {
+            "Language": "ko",
+            "Body": "다른 사용자가 결과 파일을 다운로드 중이므로 이 작업을 삭제할 수 없습니다. 잠시 후 다시 시도하세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Este trabajo no se puede eliminar porque otro usuario está descargando el archivo de resultado. Espere e inténtelo de nuevo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể xóa tác vụ này vì người dùng khác đang tải xuống tệp kết quả. Vui lòng chờ rồi thử lại."
+        }
+    ]
+}

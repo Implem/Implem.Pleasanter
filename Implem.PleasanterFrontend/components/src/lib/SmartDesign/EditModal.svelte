@@ -706,8 +706,7 @@
                                             <rt-editor data-smartdesign="1" on:demochange={onDemoChange}>
                                                 <textarea
                                                     bind:value={demo}
-                                                    placeholder={item.InputGuide || item.LabelText}
-                                                ></textarea>
+                                                    placeholder={item.InputGuide || item.LabelText}></textarea>
                                             </rt-editor>
                                             {#if !demo && item.ValidateRequired}
                                                 <p class="error">{pDisplay('ValidateRequired')}</p>
@@ -717,9 +716,7 @@
                                                 <textarea
                                                     bind:value={demo}
                                                     placeholder={item.InputGuide || item.LabelText}
-                                                    data-readonly="true"
-                                                >
-                                                </textarea>
+                                                    data-readonly="true"></textarea>
                                             </rt-editor>
                                         {/if}
                                     {:else}

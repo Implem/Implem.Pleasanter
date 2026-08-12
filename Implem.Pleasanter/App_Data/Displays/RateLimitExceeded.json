@@ -1,0 +1,33 @@
+﻿{
+    "Id": "RateLimitExceeded",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Too many requests. Please try again later."
+        },
+        {
+            "Language": "zh",
+            "Body": "请求过多，请稍后再试。"
+        },
+        {
+            "Language": "ja",
+            "Body": "リクエストが多すぎます。しばらくしてから再度お試しください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Zu viele Anfragen. Bitte versuchen Sie es später erneut."
+        },
+        {
+            "Language": "ko",
+            "Body": "요청이 너무 많습니다. 잠시 후 다시 시도해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Demasiadas solicitudes. Vuelva a intentarlo más tarde."
+        },
+        {
+            "Language": "vn",
+            "Body": "Quá nhiều yêu cầu. Vui lòng thử lại sau."
+        }
+    ]
+}

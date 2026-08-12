@@ -1,6 +1,7 @@
 ﻿#modelName#Model.SetByForm(
     context: context,
     formData: context.Forms);
+SiteInfo.ClearSsCache(context: context);
 #modelName#Model.SiteSettings = SiteSettingsUtilities.Get(
     context: context,
     #modelName#Model: #modelName#Model,

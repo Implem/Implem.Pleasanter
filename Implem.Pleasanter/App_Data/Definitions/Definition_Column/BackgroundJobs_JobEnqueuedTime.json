@@ -1,0 +1,20 @@
+{
+    "Id": "BackgroundJobs_JobEnqueuedTime",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "JobEnqueuedTime",
+    "LabelText": "ジョブ登録日時",
+    "No": "9",
+    "History": "9",
+    "TypeName": "datetime",
+    "Ix1": "3",
+    "Nullable": "1",
+    "EditorFormat": "Ymdhms",
+    "LabelText_en": "Job Enqueued Time",
+    "LabelText_zh": "作业入队时间",
+    "LabelText_de": "Auftragseinreihungszeit",
+    "LabelText_ko": "작업 등록 일시",
+    "LabelText_es": "Hora de registro del trabajo",
+    "LabelText_vn": "Thời gian đăng ký công việc"
+}

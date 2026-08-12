@@ -1,0 +1,15 @@
+﻿private static ResponseCollection HiddenByAfterUpdateServerScript(
+    this ResponseCollection res,
+    Dictionary<string, string> hidden)
+{
+    hidden?.ForEach(kv =>
+    {
+        res.Remove(target: "#" + kv.Key);
+        res.After(
+            target: "#MainForm",
+            value: new HtmlBuilder().Hidden(
+                controlId: kv.Key,
+                value: kv.Value));
+    });
+    return res;
+}

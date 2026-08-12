@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BackgroundJobsRegisteredUser",
+    "Type": 110,
+    "Languages": [
+        { "Body": "Registered User" },
+        { "Language": "zh", "Body": "注册用户" },
+        { "Language": "ja", "Body": "登録ユーザ" },
+        { "Language": "de", "Body": "Registrierter Benutzer" },
+        { "Language": "ko", "Body": "등록 사용자" },
+        { "Language": "es", "Body": "Usuario registrado" },
+        { "Language": "vn", "Body": "Người đăng ký" }
+    ]
+}

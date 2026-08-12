@@ -13,5 +13,7 @@
 
     if (parentId == 0)
     {
-        ss.PermissionType = context.SiteTopPermission();
+        context.SetPermissionType(
+            ss: ss,
+            type: context.SiteTopPermission());
     }

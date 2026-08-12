@@ -6,6 +6,7 @@ using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.IO;
 
 namespace Implem.Pleasanter.Controllers.Api
@@ -14,10 +15,12 @@ namespace Implem.Pleasanter.Controllers.Api
     [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
+    [EnableRateLimiting("Api")]
     public class BackgroundTasksController : ControllerBase
     {
         [HttpPost("RebuildSearchIndexes")]
         [HttpPost("{id}/RebuildSearchIndexes")]
+        [EnableRateLimiting("ApiHeavy")]
         public ContentResult RebuildSearchIndexes(long id = 0)
         {
             var body = default(string);

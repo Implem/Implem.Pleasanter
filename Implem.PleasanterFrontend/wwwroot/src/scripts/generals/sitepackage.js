@@ -54,6 +54,19 @@ $p.openExportSitePackageDialog = function ($control) {
 };
 
 $p.exportSitePackage = function () {
+    var addInput = function (form, name, value) {
+        if (!name) return;
+        var input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', name);
+        input.setAttribute('value', value);
+        form.appendChild(input);
+    };
+    var form = document.createElement('form');
+    form.style.display = 'none';
+    var action = $('#SitePackageForm').attr('action').replace('_action_', 'ExportSitePackage');
+    form.setAttribute('action', action);
+    form.setAttribute('method', 'post');
     $p.setData($('#SitePackagesSelectable'));
     $p.setData($('#SitePackagesSelectableAll'));
     $p.setData($('#SitePackagesSource'));
@@ -64,23 +77,21 @@ $p.exportSitePackage = function () {
     $p.setData($('#IncludeNotifications'));
     $p.setData($('#IncludeReminders'));
     var data = $p.getData($('#SitePackageForm'));
-    $p.transition(
-        $('.main-form').attr('action').replace('_action_', 'ExportSitePackage') +
-            '?SitePackagesSelectableAll=' +
-            data.SitePackagesSelectableAll +
-            '&UseIndentOption=' +
-            data.UseIndentOption +
-            '&IncludeSitePermission=' +
-            data.IncludeSitePermission +
-            '&IncludeRecordPermission=' +
-            data.IncludeRecordPermission +
-            '&IncludeColumnPermission=' +
-            data.IncludeColumnPermission +
-            '&IncludeNotifications=' +
-            data.IncludeNotifications +
-            '&IncludeReminders=' +
-            data.IncludeReminders
-    );
+    addInput(form, 'SitePackagesSelectable', data.SitePackagesSelectable);
+    addInput(form, 'SitePackagesSelectableAll', data.SitePackagesSelectableAll);
+    addInput(form, 'SitePackagesSource', data.SitePackagesSource);
+    addInput(form, 'UseIndentOption', data.UseIndentOption);
+    addInput(form, 'IncludeSitePermission', data.IncludeSitePermission);
+    addInput(form, 'IncludeRecordPermission', data.IncludeRecordPermission);
+    addInput(form, 'IncludeColumnPermission', data.IncludeColumnPermission);
+    addInput(form, 'IncludeNotifications', data.IncludeNotifications);
+    addInput(form, 'IncludeReminders', data.IncludeReminders);
+    if ($('#Token').length) {
+        addInput(form, 'Token', $('#Token').val());
+    }
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
     $p.closeDialog($('#ExportSitePackageDialog'));
     $('#ExportSitePackageDialog').html('');
 };

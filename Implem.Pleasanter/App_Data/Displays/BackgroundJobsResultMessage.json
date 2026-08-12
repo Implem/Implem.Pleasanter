@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobsResultMessage",
+    "Type": 110,
+    "Languages": [
+        { "Body": "Result message" },
+        { "Language": "zh", "Body": "结果消息" },
+        { "Language": "ja", "Body": "結果メッセージ" },
+        { "Language": "de", "Body": "Ergebnismeldung" },
+        { "Language": "ko", "Body": "결과 메시지" },
+        { "Language": "es", "Body": "Mensaje del resultado" },
+        { "Language": "vn", "Body": "Thông điệp kết quả" }
+    ]
+}

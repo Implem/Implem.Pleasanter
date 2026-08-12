@@ -1,4 +1,9 @@
-﻿using Implem.DefinitionAccessor;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text.RegularExpressions;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Models;
@@ -7,11 +12,6 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Libraries.SitePackages
 {
     public class SitePackage
@@ -154,8 +154,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     View view = null;
                     var ss = siteModel.SiteSettings;
                     ss.SetChoiceHash(context: context);
-                    ss.SetPermissions(
-                        context: context,
+                    context.SetPermissions(
+                        ss: ss,
                         referenceId: ss.SiteId);
                     var export = new Export(ss.DefaultExportColumns(context: context));
                     export.Header = true;
@@ -263,7 +263,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             }
             foreach (var packageSiteModel in sites)
             {
-                foreach (var cca in packageSiteModel.SiteSettings.CreateColumnAccessControls)
+                var ss = packageSiteModel.SiteSettings;
+                foreach (var cca in ss.CreateColumnAccessControls)
                 {
                     foreach (var dept in cca.Depts ?? new List<int>() { 0 })
                     {
@@ -278,7 +279,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         userIds.Add(user);
                     }
                 }
-                foreach (var rca in packageSiteModel.SiteSettings.ReadColumnAccessControls)
+                foreach (var rca in ss.ReadColumnAccessControls)
                 {
                     foreach (var dept in rca.Depts ?? new List<int>() { 0 })
                     {
@@ -293,7 +294,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         userIds.Add(user);
                     }
                 }
-                foreach (var uca in packageSiteModel.SiteSettings.UpdateColumnAccessControls)
+                foreach (var uca in ss.UpdateColumnAccessControls)
                 {
                     foreach (var dept in uca.Depts ?? new List<int>() { 0 })
                     {
@@ -308,7 +309,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         userIds.Add(user);
                     }
                 }
-                foreach (var process in packageSiteModel.SiteSettings.Processes)
+                foreach (var process in ss.Processes)
                 {
                     foreach (var dept in process.Depts ?? new List<int>() { 0 })
                     {
@@ -322,8 +323,10 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     {
                         userIds.Add(user);
                     }
+                    if (process.View?.ColumnFilterHash == null) continue;
+                    AddFilterPermissionIds(ss, process.View.ColumnFilterHash, deptIds, groupIds, userIds);
                 }
-                foreach (var view in packageSiteModel.SiteSettings.Views)
+                foreach (var view in ss.Views)
                 {
                     foreach (var dept in view.Depts ?? new List<int>() { 0 })
                     {
@@ -337,8 +340,10 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     {
                         userIds.Add(user);
                     }
+                    if (view.ColumnFilterHash == null) continue;
+                    AddFilterPermissionIds(ss, view.ColumnFilterHash, deptIds, groupIds, userIds);
                 }
-                foreach (var statusControls in packageSiteModel.SiteSettings.StatusControls)
+                foreach (var statusControls in ss.StatusControls)
                 {
                     foreach (var dept in statusControls.Depts ?? new List<int>() { 0 })
                     {
@@ -352,8 +357,10 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     {
                         userIds.Add(user);
                     }
+                    if (statusControls.View?.ColumnFilterHash == null) continue;
+                    AddFilterPermissionIds(ss, statusControls.View.ColumnFilterHash, deptIds, groupIds, userIds);
                 }
-                foreach (var export in packageSiteModel.SiteSettings.Exports)
+                foreach (var export in ss.Exports)
                 {
                     foreach (var dept in export.Depts ?? new List<int>() { 0 })
                     {
@@ -368,7 +375,43 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         userIds.Add(user);
                     }
                 }
+
+                foreach (var dashboardPart in ss.DashboardParts)
+                {
+                    if (dashboardPart.View?.ColumnFilterHash == null) continue;
+                    var targetSs = Sites.FirstOrDefault(o => o.SiteId == dashboardPart.SiteId)?.SiteSettings;
+                    if (targetSs == null) continue;
+                    AddFilterPermissionIds(ss, dashboardPart.View.ColumnFilterHash, deptIds, groupIds, userIds);
+                }
             }
+        }
+
+        private static void AddFilterPermissionIds(
+            SiteSettings ss,
+            Dictionary<string, string> filterHash,
+            HashSet<int> deptIds,
+            HashSet<int> groupIds,
+            HashSet<int> userIds)
+        {
+            foreach (var filter in filterHash)
+            {
+                var filterColumn = ss.Columns.FirstOrDefault(o => o.ColumnName == filter.Key);
+                if (filterColumn == null) continue;
+                var columnKind = ResolveFilterColumnKind(filterColumn);
+                if (columnKind == null) continue;
+                var ids = filter.Value.Deserialize<List<string>>();
+                if (ids == null) continue;
+                foreach (var id in ids)
+                {
+                    if (!int.TryParse(id, out var intId)) continue;
+                    switch (columnKind)
+                    {
+                        case Column.Types.Dept: deptIds.Add(intId); break;
+                        case Column.Types.Group: groupIds.Add(intId); break;
+                        case Column.Types.User: userIds.Add(intId); break;
+                    }
+                }
+            }                
         }
 
         private void SetDeptIdList(Context context, HashSet<int> deptIds)
@@ -546,7 +589,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             return this.ToJson(formatting: formatting);
         }
 
-        public void ConvertDataId(Context context, Dictionary<long, long> idHash)
+        public void ConvertDataId(Context context, Dictionary<long, long> idHash, PermissionIdList permissionIdList)
         {
             foreach (var conv in HeaderInfo.Convertors)
             {
@@ -576,7 +619,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         conv.Updated |= ConvertFilterHashDataId(
                             ss: ss,
                             filterHash: view.ColumnFilterHash,
-                            idHash: idHash); 
+                            idHash: idHash,
+                            permissionIdList: permissionIdList,
+                            context: context); 
                     });
                 ss?.StatusControls?
                     .ForEach(statusControl =>
@@ -584,7 +629,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         conv.Updated |= ConvertFilterHashDataId(
                             ss: ss,
                             filterHash: statusControl.View?.ColumnFilterHash,
-                            idHash: idHash);
+                            idHash: idHash,
+                            permissionIdList: permissionIdList,
+                            context: context);
                     });
                 ss?.Processes?
                     .ForEach(process =>
@@ -592,7 +639,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         conv.Updated |= ConvertFilterHashDataId(
                             ss: ss,
                             filterHash: process.View?.ColumnFilterHash,
-                            idHash: idHash);
+                            idHash: idHash,
+                            permissionIdList: permissionIdList,
+                            context: context);
                     });
                 ss?.DashboardParts?
                     .ForEach(part =>
@@ -600,7 +649,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         conv.Updated |= ConvertFilterHashDataId(
                             ss: HeaderInfo.Convertors.FirstOrDefault(o => o.SavedSiteId == part.SiteId)?.SiteSettings,
                             filterHash: part.View?.ColumnFilterHash,
-                            idHash: idHash);
+                            idHash: idHash,
+                            permissionIdList: permissionIdList,
+                            context: context);
                     });
             }
         }
@@ -610,20 +661,36 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         private bool ConvertFilterHashDataId(
             SiteSettings ss,
             Dictionary<string, string> filterHash,
-            Dictionary<long, long> idHash)
+            Dictionary<long, long> idHash,
+            PermissionIdList permissionIdList,
+            Context context)
         {
             if (filterHash == null || ss?.Columns == null) return false;
+            if (permissionIdList == null) return false;
             var isUpdated = false;
             foreach (var key in filterHash.Keys)
             {
-                if (ss.Columns.FirstOrDefault(o => o.ColumnName == key)?.ChoicesText?
-                    .RegexExists(
-                        pattern: @"(?<=\[\[).+(?=\]\])",
-                        regexOptions: RegexOptions.Multiline) != true) continue;
+                var column = ss.Columns.FirstOrDefault(o => o.ColumnName == key);
+                if (column == null) continue;
+
+                var columnKind = ResolveFilterColumnKind(column);
+                Func<long, long> resolver;
+                if (columnKind == Column.Types.Dept)
+                    resolver = src => IdConvertUtilities.ConvertedDeptId(context, permissionIdList, (int)src);
+                else if (columnKind == Column.Types.Group)
+                    resolver = src => IdConvertUtilities.ConvertedGroupId(context, permissionIdList, (int)src);
+                else if (columnKind == Column.Types.User)
+                    resolver = src => IdConvertUtilities.ConvertedUserId(context, permissionIdList, (int)src);
+                else if (column.ChoicesText?.RegexExists(@"(?<=\[\[).+(?=\]\])", RegexOptions.Multiline) == true)
+                    resolver = src => idHash.ContainsKey(src) ? idHash[src] : 0;
+                else
+                    continue;
+
                 var orgStr = filterHash[key];
                 var newStr = RegexId.Replace(
                     orgStr,
-                    new MatchEvaluator((Match matchId) => idHash.Get(matchId.Value.ToLong()).ToStr()));
+                    new MatchEvaluator((Match matchId) =>
+                        long.TryParse(matchId.Value, out var id) ? resolver(id).ToStr() : matchId.Value));
                 if (newStr != orgStr)
                 {
                     isUpdated = true;
@@ -631,6 +698,28 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 }
             }
             return isUpdated;
+        }
+
+        internal static Column.Types? ResolveFilterColumnKind(Column column)
+        {
+            if (column == null) return null;
+            switch (column.Type)
+            {
+                case Column.Types.Dept: return Column.Types.Dept;
+                case Column.Types.Group: return Column.Types.Group;
+                case Column.Types.User: return Column.Types.User;
+            }
+            var choicesText = column.ChoicesText;
+            if (choicesText.IsNullOrEmpty()) return null;
+
+            if (choicesText.RegexExists(@"^\[\[Depts\]\]$", RegexOptions.Multiline))
+                return Column.Types.Dept;
+            if (choicesText.RegexExists(@"^\[\[Groups\*?\]\]$", RegexOptions.Multiline))
+                return Column.Types.Group;
+            if (choicesText.RegexExists(@"^\[\[Users.*\]\]$", RegexOptions.Multiline))
+                return Column.Types.User;
+
+            return null;
         }
 
         public Dictionary<long, long> GetIdHashFromConverters()

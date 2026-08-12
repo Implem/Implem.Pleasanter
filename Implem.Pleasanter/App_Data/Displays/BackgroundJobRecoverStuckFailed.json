@@ -1,0 +1,33 @@
+{
+    "Id": "BackgroundJobRecoverStuckFailed",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The service restarted while the job was running. Marked as failed to prevent automatic re-execution."
+        },
+        {
+            "Language": "zh",
+            "Body": "服务在作业运行期间重新启动。已标记为失败，以防止自动重新执行。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ジョブの実行中にサービスが再起動されました。自動再実行を防ぐため、失敗として記録しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Dienst wurde während der Auftragsausführung neu gestartet. Als fehlgeschlagen markiert, um eine automatische Wiederholung zu verhindern."
+        },
+        {
+            "Language": "ko",
+            "Body": "작업 실행 중 서비스가 재시작되었습니다. 자동 재실행을 방지하기 위해 실패로 표시했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El servicio se reinició mientras el trabajo estaba en ejecución. Se marcó como fallido para evitar la re-ejecución automática."
+        },
+        {
+            "Language": "vn",
+            "Body": "Dịch vụ đã khởi động lại trong khi tác vụ đang chạy. Đã đánh dấu là thất bại để ngăn chặn thực thi lại tự động."
+        }
+    ]
+}

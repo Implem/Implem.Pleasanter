@@ -1,7 +1,7 @@
-{
+﻿{
     "Id": "Lookup_Data",
     "RepeatType": "Table",
     "Indent": "2",
     "GenericUi": "1",
-    "Exclude": "Tenants,Registrations,SysLogs,McpLogs,Sites,Wikis,Dashboards"
+    "Exclude": "Parameters,Tenants,Registrations,SysLogs,McpLogs,Sites,Wikis,Dashboards"
 }

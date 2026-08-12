@@ -94,6 +94,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public long SiteId { get; set; }
         public long Id { get; set; }
         public Dictionary<long, Permissions.Types> PermissionHash { get; set; }
+        public Dictionary<string, ContextPermission> ContextPermissions { get; set; } = [];
         public List<int> Groups { get; set; }
         public string Guid { get; set; }
         public TenantModel.LogoTypes LogoType { get; set; }
@@ -129,6 +130,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public decimal ApiVersion { get; set; } = Parameters.Api.Version;
         public string ApiRequestBody { get; set; }
         public string ApiKey { get; set; }
+        public bool ApiSsCache { get; set; }
         public string RequestDataString { get => !string.IsNullOrEmpty(ApiRequestBody) ? ApiRequestBody : FormString; }
         public string ContentType { get; set; }
         public long ServerScriptDepth { get; set; } = 0;
@@ -479,7 +481,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 if (setData) SetData();
                 var jsonDeserializedRequestApi = RequestDataString.Deserialize<Api>();
                 InvalidJsonData = AspNetCoreHttpContext.Current.Request.HasJsonContentType() && !RequestDataString.IsNullOrEmpty() && jsonDeserializedRequestApi is null;
-                SetApiVersion(api: jsonDeserializedRequestApi);
+                SetApiOptions(api: jsonDeserializedRequestApi);
                 if (jsonDeserializedRequestApi?.ApiKey.IsNullOrEmpty() == false)
                 {
                     ApiKey = jsonDeserializedRequestApi.ApiKey;
@@ -512,7 +514,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        private void SetApiVersion(Api api)
+        private void SetApiOptions(Api api)
         {
 
             if (Parameters.Api.Compatibility_1_3_12)
@@ -526,6 +528,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 ApiVersion = api?.ApiVersion ?? ApiVersion;
             }
+            ApiSsCache = api?.SsCache ?? false;
         }
 
         private UserModel GetUser(Rds.UsersWhereCollection where)
@@ -901,15 +904,79 @@ namespace Implem.Pleasanter.Libraries.Requests
             Groups = PermissionUtilities.Groups(context: this);
         }
 
-        private void SetTenantCaches()
+        public void SetPermissionType(SiteSettings ss, Permissions.Types? type)
+        {
+            var cp = GetContextPermission(ss: ss);
+            cp.PermissionType = type;
+        }
+
+        public void SetPermissions(SiteSettings ss, long referenceId = 0)
+        {
+            var cp = new ContextPermission();
+            if (Publish)
+            {
+                cp.PermissionType = Permissions.Types.Read;
+                cp.ItemPermissionType = Permissions.Types.Read;
+            }
+            else if (Controller != "publishes")
+            {
+                if (PermissionHash?.ContainsKey(ss.InheritPermission) == true)
+                {
+                    cp.PermissionType = PermissionHash[ss.InheritPermission];
+                }
+                if (referenceId != 0 && PermissionHash?.ContainsKey(referenceId) == true)
+                {
+                    cp.ItemPermissionType = PermissionHash[referenceId];
+                }
+                if (ss.LockedTable())
+                {
+                    var lockedPermissionType = Permissions.Types.Read
+                        | Permissions.Types.Export
+                        | Permissions.Types.SendMail;
+                    cp.PermissionType &= lockedPermissionType;
+                    cp.ItemPermissionType &= lockedPermissionType;
+                }
+            }
+            ContextPermissions[$"{ss.SiteId}_{ss.ReferenceType}"] = cp;
+        }
+
+        public Permissions.Types GetPermissionType(SiteSettings ss, bool site = false)
+        {
+            var cp = GetContextPermission(ss: ss);
+            var permission = Permissions.Types.NotSet;
+            if (cp.PermissionType != null)
+            {
+                permission |= (Permissions.Types)cp.PermissionType;
+            }
+            if (cp.ItemPermissionType != null && !site)
+            {
+                permission |= (Permissions.Types)cp.ItemPermissionType;
+            }
+            return permission;
+        }
+
+        public ContextPermission GetContextPermission(SiteSettings ss)
+        {
+            var cp = ContextPermissions.Get($"{ss.SiteId}_{ss.ReferenceType}");
+            if (cp == null)
+            {
+                SetPermissions(
+                    ss: ss,
+                    referenceId: Id);
+                cp = ContextPermissions.Get($"{ss.SiteId}_{ss.ReferenceType}");
+            }
+            return cp;
+        }
+
+        public void SetTenantCaches()
         {
             if (TenantId != 0 && !SiteInfo.TenantCaches.ContainsKey(TenantId))
             {
                 try
                 {
-                    var temp = SiteInfo.TenantCaches.ToDictionary(o => o.Key, o => o.Value);
-                    temp.Add(TenantId, new TenantCache(context: this));
-                    SiteInfo.TenantCaches = temp;
+                    SiteInfo.TenantCaches.TryAdd(
+                        key: TenantId,
+                        value: new TenantCache(context: this));
                     SiteInfo.Refresh(context: this);
                 }
                 catch (Exception)

@@ -1,0 +1,18 @@
+{
+    "Id": "BackgroundJobs_JobFinishedTime",
+    "ModelName": "BackgroundJob",
+    "TableName": "BackgroundJobs",
+    "Label": "バックグラウンドジョブ",
+    "ColumnName": "JobFinishedTime",
+    "LabelText": "ジョブ終了日時",
+    "No": "11",
+    "History": "11",
+    "TypeName": "datetime",
+    "Nullable": "1",
+    "LabelText_en": "Job Finished Time",
+    "LabelText_zh": "作业完成时间",
+    "LabelText_de": "Auftragsabschlusszeit",
+    "LabelText_ko": "작업 종료 일시",
+    "LabelText_es": "Hora de finalización del trabajo",
+    "LabelText_vn": "Thời gian kết thúc công việc"
+}

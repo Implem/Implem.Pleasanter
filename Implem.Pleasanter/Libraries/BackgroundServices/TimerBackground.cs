@@ -15,7 +15,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         public void Init()
         {
             if (Parameters.BackgroundService.TimerEnabled(
-                deploymentEnvironment: Parameters.Service.DeploymentEnvironment))
+                deploymentEnvironment: Parameters.Service.DeploymentEnvironment,
+                backgroundQueueEnabled: BackgroundJobQueue.BackgroundQueueEnabled()))
             {
                 Task.Run(async () =>
                 {
@@ -26,6 +27,9 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     await AddTimer(timer: ReminderBackgroundTimer.GetParam());
                     await AddTimer(timer: DeleteUnusedRecordTimer.GetParam());
                     await AddTimer(timer: DeleteMcpLogsTimer.GetParam());
+                    await AddTimer(timer: BackgroundJobDispatcher.GetParam());
+                    await AddTimer(timer: BackgroundJobTimeoutMonitor.GetParam());
+                    await AddTimer(timer: DeleteBackgroundJobsTimer.GetParam());
                 });
             }
         }

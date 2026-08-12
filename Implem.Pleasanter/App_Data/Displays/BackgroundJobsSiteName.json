@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobsSiteName",
+    "Type": 110,
+    "Languages": [
+        { "Body": "Site title" },
+        { "Language": "zh", "Body": "站点标题" },
+        { "Language": "ja", "Body": "サイトタイトル" },
+        { "Language": "de", "Body": "Standorttitel" },
+        { "Language": "ko", "Body": "사이트 제목" },
+        { "Language": "es", "Body": "Título del sitio" },
+        { "Language": "vn", "Body": "Tiêu đề trang web" }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "Id": "BackgroundJobsCancelFailed",
+    "Type": 240,
+    "Languages": [
+        { "Body": "{0}: {1} item(s) could not be cancelled." },
+        { "Language": "zh", "Body": "{0}: 无法取消 {1} 个项目。" },
+        { "Language": "ja", "Body": "{0}: {1} 件 キャンセルできませんでした。" },
+        { "Language": "de", "Body": "{0}: {1} Elemente konnten nicht abgebrochen werden." },
+        { "Language": "ko", "Body": "{0}: {1} 개의 항목을 취소할 수 없습니다." },
+        { "Language": "es", "Body": "{0}: No se pudieron cancelar {1} elemento(s)." },
+        { "Language": "vn", "Body": "{0}: Không thể hủy {1} mục." }
+    ]
+}

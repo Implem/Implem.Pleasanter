@@ -8,26 +8,48 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
 namespace Implem.Pleasanter.Libraries.Models
 {
     public static class Summaries
     {
-        public static void Synchronize(Context context, SiteSettings ss)
+        public static void Synchronize(Context context, SiteSettings ss, Action watchdog = null)
         {
             ss.Summaries?.ForEach(summary => Synchronize(
-                context: context, ss: ss, summary: summary));
+                context: context,
+                ss: ss,
+                summary: summary,
+                watchdog: watchdog));
         }
 
-        public static void Synchronize(Context context, SiteSettings ss, int id)
+        public static void SynchronizeSources(Context context, SiteSettings ss, bool force = false)
+        {
+            ss.Sources?.Values.ForEach(sourceSs =>
+                sourceSs.Summaries?
+                    .Where(o => o.DestinationCondition == null
+                        || ss.Views?.Get(o.DestinationCondition) != null
+                        || force)
+                    .ForEach(summary => Synchronize(
+                        context: context,
+                        ss: sourceSs,
+                        summary: summary)));
+        }
+
+        public static void Synchronize(Context context, SiteSettings ss, int id, Action watchdog = null)
         {
             var summary = ss.Summaries?.Get(id);
-            Synchronize(context: context, ss: ss, summary: summary);
+            Synchronize(
+                context: context,
+                ss: ss,
+                summary: summary,
+                watchdog: watchdog);
         }
 
-        public static void Synchronize(Context context, SiteSettings ss, Summary summary)
+        public static void Synchronize(Context context, SiteSettings ss, Summary summary, Action watchdog = null)
         {
             if (ss.Links?.Any(link => link.SiteId == summary.SiteId
                 && link.ColumnName == summary.LinkColumn) is null or false)
@@ -51,7 +73,8 @@ namespace Implem.Pleasanter.Libraries.Models
                     linkColumn: summary.LinkColumn,
                     type: summary.Type,
                     sourceColumn: summary.SourceColumn,
-                    sourceCondition: ss.Views?.Get(summary.SourceCondition));
+                    sourceCondition: ss.Views?.Get(summary.SourceCondition),
+                    watchdog: watchdog);
             }
         }
 
@@ -69,7 +92,8 @@ namespace Implem.Pleasanter.Libraries.Models
             string type,
             string sourceColumn,
             View sourceCondition,
-            long id = 0)
+            long id = 0,
+            Action watchdog = null)
         {
             switch (destinationSs.ReferenceType)
             {
@@ -88,7 +112,8 @@ namespace Implem.Pleasanter.Libraries.Models
                         type: type,
                         sourceColumn: sourceColumn,
                         sourceCondition: sourceCondition,
-                        issueId: id);
+                        issueId: id,
+                        watchdog: watchdog);
                     break;
                 case "Results":
                     SynchronizeResults(
@@ -105,7 +130,8 @@ namespace Implem.Pleasanter.Libraries.Models
                         type: type,
                         sourceColumn: sourceColumn,
                         sourceCondition: sourceCondition,
-                        resultId: id);
+                        resultId: id,
+                        watchdog: watchdog);
                     break;
             }
             return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
@@ -125,7 +151,8 @@ namespace Implem.Pleasanter.Libraries.Models
             string type,
             string sourceColumn,
             View sourceCondition,
-            long issueId = 0)
+            long issueId = 0,
+            Action watchdog = null)
         {
             if (context.CanUpdate(ss: destinationSs))
             {
@@ -170,6 +197,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         sourceColumn: sourceColumn,
                         sourceCondition: sourceCondition)
                     : new Dictionary<long, decimal>();
+                var chunkDelay = CreateChunkDelayAction(watchdog: watchdog);
                 issueIds.ForEach(issueId =>
                 {
                     var issueModel = new IssueModel(
@@ -202,6 +230,7 @@ namespace Implem.Pleasanter.Libraries.Models
                             synchronizeSummary: false,
                             get: false);
                     }
+                    chunkDelay?.Invoke();
                 });
             }
         }
@@ -288,7 +317,8 @@ namespace Implem.Pleasanter.Libraries.Models
             string type,
             string sourceColumn,
             View sourceCondition,
-            long resultId = 0)
+            long resultId = 0,
+            Action watchdog = null)
         {
             if (context.CanUpdate(ss: destinationSs))
             {
@@ -333,6 +363,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         sourceColumn: sourceColumn,
                         sourceCondition: sourceCondition)
                     : new Dictionary<long, decimal>();
+                var chunkDelay = CreateChunkDelayAction(watchdog: watchdog);
                 resultIds.ForEach(resultId =>
                 {
                     var resultModel = new ResultModel(
@@ -365,6 +396,7 @@ namespace Implem.Pleasanter.Libraries.Models
                             synchronizeSummary: false,
                             get: false);
                     }
+                    chunkDelay?.Invoke();
                 });
             }
         }
@@ -421,6 +453,29 @@ namespace Implem.Pleasanter.Libraries.Models
                     }
                     break;
             }
+        }
+
+        private static Action CreateChunkDelayAction(Action watchdog)
+        {
+            var delayMs = Parameters.SummarySync.SynchronizeSummariesDelayMilliseconds;
+            var chunkSize = Parameters.SummarySync.SynchronizeSummariesDelayChunkSize;
+            if (chunkSize <= 0)
+            {
+                return null;
+            }
+            var processed = 0;
+            return () =>
+            {
+                processed++;
+                if (processed % chunkSize == 0)
+                {
+                    watchdog?.Invoke();
+                    if (delayMs > 0)
+                    {
+                        Thread.Sleep(delayMs);
+                    }
+                }
+            };
         }
 
         private static Dictionary<long, decimal> Data(

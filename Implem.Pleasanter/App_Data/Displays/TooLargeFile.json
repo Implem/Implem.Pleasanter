@@ -1,0 +1,34 @@
+{
+    "Id": "TooLargeFile",
+    "Type": 240,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "The file size is too large."
+        },
+        {
+            "Language": "zh",
+            "Body": "文件大小过大。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイルサイズが大きすぎます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Dateigröße ist zu groß."
+        },
+        {
+            "Language": "ko",
+            "Body": "파일 크기가 너무 큽니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El tamaño del archivo es demasiado grande."
+        },
+        {
+            "Language": "vn",
+            "Body": "Kích thước tệp quá lớn."
+        }
+    ]
+}

@@ -28,11 +28,17 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 var log = CreateSysLogModel(
                     context: context,
                     message: "Delete SysLogs.");
-                if (Parameters.SysLog.RetentionPeriod > 0)
+                try
                 {
-                    SysLogUtilities.PhysicalDelete(context);
+                    if (Parameters.SysLog.RetentionPeriod > 0)
+                    {
+                        SysLogUtilities.PhysicalDelete(context);
+                    }
                 }
-                log.Finish(context: context);
+                finally
+                {
+                    log.Finish(context: context);
+                }
             }, context.CancellationToken);
         }
 
