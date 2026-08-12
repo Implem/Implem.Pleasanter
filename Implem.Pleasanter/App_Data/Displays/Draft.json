@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Draft",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Draft"
+        },
+        {
+            "Language": "zh",
+            "Body": "草稿"
+        },
+        {
+            "Language": "ja",
+            "Body": "ドラフト"
+        },
+        {
+            "Language": "de",
+            "Body": "Entwurf"
+        },
+        {
+            "Language": "ko",
+            "Body": "초안"
+        },
+        {
+            "Language": "es",
+            "Body": "Borrador"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bản nháp"
+        }
+    ]
+}

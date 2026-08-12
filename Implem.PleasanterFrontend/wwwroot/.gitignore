@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# テストカバレッジ成果物 (vitest --coverage)
+coverage
+
 # Editor directories and files
 .vscode/*
 !.vscode/settings.json

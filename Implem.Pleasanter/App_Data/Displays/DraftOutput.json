@@ -1,0 +1,34 @@
+﻿{
+    "Id": "DraftOutput",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Draft Output Mode"
+        },
+        {
+            "Language": "zh",
+            "Body": "草稿输出模式"
+        },
+        {
+            "Language": "ja",
+            "Body": "ドラフト出力"
+        },
+        {
+            "Language": "de",
+            "Body": "Entwurfsausgabemodus"
+        },
+        {
+            "Language": "ko",
+            "Body": "초안 출력 모드"
+        },
+        {
+            "Language": "es",
+            "Body": "Modo de salida de borrador"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chế độ xuất bản nháp"
+        }
+    ]
+}

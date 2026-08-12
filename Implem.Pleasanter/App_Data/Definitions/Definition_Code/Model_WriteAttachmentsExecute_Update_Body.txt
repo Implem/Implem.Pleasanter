@@ -1,4 +1,4 @@
-﻿WriteAttachments(
+﻿DeleteTempOrLocalAttachments(
     context: context,
     ss: ss,
     verUp: verUp);

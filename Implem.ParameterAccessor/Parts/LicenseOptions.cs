@@ -10,7 +10,15 @@ namespace Implem.ParameterAccessor.Parts
         MultiTenants = 1 << 1,
         Queue = 1 << 2,
         RateLimit = 1 << 3,
+        SamlExtendedAttributes = 1 << 4,
+        Scim = 1 << 5,
+        BlockSiteTaskWhileRunning = 1 << 6,
 
-        Trial = AdvancedCache | Queue | RateLimit
+        Trial = AdvancedCache
+            | Queue
+            | RateLimit
+            | SamlExtendedAttributes
+            | Scim
+            | BlockSiteTaskWhileRunning
     }
 }

@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static readonly Dictionary<int, string> StatusDisplayIds =
             new Dictionary<int, string>
         {
+            { BackgroundJobStatus.Preparing, "BackgroundJobStatusPreparing" },
             { BackgroundJobStatus.Pending, "BackgroundJobStatusPending" },
             { BackgroundJobStatus.Running, "BackgroundJobStatusRunning" },
             { BackgroundJobStatus.Completed, "BackgroundJobStatusCompleted" },
@@ -894,6 +895,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static bool CanDownload(BackgroundJobModel job)
         {
             return job.Status == BackgroundJobStatus.Completed
+                && BackgroundJobQueue.IsInputFileJobType(jobType: job.JobType) == false
                 && job.File.IsNullOrEmpty() == false
                 && System.IO.File.Exists(job.File);
         }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_ErrMessage",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "ErrMessage",
     "LabelText": "エラーメッセージ",
     "No": "17",
+    "History": "17",
     "GridColumn": "17",
     "GridEnabled": "1",
     "FilterColumn": "17",

@@ -6,6 +6,7 @@
     "ColumnName": "JsonRpcErrorCode",
     "LabelText": "JSON-RPCエラーコード",
     "No": "16",
+    "History": "16",
     "GridColumn": "16",
     "GridEnabled": "1",
     "FilterColumn": "16",

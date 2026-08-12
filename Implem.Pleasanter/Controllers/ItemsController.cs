@@ -445,6 +445,68 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context(files: file);
             var log = new SysLogModel(context: context);
+            var ss = BackgroundJobQueue.BackgroundQueueEnabled()
+                ? SiteSettingsUtilities.Get(context: context, siteId: id)
+                : null;
+            if (BackgroundJobQueue.ShouldQueueImport(context: context, ss: ss))
+            {
+                var invalid = BackgroundJobQueue.ValidateBeforeEnqueueImport(
+                    context: context,
+                    ss: ss);
+                if (invalid.Type != Error.Types.None)
+                {
+                    var invalidJson = invalid.MessageJson(context: context);
+                    log.Finish(
+                        context: context,
+                        responseSize: invalidJson?.Length ?? 0);
+                    return invalidJson;
+                }
+                var enqueueResult = BackgroundJobQueue.EnqueueImport(
+                    context: context,
+                    siteId: id);
+                if (enqueueResult.Succeeded == false)
+                {
+                    var failedJson = new ResponseCollection(context: context)
+                        .Message(message: new Message(
+                            id: enqueueResult.FailureMessageDisplayId,
+                            text: Displays.Get(
+                                context: context,
+                                id: enqueueResult.FailureMessageDisplayId),
+                            css: "alert-error"))
+                        .ToJson();
+                    log.Finish(
+                        context: context,
+                        responseSize: failedJson.Length);
+                    return failedJson;
+                }
+                var backgroundJobId = enqueueResult.BackgroundJobId;
+                var backgroundJobsUrl = Locations.Get(
+                    context: context,
+                    parts: new string[] { "BackgroundJobs" });
+                var idLinkHtml = $"<a href=\"{backgroundJobsUrl}\">{backgroundJobId}</a>";
+                var messageText = Displays.Get(
+                    context: context,
+                    id: "EnqueuedToBackgroundJob",
+                    Displays.Get(
+                        context: context,
+                        id: "BackgroundJobs"),
+                    idLinkHtml);
+                var messageHtml = $"<div><span class=\"body alert-success\">{messageText}"
+                    + "<span class=\"ui-icon ui-icon-close close\"></span>"
+                    + "</span></div>";
+                var enqueuedJson = new ResponseCollection(
+                    context: context,
+                    id: backgroundJobId)
+                    .CloseDialog()
+                    .Html(
+                        target: "#Message",
+                        value: messageHtml)
+                    .ToJson();
+                log.Finish(
+                    context: context,
+                    responseSize: enqueuedJson.Length);
+                return enqueuedJson;
+            }
             var json = new ItemModel(context: context, referenceId: id).Import(context: context);
             log.Finish(context: context, responseSize: json.Length);
             return json;

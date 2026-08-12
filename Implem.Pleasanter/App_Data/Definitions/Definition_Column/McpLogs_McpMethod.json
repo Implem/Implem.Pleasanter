@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_McpMethod",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "McpMethod",
     "LabelText": "MCPメソッド",
     "No": "6",
+    "History": "6",
     "GridColumn": "6",
     "GridEnabled": "1",
     "FilterColumn": "6",

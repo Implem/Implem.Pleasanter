@@ -23,6 +23,8 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public bool? ScriptAnaly { get; set; }
         public bool? ScriptKamban { get; set; }
         public bool? ScriptImageLib { get; set; }
+        public int? DraftOutputMode { get; set; }
+        public string DraftKey { get; set; }
         public int? Delete { get; set; }
         public string HtmlPositionType { get; set; }
 

@@ -8,6 +8,7 @@
         public const int Failed = 3;
         public const int Cancelled = 4;
         public const int RunningOverdue = 5;
+        public const int Preparing = 6;
 
         public static int Parse(
             string name,
@@ -21,6 +22,7 @@
                 case nameof(Failed): return Failed;
                 case nameof(Cancelled): return Cancelled;
                 case nameof(RunningOverdue): return RunningOverdue;
+                case nameof(Preparing): return Preparing;
                 default: return defaultValue;
             }
         }

@@ -309,6 +309,20 @@ namespace Implem.Pleasanter.Models
                     .Log(context.GetLog())
                     .ToJson();
             }
+            catch (Implem.Libraries.Exceptions.GridDataTimeoutException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
+            catch (Implem.Libraries.Exceptions.GridDataException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -4399,9 +4413,6 @@ namespace Implem.Pleasanter.Models
                 referenceType: "Users",
                 title: string.Empty,
                 action: () => hb
-                    .Div(id: "PortalLink", action: () => hb
-                        .A(href: Parameters.General.HtmlPortalUrl, action: () => hb
-                            .Text(Displays.Portal(context: context))))
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("MainForm")
@@ -4544,7 +4555,7 @@ namespace Implem.Pleasanter.Models
                                     "demos",
                                     "_action_"
                                 })),
-                        _using: Parameters.Service.Demo && !Parameters.Service.DemoApi,
+                        _using: Parameters.Environment() == 2 && (Parameters.Service.Demo && !Parameters.Service.DemoApi),
                         action: () => hb
                             .Div(id: "Demo", action: () => hb
                                 .FieldSet(

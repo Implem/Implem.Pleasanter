@@ -24,6 +24,8 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public bool? HtmlAnaly { get; set; }
         public bool? HtmlKamban { get; set; }
         public bool? HtmlImageLib { get; set; }
+        public int? DraftOutputMode { get; set; }
+        public string DraftKey { get; set; }
         public int? Delete { get; set; }
 
         public HtmlApiSettingModel()

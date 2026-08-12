@@ -4,5 +4,6 @@
     "BackgroundJobTimeout": 3600,
     "FallbackLanguage": "ja",
     "RecoverAction": "Failed",
-    "OutputFilePath": null
+    "OutputFilePath": null,
+    "InputFilePath": null
 }

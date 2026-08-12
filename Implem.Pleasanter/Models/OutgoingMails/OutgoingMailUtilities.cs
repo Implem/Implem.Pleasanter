@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -647,9 +648,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static MimeKit.MailboxAddress From(Context context, int userId)
+        public static MailboxAddress From(Context context, int userId)
         {
-            return MimeKit.MailboxAddress.Parse(
+            return MailboxAddress.Parse(
                 MailAddressUtilities.Get(
                     context: context,
                     userId: userId,
@@ -729,6 +730,15 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 siteModel: siteModel,
                 referenceId: itemModel.ReferenceId);
+            if (MailAddressUtilities.Get(
+                    context: context,
+                    userId: context.UserId) == string.Empty
+                && Parameters.Mail.SupportFrom.IsNullOrEmpty())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.MailAddressHasNotSet));
+            }
             var outgoingMailModel = new OutgoingMailModel(
                 context: context,
                 reference: reference,
@@ -745,7 +755,24 @@ namespace Implem.Pleasanter.Models
                     siteId: itemModel.SiteId,
                     limitPerSite: context.ContractSettings.ApiLimit()));
             }
-            if (data.From != null) outgoingMailModel.From = MimeKit.MailboxAddress.Parse(data.From);
+            if (!data.From.IsNullOrEmpty() && data.From.Trim() != string.Empty)
+            {
+                var badFrom = MailAddressValidators.BadMailAddress(
+                    addresses: data.From,
+                    only: true);
+                if (badFrom.Type != Error.Types.None
+                    || !MailboxAddress.TryParse(data.From, out var from))
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: badFrom.Type != Error.Types.None
+                            ? badFrom
+                            : new ErrorData(
+                                type: Error.Types.BadMailAddress,
+                                data: new string[] { data.From }));
+                }
+                outgoingMailModel.From = from;
+            }
             if (data.To != null) outgoingMailModel.To = data.To;
             if (data.Cc != null) outgoingMailModel.Cc = data.Cc;
             if (data.Bcc != null) outgoingMailModel.Bcc = data.Bcc;

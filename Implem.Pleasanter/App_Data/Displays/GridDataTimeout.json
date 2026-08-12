@@ -1,0 +1,33 @@
+﻿{
+    "Id": "GridDataTimeout",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The request has timed out. Please narrow down your search criteria or try again later."
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "请求已超时。请缩小搜索条件或稍后再试。"
+        },
+        {
+            "Language": "ja",
+            "Body": "リクエストがタイムアウトしました。検索条件を絞り込むか、しばらくしてから再度お試しください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Anfrage hat das Zeitlimit überschritten. Bitte grenzen Sie Ihre Suchkriterien ein oder versuchen Sie es später erneut."
+        },
+        {
+            "Language": "ko",
+            "Body": "요청 시간이 초과되었습니다. 검색 조건을 좁히거나 나중에 다시 시도해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "La solicitud ha excedido el tiempo de espera. Reduzca los criterios de búsqueda o inténtelo de nuevo más tarde."
+        },
+        {
+            "Language": "vi",
+            "Body": "Yêu cầu đã hết thời gian chờ. Vui lòng thu hẹp tiêu chí tìm kiếm hoặc thử lại sau."
+        }
+    ]
+}

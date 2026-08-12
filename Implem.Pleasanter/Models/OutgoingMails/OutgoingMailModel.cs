@@ -854,11 +854,17 @@ namespace Implem.Pleasanter.Models
             }
             ReferenceId = referenceId;
             ReferenceVer = context.Forms.Int("Ver");
-            From = OutgoingMailUtilities.From(
+            var mailAddress = MailAddressUtilities.Get(
                 context: context,
                 userId: context.UserId);
+            From = mailAddress != string.Empty
+                ? MimeKit.MailboxAddress.Parse(
+                    MailAddressUtilities.Get(
+                        fullName: context.User?.Name,
+                        mailAddress: mailAddress))
+                : Libraries.Mails.Addresses.SupportFrom();
             SetByForm(context: context);
-            if (Libraries.Mails.Addresses.FixedFrom(From))
+            if (From != null && Libraries.Mails.Addresses.FixedFrom(From))
             {
                 Body += "\n\n{0}<{1}>".Params(From.Name, From.Address);
             }

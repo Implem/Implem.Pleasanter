@@ -1,17 +1,35 @@
 import { defineConfig } from 'vite';
-import copy from 'rollup-plugin-copy';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'path';
-import { inputDir, outputDir, configParams, getEntries } from './vite.config.shared';
+import { inputDir, configParams, getEntries } from './vite.config.shared';
 
+// modules.ts と styles、および静的コピー(clone/plugins)をビルドするメインビルド。
+// (この後に app ビルドが emptyOutDir:false で上乗せする。)
 export default defineConfig({
     ...configParams,
+    plugins: [
+        viteStaticCopy({
+            targets: [
+                {
+                    src: `${inputDir}/clone/**`,
+                    dest: '..',
+                    rename: { stripBase: 2 }
+                },
+                {
+                    src: `${inputDir}/plugins/**`,
+                    dest: 'plugins',
+                    rename: { stripBase: 2 }
+                }
+            ]
+        })
+    ],
     build: {
         ...configParams.build,
         emptyOutDir: true,
         manifest: 'manifest.json',
-        rollupOptions: {
+        rolldownOptions: {
             input: {
-                ...getEntries(path.resolve(__dirname, `${inputDir}/scripts`), '.ts'),
+                modules: path.resolve(__dirname, `${inputDir}/scripts/modules.ts`),
                 ...getEntries(path.resolve(__dirname, `${inputDir}/styles`), '.scss')
             },
             output: {
@@ -20,27 +38,10 @@ export default defineConfig({
                         return 'vendor';
                     }
                 },
-                chunkFileNames: 'js/vendor_[hash].js',
                 entryFileNames: 'js/[name]_[hash].js',
+                chunkFileNames: 'js/chunk_[hash].js',
                 assetFileNames: `css/[name].min[extname]`
-            },
-            plugins: [
-                copy({
-                    targets: [
-                        {
-                            src: `${inputDir}/clone/*`,
-                            dest: `${outputDir}/../`
-                        },
-                        {
-                            src: `${inputDir}/plugins/*`,
-                            dest: `${outputDir}/plugins/`
-                        }
-                    ],
-                    hook: 'writeBundle',
-                    copyOnce: true,
-                    verbose: true
-                })
-            ]
+            }
         }
     }
 });

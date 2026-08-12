@@ -1250,6 +1250,12 @@ namespace Implem.Pleasanter.Models
                                     value: tenantModel.RestartScheduledTime.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
+                            case "DeleteRequestTime":
+                                res.Val(
+                                    target: "#Tenants_DeleteRequestTime" + idSuffix,
+                                    value: tenantModel.DeleteRequestTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
                             default:
                                 switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                 {
@@ -2771,6 +2777,470 @@ namespace Implem.Pleasanter.Models
                     ?.Where(o => selected.Contains(o.Key))
                     .ToDictionary(o => o.Key, o => o.Value);
             return optionCollection;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance DeleteByApi(
+            Context context, SiteSettings ss, int tenantId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (!Parameters.AllowMultiTenants())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            if (!context.HasPrivilege)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            if (tenantId <= 0)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            if (Parameters.MultiTenant.IsProtectedTenant(tenantId))
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            var tenantRow = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectTenants(
+                    column: Rds.TenantsColumn()
+                        .TenantName()
+                        .ContractDeadline()
+                        .DeleteRequestTime(),
+                    where: Rds.TenantsWhere()
+                        .TenantId(tenantId)))
+                .AsEnumerable()
+                .FirstOrDefault();
+            var tenantName = tenantRow?.String("TenantName");
+            if (tenantName.IsNullOrEmpty())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.NotFound));
+            }
+            if (tenantRow.DateTime("DeleteRequestTime") != DateTime.FromOADate(0))
+            {
+                return ApiResults.Success(
+                    tenantId,
+                    Displays.Deleted(context: context, data: tenantName));
+            }
+            var contractDeadline = tenantRow.DateTime("ContractDeadline");
+            if (contractDeadline == DateTime.FromOADate(0) || contractDeadline > DateTime.Today)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.SuspendRequired));
+            }
+            Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: Rds.UpdateTenants(
+                    where: Rds.TenantsWhere().TenantId(tenantId),
+                    param: Rds.TenantsParam().DeleteRequestTime(DateTime.Today)));
+            new SysLogModel(
+                context: context,
+                method: nameof(DeleteByApi),
+                message: $"TenantId={tenantId}",
+                sysLogType: SysLogModel.SysLogTypes.Info);
+            return ApiResults.Success(
+                tenantId,
+                Displays.Deleted(context: context, data: tenantName));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance GetByApi(Context context, SiteSettings ss)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (!Parameters.AllowMultiTenants())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            if (!context.HasPrivilege)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            if (api == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+                if (context.InvalidJsonData)
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+                }
+            }
+            var offset = api?.Offset ?? 0;
+            var pageSize = api?.PageSize > 0 && api?.PageSize <= Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
+            var tenantCollection = new TenantCollection(
+                context: context,
+                ss: ss,
+                where: Rds.TenantsWhere()
+                    .DeleteRequestTime(_operator: " is null"),
+                orderBy: Rds.TenantsOrderBy().TenantId(),
+                offset: offset,
+                pageSize: pageSize);
+            var userCounts = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn().TenantId().UsersCount(),
+                    groupBy: Rds.UsersGroupBy().TenantId(),
+                    where: Rds.UsersWhere().Disabled(false)))
+                .AsEnumerable()
+                .ToDictionary(
+                    r => r.Int("TenantId"),
+                    r => r.Int("UsersCount"));
+            return ApiResults.Get(
+                statusCode: 200,
+                limitPerDate: 0,
+                limitRemaining: 0,
+                response: new
+                {
+                    Offset = offset,
+                    PageSize = pageSize,
+                    TotalCount = tenantCollection.TotalCount,
+                    Data = tenantCollection.Select(t => new
+                    {
+                        t.TenantId,
+                        t.TenantName,
+                        Title = t.Title.Value,
+                        ContractDeadline = t.ContractDeadline.InRange()
+                            ? t.ContractDeadline
+                            : (DateTime?)null,
+                        UserCount = userCounts.GetValueOrDefault(t.TenantId),
+                        CreatedTime = t.CreatedTime?.Value
+                    })
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (!Parameters.AllowMultiTenants())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            if (!context.HasPrivilege)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            var apiModel = context.RequestDataString.Deserialize<CreateTenantApiModel>();
+            if (apiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            if (apiModel.TenantName.IsNullOrEmpty())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(
+                        type: Error.Types.PleaseInputData,
+                        data: nameof(apiModel.TenantName)));
+            }
+            if (apiModel.LoginId.IsNullOrEmpty())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(
+                        type: Error.Types.PleaseInputData,
+                        data: nameof(apiModel.LoginId)));
+            }
+            if (apiModel.Name.IsNullOrEmpty())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(
+                        type: Error.Types.PleaseInputData,
+                        data: nameof(apiModel.Name)));
+            }
+            if (apiModel.NotifyMailAddress.IsNullOrEmpty())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(
+                        type: Error.Types.PleaseInputData,
+                        data: nameof(apiModel.NotifyMailAddress)));
+            }
+            var badMailAddress = MailAddressValidators.BadMailAddress(
+                addresses: apiModel.NotifyMailAddress,
+                only: true);
+            if (badMailAddress.Type != Error.Types.None)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: badMailAddress);
+            }
+            var loginIdExists = Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn().UsersCount(),
+                    where: Rds.UsersWhere().LoginId(apiModel.LoginId))) > 0;
+            if (loginIdExists)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.LoginIdAlreadyUse));
+            }
+            var tenantModel = new TenantModel()
+            {
+                TenantName = apiModel.TenantName,
+                Title = new Title(apiModel.Title ?? string.Empty)
+            };
+            var passwordExpirationTime = !Parameters.Service.WithoutChangeDefaultPassword
+                ? new Time(context: context, value: DateTime.Now)
+                : Parameters.Security.PasswordExpirationPeriod > 0
+                    ? new Time(
+                        context: context,
+                        value: DateTime.Today.AddDays(Parameters.Security.PasswordExpirationPeriod))
+                    : (Time)null;
+            var language = apiModel.Language.IsNullOrEmpty()
+                ? context.Language
+                : apiModel.Language;
+            var statements = tenantModel.CreateStatements(context: context, ss: ss).ToList();
+            statements.Add(Rds.InsertUsers(
+                param: Rds.UsersParam()
+                    .TenantId(raw: Def.Sql.Identity)
+                    .LoginId(apiModel.LoginId)
+                    .Password(Parameters.Service.DefaultPassword.Sha512Cng())
+                    .Name(apiModel.Name)
+                    .Language(language)
+                    .DeptId(0)
+                    .FirstAndLastNameOrder(1)
+                    .TenantManager(true)
+                    .Disabled(false)
+                    .Lockout(false)
+                    .PasswordExpirationTime(
+                        context.Sqls.DateTimeValue(value: passwordExpirationTime?.ToString()),
+                        _using: passwordExpirationTime != null)));
+            var response = Repository.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                selectIdentity: true,
+                statements: statements.ToArray());
+            if (response?.Id == null)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            tenantModel.TenantId = response.Id.ToInt();
+            if (!apiModel.NotifyMailAddress.IsNullOrEmpty()
+                && !Parameters.Mail.SupportFrom.IsNullOrEmpty())
+            {
+                new OutgoingMailModel()
+                {
+                    Title = new Title(Displays.Get(
+                        context: context,
+                        id: "TenantCreated",
+                        data: apiModel.TenantName)),
+                    Body = Displays.Get(
+                        context: context,
+                        id: "TenantCreatedMailBody",
+                        data: new string[]
+                        {
+                            apiModel.TenantName,
+                            tenantModel.TenantId.ToString(),
+                            apiModel.LoginId,
+                            Locations.ApprovaUri(context: context)
+                        }),
+                    From = MimeKit.MailboxAddress.Parse(Parameters.Mail.SupportFrom),
+                    To = apiModel.NotifyMailAddress
+                }.Send(
+                    context: context,
+                    ss: new SiteSettings());
+            }
+            new SysLogModel(
+                context: context,
+                method: nameof(CreateByApi),
+                message: $"TenantId={tenantModel.TenantId}",
+                sysLogType: SysLogModel.SysLogTypes.Info);
+            return ApiResults.Success(
+                tenantModel.TenantId,
+                Displays.Get(
+                    context: context,
+                    id: "TenantCreated",
+                    data: apiModel.TenantName));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance SuspendByApi(
+            Context context, SiteSettings ss, int tenantId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (!Parameters.AllowMultiTenants())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            if (!context.HasPrivilege)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            if (tenantId <= 0)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            if (Parameters.MultiTenant.IsProtectedTenant(tenantId))
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            var tenantName = Repository.ExecuteScalar_string(
+                context: context,
+                statements: Rds.SelectTenants(
+                    column: Rds.TenantsColumn().TenantName(),
+                    where: Rds.TenantsWhere()
+                        .TenantId(tenantId)
+                        .DeleteRequestTime(_operator: " is null")));
+            if (tenantName.IsNullOrEmpty())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.NotFound));
+            }
+            var apiModel = context.RequestDataString.Deserialize<SuspendTenantApiModel>();
+            if (apiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+                if (context.InvalidJsonData)
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+                }
+            }
+            var suspendDate = apiModel?.SuspendDate ?? DateTime.Today;
+            Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: Rds.UpdateTenants(
+                    where: Rds.TenantsWhere().TenantId(tenantId),
+                    param: Rds.TenantsParam().ContractDeadline(suspendDate)));
+            new SysLogModel(
+                context: context,
+                method: nameof(SuspendByApi),
+                message: $"TenantId={tenantId}",
+                sysLogType: SysLogModel.SysLogTypes.Info);
+            return ApiResults.Success(
+                tenantId,
+                Displays.Get(
+                    context: context,
+                    id: "TenantSuspended",
+                    data: tenantName));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance ResumeByApi(
+            Context context, SiteSettings ss, int tenantId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (!Parameters.AllowMultiTenants())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            if (!context.HasPrivilege)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            if (tenantId <= 0)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            if (Parameters.MultiTenant.IsProtectedTenant(tenantId))
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            var tenantName = Repository.ExecuteScalar_string(
+                context: context,
+                statements: Rds.SelectTenants(
+                    column: Rds.TenantsColumn().TenantName(),
+                    where: Rds.TenantsWhere()
+                        .TenantId(tenantId)
+                        .DeleteRequestTime(_operator: " is null")));
+            if (tenantName.IsNullOrEmpty())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.NotFound));
+            }
+            Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: Rds.UpdateTenants(
+                    where: Rds.TenantsWhere().TenantId(tenantId),
+                    param: Rds.TenantsParam().ContractDeadline(raw: "null")));
+            new SysLogModel(
+                context: context,
+                method: nameof(ResumeByApi),
+                message: $"TenantId={tenantId}",
+                sysLogType: SysLogModel.SysLogTypes.Info);
+            return ApiResults.Success(
+                tenantId,
+                Displays.Get(
+                    context: context,
+                    id: "TenantResumed",
+                    data: tenantName));
         }
     }
 }

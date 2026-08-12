@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_McpLogId",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "McpLogId",
     "LabelText": "MCPログID",
     "No": "1",
+    "History": "1",
     "GridColumn": "1",
     "GridEnabled": "1",
     "FilterColumn": "1",

@@ -2,5 +2,6 @@
     data: {},
     events: {},
     ex: {},
-    modal: {}
+    modal: {},
+    store: {}
 };

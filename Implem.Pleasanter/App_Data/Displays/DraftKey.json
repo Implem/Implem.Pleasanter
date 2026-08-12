@@ -1,0 +1,34 @@
+﻿{
+    "Id": "DraftKey",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Draft Key"
+        },
+        {
+            "Language": "zh",
+            "Body": "草稿密钥"
+        },
+        {
+            "Language": "ja",
+            "Body": "ドラフトキー"
+        },
+        {
+            "Language": "de",
+            "Body": "Entwurfsschlüssel"
+        },
+        {
+            "Language": "ko",
+            "Body": "초안 키"
+        },
+        {
+            "Language": "es",
+            "Body": "Clave de borrador"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khóa bản nháp"
+        }
+    ]
+}

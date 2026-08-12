@@ -186,8 +186,8 @@ $(function () {
         });
         filterHide();
         var dataName = $control.attr('data-name');
-        $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");
-        $menuSort.css('width', 'auto');
+        $p.store.$menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");
+        $p.store.$menuSort.css('width', 'auto');
 
         var cssProps = (() => {
             if (!isRwd) {
@@ -195,11 +195,11 @@ $(function () {
                     position: 'fixed',
                     top: $control.offset().top + $control.outerHeight() - $(window).scrollTop(),
                     left: $control.offset().left - $(window).scrollLeft(),
-                    width: Math.max($control.outerWidth(), $menuSort.outerWidth())
+                    width: Math.max($control.outerWidth(), $p.store.$menuSort.outerWidth())
                 };
             } else {
                 var stageWidth = $('#ViewModeContainer').width();
-                var cssWidth = Math.max($control.outerWidth(), $menuSort.outerWidth());
+                var cssWidth = Math.max($control.outerWidth(), $p.store.$menuSort.outerWidth());
                 var cssLeft = $control.offset().left;
                 cssLeft = cssLeft + cssWidth > stageWidth ? stageWidth - cssWidth : cssLeft;
                 return {
@@ -210,7 +210,7 @@ $(function () {
                 };
             }
         })();
-        $menuSort.css(cssProps).show();
+        $p.store.$menuSort.css(cssProps).show();
     };
 
     $(document).on('mouseenter', '#Grid th.sortable', function () {

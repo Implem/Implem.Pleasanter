@@ -22,7 +22,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Antiforgery;
 using System.Web.Helpers;
 using System.Text.Json;
@@ -148,7 +147,13 @@ namespace Implem.Pleasanter.Controllers
                 return errorJson;
             }
             var json = model.Create(context: context);
-            bool isSuccess = Regex.IsMatch(json, @"""Method""\s*:\s*""Href""\s*,\s*""Value""\s*:\s*""/forms/[a-fA-F0-9]{32}/thanks""");
+            var urlOfThanks = Locations.FormThanks(
+                context: context,
+                controller: context.Controller,
+                guid: context.Guid);
+            var isSuccess = IsFormCreateSuccess(
+                json: json,
+                urlOfThanks: urlOfThanks);
             if (isSuccess)
             {
                 TempData[FormCreateSuccess] = true;
@@ -191,6 +196,15 @@ namespace Implem.Pleasanter.Controllers
             var error = Error.Types.InvalidRequest.MessageJson(context: context);
             log.Finish(context: context, responseSize: error.Length);
             return error;
+        }
+
+        [NonAction]
+        internal static bool IsFormCreateSuccess(string json, string urlOfThanks)
+        {
+            return json
+                .Deserialize<List<Response>>()
+                ?.Any(response => response.Method == "Href"
+                    && response.Value?.ToString() == urlOfThanks) == true;
         }
 
     }

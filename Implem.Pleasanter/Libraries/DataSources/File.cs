@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using System.IO;
@@ -13,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 return;
             }
-            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == BinaryStorageProviderNames.Rds)
             {
                 Repository.ExecuteNonQuery(
                     context: context,
@@ -51,7 +52,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string WriteToTemp(this IHttpPostedFile file, Context context)
         {
             var guid = Strings.NewGuid();
-            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds"
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == BinaryStorageProviderNames.Rds
                 && context.Controller == "binaries"
                 && context.Action == "upload")
             {

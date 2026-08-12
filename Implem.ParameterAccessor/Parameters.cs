@@ -45,6 +45,7 @@ namespace Implem.DefinitionAccessor
         public static McpServer McpServer;
         public static RateLimit RateLimit;
         public static Migration Migration;
+        public static MultiTenant MultiTenant;
         public static Notification Notification;
         public static Parameter Parameter;
         public static ParameterSetting ParameterSetting;
@@ -99,6 +100,16 @@ namespace Implem.DefinitionAccessor
         public static bool AllowRateLimit()
         {
             return TrialLicense?.Check() ?? License.Check() && HasRateLimit();
+        }
+
+        public static bool AllowBlockSiteTaskWhileRunning()
+        {
+            return TrialLicense?.Check() ?? License.Check() && HasBlockSiteTaskWhileRunning();
+        }
+
+        public static bool AllowMultiTenants()
+        {
+            return License.Check() && HasMultiTenants();
         }
 
         public static int LicensedUsers()
@@ -199,6 +210,21 @@ namespace Implem.DefinitionAccessor
         public static bool HasRateLimit()
         {
             return GetLicenseOptions().HasFlag(LicenseOptions.RateLimit);
+        }
+
+        public static bool HasBlockSiteTaskWhileRunning()
+        {
+            return GetLicenseOptions().HasFlag(LicenseOptions.BlockSiteTaskWhileRunning);
+        }
+        
+        public static bool HasSamlExtendedAttributes()
+        {
+            return GetLicenseOptions().HasFlag(LicenseOptions.SamlExtendedAttributes);
+        }
+
+        public static bool HasScim()
+        {
+            return GetLicenseOptions().HasFlag(LicenseOptions.Scim);
         }
     }
 }

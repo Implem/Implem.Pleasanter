@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_StartTime",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "StartTime",
     "LabelText": "開始日時",
     "No": "2",
+    "History": "2",
     "GridColumn": "2",
     "GridEnabled": "1",
     "FilterColumn": "2",

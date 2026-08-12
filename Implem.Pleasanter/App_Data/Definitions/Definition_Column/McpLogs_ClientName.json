@@ -6,6 +6,7 @@
     "ColumnName": "ClientName",
     "LabelText": "クライアント名",
     "No": "11",
+    "History": "11",
     "TypeName": "nvarchar",
     "MaxLength": "200",
     "Nullable": "1",

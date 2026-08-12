@@ -1,0 +1,33 @@
+{
+    "Id": "TenantSuspended",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "\" {0} \" has been suspended."
+        },
+        {
+            "Language": "zh",
+            "Body": "“{0}”已暂停。"
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を停止しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ wurde gesperrt."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"이(가) 정지되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha suspendido \" {0} \"."
+        },
+        {
+            "Language": "vn",
+            "Body": "\" {0} \" đã bị tạm dừng."
+        }
+    ]
+}

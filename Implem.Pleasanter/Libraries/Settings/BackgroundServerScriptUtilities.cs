@@ -38,7 +38,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private static async Task InitScheduleAsync()
         {
-            if (Parameters.Script.ServerScript != true || Parameters.Script.BackgroundServerScript != true) return;
+            if (Parameters.BackgroundService.BackgroundServerScriptEnabled(
+                deploymentEnvironment: Parameters.Service.DeploymentEnvironment,
+                serverScript: Parameters.Script.ServerScript,
+                backgroundServerScript: Parameters.Script.BackgroundServerScript) != true) return;
             var context = GetContext();
             var ss = GetSitemSettings();
             var dataTable = Repository.ExecuteTable(
@@ -57,7 +60,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private static async Task RescheduleAsync(int tenantId, BackgroundServerScripts backgroundServerScripts)
         {
-            if (Parameters.Script.ServerScript != true || Parameters.Script.BackgroundServerScript != true) return;
+            if (Parameters.BackgroundService.BackgroundServerScriptEnabled(
+                deploymentEnvironment: Parameters.Service.DeploymentEnvironment,
+                serverScript: Parameters.Script.ServerScript,
+                backgroundServerScript: Parameters.Script.BackgroundServerScript) != true) return;
             var scheduler = CustomQuartzHostedService.Scheduler;
             string groupKey = $"BGServerScript_TenantId_{tenantId}";
             await scheduler.DeleteJobs(await scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupContains(groupKey)));
@@ -88,7 +94,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         internal static async Task ExecuteNow(BackgroundServerScripts backgroundServerScripts, int scriptId)
         {
-            if (Parameters.Script.ServerScript != true || Parameters.Script.BackgroundServerScript != true) return;
+            if (Parameters.BackgroundService.BackgroundServerScriptEnabled(
+                deploymentEnvironment: Parameters.Service.DeploymentEnvironment,
+                serverScript: Parameters.Script.ServerScript,
+                backgroundServerScript: Parameters.Script.BackgroundServerScript) != true) return;
             var scheduler = CustomQuartzHostedService.Scheduler;
             string groupKey = $"BGServerScript_ExeNow_TenantId_{backgroundServerScripts.TenantId}";
             await scheduler.DeleteJobs(await scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupContains(groupKey)));

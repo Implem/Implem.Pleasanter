@@ -1338,6 +1338,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             if (context.BackgroundServerScript)
             {
                 createdContext.BackgroundServerScript = context.BackgroundServerScript;
+                createdContext.TimeZoneInfo = context.TimeZoneInfo;
                 createdContext.SetPermissions();
             }
             return createdContext;

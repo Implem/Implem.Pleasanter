@@ -1369,13 +1369,23 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string BackgroundJobExportFailed(
+        public static string BackgroundJobExecutionFailed(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "BackgroundJobExportFailed",
+                id: "BackgroundJobExecutionFailed",
+                data: data);
+        }
+
+        public static string BackgroundJobInputFilePathNotConfigured(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobInputFilePathNotConfigured",
                 data: data);
         }
 
@@ -1429,6 +1439,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BackgroundJobRecoverOrphanPreparingFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobRecoverOrphanPreparingFailed",
+                data: data);
+        }
+
         public static string BackgroundJobRecoverStuckFailed(
             Context context,
             params string[] data)
@@ -1456,6 +1476,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "BackgroundJobResultCompleted",
+                data: data);
+        }
+
+        public static string BackgroundJobResultImportCompleted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobResultImportCompleted",
                 data: data);
         }
 
@@ -1656,6 +1686,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "BackgroundJobStatusPending",
+                data: data);
+        }
+
+        public static string BackgroundJobStatusPreparing(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobStatusPreparing",
                 data: data);
         }
 
@@ -4269,6 +4309,66 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Draft(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Draft",
+                data: data);
+        }
+
+        public static string DraftKey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DraftKey",
+                data: data);
+        }
+
+        public static string DraftOutput(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DraftOutput",
+                data: data);
+        }
+
+        public static string DraftOutputModeAlways(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DraftOutputModeAlways",
+                data: data);
+        }
+
+        public static string DraftOutputModeDraftOnly(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DraftOutputModeDraftOnly",
+                data: data);
+        }
+
+        public static string DraftOutputModeHideInDraft(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DraftOutputModeHideInDraft",
+                data: data);
+        }
+
         public static string DragColumn(
             Context context,
             params string[] data)
@@ -5546,6 +5646,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Grid",
+                data: data);
+        }
+
+        public static string GridDataTimeout(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "GridDataTimeout",
+                data: data);
+        }
+
+        public static string GridDataUnexpectedError(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "GridDataUnexpectedError",
                 data: data);
         }
 
@@ -11469,6 +11589,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SuspendRequired(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SuspendRequired",
+                data: data);
+        }
+
         public static string SwitchCommandButtonsAutoPostBack(
             Context context,
             params string[] data)
@@ -11669,6 +11799,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string TenantCreated(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantCreated",
+                data: data);
+        }
+
+        public static string TenantCreatedMailBody(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantCreatedMailBody",
+                data: data);
+        }
+
         public static string TenantImageType(
             Context context,
             params string[] data)
@@ -11676,6 +11826,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "TenantImageType",
+                data: data);
+        }
+
+        public static string TenantResumed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantResumed",
+                data: data);
+        }
+
+        public static string TenantSuspended(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantSuspended",
                 data: data);
         }
 
@@ -17006,6 +17176,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Tenants_ContractSettings",
+                data: data);
+        }
+
+        public static string Tenants_DeleteRequestTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_DeleteRequestTime",
                 data: data);
         }
 

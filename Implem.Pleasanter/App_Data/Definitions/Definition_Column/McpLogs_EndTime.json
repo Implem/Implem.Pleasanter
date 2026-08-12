@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_EndTime",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "EndTime",
     "LabelText": "終了日時",
     "No": "3",
+    "History": "3",
     "GridColumn": "3",
     "GridEnabled": "1",
     "FilterColumn": "3",

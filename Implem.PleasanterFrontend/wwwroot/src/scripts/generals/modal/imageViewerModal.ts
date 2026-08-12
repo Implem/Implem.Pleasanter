@@ -123,10 +123,20 @@ export class ImageViewerModal extends HTMLElement {
     private imgDisplay(imgSrc: string, minWaitMs: number) {
         this.loadImageWithMinWait(imgSrc, minWaitMs)
             .then(img => {
-                const imgSrc = img.src.split('?thumbnail')[0];
-                this.imgElem.src = imgSrc;
-                this.customModalElem.removeAttribute('is-loading');
-                this.customModalElem.removeAttribute('no-display-close');
+                const cleanSrc = img.src.split('?thumbnail')[0];
+                const reveal = () => {
+                    this.imgElem.onload = null;
+                    this.imgElem.onerror = null;
+                    this.customModalElem.removeAttribute('is-loading');
+                    this.customModalElem.removeAttribute('no-display-close');
+                };
+                if (this.imgElem.src === cleanSrc && this.imgElem.complete) {
+                    reveal();
+                } else {
+                    this.imgElem.onload = reveal;
+                    this.imgElem.onerror = reveal;
+                    this.imgElem.src = cleanSrc;
+                }
                 if (this.imgCurrent !== undefined) {
                     this.collectionCurrentElem.textContent = String(this.imgCurrent + 1);
                 }

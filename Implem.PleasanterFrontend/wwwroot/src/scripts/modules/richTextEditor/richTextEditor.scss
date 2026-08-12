@@ -64,6 +64,7 @@
     thead,
     tr {
         all: revert;
+        box-sizing: border-box;
     }
 }
 
@@ -73,6 +74,7 @@ rt-editor {
     textarea {
         display: none;
     }
+
     .sun-editor {
         border-radius: 4px;
         .se-toolbar {
@@ -107,7 +109,7 @@ rt-editor {
         .se-list-basic {
             max-height: 200px;
         }
-        .se-btn-module-border:has(.btn-editable-cmd) {
+        .se-btn-module:has(button[data-command='toggleReadonly']) {
             all: unset;
             margin-left: 8px;
             .btn-editable-cmd {
@@ -157,6 +159,21 @@ rt-editor {
                     }
                 }
             }
+            .se-btn[data-command='toggleReadonly']:enabled {
+                &:hover,
+                &:focus {
+                    color: #fff;
+                    background-color: transparent;
+                    border: none;
+                }
+                &:active,
+                &.__se__active {
+                    outline: none !important;
+                    background-color: transparent;
+                    border-color: transparent !important;
+                    box-shadow: none;
+                }
+            }
         }
 
         .se-wrapper {
@@ -174,28 +191,20 @@ rt-editor {
                 }
             }
         }
-        .se-dialog-inner {
-            .se-dialog-content {
-                top: 10vh;
-            }
-            .se-dialog-form-footer {
-                label:has(._se_anchor_download) {
-                    display: none;
-                }
-            }
-        }
-        .se-resizing-bar {
+        .se-status-bar {
             border-radius: 0 0 4px 4px;
         }
 
         &.is-readonly {
             .se-menu-list {
+                &:not(:has(button[data-command='toggleReadonly'])) {
+                    pointer-events: none;
+                }
+                input,
                 button {
-                    &[data-command='indent'] {
-                        color: #bdbdbd;
-                        cursor: not-allowed;
-                        background-color: inherit;
-                    }
+                    color: #bdbdbd;
+                    cursor: not-allowed;
+                    background-color: inherit;
                 }
             }
             .se-wrapper-inner {
@@ -207,24 +216,25 @@ rt-editor {
                     outline: none;
                 }
             }
-            .se-resizing-back,
+            .se-resizing-container,
             .se-loading-box,
-            .se-line-breaker,
             .se-line-breaker-component,
-            .se-resizing-bar {
+            .se-status-bar {
                 display: none !important;
-            }
-        }
-        .se-dialog-image {
-            .se-dialog-tabs {
-                display: none;
             }
         }
     }
 
     .sun-editor-editable {
+        // 編集/表示領域の基準フォントサイズを v2 に合わせ 13px にする。
+        // suneditor 既定は --se-edit-font-size:16px (.sun-editor-editable に直接定義) で、
+        // fontSize プラグインの既定表示・素のテキスト描画はこの computed 値を参照するため上書きする。
+        // (注入順は自前 css → suneditor css で同特異度だと後勝ちのため、rt-editor 配下で特異度を上げる)
+        --se-edit-font-size: 13px;
         figure {
-            cursor: pointer;
+            img {
+                cursor: pointer;
+            }
         }
     }
 
@@ -255,6 +265,26 @@ rt-editor {
         .sun-editor {
             .se-btn-tray {
                 .se-tooltip-inner {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.sun-editor {
+    .se-modal-area {
+        .se-modal-inner {
+            .se-modal-content {
+                top: 10vh;
+            }
+            .se-modal-tabs {
+                &:has([data-tab-link='url']) {
+                    display: none;
+                }
+            }
+            .se-modal-form-footer {
+                label:has(._se_anchor_download) {
                     display: none;
                 }
             }

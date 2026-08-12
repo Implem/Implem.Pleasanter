@@ -1,46 +1,67 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Classes;
-using Implem.Libraries.DataSources.Interfaces;
-using Implem.Libraries.DataSources.SqlServer;
-using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.BackgroundServices;
-using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.DataTypes;
-using Implem.Pleasanter.Libraries.Extensions;
-using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.HtmlParts;
-using Implem.Pleasanter.Libraries.Models;
-using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Resources;
-using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
-using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Libraries.Web;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.BackgroundServices;
+using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.Web;
 using Microsoft.AspNetCore.Http;
 using Quartz;
+using IoDirectory = System.IO.Directory;
 using IoFile = System.IO.File;
-using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using IoPath = System.IO.Path;
 
 namespace Implem.Pleasanter.Models
 {
     public static partial class BackgroundJobQueue
     {
+        private const string PreparingFailedDisplayId = "BackgroundJobRecoverOrphanPreparingFailed";
         private static readonly TimeSpan DownloadLockLease = TimeSpan.FromHours(24);
         private static readonly Dictionary<string, string> JobTypeDisplayIds =
             new Dictionary<string, string>
         {
-            { "Export", "Export" }
+            { BackgroundJobTypes.Export, "Export" },
+            { BackgroundJobTypes.Import, "Import" }
         };
-        private static readonly ConcurrentDictionary<long, DateTime> s_downloadLocks
+        private static readonly HashSet<string> InputFileJobTypes =
+            new HashSet<string>
+        {
+            BackgroundJobTypes.Import
+        };
+        private static readonly Dictionary<string, QueueFilePathDefinition> QueueFilePathDefinitions =
+            new Dictionary<string, QueueFilePathDefinition>
+        {
+            {
+                BackgroundJobTypes.Export,
+                new QueueFilePathDefinition
+                {
+                    RootPath = static () => Parameters.BackgroundJobs?.OutputFilePath,
+                    ParameterName = "OutputFilePath",
+                    NotConfiguredDisplayId = "BackgroundJobOutputFilePathNotConfigured"
+                }
+            },
+            {
+                BackgroundJobTypes.Import,
+                new QueueFilePathDefinition
+                {
+                    RootPath = static () => Parameters.BackgroundJobs?.InputFilePath,
+                    ParameterName = "InputFilePath",
+                    NotConfiguredDisplayId = "BackgroundJobInputFilePathNotConfigured"
+                }
+            }
+        };
+        private static readonly ConcurrentDictionary<long, DateTime> DownloadLocks
             = new ConcurrentDictionary<long, DateTime>();
 
         public static bool TryAcquireDownloadLock(
@@ -48,13 +69,13 @@ namespace Implem.Pleasanter.Models
             out DateTime lockToken)
         {
             lockToken = DateTime.UtcNow;
-            if (s_downloadLocks.TryAdd(
+            if (DownloadLocks.TryAdd(
                 backgroundJobId,
                 lockToken))
             {
                 return true;
             }
-            if (s_downloadLocks.TryGetValue(
+            if (DownloadLocks.TryGetValue(
                 backgroundJobId,
                 out var currentLockToken)
                 && IsDownloadLockExpired(
@@ -64,7 +85,7 @@ namespace Implem.Pleasanter.Models
                     backgroundJobId: backgroundJobId,
                     lockToken: currentLockToken))
             {
-                return s_downloadLocks.TryAdd(
+                return DownloadLocks.TryAdd(
                     backgroundJobId,
                     lockToken);
             }
@@ -75,7 +96,7 @@ namespace Implem.Pleasanter.Models
             long backgroundJobId,
             DateTime lockToken)
         {
-            return ((ICollection<KeyValuePair<long, DateTime>>)s_downloadLocks).Remove(
+            return ((ICollection<KeyValuePair<long, DateTime>>)DownloadLocks).Remove(
                 new KeyValuePair<long, DateTime>(
                     backgroundJobId,
                     lockToken));
@@ -84,7 +105,7 @@ namespace Implem.Pleasanter.Models
         public static bool IsDownloading(long backgroundJobId)
         {
             var now = DateTime.UtcNow;
-            if (s_downloadLocks.TryGetValue(
+            if (DownloadLocks.TryGetValue(
                 backgroundJobId,
                 out var lockToken) == false)
             {
@@ -106,7 +127,7 @@ namespace Implem.Pleasanter.Models
             long backgroundJobId,
             DateTime now)
         {
-            return s_downloadLocks.TryGetValue(
+            return DownloadLocks.TryGetValue(
                 backgroundJobId,
                 out var lockToken)
                 && IsDownloadLockExpired(
@@ -190,26 +211,38 @@ namespace Implem.Pleasanter.Models
                     + $", SiteId={siteId}"
                     + $", UserId={context.UserId}",
                 sysLogType: SysLogModel.SysLogTypes.Info);
-            var outputFilePathConfigured =
-                Parameters.BackgroundJobs?.OutputFilePath.IsNullOrEmpty() == false;
-            if (outputFilePathConfigured == false)
+            var queueFilePathDefinition = QueueFilePath(jobType: jobType);
+            if (queueFilePathDefinition != null
+                && queueFilePathDefinition.RootPath().IsNullOrEmpty())
             {
-                FailPendingOutputFilePathNotConfigured(
+                FailPendingQueueFilePathNotConfigured(
                     context: context,
+                    definition: queueFilePathDefinition,
                     backgroundJobId: backgroundJobId);
             }
             return backgroundJobId;
         }
 
-        private static void FailPendingOutputFilePathNotConfigured(
+        private static QueueFilePathDefinition QueueFilePath(string jobType)
+        {
+            return jobType.IsNullOrEmpty() == false
+                && QueueFilePathDefinitions.TryGetValue(
+                    jobType,
+                    out var definition)
+                        ? definition
+                        : null;
+        }
+
+        private static void FailPendingQueueFilePathNotConfigured(
             Context context,
+            QueueFilePathDefinition definition,
             long backgroundJobId)
         {
             var now = DateTime.UtcNow;
             var resultMessage = SanitizeMessage(
                 Displays.Get(
                     context: context,
-                    id: "BackgroundJobOutputFilePathNotConfigured"));
+                    id: definition.NotConfiguredDisplayId));
             var count = Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateBackgroundJobs(
@@ -226,9 +259,187 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 method: nameof(Enqueue),
                 message: count == 1
-                    ? $"Failed at enqueue (OutputFilePath not configured): BackgroundJobId={backgroundJobId}"
+                    ? $"Failed at enqueue ({definition.ParameterName} not configured): BackgroundJobId={backgroundJobId}"
                     : $"Skipped fail at enqueue (unexpected state): BackgroundJobId={backgroundJobId}",
                 sysLogType: SysLogModel.SysLogTypes.Info);
+        }
+
+        public static BackgroundJobEnqueueResult EnqueueWithFile(
+            Context context,
+            long siteId,
+            string jobType,
+            string jobParameters,
+            string directory,
+            string extension,
+            byte[] fileBytes,
+            int priority = 100)
+        {
+            var filePath = IoPath.Combine(
+                directory,
+                $"{Strings.NewGuid()}{extension}");
+            var backgroundJobId = InsertPreparing(
+                context: context,
+                siteId: siteId,
+                jobType: jobType,
+                jobParameters: jobParameters,
+                priority: priority,
+                filePath: filePath);
+            try
+            {
+                if (fileBytes == null)
+                {
+                    throw new InvalidOperationException(
+                        $"No uploaded file: BackgroundJobId={backgroundJobId}");
+                }
+                IoDirectory.CreateDirectory(directory);
+                IoFile.WriteAllBytes(
+                    path: filePath,
+                    bytes: fileBytes);
+                PreparingToPending(
+                    context: context,
+                    backgroundJobId: backgroundJobId);
+            }
+            catch (Exception e)
+            {
+                FailPreparing(
+                    context: context,
+                    backgroundJobId: backgroundJobId,
+                    filePath: filePath,
+                    e: e);
+                return new BackgroundJobEnqueueResult
+                {
+                    BackgroundJobId = backgroundJobId,
+                    Succeeded = false,
+                    FailureMessageDisplayId = PreparingFailedDisplayId
+                };
+            }
+            return new BackgroundJobEnqueueResult
+            {
+                BackgroundJobId = backgroundJobId,
+                Succeeded = true
+            };
+        }
+
+        private static long InsertPreparing(
+            Context context,
+            long siteId,
+            string jobType,
+            string jobParameters,
+            int priority,
+            string filePath)
+        {
+            var response = Repository.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                selectIdentity: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.InsertBackgroundJobs(
+                        selectIdentity: true,
+                        param: Rds.BackgroundJobsParam()
+                            .TenantId(context.TenantId)
+                            .SiteId(siteId)
+                            .UserId(context.UserId)
+                            .JobType(jobType.MaxLength(50))
+                            .Status(BackgroundJobStatus.Preparing)
+                            .Priority(priority)
+                            .JobParameters(jobParameters ?? string.Empty)
+                            .JobEnqueuedTime(DateTime.UtcNow)
+                            .File(filePath)
+                            .Comments("[]"))
+                });
+            var backgroundJobId = (response.Id ?? 0L).ToLong();
+            new SysLogModel(
+                context: context,
+                method: nameof(EnqueueWithFile),
+                message: $"Enqueued (Preparing): BackgroundJobId={backgroundJobId}"
+                    + $", JobType={jobType}"
+                    + $", TenantId={context.TenantId}"
+                    + $", SiteId={siteId}"
+                    + $", UserId={context.UserId}",
+                sysLogType: SysLogModel.SysLogTypes.Info);
+            return backgroundJobId;
+        }
+
+        private static void PreparingToPending(
+            Context context,
+            long backgroundJobId)
+        {
+            var count = Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateBackgroundJobs(
+                    where: Rds.BackgroundJobsWhere()
+                        .BackgroundJobId(backgroundJobId)
+                        .Status(BackgroundJobStatus.Preparing),
+                    param: Rds.BackgroundJobsParam()
+                        .Status(BackgroundJobStatus.Pending),
+                    addUpdatorParam: false,
+                    addUpdatedTimeParam: false));
+            if (count == 0)
+            {
+                throw new InvalidOperationException(
+                    $"Failed to promote Preparing to Pending: BackgroundJobId={backgroundJobId}");
+            }
+        }
+
+        private static void FailPreparing(
+            Context context,
+            long backgroundJobId,
+            string filePath,
+            Exception e)
+        {
+            try
+            {
+                var resultMessage = SanitizeMessage(
+                    Displays.Get(
+                        context: context,
+                        id: PreparingFailedDisplayId));
+                var count = Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateBackgroundJobs(
+                        where: Rds.BackgroundJobsWhere()
+                            .BackgroundJobId(backgroundJobId)
+                            .Status(BackgroundJobStatus.Preparing),
+                        param: Rds.BackgroundJobsParam()
+                            .Status(BackgroundJobStatus.Failed)
+                            .JobFinishedTime(DateTime.UtcNow)
+                            .ResultMessage(resultMessage),
+                        addUpdatorParam: false,
+                        addUpdatedTimeParam: false));
+                new SysLogModel(
+                    context: context,
+                    e: e,
+                    extendedErrorMessage: count == 1
+                        ? $"Failed at enqueue (file not stored): BackgroundJobId={backgroundJobId}"
+                        : $"Failed at enqueue (unexpected state): BackgroundJobId={backgroundJobId}");
+            }
+            finally
+            {
+                DeleteQueueFile(
+                    context: context,
+                    path: filePath);
+            }
+        }
+
+        private static void DeleteQueueFile(
+            Context context,
+            string path)
+        {
+            if (path.IsNullOrEmpty()
+                || IoFile.Exists(path) == false)
+            {
+                return;
+            }
+            try
+            {
+                IoFile.Delete(path);
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: context,
+                    e: e);
+            }
         }
 
         public static bool BackgroundQueueEnabled()
@@ -274,8 +485,76 @@ namespace Implem.Pleasanter.Models
             return Enqueue(
                 context: context,
                 siteId: siteId,
-                jobType: "Export",
+                jobType: BackgroundJobTypes.Export,
                 jobParameters: jobParameters.ToJson());
+        }
+
+        public static bool ShouldQueueImport(Context context, SiteSettings ss)
+        {
+            return BackgroundQueueEnabled()
+                && CanQueueImportReferenceType(referenceType: ss?.ReferenceType);
+        }
+
+        private static bool CanQueueImportReferenceType(string referenceType)
+        {
+            return referenceType == "Issues"
+                || referenceType == "Results";
+        }
+
+        public static ErrorData ValidateBeforeEnqueueImport(
+            Context context,
+            SiteSettings ss)
+        {
+            if (context.ContractSettings.Import == false)
+            {
+                return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            var invalid = ss?.ReferenceType == "Issues"
+                ? IssueValidators.OnImporting(
+                    context: context,
+                    ss: ss)
+                : ResultValidators.OnImporting(
+                    context: context,
+                    ss: ss);
+            if (invalid.Type != Error.Types.None)
+            {
+                return invalid;
+            }
+            if (context.PostedFiles?.Any() != true)
+            {
+                return new ErrorData(type: Error.Types.FailedReadFile);
+            }
+            return invalid;
+        }
+
+        public static BackgroundJobEnqueueResult EnqueueImport(
+            Context context,
+            long siteId)
+        {
+            var jobParameters = ImportJobParameters.FromContext(context: context);
+            var queueFilePathDefinition = QueueFilePath(jobType: BackgroundJobTypes.Import);
+            if (queueFilePathDefinition.RootPath().IsNullOrEmpty())
+            {
+                return new BackgroundJobEnqueueResult
+                {
+                    BackgroundJobId = Enqueue(
+                        context: context,
+                        siteId: siteId,
+                        jobType: BackgroundJobTypes.Import,
+                        jobParameters: jobParameters.ToJson()),
+                    Succeeded = false,
+                    FailureMessageDisplayId = queueFilePathDefinition.NotConfiguredDisplayId
+                };
+            }
+            var fileBytes = context.PostedFiles.FirstOrDefault()?.Byte();
+            return EnqueueWithFile(
+                context: context,
+                siteId: siteId,
+                jobType: BackgroundJobTypes.Import,
+                jobParameters: jobParameters.ToJson(),
+                directory: Directories.BackgroundJobImport(),
+                extension: ".csv",
+                fileBytes: fileBytes);
         }
 
         public static string GetJobTypeLabel(
@@ -305,6 +584,12 @@ namespace Implem.Pleasanter.Models
         public static IEnumerable<string> JobTypes()
         {
             return JobTypeDisplayIds.Keys;
+        }
+
+        public static bool IsInputFileJobType(string jobType)
+        {
+            return jobType.IsNullOrEmpty() == false
+                && InputFileJobTypes.Contains(jobType);
         }
 
         public static Context CreateSysLogContext(
@@ -397,7 +682,8 @@ namespace Implem.Pleasanter.Models
                         .Status()
                         .Priority()
                         .JobParameters()
-                        .JobStartedTime(),
+                        .JobStartedTime()
+                        .File(),
                     where: Rds.BackgroundJobsWhere()
                         .BackgroundJobId(candidateId)
                         .Status(BackgroundJobStatus.Running)));
@@ -552,10 +838,16 @@ namespace Implem.Pleasanter.Models
 
         private static string GetJobLanguage(BackgroundJobModel model)
         {
-            if (model.JobType == "Export")
+            if (model.JobType == BackgroundJobTypes.Export)
             {
                 return model.JobParameters
                     .Deserialize<ExportJobParameters>()
+                    ?.Language;
+            }
+            else if (model.JobType == BackgroundJobTypes.Import)
+            {
+                return model.JobParameters
+                    .Deserialize<ImportJobParameters>()
                     ?.Language;
             }
             return null;
@@ -636,6 +928,12 @@ namespace Implem.Pleasanter.Models
                         + $", OperatorUserId={context.UserId}"
                         + $", JobFinishedTime={now:O}",
                     sysLogType: SysLogModel.SysLogTypes.Info);
+                if (IsInputFileJobType(jobType: model.JobType))
+                {
+                    DeleteQueueFile(
+                        context: context,
+                        path: model.File);
+                }
             }
             return new ErrorData(type: count == 1
                 ? Error.Types.None
@@ -1087,6 +1385,12 @@ namespace Implem.Pleasanter.Models
                         addUpdatedTimeParam: false));
                 foreach (var job in targetJobs)
                 {
+                    if (IsInputFileJobType(jobType: job.JobType))
+                    {
+                        DeleteQueueFile(
+                            context: context,
+                            path: job.File);
+                    }
                     new SysLogModel(
                         context: CreateSysLogContext(
                             context: context,
@@ -1213,6 +1517,60 @@ namespace Implem.Pleasanter.Models
                             + $" BackgroundJobId={job.BackgroundJobId}"
                             + $", TenantId={job.TenantId}"
                             + $", JobStartedTime={job.JobStartedTime:O}",
+                        sysLogType: SysLogModel.SysLogTypes.Warning);
+                }
+            }
+        }
+
+        internal static void FailStalePreparingJobs(Context context)
+        {
+            var timeout = Parameters.BackgroundJobs?.BackgroundJobTimeout ?? 0;
+            if (timeout <= 0)
+            {
+                timeout = 3600;
+            }
+            var threshold = DateTime.UtcNow.AddSeconds(-timeout);
+            var staleJobs = new BackgroundJobCollection(
+                context: context,
+                where: Rds.BackgroundJobsWhere()
+                    .Status(BackgroundJobStatus.Preparing)
+                    .JobEnqueuedTime(
+                        threshold,
+                        _operator: "<"));
+            foreach (var job in staleJobs)
+            {
+                var now = DateTime.UtcNow;
+                var message = SanitizeMessage(
+                    Displays.Get(
+                        id: PreparingFailedDisplayId,
+                        language: ResolveLanguage(
+                            language: GetJobLanguage(model: job))));
+                var count = Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateBackgroundJobs(
+                        where: Rds.BackgroundJobsWhere()
+                            .BackgroundJobId(job.BackgroundJobId)
+                            .Status(BackgroundJobStatus.Preparing),
+                        param: Rds.BackgroundJobsParam()
+                            .Status(BackgroundJobStatus.Failed)
+                            .JobFinishedTime(now)
+                            .ResultMessage(message),
+                        addUpdatorParam: false,
+                        addUpdatedTimeParam: false));
+                if (count > 0)
+                {
+                    DeleteQueueFile(
+                        context: context,
+                        path: job.File);
+                    new SysLogModel(
+                        context: CreateSysLogContext(
+                            context: context,
+                            model: job),
+                        method: nameof(FailStalePreparingJobs),
+                        message: $"Failed stale Preparing job: BackgroundJobId={job.BackgroundJobId}"
+                            + $", TenantId={job.TenantId}"
+                            + $", JobType={job.JobType}"
+                            + $", JobEnqueuedTime={job.JobEnqueuedTime:O}",
                         sysLogType: SysLogModel.SysLogTypes.Warning);
                 }
             }
@@ -1546,6 +1904,14 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        private sealed class QueueFilePathDefinition
+        {
+            public Func<string> RootPath;
+
+            public string ParameterName;
+
+            public string NotConfiguredDisplayId;
+        }
     }
 
     public class BackgroundJobFilterParams

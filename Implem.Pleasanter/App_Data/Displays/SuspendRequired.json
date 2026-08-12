@@ -1,0 +1,33 @@
+{
+    "Id": "SuspendRequired",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Please suspend the tenant before requesting deletion."
+        },
+        {
+            "Language": "zh",
+            "Body": "请先停止租户，然后再申请删除。"
+        },
+        {
+            "Language": "ja",
+            "Body": "テナントを停止してから削除申請してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte setzen Sie den Mandanten aus, bevor Sie die Löschung beantragen."
+        },
+        {
+            "Language": "ko",
+            "Body": "삭제를 요청하기 전에 테넌트를 일시 중단하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor, suspenda el tenant antes de solicitar la eliminación."
+        },
+        {
+            "Language": "vn",
+            "Body": "Vui lòng tạm dừng tenant trước khi yêu cầu xóa."
+        }
+    ]
+}

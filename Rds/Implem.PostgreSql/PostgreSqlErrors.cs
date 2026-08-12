@@ -1,6 +1,7 @@
 ﻿using Implem.IRds;
 using Implem.Libraries.Utilities;
 using Npgsql;
+using System;
 using System.Data.Common;
 namespace Implem.PostgreSql
 {
@@ -13,6 +14,11 @@ namespace Implem.PostgreSql
         public int ErrorCode(DbException dbException)
         {
             return ((NpgsqlException)dbException).SqlState.ToInt();
+        }
+
+        public bool IsTimeout(DbException dbException)
+        {
+            return dbException.InnerException is TimeoutException;
         }
     }
 }

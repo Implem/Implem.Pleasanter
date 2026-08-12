@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Controllers.Api
                 contentType: Request.ContentType,
                 api: true);
             var log = new SysLogModel(context: context);
-            if (Parameters.Service.DemoApi)
+            if (Parameters.Environment() == 2 && Parameters.Service.DemoApi)
             {
                 var result = DemoUtilities.RegisterByApi(context: context);
                 log.Finish(context: context, responseSize: result.Content.Length);

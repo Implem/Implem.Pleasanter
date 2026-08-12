@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_TenantId",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "TenantId",
     "LabelText": "テナントID",
     "No": "8",
+    "History": "8",
     "TypeName": "int",
     "Default": "0",
     "Required": "1",

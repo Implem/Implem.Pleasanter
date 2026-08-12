@@ -15,6 +15,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.DataSources.BinaryStorages;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -878,7 +879,7 @@ namespace Implem.Pleasanter.Models
             Context context, Libraries.Images.ImageData.SizeTypes sizeType)
         {
             var updatedTime = DateTime.FromOADate(0);
-            if (Parameters.BinaryStorage.GetSiteImageProvider() == "Local")
+            if (BinaryStorageProviderFactory.Create(Parameters.BinaryStorage.GetSiteImageProvider()) != null)
             {
                 updatedTime = new Libraries.Images.ImageData(
                     ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
@@ -905,7 +906,7 @@ namespace Implem.Pleasanter.Models
             Context context, Libraries.Images.ImageData.SizeTypes sizeType)
         {
             var updatedTime = DateTime.FromOADate(0);
-            if (Parameters.BinaryStorage.GetSiteImageProvider() == "Local")
+            if (BinaryStorageProviderFactory.Create(Parameters.BinaryStorage.Provider) != null)
             {
                 updatedTime = new Libraries.Images.ImageData(
                     ReferenceId, Libraries.Images.ImageData.Types.TenantImage)
@@ -933,20 +934,20 @@ namespace Implem.Pleasanter.Models
             Libraries.Images.ImageData.SizeTypes sizeType,
             SqlColumnCollection column)
         {
-            switch (Parameters.BinaryStorage.GetSiteImageProvider())
+            var provider = BinaryStorageProviderFactory.Create(
+                Parameters.BinaryStorage.GetSiteImageProvider());
+            if (provider != null)
             {
-                case "Local":
-                    return new Libraries.Images.ImageData(
+                return new Libraries.Images.ImageData(
                         ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
                             .Read(sizeType)
                                 ?? SiteImage(
                                     context: context,
                                     column: column);
-                default:
-                    return SiteImage(
-                        context: context,
-                        column: column);
             }
+            return SiteImage(
+                context: context,
+                column: column);
         }
 
         /// <summary>
@@ -971,18 +972,17 @@ namespace Implem.Pleasanter.Models
             Libraries.Images.ImageData.SizeTypes sizeType,
             SqlColumnCollection column)
         {
-            switch (Parameters.BinaryStorage.Provider)
+            var provider = BinaryStorageProviderFactory.Create(Parameters.BinaryStorage.Provider);
+            if (provider != null)
             {
-                case "Local":
-                    return new Libraries.Images.ImageData(
+                return new Libraries.Images.ImageData(
                         ReferenceId, Libraries.Images.ImageData.Types.TenantImage)
                             .Read(sizeType)
                                 ?? TenantImage(
                                     context: context,
                                     column: column);
-                default:
-                    return TenantImage(context, column);
             }
+            return TenantImage(context, column);
         }
 
         /// <summary>
@@ -1012,28 +1012,31 @@ namespace Implem.Pleasanter.Models
                 bin,
                 ReferenceId,
                 Libraries.Images.ImageData.Types.SiteImage);
-            switch (Parameters.BinaryStorage.GetSiteImageProvider())
+            var provider = BinaryStorageProviderFactory.Create(
+                Parameters.BinaryStorage.GetSiteImageProvider());
+            if (provider != null)
             {
-                case "Local": imageData.WriteToLocal(); break;
-                default:
-                    Bin = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Regular);
-                    Thumbnail = imageData.ReSizeBytes(
-                        Libraries.Images.ImageData.SizeTypes.Thumbnail);
-                    Icon = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Icon);
-                    ContentType = "image/png";
-                    Repository.ExecuteNonQuery(
-                        context: context,
-                        transactional: true,
-                        statements: Rds.UpdateOrInsertBinaries(
-                            where: Rds.BinariesWhere()
-                                .ReferenceId(ReferenceId)
-                                .BinaryType("SiteImage"),
-                            param: Rds.BinariesParamDefault(
-                                context: context,
-                                ss: ss,
-                                binaryModel: this,
-                                setDefault: true)));
-                    break;
+                imageData.WriteToLocal();
+            }
+            else
+            {
+                Bin = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Regular);
+                Thumbnail = imageData.ReSizeBytes(
+                    Libraries.Images.ImageData.SizeTypes.Thumbnail);
+                Icon = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Icon);
+                ContentType = "image/png";
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: Rds.UpdateOrInsertBinaries(
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(ReferenceId)
+                            .BinaryType("SiteImage"),
+                        param: Rds.BinariesParamDefault(
+                            context: context,
+                            ss: ss,
+                            binaryModel: this,
+                            setDefault: true)));
             }
             return Error.Types.None;
         }
@@ -1051,25 +1054,27 @@ namespace Implem.Pleasanter.Models
                 bin,
                 ReferenceId,
                 Libraries.Images.ImageData.Types.TenantImage);
-            switch (Parameters.BinaryStorage.Provider)
+            var provider = BinaryStorageProviderFactory.Create(Parameters.BinaryStorage.Provider);
+            if (provider != null)
             {
-                case "Local": imageData.WriteToLocal(); break;
-                default:
-                    Bin = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Logo);
-                    ContentType = "image/png";
-                    Repository.ExecuteNonQuery(
-                        context: context,
-                        transactional: true,
-                        statements: Rds.UpdateOrInsertBinaries(
-                            where: Rds.BinariesWhere()
-                                .ReferenceId(ReferenceId)
-                                .BinaryType("TenantImage"),
-                            param: Rds.BinariesParamDefault(
-                                context: context,
-                                ss: ss,
-                                binaryModel: this,
-                                setDefault: true)));
-                    break;
+                imageData.WriteToLocal();
+            }
+            else
+            {
+                Bin = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Logo);
+                ContentType = "image/png";
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: Rds.UpdateOrInsertBinaries(
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(ReferenceId)
+                            .BinaryType("TenantImage"),
+                        param: Rds.BinariesParamDefault(
+                            context: context,
+                            ss: ss,
+                            binaryModel: this,
+                            setDefault: true)));
             }
             return Error.Types.None;
         }
@@ -1080,22 +1085,23 @@ namespace Implem.Pleasanter.Models
         public Error.Types DeleteSiteImage(Context context)
         {
             BinaryType = "SiteImage";
-            switch (Parameters.BinaryStorage.GetSiteImageProvider())
+            var provider = BinaryStorageProviderFactory.Create(
+                Parameters.BinaryStorage.GetSiteImageProvider());
+            if (provider != null)
             {
-                case "Local":
-                    new Libraries.Images.ImageData(
+                new Libraries.Images.ImageData(
                         ReferenceId,
                         Libraries.Images.ImageData.Types.SiteImage)
                             .DeleteLocalFiles();
-                    break;
-                default:
-                    Repository.ExecuteNonQuery(
+            }
+            else
+            {
+                Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.PhysicalDeleteBinaries(
                             where: Rds.BinariesWhere()
                                 .ReferenceId(ReferenceId)
                                 .BinaryType("SiteImage")));
-                    break;
             }
             return Error.Types.None;
         }
@@ -1106,22 +1112,22 @@ namespace Implem.Pleasanter.Models
         public Error.Types DeleteTenantImage(Context context)
         {
             BinaryType = "TenantImage";
-            switch (Parameters.BinaryStorage.Provider)
+            var provider = BinaryStorageProviderFactory.Create(Parameters.BinaryStorage.Provider);
+            if (provider != null)
             {
-                case "Local":
-                    new Libraries.Images.ImageData(
+                new Libraries.Images.ImageData(
                         ReferenceId,
                         Libraries.Images.ImageData.Types.TenantImage)
                             .DeleteLocalFiles();
-                    break;
-                default:
-                    Repository.ExecuteNonQuery(
+            }
+            else
+            {
+                Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.PhysicalDeleteBinaries(
                             where: Rds.BinariesWhere()
                                 .ReferenceId(ReferenceId)
                                 .BinaryType("TenantImage")));
-                    break;
             }
             return Error.Types.None;
         }
@@ -1141,7 +1147,10 @@ namespace Implem.Pleasanter.Models
         {
             ReferenceId = referenceId;
             BinaryType = binaryType;
-            if (Parameters.BinaryStorage.Provider == "Local")
+            var providerName = binaryType == "SiteImage"
+                ? Parameters.BinaryStorage.GetSiteImageProvider()
+                : Parameters.BinaryStorage.Provider;
+            if (BinaryStorageProviderFactory.Create(providerName) != null)
             {
                 return;
             }

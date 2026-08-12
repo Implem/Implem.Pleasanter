@@ -1,0 +1,31 @@
+﻿{
+    "Id": "BackgroundJobStatusPreparing",
+    "Type": 110,
+    "Languages": [
+        { "Body": "Preparing" },
+        {
+            "Language": "zh",
+            "Body": "准备"
+        },
+        {
+            "Language": "ja",
+            "Body": "準備中"
+        },
+        {
+            "Language": "de",
+            "Body": "In Vorbereitung"
+        },
+        {
+            "Language": "ko",
+            "Body": "준비 중"
+        },
+        {
+            "Language": "es",
+            "Body": "En preparación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đang được chuẩn bị"
+        }
+    ]
+}

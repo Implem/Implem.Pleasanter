@@ -114,7 +114,7 @@
         "PragmaNoCache": false
     },
     "HealthCheck": {
-        "Enabled": false,
+        "Enabled": true,
         "EnableDatabaseCheck": false,
         "HealthQuery": null,
         "RequireHosts": null,

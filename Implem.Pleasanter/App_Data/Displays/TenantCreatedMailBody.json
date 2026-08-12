@@ -1,0 +1,33 @@
+{
+    "Id": "TenantCreatedMailBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "The tenant \"{0}\" has been created.\r\n\r\nTenantId: {1}\r\nLoginId: {2}\r\n\r\nYou are required to change your password at first login.\r\n\r\nLogin URL\r\n{3}\r\n\r\nPlease contact the administrator if you have any questions.\r\n\r\nIf you did not expect this email, please discard it.\r\nThis is an automated email. Please note that we cannot respond to replies to this email."
+        },
+        {
+            "Language": "zh",
+            "Body": "租户\"{0}\"已创建。\r\n\r\nTenantId: {1}\r\nLoginId: {2}\r\n\r\n首次登录时需要更改密码。\r\n\r\n登录URL\r\n{3}\r\n\r\n如有疑问，请联系管理员。\r\n\r\n如果您没有预期收到此邮件，请删除它。\r\n这是一封自动发送的邮件，请注意我们无法回复此邮件。"
+        },
+        {
+            "Language": "ja",
+            "Body": "\"{0}\"テナントを作成しました。\r\n\r\nTenantId: {1}\r\nLoginId: {2}\r\n\r\n初回ログイン時にパスワードの変更が必要です。\r\n\r\nログインURL\r\n{3}\r\n\r\n不明点は管理者に問い合わせてください。\r\n\r\nこのメールに心当たりがない場合は、メールを破棄して下さい。\r\nこのメールは自動送信メールです。このメールに返信されましても、返答することが出来ませんので、あらかじめご了承下さい。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Mandant \"{0}\" wurde erstellt.\r\n\r\nTenantId: {1}\r\nLoginId: {2}\r\n\r\nBeim ersten Login ist eine Passwortänderung erforderlich.\r\n\r\nAnmelde-URL\r\n{3}\r\n\r\nBitte wenden Sie sich bei Fragen an den Administrator.\r\n\r\nWenn Sie diese E-Mail nicht erwartet haben, löschen Sie sie bitte.\r\nDies ist eine automatisch generierte E-Mail. Bitte beachten Sie, dass wir auf Antworten auf diese E-Mail nicht reagieren können."
+        },
+        {
+            "Language": "ko",
+            "Body": "\"{0}\" 테넌트가 생성되었습니다.\r\n\r\nTenantId: {1}\r\nLoginId: {2}\r\n\r\n첫 번째 로그인 시 비밀번호를 변경해야 합니다.\r\n\r\n로그인 URL\r\n{3}\r\n\r\n문의 사항이 있으면 관리자에게 문의하십시오.\r\n\r\n이 이메일을 예상하지 못하셨다면 삭제해 주십시오.\r\n이 이메일은 자동으로 발송된 이메일입니다. 이 이메일에 회신하셔도 답변을 드릴 수 없음을 미리 알려드립니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El tenant \"{0}\" ha sido creado.\r\n\r\nTenantId: {1}\r\nLoginId: {2}\r\n\r\nDebe cambiar su contraseña en el primer inicio de sesión.\r\n\r\nURL de inicio de sesión\r\n{3}\r\n\r\nComuníquese con el administrador si tiene alguna pregunta.\r\n\r\nSi no esperaba este correo electrónico, descártelo.\r\nEste es un correo electrónico automatizado. Tenga en cuenta que no podemos responder a las respuestas a este correo electrónico."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tenant \"{0}\" đã được tạo.\r\n\r\nTenantId: {1}\r\nLoginId: {2}\r\n\r\nBạn cần thay đổi mật khẩu khi đăng nhập lần đầu.\r\n\r\nURL đăng nhập\r\n{3}\r\n\r\nVui lòng liên hệ quản trị viên nếu bạn có bất kỳ câu hỏi nào.\r\n\r\nNếu bạn không mong đợi email này, hãy xóa nó.\r\nĐây là email được gửi tự động. Xin lưu ý rằng chúng tôi không thể trả lời các phản hồi cho email này."
+        }
+    ]
+}

@@ -92,7 +92,8 @@ namespace Implem.Pleasanter.Models.Sessions
         public TableExclusive(Context context, long? siteId = null, [CallerMemberName] string callerMethodName = "")
             : base(
                   context: context,
-                  enabled: Parameters.General.BlockSiteTaskWhileRunning == true,
+                  enabled: Parameters.General.BlockSiteTaskWhileRunning == true
+                      && Parameters.AllowBlockSiteTaskWhileRunning(),
                   key: $"TableExclusive_SiteId={siteId ?? context.SiteId}",
                   siteId: siteId,
                   comment: callerMethodName)

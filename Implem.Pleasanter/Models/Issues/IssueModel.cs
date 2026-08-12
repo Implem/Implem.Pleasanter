@@ -1999,6 +1999,9 @@ namespace Implem.Pleasanter.Models
                 additionalStatements: additionalStatements,
                 checkConflict: checkConflict,
                 verUp: verUp));
+            WriteAttachmentsToLocal(
+                context: context,
+                ss: ss);
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -2024,7 +2027,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         autoNumbering: process.AutoNumbering,
                         overwrite: false));
-            WriteAttachments(
+            DeleteTempOrLocalAttachments(
                 context: context,
                 ss: ss,
                 verUp: verUp);

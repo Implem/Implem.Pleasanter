@@ -547,7 +547,7 @@ class MarkdownFieldElement extends HTMLElement {
                 (MarkdownFieldElement.imageViewerModal as ImageViewerModal).show(imgNode, imgNodes);
             } else {
                 const imgSrc = imgNode.src.split('?thumbnail')[0];
-                window.open(imgSrc);
+                window.open(imgSrc, '_blank', 'noopener,noreferrer');
             }
         }
     };

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "DraftOutputModeAlways",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Always Output"
+        },
+        {
+            "Language": "zh",
+            "Body": "通常输出（始终）"
+        },
+        {
+            "Language": "ja",
+            "Body": "通常出力（常に）"
+        },
+        {
+            "Language": "de",
+            "Body": "Immer ausgeben"
+        },
+        {
+            "Language": "ko",
+            "Body": "항상 출력"
+        },
+        {
+            "Language": "es",
+            "Body": "Salida siempre"
+        },
+        {
+            "Language": "vn",
+            "Body": "Luôn xuất"
+        }
+    ]
+}

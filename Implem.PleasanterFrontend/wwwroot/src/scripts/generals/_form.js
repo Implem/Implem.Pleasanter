@@ -52,19 +52,19 @@ $p.syncSend = function ($control, formId) {
 $p.send = function ($control, formId, _async, clearMessage) {
     if ($p.outsideDialog($control)) return false;
     if ($control.hasClass('no-send')) return false;
-    $form = formId !== undefined ? $('#' + formId) : $control.closest('form');
+    $p.store.$form = formId !== undefined ? $('#' + formId) : $control.closest('form');
     var action = $control.attr('data-action');
     var methodType = $control.attr('data-method');
     if ($p.before_setData($p.eventArgs(null, methodType, null, $control, _async)) === false) {
         return false;
     }
-    var data = $p.getData($form);
+    var data = $p.getData($p.store.$form);
     if ($p.after_setData($p.eventArgs(null, methodType, data, $control, _async)) === false) {
         return false;
     }
     var url =
         action !== undefined
-            ? $form.attr('action').replace('_action_', action.toLowerCase())
+            ? $p.store.$form.attr('action').replace('_action_', action.toLowerCase())
             : location.href;
     url = $p.addAuthenticationByMailParameter(url);
     var fieldSetTab = $('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]');
@@ -80,9 +80,9 @@ $p.send = function ($control, formId, _async, clearMessage) {
         if ($p.before_validate($p.eventArgs(url, methodType, data, $control, _async)) === false) {
             return false;
         }
-        $p.formValidate($form, $control);
-        if (!$form.valid()) {
-            $p.setValidationError($form);
+        $p.formValidate($p.store.$form, $control);
+        if (!$p.store.$form.valid()) {
+            $p.setValidationError($p.store.$form);
             $p.setErrorMessage('ValidationError');
             if ($p.data.MainForm && $p.data.MainForm.ControlId) {
                 delete $p.data.MainForm.ControlId;
@@ -99,7 +99,7 @@ $p.send = function ($control, formId, _async, clearMessage) {
         }
     }
     if (methodType !== 'get') {
-        $p.setMustData($form, action);
+        $p.setMustData($p.store.$form, action);
     }
     if (methodType !== undefined) {
         return $p.ajax(

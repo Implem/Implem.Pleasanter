@@ -6,6 +6,7 @@
     "ColumnName": "Status",
     "LabelText": "状況",
     "No": "15",
+    "History": "15",
     "GridColumn": "15",
     "GridEnabled": "1",
     "FilterColumn": "15",

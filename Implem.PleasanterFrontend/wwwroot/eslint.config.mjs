@@ -21,11 +21,7 @@ export default defineConfig([
                 GridStack: 'readonly',
                 QRCode: 'readonly',
                 grecaptcha: 'readonly',
-                $p: 'readonly',
-                formId: 'writable',
-                controlId: 'writable',
-                $form: 'writable',
-                $menuSort: 'writable'
+                $p: 'readonly'
             }
         },
         plugins: {

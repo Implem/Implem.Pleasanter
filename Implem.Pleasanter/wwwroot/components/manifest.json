@@ -1,15 +1,15 @@
 {
-  "_vendor_CEfIUv3R.js": {
-    "file": "vendor_CEfIUv3R.js",
+  "_vendor_DW52Gr0z.js": {
+    "file": "vendor_DW52Gr0z.js",
     "name": "vendor"
   },
   "src/main.ts": {
-    "file": "components_DnSuOq-k.js",
+    "file": "components_Dlv53vdg.js",
     "name": "main",
     "src": "src/main.ts",
     "isEntry": true,
     "imports": [
-      "_vendor_CEfIUv3R.js"
+      "_vendor_DW52Gr0z.js"
     ]
   }
 }

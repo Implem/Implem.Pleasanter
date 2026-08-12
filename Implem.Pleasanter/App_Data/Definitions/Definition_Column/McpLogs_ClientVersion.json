@@ -6,6 +6,7 @@
     "ColumnName": "ClientVersion",
     "LabelText": "クライアントバージョン",
     "No": "12",
+    "History": "12",
     "TypeName": "nvarchar",
     "MaxLength": "50",
     "Nullable": "1",

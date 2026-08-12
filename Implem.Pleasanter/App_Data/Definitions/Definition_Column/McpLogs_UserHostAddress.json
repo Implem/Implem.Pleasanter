@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_UserHostAddress",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "UserHostAddress",
     "LabelText": "クライアントIP",
     "No": "20",
+    "History": "20",
     "GridColumn": "20",
     "GridEnabled": "1",
     "FilterColumn": "20",

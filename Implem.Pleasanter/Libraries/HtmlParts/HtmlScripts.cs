@@ -58,59 +58,65 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/jQuery-File-Upload/jquery.iframe-transport.js"),
+                        parts: "assets/plugins/jquery-file-upload/jquery.iframe-transport.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/jQuery-File-Upload/jquery.fileupload.js"),
+                        parts: "assets/plugins/jquery-file-upload/jquery.fileupload.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/jQuery-File-Upload/jquery.fileupload-process.js"),
+                        parts: "assets/plugins/jquery-file-upload/jquery.fileupload-process.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/jQuery-File-Upload/jquery.fileupload-image.js"),
+                        parts: "assets/plugins/jquery-file-upload/jquery.fileupload-image.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/jQuery-File-Upload/jquery.fileupload-video.js"),
+                        parts: "assets/plugins/jquery-file-upload/jquery.fileupload-video.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/jQuery-File-Upload/jquery.fileupload-validate.js"),
+                        parts: "assets/plugins/jquery-file-upload/jquery.fileupload-validate.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/md5.js"),
+                        parts: "assets/plugins/md5.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/moment.min.js"),
+                        parts: "assets/plugins/moment.min.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/lightbox/lightbox.min.js"),
+                        parts: "assets/plugins/lightbox/lightbox.min.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/gridstack.js/gridstack-all.min.js"),
+                        parts: "assets/plugins/gridstack.js/gridstack-all.min.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/fullcalendar/index.global.min.js"),
+                        parts: "assets/plugins/fullcalendar/index.global.min.js"),
                         nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "assets/Plugins/qrcode.min.js"),
+                        parts: "assets/plugins/qrcode.min.js"),
                         nonce: context.Nonce)
                     .ManifestScripts(ManifestLoader.Load(
                         Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json")
                     ), "components", context)
                     .ManifestScripts(ManifestLoader.Load(
+                        Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "assets", "app.manifest.json")
+                    ), "assets", context)
+                    .ManifestScripts(ManifestLoader.Load(
                         Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "assets", "manifest.json")
                     ), "assets", context)
-                    .Script(script: script, _using: !script.IsNullOrEmpty(), nonce: context.Nonce)
+                    .Script(
+                        script: OnDomReadyScript(script),
+                        _using: !script.IsNullOrEmpty(),
+                        nonce: context.Nonce)
                     .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: $"resources/scripts?v={extendedScripts.Sha512Cng()}"
@@ -136,22 +142,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             && ss.ScriptsAllDisabled != true
                             && !userScript.IsNullOrEmpty(),
                         nonce: context.Nonce)
-                    .Script(script: "$p.initDashboard();",
+                    .Script(script: OnLoadScript("$p.initDashboard();"),
                         _using: ss.ReferenceType == "Dashboards"
                             && context.Action == "index",
                         nonce: context.Nonce)
-                    .Script(script: "$p.setCalendar();",
+                    .Script(script: OnLoadScript("$p.setCalendar();"),
                         _using: ss.ReferenceType == "Dashboards" &&
                             ss.DashboardParts?.Any(part => part.Type == DashboardPartType.Calendar) == true,
                         nonce: context.Nonce)
-                    .Script(script: "$p.setKamban();",
+                    .Script(script: OnLoadScript("$p.setKamban();"),
                         _using: ss.ReferenceType == "Dashboards" &&
                             ss.DashboardParts?.Any(part => part.Type == DashboardPartType.Kamban) == true,
                         nonce: context.Nonce)
-                    .Script(script: "$p.setDashboardAsync();",
+                    .Script(script: OnLoadScript("$p.setDashboardAsync();"),
                         _using: ss.ReferenceType == "Dashboards",
                         nonce: context.Nonce)
-                    .Script(script: "$p.setDashboardGrid();",
+                    .Script(script: OnLoadScript("$p.setDashboardGrid();"),
                         _using: ss.ReferenceType == "Dashboards",
                         nonce: context.Nonce)
                     .OnEditorLoad(context: context);
@@ -224,6 +230,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return scripts;
         }
 
+        private static string OnLoadScript(string script)
+        {
+            return $"(function() {{ var run = () => {{ {script} }}; if (document.readyState === 'complete') {{ run(); }} else {{ window.addEventListener('load', run); }} }})();";
+        }
+
+        private static string OnDomReadyScript(string script)
+        {
+            return $"(function() {{ var run = () => {{ {script} }}; if (document.readyState !== 'loading') {{ run(); }} else {{ document.addEventListener('DOMContentLoaded', run); }} }})();";
+        }
+
         private static HtmlBuilder OnEditorLoad(this HtmlBuilder hb, Context context)
         {
             if (context?.ResponseCollection?.Any() == true)
@@ -233,7 +249,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlId: "ServerScriptResponseCollection",
                         value: context.ResponseCollection.ToJson())
                     .Script(
-                        script: $"$p.setByJson(undefined, undefined, $p.getData($('#MainForm')), $('#MainForm'), undefined, JSON.parse($('#ServerScriptResponseCollection').val()));",
+                        script: OnDomReadyScript("$p.setByJson(undefined, undefined, $p.getData($('#MainForm')), $('#MainForm'), undefined, JSON.parse($('#ServerScriptResponseCollection').val()));"),
                         nonce: context.Nonce);
             }
             switch (context.Action)
@@ -241,47 +257,47 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "new":
                 case "edit":
                     hb.Script(
-                        script: "window.addEventListener('load', () => { $p.execEvents('on_editor_load',''); });",
+                        script: OnLoadScript("$p.execEvents('on_editor_load','');"),
                         nonce: context.Nonce);
                     break;
                 case "index":
                     hb.Script(
-                        script: "window.addEventListener('load', () => { $p.execEvents('on_grid_load',''); });",
+                        script: OnLoadScript("$p.execEvents('on_grid_load','');"),
                         nonce: context.Nonce);
                     break;
                 case "calendar":
                     hb.Script(
-                        script: "window.addEventListener('load', () => { $p.execEvents('on_calendar_load',''); });",
+                        script: OnLoadScript("$p.execEvents('on_calendar_load','');"),
                         nonce: context.Nonce);
                     break;
                 case "crosstab":
                     hb.Script(
-                        script: "window.addEventListener('load', () => { $p.execEvents('on_crosstab_load',''); });",
+                        script: OnLoadScript("$p.execEvents('on_crosstab_load','');"),
                         nonce: context.Nonce);
                     break;
                 case "timeseries":
                     hb.Script(
-                        script: "window.addEventListener('load', () => { $p.execEvents('on_timeseries_load',''); });",
+                        script: OnLoadScript("$p.execEvents('on_timeseries_load','');"),
                         nonce: context.Nonce);
                     break;
                 case "analy":
                     hb.Script(
-                        script: "window.addEventListener('load', () => { $p.execEvents('on_analy_load',''); });",
+                        script: OnLoadScript("$p.execEvents('on_analy_load','');"),
                         nonce: context.Nonce);
                     break;
                 case "kamban":
                     hb.Script(
-                        script: "window.addEventListener('load', () => { $p.execEvents('on_kamban_load',''); });",
+                        script: OnLoadScript("$p.execEvents('on_kamban_load','');"),
                         nonce: context.Nonce);
                     break;
                 case "gantt":
                     hb.Script(
-                        script: "window.addEventListener('load', () => { $p.execEvents('on_gantt_load',''); });",
+                        script: OnLoadScript("$p.execEvents('on_gantt_load','');"),
                         nonce: context.Nonce);
                     break;
                 case "burndown":
                     hb.Script(
-                        script: "window.addEventListener('load', () => { $p.execEvents('on_burndown_load',''); });",
+                        script: OnLoadScript("$p.execEvents('on_burndown_load','');"),
                         nonce: context.Nonce);
                     break;
             }

@@ -194,11 +194,21 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
-        public static Message BackgroundJobExportFailed(Context context, params string[] data)
+        public static Message BackgroundJobExecutionFailed(Context context, params string[] data)
         {
             return Get(
-                id: "BackgroundJobExportFailed",
-                text: Displays.BackgroundJobExportFailed(
+                id: "BackgroundJobExecutionFailed",
+                text: Displays.BackgroundJobExecutionFailed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobInputFilePathNotConfigured(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobInputFilePathNotConfigured",
+                text: Displays.BackgroundJobInputFilePathNotConfigured(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -249,6 +259,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "BackgroundJobOutputFilePathNotConfigured",
                 text: Displays.BackgroundJobOutputFilePathNotConfigured(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message BackgroundJobRecoverOrphanPreparingFailed(Context context, params string[] data)
+        {
+            return Get(
+                id: "BackgroundJobRecoverOrphanPreparingFailed",
+                text: Displays.BackgroundJobRecoverOrphanPreparingFailed(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1049,6 +1069,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "FormulaExecutionFailed",
                 text: Displays.FormulaExecutionFailed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message GridDataTimeout(Context context, params string[] data)
+        {
+            return Get(
+                id: "GridDataTimeout",
+                text: Displays.GridDataTimeout(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message GridDataUnexpectedError(Context context, params string[] data)
+        {
+            return Get(
+                id: "GridDataUnexpectedError",
+                text: Displays.GridDataUnexpectedError(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -2174,6 +2214,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message SuspendRequired(Context context, params string[] data)
+        {
+            return Get(
+                id: "SuspendRequired",
+                text: Displays.SuspendRequired(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message SyncByLdapStarted(Context context, params string[] data)
         {
             return Get(
@@ -2189,6 +2239,36 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "SynchronizationCompleted",
                 text: Displays.SynchronizationCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message TenantCreated(Context context, params string[] data)
+        {
+            return Get(
+                id: "TenantCreated",
+                text: Displays.TenantCreated(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message TenantResumed(Context context, params string[] data)
+        {
+            return Get(
+                id: "TenantResumed",
+                text: Displays.TenantResumed(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message TenantSuspended(Context context, params string[] data)
+        {
+            return Get(
+                id: "TenantSuspended",
+                text: Displays.TenantSuspended(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -2530,12 +2610,23 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
-        public static ResponseCollection ResponseBackgroundJobExportFailed(
+        public static ResponseCollection ResponseBackgroundJobExecutionFailed(
             Context context, string target = null, params string[] data)
         {
             return ResponseMessage(
                 context: context,
-                message: BackgroundJobExportFailed(
+                message: BackgroundJobExecutionFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobInputFilePathNotConfigured(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobInputFilePathNotConfigured(
                     context: context,
                     data: data),
                 target: target);
@@ -2591,6 +2682,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: BackgroundJobOutputFilePathNotConfigured(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBackgroundJobRecoverOrphanPreparingFailed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BackgroundJobRecoverOrphanPreparingFailed(
                     context: context,
                     data: data),
                 target: target);
@@ -3471,6 +3573,28 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: FormulaExecutionFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseGridDataTimeout(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: GridDataTimeout(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseGridDataUnexpectedError(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: GridDataUnexpectedError(
                     context: context,
                     data: data),
                 target: target);
@@ -4708,6 +4832,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseSuspendRequired(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: SuspendRequired(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseSyncByLdapStarted(
             Context context, string target = null, params string[] data)
         {
@@ -4725,6 +4860,39 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: SynchronizationCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseTenantCreated(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: TenantCreated(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseTenantResumed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: TenantResumed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseTenantSuspended(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: TenantSuspended(
                     context: context,
                     data: data),
                 target: target);

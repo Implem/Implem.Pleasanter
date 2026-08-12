@@ -13,6 +13,7 @@ using Implem.Pleasanter.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.Models
@@ -129,7 +130,16 @@ namespace Implem.Pleasanter.Libraries.Models
                     transactional: false,
                     statements: statements.ToArray());
             }
-            catch (System.Exception e)
+            catch (DbException e)
+                when (context.SqlErrors.IsTimeout(e))
+            {
+                var message = Messages.GridDataTimeout(context: context);
+                context.Messages.Add(message);
+                throw new GridDataTimeoutException(
+                    message: message.Text,
+                    innerException: e);
+            }
+            catch (DbException e)
             {
                 Views.SetSession(
                     context: context,
@@ -137,10 +147,21 @@ namespace Implem.Pleasanter.Libraries.Models
                     view: new View(),
                     setSession: true,
                     key: "View",
-                    useUsersView: ss.SaveViewType == SiteSettings.SaveViewTypes.User);
+                    useUsersView: ss.SaveViewType
+                        == SiteSettings.SaveViewTypes.User);
                 var message = Messages.CanNotGridSort(context: context);
                 context.Messages.Add(message);
-                throw new CanNotGridSortException(message.Text, e);
+                throw new CanNotGridSortException(
+                    message: message.Text,
+                    innerException: e);
+            }
+            catch (System.Exception e)
+            {
+                var message = Messages.GridDataUnexpectedError(context: context);
+                context.Messages.Add(message);
+                throw new GridDataException(
+                    message: message.Text,
+                    innerException: e);
             }
             DataRows = dataSet.Tables["Main"].AsEnumerable();
             TotalCount = Rds.Count(dataSet);

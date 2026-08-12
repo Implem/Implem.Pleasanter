@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_UserAgent",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "UserAgent",
     "LabelText": "ユーザーエージェント",
     "No": "21",
+    "History": "21",
     "GridColumn": "21",
     "GridEnabled": "1",
     "FilterColumn": "21",

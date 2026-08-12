@@ -9,6 +9,8 @@
     <DockerServiceName>implem.pleasanter</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include=".copilot\test\Cases\PR3445\PR3445_Guide.md" />
+    <None Include=".copilot\test\Cases\PR3445\PR3445_TestSpec.md" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>

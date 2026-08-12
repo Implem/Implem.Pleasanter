@@ -100,6 +100,21 @@ namespace Implem.DefinitionAccessor
                 : Path.Combine(Environments.CurrentDirectoryPath, path);
         }
 
+        public static string BackgroundJobImport()
+        {
+            return Path.Combine(
+                BackgroundJobInputBase(),
+                "Import");
+        }
+
+        private static string BackgroundJobInputBase()
+        {
+            var path = Parameters.BackgroundJobs.InputFilePath;
+            return Path.IsPathRooted(path)
+                ? path
+                : Path.Combine(Environments.CurrentDirectoryPath, path);
+        }
+
         public static string BinaryStorage()
         {
             var path = Parameters.BinaryStorage.Path;

@@ -5008,6 +5008,10 @@ namespace Implem.Pleasanter.Models
                 returnUrl: returnUrl,
                 createPersistentCookie: createPersistentCookie,
                 noHttpContext: noHttpContext);
+            if (!context.Authenticated)
+            {
+                return Deny(context: context);
+            }
             return new UsersResponseCollection(
                 context: context,
                 userModel: this)

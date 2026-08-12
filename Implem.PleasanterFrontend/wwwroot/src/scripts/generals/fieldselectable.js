@@ -6,10 +6,10 @@
     }
 };
 $p.moveColumns = function (event, $control, columnHeader, isKeepSource, isJoin, type) {
-    if (typeof formId === 'undefined') {
-        formId = $p.getFormId($control);
+    if (typeof $p.store.formId === 'undefined') {
+        $p.store.formId = $p.getFormId($control);
     }
-    if (formId === undefined) return false;
+    if ($p.store.formId === undefined) return false;
     if (type === undefined) type = 'Columns';
     return $p.moveColumnsById(
         event,
@@ -43,9 +43,9 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
         alert('outsideDialog');
         return false;
     }
-    if (formId === undefined) return false;
+    if ($p.store.formId === undefined) return false;
     if ($control.attr('id') === undefined || $control.attr('id') === null) return false;
-    $form = $('#' + formId);
+    $p.store.$form = $('#' + $p.store.formId);
     var controlId = $control.attr('id');
     var mode = 0;
     var keepSource = isKeepSource !== undefined && isKeepSource === true;
@@ -54,7 +54,7 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
     if (controlId.indexOf('ToDisable') === 0) mode = 3;
     if (controlId.indexOf('ToEnable') === 0) mode = 4;
     if (mode === 0) return false;
-    var data = $p.getData($form);
+    var data = $p.getData($p.store.$form);
     var liListPool = [];
     var beforeColumns = [];
     var afterColumns = [];

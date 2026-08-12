@@ -5,5 +5,9 @@
 switch (inputErrorData.Type)
 {
     case Error.Types.None: break;
-    default: return inputErrorData.MessageJson(context: context);
+    default:
+        return new ImportResultData
+        {
+            ErrorData = inputErrorData
+        };
 }

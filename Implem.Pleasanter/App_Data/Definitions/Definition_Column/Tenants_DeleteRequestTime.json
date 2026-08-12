@@ -1,0 +1,18 @@
+{
+    "Id": "Tenants_DeleteRequestTime",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "DeleteRequestTime",
+    "LabelText": "削除申請日時",
+    "No": "191",
+    "History": "191",
+    "TypeName": "datetime",
+    "Nullable": "1",
+    "LabelText_en": "Delete Request Time",
+    "LabelText_zh": "删除申请时间",
+    "LabelText_de": "Löschanfragezeitpunkt",
+    "LabelText_ko": "삭제 요청 시간",
+    "LabelText_es": "Hora de solicitud de eliminación",
+    "LabelText_vn": "Thời gian yêu cầu xóa"
+}

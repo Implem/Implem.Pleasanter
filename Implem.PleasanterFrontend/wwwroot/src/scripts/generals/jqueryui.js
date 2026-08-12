@@ -197,11 +197,13 @@ function replaceMenu() {
     $header = $("body > thead:visible > tr > th.sortable[data-name='" + dataName + "']");
     if ($header.length) {
         if ($('.menu-sort:visible').length) {
-            $('.menu-sort:visible').find('select[multiple].applied').each(function () {
-                if ($(this).multiselect('isOpen')) {
-                    $(this).multiselect('close');
-                }
-            });
+            $('.menu-sort:visible')
+                .find('select[multiple].applied')
+                .each(function () {
+                    if ($(this).multiselect('isOpen')) {
+                        $(this).multiselect('close');
+                    }
+                });
             $('.menu-sort:visible').hide();
         }
     } else {
@@ -215,9 +217,9 @@ function replaceMenu() {
             .css('top', $header.offset().top + $header.outerHeight())
             .css('left', $header.offset().left)
             .outerWidth(
-                $header.outerWidth() > $menuSort.outerWidth()
+                $header.outerWidth() > $p.store.$menuSort.outerWidth()
                     ? $header.outerWidth()
-                    : $menuSort.outerWidth()
+                    : $p.store.$menuSort.outerWidth()
             );
     }
     var $multiSelect = $('.ui-multiselect-menu:visible');

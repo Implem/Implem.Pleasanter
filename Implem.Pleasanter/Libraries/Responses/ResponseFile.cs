@@ -118,37 +118,45 @@ namespace Implem.Pleasanter.Libraries.Responses
                     };
                 }
             }
-            using (MemoryStream ms = new MemoryStream())
+            return new FileContentResult(ReadFileContentsStream(), ContentType)
             {
-                FileContentsStream.CopyTo(ms);
-                return new FileContentResult(ms.ToArray(), ContentType)
-                {
-                    FileDownloadName = FileDownloadName
-                };
-            }
+                FileDownloadName = FileDownloadName
+            };
         }
-
 
         private string GetBase64Content()
         {
             if (FileInfo != null)
             {
-                using (FileContentsStream = new FileStream(FileInfo.FullName, FileMode.Open))
+                using (var stream = new FileStream(FileInfo.FullName, FileMode.Open))
+                using (var ms = new MemoryStream())
                 {
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        FileContentsStream.CopyTo(ms);
-                        return Convert.ToBase64String(ms.ToArray());
-                    }
+                    stream.CopyTo(ms);
+                    return Convert.ToBase64String(ms.ToArray());
                 }
             }
             else
             {
-                using (MemoryStream ms = new MemoryStream())
+                return Convert.ToBase64String(ReadFileContentsStream());
+            }
+        }
+
+        private byte[] ReadFileContentsStream()
+        {
+            var source = FileContentsStream;
+            try
+            {
+                using (var ms = new MemoryStream())
                 {
-                    FileContentsStream.CopyTo(ms);
-                    return Convert.ToBase64String(ms.ToArray());
+                    source.CopyTo(ms);
+                    var bytes = ms.ToArray();
+                    FileContentsStream = new MemoryStream(bytes, false);
+                    return bytes;
                 }
+            }
+            finally
+            {
+                source.Dispose();
             }
         }
 

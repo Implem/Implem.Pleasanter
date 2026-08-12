@@ -18,13 +18,14 @@ using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Middlewares
 {
-    public class TrustedProxyAuthenticationMiddleware(RequestDelegate next, ILogger<TrustedProxyAuthenticationMiddleware> logger)
+    public class TrustedProxyAuthenticationMiddleware(
+        RequestDelegate next,
+        ILogger<TrustedProxyAuthenticationMiddleware> logger)
     {
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            var header = Strings.CoalesceEmpty(
-                Environment.GetEnvironmentVariable("TRUSTED_PROXY_AUTH_HEADER"),
-                Parameters.Authentication.TrustedProxyParameters?.Header ?? string.Empty);
+            var header = Parameters.Authentication.TrustedProxyParameters?.Header
+                ?? string.Empty;
             if (string.IsNullOrEmpty(header))
             {
                 if (logger.IsEnabled(LogLevel.Debug)) logger.LogDebug("Trusted proxy authentication skipped: header name is not configured.");
@@ -101,7 +102,7 @@ namespace Implem.Pleasanter.Middlewares
             await next(httpContext);
         }
 
-        private static bool IsTrustedProxy(HttpContext httpContext, out string reason)
+        internal static bool IsTrustedProxy(HttpContext httpContext, out string reason)
         {
             var knownNetworks = Parameters.Security.ForwardedHeaders?.KnownNetworks ?? [];
             var knownProxies = Parameters.Security.ForwardedHeaders?.KnownProxies ?? [];
@@ -109,8 +110,8 @@ namespace Implem.Pleasanter.Middlewares
             var hasProxies = knownProxies.Count > 0;
             if (!hasNetworks && !hasProxies)
             {
-                reason = "KnownNetworks/KnownProxies are empty, validation skipped.";
-                return true;
+                reason = "KnownNetworks/KnownProxies are empty.";
+                return false;
             }
             var remoteIp = ResolveProxyIp(httpContext);
             if (remoteIp == null)
@@ -150,16 +151,11 @@ namespace Implem.Pleasanter.Middlewares
 
         private static IPAddress ResolveProxyIp(HttpContext httpContext)
         {
-            var originalFor = httpContext.Request.Headers["X-Original-For"].FirstOrDefault();
-            if (!originalFor.IsNullOrWhiteSpace())
-            {
-                var first = originalFor.Split(',').Select(x => x.Trim()).FirstOrDefault(x => x.Length > 0);
-                if (TryParseIp(first, out var ip))
-                {
-                    return NormalizeIp(ip);
-                }
-            }
-            return NormalizeIp(httpContext.Connection.RemoteIpAddress);
+            return httpContext.Items.TryGetValue(
+                TrustedProxyAuthenticationMiddlewareExtensions.ProxySourceIpKey,
+                out var value)
+                    ? NormalizeIp(value as IPAddress)
+                    : null;
         }
 
         private static IPAddress NormalizeIp(IPAddress ip)
@@ -171,46 +167,39 @@ namespace Implem.Pleasanter.Middlewares
             return ip.IsIPv4MappedToIPv6 ? ip.MapToIPv4() : ip;
         }
 
-        private static bool TryParseIp(string value, out IPAddress ip)
-        {
-            ip = null;
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return false;
-            }
-            var token = value.Trim().Trim('"');
-            var start = token.IndexOf('[');
-            var end = token.IndexOf(']');
-            if (start >= 0 && end > start)
-            {
-                token = token.Substring(start + 1, end - start - 1);
-                return IPAddress.TryParse(token, out ip);
-            }
-            var colon = token.LastIndexOf(':');
-            if (colon > 0 && token.IndexOf(':') == colon)
-            {
-                var hostPart = token[..colon];
-                if (IPAddress.TryParse(hostPart, out ip))
-                {
-                    return true;
-                }
-            }
-            return IPAddress.TryParse(token, out ip);
-        }
     }
 
     public static class TrustedProxyAuthenticationMiddlewareExtensions
     {
+        internal static readonly object ProxySourceIpKey = new();
+
+        public static IApplicationBuilder UseTrustedProxySourceIpCapture(
+            this IApplicationBuilder app)
+        {
+            if (Enabled())
+            {
+                return app.Use(async (httpContext, next) =>
+                {
+                    httpContext.Items[ProxySourceIpKey] = httpContext.Connection.RemoteIpAddress;
+                    await next(httpContext);
+                });
+            }
+            return app;
+        }
+
         public static IApplicationBuilder UseTrustedProxyAuthentication(
             this IApplicationBuilder app)
         {
-            var enabled = !Environment.GetEnvironmentVariable("TRUSTED_PROXY_AUTH_ENABLED").IsNullOrWhiteSpace()
-                || (Parameters.Authentication.TrustedProxyParameters?.Enabled ?? false);
-            if (enabled)
+            if (Enabled())
             {
                 return app.UseMiddleware<TrustedProxyAuthenticationMiddleware>();
             }
             return app;
+        }
+
+        private static bool Enabled()
+        {
+            return Parameters.Authentication.TrustedProxyParameters?.Enabled ?? false;
         }
     }
 }

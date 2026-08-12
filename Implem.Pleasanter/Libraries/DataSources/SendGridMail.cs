@@ -173,7 +173,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 request.Headers.Authorization =
                     new AuthenticationHeaderValue(
                         "Bearer",
-                        Parameters.Mail.SmtpPassword);
+                        GetApiKey(
+                            apiKey: Parameters.Mail.SendGrid?.ApiKey,
+                            smtpPassword: Parameters.Mail.SmtpPassword));
                 request.Content = new System.Net.Http.StringContent(
                     json,
                     Encoding.UTF8,
@@ -197,6 +199,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 _ = new SysLogModel(Context, e);
             }
+        }
+
+        private static string GetApiKey(string apiKey, string smtpPassword)
+        {
+            return Strings.CoalesceEmpty(apiKey, smtpPassword);
         }
     }
 }

@@ -12,11 +12,16 @@ using System;
 using System.Data;
 using System.IO;
 using System.Linq;
+using Implem.Pleasanter.Models;
+using Implem.Pleasanter.Libraries.DataSources.BinaryStorages;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class FileContentResults
     {
-        public static ResponseFile Download(Context context, string guid)
+        public static ResponseFile Download(
+            Context context,
+            string guid,
+            BinaryReadMode readMode = BinaryReadMode.Stream)
         {
             var dataRow = GetBinariesTable(
                 context: context,
@@ -29,26 +34,40 @@ namespace Implem.Pleasanter.Libraries.Responses
             {
                 case "Images":
                     return Bytes(
+                        context: context,
                         dataRow: dataRow,
-                        thumbnail: context.QueryStrings.Bool("thumbnail"));
+                        thumbnail: context.QueryStrings.Bool("thumbnail"),
+                        readMode: readMode);
                 case "ExportData":
                     return context.CanExport(
                         ss: SiteSettingsUtilities.Get(
                             context: context,
                             siteId: dataRow.Long("ReferenceId")),
                         site: true)
-                            ? Bytes(dataRow: dataRow)
+                            ? Bytes(
+                                context: context,
+                                dataRow: dataRow,
+                                readMode: readMode)
                             : null;
                 default:
-                    return Bytes(dataRow: dataRow);
+                    return Bytes(
+                        context: context,
+                        dataRow: dataRow,
+                        readMode: readMode);
             }
         }
 
         public static ContentResultInheritance DownloadByApi(Context context, string guid)
         {
             DataRow dataRow = GetBinariesTable(context, guid);
-            return dataRow != null
-                ? Bytes(dataRow).ToContentResult(
+            var file = dataRow != null
+                ? Bytes(
+                    context: context,
+                    dataRow: dataRow,
+                    readMode: BinaryReadMode.Buffer)
+                : null;
+            return file != null
+                ? file.ToContentResult(
                     id: dataRow.Long("BinaryId"),
                     referenceId: dataRow.Long("ReferenceId"),
                     binaryType: dataRow.String("BinaryType"),
@@ -270,7 +289,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return false;
         }
 
-        private static ResponseFile Bytes(DataRow dataRow, bool thumbnail = false)
+        private static ResponseFile Bytes(
+            Context context,
+            DataRow dataRow,
+            bool thumbnail = false,
+            BinaryReadMode readMode = BinaryReadMode.Stream)
         {
             var isThumbnail = thumbnail && dataRow["Thumbnail"] != DBNull.Value;
             var contentType = dataRow.String("ContentType");
@@ -295,19 +318,77 @@ namespace Implem.Pleasanter.Libraries.Responses
                 var binaryType = dataRow.String("BinaryType") == "TenantManagementImages"
                     ? "Images"
                     : dataRow.String("BinaryType");
-                return new ResponseFile(
-                    fileContent: new FileInfo(
-                        Path.Combine(Directories.BinaryStorage(),
-                            binaryType,
-                            dataRow.String("Guid"))),
+                var providerName = binaryType == "Attachments"
+                    ? BinaryUtilities.BinaryStorageProvider()
+                    : Parameters.BinaryStorage.GetImagesProvider();
+                var provider = BinaryStorageProviderFactory.Create(providerName);
+                if (provider == null)
+                {
+                    return new ResponseFile(
+                        fileContent: new FileInfo(
+                            Path.Combine(Directories.BinaryStorage(), binaryType, dataRow.String("Guid"))),
                         fileDownloadName: dataRow.String("FileName"),
-                    contentType: contentType);
+                        contentType: contentType);
+                }
+                var objectName = $"{binaryType}/{dataRow.String("Guid")}";
+                Stream stream = null;
+                try
+                {
+                    stream = Read(
+                        provider: provider,
+                        objectName: objectName,
+                        contentType: contentType,
+                        readMode: readMode);
+                    if (stream == null)
+                    {
+                        new SysLogModel(
+                            context: context,
+                            method: nameof(Bytes),
+                            message: $"Download failed. Blob={objectName} Error=NotFound",
+                            sysLogType: SysLogModel.SysLogTypes.Exception);
+                        return null;
+                    }
+                    return new ResponseFile(
+                        fileContent: stream,
+                        fileDownloadName: dataRow.String("FileName"),
+                        contentType: contentType);
+                }
+                catch (Exception e)
+                {
+                    stream?.Dispose();
+                    new SysLogModel(
+                        context: context,
+                        method: nameof(Bytes),
+                        message: $"Download failed. Blob={objectName} Error={e.Message}",
+                        errStackTrace: e.StackTrace,
+                        sysLogType: SysLogModel.SysLogTypes.Exception);
+                    return null;
+                }
             }
+        }
+
+        private static Stream Read(
+            IBinaryStorageProvider provider,
+            string objectName,
+            string contentType,
+            BinaryReadMode readMode)
+        {
+            var buffered = readMode == BinaryReadMode.Buffer
+                || (readMode == BinaryReadMode.BufferIfPreviewable
+                    && Parameters.BinaryStorage.IsContentPreviewable(contentType));
+            if (!buffered)
+            {
+                return provider.OpenRead(objectName);
+            }
+            var bytes = provider.Download(objectName);
+            return bytes != null
+                ? new MemoryStream(bytes, false)
+                : null;
         }
 
         public static ResponseFile DownloadTemp(Context context, string guid)
         {
-            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == ParameterAccessor.Parts.BinaryStorageProviderNames.Rds)
             {
                 var dataRow = Repository.ExecuteTable(
                     context: context,
@@ -323,7 +404,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .Guid(guid)))
                     .AsEnumerable()
                     .FirstOrDefault();
-                return Bytes(dataRow);
+                return Bytes(context: context, dataRow: dataRow);
             }
             else
             {

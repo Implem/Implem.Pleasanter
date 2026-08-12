@@ -17,6 +17,7 @@ namespace Implem.Pleasanter.Controllers
     [AllowAnonymous]
     public class CspReportController : Controller
     {
+        private static readonly LogFactory CspLogFactory = new LogFactory();
         private static readonly Logger Logger = InitializeLogger();
         private readonly bool IsDevelopment;
 
@@ -38,13 +39,15 @@ namespace Implem.Pleasanter.Controllers
 
         private static Logger InitializeLogger()
         {
-            var nullLogger = LogManager.CreateNullLogger();
+            var nullLogger = CspLogFactory.CreateNullLogger();
             try
             {
-                var config = new XmlLoggingConfiguration("NLog.CspReport.config");
+                var config = new XmlLoggingConfiguration(
+                    fileName: "NLog.CspReport.config",
+                    logFactory: CspLogFactory);
                 try
                 {
-                    LogManager.Configuration = config;
+                    CspLogFactory.Configuration = config;
                 }
                 catch (NLogConfigurationException ex)
                 when (ex.InnerException?.Source == "Azure.Data.Tables")
@@ -62,8 +65,8 @@ namespace Implem.Pleasanter.Controllers
                 {
                     return nullLogger;
                 }
-                LogManager.Configuration = config;
-                return LogManager.GetCurrentClassLogger();
+                CspLogFactory.Configuration = config;
+                return CspLogFactory.GetCurrentClassLogger();
             }
             catch (Exception e)
             {

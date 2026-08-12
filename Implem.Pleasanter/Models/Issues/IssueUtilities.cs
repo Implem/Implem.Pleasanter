@@ -339,6 +339,20 @@ namespace Implem.Pleasanter.Models
                     .Log(context.GetLog())
                     .ToJson();
             }
+            catch (Implem.Libraries.Exceptions.GridDataTimeoutException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
+            catch (Implem.Libraries.Exceptions.GridDataException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view,
@@ -7414,58 +7428,126 @@ namespace Implem.Pleasanter.Models
                 setAllChoices: true);
             var migrationMode = ss.AllowMigrationMode == true
                 && context.Forms.Bool("MigrationMode");
+            var resultData = ImportCore(
+                context: context,
+                ss: ss,
+                csvBytes: context.PostedFiles.FirstOrDefault()?.Byte(),
+                encoding: context.Forms.Data("Encoding"),
+                updatableImport: updatableImport,
+                key: context.Forms.Data("Key"),
+                migrationMode: migrationMode);
+            if (resultData.CustomMessage != null)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(message: resultData.CustomMessage)
+                    .ToJson();
+            }
+            if (resultData.HasError())
+            {
+                return resultData.ErrorData.MessageJson(context: context);
+            }
+            return GridRows(
+                context: context,
+                ss: ss,
+                windowScrollTop: true,
+                message: Messages.Imported(
+                    context: context,
+                    data: new string[]
+                    {
+                        ss.Title,
+                        resultData.InsertCount.ToString(),
+                        resultData.UpdateCount.ToString()
+                    }));
+        }
+
+        public static ImportResultData ImportCore(
+            Context context,
+            SiteSettings ss,
+            byte[] csvBytes,
+            string encoding,
+            bool updatableImport,
+            string key,
+            bool migrationMode)
+        {
             var invalid = IssueValidators.OnImporting(
                 context: context,
                 ss: ss);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default:
+                    return new ImportResultData
+                    {
+                        ErrorData = invalid
+                    };
             }
             using var exclusiveObj = new Sessions.TableExclusive(context: context);
             if (!exclusiveObj.TryLock())
             {
-                return Error.Types.ImportLock.MessageJson(context: context);
+                return new ImportResultData
+                {
+                    ErrorData = new ErrorData(type: Error.Types.ImportLock)
+                };
             }
-            var res = new ResponseCollection(context: context);
             Csv csv;
             try
             {
                 csv = new Csv(
-                    csv: context.PostedFiles.FirstOrDefault().Byte(),
-                    encoding: context.Forms.Data("Encoding"));
+                    csv: csvBytes,
+                    encoding: encoding);
             }
             catch
             {
-                return Messages.ResponseFailedReadFile(context: context).ToJson();
+                return new ImportResultData
+                {
+                    CustomMessage = Messages.FailedReadFile(context: context)
+                };
             }
             exclusiveObj.Refresh();
             var count = csv.Rows.Count();
             if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
             {
-                return Error.Types.ImportMax.MessageJson(
-                    context: context,
-                    data: Parameters.General.ImportMax.ToString());
+                return new ImportResultData
+                {
+                    ErrorData = new ErrorData(
+                        type: Error.Types.ImportMax,
+                        data: Parameters.General.ImportMax.ToString())
+                };
             }
             if (context.ContractSettings.ItemsLimit(
                 context: context,
                 siteId: ss.SiteId,
                 number: count))
             {
-                return Error.Types.ItemsLimit.MessageJson(context: context);
+                return new ImportResultData
+                {
+                    ErrorData = new ErrorData(type: Error.Types.ItemsLimit)
+                };
             }
             if (csv != null && count > 0)
             {
                 var rejectNullImport = (bool)ss.RejectNullImport;
                 if (rejectNullImport)
                 {
-                    var notVaridateRequiredColumn = Imports.CheckForExistValidateRequiredColumn(csvHeaders: csv.Headers, ss: ss, context: context);
-                    if (notVaridateRequiredColumn != null) return notVaridateRequiredColumn;
+                    var notVaridateRequiredColumn = Imports.CheckForExistValidateRequiredColumnMessage(csvHeaders: csv.Headers, ss: ss, context: context);
+                    if (notVaridateRequiredColumn != null)
+                    {
+                        return new ImportResultData
+                        {
+                            CustomMessage = notVaridateRequiredColumn
+                        };
+                    }
                     foreach (var rows in csv.Rows)
                     {
                         Dictionary<string, Dictionary<string, string>> settingsPerHeaders = Imports.GetCsvHeaderSettings(csv: csv, ss: ss, rows: rows);
-                        var brankDataInValidateRequiredColumn = Imports.CheckForBrankDataInValidateRequiredColumn(settingsPerHeaders: settingsPerHeaders, context: context);
-                        if (brankDataInValidateRequiredColumn != null) return brankDataInValidateRequiredColumn;
+                        var brankDataInValidateRequiredColumn = Imports.CheckForBrankDataInValidateRequiredColumnMessage(settingsPerHeaders: settingsPerHeaders, context: context);
+                        if (brankDataInValidateRequiredColumn != null)
+                        {
+                            return new ImportResultData
+                            {
+                                CustomMessage = brankDataInValidateRequiredColumn
+                            };
+                        }
                     }
                 }
                 var columnHash = ImportUtilities.GetColumnHash(ss, csv);
@@ -7482,19 +7564,32 @@ namespace Implem.Pleasanter.Models
                     switch (exists.Type)
                     {
                         case Error.Types.None: break;
-                        default: return exists.MessageJson(context: context);
+                        default:
+                            return new ImportResultData
+                            {
+                                ErrorData = exists
+                            };
                     }
                 }
-                var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName), "CompletionTime");
-                if (invalidColumn != null) return invalidColumn;
+                var invalidColumn = Imports.ServerScriptColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName), "CompletionTime");
+                if (invalidColumn != null)
+                {
+                    return new ImportResultData
+                    {
+                        CustomMessage = invalidColumn
+                    };
+                }
                 ImportUtilities.SetOnImportingExtendedSqls(context, ss);
                 var issueHash = new Dictionary<int, IssueModel>();
-                var importKeyColumnName = context.Forms.Data("Key");
+                var importKeyColumnName = key;
                 var importKeyColumn = columnHash
                     .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
                 if (updatableImport && importKeyColumn.Value == null)
                 {
-                    return Messages.ResponseNotContainKeyColumn(context: context).ToJson();
+                    return new ImportResultData
+                    {
+                        CustomMessage = Messages.NotContainKeyColumn(context: context)
+                    };
                 }
                 columnHash
                     .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date") || pair.Value.Column.ColumnName == "StartTime" || pair.Value.Column.ColumnName == "CompletionTime")
@@ -7549,14 +7644,16 @@ namespace Implem.Pleasanter.Models
                         }
                         else if (model.AccessStatus == Databases.AccessStatuses.Overlap)
                         {
-                            return new ErrorData(
-                                type: Error.Types.OverlapCsvImport,
-                                data: new string[] {
-                                    (data.Key + 1).ToString(),
-                                    importKeyColumn.Value.Column.GridLabelText,
-                                    data.Value[importKeyColumn.Key]
-                                })
-                                .MessageJson(context: context);
+                            return new ImportResultData
+                            {
+                                ErrorData = new ErrorData(
+                                    type: Error.Types.OverlapCsvImport,
+                                    data: new string[] {
+                                        (data.Key + 1).ToString(),
+                                        importKeyColumn.Value.Column.GridLabelText,
+                                        data.Value[importKeyColumn.Key]
+                                    })
+                            };
                         }
                     }
                     issueModel.SetByCsvRow(
@@ -7567,13 +7664,19 @@ namespace Implem.Pleasanter.Models
                         migrationMode: migrationMode);
                     issueHash.Add(data.Key, issueModel);
                 }
-                var errorCompletionTime = Imports.Validate(
+                var errorCompletionTime = Imports.ValidateMessage(
                     context: context,
                     hash: issueHash.ToDictionary(
                         o => o.Key,
                         o => o.Value.CompletionTime.Value.ToString()),
                     column: ss.GetColumn(context: context, columnName: "CompletionTime"));
-                if (errorCompletionTime != null) return errorCompletionTime;
+                if (errorCompletionTime != null)
+                {
+                    return new ImportResultData
+                    {
+                        CustomMessage = errorCompletionTime
+                    };
+                }
                 var inputErrorData = IssueValidators.OnInputValidating(
                     context: context,
                     ss: ss,
@@ -7581,7 +7684,11 @@ namespace Implem.Pleasanter.Models
                 switch (inputErrorData.Type)
                 {
                     case Error.Types.None: break;
-                    default: return inputErrorData.MessageJson(context: context);
+                    default:
+                        return new ImportResultData
+                        {
+                            ErrorData = inputErrorData
+                        };
                 }
                 var insertCount = 0;
                 var updateCount = 0;
@@ -7602,22 +7709,26 @@ namespace Implem.Pleasanter.Models
                                         columnName: errorData.ColumnName);
                                     if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
                                     {
-                                        return Messages.ResponseDuplicated(
-                                            context: context,
-                                            data: ss.GetColumn(
+                                        return new ImportResultData
+                                        {
+                                            CustomMessage = Messages.Duplicated(
                                                 context: context,
-                                                columnName: errorData.ColumnName)?.LabelText)
-                                                    .ToJson();
+                                                data: ss.GetColumn(
+                                                    context: context,
+                                                    columnName: errorData.ColumnName)?.LabelText)
+                                        };
                                     }
                                     else
                                     {
-                                        return new ResponseCollection(context: context).Message(
-                                            message: new Message()
+                                        return new ImportResultData
+                                        {
+                                            CustomMessage = new Message()
                                             {
                                                 Id = "MessageWhenDuplicated",
                                                 Text = duplicatedColumn.MessageWhenDuplicated,
                                                 Css = "alert-error"
-                                            }).ToJson();
+                                            }
+                                        };
                                     }
                                 case null:
                                 case Error.Types.UpdateConflicts:
@@ -7667,11 +7778,17 @@ namespace Implem.Pleasanter.Models
                                             insertCount++;
                                             break;
                                         default:
-                                            return Messages.ResponseUpdateConflicts(context: context).ToJson();
+                                            return new ImportResultData
+                                            {
+                                                CustomMessage = Messages.UpdateConflicts(context: context)
+                                            };
                                     }
                                     break;
                                 default:
-                                    return errorData.MessageJson(context: context);
+                                    return new ImportResultData
+                                    {
+                                        ErrorData = errorData
+                                    };
                             }
                         }
                     }
@@ -7695,25 +7812,32 @@ namespace Implem.Pleasanter.Models
                                     columnName: errorData.ColumnName);
                                 if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
                                 {
-                                    return Messages.ResponseDuplicated(
-                                        context: context,
-                                        data: ss.GetColumn(
+                                    return new ImportResultData
+                                    {
+                                        CustomMessage = Messages.Duplicated(
                                             context: context,
-                                            columnName: errorData.ColumnName)?.LabelText)
-                                                .ToJson();
+                                            data: ss.GetColumn(
+                                                context: context,
+                                                columnName: errorData.ColumnName)?.LabelText)
+                                    };
                                 }
                                 else
                                 {
-                                    return new ResponseCollection(context: context).Message(
-                                        message: new Message()
+                                    return new ImportResultData
+                                    {
+                                        CustomMessage = new Message()
                                         {
                                             Id = "MessageWhenDuplicated",
                                             Text = duplicatedColumn.MessageWhenDuplicated,
                                             Css = "alert-error"
-                                        }).ToJson();
+                                        }
+                                    };
                                 }
                             default:
-                                return errorData.MessageJson(context: context);
+                                return new ImportResultData
+                                {
+                                    ErrorData = errorData
+                                };
                         }
                         insertCount++;
                     }
@@ -7750,22 +7874,19 @@ namespace Implem.Pleasanter.Models
                             body: body.ToString());
                     }
                 });
-                return GridRows(
-                    context: context,
-                    ss: ss,
-                    windowScrollTop: true,
-                    message: Messages.Imported(
-                        context: context,
-                        data: new string[]
-                        {
-                            ss.Title,
-                            insertCount.ToString(),
-                            updateCount.ToString()
-                        }));
+                return new ImportResultData
+                {
+                    InsertCount = insertCount,
+                    UpdateCount = updateCount,
+                    ErrorData = new ErrorData(type: Error.Types.None)
+                };
             }
             else
             {
-                return Messages.ResponseFileNotFound(context: context).ToJson();
+                return new ImportResultData
+                {
+                    CustomMessage = Messages.FileNotFound(context: context)
+                };
             }
         }
 

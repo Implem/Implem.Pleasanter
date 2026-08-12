@@ -91,6 +91,16 @@ namespace Implem.PleasanterFilters
             }
             else
             {
+                var path = filterContext.HttpContext?.Request?.Path.Value;
+                if (path?.StartsWith("/errors", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    filterContext.Result = new ContentResult
+                    {
+                        Content = Error.Types.InternalServerError.MessageJson(context: context),
+                        StatusCode = 500
+                    };
+                    return;
+                }
                 if (filterContext.Exception is ScriptEngineException)
                 {
                      filterContext.Result = new RedirectResult(Locations.ServerScriptError(context: context));

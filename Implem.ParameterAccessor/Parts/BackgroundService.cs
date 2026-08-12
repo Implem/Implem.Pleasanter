@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Implem.ParameterAccessor.Parts
 {
@@ -25,6 +24,13 @@ namespace Implem.ParameterAccessor.Parts
         public List<string> DeleteMcpLogsTime = new List<string>();
         public int McpLogsRetentionPeriod = 90;
         public int DeleteMcpLogsChunkSize;
+        public bool DeleteTenant = false;
+        public List<string> DeleteTenantTime = new List<string>();
+        public int DeleteTenantRetentionPeriod = 30;
+        public int DeleteTenantChunkSize = 1000;
+        public int DeleteTenantBinariesChunkSize = 10;
+        public int WarmupTimeoutSeconds = 180;
+        public int WarmupFailureShutdownDelaySeconds = 60;
         public bool DeleteBackgroundJobs = false;
         public List<string> DeleteBackgroundJobsTime = new List<string> { "04:00" };
         public int BackgroundJobsRetentionPeriod = 7;
@@ -33,7 +39,9 @@ namespace Implem.ParameterAccessor.Parts
             string deploymentEnvironment,
             bool backgroundQueueEnabled = false)
         {
-            return ServiceEnabled(deploymentEnvironment)
+            return EnvironmentVariablesUtilities.IsMatchedEnvironment(
+                environmentVariables: EnvironmentVariables,
+                deploymentEnvironment: deploymentEnvironment)
                 && (SyncByLdap
                 || DeleteSysLogs
                 || DeleteTemporaryFiles
@@ -41,17 +49,21 @@ namespace Implem.ParameterAccessor.Parts
                 || Reminder
                 || DeleteUnusedRecord
                 || DeleteMcpLogs
+                || DeleteTenant
                 || backgroundQueueEnabled
                 || DeleteBackgroundJobs);
         }
 
-        private bool ServiceEnabled(string deploymentEnvironment)
+        public bool BackgroundServerScriptEnabled(
+            string deploymentEnvironment,
+            bool serverScript,
+            bool backgroundServerScript)
         {
-            if (EnvironmentVariables == null)
-            {
-                return true;
-            }
-            return EnvironmentVariables.Any(o => o == deploymentEnvironment);
+            return serverScript
+                && backgroundServerScript
+                && EnvironmentVariablesUtilities.IsMatchedEnvironment(
+                    environmentVariables: EnvironmentVariables,
+                    deploymentEnvironment: deploymentEnvironment);
         }
     }
 }

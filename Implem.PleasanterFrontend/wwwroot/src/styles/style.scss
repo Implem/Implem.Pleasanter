@@ -1433,6 +1433,9 @@ body {
     color: var(--base-text);
     background-color: var(--base-bg);
     border-bottom: 1px solid var(--base-border);
+    &:empty {
+        display: none;
+    }
     #Logo {
         float: none;
         padding: 0;
@@ -3488,9 +3491,6 @@ body:not(:has(#Editor)) {
     background-color: var(--base-bg-light);
     #MainContainer {
         margin-left: 0;
-    }
-    #PortalLink {
-        top: -30px;
     }
     #LoginLogo {
         margin: 100px auto 40px;

@@ -19,6 +19,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Kamban;
         public bool? ImageLib;
         public bool? Disabled;
+        public int? DraftOutputMode;
+        public string DraftKey;
         public string Body;
 
         public Style()
@@ -41,6 +43,8 @@ namespace Implem.Pleasanter.Libraries.Settings
              bool? kamban,
              bool? imageLib,
              bool? disabled,
+             int? draftOutputMode,
+             string draftKey,
              string body)
         {
             Id = id.ToInt();
@@ -58,6 +62,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Kamban = kamban;
             ImageLib = imageLib;
             Disabled = disabled;
+            DraftOutputMode = draftOutputMode;
+            DraftKey = draftKey;
             Body = body;
         }
 
@@ -76,6 +82,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? kamban,
             bool? imageLib,
             bool? disabled,
+            int? draftOutputMode,
+            string draftKey,
             string body)
         {
             Title = title;
@@ -92,6 +100,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (kamban != null) Kamban = kamban;
             if (imageLib != null) ImageLib = imageLib;
             if (disabled != null) Disabled = disabled;
+            if (draftOutputMode != null) DraftOutputMode = draftOutputMode;
+            if (draftKey != null) DraftKey = draftKey;
             if (body != null) Body = body;
         }
 
@@ -119,6 +129,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (ImageLib == true) style.ImageLib = true;
             }
             if (Disabled == true) style.Disabled = true;
+            if (DraftOutputMode.HasValue && DraftOutputMode != 0) style.DraftOutputMode = DraftOutputMode;
+            style.DraftKey = DraftKey;
             style.Body = Body;
             return style;
         }

@@ -6,6 +6,7 @@
     "ColumnName": "McpRequestId",
     "LabelText": "MCPリクエストID",
     "No": "4",
+    "History": "4",
     "GridColumn": "4",
     "GridEnabled": "1",
     "FilterColumn": "4",

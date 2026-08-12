@@ -18,11 +18,13 @@ namespace Implem.Pleasanter.Libraries.General
             Authentication,
             BackgroundJobBulkDeleteFailed,
             BackgroundJobDownloadingCanNotDelete,
-            BackgroundJobExportFailed,
+            BackgroundJobExecutionFailed,
+            BackgroundJobInputFilePathNotConfigured,
             BackgroundJobInvalidParameters,
             BackgroundJobNextJobRequestFailed,
             BackgroundJobNoHandler,
             BackgroundJobOutputFilePathNotConfigured,
+            BackgroundJobRecoverOrphanPreparingFailed,
             BackgroundJobRecoverStuckFailed,
             BackgroundJobRunningTimedOutCanNotDelete,
             BackgroundJobsCancelFailed,
@@ -60,6 +62,8 @@ namespace Implem.Pleasanter.Libraries.General
             FailedWriteFile,
             FileNotFound,
             FormulaExecutionFailed,
+            GridDataTimeout,
+            GridDataUnexpectedError,
             GroupDepthMax,
             HasNotChangeColumnPermission,
             HasNotPermission,
@@ -145,6 +149,7 @@ namespace Implem.Pleasanter.Libraries.General
             ServerScriptExecutionFailed,
             ServiceUnavailable,
             SitesLimit,
+            SuspendRequired,
             TooLargeFile,
             TooLongText,
             TooManyCases,
@@ -199,8 +204,12 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.BackgroundJobDownloadingCanNotDelete(
                         context: context,
                         data: data);
-                case Types.BackgroundJobExportFailed:
-                    return Messages.BackgroundJobExportFailed(
+                case Types.BackgroundJobExecutionFailed:
+                    return Messages.BackgroundJobExecutionFailed(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobInputFilePathNotConfigured:
+                    return Messages.BackgroundJobInputFilePathNotConfigured(
                         context: context,
                         data: data);
                 case Types.BackgroundJobInvalidParameters:
@@ -217,6 +226,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.BackgroundJobOutputFilePathNotConfigured:
                     return Messages.BackgroundJobOutputFilePathNotConfigured(
+                        context: context,
+                        data: data);
+                case Types.BackgroundJobRecoverOrphanPreparingFailed:
+                    return Messages.BackgroundJobRecoverOrphanPreparingFailed(
                         context: context,
                         data: data);
                 case Types.BackgroundJobRecoverStuckFailed:
@@ -365,6 +378,14 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.FormulaExecutionFailed:
                     return Messages.FormulaExecutionFailed(
+                        context: context,
+                        data: data);
+                case Types.GridDataTimeout:
+                    return Messages.GridDataTimeout(
+                        context: context,
+                        data: data);
+                case Types.GridDataUnexpectedError:
+                    return Messages.GridDataUnexpectedError(
                         context: context,
                         data: data);
                 case Types.GroupDepthMax:
@@ -705,6 +726,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.SitesLimit:
                     return Messages.SitesLimit(
+                        context: context,
+                        data: data);
+                case Types.SuspendRequired:
+                    return Messages.SuspendRequired(
                         context: context,
                         data: data);
                 case Types.TooLargeFile:

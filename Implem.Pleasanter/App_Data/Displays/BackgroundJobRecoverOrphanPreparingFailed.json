@@ -1,0 +1,33 @@
+﻿{
+    "Id": "BackgroundJobRecoverOrphanPreparingFailed",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The CSV upload process was interrupted. Please import again."
+        },
+        {
+            "Language": "zh",
+            "Body": "CSV上传过程被中断。请重新导入。"
+        },
+        {
+            "Language": "ja",
+            "Body": "CSVのアップロード処理が中断されました。再度インポートしてください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der CSV-Upload-Vorgang wurde unterbrochen. Bitte führen Sie den Import erneut durch."
+        },
+        {
+            "Language": "ko",
+            "Body": "CSV 업로드 과정이 중단되었습니다. 다시 가져오기를 수행하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "El proceso de carga de CSV se interrumpió. Por favor, importe de nuevo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Quá trình tải lên CSV đã bị gián đoạn. Vui lòng nhập lại."
+        }
+    ]
+}

@@ -23,6 +23,8 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public bool? StyleAnaly { get; set; }
         public bool? StyleKamban { get; set; }
         public bool? StyleImageLib { get; set; }
+        public int? DraftOutputMode { get; set; }
+        public string DraftKey { get; set; }
         public int? Delete { get; set; }
         public string HtmlPositionType { get; set; }
 

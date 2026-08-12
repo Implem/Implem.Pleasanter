@@ -1,9 +1,11 @@
 import { defineConfig } from 'vite';
 import path from 'path';
-import { inputDir, configParams, getEntries } from '../vite.config.shared';
+import { inputDir, configParams } from '../vite.config.shared';
 
 const rootDir = path.resolve(__dirname, '..');
 
+// 開発用 modules ビルド(本番 vite.config.ts の JS 部分と同仕様: ES + vendor → modules.manifest.json)。
+// styles(scss)は dev/sass.watch.styles.mjs が別途ウォッチするためここには含めない。
 export default defineConfig(({ mode }) => ({
     ...configParams,
     build: {
@@ -12,12 +14,10 @@ export default defineConfig(({ mode }) => ({
         minify: false,
         reportCompressedSize: false,
         manifest: 'manifest.json',
-        watch: {
-            // buildDelay: 200  // Temporarily disabled for vite v7 compatibility testing
-        },
-        rollupOptions: {
+        watch: {},
+        rolldownOptions: {
             input: {
-                ...getEntries(path.resolve(rootDir, `${inputDir}/scripts`), '.ts')
+                modules: path.resolve(rootDir, `${inputDir}/scripts/modules.ts`)
             },
             output: {
                 manualChunks(id: string) {
@@ -25,8 +25,8 @@ export default defineConfig(({ mode }) => ({
                         return 'vendor';
                     }
                 },
-                chunkFileNames: 'js/vendor_[hash].js',
-                entryFileNames: 'js/[name]_[hash].js'
+                entryFileNames: 'js/[name]_[hash].js',
+                chunkFileNames: 'js/chunk_[hash].js'
             }
         }
     }

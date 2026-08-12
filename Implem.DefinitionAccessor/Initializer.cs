@@ -139,6 +139,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Mobile = Read<Mobile>();
             Parameters.NavigationMenus = NavigationMenus();
             Parameters.Migration = Read<Migration>(patch: false);
+            Parameters.MultiTenant = Read<MultiTenant>(required: false) ?? new MultiTenant();
             Parameters.Notification = Read<Notification>();
             Parameters.Permissions = Read<Permissions>();
             Parameters.Kvs = Read<Kvs>();
@@ -197,6 +198,19 @@ namespace Implem.DefinitionAccessor
 
         public static void ApplyPatchedEnvironmentDefaults()
         {
+            if (!Environment.GetEnvironmentVariable("TRUSTED_PROXY_AUTH_ENABLED").IsNullOrWhiteSpace())
+            {
+                Parameters.Authentication.TrustedProxyParameters ??= new TrustedProxy();
+                Parameters.Authentication.TrustedProxyParameters.Enabled = true;
+            }
+            var trustedProxyAuthHeader = Strings.CoalesceEmpty(
+                Environment.GetEnvironmentVariable("TRUSTED_PROXY_AUTH_HEADER"),
+                Parameters.Authentication.TrustedProxyParameters?.Header ?? string.Empty);
+            if (!trustedProxyAuthHeader.IsNullOrEmpty())
+            {
+                Parameters.Authentication.TrustedProxyParameters ??= new TrustedProxy();
+                Parameters.Authentication.TrustedProxyParameters.Header = trustedProxyAuthHeader;
+            }
             Parameters.Mail.SmtpUserName = Strings.CoalesceEmpty(
                 Parameters.Mail.SmtpUserName,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_SmtpUserName"),
@@ -274,7 +288,17 @@ namespace Implem.DefinitionAccessor
             Parameters.Security.AspNetCoreDataProtection.XmlAesKey = Strings.CoalesceEmpty(
                 Parameters.Security.AspNetCoreDataProtection.XmlAesKey,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_XmlAesKey"),
-                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_XmlAesKey"));
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_XmlAesKey"),
+                Parameters.Service.Name);
+            Parameters.BinaryStorage.AzureBlobStorageAccountUri = Strings.CoalesceEmpty(
+                Parameters.BinaryStorage.AzureBlobStorageAccountUri,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_BinaryStorage_AzureBlobStorageAccountUri"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_BinaryStorage_AzureBlobStorageAccountUri"));
+            Parameters.BinaryStorage.AzureBlobContainerName = Strings.CoalesceEmpty(
+                Parameters.BinaryStorage.AzureBlobContainerName,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_BinaryStorage_AzureBlobContainerName"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_BinaryStorage_AzureBlobContainerName"),
+                "pleasanter-binaries");
             Parameters.Security.AspNetCoreDataProtection.KeyValueStoreConnectionString = Strings.CoalesceEmpty(
                 Parameters.Security.AspNetCoreDataProtection.KeyValueStoreConnectionString,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_KeyValueStoreConnectionString"),
@@ -300,10 +324,6 @@ namespace Implem.DefinitionAccessor
                 Parameters.Kvs.ConnectionStringForSession,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Kvs_ConnectionStringForSession"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Kvs_ConnectionStringForSession"));
-            Parameters.Kvs.ConnectionStringForDataProtection = Strings.CoalesceEmpty(
-                Parameters.Kvs.ConnectionStringForDataProtection,
-                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Kvs_ConnectionStringForDataProtection"),
-                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Kvs_ConnectionStringForDataProtection"));
         }
 
         public static void ReloadParameters()

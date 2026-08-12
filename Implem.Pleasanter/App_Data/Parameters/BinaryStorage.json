@@ -1,5 +1,7 @@
 ﻿{
     "Provider": "Rds",
+    "AzureBlobStorageAccountUri": null,
+    "AzureBlobContainerName": null,
     "Path": null,
     "Attachments": true,
     "Images": true,

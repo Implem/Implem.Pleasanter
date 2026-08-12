@@ -8,5 +8,6 @@
         public string FallbackLanguage = "ja";
         public string RecoverAction = "Failed";
         public string OutputFilePath = null;
+        public string InputFilePath = null;
     }
 }

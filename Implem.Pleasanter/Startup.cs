@@ -1,12 +1,10 @@
 ﻿using Azure.Identity;
 using Azure.Storage.Blobs;
-using HealthChecks.UI.Client;
 using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.BackgroundServices;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Initializers;
-using Implem.Pleasanter.Libraries.Migrators;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -20,7 +18,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -48,6 +45,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.RateLimiting;
 using Implem.Pleasanter.Libraries.Security.Captcha;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.RateLimit;
 using Implem.Pleasanter.MCP.Infrastructure;
 using Implem.Pleasanter.Middlewares;
@@ -84,6 +82,19 @@ namespace Implem.Pleasanter.NetCore
                         context: context,
                         method: nameof(Startup),
                         message: $"[RateLimit] {warning}",
+                        sysLogType: SysLogModel.SysLogTypes.Warning);
+                }
+            }
+            if (Parameters.Authentication.TrustedProxyParameters?.Enabled == true)
+            {
+                var forwardedHeaders = Parameters.Security.ForwardedHeaders;
+                if ((forwardedHeaders?.KnownNetworks?.Count ?? 0) == 0
+                    && (forwardedHeaders?.KnownProxies?.Count ?? 0) == 0)
+                {
+                    new SysLogModel(
+                        context: context,
+                        method: nameof(Startup),
+                        message: "[TrustedProxy] KnownNetworks/KnownProxies are empty.",
                         sysLogType: SysLogModel.SysLogTypes.Warning);
                 }
             }
@@ -219,6 +230,7 @@ namespace Implem.Pleasanter.NetCore
             {
                 services
                     .AddHealthChecks()
+                    .AddWarmupHealthCheck()
                     .AddDatabaseHealthCheck(
                         enableDatabaseCheck: Parameters.Security.HealthCheck.EnableDatabaseCheck,
                         dbms: Parameters.Rds.Dbms,
@@ -255,6 +267,7 @@ namespace Implem.Pleasanter.NetCore
             {
                 options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
             });
+            services.AddHostedService<ApplicationWarmupHostedService>();
             services.AddHostedService<CustomQuartzHostedService>();
             new TimerBackground().Init();
             BackgroundServerScriptUtilities.InitSchedule();
@@ -276,16 +289,12 @@ namespace Implem.Pleasanter.NetCore
             else if (!keyValueStoreConnectionString.IsNullOrEmpty())
             {
                 ValidateAspNetCoreDataProtectionKeyValueStoreParameters(keyValueStoreConnectionString);
-                // Data Protectionのキーリング保存先としてRedisを使用する。
-                // 注意: 接続先Redisの永続化が無効だと、Redis再起動時にキーリングが失われ、
-                //       既存のCookie/CSRFトークン/保護済みデータが復号できなくなる。Redisは永続化を有効にして運用すること。
                 services
                     .AddDataProtection()
                     .SetApplicationName(Implem.Libraries.Utilities.Environments.ServiceName)
                     .PersistKeysToStackExchangeRedis(
                         DataProtectionForRedisConnection.Connection,
                         GetAspNetCoreDataProtectionKeyValueStoreKeyName());
-                // Redisにキーリングを平文で保存しないよう、保存時にAESで暗号化する(保存先のXmlRepositoryはRedisのまま維持)。
                 AddAspNetCoreDataProtectionXmlEncryptor(services);
             }
             else
@@ -458,7 +467,6 @@ namespace Implem.Pleasanter.NetCore
                 });
         }
 
-        // 拡張DLLの探索をExtendedLibrariesディレクトリ内の一段下のディレクトリも対象をする。
         private IEnumerable<string> GetExtendedLibraryPaths()
         {
             var list = new List<string>();
@@ -477,6 +485,7 @@ namespace Implem.Pleasanter.NetCore
             IHostApplicationLifetime lifetime)
         {
             SiteInfo.ApplicationLifetime = lifetime;
+            app.UseTrustedProxySourceIpCapture();
             app.UseForwardedHeaders();
             if (Parameters.Service.DisableHtmlCache == true)
             {
@@ -516,7 +525,7 @@ namespace Implem.Pleasanter.NetCore
                     await next();
                 });
             }
-            app.Use(async (context, next) => await Invoke(context, next));
+            app.Use(Invoke);
             app.UseStatusCodePages(context =>
             {
                 var statusCode = context.HttpContext.Response.StatusCode;
@@ -587,6 +596,7 @@ namespace Implem.Pleasanter.NetCore
             }
 
             app.UseCors();
+            app.UseWarmupGateMiddleware();
             if (Parameters.McpServer?.Enabled == true)
             {
                 var mcpRateLimit = Parameters.McpServer.RateLimit;
@@ -657,21 +667,9 @@ namespace Implem.Pleasanter.NetCore
                 endpoints.MapRazorPages();
                 if (Parameters.Security.HealthCheck.Enabled)
                 {
-                    if (Parameters.Security.HealthCheck.EnableDetailedResponse)
-                    {
-                        endpoints
-                            .MapHealthChecks("/healthz", new HealthCheckOptions()
-                            {
-                                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-                            })
-                            .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
-                    }
-                    else
-                    {
-                        endpoints
-                            .MapHealthChecks("/healthz")
-                            .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
-                    }
+                    endpoints.MapDefaultHealthChecks(
+                        enableDetailedResponse: Parameters.Security.HealthCheck.EnableDetailedResponse,
+                        requireHosts: Parameters.Security.HealthCheck.RequireHosts);
                 }
                 endpoints.MapControllerRoute(
                     name: "FormBinaries",
@@ -777,24 +775,8 @@ namespace Implem.Pleasanter.NetCore
             };
         }
 
-        private static Context ApplicationStartContext()
-        {
-            return new Context(tenantId: 0)
-            {
-                Controller = "Startup.cs",
-                Action = "Application_Start",
-                Id = 0
-            };
-        }
-
-        private static bool isFirst = true;
         public async Task Invoke(HttpContext httpContext, Func<Task> next)
         {
-            if (isFirst)
-            {
-                isFirst = false;
-                Initialize();
-            }
             try
             {
                 await next.Invoke();
@@ -806,15 +788,10 @@ namespace Implem.Pleasanter.NetCore
                     Context context;
                     try
                     {
-                        // 通常時は従来どおり完全な Context を生成し、
-                        // セッション / ユーザー情報を含めてログに記録する。
                         context = new Context();
                     }
                     catch
                     {
-                        // Context 生成自体が失敗した場合（例: Redis / Data Protection
-                        // 障害で SetSessionGuid が失敗）は、Data Protection に依存しない
-                        // 最小構成にフォールバックしてでもログを記録する。
                         context = new Context(
                             request: true,
                             sessionStatus: false,
@@ -831,9 +808,11 @@ namespace Implem.Pleasanter.NetCore
                         : error.StackTrace;
                     log.Finish(context: context);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // 記録に失敗しても元の例外を優先して伝播する。
+                    var logger = LogManager.GetLogger("syslogs");
+                    logger.Error(error, "Global exception occurred.");
+                    logger.Error(ex, "Exception logging failed.");
                 }
                 throw;
             }
@@ -844,31 +823,6 @@ namespace Implem.Pleasanter.NetCore
             var context = new Context();
             var log = new SysLogModel(context: context);
             log.Finish(context: context);
-        }
-
-        private void Initialize()
-        {
-            Context context = ApplicationStartContext();
-            var log = new SysLogModel(
-                context: context,
-                method: null,
-                message: Parameters.GetLicenseInfo().ToJson());
-            try
-            {
-                TenantInitializer.Initialize();
-                ExtensionInitializer.Initialize(context: context);
-                UsersInitializer.Initialize(context: context);
-                ItemsInitializer.Initialize(context: context);
-                StatusesMigrator.Migrate(context: context);
-                SiteSettingsMigrator.Migrate(context: context);
-                StatusesInitializer.Initialize(context: context);
-                NotificationInitializer.Initialize();
-                SiteInfo.Refresh(context: context);
-            }
-            finally
-            {
-                log.Finish(context: context);
-            }
         }
 
         private string CreateNonceValue()
@@ -1013,35 +967,4 @@ namespace Implem.Pleasanter.NetCore
             return app.UseMiddleware<SecurityHeadersMiddleware>();
         }
     }
-
-    public static class HealthCheckMiddlewareExtensions
-    {
-        public static IHealthChecksBuilder AddDatabaseHealthCheck(
-            this IHealthChecksBuilder services,
-            bool enableDatabaseCheck,
-            string dbms,
-            string conStr,
-            string healthQuery)
-        {
-            if (!enableDatabaseCheck) { return services; }
-            switch (dbms)
-            {
-                case "SQLServer":
-                    return services.AddSqlServer(
-                        connectionString: conStr,
-                        healthQuery: healthQuery);
-                case "PostgreSQL":
-                    return services.AddNpgSql(
-                        connectionString: conStr,
-                        healthQuery: healthQuery);
-                case "MySQL":
-                    return services.AddMySql(
-                        connectionString: conStr,
-                        healthQuery: healthQuery);
-                default:
-                    return services;
-            }
-        }
-    }
-
 }

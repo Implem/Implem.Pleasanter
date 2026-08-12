@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_McpSessionId",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "McpSessionId",
     "LabelText": "MCPセッションID",
     "No": "5",
+    "History": "5",
     "GridColumn": "5",
     "GridEnabled": "1",
     "FilterColumn": "5",

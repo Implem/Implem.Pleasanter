@@ -126,11 +126,24 @@ If necessary, run Docker commands with sudo. We use PostgreSQL as a backend data
           - type: volume
             source: pg_data
             target: ${POSTGRES_VOLUMES_TARGET}
+        healthcheck:
+          test:
+            [
+              "CMD-SHELL",
+              "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres} || exit 1",
+            ]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+          start_period: 30s
+        restart: unless-stopped
       pleasanter:
         container_name: pleasanter
         image: implem/pleasanter:${PLEASANTER_VERSION}
+        restart: unless-stopped
         depends_on:
-          - db
+          db:
+            condition: service_healthy
         ports:
           - '50001:8080'
         environment:
@@ -141,7 +154,8 @@ If necessary, run Docker commands with sudo. We use PostgreSQL as a backend data
         container_name: codedefiner
         image: implem/pleasanter:codedefiner
         depends_on:
-          - db
+          db:
+            condition: service_healthy
         environment:
           Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString: ${Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString}
           Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString: ${Implem_Pleasanter_Rds_PostgreSQL_OwnerConnectionString}

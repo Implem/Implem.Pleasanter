@@ -1,0 +1,33 @@
+﻿{
+    "Id": "BackgroundJobInputFilePathNotConfigured",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The input path (InputFilePath) is not configured."
+        },
+        {
+            "Language": "zh",
+            "Body": "未配置输入路径(InputFilePath)。"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力パス(InputFilePath)が設定されていません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Eingabepfad (InputFilePath) ist nicht konfiguriert."
+        },
+        {
+            "Language": "ko",
+            "Body": "입력 경로(InputFilePath)가 설정되어 있지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "La ruta de entrada (InputFilePath) no está configurada."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đường dẫn đầu vào (InputFilePath) chưa được cấu hình."
+        }
+    ]
+}

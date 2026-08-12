@@ -65,15 +65,28 @@ namespace Implem.Pleasanter.Libraries.Models
 
         public static string Validate(Context context, Dictionary<int, string> hash, Column column)
         {
+            return ResponseJson(
+                context: context,
+                message: ValidateMessage(
+                    context: context,
+                    hash: hash,
+                    column: column));
+        }
+
+        public static Message ValidateMessage(
+            Context context,
+            Dictionary<int, string> hash,
+            Column column)
+        {
             foreach (var data in hash.Where(o => HasError(o.Value, column)))
             {
-                return Messages.ResponseInvalidCsvData(
+                return Messages.InvalidCsvData(
                     context: context,
                     data: new string[]
                     {
                         (data.Key + 2).ToString(),
                         column.LabelText
-                    }).ToJson();
+                    });
             }
             return null;
         }
@@ -85,6 +98,15 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "datetime": return !Times.InRange(data.ToDateTime());
                 default: return data == null;
             }
+        }
+
+        private static string ResponseJson(Context context, Message message)
+        {
+            return message == null
+                ? null
+                : new ResponseCollection(context: context)
+                    .Message(message: message)
+                    .ToJson();
         }
 
         public static Dictionary<string, Dictionary<string, string>> GetCsvHeaderSettings(Csv csv, SiteSettings ss, List<string> rows)
@@ -104,17 +126,28 @@ namespace Implem.Pleasanter.Libraries.Models
 
         public static string CheckForBrankDataInValidateRequiredColumn(Dictionary<string, Dictionary<string, string>> settingsPerHeaders, Context context)
         {
-            string message = null;
+            return ResponseJson(
+                context: context,
+                message: CheckForBrankDataInValidateRequiredColumnMessage(
+                    settingsPerHeaders: settingsPerHeaders,
+                    context: context));
+        }
+
+        public static Message CheckForBrankDataInValidateRequiredColumnMessage(
+            Dictionary<string, Dictionary<string, string>> settingsPerHeaders,
+            Context context)
+        {
+            Message message = null;
             settingsPerHeaders.ForEach(settingsByHeader =>
             {
                 if (settingsByHeader.Value["ValidateRequired"].ToBool() && settingsByHeader.Value["Value"].IsNullOrEmpty())
                 {
-                    message = Messages.ResponseInvalidValidateRequiredCsvData(
+                    message = Messages.InvalidValidateRequiredCsvData(
                         context: context,
                         data: new string[]
                     {
                         settingsByHeader.Key
-                    }).ToJson();
+                    });
                 }
             });
             return message;
@@ -122,18 +155,31 @@ namespace Implem.Pleasanter.Libraries.Models
 
         public static string CheckForExistValidateRequiredColumn(List<string> csvHeaders, SiteSettings ss, Context context)
         {
-            string message = null;
+            return ResponseJson(
+                context: context,
+                message: CheckForExistValidateRequiredColumnMessage(
+                    csvHeaders: csvHeaders,
+                    ss: ss,
+                    context: context));
+        }
+
+        public static Message CheckForExistValidateRequiredColumnMessage(
+            List<string> csvHeaders,
+            SiteSettings ss,
+            Context context)
+        {
+            Message message = null;
             ss.GridColumns.ForEach(ssGridColumn => {
                 var gridColumnName = ssGridColumn;
                 var gridColumnLabelText = ss.GridColumn(gridColumnName).LabelText;
                 if (!csvHeaders.Contains(gridColumnLabelText) && ss.GridColumn(gridColumnName).ValidateRequired.ToBool())
                 {
-                    message = Messages.ResponseNotIncludedRequiredColumn(
+                    message = Messages.NotIncludedRequiredColumn(
                         context: context,
                         data: new string[]
                     {
                         gridColumnName
-                    }).ToJson();
+                    });
                 }
             });
             return message;

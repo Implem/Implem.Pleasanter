@@ -185,7 +185,8 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.Download(
                 context: context,
-                guid: guid);
+                guid: guid,
+                readMode: BinaryReadMode.BufferIfPreviewable);
             log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
             if (file == null)
             {

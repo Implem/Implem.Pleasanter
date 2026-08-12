@@ -378,6 +378,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ApiPropertyNullType": Code.Model_ApiPropertyNullType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyNullType, definitionRow, CodeXls); break;
                     case "Model_ApiSiteSettingsUsing": Code.Model_ApiSiteSettingsUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiSiteSettingsUsing, definitionRow, CodeXls); break;
                     case "Model_ApiValueCases": Code.Model_ApiValueCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiValueCases, definitionRow, CodeXls); break;
+                    case "Model_BinaryStoragesUsing": Code.Model_BinaryStoragesUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BinaryStoragesUsing, definitionRow, CodeXls); break;
                     case "Model_BulkDeleteByApiCases": Code.Model_BulkDeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_BulkDeleteCases": Code.Model_BulkDeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteCases, definitionRow, CodeXls); break;
                     case "Model_BulkMoveCases": Code.Model_BulkMoveCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkMoveCases, definitionRow, CodeXls); break;
@@ -586,6 +587,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_OpenBulkUpdateSelectorDialogCases": Code.Model_OpenBulkUpdateSelectorDialogCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OpenBulkUpdateSelectorDialogCases, definitionRow, CodeXls); break;
                     case "Model_OpenExportSelectorDialogCases": Code.Model_OpenExportSelectorDialogCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OpenExportSelectorDialogCases, definitionRow, CodeXls); break;
                     case "Model_OutgoingMailUsing": Code.Model_OutgoingMailUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OutgoingMailUsing, definitionRow, CodeXls); break;
+                    case "Model_OutgoingMailUtilitiesUsing": Code.Model_OutgoingMailUtilitiesUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OutgoingMailUtilitiesUsing, definitionRow, CodeXls); break;
                     case "Model_ParameterAccessorPartUsing": Code.Model_ParameterAccessorPartUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ParameterAccessorPartUsing, definitionRow, CodeXls); break;
                     case "Model_ParentIdParameter": Code.Model_ParentIdParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ParentIdParameter, definitionRow, CodeXls); break;
                     case "Model_PhysicalDelete": Code.Model_PhysicalDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDelete, definitionRow, CodeXls); break;
@@ -1024,6 +1026,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_WriteAttachmentsExecute": Code.Model_WriteAttachmentsExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsExecute, definitionRow, CodeXls); break;
                     case "Model_WriteAttachmentsExecute_Create": Code.Model_WriteAttachmentsExecute_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsExecute_Create, definitionRow, CodeXls); break;
                     case "Model_WriteAttachmentsExecute_Update": Code.Model_WriteAttachmentsExecute_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsExecute_Update, definitionRow, CodeXls); break;
+                    case "Model_WriteAttachmentsToLocal_Update": Code.Model_WriteAttachmentsToLocal_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsToLocal_Update, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
                     case "Rds_AggregationAverageCases": Code.Rds_AggregationAverageCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationAverageCases, definitionRow, CodeXls); break;
                     case "Rds_AggregationGroupByCases": Code.Rds_AggregationGroupByCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationGroupByCases, definitionRow, CodeXls); break;
@@ -2082,6 +2085,7 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_Body": Column.Tenants_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Body, definitionRow, ColumnXls); break;
                     case "Tenants_ContractDeadline": Column.Tenants_ContractDeadline = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractDeadline, definitionRow, ColumnXls); break;
                     case "Tenants_ContractSettings": Column.Tenants_ContractSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractSettings, definitionRow, ColumnXls); break;
+                    case "Tenants_DeleteRequestTime": Column.Tenants_DeleteRequestTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DeleteRequestTime, definitionRow, ColumnXls); break;
                     case "Tenants_DisableAllUsersPermission": Column.Tenants_DisableAllUsersPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableAllUsersPermission, definitionRow, ColumnXls); break;
                     case "Tenants_DisableApi": Column.Tenants_DisableApi = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableApi, definitionRow, ColumnXls); break;
                     case "Tenants_DisableStartGuide": Column.Tenants_DisableStartGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableStartGuide, definitionRow, ColumnXls); break;
@@ -7217,6 +7221,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ApiPropertyNullType;
         public string Model_ApiSiteSettingsUsing;
         public string Model_ApiValueCases;
+        public string Model_BinaryStoragesUsing;
         public string Model_BulkDeleteByApiCases;
         public string Model_BulkDeleteCases;
         public string Model_BulkMoveCases;
@@ -7425,6 +7430,7 @@ namespace Implem.DefinitionAccessor
         public string Model_OpenBulkUpdateSelectorDialogCases;
         public string Model_OpenExportSelectorDialogCases;
         public string Model_OutgoingMailUsing;
+        public string Model_OutgoingMailUtilitiesUsing;
         public string Model_ParameterAccessorPartUsing;
         public string Model_ParentIdParameter;
         public string Model_PhysicalDelete;
@@ -7863,6 +7869,7 @@ namespace Implem.DefinitionAccessor
         public string Model_WriteAttachmentsExecute;
         public string Model_WriteAttachmentsExecute_Create;
         public string Model_WriteAttachmentsExecute_Update;
+        public string Model_WriteAttachmentsToLocal_Update;
         public string Rds;
         public string Rds_AggregationAverageCases;
         public string Rds_AggregationGroupByCases;
@@ -8101,6 +8108,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ApiPropertyNullType = new CodeDefinition();
         public CodeDefinition Model_ApiSiteSettingsUsing = new CodeDefinition();
         public CodeDefinition Model_ApiValueCases = new CodeDefinition();
+        public CodeDefinition Model_BinaryStoragesUsing = new CodeDefinition();
         public CodeDefinition Model_BulkDeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_BulkDeleteCases = new CodeDefinition();
         public CodeDefinition Model_BulkMoveCases = new CodeDefinition();
@@ -8309,6 +8317,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OpenBulkUpdateSelectorDialogCases = new CodeDefinition();
         public CodeDefinition Model_OpenExportSelectorDialogCases = new CodeDefinition();
         public CodeDefinition Model_OutgoingMailUsing = new CodeDefinition();
+        public CodeDefinition Model_OutgoingMailUtilitiesUsing = new CodeDefinition();
         public CodeDefinition Model_ParameterAccessorPartUsing = new CodeDefinition();
         public CodeDefinition Model_ParentIdParameter = new CodeDefinition();
         public CodeDefinition Model_PhysicalDelete = new CodeDefinition();
@@ -8747,6 +8756,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_WriteAttachmentsExecute = new CodeDefinition();
         public CodeDefinition Model_WriteAttachmentsExecute_Create = new CodeDefinition();
         public CodeDefinition Model_WriteAttachmentsExecute_Update = new CodeDefinition();
+        public CodeDefinition Model_WriteAttachmentsToLocal_Update = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
         public CodeDefinition Rds_AggregationAverageCases = new CodeDefinition();
         public CodeDefinition Rds_AggregationGroupByCases = new CodeDefinition();
@@ -9844,6 +9854,7 @@ namespace Implem.DefinitionAccessor
         public string Tenants_Body;
         public string Tenants_ContractDeadline;
         public string Tenants_ContractSettings;
+        public string Tenants_DeleteRequestTime;
         public string Tenants_DisableAllUsersPermission;
         public string Tenants_DisableApi;
         public string Tenants_DisableStartGuide;
@@ -10674,6 +10685,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_Body = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractDeadline = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractSettings = new ColumnDefinition();
+        public ColumnDefinition Tenants_DeleteRequestTime = new ColumnDefinition();
         public ColumnDefinition Tenants_DisableAllUsersPermission = new ColumnDefinition();
         public ColumnDefinition Tenants_DisableApi = new ColumnDefinition();
         public ColumnDefinition Tenants_DisableStartGuide = new ColumnDefinition();

@@ -13,5 +13,11 @@ namespace Implem.SqlServer
         {
             return ((SqlException)dbException).Number;
         }
+
+        public bool IsTimeout(DbException dbException)
+        {
+            return dbException is SqlException sqlException
+                && sqlException.Number == -2;
+        }
     }
 }

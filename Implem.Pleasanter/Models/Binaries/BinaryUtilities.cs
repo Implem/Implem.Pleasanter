@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Libraries.DataSources.BinaryStorages;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -44,21 +45,20 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return false;
             }
-            switch (Parameters.BinaryStorage.GetSiteImageProvider())
+            var provider = BinaryStorageProviderFactory.Create(Parameters.BinaryStorage.GetSiteImageProvider());
+            if (provider != null)
             {
-                case "Local":
-                    return new Libraries.Images.ImageData(
+                return new Libraries.Images.ImageData(
                         referenceId,
                         Libraries.Images.ImageData.Types.SiteImage)
                             .Exists(sizeType)
                                 || ExistsSiteImage(
                                     context: context,
                                     referenceId: referenceId);
-                default:
-                    return ExistsSiteImage(
+            }
+            return ExistsSiteImage(
                         context: context,
                         referenceId: referenceId);
-            }
         }
 
         /// <summary>
@@ -92,16 +92,15 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return false;
             }
-            switch (Parameters.BinaryStorage.Provider)
+            var provider = BinaryStorageProviderFactory.Create(Parameters.BinaryStorage.Provider);
+            if (provider != null)
             {
-                case "Local":
-                    return new Libraries.Images.ImageData(
+                return new Libraries.Images.ImageData(
                         referenceId, Libraries.Images.ImageData.Types.TenantImage)
                             .Exists(sizeType)
                                 || ExistsTenantImage(context, referenceId);
-                default:
-                    return ExistsTenantImage(context, referenceId);
             }
+            return ExistsTenantImage(context, referenceId);
         }
 
         /// <summary>
@@ -548,18 +547,19 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.IncorrectFileFormat;
             }
-            if (Parameters.BinaryStorage.IsLocal())
+            var provider = BinaryStorageProviderFactory.Create(Parameters.BinaryStorage.GetImagesProvider());
+            if (provider != null)
             {
-                bin.Write(System.IO.Path.Combine(
-                    Directories.BinaryStorage(),
-                    "Images",
-                    file.Guid));
+                provider.Upload(
+                    objectName: $"Images/{file.Guid}",
+                    data: bin,
+                    contentType: file.ContentType);
                 if (thumbnailLimitSize > 0)
                 {
-                    thumbnail.Write(System.IO.Path.Combine(
-                        Directories.BinaryStorage(),
-                        "Images",
-                        file.Guid + "_thumbnail"));
+                    provider.Upload(
+                        objectName: $"Images/{file.Guid}_thumbnail",
+                        data: thumbnail,
+                        contentType: file.ContentType);
                 }
             }
             Repository.ExecuteNonQuery(
@@ -573,7 +573,7 @@ namespace Implem.Pleasanter.Models
                             ? "TenantManagementImages"
                             : "Images")
                         .Title(file.FileName)
-                        .Bin(bin, _using: !Parameters.BinaryStorage.IsLocal())
+                        .Bin(bin, _using: provider == null)
                         .Thumbnail(thumbnail, _using: thumbnail != null)
                         .FileName(file.FileName)
                         .Extension(file.Extension)
@@ -610,13 +610,12 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             binaryModel.Delete(context: context);
-            var path = System.IO.Path.Combine(
-                Directories.BinaryStorage(),
-                "Images",
-                binaryModel.Guid);
-            if (System.IO.File.Exists(path))
+            var provider = BinaryStorageProviderFactory.Create(
+                Parameters.BinaryStorage.GetImagesProvider());
+            if (provider != null)
             {
-                Files.DeleteFile(path);
+                provider.Delete(objectName: $"Images/{binaryModel.Guid}");
+                provider.Delete(objectName: $"Images/{binaryModel.Guid}_thumbnail");
             }
             return new ResponseCollection(context: context)
                 .Message(Messages.DeletedImage(context: context))
@@ -629,7 +628,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ResponseFile Download(
             Context context,
-            string guid)
+            string guid,
+            BinaryReadMode readMode = BinaryReadMode.Stream)
         {
             if (!context.ContractSettings.Attachments())
             {
@@ -637,7 +637,8 @@ namespace Implem.Pleasanter.Models
             }
             return FileContentResults.Download(
                 context: context,
-                guid: guid.ToUpper());
+                guid: guid.ToUpper(),
+                readMode: readMode);
         }
 
         /// <summary>
@@ -771,17 +772,27 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string BinaryStorageProvider(Column column = null)
         {
-            if (Parameters.BinaryStorage.UseStorageSelect)
+            if (Parameters.BinaryStorage.UseStorageSelect && column != null)
             {
-                return string.IsNullOrEmpty(column?.BinaryStorageProvider)
+                var selected = string.IsNullOrEmpty(column?.BinaryStorageProvider)
                     ? Parameters.BinaryStorage.DefaultBinaryStorageProvider
                     : column?.BinaryStorageProvider;
+                if (selected == ParameterAccessor.Parts.BinaryStorageProviderNames.LocalFolder
+                    && Parameters.BinaryStorage.IsAzureBlob())
+                {
+                    return ParameterAccessor.Parts.BinaryStorageProviderNames.AzureBlob;
+                }
+                return selected;
             }
             else
             {
-                return Parameters.BinaryStorage.IsLocal()
-                    ? "LocalFolder"
-                    : "DataBase";
+                if (!Parameters.BinaryStorage.IsStoreExternal())
+                {
+                    return ParameterAccessor.Parts.BinaryStorageProviderNames.DataBase;
+                }
+                return Parameters.BinaryStorage.Provider == ParameterAccessor.Parts.BinaryStorageProviderNames.Local
+                    ? ParameterAccessor.Parts.BinaryStorageProviderNames.LocalFolder
+                    : Parameters.BinaryStorage.Provider;
             }
         }
 
@@ -790,22 +801,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string BinaryStorageProvider(Column column, long size)
         {
-            decimal s = size;
-            return BinaryStorageProvider(column, s);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string BinaryStorageProvider(Column column, decimal size)
-        {
             var binaryStorageProvider = BinaryStorageProvider(column);
             switch (binaryStorageProvider)
             {
-                case "AutoDataBaseOrLocalFolder":
-                    return size > column?.LimitSize * 1024M * 1024M
-                        ? "LocalFolder"
-                        : "DataBase";
+                case ParameterAccessor.Parts.BinaryStorageProviderNames.AutoDataBaseOrLocalFolder:
+                    if (size > column?.LimitSize * 1024L * 1024L)
+                    {
+                        return Parameters.BinaryStorage.IsAzureBlob()
+                            ? ParameterAccessor.Parts.BinaryStorageProviderNames.AzureBlob
+                            : ParameterAccessor.Parts.BinaryStorageProviderNames.LocalFolder;
+                    }
+                    return ParameterAccessor.Parts.BinaryStorageProviderNames.DataBase;
                 default:
                     return binaryStorageProvider;
             }
@@ -887,7 +893,7 @@ namespace Implem.Pleasanter.Models
                 }
             }
             var controlOnly = !context.Forms.ControlId().RegexFirst("_\\d+_-?\\d+$").IsNullOrEmpty();
-            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider ==  ParameterAccessor.Parts.BinaryStorageProviderNames.Rds)
             {
                 var resultFileNames = new List<dynamic>();
                 for (int filesIndex = 0; filesIndex < context.PostedFiles.Count; ++filesIndex)
@@ -1273,13 +1279,12 @@ namespace Implem.Pleasanter.Models
                 }
                 else if (binaryType == "Images")
                 {
-                    var path = System.IO.Path.Combine(
-                        Directories.BinaryStorage(),
-                        "Images",
-                        binary.String("Guid"));
-                    if (System.IO.File.Exists(path))
+                    var provider = BinaryStorageProviderFactory.Create(
+                        Parameters.BinaryStorage.GetImagesProvider());
+                    if (provider != null)
                     {
-                        Files.DeleteFile(path);
+                        provider.Delete(objectName: $"Images/{binary.String("Guid")}");
+                        provider.Delete(objectName: $"Images/{binary.String("Guid")}_thumbnail");
                     }
                 }
             });

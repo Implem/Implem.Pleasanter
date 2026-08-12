@@ -47,8 +47,8 @@ $p.transition = function (url) {
 //SSOLoginボタン押下時のアクション。
 //Formのdata-actionから取得したreturnUrlパラメータ付きのUrlでusers/challengeへリダイレクトする
 $p.ssoLogin = function ($control) {
-    $form = $control.closest('form');
+    $p.store.$form = $control.closest('form');
     var action = $control.attr('data-action');
-    var url = $form.attr('action').replace('_action_', action.toLowerCase());
+    var url = $p.store.$form.attr('action').replace('_action_', action.toLowerCase());
     $p.transition(url);
 };

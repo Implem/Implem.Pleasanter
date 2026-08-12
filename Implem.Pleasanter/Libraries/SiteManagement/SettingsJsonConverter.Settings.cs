@@ -6574,6 +6574,8 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     public bool? Analy;
                     public bool? Kamban;
                     public bool? ImageLib;
+                    public int? DraftOutputMode;
+                    public string DraftKey;
                     public List<string> ChangedColumns = new();
                     public List<string> ReadOnlyColumns = new();
 
@@ -6605,6 +6607,8 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                 ? new string[] { "New", "Edit", "Index", "Calendar", "Crosstab", "Gantt", "BurnDown", "TimeSeries", "Analy", "Kamban", "ImageLib" }
                                 : new string[] { "All" });
                         }
+                        dst.DraftOutputMode = style.DraftOutputMode ?? 0;
+                        dst.DraftKey = style.DraftKey;
                     }
 
                     internal static List2TableHeader CreateHeaderModel(Context context)
@@ -6629,6 +6633,8 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                 new (){Key="Analy",Text=Displays.Analy(context:context)},
                                 new (){Key="Kamban",Text=Displays.Kamban(context:context)},
                                 new (){Key="ImageLib",Text=Displays.ImageLib(context:context)},
+                                new (){Key="DraftOutputMode",Text=Displays.DraftOutput(context:context)},
+                                new (){Key="DraftKey",Text=Displays.DraftKey(context:context)},
                             }
                         };
                     }
@@ -6785,6 +6791,8 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     public bool? Analy;
                     public bool? Kamban;
                     public bool? ImageLib;
+                    public int? DraftOutputMode;
+                    public string DraftKey;
                     public List<string> ChangedColumns = new();
                     public List<string> ReadOnlyColumns = new();
 
@@ -6816,6 +6824,8 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                 ? new string[] { "New", "Edit", "Index", "Calendar", "Crosstab", "Gantt", "BurnDown", "TimeSeries", "Analy", "Kamban", "ImageLib" }
                                 : new string[] { "All" });
                         }
+                        dst.DraftOutputMode = script.DraftOutputMode ?? 0;
+                        dst.DraftKey = script.DraftKey;
                     }
 
                     internal static List2TableHeader CreateHeaderModel(Context context)
@@ -6840,6 +6850,8 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                             new (){Key="Analy",Text=Displays.Analy(context:context)},
                             new (){Key="Kamban",Text=Displays.Kamban(context:context)},
                             new (){Key="ImageLib",Text=Displays.ImageLib(context:context)},
+                            new (){Key="DraftOutputMode",Text=Displays.DraftOutput(context:context)},
+                            new (){Key="DraftKey",Text=Displays.DraftKey(context:context)},
                         }
                         };
                     }
@@ -6994,6 +7006,8 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     public bool? Analy;
                     public bool? Kamban;
                     public bool? ImageLib;
+                    public int? DraftOutputMode;
+                    public string DraftKey;
                     public List<string> ChangedColumns = new();
                     public List<string> ReadOnlyColumns = new();
 
@@ -7033,6 +7047,8 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                 ? new string[] { "New", "Edit", "Index", "Calendar", "Crosstab", "Gantt", "BurnDown", "TimeSeries", "Analy", "Kamban", "ImageLib" }
                                 : new string[] { "All" });
                         }
+                        dst.DraftOutputMode = html.DraftOutputMode ?? 0;
+                        dst.DraftKey = html.DraftKey;
                     }
 
                     internal static List2TableHeader CreateHeaderModel(Context context)
@@ -7058,6 +7074,8 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                             new (){Key="Analy",Text=Displays.Analy(context:context)},
                             new (){Key="Kamban",Text=Displays.Kamban(context:context)},
                             new (){Key="ImageLib",Text=Displays.ImageLib(context:context)},
+                            new (){Key="DraftOutputMode",Text=Displays.DraftOutput(context:context)},
+                            new (){Key="DraftKey",Text=Displays.DraftKey(context:context)},
                         }
                         };
                     }

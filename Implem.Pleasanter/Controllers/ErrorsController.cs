@@ -1,11 +1,12 @@
-﻿using Implem.DefinitionAccessor;
+﻿using System.Net;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.BackgroundServices;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
@@ -236,6 +237,22 @@ namespace Implem.Pleasanter.Controllers
             var html = HtmlTemplates.Error(
                 context: context,
                 errorData: new ErrorData(type: Error.Types.FormulaExecutionFailed));
+            ViewBag.HtmlBody = html;
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult Warmup()
+        {
+            if (ApplicationWarmupHostedService.CurrentStatus == WarmupStatus.Completed)
+            {
+                return LocalRedirect(Url.Content("~/"));
+            }
+            Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
+            var context = new Context();
+            var html = HtmlTemplates.Error(
+                context: context,
+                errorData: new ErrorData(type: Error.Types.ServiceUnavailable));
             ViewBag.HtmlBody = html;
             return View();
         }

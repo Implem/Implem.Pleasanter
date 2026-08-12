@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_ApiKeyPrefix",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "ApiKeyPrefix",
     "LabelText": "APIキー接頭辞",
     "No": "10",
+    "History": "10",
     "GridColumn": "10",
     "GridEnabled": "1",
     "FilterColumn": "10",

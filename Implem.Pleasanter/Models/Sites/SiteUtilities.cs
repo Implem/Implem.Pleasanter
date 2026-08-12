@@ -306,6 +306,20 @@ namespace Implem.Pleasanter.Models
                     .Log(context.GetLog())
                     .ToJson();
             }
+            catch (Implem.Libraries.Exceptions.GridDataTimeoutException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
+            catch (Implem.Libraries.Exceptions.GridDataException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -15651,7 +15665,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         selected: selected)
-                    .EditStyleBody(ss: ss, selected: selected));
+                    .EditStyleBody(context: context, ss: ss, selected: selected));
         }
 
         /// <summary>
@@ -15673,9 +15687,24 @@ namespace Implem.Pleasanter.Models
                         .Text(text: Displays.Title(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.DraftOutput(context: context)))
                     .EditDestinationStyleHeader(
                         context: context,
                         _using: ss.ReferenceType != "Dashboards")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string DraftOutputModeText(Context context, int? draftOutputMode)
+        {
+            switch (draftOutputMode)
+            {
+                case 1: return Displays.DraftOutputModeDraftOnly(context: context);
+                case 2: return Displays.DraftOutputModeHideInDraft(context: context);
+                default: return Displays.DraftOutputModeAlways(context: context);
+            }
         }
 
         /// <summary>
@@ -15715,7 +15744,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder EditStyleBody(
-            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+            this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
         {
             return hb.TBody(action: () => ss
                 .Styles?.ForEach(style => hb
@@ -15737,6 +15766,10 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: style.Disabled == true))
+                            .Td(action: () => hb
+                                .Text(text: DraftOutputModeText(
+                                    context: context,
+                                    draftOutputMode: style.DraftOutputMode)))
                             .EditDestinationStyleBody(
                                 style: style,
                                 _using: ss.ReferenceType != "Dashboards"))));
@@ -15854,6 +15887,26 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
                         _checked: style.Disabled == true)
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "StyleDraftOutputModeField",
+                        controlId: "StyleDraftOutputMode",
+                        fieldCss: "field-auto",
+                        labelText: Displays.DraftOutput(context: context),
+                        optionCollection: new Dictionary<string, string>
+                            {
+                                { "0", Displays.DraftOutputModeAlways(context: context) },
+                                { "1", Displays.DraftOutputModeDraftOnly(context: context) },
+                                { "2", Displays.DraftOutputModeHideInDraft(context: context) }
+                            },
+                        selectedValue: (style.DraftOutputMode ?? 0).ToString(),
+                        alwaysSend: true)
+                    .FieldTextBox(
+                        controlId: "StyleDraftKey",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.DraftKey(context: context),
+                        text: style.DraftKey)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.OutputDestination(context: context),
@@ -16054,6 +16107,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         selected: selected)
                     .EditScriptBody(
+                        context: context,
                         ss: ss,
                         selected: selected));
         }
@@ -16077,6 +16131,8 @@ namespace Implem.Pleasanter.Models
                         .Text(text: Displays.Title(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.DraftOutput(context: context)))
                     .EditDestinationScriptHeader(
                         context: context,
                         _using: ss.ReferenceType != "Dashboards")));
@@ -16119,7 +16175,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder EditScriptBody(
-            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+            this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
         {
             return hb.TBody(action: () => ss
                 .Scripts?.ForEach(script => hb
@@ -16141,6 +16197,10 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: script.Disabled == true))
+                            .Td(action: () => hb
+                                .Text(text: DraftOutputModeText(
+                                    context: context,
+                                    draftOutputMode: script.DraftOutputMode)))
                             .EditDestinationScriptBody(
                                 script: script,
                                 _using: ss.ReferenceType != "Dashboards"))));
@@ -16258,6 +16318,26 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
                         _checked: script.Disabled == true)
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "ScriptDraftOutputModeField",
+                        controlId: "ScriptDraftOutputMode",
+                        fieldCss: "field-auto",
+                        labelText: Displays.DraftOutput(context: context),
+                        optionCollection: new Dictionary<string, string>
+                            {
+                                { "0", Displays.DraftOutputModeAlways(context: context) },
+                                { "1", Displays.DraftOutputModeDraftOnly(context: context) },
+                                { "2", Displays.DraftOutputModeHideInDraft(context: context) }
+                            },
+                        selectedValue: (script.DraftOutputMode ?? 0).ToString(),
+                        alwaysSend: true)
+                    .FieldTextBox(
+                        controlId: "ScriptDraftKey",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.DraftKey(context: context),
+                        text: script.DraftKey)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.OutputDestination(context: context),
@@ -16484,6 +16564,8 @@ namespace Implem.Pleasanter.Models
                         .Text(text: Displays.HtmlPositionType(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.DraftOutput(context: context)))
                     .EditDestinationHtmlHeader(
                         context: context,
                         _using: ss.ReferenceType != "Dashboards")));
@@ -16571,6 +16653,10 @@ namespace Implem.Pleasanter.Models
                                     .Span(
                                         css: "ui-icon ui-icon-circle-check",
                                         _using: html.Disabled == true))
+                                .Td(action: () => hb
+                                    .Text(text: DraftOutputModeText(
+                                        context: context,
+                                        draftOutputMode: html.DraftOutputMode)))
                                 .EditDestinationHtmlBody(
                                     html: html,
                                     _using: ss.ReferenceType != "Dashboards"));
@@ -16715,6 +16801,26 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
                         _checked: html.Disabled == true)
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "HtmlDraftOutputModeField",
+                        controlId: "HtmlDraftOutputMode",
+                        fieldCss: "field-auto",
+                        labelText: Displays.DraftOutput(context: context),
+                        optionCollection: new Dictionary<string, string>
+                            {
+                                { "0", Displays.DraftOutputModeAlways(context: context) },
+                                { "1", Displays.DraftOutputModeDraftOnly(context: context) },
+                                { "2", Displays.DraftOutputModeHideInDraft(context: context) }
+                            },
+                        selectedValue: (html.DraftOutputMode ?? 0).ToString(),
+                        alwaysSend: true)
+                    .FieldTextBox(
+                        controlId: "HtmlDraftKey",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.DraftKey(context: context),
+                        text: html.DraftKey)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.OutputDestination(context: context),

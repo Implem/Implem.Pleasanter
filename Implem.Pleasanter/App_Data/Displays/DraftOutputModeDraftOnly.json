@@ -1,0 +1,34 @@
+﻿{
+    "Id": "DraftOutputModeDraftOnly",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Output Only in Draft"
+        },
+        {
+            "Language": "zh",
+            "Body": "仅草稿时输出"
+        },
+        {
+            "Language": "ja",
+            "Body": "ドラフト時のみ出力"
+        },
+        {
+            "Language": "de",
+            "Body": "Nur im Entwurf ausgeben"
+        },
+        {
+            "Language": "ko",
+            "Body": "초안일 때만 출력"
+        },
+        {
+            "Language": "es",
+            "Body": "Salida solo en borrador"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chỉ xuất khi ở bản nháp"
+        }
+    ]
+}

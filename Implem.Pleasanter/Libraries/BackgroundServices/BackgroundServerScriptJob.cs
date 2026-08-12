@@ -19,7 +19,10 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     {
         public override async Task Execute(IJobExecutionContext jobContext)
         {
-            if (Parameters.Script.ServerScript != true || Parameters.Script.BackgroundServerScript != true) return;
+            if (Parameters.BackgroundService.BackgroundServerScriptEnabled(
+                deploymentEnvironment: Parameters.Service.DeploymentEnvironment,
+                serverScript: Parameters.Script.ServerScript,
+                backgroundServerScript: Parameters.Script.BackgroundServerScript) != true) return;
             var dataMap = jobContext.MergedJobDataMap;
             var tenatId = dataMap.GetInt("tenantId");
             var scriptId = dataMap.GetInt("scriptId");
@@ -120,6 +123,12 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             context.SetTenantProperties(force: true);
             context.BackgroundServerScript = true;
             context.AbsoluteUri = Parameters.Service.AbsoluteUri;
+            context.TimeZoneInfo = new UserModel()
+                .Get(
+                    context: context,
+                    ss: null,
+                    where: Rds.UsersWhere().UserId(userId))
+                .TimeZoneInfo;
             return context;
         }
     }

@@ -18,8 +18,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         static BackgroundJobDispatcher()
         {
             RegisterHandler(
-                jobType: "Export",
+                jobType: BackgroundJobTypes.Export,
                 handler: new ExportJobHandler());
+            RegisterHandler(
+                jobType: BackgroundJobTypes.Import,
+                handler: new ImportJobHandler());
         }
 
         public class Param : IExecutionTimerBaseParam
@@ -77,6 +80,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                             s_recoveredOnce = true;
                         }
                         BackgroundJobQueue.WarnTimedOutRunningJobs(context: context);
+                        BackgroundJobQueue.FailStalePreparingJobs(context: context);
                         await ExecuteOneJob(context: context);
                     }
                     catch (Exception e)

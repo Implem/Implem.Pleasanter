@@ -19,6 +19,13 @@
     "DeleteMcpLogsTime": [ "02:00" ],
     "McpLogsRetentionPeriod": 90,
     "DeleteMcpLogsChunkSize": 0,
+    "DeleteTenant": true,
+    "DeleteTenantTime": [ "04:00" ],
+    "DeleteTenantRetentionPeriod": 30,
+    "DeleteTenantChunkSize": 1000,
+    "DeleteTenantBinariesChunkSize": 10,
+    "WarmupTimeoutSeconds": 180,
+    "WarmupFailureShutdownDelaySeconds": 60,
     "DeleteBackgroundJobs": false,
     "DeleteBackgroundJobsTime": [ "04:00" ],
     "BackgroundJobsRetentionPeriod": 7

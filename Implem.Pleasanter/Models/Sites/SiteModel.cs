@@ -2413,13 +2413,17 @@ namespace Implem.Pleasanter.Models
                     permissions: RecordPermissions,
                     site: true);
             }
+            var creatorAlreadyInPermissions = RecordPermissions?
+                .Any(o => o.StartsWith($"User,{context.UserId},")) == true;
             statements.Add(Rds.InsertPermissions(
                 param: Rds.PermissionsParam()
                     .ReferenceId(SiteId)
                     .DeptId(0)
                     .UserId(context.UserId)
                     .PermissionType(Permissions.Manager()),
-                _using: notInheritPermission && !DisableSiteCreatorPermission));
+                _using: notInheritPermission
+                    && !DisableSiteCreatorPermission
+                    && !creatorAlreadyInPermissions));
             if (statements.Any(o => o.Using))
             {
                 Repository.ExecuteNonQuery(
@@ -2823,6 +2827,10 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
+                    if (!DraftKeyValid(scApiSiteSetting.DraftKey))
+                    {
+                        return;
+                    }
                     if (currentScript != null)
                     {
                         currentScript.Update(
@@ -2840,6 +2848,8 @@ namespace Implem.Pleasanter.Models
                             kamban: scApiSiteSetting.ScriptKamban,
                             imageLib: scApiSiteSetting.ScriptImageLib,
                             disabled: scApiSiteSetting.Disabled,
+                            draftOutputMode: scApiSiteSetting.DraftOutputMode,
+                            draftKey: scApiSiteSetting.DraftKey,
                             body: scApiSiteSetting.Body);
                     }
                     else
@@ -2860,6 +2870,8 @@ namespace Implem.Pleasanter.Models
                             kamban: scApiSiteSetting.ScriptKamban,
                             imageLib: scApiSiteSetting.ScriptImageLib,
                             disabled: scApiSiteSetting.Disabled,
+                            draftOutputMode: scApiSiteSetting.DraftOutputMode,
+                            draftKey: scApiSiteSetting.DraftKey,
                             body: scApiSiteSetting.Body));
                     }
                 }
@@ -2888,6 +2900,10 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
+                    if (!DraftKeyValid(stApiSiteSetting.DraftKey))
+                    {
+                        return;
+                    }
                     if (currentStyle != null)
                     {
                         currentStyle.Update(
@@ -2905,6 +2921,8 @@ namespace Implem.Pleasanter.Models
                             kamban: stApiSiteSetting.StyleKamban,
                             imageLib: stApiSiteSetting.StyleImageLib,
                             disabled: stApiSiteSetting.Disabled,
+                            draftOutputMode: stApiSiteSetting.DraftOutputMode,
+                            draftKey: stApiSiteSetting.DraftKey,
                             body: stApiSiteSetting.Body);
                     }
                     else
@@ -2925,6 +2943,8 @@ namespace Implem.Pleasanter.Models
                             kamban: stApiSiteSetting.StyleKamban,
                             imageLib: stApiSiteSetting.StyleImageLib,
                             disabled: stApiSiteSetting.Disabled,
+                            draftOutputMode: stApiSiteSetting.DraftOutputMode,
+                            draftKey: stApiSiteSetting.DraftKey,
                             body: stApiSiteSetting.Body));
                     }
                 }
@@ -2953,6 +2973,10 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
+                    if (!DraftKeyValid(htmlApiSiteSetting.DraftKey))
+                    {
+                        return;
+                    }
                     if (currentHtml != null)
                     {
                         currentHtml.Update(
@@ -2971,6 +2995,8 @@ namespace Implem.Pleasanter.Models
                             kamban: htmlApiSiteSetting.HtmlKamban,
                             imageLib: htmlApiSiteSetting.HtmlImageLib,
                             disabled: htmlApiSiteSetting.Disabled,
+                            draftOutputMode: htmlApiSiteSetting.DraftOutputMode,
+                            draftKey: htmlApiSiteSetting.DraftKey,
                             body: htmlApiSiteSetting.Body);
                     }
                     else
@@ -2992,6 +3018,8 @@ namespace Implem.Pleasanter.Models
                             kamban: htmlApiSiteSetting.HtmlKamban,
                             imageLib: htmlApiSiteSetting.HtmlImageLib,
                             disabled: htmlApiSiteSetting.Disabled,
+                            draftOutputMode: htmlApiSiteSetting.DraftOutputMode,
+                            draftKey: htmlApiSiteSetting.DraftKey,
                             body: htmlApiSiteSetting.Body));
                     }
                 }
@@ -7721,8 +7749,22 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static bool DraftKeyValid(string draftKey)
+        {
+            return draftKey.IsNullOrEmpty()
+                || System.Text.RegularExpressions.Regex.IsMatch(draftKey, "^[A-Za-z0-9_-]*$");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void AddStyle(Context context, ResponseCollection res, string controlId)
         {
+            if (!DraftKeyValid(context.Forms.Data("StyleDraftKey")))
+            {
+                res.Message(Messages.InvalidRequest(context: context));
+                return;
+            }
             SiteSettings.Styles.Add(new Style(
                 id: SiteSettings.Styles.MaxOrDefault(o => o.Id) + 1,
                 title: context.Forms.Data("StyleTitle"),
@@ -7739,6 +7781,8 @@ namespace Implem.Pleasanter.Models
                 kamban: context.Forms.Bool("StyleKamban"),
                 imageLib: context.Forms.Bool("StyleImageLib"),
                 disabled: context.Forms.Bool("StyleDisabled"),
+                draftOutputMode: context.Forms.Int("StyleDraftOutputMode"),
+                draftKey: context.Forms.Data("StyleDraftKey"),
                 body: context.Forms.Data("StyleBody")));
             res
                 .ReplaceAll("#EditStyleWrap", new HtmlBuilder()
@@ -7753,6 +7797,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateStyle(Context context, ResponseCollection res, string controlId)
         {
+            if (!DraftKeyValid(context.Forms.Data("StyleDraftKey")))
+            {
+                res.Message(Messages.InvalidRequest(context: context));
+                return;
+            }
             SiteSettings.Styles?
                 .FirstOrDefault(o => o.Id == context.Forms.Int("StyleId"))?
                 .Update(
@@ -7770,6 +7819,8 @@ namespace Implem.Pleasanter.Models
                     kamban: context.Forms.Bool("StyleKamban"),
                     imageLib: context.Forms.Bool("StyleImageLib"),
                     disabled: context.Forms.Bool("StyleDisabled"),
+                    draftOutputMode: context.Forms.Int("StyleDraftOutputMode"),
+                    draftKey: context.Forms.Data("StyleDraftKey"),
                     body: context.Forms.Data("StyleBody"));
             res
                 .ReplaceAll("#EditStyleWrap", new HtmlBuilder()
@@ -7891,6 +7942,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddScript(Context context, ResponseCollection res, string controlId)
         {
+            if (!DraftKeyValid(context.Forms.Data("ScriptDraftKey")))
+            {
+                res.Message(Messages.InvalidRequest(context: context));
+                return;
+            }
             SiteSettings.Scripts.Add(new Script(
                 id: SiteSettings.Scripts.MaxOrDefault(o => o.Id) + 1,
                 title: context.Forms.Data("ScriptTitle"),
@@ -7907,6 +7963,8 @@ namespace Implem.Pleasanter.Models
                 kamban: context.Forms.Bool("ScriptKamban"),
                 imageLib: context.Forms.Bool("ScriptImageLib"),
                 disabled: context.Forms.Bool("ScriptDisabled"),
+                draftOutputMode: context.Forms.Int("ScriptDraftOutputMode"),
+                draftKey: context.Forms.Data("ScriptDraftKey"),
                 body: context.Forms.Data("ScriptBody")));
             res
                 .ReplaceAll("#EditScriptWrap", new HtmlBuilder()
@@ -7921,6 +7979,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateScript(Context context, ResponseCollection res, string controlId)
         {
+            if (!DraftKeyValid(context.Forms.Data("ScriptDraftKey")))
+            {
+                res.Message(Messages.InvalidRequest(context: context));
+                return;
+            }
             SiteSettings.Scripts?
                 .FirstOrDefault(o => o.Id == context.Forms.Int("ScriptId"))?
                 .Update(
@@ -7938,6 +8001,8 @@ namespace Implem.Pleasanter.Models
                     kamban: context.Forms.Bool("ScriptKamban"),
                     imageLib: context.Forms.Bool("ScriptImageLib"),
                     disabled: context.Forms.Bool("ScriptDisabled"),
+                    draftOutputMode: context.Forms.Int("ScriptDraftOutputMode"),
+                    draftKey: context.Forms.Data("ScriptDraftKey"),
                     body: context.Forms.Data("ScriptBody"));
             res
                 .ReplaceAll("#EditScriptWrap", new HtmlBuilder()
@@ -8059,6 +8124,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddHtml(Context context, ResponseCollection res, string controlId)
         {
+            if (!DraftKeyValid(context.Forms.Data("HtmlDraftKey")))
+            {
+                res.Message(Messages.InvalidRequest(context: context));
+                return;
+            }
             SiteSettings.Htmls.Add(new Html(
                 id: SiteSettings.Htmls.MaxOrDefault(o => o.Id) + 1,
                 title: context.Forms.Data("HtmlTitle"),
@@ -8076,6 +8146,8 @@ namespace Implem.Pleasanter.Models
                 kamban: context.Forms.Bool("HtmlKamban"),
                 imageLib: context.Forms.Bool("HtmlImageLib"),
                 disabled: context.Forms.Bool("HtmlDisabled"),
+                draftOutputMode: context.Forms.Int("HtmlDraftOutputMode"),
+                draftKey: context.Forms.Data("HtmlDraftKey"),
                 body: context.Forms.Data("HtmlBody")));
             res
                 .ReplaceAll("#EditHtmlWrap", new HtmlBuilder()
@@ -8090,6 +8162,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateHtml(Context context, ResponseCollection res, string controlId)
         {
+            if (!DraftKeyValid(context.Forms.Data("HtmlDraftKey")))
+            {
+                res.Message(Messages.InvalidRequest(context: context));
+                return;
+            }
             SiteSettings.Htmls?
                 .FirstOrDefault(o => o.Id == context.Forms.Int("HtmlId"))?
                 .Update(
@@ -8108,6 +8185,8 @@ namespace Implem.Pleasanter.Models
                     kamban: context.Forms.Bool("HtmlKamban"),
                     imageLib: context.Forms.Bool("HtmlImageLib"),
                     disabled: context.Forms.Bool("HtmlDisabled"),
+                    draftOutputMode: context.Forms.Int("HtmlDraftOutputMode"),
+                    draftKey: context.Forms.Data("HtmlDraftKey"),
                     body: context.Forms.Data("HtmlBody"));
             res
                 .ReplaceAll("#EditHtmlWrap", new HtmlBuilder()

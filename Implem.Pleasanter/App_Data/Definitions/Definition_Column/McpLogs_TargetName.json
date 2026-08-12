@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_TargetName",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "TargetName",
     "LabelText": "対象名",
     "No": "7",
+    "History": "7",
     "GridColumn": "7",
     "GridEnabled": "1",
     "FilterColumn": "7",

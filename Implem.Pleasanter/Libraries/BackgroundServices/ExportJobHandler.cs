@@ -87,10 +87,10 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     responseFile?.ErrorMessage
                         ?? Displays.Get(
                             context: context,
-                            id: "BackgroundJobExportFailed",
+                            id: "BackgroundJobExecutionFailed",
                             data: BackgroundJobQueue.GetJobTypeLabel(
                                 context: context,
-                                jobType: "Export")));
+                                jobType: BackgroundJobTypes.Export)));
             }
             var fileName = Path.GetFileName(responseFile.FileDownloadName);
             var filePath = Path.Combine(outputDirectory, fileName);
@@ -103,11 +103,12 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             }
             if (responseFile.FileContentsStream != null)
             {
+                using var source = responseFile.FileContentsStream;
                 using var stream = new FileStream(
                     path: filePath,
                     mode: FileMode.Create,
                     access: FileAccess.Write);
-                responseFile.FileContentsStream.CopyTo(stream);
+                source.CopyTo(stream);
                 return filePath;
             }
             var encoding = responseFile.Encoding == "Shift-JIS"

@@ -2,13 +2,17 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataSources.BinaryStorages;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
@@ -92,18 +96,32 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return strSize;
         }
 
-        public void WriteToLocal(Context context)
+        public void WriteToLocal(Context context, Column column = null)
         {
-            var filePath = Path.Combine(
-                Directories.BinaryStorage(),
-                "Attachments",
-                Guid);
-            if (!new FileInfo(filePath).Directory.Exists)
+            var providerName = BinaryUtilities.BinaryStorageProvider(
+                column: column,
+                size: Size.GetValueOrDefault());
+            var provider = BinaryStorageProviderFactory.Create(providerName);
+            if (provider == null) return;  // DB 保存経路（ファイル I/O 不要）
+            var tempPath = Path.Combine(Directories.Temp(), Guid, Name ?? FileName);
+            try
             {
-                Directory.CreateDirectory(new FileInfo(filePath).Directory.FullName);
+                using var stream = System.IO.File.OpenRead(tempPath);
+                provider.Upload(
+                    objectName: $"Attachments/{Guid}",
+                    stream: stream,
+                    contentType: ContentType);
             }
-            new FileInfo(Path.Combine(Directories.Temp(), Guid, Name ?? FileName))
-                .CopyTo(filePath, overwrite: true);
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(WriteToLocal),
+                    message: $"Upload failed before commit. Blob=Attachments/{Guid} Error={e.Message}",
+                    errStackTrace: e.StackTrace,
+                    sysLogType: SysLogModel.SysLogTypes.Exception);
+                throw;
+            }
         }
 
         public void DeleteFromLocal(
@@ -113,10 +131,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             long referenceId,
             bool verUp)
         {
-            var path = Path.Combine(
-                Directories.BinaryStorage(),
-                "Attachments",
-                Guid);
             if (column?.NotDeleteExistHistory != true
                 || (verUp == false
                     && !ExistsHistory(
@@ -125,10 +139,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         column: column,
                         referenceId: referenceId)))
             {
-                if (System.IO.File.Exists(path))
-                {
-                    Files.DeleteFile(path);
-                }
+                var providerName = BinaryUtilities.BinaryStorageProvider(
+                    column: column,
+                    size: Size.GetValueOrDefault());
+                var provider = BinaryStorageProviderFactory.Create(providerName);
+                if (provider == null) return;  // DB 保存経路（ファイル I/O 不要）
+                provider.Delete(
+                    objectName: $"Attachments/{Guid}");
             }
         }
 
@@ -142,9 +159,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (Added == true)
             {
-                if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds"
+                var providerName = BinaryUtilities.BinaryStorageProvider(
+                    column: column,
+                    size: Size.GetValueOrDefault());
+                var provider = BinaryStorageProviderFactory.Create(providerName);
+                if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == ParameterAccessor.Parts.BinaryStorageProviderNames.Rds
                     && context.Api != true)
                 {
+                    if (provider != null)
+                    {
+                        MoveBinFromRdsToExternal(
+                            context: context,
+                            provider: provider);
+                    }
                     statements.Add(Rds.UpdateBinaries(
                         param: Rds.BinariesParam()
                             .TenantId(context.TenantId)
@@ -153,6 +180,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .Guid(Guid)
                             .Title(Name ?? FileName)
                             .BinaryType("Attachments")
+                            .Bin(raw: "NULL", _using: provider != null)
                             .FileName(Name ?? FileName)
                             .Extension(Extension)
                             .Size(Size)
@@ -161,7 +189,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 }
                 else
                 {
-                    var bin = IsStoreLocalFolder(column) ? default : GetBin(context);
+                    var bin = provider != null ? default : GetBin(context);
                     statements.Add(Rds.UpdateOrInsertBinaries(
                         param: Rds.BinariesParam()
                             .TenantId(context.TenantId)
@@ -170,8 +198,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .Guid(Guid)
                             .Title(Name ?? FileName)
                             .BinaryType("Attachments")
-                            .Bin(bin, _using: !IsStoreLocalFolder(column))
-                            .Bin(raw: "NULL", _using: IsStoreLocalFolder(column))
+                            .Bin(bin, _using: provider == null)
+                            .Bin(raw: "NULL", _using: provider != null)
                             .FileName(Name ?? FileName)
                             .Extension(Extension)
                             .Size(Size)
@@ -207,6 +235,42 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     default:
                         break;
                 }
+            }
+        }
+
+        private void MoveBinFromRdsToExternal(
+            Context context,
+            IBinaryStorageProvider provider)
+        {
+            var dataRow = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    column: Rds.BinariesColumn().Bin(),
+                    where: Rds.BinariesWhere()
+                        .TenantId(context.TenantId)
+                        .Guid(Guid)
+                        .BinaryType("Temporary")))
+                .AsEnumerable()
+                .FirstOrDefault();
+            if (dataRow == null) return;
+            var bin = dataRow.Bytes("Bin");
+            if (bin == null) return;
+            try
+            {
+                provider.Upload(
+                    objectName: $"Attachments/{Guid}",
+                    data: bin,
+                    contentType: ContentType);
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(MoveBinFromRdsToExternal),
+                    message: $"Temp->External upload failed. Blob=Attachments/{Guid} Error={e.Message}",
+                    errStackTrace: e.StackTrace,
+                    sysLogType: SysLogModel.SysLogTypes.Exception);
+                throw;
             }
         }
 
@@ -272,12 +336,15 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     context: context,
                     errorData: new ErrorData(type: invalid));
             }
-            var isLocal = IsStoreLocalFolder(null);
-            if (isLocal)
+            var providerName = BinaryUtilities.BinaryStorageProvider(
+                column: null,
+                size: Size.GetValueOrDefault());
+            var provider = BinaryStorageProviderFactory.Create(providerName);
+            if (provider != null)
             {
-                WriteToLocal(context: context);
+                WriteToLocal(context: context, column: null);
             }
-            var bin = isLocal
+            var bin = provider != null
                 ? default
                 : GetBin(context: context);
             var statements = new List<SqlStatement>();
@@ -289,8 +356,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .Guid(Guid)
                     .Title(Name ?? FileName)
                     .BinaryType("Attachments")
-                    .Bin(bin, _using: !isLocal)
-                    .Bin(raw: "NULL", _using: isLocal)
+                    .Bin(bin, _using: provider == null)
+                    .Bin(raw: "NULL", _using: provider != null)
                     .FileName(Name ?? FileName)
                     .Extension(Extension)
                     .Size(Size)
@@ -324,27 +391,31 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         return string.Empty;
                 }
             }
-
-            if (IsStoreLocalFolder(column))
+            var providerName = BinaryUtilities.BinaryStorageProvider(
+                column: column,
+                size: Size.GetValueOrDefault());
+            var provider = BinaryStorageProviderFactory.Create(providerName);
+            if (provider != null)
             {
                 var tempFile = Path.Combine(
                     Directories.Temp(),
                     Guid,
                     Name ?? FileName);
-                var filename = System.IO.File.Exists(tempFile)
-                    ? tempFile
-                    : Path.Combine(
-                        Directories.BinaryStorage(),
-                        "Attachments",
-                        Guid);
-                using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+                using var sha = System.Security.Cryptography.SHA256.Create();
+                if (System.IO.File.Exists(tempFile))
                 {
-                    var sha = System.Security.Cryptography.SHA256.Create();
+                    using var stream = new FileStream(tempFile, FileMode.Open, FileAccess.Read);
+                    HashCode = System.Convert.ToBase64String(sha.ComputeHash(stream));
+                }
+                else
+                {
+                    using var stream = provider.OpenRead($"Attachments/{Guid}");
                     HashCode = System.Convert.ToBase64String(sha.ComputeHash(stream));
                 }
             }
             else
-            {   if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds"
+            {
+                if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == ParameterAccessor.Parts.BinaryStorageProviderNames.Rds
                     && context.Api != true)
                 {
                     var hash = Repository.ExecuteScalar_bytes(
@@ -376,18 +447,20 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public bool IsStoreLocalFolder(Column column)
         {
-            return BinaryUtilities.BinaryStorageProvider(column, Size.GetValueOrDefault()) == "LocalFolder";
+            return BinaryUtilities.BinaryStorageProvider(column, Size.GetValueOrDefault()) == ParameterAccessor.Parts.BinaryStorageProviderNames.LocalFolder;
         }
 
         public bool Exists(Context context)
         {
-            var path = Path.Combine(Directories.BinaryStorage(),
-                "Attachments",
-                Guid);
-            var temp = Path.Combine(Directories.Temp(),
-                Guid,
-                Name);
-            if (Files.Exists(path) || Files.Exists(temp))
+            var localPath = Path.Combine(Directories.BinaryStorage(), "Attachments", Guid);
+            var temp = Path.Combine(Directories.Temp(), Guid, Name);
+            var providerName = BinaryUtilities.BinaryStorageProvider(
+                column: null,
+                size: Size.GetValueOrDefault());
+            var provider = BinaryStorageProviderFactory.Create(providerName);
+            if ((provider != null && provider.Exists($"Attachments/{Guid}"))
+                || Files.Exists(localPath)
+                || Files.Exists(temp))
             {
                 return true;
             }

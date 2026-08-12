@@ -1,0 +1,33 @@
+{
+    "Id": "TenantResumed",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "\" {0} \" has been resumed."
+        },
+        {
+            "Language": "zh",
+            "Body": "“{0}”已恢复。"
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を再開しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ wurde fortgesetzt."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"이(가) 재개되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha reanudado \" {0} \"."
+        },
+        {
+            "Language": "vn",
+            "Body": "\" {0} \" đã được tiếp tục."
+        }
+    ]
+}

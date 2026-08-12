@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_Title",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "Title",
     "LabelText": "タイトル",
     "No": "26",
+    "History": "26",
     "TypeName": "nvarchar",
     "TypeCs": "Title",
     "RecordingData": ".Value",

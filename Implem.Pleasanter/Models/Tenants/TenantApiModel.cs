@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Models
         public string TimeZone { get; set; }
         public string TenantSettings { get; set; }
         public DateTime? RestartScheduledTime { get; set; }
+        public DateTime? DeleteRequestTime { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }
@@ -66,6 +67,7 @@ namespace Implem.Pleasanter.Models
                 case "TimeZone": return TimeZone;
                 case "TenantSettings": return TenantSettings;
                 case "RestartScheduledTime": return RestartScheduledTime;
+                case "DeleteRequestTime": return DeleteRequestTime;
                 case "Comments": return Comments;
                 case "Creator": return Creator;
                 case "Updator": return Updator;

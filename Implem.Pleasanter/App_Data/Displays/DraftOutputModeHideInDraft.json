@@ -1,0 +1,34 @@
+﻿{
+    "Id": "DraftOutputModeHideInDraft",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Hide in Draft"
+        },
+        {
+            "Language": "zh",
+            "Body": "草稿时不输出"
+        },
+        {
+            "Language": "ja",
+            "Body": "ドラフト時は出力しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Im Entwurf nicht ausgeben"
+        },
+        {
+            "Language": "ko",
+            "Body": "초안일 때는 출력하지 않음"
+        },
+        {
+            "Language": "es",
+            "Body": "No mostrar en borrador"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không xuất khi ở bản nháp"
+        }
+    ]
+}

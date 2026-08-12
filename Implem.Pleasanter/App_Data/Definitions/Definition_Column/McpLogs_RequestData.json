@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_RequestData",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "RequestData",
     "LabelText": "リクエストデータ",
     "No": "18",
+    "History": "18",
     "GridColumn": "18",
     "GridEnabled": "1",
     "FilterColumn": "18",

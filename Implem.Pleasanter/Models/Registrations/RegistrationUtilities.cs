@@ -302,6 +302,20 @@ namespace Implem.Pleasanter.Models
                     .Log(context.GetLog())
                     .ToJson();
             }
+            catch (Implem.Libraries.Exceptions.GridDataTimeoutException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
+            catch (Implem.Libraries.Exceptions.GridDataException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,

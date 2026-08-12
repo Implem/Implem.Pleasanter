@@ -1,7 +1,13 @@
-﻿var error#ColumnName# = Imports.Validate(
+﻿var error#ColumnName# = Imports.ValidateMessage(
     context: context,
     hash: #modelName#Hash.ToDictionary(
         o => o.Key,
         o => o.Value.#ColumnName##RecordingData#.ToString()),
     column: ss.GetColumn(context: context, columnName: "#ColumnName#"));
-if (error#ColumnName# != null) return error#ColumnName#;
+if (error#ColumnName# != null)
+{
+    return new ImportResultData
+    {
+        CustomMessage = error#ColumnName#
+    };
+}

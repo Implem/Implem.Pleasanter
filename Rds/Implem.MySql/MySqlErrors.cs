@@ -14,5 +14,12 @@ namespace Implem.MySql
         {
             return ((MySqlException)dbException).SqlState.ToInt();
         }
+
+        public bool IsTimeout(DbException dbException)
+        {
+            return dbException is MySqlException mySqlException
+                && mySqlException.ErrorCode
+                    == MySqlErrorCode.CommandTimeoutExpired;
+        }
     }
 }

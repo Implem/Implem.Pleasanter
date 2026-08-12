@@ -106,6 +106,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         model: model);
                 case BackgroundJobStatus.RunningOverdue:
+                case BackgroundJobStatus.Preparing:
                     return new ErrorData(
                         context: context,
                         type: Error.Types.CanNotPerformed,
@@ -153,6 +154,14 @@ namespace Implem.Pleasanter.Models
             Context context,
             BackgroundJobModel model)
         {
+            if (BackgroundJobQueue.IsInputFileJobType(jobType: model.JobType))
+            {
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.NotFound,
+                    sysLogsStatus: StatusCodes.Status404NotFound,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
+            }
             if (CanAccess(
                 context: context,
                 model: model) == false)

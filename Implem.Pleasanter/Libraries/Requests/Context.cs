@@ -244,6 +244,10 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (user) SetUserProperties(sessionStatus, setData);
             if (item) SetSwitchTenant(sessionStatus, setData);
             SetTenantProperties();
+            if (Authenticated && !Parameters.MultiTenant.IsProtectedTenant(TenantId) && ContractSettings.OverDeadline(context: this))
+            {
+                Authenticated = false;
+            }
             if (request) SetPublish();
             if (User == null)
             {
@@ -569,6 +573,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                 TimeZoneInfo = userModel.TimeZoneInfo;
                 UserSettings = userModel.UserSettings;
                 HasPrivilege = Permissions.PrivilegedUsers(userModel.LoginId);
+                if (!Parameters.MultiTenant.IsProtectedTenant(TenantId) && !Parameters.AllowMultiTenants())
+                {
+                    Authenticated = false;
+                }
             }
         }
 

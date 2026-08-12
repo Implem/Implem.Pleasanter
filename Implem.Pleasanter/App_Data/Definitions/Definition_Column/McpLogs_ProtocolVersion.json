@@ -6,6 +6,7 @@
     "ColumnName": "ProtocolVersion",
     "LabelText": "プロトコルバージョン",
     "No": "13",
+    "History": "13",
     "TypeName": "nvarchar",
     "MaxLength": "20",
     "Nullable": "1",

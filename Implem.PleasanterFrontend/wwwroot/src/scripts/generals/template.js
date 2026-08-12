@@ -88,11 +88,11 @@ $p.openImportUserTemplateDialog = function ($control) {
 };
 
 $p.importUserTemplate = function ($control) {
-    $form = $('#ImportUserTemplateForm');
+    $p.store.$form = $('#ImportUserTemplateForm');
     if ($control.hasClass('validate')) {
-        $p.formValidate($form, $control);
-        if (!$form.valid()) {
-            $p.setValidationError($form);
+        $p.formValidate($p.store.$form, $control);
+        if (!$p.store.$form.valid()) {
+            $p.setValidationError($p.store.$form);
             $p.setErrorMessage('ValidationError');
             if (!$control.closest('.ui-dialog')) {
                 $('html,body').animate({

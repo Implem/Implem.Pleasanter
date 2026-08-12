@@ -5707,12 +5707,30 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public bool DraftOutputEnabled(Context context, int? draftOutputMode, string draftKey)
+        {
+            var validKey = draftKey.IsNullOrEmpty()
+                ? "1"
+                : draftKey;
+            var matched = string.Equals(
+                context.QueryStrings.Data("Draft"),
+                validKey,
+                StringComparison.Ordinal);
+            switch (draftOutputMode)
+            {
+                case 1: return matched;
+                case 2: return !matched;
+                default: return true;
+            }
+        }
+
         public string GetStyleBody(Context context, Func<Style, bool> peredicate)
         {
             return !IsSiteEditor(context: context)
                 ? Styles?
                     .Where(style => style.Disabled != true
-                        && peredicate(style))
+                        && peredicate(style)
+                        && DraftOutputEnabled(context: context, draftOutputMode: style.DraftOutputMode, draftKey: style.DraftKey))
                     .Select(o => o.Body).Join("\n")
                 : null;
         }
@@ -5771,7 +5789,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return !IsSiteEditor(context: context)
                 ? Scripts?
                     .Where(script => script.Disabled != true
-                        && peredicate(script))
+                        && peredicate(script)
+                        && DraftOutputEnabled(context: context, draftOutputMode: script.DraftOutputMode, draftKey: script.DraftKey))
                     .Select(o => o.Body).Join("\n")
                 : null;
         }
@@ -5836,7 +5855,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? Htmls
                     ?.Where(html => html.Disabled != true
                         && html.PositionType == positionType
-                        && peredicate(html))
+                        && peredicate(html)
+                        && DraftOutputEnabled(context: context, draftOutputMode: html.DraftOutputMode, draftKey: html.DraftKey))
                     .Select(o => o.Body).Join("\n")
                 : null;
         }

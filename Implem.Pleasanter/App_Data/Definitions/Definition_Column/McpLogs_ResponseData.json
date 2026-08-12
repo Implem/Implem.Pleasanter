@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "McpLogs_ResponseData",
     "ModelName": "McpLog",
     "TableName": "McpLogs",
@@ -6,6 +6,7 @@
     "ColumnName": "ResponseData",
     "LabelText": "レスポンスデータ",
     "No": "19",
+    "History": "19",
     "GridColumn": "19",
     "GridEnabled": "1",
     "FilterColumn": "19",
