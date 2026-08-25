@@ -13,13 +13,19 @@
     string sourceColumn,
     View sourceCondition,
     long #modelName#Id = 0,
+    IEnumerable<long> destinationIds = null,
     Action watchdog = null)
 {
     if (context.CanUpdate(ss: destinationSs))
     {
         var where = Rds.#TableName#Where()
             .SiteId(destinationSiteId)
-            .#ModelName#Id(#modelName#Id, _using: #modelName#Id != 0);
+            .#ModelName#Id(
+                value: #modelName#Id,
+                _using: #modelName#Id != 0)
+            .#ModelName#Id_In(
+                value: destinationIds,
+                _using: destinationIds != null);
         var #modelName#Ids = new #ModelName#Collection(
             context: context,
             ss: destinationSs,
@@ -43,8 +49,8 @@
                         where: where)))
                             .AsEnumerable()
                             .Select(dataRow => dataRow.Long("#ModelName#Id"))
-                            .ToList()
-            : #modelName#Ids;
+                            .ToHashSet()
+            : #modelName#Ids.ToHashSet();
         var data = #modelName#Ids.Any()
             ? Data(
                 context: context,
@@ -66,7 +72,7 @@
                 ss: destinationSs,
                 #modelName#Id: #modelName#Id,
                 column: Rds.#TableName#DefaultColumns());
-            if (matchingConditions.Any(o => o == #modelName#Model.#ModelName#Id))
+            if (matchingConditions.Contains(#modelName#Model.#ModelName#Id))
             {
                 Set(
                     #modelName#Model: #modelName#Model,

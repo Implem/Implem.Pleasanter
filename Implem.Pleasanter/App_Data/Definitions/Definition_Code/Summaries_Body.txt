@@ -23,6 +23,21 @@ namespace Implem.Pleasanter.Libraries.Models
                 context: context,
                 ss: ss,
                 summary: summary,
+                destinationIds: null,
+                watchdog: watchdog));
+        }
+
+        public static void SynchronizeTargets(
+            Context context,
+            SiteSettings ss,
+            SummarySynchronizationTargets targets,
+            Action watchdog = null)
+        {
+            ss.Summaries?.ForEach(summary => Synchronize(
+                context: context,
+                ss: ss,
+                summary: summary,
+                destinationIds: targets?.GetForward(summary.LinkColumn),
                 watchdog: watchdog));
         }
 
@@ -39,6 +54,24 @@ namespace Implem.Pleasanter.Libraries.Models
                         summary: summary)));
         }
 
+        public static void SynchronizeSourcesTargets(
+            Context context,
+            SiteSettings ss,
+            SummarySynchronizationTargets targets,
+            bool force = false)
+        {
+            ss.Sources?.Values.ForEach(sourceSs =>
+                sourceSs.Summaries?
+                    .Where(o => o.DestinationCondition == null
+                        || ss.Views?.Get(o.DestinationCondition) != null
+                        || force)
+                    .ForEach(summary => Synchronize(
+                        context: context,
+                        ss: sourceSs,
+                        summary: summary,
+                        destinationIds: targets?.GetSources())));
+        }
+
         public static void Synchronize(Context context, SiteSettings ss, int id, Action watchdog = null)
         {
             var summary = ss.Summaries?.Get(id);
@@ -50,6 +83,21 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         public static void Synchronize(Context context, SiteSettings ss, Summary summary, Action watchdog = null)
+        {
+            Synchronize(
+                context: context,
+                ss: ss,
+                summary: summary,
+                destinationIds: null,
+                watchdog: watchdog);
+        }
+
+        private static void Synchronize(
+            Context context,
+            SiteSettings ss,
+            Summary summary,
+            IEnumerable<long> destinationIds,
+            Action watchdog = null)
         {
             if (ss.Links?.Any(link => link.SiteId == summary.SiteId
                 && link.ColumnName == summary.LinkColumn) is null or false)
@@ -74,6 +122,8 @@ namespace Implem.Pleasanter.Libraries.Models
                     type: summary.Type,
                     sourceColumn: summary.SourceColumn,
                     sourceCondition: ss.Views?.Get(summary.SourceCondition),
+                    id: 0,
+                    destinationIds: destinationIds,
                     watchdog: watchdog);
             }
         }
@@ -93,6 +143,43 @@ namespace Implem.Pleasanter.Libraries.Models
             string sourceColumn,
             View sourceCondition,
             long id = 0,
+            Action watchdog = null)
+        {
+            return Synchronize(
+                context: context,
+                ss: ss,
+                destinationSs: destinationSs,
+                destinationSiteId: destinationSiteId,
+                destinationColumn: destinationColumn,
+                destinationCondition: destinationCondition,
+                setZeroWhenOutOfCondition: setZeroWhenOutOfCondition,
+                sourceSiteId: sourceSiteId,
+                sourceReferenceType: sourceReferenceType,
+                linkColumn: linkColumn,
+                type: type,
+                sourceColumn: sourceColumn,
+                sourceCondition: sourceCondition,
+                id: id,
+                destinationIds: null,
+                watchdog: watchdog);
+        }
+
+        private static string Synchronize(
+            Context context,
+            SiteSettings ss,
+            SiteSettings destinationSs,
+            long destinationSiteId,
+            string destinationColumn,
+            View destinationCondition,
+            bool setZeroWhenOutOfCondition,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string type,
+            string sourceColumn,
+            View sourceCondition,
+            long id,
+            IEnumerable<long> destinationIds,
             Action watchdog = null)
         {
             switch (destinationSs.ReferenceType)

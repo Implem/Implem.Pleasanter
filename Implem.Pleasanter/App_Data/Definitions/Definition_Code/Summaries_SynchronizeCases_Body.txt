@@ -14,5 +14,6 @@
         sourceColumn: sourceColumn,
         sourceCondition: sourceCondition,
         #modelName#Id: id,
+        destinationIds: destinationIds,
         watchdog: watchdog);
     break;

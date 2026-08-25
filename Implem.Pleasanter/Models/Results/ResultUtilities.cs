@@ -5274,6 +5274,7 @@ namespace Implem.Pleasanter.Models
             var recodeCount = 0;
             var insertCount = 0;
             var updateCount = 0;
+            var targets = new SummarySynchronizationTargets();
             var error = DoBulkUpsert();
             ErrorData DoBulkUpsert()
             {
@@ -5289,6 +5290,9 @@ namespace Implem.Pleasanter.Models
                         resultId: 0,
                         view: view, //api.Keys?.Count > 0 でない場合はnull
                         resultApiModel: resultApiModel);
+                    targets.CollectBeforeSave(
+                        ss: ss,
+                        model: resultModel);
                     switch (resultModel.AccessStatus)
                     {
                         case Databases.AccessStatuses.Selected:
@@ -5313,6 +5317,10 @@ namespace Implem.Pleasanter.Models
                             resultApiModel: resultApiModel,
                             synchronizeSummary: false);
                         if (error.Type != Error.Types.None) return error;
+                        targets.CollectAfterSave(
+                            ss: ss,
+                            model: resultModel,
+                            id: resultModel.ResultId);
                         updateCount++;
                     }
                     else if (resultModel.AccessStatus == Databases.AccessStatuses.NotFound
@@ -5325,6 +5333,10 @@ namespace Implem.Pleasanter.Models
                             processes: processes,
                             synchronizeSummary: false);
                         if (error.Type != Error.Types.None) return error;
+                        targets.CollectAfterSave(
+                            ss: ss,
+                            model: resultModel,
+                            id: resultModel.ResultId);
                         insertCount++;
                     }
                 }
@@ -5376,12 +5388,14 @@ namespace Implem.Pleasanter.Models
                             errMessage
                         })));
             }
-            Summaries.Synchronize(
+            Summaries.SynchronizeTargets(
                 context: context,
-                ss: ss);
-            Summaries.SynchronizeSources(
+                ss: ss,
+                targets: targets);
+            Summaries.SynchronizeSourcesTargets(
                 context: context,
-                ss: ss);
+                ss: ss,
+                targets: targets);
             ss.Notifications.ForEach(notification =>
             {
                 var body = new System.Text.StringBuilder();
@@ -7311,10 +7325,14 @@ namespace Implem.Pleasanter.Models
                 }
                 var insertCount = 0;
                 var updateCount = 0;
+                var targets = new SummarySynchronizationTargets();
                 foreach (var data in resultHash)
                 {
                     exclusiveObj.Refresh();
                     var resultModel = data.Value;
+                    targets.CollectBeforeSave(
+                        ss: ss,
+                        model: resultModel);
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         ErrorData errorData = null;
@@ -7355,6 +7373,9 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         ss: ss,
                                         resultId: resultModel.ResultId);
+                                    targets.CollectBeforeSave(
+                                        ss: ss,
+                                        model: resultModel);
                                     var previousTitle = resultModel.Title.DisplayValue;
                                     resultModel.SetByCsvRow(
                                         context: context,
@@ -7410,6 +7431,10 @@ namespace Implem.Pleasanter.Models
                                     };
                             }
                         }
+                        targets.CollectAfterSave(
+                            ss: ss,
+                            model: resultModel,
+                            id: resultModel.ResultId);
                     }
                     else
                     {
@@ -7458,15 +7483,21 @@ namespace Implem.Pleasanter.Models
                                     ErrorData = errorData
                                 };
                         }
+                        targets.CollectAfterSave(
+                            ss: ss,
+                            model: resultModel,
+                            id: resultModel.ResultId);
                         insertCount++;
                     }
                 }
-                Summaries.Synchronize(
+                Summaries.SynchronizeTargets(
                     context: context,
-                    ss: ss);
-                Summaries.SynchronizeSources(
+                    ss: ss,
+                    targets: targets);
+                Summaries.SynchronizeSourcesTargets(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    targets: targets);
                 ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {
@@ -7704,10 +7735,14 @@ namespace Implem.Pleasanter.Models
                 }
                 var insertCount = 0;
                 var updateCount = 0;
+                var targets = new SummarySynchronizationTargets();
                 foreach (var data in resultHash)
                 {
                     exclusiveObj.Refresh();
                     var resultModel = data.Value;
+                    targets.CollectBeforeSave(
+                        ss: ss,
+                        model: resultModel);
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         ErrorData errorData = null;
@@ -7732,6 +7767,9 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         ss: ss,
                                         resultId: resultModel.ResultId);
+                                    targets.CollectBeforeSave(
+                                        ss: ss,
+                                        model: resultModel);
                                     var previousTitle = resultModel.Title.DisplayValue;
                                     resultModel.SetByCsvRow(
                                         context: context,
@@ -7786,6 +7824,10 @@ namespace Implem.Pleasanter.Models
                                         errorData: errorData);
                             }
                         }
+                        targets.CollectAfterSave(
+                            ss: ss,
+                            model: resultModel,
+                            id: resultModel.ResultId);
                     }
                     else
                     {
@@ -7817,16 +7859,22 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     errorData: errorData);
                         }
+                        targets.CollectAfterSave(
+                            ss: ss,
+                            model: resultModel,
+                            id: resultModel.ResultId);
                         insertCount++;
                     }
                 }
                 exclusiveObj.Refresh();
-                Summaries.Synchronize(
+                Summaries.SynchronizeTargets(
                     context: context,
-                    ss: ss);
-                Summaries.SynchronizeSources(
+                    ss: ss,
+                    targets: targets);
+                Summaries.SynchronizeSourcesTargets(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    targets: targets);
                 ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {
@@ -8028,10 +8076,14 @@ namespace Implem.Pleasanter.Models
                 }
                 var insertCount = 0;
                 var updateCount = 0;
+                var targets = new SummarySynchronizationTargets();
                 foreach (var data in resultHash)
                 {
                     exclusiveObj.Refresh();
                     var resultModel = data.Value;
+                    targets.CollectBeforeSave(
+                        ss: ss,
+                        model: resultModel);
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         ErrorData errorData = null;
@@ -8057,6 +8109,9 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         ss: ss,
                                         resultId: resultModel.ResultId);
+                                    targets.CollectBeforeSave(
+                                        ss: ss,
+                                        model: resultModel);
                                     var previousTitle = resultModel.Title.DisplayValue;
                                     resultModel.SetByCsvRow(
                                         context: context,
@@ -8106,6 +8161,10 @@ namespace Implem.Pleasanter.Models
                                     throw NewProcessingFailureException(message: errorData.Message(context: context));
                             }
                         }
+                        targets.CollectAfterSave(
+                            ss: ss,
+                            model: resultModel,
+                            id: resultModel.ResultId);
                     }
                     else
                     {
@@ -8135,16 +8194,22 @@ namespace Implem.Pleasanter.Models
                             default:
                                 throw NewProcessingFailureException(message: errorData.Message(context: context));
                         }
+                        targets.CollectAfterSave(
+                            ss: ss,
+                            model: resultModel,
+                            id: resultModel.ResultId);
                         insertCount++;
                     }
                 }
                 exclusiveObj.Refresh();
-                Summaries.Synchronize(
+                Summaries.SynchronizeTargets(
                     context: context,
-                    ss: ss);
-                Summaries.SynchronizeSources(
+                    ss: ss,
+                    targets: targets);
+                Summaries.SynchronizeSourcesTargets(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    targets: targets);
                 ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {

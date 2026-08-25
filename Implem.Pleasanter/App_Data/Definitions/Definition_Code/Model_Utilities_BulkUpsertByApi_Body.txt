@@ -86,6 +86,7 @@
     var recodeCount = 0;
     var insertCount = 0;
     var updateCount = 0;
+    var targets = new SummarySynchronizationTargets();
     var error = DoBulkUpsert();
     ErrorData DoBulkUpsert()
     {
@@ -101,6 +102,9 @@
                 #modelName#Id: 0,
                 view: view, //api.Keys?.Count > 0 でない場合はnull
                 #modelName#ApiModel: #modelName#ApiModel);
+            targets.CollectBeforeSave(
+                ss: ss,
+                model: #modelName#Model);
             switch (#modelName#Model.AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:
@@ -125,6 +129,10 @@
                     #modelName#ApiModel: #modelName#ApiModel,
                     synchronizeSummary: false);
                 if (error.Type != Error.Types.None) return error;
+                targets.CollectAfterSave(
+                    ss: ss,
+                    model: #modelName#Model,
+                    id: #modelName#Model.#ModelName#Id);
                 updateCount++;
             }
             else if (#modelName#Model.AccessStatus == Databases.AccessStatuses.NotFound
@@ -137,6 +145,10 @@
                     processes: processes,
                     synchronizeSummary: false);
                 if (error.Type != Error.Types.None) return error;
+                targets.CollectAfterSave(
+                    ss: ss,
+                    model: #modelName#Model,
+                    id: #modelName#Model.#ModelName#Id);
                 insertCount++;
             }
         }
@@ -189,12 +201,14 @@
                     errMessage
                 })));
     }
-    Summaries.Synchronize(
+    Summaries.SynchronizeTargets(
         context: context,
-        ss: ss);
-    Summaries.SynchronizeSources(
+        ss: ss,
+        targets: targets);
+    Summaries.SynchronizeSourcesTargets(
         context: context,
-        ss: ss);
+        ss: ss,
+        targets: targets);
     ss.Notifications.ForEach(notification =>
     {
         var body = new System.Text.StringBuilder();

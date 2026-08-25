@@ -23,6 +23,21 @@ namespace Implem.Pleasanter.Libraries.Models
                 context: context,
                 ss: ss,
                 summary: summary,
+                destinationIds: null,
+                watchdog: watchdog));
+        }
+
+        public static void SynchronizeTargets(
+            Context context,
+            SiteSettings ss,
+            SummarySynchronizationTargets targets,
+            Action watchdog = null)
+        {
+            ss.Summaries?.ForEach(summary => Synchronize(
+                context: context,
+                ss: ss,
+                summary: summary,
+                destinationIds: targets?.GetForward(summary.LinkColumn),
                 watchdog: watchdog));
         }
 
@@ -39,6 +54,24 @@ namespace Implem.Pleasanter.Libraries.Models
                         summary: summary)));
         }
 
+        public static void SynchronizeSourcesTargets(
+            Context context,
+            SiteSettings ss,
+            SummarySynchronizationTargets targets,
+            bool force = false)
+        {
+            ss.Sources?.Values.ForEach(sourceSs =>
+                sourceSs.Summaries?
+                    .Where(o => o.DestinationCondition == null
+                        || ss.Views?.Get(o.DestinationCondition) != null
+                        || force)
+                    .ForEach(summary => Synchronize(
+                        context: context,
+                        ss: sourceSs,
+                        summary: summary,
+                        destinationIds: targets?.GetSources())));
+        }
+
         public static void Synchronize(Context context, SiteSettings ss, int id, Action watchdog = null)
         {
             var summary = ss.Summaries?.Get(id);
@@ -50,6 +83,21 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         public static void Synchronize(Context context, SiteSettings ss, Summary summary, Action watchdog = null)
+        {
+            Synchronize(
+                context: context,
+                ss: ss,
+                summary: summary,
+                destinationIds: null,
+                watchdog: watchdog);
+        }
+
+        private static void Synchronize(
+            Context context,
+            SiteSettings ss,
+            Summary summary,
+            IEnumerable<long> destinationIds,
+            Action watchdog = null)
         {
             if (ss.Links?.Any(link => link.SiteId == summary.SiteId
                 && link.ColumnName == summary.LinkColumn) is null or false)
@@ -74,6 +122,8 @@ namespace Implem.Pleasanter.Libraries.Models
                     type: summary.Type,
                     sourceColumn: summary.SourceColumn,
                     sourceCondition: ss.Views?.Get(summary.SourceCondition),
+                    id: 0,
+                    destinationIds: destinationIds,
                     watchdog: watchdog);
             }
         }
@@ -95,6 +145,43 @@ namespace Implem.Pleasanter.Libraries.Models
             long id = 0,
             Action watchdog = null)
         {
+            return Synchronize(
+                context: context,
+                ss: ss,
+                destinationSs: destinationSs,
+                destinationSiteId: destinationSiteId,
+                destinationColumn: destinationColumn,
+                destinationCondition: destinationCondition,
+                setZeroWhenOutOfCondition: setZeroWhenOutOfCondition,
+                sourceSiteId: sourceSiteId,
+                sourceReferenceType: sourceReferenceType,
+                linkColumn: linkColumn,
+                type: type,
+                sourceColumn: sourceColumn,
+                sourceCondition: sourceCondition,
+                id: id,
+                destinationIds: null,
+                watchdog: watchdog);
+        }
+
+        private static string Synchronize(
+            Context context,
+            SiteSettings ss,
+            SiteSettings destinationSs,
+            long destinationSiteId,
+            string destinationColumn,
+            View destinationCondition,
+            bool setZeroWhenOutOfCondition,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string type,
+            string sourceColumn,
+            View sourceCondition,
+            long id,
+            IEnumerable<long> destinationIds,
+            Action watchdog = null)
+        {
             switch (destinationSs.ReferenceType)
             {
                 case "Issues":
@@ -113,6 +200,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         sourceColumn: sourceColumn,
                         sourceCondition: sourceCondition,
                         issueId: id,
+                        destinationIds: destinationIds,
                         watchdog: watchdog);
                     break;
                 case "Results":
@@ -131,6 +219,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         sourceColumn: sourceColumn,
                         sourceCondition: sourceCondition,
                         resultId: id,
+                        destinationIds: destinationIds,
                         watchdog: watchdog);
                     break;
             }
@@ -152,13 +241,19 @@ namespace Implem.Pleasanter.Libraries.Models
             string sourceColumn,
             View sourceCondition,
             long issueId = 0,
+            IEnumerable<long> destinationIds = null,
             Action watchdog = null)
         {
             if (context.CanUpdate(ss: destinationSs))
             {
                 var where = Rds.IssuesWhere()
                     .SiteId(destinationSiteId)
-                    .IssueId(issueId, _using: issueId != 0);
+                    .IssueId(
+                        value: issueId,
+                        _using: issueId != 0)
+                    .IssueId_In(
+                        value: destinationIds,
+                        _using: destinationIds != null);
                 var issueIds = new IssueCollection(
                     context: context,
                     ss: destinationSs,
@@ -182,8 +277,8 @@ namespace Implem.Pleasanter.Libraries.Models
                                 where: where)))
                                     .AsEnumerable()
                                     .Select(dataRow => dataRow.Long("IssueId"))
-                                    .ToList()
-                    : issueIds;
+                                    .ToHashSet()
+                    : issueIds.ToHashSet();
                 var data = issueIds.Any()
                     ? Data(
                         context: context,
@@ -205,7 +300,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         ss: destinationSs,
                         issueId: issueId,
                         column: Rds.IssuesDefaultColumns());
-                    if (matchingConditions.Any(o => o == issueModel.IssueId))
+                    if (matchingConditions.Contains(issueModel.IssueId))
                     {
                         Set(
                             issueModel: issueModel,
@@ -318,13 +413,19 @@ namespace Implem.Pleasanter.Libraries.Models
             string sourceColumn,
             View sourceCondition,
             long resultId = 0,
+            IEnumerable<long> destinationIds = null,
             Action watchdog = null)
         {
             if (context.CanUpdate(ss: destinationSs))
             {
                 var where = Rds.ResultsWhere()
                     .SiteId(destinationSiteId)
-                    .ResultId(resultId, _using: resultId != 0);
+                    .ResultId(
+                        value: resultId,
+                        _using: resultId != 0)
+                    .ResultId_In(
+                        value: destinationIds,
+                        _using: destinationIds != null);
                 var resultIds = new ResultCollection(
                     context: context,
                     ss: destinationSs,
@@ -348,8 +449,8 @@ namespace Implem.Pleasanter.Libraries.Models
                                 where: where)))
                                     .AsEnumerable()
                                     .Select(dataRow => dataRow.Long("ResultId"))
-                                    .ToList()
-                    : resultIds;
+                                    .ToHashSet()
+                    : resultIds.ToHashSet();
                 var data = resultIds.Any()
                     ? Data(
                         context: context,
@@ -371,7 +472,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         ss: destinationSs,
                         resultId: resultId,
                         column: Rds.ResultsDefaultColumns());
-                    if (matchingConditions.Any(o => o == resultModel.ResultId))
+                    if (matchingConditions.Contains(resultModel.ResultId))
                     {
                         Set(
                             resultModel: resultModel,

@@ -249,10 +249,14 @@ public static ImportResultData ImportCore(
 
         var insertCount = 0;
         var updateCount = 0;
+        var targets = new SummarySynchronizationTargets();
         foreach (var data in #modelName#Hash)
         {
             exclusiveObj.Refresh();
             var #modelName#Model = data.Value;
+            targets.CollectBeforeSave(
+                ss: ss,
+                model: #modelName#Model);
             if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
 
             {
@@ -294,6 +298,9 @@ public static ImportResultData ImportCore(
                                 context: context,
                                 ss: ss,
                                 #modelName#Id: #modelName#Model.#ModelName#Id);
+                            targets.CollectBeforeSave(
+                                ss: ss,
+                                model: #modelName#Model);
                             var previousTitle = #modelName#Model.Title.DisplayValue;
                             #modelName#Model.SetByCsvRow(
                                 context: context,
@@ -349,6 +356,10 @@ public static ImportResultData ImportCore(
                             };
                     }
                 }
+                targets.CollectAfterSave(
+                    ss: ss,
+                    model: #modelName#Model,
+                    id: #modelName#Model.#ModelName#Id);
             }
             else
             {
@@ -397,15 +408,21 @@ public static ImportResultData ImportCore(
                             ErrorData = errorData
                         };
                 }
+                targets.CollectAfterSave(
+                    ss: ss,
+                    model: #modelName#Model,
+                    id: #modelName#Model.#ModelName#Id);
                 insertCount++;
             }
         }
-        Summaries.Synchronize(
+        Summaries.SynchronizeTargets(
             context: context,
-            ss: ss);
-        Summaries.SynchronizeSources(
+            ss: ss,
+            targets: targets);
+        Summaries.SynchronizeSourcesTargets(
             context: context,
-            ss: ss);
+            ss: ss,
+            targets: targets);
         ImportUtilities.SetOnImportedExtendedSqls(context, ss);
         ss.Notifications.ForEach(notification =>
         {
@@ -643,10 +660,14 @@ public static ContentResultInheritance ImportByApi(
         }
         var insertCount = 0;
         var updateCount = 0;
+        var targets = new SummarySynchronizationTargets();
         foreach (var data in #modelName#Hash)
         {
             exclusiveObj.Refresh();
             var #modelName#Model = data.Value;
+            targets.CollectBeforeSave(
+                ss: ss,
+                model: #modelName#Model);
             if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 ErrorData errorData = null;
@@ -671,6 +692,9 @@ public static ContentResultInheritance ImportByApi(
                                 context: context,
                                 ss: ss,
                                 #modelName#Id: #modelName#Model.#ModelName#Id);
+                            targets.CollectBeforeSave(
+                                ss: ss,
+                                model: #modelName#Model);
                             var previousTitle = #modelName#Model.Title.DisplayValue;
                             #modelName#Model.SetByCsvRow(
                                 context: context,
@@ -725,6 +749,10 @@ public static ContentResultInheritance ImportByApi(
                                 errorData: errorData);
                     }
                 }
+                targets.CollectAfterSave(
+                    ss: ss,
+                    model: #modelName#Model,
+                    id: #modelName#Model.#ModelName#Id);
             }
             else
             {
@@ -756,16 +784,22 @@ public static ContentResultInheritance ImportByApi(
                             context: context,
                             errorData: errorData);
                 }
+                targets.CollectAfterSave(
+                    ss: ss,
+                    model: #modelName#Model,
+                    id: #modelName#Model.#ModelName#Id);
                 insertCount++;
             }
         }
         exclusiveObj.Refresh();
-        Summaries.Synchronize(
+        Summaries.SynchronizeTargets(
             context: context,
-            ss: ss);
-        Summaries.SynchronizeSources(
+            ss: ss,
+            targets: targets);
+        Summaries.SynchronizeSourcesTargets(
             context: context,
-            ss: ss);
+            ss: ss,
+            targets: targets);
         ImportUtilities.SetOnImportedExtendedSqls(context, ss);
         ss.Notifications.ForEach(notification =>
         {
@@ -967,10 +1001,14 @@ public static string ImportByServerScript(
         }
         var insertCount = 0;
         var updateCount = 0;
+        var targets = new SummarySynchronizationTargets();
         foreach (var data in #modelName#Hash)
         {
             exclusiveObj.Refresh();
             var #modelName#Model = data.Value;
+            targets.CollectBeforeSave(
+                ss: ss,
+                model: #modelName#Model);
             if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 ErrorData errorData = null;
@@ -996,6 +1034,9 @@ public static string ImportByServerScript(
                                 context: context,
                                 ss: ss,
                                 #modelName#Id: #modelName#Model.#ModelName#Id);
+                            targets.CollectBeforeSave(
+                                ss: ss,
+                                model: #modelName#Model);
                             var previousTitle = #modelName#Model.Title.DisplayValue;
                             #modelName#Model.SetByCsvRow(
                                 context: context,
@@ -1045,6 +1086,10 @@ public static string ImportByServerScript(
                             throw NewProcessingFailureException(message: errorData.Message(context: context));
                     }
                 }
+                targets.CollectAfterSave(
+                    ss: ss,
+                    model: #modelName#Model,
+                    id: #modelName#Model.#ModelName#Id);
             }
             else
             {
@@ -1074,16 +1119,22 @@ public static string ImportByServerScript(
                     default:
                         throw NewProcessingFailureException(message: errorData.Message(context: context));
                 }
+                targets.CollectAfterSave(
+                    ss: ss,
+                    model: #modelName#Model,
+                    id: #modelName#Model.#ModelName#Id);
                 insertCount++;
             }
         }
         exclusiveObj.Refresh();
-        Summaries.Synchronize(
+        Summaries.SynchronizeTargets(
             context: context,
-            ss: ss);
-        Summaries.SynchronizeSources(
+            ss: ss,
+            targets: targets);
+        Summaries.SynchronizeSourcesTargets(
             context: context,
-            ss: ss);
+            ss: ss,
+            targets: targets);
         ImportUtilities.SetOnImportedExtendedSqls(context, ss);
         ss.Notifications.ForEach(notification =>
         {
