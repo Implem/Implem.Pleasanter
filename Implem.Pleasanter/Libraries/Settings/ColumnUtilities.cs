@@ -457,11 +457,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columns.Add(GetColumn(
                         context: context,
                         ss: ss,
-                        tableAlias: (!tableAlias.IsNullOrEmpty()
-                            ? tableAlias + "-"
-                            : string.Empty)
-                                + link.LinkedTableName(),
-                        columnName: "Title")));
+                        tableAlias: LinkedTableAlias(
+                            tableAlias: tableAlias,
+                            link: link),
+                        columnName: "Title",
+                        checkJoinOption: false)));
             columns.Add(GetColumn(
                 context: context,
                 ss: ss,
@@ -480,13 +480,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private static Column GetColumn(
-            Context context, SiteSettings ss, string tableAlias, string columnName)
+            Context context,
+            SiteSettings ss,
+            string tableAlias,
+            string columnName,
+            bool checkJoinOption = true)
         {
             return ss.GetColumn(
                 context: context,
                 columnName: ColumnName(
                     tableAlias: tableAlias,
-                    columnName: columnName));
+                    columnName: columnName),
+                checkJoinOption: checkJoinOption);
         }
 
         public static string ColumnName(string tableAlias, string columnName)
@@ -494,6 +499,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             return !tableAlias.IsNullOrEmpty()
                 ? tableAlias + "," + columnName
                 : columnName;
+        }
+
+        public static string LinkedTableAlias(string tableAlias, Link link)
+        {
+            return (!tableAlias.IsNullOrEmpty()
+                ? tableAlias + "-"
+                : string.Empty)
+                    + link.LinkedTableName();
+        }
+
+        public static string LinkedItemTitleColumnName(string tableAlias, Link link)
+        {
+            return ColumnName(
+                tableAlias: LinkedTableAlias(
+                    tableAlias: tableAlias,
+                    link: link),
+                columnName: "ItemTitle");
         }
 
         public static string GetMultilingualLabelText(string target, Context context)

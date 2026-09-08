@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Users_UiMainColor",
+    "ModelName": "User",
+    "TableName": "Users",
+    "Label": "ユーザ",
+    "ColumnName": "UiMainColor",
+    "LabelText": "メインカラー",
+    "No": "166",
+    "History": "166",
+    "TypeName": "nvarchar",
+    "MaxLength": "7",
+    "Nullable": "1",
+    "LabelText_en": "Main Color",
+    "LabelText_zh": "主颜色",
+    "LabelText_de": "Hauptfarbe",
+    "LabelText_ko": "메인 색상",
+    "LabelText_es": "Color principal",
+    "LabelText_vn": "Màu chính"
+}

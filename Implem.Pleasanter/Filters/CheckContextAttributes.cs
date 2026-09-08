@@ -27,8 +27,9 @@ namespace Implem.PleasanterFilters
                 filterContext.Result = new RedirectResult(
                     Locations.ParameterSyntaxError(context: context));
             }
-            if ((filterContext.HttpContext.Request.Path == null
-                || !filterContext.HttpContext.Request.Path.ToString().ToLower().StartsWith("/api/"))
+            var requestPath = filterContext.HttpContext.Request.Path.ToString().ToLower();
+            if (!requestPath.StartsWith("/api/")
+                && !requestPath.StartsWith("/scim/")
                 && !IpAddresses.AllowedIpAddress(
                     context: context,
                     allowIpAddresses: Parameters.Security.AllowIpAddresses,

@@ -29,5 +29,10 @@
         ],
         "types": ["node", "jquery", "jqueryui"]
     },
-    "include": ["src"]
+    "include": ["src"],
+    "exclude": [
+        /* スクリプト作成者向けの型定義。本体のビルド対象ではない。*/
+        "src/types/pleasanter-script.d.ts",
+        "src/types/pleasanter-server-script.d.ts"
+    ]
 }

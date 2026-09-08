@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
-using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.MCP.Models;
 using Implem.Pleasanter.MCP.Translator;
@@ -48,14 +47,8 @@ namespace Implem.Pleasanter.MCP.Utilities
 
         private static Dictionary<string, string> BuildColumnFilterHash(
             List<ColumnFilter> columnFilters,
-            CodeTranslator codeTranslator,
-            long siteId)
+            CodeTranslator codeTranslator)
         {
-            var context = CreateContext(siteId: siteId);
-            var ss = SiteSettingsUtilities.Get(
-                context: context,
-                siteId: siteId);
-
             var hash = new Dictionary<string, string>();
 
             var filtersWithValues = columnFilters
@@ -71,12 +64,7 @@ namespace Implem.Pleasanter.MCP.Utilities
                         displayValue: v))
                     .ToList();
 
-                var isClassFreeInput = IsClassColumnWithEmptyChoices(
-                    ss: ss,
-                    context: context,
-                    columnName: columnName);
-
-                var jsonValue = isClassFreeInput
+                var jsonValue = IsEmptyStringSearchValue(values: translatedValues)
                     ? translatedValues.First()
                     : JsonConvert.SerializeObject(value: translatedValues);
 
@@ -86,19 +74,16 @@ namespace Implem.Pleasanter.MCP.Utilities
             return hash;
         }
 
-        private static bool IsClassColumnWithEmptyChoices(
-            SiteSettings ss,
-            Context context,
-            string columnName)
+        private static bool IsEmptyStringSearchValue(List<string> values)
         {
-            var column = ss.GetColumn(
-                context: context,
-                columnName: columnName);
+            if (values.Count != 1)
+            {
+                return false;
+            }
 
-            var isClassColumn = column?.ColumnName.StartsWith(value: "Class") == true;
-            var hasNoChoicesText = string.IsNullOrEmpty(value: column?.ChoicesText);
+            var value = values.First();
 
-            return isClassColumn && hasNoChoicesText;
+            return value == " " || value == "　";
         }
 
         private static List<string> BuildColumnFilterNegatives(
@@ -190,8 +175,7 @@ namespace Implem.Pleasanter.MCP.Utilities
                 viewObject["ColumnFilterHash"] =
                     BuildColumnFilterHash(
                         columnFilters: viewJsonModel.ColumnFilters,
-                        codeTranslator: codeTranslator,
-                        siteId: viewJsonModel.SiteId);
+                        codeTranslator: codeTranslator);
             }
 
             if (viewJsonModel.HasSearchTypes)

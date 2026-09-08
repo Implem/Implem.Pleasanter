@@ -1,0 +1,44 @@
+﻿/// <summary>
+/// Fixed:
+/// </summary>
+public static bool CreateByServerScript(
+    Context context,
+    SiteSettings ss,
+    int #modelName#Id)
+{
+    var #modelName#ApiModel = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
+    if (#modelName#ApiModel == null)
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+    }
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id,
+        #modelName#ApiModel: #modelName#ApiModel);
+    var invalid = #ModelName#Validators.OnCreating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        api: true,
+        serverScript: true);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default:
+            return false;
+    }
+    #modelName#Model.VerUp = Versions.MustVerUp(
+        context: context,
+        ss: ss,
+        baseModel: #modelName#Model);
+<!--Model_Utilities_CreateByServerScript_Call-->
+<!--Model_Utilities_CreateByServerScript_CallGroup-->
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+            return true;
+        default:
+            return false;
+    }
+}

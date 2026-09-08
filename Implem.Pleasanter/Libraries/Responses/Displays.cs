@@ -389,6 +389,176 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AiConnectDeleteJobCompleted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectDeleteJobCompleted",
+                data: data);
+        }
+
+        public static string AiConnectDeleteJobRetryEnqueued(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectDeleteJobRetryEnqueued",
+                data: data);
+        }
+
+        public static string AiConnectDeleteJobRetryExceeded(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectDeleteJobRetryExceeded",
+                data: data);
+        }
+
+        public static string AiConnectDeleteJobSkipped(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectDeleteJobSkipped",
+                data: data);
+        }
+
+        public static string AiConnectIndexCheckFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectIndexCheckFailed",
+                data: data);
+        }
+
+        public static string AiConnectIndexCheckIncomplete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectIndexCheckIncomplete",
+                data: data);
+        }
+
+        public static string AiConnectIndexResendExceeded(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectIndexResendExceeded",
+                data: data);
+        }
+
+        public static string AiConnectJobCompleted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectJobCompleted",
+                data: data);
+        }
+
+        public static string AiConnectJobRetryEnqueued(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectJobRetryEnqueued",
+                data: data);
+        }
+
+        public static string AiConnectJobRetryExceeded(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectJobRetryExceeded",
+                data: data);
+        }
+
+        public static string AiConnectJobSkipped(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectJobSkipped",
+                data: data);
+        }
+
+        public static string AiConnectOutputFilePathNotSet(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectOutputFilePathNotSet",
+                data: data);
+        }
+
+        public static string AiConnectResyncAlreadyEnqueued(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiConnectResyncAlreadyEnqueued",
+                data: data);
+        }
+
+        public static string AiProviderConnectionSetting(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiProviderConnectionSetting",
+                data: data);
+        }
+
+        public static string AiProviderFormat(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiProviderFormat",
+                data: data);
+        }
+
+        public static string AiProviderProviderType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiProviderProviderType",
+                data: data);
+        }
+
+        public static string AiProviders(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AiProviders",
+                data: data);
+        }
+
         public static string All(
             Context context,
             params string[] data)
@@ -1726,6 +1896,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "BackgroundJobsTotalCount",
+                data: data);
+        }
+
+        public static string BackgroundJobTypeAiConnect(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobTypeAiConnect",
+                data: data);
+        }
+
+        public static string BackgroundJobTypeAiConnectResync(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobTypeAiConnectResync",
                 data: data);
         }
 
@@ -3106,6 +3296,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ConfirmSwitchUser",
+                data: data);
+        }
+
+        public static string ConfirmSyncAiProviders(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ConfirmSyncAiProviders",
                 data: data);
         }
 
@@ -5179,6 +5379,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string FailedSyncAiProviders(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FailedSyncAiProviders",
+                data: data);
+        }
+
         public static string FailedWriteFile(
             Context context,
             params string[] data)
@@ -6599,6 +6809,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InvalidAiProviderSetting(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InvalidAiProviderSetting",
+                data: data);
+        }
+
         public static string InvalidCsvData(
             Context context,
             params string[] data)
@@ -7806,6 +8026,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "MarkDown",
+                data: data);
+        }
+
+        public static string MarkdownFile(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MarkdownFile",
                 data: data);
         }
 
@@ -10579,6 +10809,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ScimConfirmDisableTokens(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimConfirmDisableTokens",
+                data: data);
+        }
+
+        public static string ScimTokenIssued(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokenIssued",
+                data: data);
+        }
+
+        public static string ScimTokenOneTimeMessage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokenOneTimeMessage",
+                data: data);
+        }
+
         public static string ScreenType(
             Context context,
             params string[] data)
@@ -11656,6 +11916,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SwitchUserInfo",
+                data: data);
+        }
+
+        public static string SyncAiProviders(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SyncAiProviders",
+                data: data);
+        }
+
+        public static string SyncAiProvidersCompleted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SyncAiProvidersCompleted",
                 data: data);
         }
 
@@ -14159,6 +14439,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Groups_ScimExternalId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ScimExternalId",
+                data: data);
+        }
+
+        public static string Groups_ScimId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ScimId",
+                data: data);
+        }
+
+        public static string Groups_ScimSync(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ScimSync",
+                data: data);
+        }
+
         public static string Groups_SynchronizedTime(
             Context context,
             params string[] data)
@@ -16199,6 +16509,86 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ScimTokens_Disabled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_Disabled",
+                data: data);
+        }
+
+        public static string ScimTokens_ExpiresTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_ExpiresTime",
+                data: data);
+        }
+
+        public static string ScimTokens_LastUsedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_LastUsedTime",
+                data: data);
+        }
+
+        public static string ScimTokens_ScimTokenId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_ScimTokenId",
+                data: data);
+        }
+
+        public static string ScimTokens_TenantId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_TenantId",
+                data: data);
+        }
+
+        public static string ScimTokens_TokenHash(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_TokenHash",
+                data: data);
+        }
+
+        public static string ScimTokens_TokenPrefix(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_TokenPrefix",
+                data: data);
+        }
+
+        public static string ScimTokens_UserId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_UserId",
+                data: data);
+        }
+
         public static string Sessions_Key(
             Context context,
             params string[] data)
@@ -17369,6 +17759,56 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Tenants_UiBackgroundColor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_UiBackgroundColor",
+                data: data);
+        }
+
+        public static string Tenants_UiColorScheme(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_UiColorScheme",
+                data: data);
+        }
+
+        public static string Tenants_UiMainColor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_UiMainColor",
+                data: data);
+        }
+
+        public static string Tenants_UiSubColor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_UiSubColor",
+                data: data);
+        }
+
+        public static string Tenants_UiType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_UiType",
+                data: data);
+        }
+
         public static string Users_AfterResetPassword(
             Context context,
             params string[] data)
@@ -17839,6 +18279,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Users_ScimExternalId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_ScimExternalId",
+                data: data);
+        }
+
+        public static string Users_ScimId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_ScimId",
+                data: data);
+        }
+
+        public static string Users_ScimSync(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_ScimSync",
+                data: data);
+        }
+
         public static string Users_SecondaryAuthenticationCode(
             Context context,
             params string[] data)
@@ -17956,6 +18426,56 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_Title",
+                data: data);
+        }
+
+        public static string Users_UiBackgroundColor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_UiBackgroundColor",
+                data: data);
+        }
+
+        public static string Users_UiColorScheme(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_UiColorScheme",
+                data: data);
+        }
+
+        public static string Users_UiMainColor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_UiMainColor",
+                data: data);
+        }
+
+        public static string Users_UiSubColor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_UiSubColor",
+                data: data);
+        }
+
+        public static string Users_UiType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_UiType",
                 data: data);
         }
 
@@ -20816,6 +21336,86 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Results_VerUp",
+                data: data);
+        }
+
+        public static string ScimTokens_Comments(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_Comments",
+                data: data);
+        }
+
+        public static string ScimTokens_CreatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_CreatedTime",
+                data: data);
+        }
+
+        public static string ScimTokens_Creator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_Creator",
+                data: data);
+        }
+
+        public static string ScimTokens_Timestamp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_Timestamp",
+                data: data);
+        }
+
+        public static string ScimTokens_UpdatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_UpdatedTime",
+                data: data);
+        }
+
+        public static string ScimTokens_Updator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_Updator",
+                data: data);
+        }
+
+        public static string ScimTokens_Ver(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_Ver",
+                data: data);
+        }
+
+        public static string ScimTokens_VerUp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens_VerUp",
                 data: data);
         }
 
@@ -29586,6 +30186,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Results",
+                data: data);
+        }
+
+        public static string ScimTokens(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScimTokens",
                 data: data);
         }
 

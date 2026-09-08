@@ -105,6 +105,18 @@ $p.apiDeptsGet = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'get', 'depts'), args);
 };
 
+$p.apiDeptsCreate = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'create', 'depts'), args);
+};
+
+$p.apiDeptsUpdate = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'update', 'depts'), args);
+};
+
+$p.apiDeptsDelete = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'delete', 'depts'), args);
+};
+
 $p.apiGroupsGet = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'get', 'groups'), args);
 };

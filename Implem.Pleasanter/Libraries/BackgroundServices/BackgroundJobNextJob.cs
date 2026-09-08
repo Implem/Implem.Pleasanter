@@ -1,8 +1,10 @@
-﻿using Implem.Libraries.Utilities;
+﻿using System;
+using System.Threading.Tasks;
 using Implem.Libraries.Classes;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using Quartz;
-using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
@@ -41,10 +43,53 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             {
                 return;
             }
-            await BackgroundJobDispatcher.ExecuteOneJob(
-                context: context,
-                ignoreRunningOverdueTenantLocks: true,
-                targetTenantId: model.TenantId);
+            if (BackgroundJobTargetTenants.ProcessingEnabled == false
+                || BackgroundJobTargetTenants.IsInScope(tenantId: model.TenantId) == false)
+            {
+                var reason = BackgroundJobTargetTenants.ProcessingEnabled == false
+                    ? "this node does not process background jobs"
+                    : "out of target tenant scope";
+                new SysLogModel(
+                    context: new Context(
+                        tenantId: model.TenantId,
+                        request: false,
+                        context: context)
+                    {
+                        Controller = nameof(BackgroundJobNextJob),
+                        Action = nameof(Execute)
+                    },
+                    method: "",
+                    message: $"Skipped: {reason}."
+                        + $" BackgroundJobId={model.BackgroundJobId}"
+                        + $", TenantId={model.TenantId}",
+                sysLogType: SysLogModel.SysLogTypes.Info);
+                return;
+            }
+            try
+            {
+                var claimed = BackgroundJobDispatcher.ClaimJob(
+                    context: context,
+                    ignoreRunningOverdueTenantLocks: true,
+                    targetTenantId: model.TenantId);
+                if (claimed == null) return;
+                await BackgroundJobDispatcher.RunJob(
+                    context: context,
+                    model: claimed);
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: new Context(
+                        tenantId: context.TenantId,
+                        request: false,
+                        context: context)
+                    {
+                        Controller = nameof(BackgroundJobNextJob),
+                        Action = nameof(Execute)
+                    },
+                    e: e,
+                    extendedErrorMessage: "BackgroundJobNextJob Exception");
+            }
         }
     }
 }

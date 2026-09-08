@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Microsoft.ClearScript;
@@ -84,7 +85,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetIsBlankScript()
                     + GetIsErrorScript()
                     + GetIfErrorScript()
-                    + GetDateTimeScript();
+                    + GetDateTimeScript()
+                    + GetLoginUserIdScript(context: context)
+                    + GetLoginUserNameScript(context: context);
                 object value;
                 try
                 {
@@ -158,7 +161,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("$isblank(", "$ISBLANK(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$iserror(", "$ISERROR(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$iferror(", "$IFERROR(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$datetime(", "$DATETIME(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("$datetime(", "$DATETIME(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$loginuserid(", "$LOGINUSERID(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$loginusername(", "$LOGINUSERNAME(", StringComparison.InvariantCultureIgnoreCase);
         }
 
         public static string GetText(object value, string format, Context context)
@@ -1918,6 +1923,27 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         + ' ' + ('0' + (date.getHours())).slice(-2)
                         + ':' + ('0' + (date.getMinutes())).slice(-2)
                         + ':' + ('0' + date.getSeconds()).slice(-2);
+                }";
+        }
+
+        private static string GetLoginUserIdScript(Context context)
+        {
+            return @"
+                function $LOGINUSERID()
+                {
+                    return " + context.UserId + @";
+                }";
+        }
+
+        private static string GetLoginUserNameScript(Context context)
+        {
+            return @"
+                function $LOGINUSERNAME()
+                {
+                    return " + SiteInfo.UserName(
+                        context: context,
+                        userId: context.UserId,
+                        notSet: false).ToJson() + @";
                 }";
         }
     }

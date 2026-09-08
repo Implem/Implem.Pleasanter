@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AiConnectOutputFilePathNotSet",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The output file path for AI connection is not set."
+        },
+        {
+            "Language": "zh",
+            "Body": "未设置AI集成的输出路径。"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携の出力先パスが設定されていません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Ausgabepfad für die KI-Verbindung ist nicht festgelegt."
+        },
+        {
+            "Language": "ko",
+            "Body": "AI 연계의 출력 경로가 설정되어 있지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se ha configurado la ruta de salida de la conexión de IA."
+        },
+        {
+            "Language": "vn",
+            "Body": "Chưa thiết lập đường dẫn xuất của kết nối AI."
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "Id": "SyncAiProviders",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Sync"
+        },
+        {
+            "Language": "zh",
+            "Body": "同步"
+        },
+        {
+            "Language": "ja",
+            "Body": "同期"
+        },
+        {
+            "Language": "de",
+            "Body": "Synchronisieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "동기화"
+        },
+        {
+            "Language": "es",
+            "Body": "Sincronizar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đồng bộ"
+        }
+    ]
+}

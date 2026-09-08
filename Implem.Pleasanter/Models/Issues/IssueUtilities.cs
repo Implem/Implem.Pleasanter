@@ -4628,6 +4628,19 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss))
                                     .ToArray());
+            issueCollection.ForEach(issueModel =>
+                Implem.Pleasanter.Libraries.AiConnect.AiConnectUtilities.Sync(
+                    context: context,
+                    ss: ss,
+                    referenceType: "Issues",
+                    referenceId: issueModel.IssueId,
+                    replacedDisplayValues: value => issueModel.ReplacedDisplayValues(
+                        context: context,
+                        ss: ss,
+                        value: value),
+                    operation: formDataSet.Any(o => o.Id == issueModel.IssueId)
+                        ? Implem.Pleasanter.Libraries.AiConnect.AiConnectSyncOperation.Update
+                        : Implem.Pleasanter.Libraries.AiConnect.AiConnectSyncOperation.Create));
             var res = new ResponseCollection(context: context);
             var gridData = new GridData(
                 context: context,

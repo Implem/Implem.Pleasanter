@@ -1,0 +1,18 @@
+{
+    "Id": "Users_ScimSync",
+    "ModelName": "User",
+    "TableName": "Users",
+    "Label": "ユーザ",
+    "ColumnName": "ScimSync",
+    "LabelText": "SCIM同期",
+    "No": "163",
+    "History": "163",
+    "LinkColumn": "163",
+    "HistoryColumn": "163",
+    "TypeName": "bit",
+    "Default": "0",
+    "ControlCss": " not-send",
+    "EditorReadOnly": "1",
+    "LabelText_en": "SCIM synchronization",
+    "LabelText_zh": "SCIM同步"
+}

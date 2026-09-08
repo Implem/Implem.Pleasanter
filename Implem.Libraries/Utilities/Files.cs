@@ -116,6 +116,16 @@ namespace Implem.Libraries.Utilities
             string filePath,
             int reTryCount = 100)
         {
+            _ = bytes.TryWrite(
+                filePath: filePath,
+                reTryCount: reTryCount);
+        }
+
+        public static bool TryWrite(
+            this byte[] bytes,
+            string filePath,
+            int reTryCount = 100)
+        {
             var successful = false;
             var errorCount = 0;
             if (!new FileInfo(filePath).Directory.Exists)
@@ -142,6 +152,7 @@ namespace Implem.Libraries.Utilities
                     }
                 }
             }
+            return successful;
         }
 
         public static void WriteLine(string filePath, string line)

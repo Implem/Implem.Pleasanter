@@ -1,0 +1,20 @@
+{
+    "Id": "Users_ScimId",
+    "ModelName": "User",
+    "TableName": "Users",
+    "Label": "ユーザ",
+    "ColumnName": "ScimId",
+    "LabelText": "SCIM ID",
+    "No": "161",
+    "History": "161",
+    "LinkColumn": "161",
+    "HistoryColumn": "161",
+    "TypeName": "nvarchar",
+    "MaxLength": "64",
+    "Nullable": "1",
+    "Ix2": "1",
+    "ControlCss": " not-send",
+    "EditorReadOnly": "1",
+    "LabelText_en": "SCIM ID",
+    "LabelText_zh": "SCIM ID"
+}

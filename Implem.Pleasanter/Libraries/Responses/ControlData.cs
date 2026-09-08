@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
+using System;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Responses
 {
@@ -11,6 +12,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public string Style;
         public int? Order;
         public Dictionary<string, string> Attributes;
+        public DateTime? From;
+        public DateTime? To;
 
         public ControlData(
             string text,

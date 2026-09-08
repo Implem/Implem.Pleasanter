@@ -4,6 +4,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,25 @@ namespace Implem.DefinitionAccessor
     {
         public static Dictionary<string, string> ExtendedColumnTypes = new Dictionary<string, string>();
         public static ISqlDefinitionFiles SqllDefinitionFiles;
+        private static readonly ConcurrentDictionary<string, List<ColumnDefinition>>
+            ExtendedColumnDefinitionsByTable =
+                new ConcurrentDictionary<string, List<ColumnDefinition>>();
+
+        public static List<ColumnDefinition> GetExtendedColumnDefinitions(string tableName)
+        {
+            return ExtendedColumnDefinitionsByTable.GetOrAdd(
+                tableName,
+                key => ColumnDefinitionCollection
+                    .Where(columnDefinition => columnDefinition.TableName == key)
+                    .Where(columnDefinition => !columnDefinition.ExtendedColumnType.IsNullOrEmpty())
+                    .ToList());
+        }
+
+
+        public static void ClearExtendedColumnDefinitionsCache()
+        {
+            ExtendedColumnDefinitionsByTable.Clear();
+        }
 
         public static bool ExistsModel(
             string modelName,

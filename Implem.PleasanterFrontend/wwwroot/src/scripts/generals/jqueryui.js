@@ -276,6 +276,7 @@ const SimpleMode = (function () {
         Move: '#MoveSettingsEditor',
         Summaries: '#SummariesSettingsEditor',
         Formulas: '#FormulasSettingsEditor',
+        AiProviders: '#AiProvidersSettingsEditor',
         Processes: '#ProcessesSettingsEditor',
         StatusControls: '#StatusControlsSettingsEditor',
         Reminders: '#RemindersSettingsEditor',

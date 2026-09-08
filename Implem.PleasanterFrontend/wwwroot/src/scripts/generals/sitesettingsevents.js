@@ -123,6 +123,30 @@
             $('#ReminderTokenEnableList').val().split(',').indexOf($('#ReminderType').val()) !== -1
         );
     });
+    $(document).on('change', '#AiProviderProviderType', function () {
+        var requireConnectionSetting =
+            $('#AiProviderConnectionSettingRequiredList')
+                .val()
+                .split(',')
+                .indexOf($(this).val()) !== -1;
+        $('#AiProviderConnectionSettingField').toggle(requireConnectionSetting);
+        $('#AiProviderConnectionSetting').attr(
+            'data-validate-required',
+            requireConnectionSetting ? '1' : '0'
+        );
+        var initialListValue = $('#AiProviderConnectionSettingInitialList').val();
+        if (!initialListValue) return;
+        var initialList = JSON.parse(initialListValue);
+        if (!initialList) return;
+        var initialValue = initialList[$(this).val()];
+        var $codeEditor = $('#AiProviderConnectionSetting').closest('code-editor');
+        if ($codeEditor.length > 0) {
+            $codeEditor[0].setValue(initialValue);
+        } else {
+            $('#AiProviderConnectionSetting').val(initialValue);
+            $p.set($('#AiProviderConnectionSetting'), initialValue);
+        }
+    });
     $(document).on('change', '#NotificationUseCustomFormat', function () {
         $('#NotificationFormatField').toggle($('#NotificationUseCustomFormat').prop('checked'));
     });

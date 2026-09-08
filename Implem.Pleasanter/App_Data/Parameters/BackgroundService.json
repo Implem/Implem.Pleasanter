@@ -19,7 +19,7 @@
     "DeleteMcpLogsTime": [ "02:00" ],
     "McpLogsRetentionPeriod": 90,
     "DeleteMcpLogsChunkSize": 0,
-    "DeleteTenant": true,
+    "DeleteTenant": false,
     "DeleteTenantTime": [ "04:00" ],
     "DeleteTenantRetentionPeriod": 30,
     "DeleteTenantChunkSize": 1000,

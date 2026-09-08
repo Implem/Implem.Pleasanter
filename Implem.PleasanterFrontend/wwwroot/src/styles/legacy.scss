@@ -1,4 +1,4 @@
-﻿@use 'plugins' as *;
+@use 'plugins' as *;
 
 * {
     box-sizing: border-box;
@@ -3260,6 +3260,12 @@ h3.title-header {
 .svg-crosstab rect {
     height: 20px;
     fill: darkseagreen;
+}
+
+.crosstab-drill-down:hover,
+.crosstab-drill-down:focus {
+    cursor: pointer;
+    background-color: whitesmoke;
 }
 
 .show-password {

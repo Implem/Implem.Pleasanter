@@ -1,9 +1,11 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.AiConnect;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
+using System;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -473,6 +475,36 @@ namespace Implem.Pleasanter.Models
                     notification: true);
             }
             return new ErrorData(type: Error.Types.None);
+        }
+
+        public static ErrorData SetAiProvider(
+            Context context,
+            SiteSettings ss,
+            string connectionSetting)
+        {
+            if (context.Forms.Data("AiProviderTitle").IsNullOrEmpty()
+                || context.Forms.Data("AiProviderFormat").IsNullOrEmpty())
+            {
+                return new ErrorData(type: Error.Types.ValidationError);
+            }
+            var providerType = context.Forms.Data("AiProviderProviderType");
+            if (AiProviderUtilities.ProviderTypes(
+                context: context).ContainsKey(providerType) == false)
+            {
+                return new ErrorData(type: Error.Types.ValidationError);
+            }
+            var provider = AiConnectProviderFactory.Get(providerType: providerType);
+            if (provider == null)
+            {
+                return new ErrorData(type: Error.Types.ValidationError);
+            }
+            return provider.ValidateConnectionSetting(
+                context: context,
+                aiProvider: new AiProvider
+                {
+                    ProviderType = providerType,
+                    ConnectionSetting = connectionSetting
+                });
         }
 
         public static ErrorData SetProcessNotification(Context context, SiteSettings ss)

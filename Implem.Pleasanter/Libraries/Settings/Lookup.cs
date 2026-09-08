@@ -259,6 +259,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
+                    case "ScimId":
+                        return groupModel.ScimId.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "ScimExternalId":
+                        return groupModel.ScimExternalId.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "ScimSync":
+                        return groupModel.ScimSync.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
                     case "Comments":
                         return groupModel.Comments.ToLookup(
                             context: context,
@@ -611,6 +629,54 @@ namespace Implem.Pleasanter.Libraries.Settings
                             type: Type);
                     case "LoginExpirationPeriod":
                         return userModel.LoginExpirationPeriod.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "ScimId":
+                        return userModel.ScimId.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "ScimExternalId":
+                        return userModel.ScimExternalId.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "ScimSync":
+                        return userModel.ScimSync.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "UiType":
+                        return userModel.UiType.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "UiColorScheme":
+                        return userModel.UiColorScheme.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "UiMainColor":
+                        return userModel.UiMainColor.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "UiSubColor":
+                        return userModel.UiSubColor.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "UiBackgroundColor":
+                        return userModel.UiBackgroundColor.ToLookup(
                             context: context,
                             ss: ss,
                             column: column,

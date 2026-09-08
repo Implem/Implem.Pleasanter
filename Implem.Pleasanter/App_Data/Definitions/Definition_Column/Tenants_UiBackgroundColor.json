@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Tenants_UiBackgroundColor",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "UiBackgroundColor",
+    "LabelText": "背景色",
+    "No": "129",
+    "History": "129",
+    "TypeName": "nvarchar",
+    "MaxLength": "7",
+    "Nullable": "1",
+    "LabelText_en": "Background Color",
+    "LabelText_zh": "背景色",
+    "LabelText_de": "Hintergrundfarbe",
+    "LabelText_ko": "배경색",
+    "LabelText_es": "Color de fondo",
+    "LabelText_vn": "Màu nền"
+}

@@ -460,6 +460,30 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class ScimTokensResponseCollection : ResponseCollection
+    {
+        public ScimTokenModel ScimTokenModel;
+
+        public ScimTokensResponseCollection(
+            Context context,
+            ScimTokenModel scimTokenModel) : base(context: context)
+        {
+            ScimTokenModel = scimTokenModel;
+        }
+
+        public ScimTokensResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public ScimTokensResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class SessionsResponseCollection : ResponseCollection
     {
         public SessionModel SessionModel;
@@ -7084,6 +7108,226 @@ namespace Implem.Pleasanter.Libraries.Responses
             this ReminderSchedulesResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#ReminderSchedules_Timestamp", value);
+        }
+
+        public static ScimTokensResponseCollection Ver(
+            this ScimTokensResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ScimTokens_Ver",
+                res.ScimTokenModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static ScimTokensResponseCollection Ver(
+            this ScimTokensResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ScimTokens_Ver", value);
+        }
+
+        public static ScimTokensResponseCollection Ver_FormData(
+            this ScimTokensResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ScimTokens_Ver",
+                res.ScimTokenModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static ScimTokensResponseCollection Ver_FormData(
+            this ScimTokensResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ScimTokens_Ver", value);
+        }
+
+        public static ScimTokensResponseCollection Comments(
+            this ScimTokensResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ScimTokens_Comments",
+                res.ScimTokenModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static ScimTokensResponseCollection Comments(
+            this ScimTokensResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ScimTokens_Comments", value);
+        }
+
+        public static ScimTokensResponseCollection Comments_FormData(
+            this ScimTokensResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ScimTokens_Comments",
+                res.ScimTokenModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static ScimTokensResponseCollection Comments_FormData(
+            this ScimTokensResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ScimTokens_Comments", value);
+        }
+
+        public static ScimTokensResponseCollection CreatedTime(
+            this ScimTokensResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ScimTokens_CreatedTime",
+                res.ScimTokenModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static ScimTokensResponseCollection CreatedTime(
+            this ScimTokensResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ScimTokens_CreatedTime", value);
+        }
+
+        public static ScimTokensResponseCollection CreatedTime_FormData(
+            this ScimTokensResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ScimTokens_CreatedTime",
+                res.ScimTokenModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static ScimTokensResponseCollection CreatedTime_FormData(
+            this ScimTokensResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ScimTokens_CreatedTime", value);
+        }
+
+        public static ScimTokensResponseCollection UpdatedTime(
+            this ScimTokensResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ScimTokens_UpdatedTime",
+                res.ScimTokenModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static ScimTokensResponseCollection UpdatedTime(
+            this ScimTokensResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ScimTokens_UpdatedTime", value);
+        }
+
+        public static ScimTokensResponseCollection UpdatedTime_FormData(
+            this ScimTokensResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ScimTokens_UpdatedTime",
+                res.ScimTokenModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static ScimTokensResponseCollection UpdatedTime_FormData(
+            this ScimTokensResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ScimTokens_UpdatedTime", value);
+        }
+
+        public static ScimTokensResponseCollection Timestamp(
+            this ScimTokensResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ScimTokens_Timestamp",
+                res.ScimTokenModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static ScimTokensResponseCollection Timestamp(
+            this ScimTokensResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ScimTokens_Timestamp", value);
+        }
+
+        public static ScimTokensResponseCollection Timestamp_FormData(
+            this ScimTokensResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ScimTokens_Timestamp",
+                res.ScimTokenModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static ScimTokensResponseCollection Timestamp_FormData(
+            this ScimTokensResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ScimTokens_Timestamp", value);
         }
 
         public static SessionsResponseCollection Ver(

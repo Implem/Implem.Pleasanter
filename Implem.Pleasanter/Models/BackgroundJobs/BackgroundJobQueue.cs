@@ -32,7 +32,52 @@ namespace Implem.Pleasanter.Models
             new Dictionary<string, string>
         {
             { BackgroundJobTypes.Export, "Export" },
-            { BackgroundJobTypes.Import, "Import" }
+            { BackgroundJobTypes.Import, "Import" },
+            { BackgroundJobTypes.AiConnectSync, "BackgroundJobTypeAiConnect" },
+            { BackgroundJobTypes.AiConnectResync, "BackgroundJobTypeAiConnectResync" },
+            { BackgroundJobTypes.AiConnectIndexCheck, "BackgroundJobTypeAiConnect" },
+            { BackgroundJobTypes.AiConnectDelete, "BackgroundJobTypeAiConnect" }
+        };
+        private static readonly Dictionary<string, JobTypeFilterGroup> JobTypeFilterGroups =
+            new Dictionary<string, JobTypeFilterGroup>
+        {
+            {
+                BackgroundJobTypes.Export,
+                new JobTypeFilterGroup
+                {
+                    DisplayId = "Export",
+                    JobTypes = new[] { BackgroundJobTypes.Export }
+                }
+            },
+            {
+                BackgroundJobTypes.Import,
+                new JobTypeFilterGroup
+                {
+                    DisplayId = "Import",
+                    JobTypes = new[] { BackgroundJobTypes.Import }
+                }
+            },
+            {
+                "AiConnect",
+                new JobTypeFilterGroup
+                {
+                    DisplayId = "BackgroundJobTypeAiConnect",
+                    JobTypes = new[]
+                    {
+                        BackgroundJobTypes.AiConnectSync,
+                        BackgroundJobTypes.AiConnectIndexCheck,
+                        BackgroundJobTypes.AiConnectDelete
+                    }
+                }
+            },
+            {
+                BackgroundJobTypes.AiConnectResync,
+                new JobTypeFilterGroup
+                {
+                    DisplayId = "BackgroundJobTypeAiConnectResync",
+                    JobTypes = new[] { BackgroundJobTypes.AiConnectResync }
+                }
+            }
         };
         private static readonly HashSet<string> InputFileJobTypes =
             new HashSet<string>
@@ -63,6 +108,66 @@ namespace Implem.Pleasanter.Models
         };
         private static readonly ConcurrentDictionary<long, DateTime> DownloadLocks
             = new ConcurrentDictionary<long, DateTime>();
+
+        internal sealed class TenantScope
+        {
+            public int TargetTenantId { get; init; }
+
+            public int WorkerCount { get; init; }
+
+            public int WorkerNumber { get; init; }
+        }
+
+        private const string WorkerCountVariable = "BackgroundJobWorkerCount";
+        private const string WorkerNumberVariable = "BackgroundJobWorkerNumber";
+
+        private static Rds.BackgroundJobsWhereCollection AddTenantScope(
+            Rds.BackgroundJobsWhereCollection where,
+            TenantScope scope)
+        {
+            return where
+                .TenantId(
+                    value: scope.TargetTenantId,
+                    _using: scope.TargetTenantId > 0)
+                .Add(
+                    raw: "((\"BackgroundJobs\".\"TenantId\" % @" + WorkerCountVariable
+                        + ") + 1) = @" + WorkerNumberVariable,
+                    _using: scope.WorkerCount > 1);
+        }
+
+        private static SqlParamCollection AddTenantScopeParam(
+            SqlParamCollection param,
+            TenantScope scope)
+        {
+            if (scope.WorkerCount <= 1)
+            {
+                return param;
+            }
+            param.Add(new SqlParam
+            {
+                VariableName = WorkerCountVariable,
+                Value = scope.WorkerCount,
+                NoCount = true,
+                Updating = false
+            });
+            param.Add(new SqlParam
+            {
+                VariableName = WorkerNumberVariable,
+                Value = scope.WorkerNumber,
+                NoCount = true,
+                Updating = false
+            });
+            return param;
+        }
+
+        internal static bool IsAssignedTenant(
+            int tenantId,
+            int workerCount,
+            int workerNumber)
+        {
+            return workerCount <= 1
+                || (tenantId % workerCount) + 1 == workerNumber;
+        }
 
         public static bool TryAcquireDownloadLock(
             long backgroundJobId,
@@ -586,6 +691,52 @@ namespace Implem.Pleasanter.Models
             return JobTypeDisplayIds.Keys;
         }
 
+        public static string GetJobTypeFilterLabel(
+            Context context,
+            string filterValue)
+        {
+            return GetJobTypeFilterLabel(
+                filterValue: filterValue,
+                language: context.Language);
+        }
+
+        public static string GetJobTypeFilterLabel(
+            string filterValue,
+            string language)
+        {
+            if (filterValue.IsNullOrEmpty())
+            {
+                return string.Empty;
+            }
+            return JobTypeFilterGroups.ContainsKey(filterValue)
+                ? Displays.Get(
+                    id: JobTypeFilterGroups[filterValue].DisplayId,
+                    language: ResolveLanguage(language: language))
+                : GetJobTypeLabel(
+                    jobType: filterValue,
+                    language: language);
+        }
+
+        public static IEnumerable<string> JobTypeFilterValues()
+        {
+            return JobTypeFilterGroups.Keys;
+        }
+
+        public static List<string> ExpandJobTypeFilterValues(
+            IEnumerable<string> filterValues)
+        {
+            if (filterValues == null)
+            {
+                return new List<string>();
+            }
+            return filterValues
+                .SelectMany(filterValue => JobTypeFilterGroups.ContainsKey(filterValue)
+                    ? JobTypeFilterGroups[filterValue].JobTypes.AsEnumerable()
+                    : new[] { filterValue }.AsEnumerable())
+                .Distinct()
+                .ToList();
+        }
+
         public static bool IsInputFileJobType(string jobType)
         {
             return jobType.IsNullOrEmpty() == false
@@ -702,6 +853,44 @@ namespace Implem.Pleasanter.Models
                     + $", JobStartedTime={now:O}",
                 sysLogType: SysLogModel.SysLogTypes.Info);
             return model;
+        }
+
+        internal static List<int> SelectTargetTenantIds(
+            Context context,
+            TenantScope scope)
+        {
+            var lockingTenantIds = Rds.SelectBackgroundJobs(
+                column: Rds.BackgroundJobsColumn().TenantId(),
+                where: Rds.BackgroundJobsWhere()
+                    .Status_In(value: new[]
+                    {
+                        BackgroundJobStatus.Running,
+                        BackgroundJobStatus.RunningOverdue
+                    }));
+            var where = Rds.BackgroundJobsWhere()
+                .Status(BackgroundJobStatus.Pending)
+                .TenantId_In(
+                    sub: lockingTenantIds,
+                    negative: true);
+            var dataTable = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBackgroundJobs(
+                    dataTableName: "TargetTenants",
+                    column: Rds.BackgroundJobsColumn().TenantId(),
+                    where: AddTenantScope(
+                        where: where,
+                        scope: scope),
+                    groupBy: Rds.BackgroundJobsGroupBy().TenantId(),
+                    orderBy: Rds.BackgroundJobsOrderBy()
+                        .JobEnqueuedTime(function: Sqls.Functions.Min)
+                        .TenantId(),
+                    param: AddTenantScopeParam(
+                        param: new SqlParamCollection(),
+                        scope: scope)));
+            return dataTable
+                .AsEnumerable()
+                .Select(static row => row["TenantId"].ToInt())
+                .ToList();
         }
 
         public static void Complete(
@@ -838,19 +1027,14 @@ namespace Implem.Pleasanter.Models
 
         private static string GetJobLanguage(BackgroundJobModel model)
         {
-            if (model.JobType == BackgroundJobTypes.Export)
-            {
-                return model.JobParameters
-                    .Deserialize<ExportJobParameters>()
-                    ?.Language;
-            }
-            else if (model.JobType == BackgroundJobTypes.Import)
-            {
-                return model.JobParameters
-                    .Deserialize<ImportJobParameters>()
-                    ?.Language;
-            }
-            return null;
+            return model.JobParameters
+                .Deserialize<JobLanguageParameters>()
+                ?.Language;
+        }
+
+        private class JobLanguageParameters
+        {
+            public string Language { get; set; }
         }
 
         private static string GetResultMessage(
@@ -1314,7 +1498,9 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        public static void RecoverStuckJobs(Context context)
+        internal static void RecoverStuckJobs(
+            Context context,
+            TenantScope scope)
         {
             var now = DateTime.UtcNow;
             var clusteringEnabled = Parameters.Quartz?.Clustering?.Enabled ?? false;
@@ -1329,12 +1515,14 @@ namespace Implem.Pleasanter.Models
                     sysLogType: SysLogModel.SysLogTypes.Info);
                 return;
             }
-            var where = Rds.BackgroundJobsWhere()
-                .Status_In(value: new[]
-                {
-                    BackgroundJobStatus.Running,
-                    BackgroundJobStatus.RunningOverdue
-                });
+            var where = AddTenantScope(
+                where: Rds.BackgroundJobsWhere()
+                    .Status_In(value: new[]
+                    {
+                        BackgroundJobStatus.Running,
+                        BackgroundJobStatus.RunningOverdue
+                    }),
+                scope: scope);
             if (clusteringEnabled)
             {
                 where.JobStartedTime(
@@ -1349,12 +1537,14 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     statements: Rds.UpdateBackgroundJobs(
                         where: where,
-                        param: Rds.BackgroundJobsParam()
-                            .Status(BackgroundJobStatus.Pending)
-                            .JobEnqueuedTime(now)
-                            .JobStartedTime(raw: "null")
-                            .JobFinishedTime(raw: "null")
-                            .ResultMessage(raw: "null"),
+                        param: AddTenantScopeParam(
+                            param: Rds.BackgroundJobsParam()
+                                .Status(BackgroundJobStatus.Pending)
+                                .JobEnqueuedTime(now)
+                                .JobStartedTime(raw: "null")
+                                .JobFinishedTime(raw: "null")
+                                .ResultMessage(raw: "null"),
+                            scope: scope),
                         addUpdatorParam: false,
                         addUpdatedTimeParam: false));
                 new SysLogModel(
@@ -1372,15 +1562,20 @@ namespace Implem.Pleasanter.Models
                         ?? Parameters.Service.DefaultLanguage));
                 var targetJobs = new BackgroundJobCollection(
                     context: context,
-                    where: where);
+                    where: where,
+                    param: AddTenantScopeParam(
+                        param: new SqlParamCollection(),
+                        scope: scope));
                 Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateBackgroundJobs(
                         where: where,
-                        param: Rds.BackgroundJobsParam()
-                            .Status(BackgroundJobStatus.Failed)
-                            .JobFinishedTime(now)
-                            .ResultMessage(errorMessage),
+                        param: AddTenantScopeParam(
+                            param: Rds.BackgroundJobsParam()
+                                .Status(BackgroundJobStatus.Failed)
+                                .JobFinishedTime(now)
+                                .ResultMessage(errorMessage),
+                            scope: scope),
                         addUpdatorParam: false,
                         addUpdatedTimeParam: false));
                 foreach (var job in targetJobs)
@@ -1522,7 +1717,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        internal static void FailStalePreparingJobs(Context context)
+        internal static void FailStalePreparingJobs(
+            Context context,
+            TenantScope scope)
         {
             var timeout = Parameters.BackgroundJobs?.BackgroundJobTimeout ?? 0;
             if (timeout <= 0)
@@ -1532,11 +1729,16 @@ namespace Implem.Pleasanter.Models
             var threshold = DateTime.UtcNow.AddSeconds(-timeout);
             var staleJobs = new BackgroundJobCollection(
                 context: context,
-                where: Rds.BackgroundJobsWhere()
-                    .Status(BackgroundJobStatus.Preparing)
+                where: AddTenantScope(
+                    where: Rds.BackgroundJobsWhere()
+                        .Status(BackgroundJobStatus.Preparing),
+                    scope: scope)
                     .JobEnqueuedTime(
                         threshold,
-                        _operator: "<"));
+                        _operator: "<"),
+                param: AddTenantScopeParam(
+                    param: new SqlParamCollection(),
+                    scope: scope));
             foreach (var job in staleJobs)
             {
                 var now = DateTime.UtcNow;
@@ -1729,7 +1931,7 @@ namespace Implem.Pleasanter.Models
             if (filter.JobTypes?.Any() == true)
             {
                 where.JobType(
-                    value: filter.JobTypes,
+                    value: ExpandJobTypeFilterValues(filterValues: filter.JobTypes),
                     multiParamOperator: " or ");
             }
             if (filter.BackgroundJobId.IsNullOrEmpty() == false)
@@ -1902,6 +2104,13 @@ namespace Implem.Pleasanter.Models
                     }
                     return (null, null);
             }
+        }
+
+        private sealed class JobTypeFilterGroup
+        {
+            public string DisplayId;
+
+            public string[] JobTypes;
         }
 
         private sealed class QueueFilePathDefinition

@@ -28,6 +28,11 @@ namespace Implem.Pleasanter.Models
         public string Language { get; set; }
         public string TimeZone { get; set; }
         public string TenantSettings { get; set; }
+        public string UiType { get; set; }
+        public string UiColorScheme { get; set; }
+        public string UiMainColor { get; set; }
+        public string UiSubColor { get; set; }
+        public string UiBackgroundColor { get; set; }
         public DateTime? RestartScheduledTime { get; set; }
         public DateTime? DeleteRequestTime { get; set; }
         public string Comments { get; set; }
@@ -66,6 +71,11 @@ namespace Implem.Pleasanter.Models
                 case "Language": return Language;
                 case "TimeZone": return TimeZone;
                 case "TenantSettings": return TenantSettings;
+                case "UiType": return UiType;
+                case "UiColorScheme": return UiColorScheme;
+                case "UiMainColor": return UiMainColor;
+                case "UiSubColor": return UiSubColor;
+                case "UiBackgroundColor": return UiBackgroundColor;
                 case "RestartScheduledTime": return RestartScheduledTime;
                 case "DeleteRequestTime": return DeleteRequestTime;
                 case "Comments": return Comments;

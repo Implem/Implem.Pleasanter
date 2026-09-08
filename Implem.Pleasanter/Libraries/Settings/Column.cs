@@ -661,6 +661,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public string BlankChoiceValue()
+        {
+            return Type == Types.User
+                ? SiteInfo.AnonymousId.ToString()
+                : TypeName == "int"
+                    ? "0"
+                    : string.Empty;
+        }
+
         public Dictionary<string, ControlData> EditChoices(
             Context context,
             bool insertBlank = false,
@@ -671,11 +680,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int limit = 0)
         {
             var hash = new Dictionary<string, ControlData>();
-            var blank = Type == Types.User
-                ? SiteInfo.AnonymousId.ToString()
-                : TypeName == "int"
-                    ? "0"
-                    : string.Empty;
+            var blank = BlankChoiceValue();
             if (!HasChoices()) return hash;
             var selected = view?
                 .ColumnFilter(ColumnName)?
@@ -1675,6 +1680,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "SynchronizedTime":
                             sql.Groups_SynchronizedTime(tableName: path, _as: _as);
                             break;
+                        case "ScimId":
+                            sql.Groups_ScimId(tableName: path, _as: _as);
+                            break;
+                        case "ScimExternalId":
+                            sql.Groups_ScimExternalId(tableName: path, _as: _as);
+                            break;
+                        case "ScimSync":
+                            sql.Groups_ScimSync(tableName: path, _as: _as);
+                            break;
                         case "Comments":
                             sql.Groups_Comments(tableName: path, _as: _as);
                             break;
@@ -2344,6 +2358,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "LoginExpirationPeriod":
                             sql.Users_LoginExpirationPeriod(tableName: path, _as: _as);
+                            break;
+                        case "ScimId":
+                            sql.Users_ScimId(tableName: path, _as: _as);
+                            break;
+                        case "ScimExternalId":
+                            sql.Users_ScimExternalId(tableName: path, _as: _as);
+                            break;
+                        case "ScimSync":
+                            sql.Users_ScimSync(tableName: path, _as: _as);
+                            break;
+                        case "UiType":
+                            sql.Users_UiType(tableName: path, _as: _as);
+                            break;
+                        case "UiColorScheme":
+                            sql.Users_UiColorScheme(tableName: path, _as: _as);
+                            break;
+                        case "UiMainColor":
+                            sql.Users_UiMainColor(tableName: path, _as: _as);
+                            break;
+                        case "UiSubColor":
+                            sql.Users_UiSubColor(tableName: path, _as: _as);
+                            break;
+                        case "UiBackgroundColor":
+                            sql.Users_UiBackgroundColor(tableName: path, _as: _as);
                             break;
                         case "Comments":
                             sql.Users_Comments(tableName: path, _as: _as);

@@ -101,6 +101,7 @@ namespace Implem.DefinitionAccessor
                 ParametersPath = Parameters.Env?.ParametersPath;
             }
             Parameters.Rds = Read<Rds>(patch: false);
+            Parameters.AiConnect = Read<AiConnect>();
             Parameters.Api = Read<Api>();
             Parameters.Authentication = Read<Authentication>();
             Parameters.BackgroundJobs = Read<BackgroundJobs>(required: false);
@@ -147,6 +148,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Reminder = Read<Reminder>();
             Parameters.Script = Read<Script>();
             Parameters.Search = Read<Search>();
+            Parameters.Scim = Read<Scim>(required: false) ?? new Scim();
             Parameters.Security = Read<Security>();
             Parameters.Service = Read<Service>();
             Parameters.Session = Read<Session>();
@@ -380,6 +382,9 @@ namespace Implem.DefinitionAccessor
                     }
                     switch (o.Key)
                     {
+                        case "AiConnect":
+                            Parameters.AiConnect = value.Deserialize<AiConnect>();
+                            break;
                         case "Api": Parameters.Api = value.Deserialize<Api>(); break;
                         case "Authentication": Parameters.Authentication = value.Deserialize<Authentication>(); break;
                         case "BackgroundJobs": Parameters.BackgroundJobs = value.Deserialize<BackgroundJobs>(); break;
@@ -967,6 +972,7 @@ namespace Implem.DefinitionAccessor
             Displays.DisplayHash = DisplayHash();
             Def.SetCodeDefinition();
             Def.SetColumnDefinition();
+            Def.ClearExtendedColumnDefinitionsCache();
             Def.SetTemplateDefinition();
             Def.SetViewModeDefinition();
             Def.SetDemoDefinition();
@@ -978,6 +984,7 @@ namespace Implem.DefinitionAccessor
         public static void SetDefinitionsTrial()
         {
             Def.SetColumnDefinition();
+            Def.ClearExtendedColumnDefinitionsCache();
             SetColumnDefinitionAccessControl();
             SetTimeZone();
             SetLanguage();

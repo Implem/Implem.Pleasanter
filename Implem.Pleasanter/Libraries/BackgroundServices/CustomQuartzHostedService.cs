@@ -7,14 +7,15 @@ using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Settings;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
-    public class CustomQuartzHostedService : IHostedService
+    public class CustomQuartzHostedService(
+        ILogger<CustomQuartzHostedService> logger,
+        IHostApplicationLifetime hostApplicationLifetime) : BackgroundService
     {
         private static readonly IScheduler scheduler;
-        private readonly ILogger<CustomQuartzHostedService> logger;
 
         static CustomQuartzHostedService()
         {
@@ -29,21 +30,72 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             }
         }
 
-        public CustomQuartzHostedService(ILogger<CustomQuartzHostedService> logger)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            this.logger = logger;
+            if (!await WaitForWarmupAsync(stoppingToken: stoppingToken))
+            {
+                return;
+            }
+            try
+            {
+                await new TimerBackground().InitAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Timer Schedule Registration Failed");
+            }
+            try
+            {
+                await BackgroundServerScriptUtilities.InitScheduleAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Background Server Script Schedule Registration Failed");
+            }
+            try
+            {
+                await scheduler.Start(stoppingToken);
+            }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                logger.LogWarning("Quartz Scheduler Start Canceled");
+            }
+            catch (Exception ex)
+            {
+                logger.LogCritical(ex, "Quartz Scheduler Failed To Start");
+                hostApplicationLifetime.StopApplication();
+            }
         }
 
         public static IScheduler Scheduler { get => scheduler; }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            await scheduler?.Start(cancellationToken);
+            BackgroundJobTargetTenants.RequestStop();
+            await base.StopAsync(cancellationToken);
+            await scheduler.Shutdown(cancellationToken);
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken)
+        private async Task<bool> WaitForWarmupAsync(CancellationToken stoppingToken)
         {
-            await scheduler?.Shutdown(cancellationToken);
+            try
+            {
+                await ApplicationWarmupHostedService.WaitForCompletionAsync(
+                    cancellationToken: stoppingToken);
+            }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                logger.LogWarning("Quartz Scheduler Not Started: Warmup Canceled");
+                return false;
+            }
+            if (ApplicationWarmupHostedService.CurrentStatus != WarmupStatus.Completed)
+            {
+                logger.LogWarning(
+                    "Quartz Scheduler Not Started: WarmupStatus={WarmupStatus}",
+                    ApplicationWarmupHostedService.CurrentStatus);
+                return false;
+            }
+            return true;
         }
 
         private static async Task<IScheduler> CreateScheduler()

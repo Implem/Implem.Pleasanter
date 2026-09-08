@@ -1,0 +1,19 @@
+{
+    "Id": "ScimTokens_ScimTokenId",
+    "ModelName": "ScimToken",
+    "TableName": "ScimTokens",
+    "Label": "SCIMトークン",
+    "ColumnName": "ScimTokenId",
+    "LabelText": "SCIMトークンID",
+    "No": "1",
+    "TypeName": "int",
+    "Pk": "1",
+    "PkMySql": "1",
+    "Identity": "1",
+    "Seed": "1",
+    "Required": "1",
+    "ControlType": "Id",
+    "EditorReadOnly": "1",
+    "LabelText_en": "SCIM token ID",
+    "LabelText_zh": "SCIM token ID"
+}

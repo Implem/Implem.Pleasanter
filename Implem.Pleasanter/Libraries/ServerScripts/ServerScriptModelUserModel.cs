@@ -1,4 +1,7 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
+using System.Collections.Generic;
+using System.Dynamic;
+using Newtonsoft.Json;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelUserModel
@@ -13,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly bool TenantManager;
         public readonly bool ServiceManager;
         public readonly bool Disabled;
+        private readonly Dictionary<string, object> Extras;
 
         public ServerScriptModelUserModel(
             Context context,
@@ -24,7 +28,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             string userCode,
             bool tenantManager,
             bool serviceManager,
-            bool disabled)
+            bool disabled,
+            Dictionary<string, object> extras)
         {
             Context = context;
             TenantId = tenantId;
@@ -36,6 +41,29 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             TenantManager = tenantManager;
             ServiceManager = serviceManager;
             Disabled = disabled;
+            Extras = extras;
+        }
+
+        public object ToJson()
+        {
+            dynamic d = new ExpandoObject();
+            var dict = (IDictionary<string, object>)d;
+            dict["TenantId"] = TenantId;
+            dict["UserId"] = UserId;
+            dict["DeptId"] = DeptId;
+            dict["LoginId"] = LoginId;
+            dict["Name"] = Name;
+            dict["UserCode"] = UserCode;
+            dict["TenantManager"] = TenantManager;
+            dict["ServiceManager"] = ServiceManager;
+            dict["Disabled"] = Disabled;
+            ServerScriptUtilities.MergeExtras(dict, Extras);
+            return d;
+        }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(ToJson());
         }
     }
 }

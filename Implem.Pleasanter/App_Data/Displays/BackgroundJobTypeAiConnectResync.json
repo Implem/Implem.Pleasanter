@@ -1,0 +1,33 @@
+{
+    "Id": "BackgroundJobTypeAiConnectResync",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "AI Connect (Sync)"
+        },
+        {
+            "Language": "zh",
+            "Body": "AI集成（同步）"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携（同期）"
+        },
+        {
+            "Language": "de",
+            "Body": "KI-Verbindung (Synchronisieren)"
+        },
+        {
+            "Language": "ko",
+            "Body": "AI 연계(동기화)"
+        },
+        {
+            "Language": "es",
+            "Body": "Conexión de IA (Sincronizar)"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kết nối AI (Đồng bộ)"
+        }
+    ]
+}

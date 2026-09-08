@@ -1,11 +1,14 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -21,12 +24,56 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string Name;
         public string Body;
         public bool Disabled;
+        public Dictionary<string, object> Extras = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         public Dept()
         {
         }
 
+        public Dept(Context context, int tenantId, int deptId)
+        {
+            if (deptId != 0)
+            {
+                var dataTable = Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectDepts(
+                        column: QueryColumnWithExtras(),
+                        where: Rds.DeptsWhere()
+                            .TenantId(tenantId)
+                            .DeptId(deptId)));
+                if (dataTable.Rows.Count == 1)
+                {
+                    Set(dataRow: dataTable.Rows[0]);
+                }
+            }
+        }
+
+        public static Rds.DeptsColumnCollection QueryColumn()
+        {
+            return Rds.DeptsColumn()
+                .TenantId()
+                .DeptId()
+                .DeptCode()
+                .DeptName()
+                .Body()
+                .Disabled();
+        }
+
+        public static Rds.DeptsColumnCollection QueryColumnWithExtras()
+        {
+            var column = QueryColumn();
+            Def.GetExtendedColumnDefinitions("Depts")
+                .ForEach(columnDefinition =>
+                    column.DeptsColumn(columnDefinition.ColumnName));
+            return column;
+        }
+
         public Dept(DataRow dataRow)
+        {
+            Set(dataRow: dataRow);
+        }
+
+        private void Set(DataRow dataRow)
         {
             TenantId = dataRow.Int("TenantId");
             Id = dataRow.Int("DeptId");
@@ -34,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Name = dataRow.String("DeptName");
             Body = dataRow.String("Body");
             Disabled = dataRow.Bool("Disabled");
+            Extras = ServerScripts.ServerScriptUtilities.BuildExtras(dataRow, "Depts");
         }
 
         public string ToControl(Context context, SiteSettings ss, Column column)

@@ -18,14 +18,6 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class BackgroundServerScriptUtilities
     {
-        public static void InitSchedule()
-        {
-            Task.Run(async () =>
-            {
-                await InitScheduleAsync();
-            });
-        }
-
         public static void Reschedule(int tenantId, BackgroundServerScripts backgroundServerScripts)
         {
             Task.Run(async () =>
@@ -36,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
         }
 
-        private static async Task InitScheduleAsync()
+        internal static async Task InitScheduleAsync()
         {
             if (Parameters.BackgroundService.BackgroundServerScriptEnabled(
                 deploymentEnvironment: Parameters.Service.DeploymentEnvironment,

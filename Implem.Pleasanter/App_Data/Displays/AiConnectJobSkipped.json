@@ -1,0 +1,33 @@
+{
+    "Id": "AiConnectJobSkipped",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No target for the AI connection was found, so the process was skipped."
+        },
+        {
+            "Language": "zh",
+            "Body": "未找到AI集成的对象，因此未执行处理。"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携の対象が見つからなかったため、処理を行いませんでした。"
+        },
+        {
+            "Language": "de",
+            "Body": "Es wurde kein Ziel für die KI-Verbindung gefunden, daher wurde der Vorgang übersprungen."
+        },
+        {
+            "Language": "ko",
+            "Body": "AI 연계 대상을 찾을 수 없어 처리를 수행하지 않았습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se encontró el objetivo de la conexión de IA, por lo que no se realizó el proceso."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không tìm thấy đối tượng kết nối AI nên đã bỏ qua xử lý."
+        }
+    ]
+}

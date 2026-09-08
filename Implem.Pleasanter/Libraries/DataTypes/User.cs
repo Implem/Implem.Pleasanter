@@ -38,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public bool AllowApi;
         public bool AllowMovingFromTopSite;
         public bool Disabled;
+        public Dictionary<string, object> Extras = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         public User()
         {
@@ -50,23 +51,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 var dataTable = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectUsers(
-                        column: Rds.UsersColumn()
-                            .TenantId()
-                            .UserId()
-                            .DeptId()
-                            .LoginId()
-                            .Name()
-                            .UserCode()
-                            .Body()
-                            .UserSettings()
-                            .TenantManager()
-                            .ServiceManager()
-                            .AllowCreationAtTopSite()
-                            .AllowGroupAdministration()
-                            .AllowGroupCreation()
-                            .AllowApi()
-                            .AllowMovingFromTopSite()
-                            .Disabled(),
+                        column: QueryColumn(),
                         where: Rds.UsersWhere()
                             .UserId(userId)));
                 if (dataTable.Rows.Count == 1)
@@ -82,6 +67,70 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 SetAnonymous();
             }
+        }
+
+        private User(Context context, int tenantId, int userId)
+        {
+            if (userId != 0 && userId != SiteInfo.AnonymousId)
+            {
+                var dataTable = Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectUsers(
+                        column: QueryColumnWithExtras(),
+                        where: Rds.UsersWhere()
+                            .TenantId(tenantId)
+                            .UserId(userId)));
+                if (dataTable.Rows.Count == 1)
+                {
+                    Set(dataRow: dataTable.Rows[0]);
+                }
+                else
+                {
+                    SetAnonymous();
+                }
+            }
+            else
+            {
+                SetAnonymous();
+            }
+        }
+
+        public static User GetWithExtras(Context context, int tenantId, int userId)
+        {
+            return new User(
+                context: context,
+                tenantId: tenantId,
+                userId: userId);
+        }
+
+        public static Rds.UsersColumnCollection QueryColumn()
+        {
+            return Rds.UsersColumn()
+                .TenantId()
+                .UserId()
+                .DeptId()
+                .LoginId()
+                .Name()
+                .UserCode()
+                .Body()
+                .UserSettings()
+                .TenantManager()
+                .ServiceManager()
+                .AllowCreationAtTopSite()
+                .AllowGroupAdministration()
+                .AllowGroupCreation()
+                .AllowApi()
+                .AllowMovingFromTopSite()
+                .Disabled();
+        }
+
+        public static Rds.UsersColumnCollection QueryColumnWithExtras()
+        {
+            var column = QueryColumn();
+            Def.GetExtendedColumnDefinitions("Users")
+                .ForEach(columnDefinition =>
+                    column.UsersColumn(columnDefinition.ColumnName));
+            return column;
         }
 
         public User(Context context, DataRow dataRow)
@@ -110,6 +159,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             AllowApi = dataRow.Bool("AllowApi");
             AllowMovingFromTopSite = dataRow.Bool("AllowMovingFromTopSite");
             Disabled = dataRow.Bool("Disabled");
+            Extras = ServerScripts.ServerScriptUtilities.BuildExtras(dataRow, "Users");
         }
 
         private void SetAnonymous()

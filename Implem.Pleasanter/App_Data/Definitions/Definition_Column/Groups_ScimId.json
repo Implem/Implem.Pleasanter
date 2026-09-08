@@ -1,0 +1,20 @@
+{
+    "Id": "Groups_ScimId",
+    "ModelName": "Group",
+    "TableName": "Groups",
+    "Label": "グループ",
+    "ColumnName": "ScimId",
+    "LabelText": "SCIM ID",
+    "No": "205",
+    "History": "205",
+    "LinkColumn": "205",
+    "HistoryColumn": "205",
+    "TypeName": "nvarchar",
+    "MaxLength": "64",
+    "Nullable": "1",
+    "Ix2": "1",
+    "ControlCss": " not-send",
+    "EditorReadOnly": "1",
+    "LabelText_en": "SCIM ID",
+    "LabelText_zh": "SCIM ID"
+}

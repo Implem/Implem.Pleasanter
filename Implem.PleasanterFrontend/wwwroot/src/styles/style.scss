@@ -2427,8 +2427,11 @@ body {
     #EditorComments {
         position: sticky;
         top: 0;
+        display: flex;
+        flex-direction: column;
         order: 1;
-        padding: 16px;
+        max-height: calc(100vh - 72px);
+        padding: 0;
         margin-bottom: 0;
         color: var(--base-text);
 
@@ -2446,17 +2449,33 @@ body {
         #Comments {
             min-height: 100px;
         }
+        #CommentField {
+            padding: 16px;
+            .md-editor,
+            .md-viewer {
+                max-height: 40vh;
+                overflow-y: auto;
+                scrollbar-color: var(--scrollbar-thumb) transparent;
+                scrollbar-width: thin;
+            }
+        }
         #CommentList {
+            padding: 0 16px 32px;
+            overflow-y: auto;
+            scrollbar-color: var(--scrollbar-thumb) transparent;
+            scrollbar-width: thin;
             .comment-header {
                 &:has(+ markdown-field textarea) {
                     padding-right: 32px;
                 }
             }
         }
+        &:not(:has(#CommentField)) #CommentList {
+            padding-top: 16px;
+        }
     }
     #EditorTabsContainer {
-        position: sticky;
-        top: 0;
+        position: relative;
         z-index: 1;
         margin-bottom: 0;
         background-color: var(--editor-bg);

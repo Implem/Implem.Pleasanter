@@ -1698,7 +1698,18 @@ namespace Implem.Pleasanter.Models
 
         public static string History(Context context, SiteModel siteModel)
         {
-            return EditorResponse(context: context, siteModel: siteModel).ToJson();
+            return EditorResponse(context: context, siteModel: siteModel)
+                .PushState("History", Locations.Get(
+                    context: context,
+                    parts: new string[]
+                    {
+                        context.Controller,
+                        siteModel.SiteId.ToString()
+                            + (siteModel.VerType == Versions.VerTypes.History
+                                ? "?ver=" + context.Forms.Int("Ver")
+                                : string.Empty)
+                    }))
+                .ToJson();
         }
 
         public static string DeleteHistory(Context context, SiteSettings ss, long siteId)
@@ -2593,6 +2604,238 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ContentResultInheritance GetSiteTemplatesByApi(Context context)
+        {
+            var definitionTemplates = Def.TemplateDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .ToList();
+            if (!definitionTemplates.Any())
+            {
+                definitionTemplates = Def.TemplateDefinitionCollection
+                    .Where(o => o.Language == "en")
+                    .ToList();
+            }
+            var templates = definitionTemplates
+                .Select(template =>
+                {
+                    var templateSs = template.SiteSettingsTemplate
+                        .DeserializeSiteSettings(context: context);
+                    return templateSs == null
+                        ? null
+                        : (object)new
+                        {
+                            template.Id,
+                            template.Title,
+                            template.Description,
+                            ReferenceType = templateSs.ReferenceType,
+                            IsUserTemplate = false,
+                            Categories = GetTemplateCategories(
+                                context: context,
+                                template: template)
+                        };
+                })
+                .Where(template => template != null)
+                .ToList();
+            if (Parameters.UserTemplate.Enabled)
+            {
+                templates.AddRange(GetUserTemplates(context: context)
+                    .Select(template => (object)new
+                    {
+                        template.Id,
+                        template.Title,
+                        template.Description,
+                        ReferenceType = (string)null,
+                        IsUserTemplate = true,
+                        Categories = (IEnumerable<object>)new object[]
+                        {
+                            new
+                            {
+                                Id = "UserTemplate",
+                                Title = Displays.CustomApps(context: context),
+                                SortOrder = 1
+                            }
+                        }
+                    }));
+            }
+            return ApiResults.Get(
+                apiResponse: new
+                {
+                    StatusCode = 200,
+                    Response = new
+                    {
+                        TotalCount = templates.Count,
+                        Data = templates
+                    }
+                }.ToJson(),
+                statusCode: 200);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance CreateByTemplateByApi(
+            Context context,
+            long parentId,
+            string templateId,
+            string title)
+        {
+            if (string.IsNullOrWhiteSpace(templateId))
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidRequest));
+            }
+            var parentSiteModel = parentId > 0
+                ? new SiteModel(
+                    context: context,
+                    siteId: parentId)
+                : null;
+            if (parentSiteModel?.AccessStatus == Databases.AccessStatuses.NotFound)
+            {
+                return ApiResults.NotFound(context: context);
+            }
+            if (parentSiteModel != null
+                && parentSiteModel.ReferenceType != "Sites")
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidRequest));
+            }
+            var siteModel = new SiteModel(
+                context: context,
+                parentId: parentId,
+                inheritPermission: parentSiteModel?.InheritPermission ?? 0);
+            var ss = siteModel.SitesSiteSettings(
+                context: context,
+                referenceId: parentId);
+            if (context.ContractSettings.SitesLimit(context: context))
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.SitesLimit));
+            }
+            if (parentId == 0)
+            {
+                context.SetPermissionType(
+                    ss: ss,
+                    type: context.SiteTopPermission());
+            }
+            var invalid = SiteValidators.OnCreating(
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: invalid);
+            }
+            if (templateId.StartsWith("UserTemplate"))
+            {
+                if (!Parameters.UserTemplate.Enabled)
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.InvalidRequest));
+                }
+                if (!int.TryParse(
+                    templateId.Substring("UserTemplate".Length),
+                    out var extensionId))
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.InvalidRequest));
+                }
+                var extension = new ExtensionModel().Get(
+                    context: context,
+                    where: Rds.ExtensionsWhere()
+                        .TenantId(context.TenantId)
+                        .ExtensionType("CustomApps")
+                        .ExtensionId(extensionId)
+                        .Disabled(false));
+                if (extension.AccessStatus != Databases.AccessStatuses.Selected)
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound));
+                }
+                var sitePackage = extension.ExtensionSettings
+                    .Deserialize<Libraries.SitePackages.SitePackage>();
+                if (sitePackage == null)
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound));
+                }
+                ss.SiteId = parentId;
+                Libraries.SitePackages.Utilities.ImportSitePackage(
+                    context: context,
+                    ss: ss,
+                    sitePackage: sitePackage,
+                    apiData: new Sites.SitePackageApiModel
+                    {
+                        TargetSiteId = parentId
+                    });
+                var baseConvertor = sitePackage.HeaderInfo?.Convertors
+                    ?.FirstOrDefault(o =>
+                        o.SiteId == sitePackage.HeaderInfo.BaseSiteId);
+                var newSiteId = baseConvertor?.SavedSiteId?.ToLong() ?? 0;
+                if (newSiteId == 0)
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(
+                            type: Error.Types.InternalServerError));
+                }
+                return ApiResults.Success(
+                    id: newSiteId,
+                    limitPerDate: context.ContractSettings.ApiLimit(),
+                    limitRemaining: context.ContractSettings.ApiLimit()
+                        - ss.ApiCount,
+                    message: Displays.Created(
+                        context: context,
+                        data: baseConvertor.SiteTitle));
+            }
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidRequest));
+            }
+            var errorData = CreateByStandardTemplate(
+                context: context,
+                siteModel: siteModel,
+                templateId: templateId,
+                title: title);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        id: siteModel.SiteId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Created(
+                            context: context,
+                            data: siteModel.Title.MessageDisplay(context: context)));
+                case Error.Types.Duplicated:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData,
+                        data: ss.GetColumn(
+                            context: context,
+                            columnName: errorData.ColumnName)?.LabelText);
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Templates(Context context, long parentId, long inheritPermission)
         {
             var siteModel = new SiteModel(
@@ -3324,27 +3567,173 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var templateDefinition = Def.TemplateDefinitionCollection
-                    .FirstOrDefault(o => o.Id == id);
-                if (templateDefinition == null)
-                {
-                    return Error.Types.NotFound.MessageJson(context: context);
-                }
-                var templateSs = templateDefinition.SiteSettingsTemplate
-                    .DeserializeSiteSettings(context: context);
-                if (templateSs == null)
-                {
-                    return Error.Types.NotFound.MessageJson(context: context);
-                }
-                siteModel.ReferenceType = templateSs.ReferenceType;
-                siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
-                siteModel.Body = templateDefinition.Body;
-                siteModel.SiteSettings = templateSs;
-                siteModel.Create(context: context, otherInitValue: true);
-                return SiteMenuResponse(
+                var errorData = CreateByStandardTemplate(
                     context: context,
-                    siteModel: new SiteModel(context: context, siteId: parentId));
+                    siteModel: siteModel,
+                    templateId: id,
+                    title: context.Forms.Data("SiteTitle"));
+                switch (errorData.Type)
+                {
+                    case Error.Types.None:
+                        return SiteMenuResponse(
+                            context: context,
+                            siteModel: new SiteModel(context: context, siteId: parentId));
+                    default:
+                        return errorData.MessageJson(context: context);
+                }
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<object> GetTemplateCategories(
+            Context context,
+            TemplateDefinition template)
+        {
+            var categories = new List<object>();
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.Standard,
+                id: "Standard",
+                title: Displays.Standard(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.Project,
+                id: "Project",
+                title: Displays.Project(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.BusinessImprovement,
+                id: "BusinessImprovement",
+                title: Displays.BusinessImprovement(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.Sales,
+                id: "Sales",
+                title: Displays.Sales(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.Customer,
+                id: "Customer",
+                title: Displays.Customer(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.Store,
+                id: "Store",
+                title: Displays.Store(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.ResearchAndDevelopment,
+                id: "ResearchAndDevelopment",
+                title: Displays.ResearchAndDevelopment(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.Marketing,
+                id: "Marketing",
+                title: Displays.Marketing(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.Manufacture,
+                id: "Manufacture",
+                title: Displays.Manufacture(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.InformationSystem,
+                id: "InformationSystem",
+                title: Displays.InformationSystem(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.CorporatePlanning,
+                id: "CorporatePlanning",
+                title: Displays.CorporatePlanning(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.HumanResourcesAndGeneralAffairs,
+                id: "HumanResourcesAndGeneralAffairs",
+                title: Displays.HumanResourcesAndGeneralAffairs(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.Education,
+                id: "Education",
+                title: Displays.Education(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.Purchase,
+                id: "Purchase",
+                title: Displays.Purchase(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.Logistics,
+                id: "Logistics",
+                title: Displays.Logistics(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.LegalAffairs,
+                id: "LegalAffairs",
+                title: Displays.LegalAffairs(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.ProductList,
+                id: "ProductList",
+                title: Displays.ProductList(context: context));
+            AddTemplateCategory(
+                categories: categories,
+                sortOrder: template.Classification,
+                id: "Classification",
+                title: Displays.Classification(context: context));
+            return categories;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void AddTemplateCategory(
+            List<object> categories,
+            int sortOrder,
+            string id,
+            string title)
+        {
+            if (sortOrder <= 0)
+            {
+                return;
+            }
+            categories.Add(new
+            {
+                Id = id,
+                Title = title,
+                SortOrder = sortOrder
+            });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static ErrorData CreateByStandardTemplate(
+            Context context,
+            SiteModel siteModel,
+            string templateId,
+            string title)
+        {
+            var templateDefinition = Def.TemplateDefinitionCollection
+                .FirstOrDefault(o => o.Id == templateId);
+            if (templateDefinition == null)
+            {
+                return new ErrorData(type: Error.Types.NotFound);
+            }
+            var templateSs = templateDefinition.SiteSettingsTemplate
+                .DeserializeSiteSettings(context: context);
+            if (templateSs == null)
+            {
+                return new ErrorData(type: Error.Types.NotFound);
+            }
+            siteModel.ReferenceType = templateSs.ReferenceType;
+            siteModel.Title = new Title(title);
+            siteModel.Body = templateDefinition.Body;
+            siteModel.SiteSettings = templateSs;
+            return siteModel.Create(
+                context: context,
+                otherInitValue: true);
         }
 
         /// <summary>
@@ -3911,11 +4300,32 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Editor(Context context, long siteId, bool clearSessions)
         {
-            var siteModel = new SiteModel(
-                context: context,
-                siteId: siteId,
-                clearSessions: clearSessions,
-                methodType: BaseModel.MethodTypes.Edit);
+            SiteModel siteModel;
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                siteModel = new SiteModel()
+                {
+                    TenantId = context.TenantId,
+                    SiteId = siteId
+                };
+                siteModel.Get(
+                    context: context,
+                    tableType: Sqls.TableTypes.NormalAndHistory,
+                    where: Rds.SitesWhereDefault(
+                        context: context,
+                        siteModel: siteModel)
+                            .Sites_Ver(context.QueryStrings.Int("ver")));
+                siteModel.MethodType = BaseModel.MethodTypes.Edit;
+                if (clearSessions) siteModel.ClearSessions(context: context);
+            }
+            else
+            {
+                siteModel = new SiteModel(
+                    context: context,
+                    siteId: siteId,
+                    clearSessions: clearSessions,
+                    methodType: BaseModel.MethodTypes.Edit);
+            }
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context, siteModel: siteModel, referenceId: siteId);
             return Editor(context: context, siteModel: siteModel);
@@ -4073,6 +4483,13 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#FormulasSettingsEditor",
                                         text: Displays.Formulas(context: context)))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#AiProvidersSettingsEditor",
+                                            text: Displays.AiProviders(context: context)),
+                                    _using: Parameters.AiConnect?.Rag.Enabled == true
+                                        && ss.IsTable())
                                 .Li(action: () => hb
                                     .A(
                                         href: "#ProcessesSettingsEditor",
@@ -5629,6 +6046,12 @@ namespace Implem.Pleasanter.Models
                     _using: context.ContractSettings.Remind != false)
                 .Div(
                     attributes: new HtmlAttributes()
+                        .Id("AiProviderDialog")
+                        .Class("dialog")
+                        .Title(Displays.AiProviders(context: context)),
+                    _using: Parameters.AiConnect?.Rag.Enabled == true)
+                .Div(
+                    attributes: new HtmlAttributes()
                         .Id("ExportDialog")
                         .Class("dialog")
                         .Title(Displays.Export(context: context)),
@@ -5928,6 +6351,7 @@ namespace Implem.Pleasanter.Models
                             .ViewsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .NotificationsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .RemindersSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .AiProvidersSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ImportsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ExportsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .CalendarSettingsEditor(context: context, ss: siteModel.SiteSettings)
@@ -14113,6 +14537,321 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder AiProvidersSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            if (Parameters.AiConnect?.Rag.Enabled != true) return hb;
+            return hb.TabsPanelField(id: "AiProvidersSettingsEditor", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpAiProviders",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(context: context),
+                        onClick: "$p.setAndSend('#EditAiProvider', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownAiProviders",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(context: context),
+                        onClick: "$p.setAndSend('#EditAiProvider', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewAiProvider",
+                        text: Displays.New(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.openAiProviderDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "CopyAiProviders",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditAiProvider', $(this));",
+                        icon: "ui-icon-copy",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "DeleteAiProviders",
+                        text: Displays.Delete(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditAiProvider', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .Button(
+                        controlId: "SyncAiProviders",
+                        text: Displays.SyncAiProviders(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditAiProvider', $(this));",
+                        icon: "ui-icon-refresh",
+                        action: "SetSiteSettings",
+                        method: "post",
+                        confirm: Displays.ConfirmSyncAiProviders(context: context))
+                    .FieldCheckBox(
+                        controlId: "AiProvidersAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.AiProvidersAllDisabled == true))
+                .EditAiProvider(context: context, ss: ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditAiProvider(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            var selected = context.Forms.Data("EditAiProvider").Deserialize<IEnumerable<int>>();
+            return hb.GridTable(
+                context: context,
+                id: "EditAiProvider",
+                attributes: new HtmlAttributes()
+                    .DataName("AiProviderId")
+                    .DataFunc("openAiProviderDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditAiProviderHeader(
+                        context: context,
+                        ss: ss,
+                        selected: selected)
+                    .EditAiProviderBody(
+                        context: context,
+                        ss: ss,
+                        selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditAiProviderHeader(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.AiProviders?.Any() == true && ss.AiProviders?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Title(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AiProviderFormat(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AiProviderProviderType(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AiProviderConnectionSetting(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditAiProviderBody(
+            this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => ss.AiProviders?.ForEach(aiProvider =>
+            {
+                hb.Tr(
+                    css: "grid-row",
+                    attributes: new HtmlAttributes()
+                        .DataId(aiProvider.Id.ToString()),
+                    action: () => hb
+                        .Td(action: () => hb
+                            .CheckBox(
+                                controlCss: "select",
+                                _checked: selected?
+                                    .Contains(aiProvider.Id) == true))
+                        .Td(action: () => hb
+                            .Text(text: aiProvider.Id.ToString()))
+                        .Td(action: () => hb
+                            .Text(text: aiProvider.Title))
+                        .Td(action: () => hb
+                            .Text(text: AiProviderFormatText(format: aiProvider.Format)))
+                        .Td(action: () => hb
+                            .Text(text: AiProviderProviderTypeText(
+                                context: context,
+                                aiProvider: aiProvider)))
+                        .Td(action: () => hb
+                            .Text(text: AiProviderConnectionSettingText(aiProvider: aiProvider)))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: aiProvider.Disabled == true)));
+            }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string AiProviderFormatText(string format)
+        {
+            var text = format
+                ?.Replace("\r\n", string.Empty)
+                .Replace("\r", string.Empty)
+                .Replace("\n", string.Empty);
+            if (text.IsNullOrEmpty()) return string.Empty;
+            return text.Length > 50
+                ? text.Substring(0, 50) + "..."
+                : text;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string AiProviderProviderTypeText(Context context, AiProvider aiProvider)
+        {
+            return AiProviderUtilities.ProviderTypes(context: context)
+                .TryGetValue(aiProvider.ProviderType ?? string.Empty, out var text)
+                    ? text
+                    : aiProvider.ProviderType;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string AiProviderConnectionSettingText(AiProvider aiProvider)
+        {
+            return AiProviderUtilities.ConnectionSettingText(aiProvider: aiProvider);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder AiProviderDialog(
+            Context context, SiteSettings ss, string controlId, AiProvider aiProvider)
+        {
+            var hb = new HtmlBuilder();
+            var requireConnectionSetting = AiProviderUtilities.RequireConnectionSetting(
+                providerType: aiProvider.ProviderType);
+            string hiddenCss(bool hide) => hide ? " hidden" : string.Empty;
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("AiProviderForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "AiProviderId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: aiProvider.Id.ToString(),
+                        _using: controlId == "EditAiProvider")
+                    .FieldTextBox(
+                        controlId: "AiProviderTitle",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Title(context: context),
+                        text: aiProvider.Title,
+                        validateRequired: true)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        controlId: "AiProviderFormat",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.AiProviderFormat(context: context),
+                        text: aiProvider.Format,
+                        validateRequired: true)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "AiProviderProviderType",
+                        controlCss: " always-send",
+                        labelText: Displays.AiProviderProviderType(context: context),
+                        optionCollection: AiProviderUtilities.ProviderTypes(context: context),
+                        selectedValue: aiProvider.ProviderType)
+                    .Hidden(
+                        controlId: "AiProviderConnectionSettingRequiredList",
+                        value: AiProviderUtilities.ConnectionSettingRequiredTypes())
+                    .Hidden(
+                        controlId: "AiProviderConnectionSettingInitialList",
+                        value: AiProviderConnectionSettingInitialList(
+                            context: context,
+                            aiProvider: aiProvider))
+                    .FieldCodeEditor(
+                        context: context,
+                        fieldId: "AiProviderConnectionSettingField",
+                        controlId: "AiProviderConnectionSetting",
+                        fieldCss: "field-wide" + hiddenCss(requireConnectionSetting == false),
+                        controlCss: " always-send",
+                        labelText: Displays.AiProviderConnectionSetting(context: context),
+                        text: AiProviderUtilities.MaskedConnectionSetting(aiProvider: aiProvider),
+                        dataLang: "json",
+                        validateRequired: requireConnectionSetting)
+                    .FieldCheckBox(
+                        controlId: "AiProviderDisabled",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: aiProvider.Disabled == true)
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddAiProvider",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate button-positive",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setAiProvider($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewAiProvider")
+                        .Button(
+                            controlId: "UpdateAiProvider",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate button-positive",
+                            onClick: "$p.setAiProvider($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditAiProvider")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon button-neutral",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string AiProviderConnectionSettingInitialList(
+            Context context,
+            AiProvider aiProvider)
+        {
+            var initialList = new Dictionary<string, string>();
+            foreach (var providerType in AiProviderUtilities.ProviderTypes(context: context).Keys)
+            {
+                initialList.Add(
+                    providerType,
+                    AiProviderUtilities.ConnectionSettingTemplate(
+                        providerType: providerType));
+            }
+            if (aiProvider.ProviderType != null
+                && initialList.ContainsKey(aiProvider.ProviderType))
+            {
+                initialList[aiProvider.ProviderType] = AiProviderUtilities.MaskedConnectionSetting(
+                    aiProvider: aiProvider)
+                    ?? string.Empty;
+            }
+            return initialList.ToJson();
         }
 
         /// <summary>

@@ -85,6 +85,14 @@ namespace Implem.Pleasanter.Models
         public bool EnableSecretKey = false;
         public Time LoginExpirationLimit = new Time();
         public int LoginExpirationPeriod = 0;
+        public string ScimId = string.Empty;
+        public string ScimExternalId = string.Empty;
+        public bool ScimSync = false;
+        public string UiType = string.Empty;
+        public string UiColorScheme = string.Empty;
+        public string UiMainColor = string.Empty;
+        public string UiSubColor = string.Empty;
+        public string UiBackgroundColor = string.Empty;
 
         public TimeZoneInfo TimeZoneInfo
         {
@@ -169,6 +177,14 @@ namespace Implem.Pleasanter.Models
         public bool SavedEnableSecretKey = false;
         public DateTime SavedLoginExpirationLimit = 0.ToDateTime();
         public int SavedLoginExpirationPeriod = 0;
+        public string SavedScimId = string.Empty;
+        public string SavedScimExternalId = string.Empty;
+        public bool SavedScimSync = false;
+        public string SavedUiType = string.Empty;
+        public string SavedUiColorScheme = string.Empty;
+        public string SavedUiMainColor = string.Empty;
+        public string SavedUiSubColor = string.Empty;
+        public string SavedUiBackgroundColor = string.Empty;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -648,6 +664,102 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToInt() != LoginExpirationPeriod);
+        }
+
+        public bool ScimId_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ScimId;
+            }
+            return ScimId != SavedScimId && ScimId != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ScimId);
+        }
+
+        public bool ScimExternalId_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ScimExternalId;
+            }
+            return ScimExternalId != SavedScimExternalId && ScimExternalId != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ScimExternalId);
+        }
+
+        public bool ScimSync_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != ScimSync;
+            }
+            return ScimSync != SavedScimSync
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != ScimSync);
+        }
+
+        public bool UiType_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UiType;
+            }
+            return UiType != SavedUiType && UiType != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UiType);
+        }
+
+        public bool UiColorScheme_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UiColorScheme;
+            }
+            return UiColorScheme != SavedUiColorScheme && UiColorScheme != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UiColorScheme);
+        }
+
+        public bool UiMainColor_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UiMainColor;
+            }
+            return UiMainColor != SavedUiMainColor && UiMainColor != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UiMainColor);
+        }
+
+        public bool UiSubColor_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UiSubColor;
+            }
+            return UiSubColor != SavedUiSubColor && UiSubColor != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UiSubColor);
+        }
+
+        public bool UiBackgroundColor_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UiBackgroundColor;
+            }
+            return UiBackgroundColor != SavedUiBackgroundColor && UiBackgroundColor != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UiBackgroundColor);
         }
 
         public bool Birthday_Updated(Context context, bool copy = false, Column column = null)
@@ -1403,6 +1515,102 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "ScimId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ScimId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ScimExternalId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ScimExternalId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ScimSync":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ScimSync.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UiType":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UiType.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UiColorScheme":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UiColorScheme.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UiMainColor":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UiMainColor.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UiSubColor":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UiSubColor.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UiBackgroundColor":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UiBackgroundColor.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "Comments":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -1773,6 +1981,14 @@ namespace Implem.Pleasanter.Models
                     case "EnableSecretKey": data.EnableSecretKey = EnableSecretKey; break;
                     case "LoginExpirationLimit": data.LoginExpirationLimit = LoginExpirationLimit.Value.ToLocal(context: context); break;
                     case "LoginExpirationPeriod": data.LoginExpirationPeriod = LoginExpirationPeriod; break;
+                    case "ScimId": data.ScimId = ScimId; break;
+                    case "ScimExternalId": data.ScimExternalId = ScimExternalId; break;
+                    case "ScimSync": data.ScimSync = ScimSync; break;
+                    case "UiType": data.UiType = UiType; break;
+                    case "UiColorScheme": data.UiColorScheme = UiColorScheme; break;
+                    case "UiMainColor": data.UiMainColor = UiMainColor; break;
+                    case "UiSubColor": data.UiSubColor = UiSubColor; break;
+                    case "UiBackgroundColor": data.UiBackgroundColor = UiBackgroundColor; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -2068,6 +2284,46 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "LoginExpirationPeriod":
                     return LoginExpirationPeriod.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimId":
+                    return ScimId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimExternalId":
+                    return ScimExternalId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimSync":
+                    return ScimSync.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiType":
+                    return UiType.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiColorScheme":
+                    return UiColorScheme.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiMainColor":
+                    return UiMainColor.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiSubColor":
+                    return UiSubColor.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiBackgroundColor":
+                    return UiBackgroundColor.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2457,6 +2713,46 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "ScimId":
+                    return ScimId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimExternalId":
+                    return ScimExternalId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimSync":
+                    return ScimSync.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiType":
+                    return UiType.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiColorScheme":
+                    return UiColorScheme.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiMainColor":
+                    return UiMainColor.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiSubColor":
+                    return UiSubColor.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiBackgroundColor":
+                    return UiBackgroundColor.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Comments":
                     return Comments.ToApiDisplayValue(
                         context: context,
@@ -2840,6 +3136,46 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "LoginExpirationPeriod":
                     return LoginExpirationPeriod.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimId":
+                    return ScimId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimExternalId":
+                    return ScimExternalId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimSync":
+                    return ScimSync.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiType":
+                    return UiType.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiColorScheme":
+                    return UiColorScheme.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiMainColor":
+                    return UiMainColor.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiSubColor":
+                    return UiSubColor.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiBackgroundColor":
+                    return UiBackgroundColor.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -3323,6 +3659,14 @@ namespace Implem.Pleasanter.Models
                     case "Users_EnableSecretKey": EnableSecretKey = value.ToBool(); break;
                     case "Users_LoginExpirationLimit": LoginExpirationLimit = new Time(context, value.ToDateTime(), byForm: true); break;
                     case "Users_LoginExpirationPeriod": LoginExpirationPeriod = value.ToInt(); break;
+                    case "Users_ScimId": ScimId = value.ToString(); break;
+                    case "Users_ScimExternalId": ScimExternalId = value.ToString(); break;
+                    case "Users_ScimSync": ScimSync = value.ToBool(); break;
+                    case "Users_UiType": UiType = value.ToString(); break;
+                    case "Users_UiColorScheme": UiColorScheme = value.ToString(); break;
+                    case "Users_UiMainColor": UiMainColor = value.ToString(); break;
+                    case "Users_UiSubColor": UiSubColor = value.ToString(); break;
+                    case "Users_UiBackgroundColor": UiBackgroundColor = value.ToString(); break;
                     case "Users_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -3445,6 +3789,14 @@ namespace Implem.Pleasanter.Models
             EnableSecretKey = userModel.EnableSecretKey;
             LoginExpirationLimit = userModel.LoginExpirationLimit;
             LoginExpirationPeriod = userModel.LoginExpirationPeriod;
+            ScimId = userModel.ScimId;
+            ScimExternalId = userModel.ScimExternalId;
+            ScimSync = userModel.ScimSync;
+            UiType = userModel.UiType;
+            UiColorScheme = userModel.UiColorScheme;
+            UiMainColor = userModel.UiMainColor;
+            UiSubColor = userModel.UiSubColor;
+            UiBackgroundColor = userModel.UiBackgroundColor;
             Comments = userModel.Comments;
             Creator = userModel.Creator;
             Updator = userModel.Updator;
@@ -3503,6 +3855,14 @@ namespace Implem.Pleasanter.Models
             if (data.EnableSecretKey != null) EnableSecretKey = data.EnableSecretKey.ToBool().ToBool();
             if (data.LoginExpirationLimit != null) LoginExpirationLimit = new Time(context, data.LoginExpirationLimit.ToDateTime(), byForm: true);
             if (data.LoginExpirationPeriod != null) LoginExpirationPeriod = data.LoginExpirationPeriod.ToInt().ToInt();
+            if (data.ScimId != null) ScimId = data.ScimId.ToString().ToString();
+            if (data.ScimExternalId != null) ScimExternalId = data.ScimExternalId.ToString().ToString();
+            if (data.ScimSync != null) ScimSync = data.ScimSync.ToBool().ToBool();
+            if (data.UiType != null) UiType = data.UiType.ToString().ToString();
+            if (data.UiColorScheme != null) UiColorScheme = data.UiColorScheme.ToString().ToString();
+            if (data.UiMainColor != null) UiMainColor = data.UiMainColor.ToString().ToString();
+            if (data.UiSubColor != null) UiSubColor = data.UiSubColor.ToString().ToString();
+            if (data.UiBackgroundColor != null) UiBackgroundColor = data.UiBackgroundColor.ToString().ToString();
             if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
@@ -3848,6 +4208,38 @@ namespace Implem.Pleasanter.Models
                             LoginExpirationPeriod = dataRow[column.ColumnName].ToInt();
                             SavedLoginExpirationPeriod = LoginExpirationPeriod;
                             break;
+                        case "ScimId":
+                            ScimId = dataRow[column.ColumnName].ToString();
+                            SavedScimId = ScimId;
+                            break;
+                        case "ScimExternalId":
+                            ScimExternalId = dataRow[column.ColumnName].ToString();
+                            SavedScimExternalId = ScimExternalId;
+                            break;
+                        case "ScimSync":
+                            ScimSync = dataRow[column.ColumnName].ToBool();
+                            SavedScimSync = ScimSync;
+                            break;
+                        case "UiType":
+                            UiType = dataRow[column.ColumnName].ToString();
+                            SavedUiType = UiType;
+                            break;
+                        case "UiColorScheme":
+                            UiColorScheme = dataRow[column.ColumnName].ToString();
+                            SavedUiColorScheme = UiColorScheme;
+                            break;
+                        case "UiMainColor":
+                            UiMainColor = dataRow[column.ColumnName].ToString();
+                            SavedUiMainColor = UiMainColor;
+                            break;
+                        case "UiSubColor":
+                            UiSubColor = dataRow[column.ColumnName].ToString();
+                            SavedUiSubColor = UiSubColor;
+                            break;
+                        case "UiBackgroundColor":
+                            UiBackgroundColor = dataRow[column.ColumnName].ToString();
+                            SavedUiBackgroundColor = UiBackgroundColor;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -3984,6 +4376,14 @@ namespace Implem.Pleasanter.Models
                 || EnableSecretKey_Updated(context: context)
                 || LoginExpirationLimit_Updated(context: context)
                 || LoginExpirationPeriod_Updated(context: context)
+                || ScimId_Updated(context: context)
+                || ScimExternalId_Updated(context: context)
+                || ScimSync_Updated(context: context)
+                || UiType_Updated(context: context)
+                || UiColorScheme_Updated(context: context)
+                || UiMainColor_Updated(context: context)
+                || UiSubColor_Updated(context: context)
+                || UiBackgroundColor_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -4073,6 +4473,14 @@ namespace Implem.Pleasanter.Models
                 || EnableSecretKey_Updated(context: context)
                 || LoginExpirationLimit_Updated(context: context)
                 || LoginExpirationPeriod_Updated(context: context)
+                || ScimId_Updated(context: context)
+                || ScimExternalId_Updated(context: context)
+                || ScimSync_Updated(context: context)
+                || UiType_Updated(context: context)
+                || UiColorScheme_Updated(context: context)
+                || UiMainColor_Updated(context: context)
+                || UiSubColor_Updated(context: context)
+                || UiBackgroundColor_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);

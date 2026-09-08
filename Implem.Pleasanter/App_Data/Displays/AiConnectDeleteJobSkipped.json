@@ -1,0 +1,33 @@
+{
+    "Id": "AiConnectDeleteJobSkipped",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No target for the AI connection deletion was found, so the process was skipped."
+        },
+        {
+            "Language": "zh",
+            "Body": "未找到AI集成删除的对象，因此未执行处理。"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携の削除の対象が見つからなかったため、処理を行いませんでした。"
+        },
+        {
+            "Language": "de",
+            "Body": "Es wurde kein Ziel für die Löschung der KI-Verbindung gefunden, daher wurde der Vorgang übersprungen."
+        },
+        {
+            "Language": "ko",
+            "Body": "AI 연계 삭제 대상을 찾을 수 없어 처리를 수행하지 않았습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se encontró el objetivo de la eliminación de la conexión de IA, por lo que no se realizó el proceso."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không tìm thấy đối tượng xóa kết nối AI nên đã bỏ qua xử lý."
+        }
+    ]
+}

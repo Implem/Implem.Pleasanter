@@ -337,13 +337,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context)
         {
             var result = new Dictionary<string, ControlData>();
-            foreach (var jobType in BackgroundJobQueue.JobTypes())
+            foreach (var filterValue in BackgroundJobQueue.JobTypeFilterValues())
             {
                 result.Add(
-                    jobType,
-                    new ControlData(GetJobTypeLabel(
+                    filterValue,
+                    new ControlData(BackgroundJobQueue.GetJobTypeFilterLabel(
                         context: context,
-                        jobType: jobType)));
+                        filterValue: filterValue)));
             }
             return result;
         }

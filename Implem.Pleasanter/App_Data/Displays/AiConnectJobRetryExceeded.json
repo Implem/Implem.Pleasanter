@@ -1,0 +1,33 @@
+{
+    "Id": "AiConnectJobRetryExceeded",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The AI connection failed to send. The retry limit has been reached."
+        },
+        {
+            "Language": "zh",
+            "Body": "AI集成发送失败。已达到重试上限。"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携の送信に失敗しました。再試行の上限に達しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Versand der KI-Verbindung ist fehlgeschlagen. Das Wiederholungslimit wurde erreicht."
+        },
+        {
+            "Language": "ko",
+            "Body": "AI 연계 전송에 실패했습니다. 재시도 상한에 도달했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Error al enviar la conexión de IA. Se ha alcanzado el límite de reintentos."
+        },
+        {
+            "Language": "vn",
+            "Body": "Gửi kết nối AI không thành công. Đã đạt giới hạn thử lại."
+        }
+    ]
+}

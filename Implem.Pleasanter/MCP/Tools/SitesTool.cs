@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.MCP.McpContext;
 using Implem.Pleasanter.MCP.Models;
@@ -19,11 +20,112 @@ namespace Implem.Pleasanter.MCP.Tools
 Pleasanter のサイト（テーブル定義）を管理するツール群です。
 
 【検索】GetSiteIdByTitle でサイト名からサイト ID を特定
+【テンプレート一覧】GetSiteTemplates でサイトテンプレート一覧を取得（全カテゴリ＋ユーザーテンプレート）
+【テンプレート作成】AddSiteByTemplate でテンプレートからサイトを作成
 【取得】GetSite でサイトの設定情報を取得
 【更新】UpdateSite でサイトの設定を更新")]
     public class SitesTool
     {
         private const string ClassName = nameof(SitesTool);
+
+        [McpServerTool(Name = "GetSiteTemplates")]
+        [Description(@"
+利用可能なサイトテンプレート一覧を取得します。
+全カテゴリの定義テンプレートおよびユーザーテンプレート（カスタムアプリ）を含みます。
+各テンプレートの ID、タイトル、説明、ReferenceType、カテゴリ情報、IsUserTemplate を返します。
+IsUserTemplate が true のテンプレートは AddSiteByTemplate で title を指定しても無視されます。")]
+        public static Task<CallToolResult> GetSiteTemplates()
+        {
+            var toolPermission = new ToolPermission(nameof(GetSiteTemplates));
+            if (toolPermission.IsDenied())
+            {
+                return Task.FromResult(toolPermission.CreateDeniedResult());
+            }
+            using var scope = new McpExecutionScope(
+                mcpClass: ClassName,
+                mcpMethod: nameof(GetSiteTemplates));
+            var context = CreateContext();
+
+            try
+            {
+                if (IsToolExecutionDenied(
+                        context: context,
+                        result: out var errorResult))
+                {
+                    return Task.FromResult(errorResult);
+                }
+
+                var result = SiteUtilities.GetSiteTemplatesByApi(context: context);
+                return Task.FromResult(
+                    CallToolResultUtilities.ToCallToolResult(
+                        context: context,
+                        result: result));
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(
+                    CallToolResultUtilities.ToError(
+                        context: context,
+                        type: Error.Types.InternalServerError,
+                        data: ex.Message));
+            }
+        }
+
+        [McpServerTool(Name = "AddSiteByTemplate")]
+        [Description(@"
+指定した親サイト配下に、テンプレートから新しいサイトを作成します。
+templateId は GetSiteTemplates で取得した ID を指定します。
+定義テンプレートとユーザーテンプレート（UserTemplate で始まる ID）の両方に対応します。
+ユーザーテンプレートの場合、title は無視されテンプレート保存時のタイトルが使用されます。")]
+        public static Task<CallToolResult> AddSiteByTemplate(
+            [Description(@"親サイト ID。トップサイト直下に作成する場合は 0。")]
+                long siteId,
+            [Description(@"使用するテンプレート ID。GetSiteTemplates で取得。")]
+                string templateId,
+            [Description(@"作成するサイトのタイトル。
+定義テンプレート（IsUserTemplate = false）の場合は必須です。
+ユーザーテンプレート（IsUserTemplate = true。ID が UserTemplate で始まるカスタムアプリ）の
+場合は指定しても無視され、テンプレート保存時のタイトルが使用されます。")]
+                string title = "")
+        {
+            var toolPermission = new ToolPermission(nameof(AddSiteByTemplate));
+            if (toolPermission.IsDenied())
+            {
+                return Task.FromResult(toolPermission.CreateDeniedResult());
+            }
+            using var scope = new McpExecutionScope(
+                mcpClass: ClassName,
+                mcpMethod: nameof(AddSiteByTemplate));
+            var context = CreateContext(siteId: siteId);
+
+            try
+            {
+                if (IsToolExecutionDenied(
+                        context: context,
+                        result: out var errorResult))
+                {
+                    return Task.FromResult(errorResult);
+                }
+
+                var result = SiteUtilities.CreateByTemplateByApi(
+                    context: context,
+                    parentId: siteId,
+                    templateId: templateId,
+                    title: title);
+                return Task.FromResult(
+                    CallToolResultUtilities.ToCallToolResult(
+                        context: context,
+                        result: result));
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(
+                    CallToolResultUtilities.ToError(
+                        context: context,
+                        type: Error.Types.InternalServerError,
+                        data: ex.Message));
+            }
+        }
 
         [McpServerTool(Name = "GetSite")]
         [Description(@"
@@ -101,23 +203,11 @@ Title, ReferenceType, ParentId, InheritPermission, SiteSettings 等を更新可�
 
             try
             {
-                if (!context.Authenticated)
+                if (IsToolExecutionDenied(
+                        context: context,
+                        result: out var errorResult))
                 {
-                    return CallToolResultUtilities.ToError(
-                        context: context,
-                        type: Error.Types.Unauthorized);
-                }
-
-                if (!TenantQuotaUsagesUtilities.TryWithinQuotaKeyLimit(
-                        context: context,
-                        quotaKey: QuotaKeys.McpRequests,
-                        errorType: out var errorType,
-                        errorData: out var errorData))
-                {
-                    return CallToolResultUtilities.ToError(
-                        context: context,
-                        type: errorType,
-                        data: errorData ?? Array.Empty<string>());
+                    return errorResult;
                 }
 
                 var itemModel = new ItemModel(
@@ -157,6 +247,33 @@ Title, ReferenceType, ParentId, InheritPermission, SiteSettings 等を更新可�
                     type: Error.Types.InternalServerError,
                     data: ex.Message);
             }
+        }
+
+        private static bool IsToolExecutionDenied(
+            Context context,
+            out CallToolResult result)
+        {
+            if (context.Authenticated)
+            {
+                if (TenantQuotaUsagesUtilities.TryWithinQuotaKeyLimit(
+                        context: context,
+                        quotaKey: QuotaKeys.McpRequests,
+                        errorType: out var errorType,
+                        errorData: out var errorData))
+                {
+                    result = null;
+                    return false;
+                }
+                result = CallToolResultUtilities.ToError(
+                    context: context,
+                    type: errorType,
+                    data: errorData ?? Array.Empty<string>());
+                return true;
+            }
+            result = CallToolResultUtilities.ToError(
+                context: context,
+                type: Error.Types.Unauthorized);
+            return true;
         }
     }
 }

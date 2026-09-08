@@ -858,20 +858,21 @@
             position: relative;
             z-index: 0;
             float: none;
+            display: block;
             width: 100%;
+            max-height: none;
             padding: 0;
             #CommentField {
-                position: sticky;
+                position: static;
                 top: 40px;
                 z-index: 3;
                 padding: 16px 16px 8px;
                 margin: 0;
                 background-color: var(--primarySub02);
                 border-bottom: 1px solid var(--nonColor10);
-                .control-textarea {
-                    width: 100%;
-                    min-height: 3lh;
-                    max-height: 6lh;
+                .md-editor,
+                .md-viewer {
+                    max-height: none;
                 }
             }
             .comment {
@@ -906,6 +907,8 @@
                 display: flex;
                 flex-direction: column;
                 gap: 18px;
+                padding: 0;
+                overflow: visible;
                 &:not(:empty) {
                     padding: 16px;
                 }

@@ -419,6 +419,9 @@ namespace Implem.CodeDefiner
             }
             catch (Microsoft.Data.SqlClient.SqlException e)
             {
+                ExitIfCertificateError(
+                    factory: factory,
+                    dbException: e);
                 Consoles.Write(
                     text: $"[{e.Number}] {e.Message}",
                     type: Consoles.Types.Error,
@@ -437,14 +440,34 @@ namespace Implem.CodeDefiner
         {
             int number;
             string message;
+            DbException dbException;
             if (!Sqls.TryOpenConnections(
                 factory,
-                out number, out message, Parameters.Rds.SaConnectionString))
+                out number, out message, out dbException, Parameters.Rds.SaConnectionString))
             {
+                ExitIfCertificateError(
+                    factory: factory,
+                    dbException: dbException);
                 Consoles.Write($"[{number}] {message}", Consoles.Types.Error, true);
                 return false;
             }
             return true;
+        }
+
+        private static void ExitIfCertificateError(
+            ISqlObjectFactory factory,
+            DbException dbException)
+        {
+            if (dbException == null
+                || !factory.SqlErrors.IsCertificateError(dbException))
+            {
+                return;
+            }
+            Consoles.Write(
+                text: "The TLS certificate of the database server could not be validated.",
+                type: Consoles.Types.Error);
+            Trace.Flush();
+            Environment.Exit(CodeDefinerExitCodes.SqlServerCertificateError);
         }
 
         private static void CreateDefinitionAccessorCode()
@@ -595,6 +618,9 @@ namespace Implem.CodeDefiner
             }
             catch (Microsoft.Data.SqlClient.SqlException e)
             {
+                ExitIfCertificateError(
+                    factory: factory,
+                    dbException: e);
                 Consoles.Write(
                     text: $"[{e.Number}] {e.Message}",
                     type: Consoles.Types.Error,

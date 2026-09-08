@@ -8,13 +8,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class File
     {
-        public static void DeleteTemp(Context context, string guid)
+        public static void DeleteTemp(
+            Context context,
+            string guid,
+            bool deleteLocal = false)
         {
             if (!Validators.IsValidGuid(guid))
             {
                 return;
             }
-            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == BinaryStorageProviderNames.Rds)
+            if (!deleteLocal
+                && Parameters.BinaryStorage.TemporaryBinaryStorageProvider == BinaryStorageProviderNames.Rds)
             {
                 Repository.ExecuteNonQuery(
                     context: context,

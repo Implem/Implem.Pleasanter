@@ -25,6 +25,8 @@ Pleasanter MCP ツール概要
 
 ■ サイト操作(SitesTool)
   GetSiteIdByTitle: サイト名→サイトID検索
+  GetSiteTemplates: サイトテンプレート一覧取得(全カテゴリ＋ユーザーテンプレート)
+  AddSiteByTemplate: テンプレートからサイト作成(定義テンプレート/ユーザーテンプレート両対応。ユーザーテンプレートはtitle無視)
   GetSite: サイト設定取得(項目定義・選択肢等の確認)
 
 ■ ユーザー操作(UsersTool)
@@ -40,6 +42,7 @@ Pleasanter MCP ツール概要
 
 ■ 推奨ワークフロー
   検索: GetSiteIdByTitle → CreateViewJson → GetItems
+  サイト作成: GetSiteTemplates → AddSiteByTemplate
   作成: CreateItemJson → AddItem
   更新: GetItem → CreateItemJson → UpdateItem
   削除: DeleteItem

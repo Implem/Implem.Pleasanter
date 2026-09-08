@@ -1,0 +1,33 @@
+{
+    "Id": "AiConnectJobRetryEnqueued",
+    "Type": 230,
+    "Languages": [
+        {
+            "Body": "The AI connection failed to send. A retry has been registered. (ID:{0})"
+        },
+        {
+            "Language": "zh",
+            "Body": "AI集成发送失败，已注册重试。(ID:{0})"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携の送信に失敗したため、再試行を登録しました。(ID:{0})"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Versand der KI-Verbindung ist fehlgeschlagen. Ein Wiederholungsversuch wurde registriert. (ID:{0})"
+        },
+        {
+            "Language": "ko",
+            "Body": "AI 연계 전송에 실패하여 재시도를 등록했습니다. (ID:{0})"
+        },
+        {
+            "Language": "es",
+            "Body": "Error al enviar la conexión de IA. Se ha registrado un reintento. (ID:{0})"
+        },
+        {
+            "Language": "vn",
+            "Body": "Gửi kết nối AI không thành công. Đã đăng ký thử lại. (ID:{0})"
+        }
+    ]
+}

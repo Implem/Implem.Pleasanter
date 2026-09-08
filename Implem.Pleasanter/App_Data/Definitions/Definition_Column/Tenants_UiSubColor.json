@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Tenants_UiSubColor",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "UiSubColor",
+    "LabelText": "サブカラー",
+    "No": "128",
+    "History": "128",
+    "TypeName": "nvarchar",
+    "MaxLength": "7",
+    "Nullable": "1",
+    "LabelText_en": "Sub Color",
+    "LabelText_zh": "副颜色",
+    "LabelText_de": "Nebenfarbe",
+    "LabelText_ko": "서브 색상",
+    "LabelText_es": "Color secundario",
+    "LabelText_vn": "Màu phụ"
+}

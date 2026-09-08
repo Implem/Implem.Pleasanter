@@ -1753,6 +1753,102 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool CreateByServerScript(
+            Context context,
+            SiteSettings ss,
+            int deptId)
+        {
+            var deptApiModel = context.RequestDataString.Deserialize<DeptApiModel>();
+            if (deptApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var deptModel = new DeptModel(
+                context: context,
+                ss: ss,
+                deptId: deptId,
+                deptApiModel: deptApiModel);
+            var invalid = DeptValidators.OnCreating(
+                context: context,
+                ss: ss,
+                deptModel: deptModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            deptModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: deptModel);
+            var errorData = deptModel.Create(
+                context: context,
+                ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool UpdateByServerScript(
+            Context context,
+            SiteSettings ss,
+            int deptId)
+        {
+            var deptApiModel = context.RequestDataString.Deserialize<DeptApiModel>();
+            if (deptApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var deptModel = new DeptModel(
+                context: context,
+                ss: ss,
+                deptId: deptId,
+                deptApiModel: deptApiModel);
+            if (deptModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return false;
+            }
+            var invalid = DeptValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                deptModel: deptModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            deptModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: deptModel);
+            var errorData = deptModel.Update(
+                context: context,
+                ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         public static string Delete(Context context, SiteSettings ss, int deptId)
         {
             var deptModel = new DeptModel(context, ss, deptId);

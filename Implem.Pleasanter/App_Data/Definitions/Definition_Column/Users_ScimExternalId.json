@@ -1,0 +1,20 @@
+{
+    "Id": "Users_ScimExternalId",
+    "ModelName": "User",
+    "TableName": "Users",
+    "Label": "ユーザ",
+    "ColumnName": "ScimExternalId",
+    "LabelText": "SCIM externalId",
+    "No": "162",
+    "History": "162",
+    "LinkColumn": "162",
+    "HistoryColumn": "162",
+    "TypeName": "nvarchar",
+    "MaxLength": "256",
+    "Nullable": "1",
+    "Ix2": "1",
+    "ControlCss": " not-send",
+    "EditorReadOnly": "1",
+    "LabelText_en": "SCIM externalId",
+    "LabelText_zh": "SCIM externalId"
+}

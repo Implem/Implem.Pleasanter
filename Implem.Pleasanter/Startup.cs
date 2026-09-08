@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.BackgroundServices;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Scim;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -269,8 +270,6 @@ namespace Implem.Pleasanter.NetCore
             });
             services.AddHostedService<ApplicationWarmupHostedService>();
             services.AddHostedService<CustomQuartzHostedService>();
-            new TimerBackground().Init();
-            BackgroundServerScriptUtilities.InitSchedule();
             var blobContainerUri = Parameters.Security.AspNetCoreDataProtection?.BlobContainerUri;
             var keyIdentifier = Parameters.Security.AspNetCoreDataProtection?.KeyIdentifier;
             var keyValueStoreConnectionString = Parameters.Security.AspNetCoreDataProtection?.KeyValueStoreConnectionString;
@@ -529,6 +528,16 @@ namespace Implem.Pleasanter.NetCore
             app.UseStatusCodePages(context =>
             {
                 var statusCode = context.HttpContext.Response.StatusCode;
+                if (IsScimStatusCodePage(context.HttpContext.Request, statusCode))
+                {
+                    var error = ScimResponse.Error(
+                        statusCode: statusCode,
+                        detail: statusCode == StatusCodes.Status404NotFound
+                            ? "Resource not found"
+                            : "Method not allowed");
+                    context.HttpContext.Response.ContentType = error.ContentType;
+                    return context.HttpContext.Response.WriteAsync(error.Content);
+                }
                 var isAjax401 = statusCode == 401
                     && !context.HttpContext.User.Identity.IsAuthenticated
                     && context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
@@ -564,6 +573,33 @@ namespace Implem.Pleasanter.NetCore
             app.UsePathBase(configuration["pathBase"]);
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            if (ScimSwaggerEnabled())
+            {
+                const string scimSwaggerJsonPath = "/scim/swagger/v1/swagger.json";
+                app.Map(scimSwaggerJsonPath, appBuilder =>
+                {
+                    appBuilder.Run(async context =>
+                    {
+                        var pathBase = context.Request.PathBase.Value;
+                        if (pathBase?.EndsWith(scimSwaggerJsonPath, StringComparison.OrdinalIgnoreCase) == true)
+                        {
+                            pathBase = pathBase[..^scimSwaggerJsonPath.Length];
+                        }
+                        context.Response.ContentType = "application/json; charset=utf-8";
+                        await context.Response.WriteAsync(
+                            ScimOpenApiDocument
+                                .Create($"{context.Request.Scheme}://{context.Request.Host}{pathBase}")
+                                .ToString(Newtonsoft.Json.Formatting.None));
+                    });
+                });
+                app.UseSwaggerUI(options =>
+                {
+                    options.RoutePrefix = "scim/swagger";
+                    options.SwaggerEndpoint("v1/swagger.json", "Pleasanter SCIM API v1");
+                    options.DocumentTitle = "Pleasanter SCIM API";
+                    options.DisplayRequestDuration();
+                });
+            }
             app.UseRouting();
 
             if (env.IsDevelopment())
@@ -763,6 +799,11 @@ namespace Implem.Pleasanter.NetCore
             });
         }
 
+        private static bool ScimSwaggerEnabled()
+        {
+            return ScimFeatureUtilities.SwaggerEnabled();
+        }
+
         private static Context InitializeContext()
         {
             return new Context(
@@ -823,6 +864,23 @@ namespace Implem.Pleasanter.NetCore
             var context = new Context();
             var log = new SysLogModel(context: context);
             log.Finish(context: context);
+        }
+
+        private bool IsScimStatusCodePage(HttpRequest request, int statusCode)
+        {
+            if (statusCode != StatusCodes.Status404NotFound
+                && statusCode != StatusCodes.Status405MethodNotAllowed)
+            {
+                return false;
+            }
+            if (request.Path.StartsWithSegments("/scim"))
+            {
+                return true;
+            }
+            var pathBase = configuration["pathBase"];
+            return !string.IsNullOrWhiteSpace(pathBase)
+                && request.Path.StartsWithSegments(pathBase, out var remainingPath)
+                && remainingPath.StartsWithSegments("/scim");
         }
 
         private string CreateNonceValue()

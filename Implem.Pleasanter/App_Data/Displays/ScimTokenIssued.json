@@ -1,0 +1,33 @@
+{
+    "Id": "ScimTokenIssued",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "SCIM token has been issued."
+        },
+        {
+            "Language": "zh",
+            "Body": "已发行SCIM令牌。"
+        },
+        {
+            "Language": "ja",
+            "Body": "SCIMトークンを発行しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "SCIM-Token wurde ausgestellt."
+        },
+        {
+            "Language": "ko",
+            "Body": "SCIM 토큰이 발급되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha emitido el token SCIM."
+        },
+        {
+            "Language": "vn",
+            "Body": "Token SCIM đã được phát hành."
+        }
+    ]
+}

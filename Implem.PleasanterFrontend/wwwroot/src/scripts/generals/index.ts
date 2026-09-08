@@ -30,6 +30,7 @@ import './confirm.js';
 import './confirmevents.js';
 import './controloptionevents.js';
 import './crosstab.js';
+import './crosstabdrilldown.js';
 import './dashboard.js';
 import './dialog.js';
 import './dialogevents.js';

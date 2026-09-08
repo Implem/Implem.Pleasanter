@@ -1,0 +1,20 @@
+{
+    "Id": "Groups_ScimExternalId",
+    "ModelName": "Group",
+    "TableName": "Groups",
+    "Label": "グループ",
+    "ColumnName": "ScimExternalId",
+    "LabelText": "SCIM externalId",
+    "No": "206",
+    "History": "206",
+    "LinkColumn": "206",
+    "HistoryColumn": "206",
+    "TypeName": "nvarchar",
+    "MaxLength": "256",
+    "Nullable": "1",
+    "Ix2": "1",
+    "ControlCss": " not-send",
+    "EditorReadOnly": "1",
+    "LabelText_en": "SCIM externalId",
+    "LabelText_zh": "SCIM externalId"
+}

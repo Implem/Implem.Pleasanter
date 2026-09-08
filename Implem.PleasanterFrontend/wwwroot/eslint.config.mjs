@@ -40,5 +40,13 @@ export default defineConfig([
         rules: {
             '@typescript-eslint/no-unused-vars': 'off'
         }
+    },
+    {
+        files: ['dev/**/*.{js,mjs}'],
+        languageOptions: {
+            globals: {
+                ...globals.node
+            }
+        }
     }
 ]);

@@ -1,0 +1,27 @@
+# npm-check-updates の設定。
+# 月次メンテナンス (npx npm-check-updates --target minor -u) で
+# 意図せず上がってほしくないパッケージをここで除外する。
+#
+# ncu は範囲記号の有無を問わず更新対象にするため、package.json 側で
+# "6.0.2" のように固定していても保護にならない (固定のまま新しい番号へ
+# 書き換えられる)。--target minor も上げ幅を制限するだけで、固定は守らない。
+reject:
+    # 本体は固定運用。ncu に任せると 6.0.2 → 6.65.7 (マイナー 63 個分) まで上がる。
+    # スコープ側の @codemirror/* は ^6.x で追従させているので、そちらは対象外。
+    - codemirror
+    # メジャーが対象 Node のメジャーを表すため、volta.node (24.x) に合わせて 24 系に留める。
+    # マイナー・パッチは DefinitelyTyped 独自の採番で Node のリリースとは対応しない
+    # (24 系は 24.13.3 が最後。Node 24.14 以降に対応する @types/node は存在しない)。
+    # Node 本体のメジャーを上げるときにセットで上げること。
+    - "@types/node"
+    # 固定運用。ncu に任せると 3.7.1 → 4.0.0 に上がる。
+    # jQuery 4 は非推奨 API の削除を含み、本体側の依存箇所が広いため、
+    # 月次メンテナンスではなく独立した対応として扱う。
+    - jquery
+    # jquery 本体のメジャーに対応する型定義のため、3 系に留める。
+    # jquery を上げるときにセットで上げること。
+    - "@types/jquery"
+    # 型定義専用の依存 (参照は import type のみ)。実行時は同梱の
+    # src/plugins/fullcalendar/index.global.min.js (v6.1.8) が動く。
+    # 型だけ上げると実装と乖離するので、同梱バンドルの差し替えとセットで扱う。
+    - "@fullcalendar/core"

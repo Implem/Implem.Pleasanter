@@ -1,0 +1,33 @@
+{
+    "Id": "AiConnectIndexCheckFailed",
+    "Type": 230,
+    "Languages": [
+        {
+            "Body": "Registration at the connection destination failed. A resend has been registered. (ID:{0})"
+        },
+        {
+            "Language": "zh",
+            "Body": "在集成对象处的注册失败，已注册重新发送。(ID:{0})"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携先での登録が失敗したため、再送を登録しました。(ID:{0})"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Registrierung beim Verbindungsziel ist fehlgeschlagen. Eine erneute Übertragung wurde registriert. (ID:{0})"
+        },
+        {
+            "Language": "ko",
+            "Body": "연계 대상에서 등록이 실패하여 재전송을 등록했습니다. (ID:{0})"
+        },
+        {
+            "Language": "es",
+            "Body": "Error en el registro en el destino de conexión. Se ha registrado un reenvío. (ID:{0})"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đăng ký tại đích kết nối không thành công. Đã đăng ký gửi lại. (ID:{0})"
+        }
+    ]
+}

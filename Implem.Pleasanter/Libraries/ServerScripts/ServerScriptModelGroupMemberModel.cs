@@ -1,4 +1,7 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Dynamic;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelGroupMemberModel
@@ -16,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly bool TenantManager;
         public readonly bool Disabled;
         public readonly bool Admin;
+        private readonly Dictionary<string, object> Extras;
 
         public ServerScriptModelGroupMemberModel(
             Context context,
@@ -30,7 +34,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             string userCode,
             bool tenantManager,
             bool disabled,
-            bool admin)
+            bool admin,
+            Dictionary<string, object> extras)
         {
             Context = context;
             GroupId = groupId;
@@ -45,6 +50,32 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             TenantManager = tenantManager;
             Disabled = disabled;
             Admin = admin;
+            Extras = extras;
+        }
+
+        public object ToJson()
+        {
+            dynamic d = new ExpandoObject();
+            var dict = (IDictionary<string, object>)d;
+            dict["GroupId"] = GroupId;
+            dict["GroupName"] = GroupName;
+            dict["DeptId"] = DeptId;
+            dict["DeptName"] = DeptName;
+            dict["DeptCode"] = DeptCode;
+            dict["UserId"] = UserId;
+            dict["LoginId"] = LoginId;
+            dict["Name"] = Name;
+            dict["UserCode"] = UserCode;
+            dict["TenantManager"] = TenantManager;
+            dict["Disabled"] = Disabled;
+            dict["Admin"] = Admin;
+            ServerScriptUtilities.MergeExtras(dict, Extras);
+            return d;
+        }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(ToJson());
         }
     }
 }

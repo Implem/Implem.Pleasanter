@@ -1,0 +1,33 @@
+{
+    "Id": "AiConnectIndexCheckIncomplete",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Could not confirm the completion of registration at the connection destination."
+        },
+        {
+            "Language": "zh",
+            "Body": "无法确认集成对象处的注册是否完成。"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携先での登録の完了を確認できませんでした。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Abschluss der Registrierung beim Verbindungsziel konnte nicht bestätigt werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "연계 대상에서 등록 완료를 확인할 수 없었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se pudo confirmar la finalización del registro en el destino de conexión."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể xác nhận hoàn tất đăng ký tại đích kết nối."
+        }
+    ]
+}

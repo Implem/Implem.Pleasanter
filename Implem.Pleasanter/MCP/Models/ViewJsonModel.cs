@@ -68,15 +68,14 @@ namespace Implem.Pleasanter.MCP.Models
                 return null;
             }
 
-            var normalized = searchType?
-                .ToLowerInvariant()
-                .Replace("multiple", string.Empty);
-
-            return normalized switch
+            return searchType.ToLowerInvariant() switch
             {
-                "partialmatch" => Column.SearchTypes.PartialMatchMultiple,
-                "exactmatch" => Column.SearchTypes.ExactMatchMultiple,
-                "forwardmatch" => Column.SearchTypes.ForwardMatchMultiple,
+                "partialmatch" or "partialmatchmultiple"
+                    => Column.SearchTypes.PartialMatchMultiple,
+                "exactmatch" or "exactmatchmultiple"
+                    => Column.SearchTypes.ExactMatchMultiple,
+                "forwardmatch" or "forwardmatchmultiple"
+                    => Column.SearchTypes.ForwardMatchMultiple,
                 _ => null
             };
         }

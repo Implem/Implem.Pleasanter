@@ -54,6 +54,14 @@ namespace Implem.Pleasanter.Models
         public bool? EnableSecretKey { get; set; }
         public DateTime? LoginExpirationLimit { get; set; }
         public int? LoginExpirationPeriod { get; set; }
+        public string ScimId { get; set; }
+        public string ScimExternalId { get; set; }
+        public bool? ScimSync { get; set; }
+        public string UiType { get; set; }
+        public string UiColorScheme { get; set; }
+        public string UiMainColor { get; set; }
+        public string UiSubColor { get; set; }
+        public string UiBackgroundColor { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }
@@ -117,6 +125,14 @@ namespace Implem.Pleasanter.Models
                 case "EnableSecretKey": return EnableSecretKey;
                 case "LoginExpirationLimit": return LoginExpirationLimit;
                 case "LoginExpirationPeriod": return LoginExpirationPeriod;
+                case "ScimId": return ScimId;
+                case "ScimExternalId": return ScimExternalId;
+                case "ScimSync": return ScimSync;
+                case "UiType": return UiType;
+                case "UiColorScheme": return UiColorScheme;
+                case "UiMainColor": return UiMainColor;
+                case "UiSubColor": return UiSubColor;
+                case "UiBackgroundColor": return UiBackgroundColor;
                 case "Comments": return Comments;
                 case "Creator": return Creator;
                 case "Updator": return Updator;

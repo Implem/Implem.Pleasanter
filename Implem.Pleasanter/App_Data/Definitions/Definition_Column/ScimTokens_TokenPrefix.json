@@ -1,0 +1,15 @@
+{
+    "Id": "ScimTokens_TokenPrefix",
+    "ModelName": "ScimToken",
+    "TableName": "ScimTokens",
+    "Label": "SCIMトークン",
+    "ColumnName": "TokenPrefix",
+    "LabelText": "トークン先頭文字",
+    "No": "102",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Nullable": "1",
+    "EditorReadOnly": "1",
+    "LabelText_en": "Token prefix",
+    "LabelText_zh": "Token prefix"
+}

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "FailedSyncAiProviders",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Synchronization has been canceled because the document list could not be retrieved from the connection target."
+        },
+        {
+            "Language": "zh",
+            "Body": "由于无法获取连接目标的文档列表，已中止同步。"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携先に接続できなかったため、AI連携の同期を中止しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Synchronisierung wurde abgebrochen, da die Dokumentliste des Verbindungsziels nicht abgerufen werden konnte."
+        },
+        {
+            "Language": "ko",
+            "Body": "연계 대상의 문서 목록을 가져올 수 없어 동기화를 중지했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha cancelado la sincronización porque no se pudo obtener la lista de documentos del destino de conexión."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã hủy đồng bộ hóa vì không thể lấy danh sách tài liệu từ đích kết nối."
+        }
+    ]
+}

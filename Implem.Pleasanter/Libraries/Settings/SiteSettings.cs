@@ -197,6 +197,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<View> Views;
         public SettingList<Notification> Notifications;
         public SettingList<Reminder> Reminders;
+        public SettingList<AiProvider> AiProviders;
+        public bool? AiProvidersAllDisabled;
         public string ImportEncoding;
         public bool? UpdatableImport;
         public bool? RejectNullImport;
@@ -373,6 +375,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Views == null) Views = new List<View>();
             if (Notifications == null) Notifications = new SettingList<Notification>();
             if (Reminders == null) Reminders = new SettingList<Reminder>();
+            if (AiProviders == null) AiProviders = new SettingList<AiProvider>();
             ImportEncoding = ImportEncoding ?? Parameters.General.ImportEncoding;
             UpdatableImport = UpdatableImport ?? Parameters.General.UpdatableImport;
             if (Exports == null) Exports = new SettingList<Export>();
@@ -439,6 +442,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ScriptsAllDisabled = ScriptsAllDisabled ?? false;
             StylesAllDisabled = StylesAllDisabled ?? false;
             HtmlsAllDisabled = HtmlsAllDisabled ?? false;
+            AiProvidersAllDisabled = AiProvidersAllDisabled ?? false;
             ServerScriptsGetErrorDetails = ServerScriptsGetErrorDetails ?? false;
             FormulasGetErrorDetails = FormulasGetErrorDetails ?? false;
         }
@@ -1136,6 +1140,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.HtmlsAllDisabled = HtmlsAllDisabled;
             }
+            if (AiProvidersAllDisabled == true)
+            {
+                ss.AiProvidersAllDisabled = AiProvidersAllDisabled;
+            }
             if (ServerScriptsGetErrorDetails == true)
             {
                 ss.ServerScriptsGetErrorDetails = ServerScriptsGetErrorDetails;
@@ -1229,6 +1237,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Reminders = new SettingList<Reminder>();
                 }
                 ss.Reminders.Add(reminder.GetRecordingData(context: context));
+            });
+            AiProviders?.ForEach(aiProvider =>
+            {
+                if (ss.AiProviders == null)
+                {
+                    ss.AiProviders = new SettingList<AiProvider>();
+                }
+                ss.AiProviders.Add(aiProvider.GetRecordingData(context: context));
             });
             if (ImportEncoding != Parameters.General.ImportEncoding)
             {
@@ -1377,6 +1393,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (HtmlsAllDisabled == true)
             {
                 ss.HtmlsAllDisabled = HtmlsAllDisabled;
+            }
+            if (AiProvidersAllDisabled == true)
+            {
+                ss.AiProvidersAllDisabled = AiProvidersAllDisabled;
             }
             if (FormStartDateTime is not null)
             {
@@ -2391,10 +2411,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             string columnName)
         {
+            return GetColumn(
+                context: context,
+                columnName: columnName,
+                checkJoinOption: true);
+        }
+
+        internal Column GetColumn(
+            Context context,
+            string columnName,
+            bool checkJoinOption)
+        {
             var column = ColumnHash.Get(columnName);
             if (column == null
                 && columnName?.Contains(',') == true
-                && JoinOptions().ContainsKey(columnName.Split_1st()) == true)
+                && (!checkJoinOption
+                    || JoinOptions().ContainsKey(columnName.Split_1st()) == true))
             {
                 column = AddJoinedColumn(
                     context: context,
@@ -4319,6 +4351,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ScriptsAllDisabled": ScriptsAllDisabled = value.ToBool(); break;
                 case "StylesAllDisabled": StylesAllDisabled = value.ToBool(); break;
                 case "HtmlsAllDisabled": HtmlsAllDisabled = value.ToBool(); break;
+                case "AiProvidersAllDisabled": AiProvidersAllDisabled = value.ToBool(); break;
                 case "FormStartDate": FormStartDateTime = value.IsNullOrEmpty() ? null : value.ToDateTime().ToUniversal(context: context); break;
                 case "FormEndDate": FormEndDateTime = value.IsNullOrEmpty() ? null : value.ToDateTime().ToUniversal(context: context); break;
                 case "FormUnavailableMessage": FormUnavailableMessage = value; break;
@@ -4675,8 +4708,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var link = column.SiteSettings.Links
                         .Where(o => o.SiteId > 0)
                         .Where(o => column.Name == o.ColumnName)
-                        .FirstOrDefault(o => dataColumns.Any(p =>
-                            p.EndsWith(o.LinkedTableName() + ",ItemTitle")));
+                        .FirstOrDefault(o => dataColumns.Contains(
+                            ColumnUtilities.LinkedItemTitleColumnName(
+                                tableAlias: column.TableAlias,
+                                link: o)));
                     if (link != null)
                     {
                         dataRows
@@ -4704,9 +4739,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             DataRow dataRow,
             Link link)
         {
-            var linkedColumnName = dataColumns.FirstOrDefault(o =>
-                o.EndsWith(link.LinkedTableName() + ",ItemTitle"));
-            if (linkedColumnName != null
+            var linkedColumnName = ColumnUtilities.LinkedItemTitleColumnName(
+                tableAlias: column.TableAlias,
+                link: link);
+            if (dataColumns.Contains(linkedColumnName)
                 && dataRow[linkedColumnName] != DBNull.Value)
             {
                 if (Permissions.CanRead(

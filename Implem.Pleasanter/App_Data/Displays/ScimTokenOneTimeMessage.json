@@ -1,0 +1,33 @@
+{
+    "Id": "ScimTokenOneTimeMessage",
+    "Type": 220,
+    "Languages": [
+        {
+            "Body": "This token is shown only once. Copy it and store it in a safe place."
+        },
+        {
+            "Language": "zh",
+            "Body": "此令牌只显示一次。请复制后保存在安全的位置。"
+        },
+        {
+            "Language": "ja",
+            "Body": "このトークンは一度だけ表示されます。コピーして安全な場所に保管してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieses Token wird nur einmal angezeigt. Kopieren Sie es und bewahren Sie es sicher auf."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 토큰은 한 번만 표시됩니다. 복사한 뒤 안전한 곳에 보관하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Este token solo se muestra una vez. Cópielo y guárdelo en un lugar seguro."
+        },
+        {
+            "Language": "vn",
+            "Body": "Token này chỉ hiển thị một lần. Hãy sao chép và lưu ở nơi an toàn."
+        }
+    ]
+}

@@ -175,14 +175,15 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 {
                     if (attachment.Added == true)
                     {
-                        if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider !=
-                                ParameterAccessor.Parts.BinaryStorageProviderNames.Rds)
+                        var usesLocalTemp = UsesLocalTemporaryStorage(api: context.Api);
+                        if (usesLocalTemp)
                         {
                             attachment.WriteToLocal(context: context, column: column);
                         }
                         DataSources.File.DeleteTemp(
                             context: context,
-                            attachment.Guid);
+                            guid: attachment.Guid,
+                            deleteLocal: usesLocalTemp);
                     }
                     else if (attachment.Deleted == true && !attachment.Overwritten.HasValue)
                     {
@@ -205,12 +206,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .ForEach(attachment =>
                 {
                     if (attachment.Added == true
-                    && Parameters.BinaryStorage.TemporaryBinaryStorageProvider !=
-                            ParameterAccessor.Parts.BinaryStorageProviderNames.Rds)
+                        && UsesLocalTemporaryStorage(api: context.Api))
                     {
                         attachment.WriteToLocal(context: context, column: column);
                     }
                 });
+        }
+
+        internal static bool UsesLocalTemporaryStorage(bool api)
+        {
+            return api
+                || Parameters.BinaryStorage.TemporaryBinaryStorageProvider !=
+                    ParameterAccessor.Parts.BinaryStorageProviderNames.Rds;
         }
 
         public void DeleteTempOrLocalAttachment(
@@ -228,7 +235,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     {
                         DataSources.File.DeleteTemp(
                             context: context,
-                            attachment.Guid);
+                            guid: attachment.Guid,
+                            deleteLocal: UsesLocalTemporaryStorage(api: context.Api));
                     }
                     else if (attachment.Deleted == true && !attachment.Overwritten.HasValue)
                     {

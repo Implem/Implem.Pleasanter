@@ -1,0 +1,13 @@
+{
+    "Id": "ScimTokens_UserId",
+    "ModelName": "ScimToken",
+    "TableName": "ScimTokens",
+    "Label": "SCIMトークン",
+    "ColumnName": "UserId",
+    "LabelText": "ユーザID",
+    "No": "3",
+    "TypeName": "int",
+    "Default": "0",
+    "LabelText_en": "User ID",
+    "LabelText_zh": "用户ID"
+}

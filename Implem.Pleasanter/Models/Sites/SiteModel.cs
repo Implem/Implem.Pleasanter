@@ -3682,6 +3682,47 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "MoveUpAiProviders":
+                case "MoveDownAiProviders":
+                    SetAiProvidersOrder(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "NewAiProvider":
+                case "EditAiProvider":
+                    AiProviderDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddAiProvider":
+                    AddAiProvider(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "UpdateAiProvider":
+                    UpdateAiProvider(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "CopyAiProviders":
+                    CopyAiProviders(
+                        context: context,
+                        res: res);
+                    break;
+                case "DeleteAiProviders":
+                    DeleteAiProviders(
+                        context: context,
+                        res: res);
+                    break;
+                case "SyncAiProviders":
+                    SyncAiProviders(
+                        context: context,
+                        res: res);
+                    break;
                 case "NewReminder":
                 case "EditReminder":
                     OpenReminderDialog(
@@ -6944,6 +6985,319 @@ namespace Implem.Pleasanter.Models
                     res.ReplaceAll("#EditNotificationWrap", new HtmlBuilder()
                         .EditNotification(context: context, ss: SiteSettings));
                 }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AiProviderDialog(
+            Context context, ResponseCollection res, string controlId)
+        {
+            if (Parameters.AiConnect?.Rag.Enabled != true)
+            {
+                res.Message(Messages.Restricted(context: context));
+                return;
+            }
+            AiProvider aiProvider;
+            if (controlId == "NewAiProvider")
+            {
+                aiProvider = new AiProvider(context: context);
+            }
+            else
+            {
+                aiProvider = SiteSettings.AiProviders?.Get(context.Forms.Int("AiProviderId"));
+                if (aiProvider == null)
+                {
+                    res.Message(Messages.NotFound(context: context));
+                    return;
+                }
+            }
+            res.Html("#AiProviderDialog", SiteUtilities.AiProviderDialog(
+                context: context,
+                ss: SiteSettings,
+                controlId: controlId,
+                aiProvider: aiProvider));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddAiProvider(Context context, ResponseCollection res, string controlId)
+        {
+            if (Parameters.AiConnect?.Rag.Enabled != true)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var providerType = context.Forms.Data("AiProviderProviderType");
+                var connectionSetting = AiProviderUtilities.ResolveConnectionSetting(
+                    providerType: providerType,
+                    submitted: context.Forms.Data("AiProviderConnectionSetting"),
+                    stored: null);
+                var invalid = SiteValidators.SetAiProvider(
+                    context: context,
+                    ss: SiteSettings,
+                    connectionSetting: connectionSetting);
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        SiteSettings.AiProviders.Add(new AiProvider(
+                            id: SiteSettings.AiProviders.MaxOrDefault(o => o.Id) + 1,
+                            title: context.Forms.Data("AiProviderTitle"),
+                            format: context.Forms.Data("AiProviderFormat"),
+                            providerType: providerType,
+                            connectionSetting: connectionSetting,
+                            disabled: context.Forms.Bool("AiProviderDisabled")));
+                        SetAiProvidersResponseCollection(context: context, res: res);
+                        break;
+                    default:
+                        res.Message(invalid.Message(context: context));
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateAiProvider(Context context, ResponseCollection res, string controlId)
+        {
+            if (Parameters.AiConnect?.Rag.Enabled != true)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var aiProvider = SiteSettings.AiProviders.Get(context.Forms.Int("AiProviderId"));
+                if (aiProvider == null)
+                {
+                    res.Message(Messages.NotFound(context: context));
+                }
+                else
+                {
+                    var providerType = context.Forms.Data("AiProviderProviderType");
+                    var connectionSetting = AiProviderUtilities.ResolveConnectionSetting(
+                        providerType: providerType,
+                        submitted: context.Forms.Data("AiProviderConnectionSetting"),
+                        stored: aiProvider);
+                    var invalid = SiteValidators.SetAiProvider(
+                        context: context,
+                        ss: SiteSettings,
+                        connectionSetting: connectionSetting);
+                    switch (invalid.Type)
+                    {
+                        case Error.Types.None:
+                            aiProvider.Update(
+                                title: context.Forms.Data("AiProviderTitle"),
+                                format: context.Forms.Data("AiProviderFormat"),
+                                providerType: providerType,
+                                connectionSetting: connectionSetting,
+                                disabled: context.Forms.Bool("AiProviderDisabled"));
+                            SetAiProvidersResponseCollection(context: context, res: res);
+                            break;
+                        default:
+                            res.Message(invalid.Message(context: context));
+                            break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetAiProvidersOrder(
+            Context context, ResponseCollection res, string controlId)
+        {
+            if (Parameters.AiConnect?.Rag.Enabled != true)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditAiProvider");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    SiteSettings.AiProviders.MoveUpOrDown(
+                        ColumnUtilities.ChangeCommand(controlId), selected);
+                    ReplaceAiProvidersGrid(context: context, res: res);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyAiProviders(Context context, ResponseCollection res)
+        {
+            if (Parameters.AiConnect?.Rag.Enabled != true)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditAiProvider");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    SiteSettings.AiProviders.Copy(selected);
+                    ReplaceAiProvidersGrid(context: context, res: res);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteAiProviders(Context context, ResponseCollection res)
+        {
+            if (Parameters.AiConnect?.Rag.Enabled != true)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditAiProvider");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    SiteSettings.AiProviders.Delete(selected);
+                    ReplaceAiProvidersGrid(context: context, res: res);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SyncAiProviders(Context context, ResponseCollection res)
+        {
+            if (Parameters.AiConnect?.Rag.Enabled != true)
+            {
+                res.Message(Messages.Restricted(context: context));
+                return;
+            }
+            var selected = context.Forms.IntList("EditAiProvider");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context));
+                return;
+            }
+            if (selected.Count > 1)
+            {
+                res.Message(Messages.SelectOne(context: context));
+                return;
+            }
+            var aiProvider = SiteSettings.AiProviders?.Get(selected.First());
+            if (aiProvider == null)
+            {
+                res.Message(Messages.NotFound(context: context));
+                return;
+            }
+            if (aiProvider.Disabled == true
+                || SiteSettings.AiProvidersAllDisabled == true)
+            {
+                res.Message(Messages.InvalidAiProviderSetting(
+                    context: context));
+                return;
+            }
+            if (Parameters.AiConnect.Rag.OutputFilePath.IsNullOrEmpty())
+            {
+                res.Message(Messages.AiConnectOutputFilePathNotSet(context: context));
+                return;
+            }
+            if (SiteSettings.ReferenceType != "Issues"
+                && SiteSettings.ReferenceType != "Results")
+            {
+                res.Message(Messages.InvalidRequest(context: context));
+                return;
+            }
+            if (Implem.Pleasanter.Libraries.AiConnect.AiConnectQueueUtilities.ShouldQueue())
+            {
+                var backgroundJobId =
+                    Implem.Pleasanter.Libraries.AiConnect.AiConnectQueueUtilities
+                        .EnqueueResync(
+                            context: context,
+                            ss: SiteSettings,
+                            aiProvider: aiProvider);
+                if (backgroundJobId == 0)
+                {
+                    res.Message(Messages.AiConnectResyncAlreadyEnqueued(context: context));
+                    return;
+                }
+                var backgroundJobsUrl = Locations.Get(
+                    context: context,
+                    parts: new string[] { "BackgroundJobs" });
+                var idLinkHtml = $"<a href=\"{backgroundJobsUrl}\">{backgroundJobId}</a>";
+                var messageText = Displays.Get(
+                    context: context,
+                    id: "EnqueuedToBackgroundJob",
+                    Displays.Get(
+                        context: context,
+                        id: "BackgroundJobs"),
+                    idLinkHtml);
+                var messageHtml = $"<div><span class=\"body alert-success\">{messageText}"
+                    + "<span class=\"ui-icon ui-icon-close close\"></span>"
+                    + "</span></div>";
+                res.Html(
+                    target: "#Message",
+                    value: messageHtml);
+                return;
+            }
+            var result = Implem.Pleasanter.Libraries.AiConnect.AiConnectResyncUtilities.Resync(
+                context: context,
+                ss: SiteSettings,
+                aiProvider: aiProvider);
+            if (result.ErrorData.Type != Error.Types.None)
+            {
+                res.Message(Messages.FailedSyncAiProviders(context: context));
+                return;
+            }
+            res.Message(Messages.SyncAiProvidersCompleted(
+                context: context,
+                data: new string[]
+                {
+                    result.DeletedCount.ToString(),
+                    result.SucceededCount.ToString(),
+                    (result.FailedCount + result.DeleteFailedCount).ToString()
+                }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ReplaceAiProvidersGrid(Context context, ResponseCollection res)
+        {
+            res
+                .ReplaceAll("#EditAiProviderWrap", new HtmlBuilder()
+                    .EditAiProvider(context: context, ss: SiteSettings));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetAiProvidersResponseCollection(Context context, ResponseCollection res)
+        {
+            if (Parameters.AiConnect?.Rag.Enabled != true)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                ReplaceAiProvidersGrid(context: context, res: res);
+                res.CloseDialog();
             }
         }
 

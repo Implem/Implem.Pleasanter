@@ -418,7 +418,12 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             for (var i = -11; i <= 0; i++)
             {
                 var day = date.AddYears(i);
-                hash.Add(day.ToString("yyyy"), new ControlData(day.ToString("yyyy")));
+                var from = new DateTime(day.Year, 1, 1);
+                hash.Add(day.ToString("yyyy"), new ControlData(day.ToString("yyyy"))
+                {
+                    From = from,
+                    To = from.AddYears(1).AddMilliseconds(-3)
+                });
             }
             return hash;
         }
@@ -429,9 +434,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             for (var i = -11; i <= 0; i++)
             {
                 var day = date.AddMonths(i);
+                var from = new DateTime(day.Year, day.Month, 1);
                 hash.Add(day.ToString("yyyy/MM"),new ControlData(day.ToString(Displays.Get(
                     context: context,
-                    id: "YmFormat"))));
+                    id: "YmFormat")))
+                {
+                    From = from,
+                    To = from.AddMonths(1).AddMilliseconds(-3)
+                });
             }
             return hash;
         }
@@ -449,7 +459,11 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 var key = day.Year * 100 + ((day.DayOfYear + append) / 7) + 1;
                 hash.Add(key.ToString(), new ControlData(day.ToString(Displays.Get(
                     context: context,
-                    id: "MdFormat"))));
+                    id: "MdFormat")))
+                {
+                    From = day.Date,
+                    To = day.Date.AddDays(7).AddMilliseconds(-3)
+                });
             }
             return hash;
         }
@@ -460,7 +474,11 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             var month = date.Month;
             while (month == date.Month)
             {
-                hash.Add(date.ToString("yyyy/MM/dd"), new ControlData(date.ToString("dd")));
+                hash.Add(date.ToString("yyyy/MM/dd"), new ControlData(date.ToString("dd"))
+                {
+                    From = date.Date,
+                    To = date.Date.AddDays(1).AddMilliseconds(-3)
+                });
                 date = date.AddDays(1);
             }
             return hash;

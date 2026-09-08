@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Users_UiColorScheme",
+    "ModelName": "User",
+    "TableName": "Users",
+    "Label": "ユーザ",
+    "ColumnName": "UiColorScheme",
+    "LabelText": "カラーモード",
+    "No": "165",
+    "History": "165",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Nullable": "1",
+    "LabelText_en": "Color Mode",
+    "LabelText_zh": "颜色模式",
+    "LabelText_de": "Farbmodus",
+    "LabelText_ko": "컬러 모드",
+    "LabelText_es": "Modo de color",
+    "LabelText_vn": "Chế độ màu"
+}

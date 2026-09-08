@@ -1,0 +1,33 @@
+{
+    "Id": "AiConnectJobCompleted",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "The AI connection has been completed."
+        },
+        {
+            "Language": "zh",
+            "Body": "AI集成已完成。"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携が完了しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die KI-Verbindung wurde abgeschlossen."
+        },
+        {
+            "Language": "ko",
+            "Body": "AI 연계가 완료되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "La conexión de IA se ha completado."
+        },
+        {
+            "Language": "vn",
+            "Body": "Kết nối AI đã hoàn tất."
+        }
+    ]
+}

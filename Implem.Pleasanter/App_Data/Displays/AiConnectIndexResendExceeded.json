@@ -1,0 +1,33 @@
+{
+    "Id": "AiConnectIndexResendExceeded",
+    "Type": 230,
+    "Languages": [
+        {
+            "Body": "Registration at the connection destination failed again. The resend has been cancelled."
+        },
+        {
+            "Language": "zh",
+            "Body": "在集成对象处的注册再次失败，已停止重新发送。"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携先での登録が再度失敗したため、再送を打ち切りました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Registrierung beim Verbindungsziel ist erneut fehlgeschlagen. Die erneute Übertragung wurde abgebrochen."
+        },
+        {
+            "Language": "ko",
+            "Body": "연계 대상에서 등록이 다시 실패하여 재전송을 중단했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El registro en el destino de conexión volvió a fallar. Se ha cancelado el reenvío."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đăng ký tại đích kết nối lại không thành công. Đã hủy gửi lại."
+        }
+    ]
+}

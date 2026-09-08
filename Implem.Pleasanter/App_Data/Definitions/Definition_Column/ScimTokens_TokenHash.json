@@ -1,0 +1,16 @@
+{
+    "Id": "ScimTokens_TokenHash",
+    "ModelName": "ScimToken",
+    "TableName": "ScimTokens",
+    "Label": "SCIMトークン",
+    "ColumnName": "TokenHash",
+    "LabelText": "トークンハッシュ",
+    "No": "101",
+    "TypeName": "nvarchar",
+    "MaxLength": "128",
+    "Required": "1",
+    "Ix2": "1",
+    "EditorReadOnly": "1",
+    "LabelText_en": "Token hash",
+    "LabelText_zh": "Token hash"
+}

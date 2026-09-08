@@ -58,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         private static IEnumerable<(string ColumnBracket, string Name, object Value)> ExtendedAttributeValues(
             SamlAttributes attributes)
         {
-            if (!Parameters.HasSamlExtendedAttributes())
+            if (!Parameters.AllowSamlExtendedAttributes())
             {
                 yield break;
             }
@@ -145,7 +145,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     if (typeof(UserModel).GetField(attribute.Key) != null
                         || attribute.Key == "Dept"
                         || attribute.Key == "DeptCode"
-                        || (Parameters.HasSamlExtendedAttributes()
+                        || (Parameters.AllowSamlExtendedAttributes()
                             && Def.ExtendedColumnTypes.TryGetValue(attribute.Key, out var columnType)
                             && columnType != "Attachments"))
                     {
@@ -303,6 +303,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Body(
                     attributes[nameof(UserModel.Body)],
                     _using: attributes[nameof(UserModel.Body)] != null)
+                .ScimExternalId(
+                    attributes[nameof(UserModel.ScimExternalId)],
+                    _using: attributes[nameof(UserModel.ScimExternalId)] != null)
+                .ScimSync(
+                    true,
+                    _using: attributes[nameof(UserModel.ScimExternalId)] != null)
                 .SamlExtendedAttributes(attributes);
             statements.Add(Rds.UpdateOrInsertUsers(
                 param: param,
@@ -692,6 +698,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     tenant.TenantId = Parameters.Authentication.SamlParameters.SamlTenantId;
                 }
             }
+            var resolvedLoginId = LoginIdByScimExternalId(
+                context: context,
+                tenantId: tenant.TenantId,
+                scimExternalId: attributes[nameof(UserModel.ScimExternalId)])
+                    ?? loginId.Value;
             if (Parameters.Authentication.RejectUnregisteredUser)
             {
                 var exists = Repository.ExecuteScalar_int(
@@ -700,7 +711,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         column: Rds.UsersColumn().UsersCount(),
                         where: Rds.UsersWhere()
                             .TenantId(tenant.TenantId)
-                            .LoginId(loginId.Value))) > 0;
+                            .LoginId(resolvedLoginId))) > 0;
                 if (!exists)
                 {
                     return (Responses.Locations.SamlLoginFailed(context: context), null);
@@ -711,9 +722,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 Saml.UpdateOrInsert(
                     context: context,
                     tenantId: tenant.TenantId,
-                    loginId: loginId.Value,
+                    loginId: resolvedLoginId,
                     name: string.IsNullOrEmpty(name)
-                        ? loginId.Value
+                        ? resolvedLoginId
                         : name,
                     mailAddress: attributes["MailAddress"],
                     synchronizedTime: System.DateTime.Now,
@@ -732,7 +743,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ss: null,
                 where: Rds.UsersWhere()
                     .TenantId(tenant.TenantId)
-                    .LoginId(loginId.Value));
+                    .LoginId(resolvedLoginId));
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 if (userModel.Disabled)
@@ -754,6 +765,28 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 return (Responses.Locations.SamlLoginFailed(context: context), null);
             }
+        }
+
+        private static string LoginIdByScimExternalId(
+            Context context,
+            int tenantId,
+            string scimExternalId)
+        {
+            if (scimExternalId.IsNullOrEmpty())
+            {
+                return null;
+            }
+            return Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn().LoginId(),
+                    where: Rds.UsersWhere()
+                        .TenantId(tenantId)
+                        .ScimExternalId(scimExternalId),
+                    top: 1))
+                        .AsEnumerable()
+                        .Select(row => row["LoginId"].ToString())
+                        .FirstOrDefault();
         }
     }
 }

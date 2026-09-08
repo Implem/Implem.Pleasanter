@@ -13,6 +13,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Dynamic;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.Security.Permissions;
@@ -23,6 +24,94 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public static class ServerScriptUtilities
     {
+        private static Dictionary<string, object> MapExtrasToApiHashes(
+            IDictionary<string, object> rawExtras)
+        {
+            var mapped = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            if (rawExtras == null || rawExtras.Count == 0)
+            {
+                return mapped;
+            }
+
+            var hashes = new Dictionary<string, Dictionary<string, object>>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var kv in rawExtras)
+            {
+                var col = kv.Key;
+                var val = kv.Value;
+                if (val == null || val == DBNull.Value)
+                {
+                    continue;
+                }
+                var colType = Def.ExtendedColumnTypes.Get(col) ?? string.Empty;
+                if (colType.IsNullOrEmpty())
+                {
+                    continue;
+                }
+                if (!hashes.TryGetValue(colType, out var hash))
+                {
+                    hash = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+                    hashes[colType] = hash;
+                }
+                hash[col] = val;
+            }
+
+            foreach (var kv in hashes)
+            {
+                mapped[kv.Key + "Hash"] = kv.Value;
+            }
+
+            return mapped;
+        }
+
+        public static Dictionary<string, object> BuildExtras(DataRow dataRow, string tableName)
+        {
+            var rawExtras = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            Def.GetExtendedColumnDefinitions(tableName)
+                .ForEach(columnDefinition =>
+                {
+                    var name = columnDefinition.ColumnName;
+                    if (dataRow.Table.Columns.Contains(name))
+                    {
+                        var val = dataRow[name];
+                        if (val != DBNull.Value)
+                        {
+                            rawExtras[name] = val;
+                        }
+                    }
+                });
+            return MapExtrasToApiHashes(rawExtras);
+        }
+
+        public static void MergeExtras(
+            IDictionary<string, object> target,
+            IDictionary<string, object> extras)
+        {
+            if (extras == null)
+            {
+                return;
+            }
+            foreach (var kv in extras)
+            {
+                target[kv.Key] = ToJsonValue(kv.Value);
+            }
+        }
+
+        public static object ToJsonValue(object value)
+        {
+            if (value is IDictionary<string, object> dict)
+            {
+                dynamic expando = new ExpandoObject();
+                var expandoDict = (IDictionary<string, object>)expando;
+                foreach (var kv in dict)
+                {
+                    expandoDict[kv.Key] = ToJsonValue(kv.Value);
+                }
+                return expando;
+            }
+            return value;
+        }
+
         private static object Value(ExpandoObject data, string name)
         {
             if (data == null)
@@ -1329,6 +1418,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             createdContext.LogBuilder = context.LogBuilder;
             createdContext.UserData = context.UserData;
             createdContext.Messages = context.Messages;
+            createdContext.UserSettings = context.UserSettings;
             createdContext.Controller = controller.ToLower();
             createdContext.Action = action.ToLower();
             createdContext.Id = id;

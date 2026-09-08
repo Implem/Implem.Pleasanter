@@ -1,0 +1,33 @@
+{
+    "Id": "InvalidAiProviderSetting",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The AI connection setting is invalid."
+        },
+        {
+            "Language": "zh",
+            "Body": "AI集成设置无效。"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携設定が不正です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die KI-Verbindungseinstellung ist ungültig."
+        },
+        {
+            "Language": "ko",
+            "Body": "AI 연계 설정이 올바르지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "La configuración de conexión de IA no es válida."
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt kết nối AI không hợp lệ."
+        }
+    ]
+}

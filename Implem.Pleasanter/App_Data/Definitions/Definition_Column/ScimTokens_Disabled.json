@@ -1,0 +1,13 @@
+{
+    "Id": "ScimTokens_Disabled",
+    "ModelName": "ScimToken",
+    "TableName": "ScimTokens",
+    "Label": "SCIMトークン",
+    "ColumnName": "Disabled",
+    "LabelText": "無効",
+    "No": "103",
+    "TypeName": "bit",
+    "Default": "0",
+    "LabelText_en": "Disabled",
+    "LabelText_zh": "禁用"
+}

@@ -7,6 +7,7 @@ namespace Implem.DefinitionAccessor
     {
         public static List<string> SyntaxErrors = new List<string>();
         public static Dictionary<string, string> ParameterHash = new Dictionary<string, string>();
+        public static AiConnect AiConnect;
         public static Api Api;
         public static Authentication Authentication;
         public static BackgroundJobs BackgroundJobs;
@@ -56,6 +57,7 @@ namespace Implem.DefinitionAccessor
         public static Reminder Reminder;
         public static Script Script;
         public static Search Search;
+        public static Scim Scim;
         public static Security Security;
         public static Service Service;
         public static Session Session;
@@ -105,6 +107,11 @@ namespace Implem.DefinitionAccessor
         public static bool AllowBlockSiteTaskWhileRunning()
         {
             return TrialLicense?.Check() ?? License.Check() && HasBlockSiteTaskWhileRunning();
+        }
+
+        public static bool AllowSamlExtendedAttributes()
+        {
+            return TrialLicense?.Check() ?? License.Check() && HasSamlExtendedAttributes();
         }
 
         public static bool AllowMultiTenants()

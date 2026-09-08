@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ScimConfirmDisableTokens",
+    "Type": 310,
+    "Languages": [
+        {
+            "Body": "Selected SCIM tokens will be disabled. Are you sure?"
+        },
+        {
+            "Language": "zh",
+            "Body": "将停用已选择的SCIM令牌。是否继续？"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択したSCIMトークンを無効化します。よろしいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Die ausgewählten SCIM-Token werden deaktiviert. Fortfahren?"
+        },
+        {
+            "Language": "ko",
+            "Body": "선택한 SCIM 토큰을 비활성화합니다. 계속하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "Se deshabilitarán los tokens SCIM seleccionados. ¿Desea continuar?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Các token SCIM đã chọn sẽ bị vô hiệu hóa. Bạn có muốn tiếp tục không?"
+        }
+    ]
+}

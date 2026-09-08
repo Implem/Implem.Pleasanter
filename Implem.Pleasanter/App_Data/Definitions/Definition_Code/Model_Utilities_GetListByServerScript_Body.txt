@@ -1,0 +1,45 @@
+﻿/// <summary>
+/// Fixed:
+/// </summary>
+public static List<User> GetListByServerScript(
+    Context context,
+    SiteSettings ss,
+    string view,
+    int offset,
+    int pageSize)
+{
+    var apiView = view.Deserialize<View>() ?? new View();
+    var maxPageSize = pageSize > 0 && pageSize <= Parameters.Api.PageSize
+        ? pageSize
+        : Parameters.Api.PageSize;
+    var minOffset = offset > 0
+        ? offset
+        : 0;
+    var dataTable = Repository.ExecuteTable(
+        context: context,
+        statements: Rds.SelectUsers(
+            column: User.QueryColumnWithExtras(),
+            join: Rds.UsersJoinDefault(),
+            where: apiView.Where(
+                context: context,
+                ss: ss)
+                    .Users_TenantId(context.TenantId)
+                    .SqlWhereLike(
+                        tableName: "\"Users\"",
+                        name: "SearchText",
+                        searchText: apiView.ColumnFilterHash
+                            ?.Where(f => f.Key == "SearchText")
+                            ?.Select(f => f.Value)
+                            ?.FirstOrDefault(),
+                        clauseCollection: SearchTextClauses(context: context)),
+            orderBy: apiView.OrderBy(
+                context: context,
+                ss: ss),
+            offset: minOffset,
+            pageSize: maxPageSize));
+    return dataTable.AsEnumerable()
+        .Select(dataRow => new User(
+            context: context,
+            dataRow: dataRow))
+        .ToList();
+}

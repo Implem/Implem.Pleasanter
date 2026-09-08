@@ -155,6 +155,16 @@ $p.setNotification = function ($control) {
     $p.send($control);
 };
 
+$p.openAiProviderDialog = function ($control) {
+    $p.data.AiProviderForm = {};
+    $p.openSiteSettingsDialog($control, '#AiProviderDialog');
+};
+
+$p.setAiProvider = function ($control) {
+    $p.setData($('#EditAiProvider'), $p.getData($control));
+    $p.send($control);
+};
+
 $p.openReminderDialog = function ($control) {
     $p.data.ReminderForm = {};
     $p.openSiteSettingsDialog($control, '#ReminderDialog');

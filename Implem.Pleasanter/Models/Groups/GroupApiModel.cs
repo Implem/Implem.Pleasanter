@@ -16,6 +16,9 @@ namespace Implem.Pleasanter.Models
         public string LdapGuid { get; set; }
         public string LdapSearchRoot { get; set; }
         public DateTime? SynchronizedTime { get; set; }
+        public string ScimId { get; set; }
+        public string ScimExternalId { get; set; }
+        public bool? ScimSync { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }
@@ -42,6 +45,9 @@ namespace Implem.Pleasanter.Models
                 case "LdapGuid": return LdapGuid;
                 case "LdapSearchRoot": return LdapSearchRoot;
                 case "SynchronizedTime": return SynchronizedTime;
+                case "ScimId": return ScimId;
+                case "ScimExternalId": return ScimExternalId;
+                case "ScimSync": return ScimSync;
                 case "Comments": return Comments;
                 case "Creator": return Creator;
                 case "Updator": return Updator;

@@ -1570,6 +1570,24 @@ namespace Implem.Pleasanter.Models
                                     value: groupModel.SynchronizedTime.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
+                            case "ScimId":
+                                res.Val(
+                                    target: "#Groups_ScimId" + idSuffix,
+                                    value: groupModel.ScimId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "ScimExternalId":
+                                res.Val(
+                                    target: "#Groups_ScimExternalId" + idSuffix,
+                                    value: groupModel.ScimExternalId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "ScimSync":
+                                res.Val(
+                                    target: "#Groups_ScimSync" + idSuffix,
+                                    value: groupModel.ScimSync,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
                             default:
                                 switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                 {
@@ -1886,6 +1904,104 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     value: message.Text);
                 return message;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool CreateByServerScript(
+            Context context,
+            SiteSettings ss,
+            int groupId)
+        {
+            var groupApiModel = context.RequestDataString.Deserialize<GroupApiModel>();
+            if (groupApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var groupModel = new GroupModel(
+                context: context,
+                ss: ss,
+                groupId: groupId,
+                groupApiModel: groupApiModel);
+            var invalid = GroupValidators.OnCreating(
+                context: context,
+                ss: ss,
+                groupModel: groupModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            groupModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: groupModel);
+            var errorData = groupModel.Create(
+                context: context,
+                ss: ss,
+                groupApiModel: groupApiModel);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool UpdateByServerScript(
+            Context context,
+            SiteSettings ss,
+            int groupId)
+        {
+            var groupApiModel = context.RequestDataString.Deserialize<GroupApiModel>();
+            if (groupApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var groupModel = new GroupModel(
+                context: context,
+                ss: ss,
+                groupId: groupId,
+                groupApiModel: groupApiModel);
+            if (groupModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return false;
+            }
+            var invalid = GroupValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                groupModel: groupModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            groupModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: groupModel);
+            var errorData = groupModel.Update(
+                context: context,
+                ss: ss,
+                groupApiModel: groupApiModel);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return true;
+                default:
+                    return false;
             }
         }
 
@@ -4342,59 +4458,6 @@ namespace Implem.Pleasanter.Models
                     return ApiResults.Error(
                         context: context,
                         errorData: errorData);
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static bool UpdateByServerScript(
-            Context context,
-            SiteSettings ss,
-            int groupId,
-            object model)
-        {
-            var groupApiModel = context.RequestDataString.Deserialize<GroupApiModel>();
-            if (groupApiModel == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-            }
-            var groupModel = new GroupModel(
-                context: context,
-                ss: ss,
-                groupId: groupId,
-                groupApiModel: groupApiModel);
-            if (groupModel.AccessStatus != Databases.AccessStatuses.Selected)
-            {
-                return false;
-            }
-            var invalid = GroupValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                groupModel: groupModel,
-                api: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default:
-                    return false;
-            }
-            groupModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: groupModel);
-            var errorData = groupModel.Update(
-                context: context,
-                ss: ss,
-                groupApiModel: groupApiModel);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    return true;
-                case Error.Types.Duplicated:
-                    return false;
-                default:
-                    return false;
             }
         }
 

@@ -41,6 +41,9 @@ namespace Implem.Pleasanter.Models
         public string LdapGuid = string.Empty;
         public string LdapSearchRoot = string.Empty;
         public DateTime SynchronizedTime = 0.ToDateTime();
+        public string ScimId = string.Empty;
+        public string ScimExternalId = string.Empty;
+        public bool ScimSync = false;
 
         public Title Title
         {
@@ -63,6 +66,9 @@ namespace Implem.Pleasanter.Models
         public string SavedLdapGuid = string.Empty;
         public string SavedLdapSearchRoot = string.Empty;
         public DateTime SavedSynchronizedTime = 0.ToDateTime();
+        public string SavedScimId = string.Empty;
+        public string SavedScimExternalId = string.Empty;
+        public bool SavedScimSync = false;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -158,6 +164,42 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != LdapSearchRoot);
+        }
+
+        public bool ScimId_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ScimId;
+            }
+            return ScimId != SavedScimId && ScimId != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ScimId);
+        }
+
+        public bool ScimExternalId_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ScimExternalId;
+            }
+            return ScimExternalId != SavedScimExternalId && ScimExternalId != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ScimExternalId);
+        }
+
+        public bool ScimSync_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != ScimSync;
+            }
+            return ScimSync != SavedScimSync
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != ScimSync);
         }
 
         public bool SynchronizedTime_Updated(Context context, bool copy = false, Column column = null)
@@ -298,6 +340,42 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         mine: mine)
                             ? SynchronizedTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ScimId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ScimId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ScimExternalId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ScimExternalId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ScimSync":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ScimSync.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
@@ -617,6 +695,9 @@ namespace Implem.Pleasanter.Models
                     case "LdapGuid": data.LdapGuid = LdapGuid; break;
                     case "LdapSearchRoot": data.LdapSearchRoot = LdapSearchRoot; break;
                     case "SynchronizedTime": data.SynchronizedTime = SynchronizedTime.ToLocal(context: context); break;
+                    case "ScimId": data.ScimId = ScimId; break;
+                    case "ScimExternalId": data.ScimExternalId = ScimExternalId; break;
+                    case "ScimSync": data.ScimSync = ScimSync; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -692,6 +773,21 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "SynchronizedTime":
                     return SynchronizedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimId":
+                    return ScimId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimExternalId":
+                    return ScimExternalId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimSync":
+                    return ScimSync.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -856,6 +952,21 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "ScimId":
+                    return ScimId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimExternalId":
+                    return ScimExternalId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimSync":
+                    return ScimSync.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Comments":
                     return Comments.ToApiDisplayValue(
                         context: context,
@@ -1014,6 +1125,21 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "SynchronizedTime":
                     return SynchronizedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimId":
+                    return ScimId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimExternalId":
+                    return ScimExternalId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ScimSync":
+                    return ScimSync.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1687,6 +1813,9 @@ namespace Implem.Pleasanter.Models
                     case "Groups_LdapGuid": LdapGuid = value.ToString(); break;
                     case "Groups_LdapSearchRoot": LdapSearchRoot = value.ToString(); break;
                     case "Groups_SynchronizedTime": SynchronizedTime = value.ToDateTime().ToUniversal(context: context); break;
+                    case "Groups_ScimId": ScimId = value.ToString(); break;
+                    case "Groups_ScimExternalId": ScimExternalId = value.ToString(); break;
+                    case "Groups_ScimSync": ScimSync = value.ToBool(); break;
                     case "Groups_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -1764,6 +1893,9 @@ namespace Implem.Pleasanter.Models
             LdapGuid = groupModel.LdapGuid;
             LdapSearchRoot = groupModel.LdapSearchRoot;
             SynchronizedTime = groupModel.SynchronizedTime;
+            ScimId = groupModel.ScimId;
+            ScimExternalId = groupModel.ScimExternalId;
+            ScimSync = groupModel.ScimSync;
             Comments = groupModel.Comments;
             Creator = groupModel.Creator;
             Updator = groupModel.Updator;
@@ -1789,6 +1921,9 @@ namespace Implem.Pleasanter.Models
             if (data.LdapGuid != null) LdapGuid = data.LdapGuid.ToString().ToString();
             if (data.LdapSearchRoot != null) LdapSearchRoot = data.LdapSearchRoot.ToString().ToString();
             if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.ScimId != null) ScimId = data.ScimId.ToString().ToString();
+            if (data.ScimExternalId != null) ScimExternalId = data.ScimExternalId.ToString().ToString();
+            if (data.ScimSync != null) ScimSync = data.ScimSync.ToBool().ToBool();
             if (data.GroupMembers != null) GroupMembers = data.GroupMembers;
             if (data.GroupChildren != null) GroupChildren = data.GroupChildren;
             if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
@@ -1978,6 +2113,18 @@ namespace Implem.Pleasanter.Models
                             SynchronizedTime = dataRow[column.ColumnName].ToDateTime();
                             SavedSynchronizedTime = SynchronizedTime;
                             break;
+                        case "ScimId":
+                            ScimId = dataRow[column.ColumnName].ToString();
+                            SavedScimId = ScimId;
+                            break;
+                        case "ScimExternalId":
+                            ScimExternalId = dataRow[column.ColumnName].ToString();
+                            SavedScimExternalId = ScimExternalId;
+                            break;
+                        case "ScimSync":
+                            ScimSync = dataRow[column.ColumnName].ToBool();
+                            SavedScimSync = ScimSync;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -2076,6 +2223,9 @@ namespace Implem.Pleasanter.Models
                 || LdapGuid_Updated(context: context)
                 || LdapSearchRoot_Updated(context: context)
                 || SynchronizedTime_Updated(context: context)
+                || ScimId_Updated(context: context)
+                || ScimExternalId_Updated(context: context)
+                || ScimSync_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -2127,6 +2277,9 @@ namespace Implem.Pleasanter.Models
                 || LdapGuid_Updated(context: context)
                 || LdapSearchRoot_Updated(context: context)
                 || SynchronizedTime_Updated(context: context)
+                || ScimId_Updated(context: context)
+                || ScimExternalId_Updated(context: context)
+                || ScimSync_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);

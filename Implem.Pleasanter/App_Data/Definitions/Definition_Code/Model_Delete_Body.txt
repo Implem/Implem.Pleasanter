@@ -37,6 +37,7 @@
 <!--Model_SynchronizeSummaryExecute-->
 <!--Model_OnDeleted_SetSiteInfo-->
 <!--Model_OnDeletedNotice-->
+<!--Model_AiConnectDelete-->
 <!--Model_OnDeleted_ServerScript-->
     return new ErrorData(type: Error.Types.None);
 }

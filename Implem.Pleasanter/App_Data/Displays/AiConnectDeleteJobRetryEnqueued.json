@@ -1,0 +1,33 @@
+{
+    "Id": "AiConnectDeleteJobRetryEnqueued",
+    "Type": 230,
+    "Languages": [
+        {
+            "Body": "The AI connection failed to delete. A retry has been registered. (ID:{0})"
+        },
+        {
+            "Language": "zh",
+            "Body": "AI集成删除失败，已注册重试。(ID:{0})"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携の削除に失敗したため、再試行を登録しました。(ID:{0})"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Löschung der KI-Verbindung ist fehlgeschlagen. Ein Wiederholungsversuch wurde registriert. (ID:{0})"
+        },
+        {
+            "Language": "ko",
+            "Body": "AI 연계 삭제에 실패하여 재시도를 등록했습니다. (ID:{0})"
+        },
+        {
+            "Language": "es",
+            "Body": "Error al eliminar la conexión de IA. Se ha registrado un reintento. (ID:{0})"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xóa kết nối AI không thành công. Đã đăng ký thử lại. (ID:{0})"
+        }
+    ]
+}

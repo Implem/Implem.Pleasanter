@@ -51,10 +51,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : string.Empty) +
                     Rds.IdColumn(ss.ReferenceType));
             Ver = dataRow.Int("Ver");
+            var isHistoryPath = Rds.DataColumnName(column, "IsHistory");
+            IsHistory = dataRow.Table.Columns.Contains(isHistoryPath)
+                && dataRow.Bool(isHistoryPath);
             Value = dataRow.String(Rds.DataColumnName(column, "Title"));
             var itemTitlePath = Rds.DataColumnName(column, "ItemTitle");
             ItemTitle = dataRow.Table.Columns.Contains(itemTitlePath);
-            var displayValue = ItemTitle
+            var displayValue = ItemTitle && !IsHistory
                 ? dataRow.String(itemTitlePath)
                 : ss.GetTitleColumns(context: context)
                     .Select(o => GetDisplayValue(

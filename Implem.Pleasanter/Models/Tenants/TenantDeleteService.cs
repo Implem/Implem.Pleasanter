@@ -15,6 +15,15 @@ namespace Implem.Pleasanter.Models
     {
         public static void Execute(Context context)
         {
+            if (!Parameters.AllowMultiTenants())
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(Execute),
+                    message: "TenantDeleteService: skipped because multi-tenant license is not allowed",
+                    sysLogType: SysLogModel.SysLogTypes.Warning);
+                return;
+            }
             var tenantIds = GetTargetTenantIds(context: context);
             foreach (var tenantId in tenantIds)
             {

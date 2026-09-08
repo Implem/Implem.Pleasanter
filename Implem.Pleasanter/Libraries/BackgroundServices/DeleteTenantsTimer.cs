@@ -14,7 +14,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             public static readonly JobKey jobKey = new JobKey("DeleteTenantsTimer", "ExecutionTimerBase");
             public Type JobType => typeof(DeleteTenantsTimer);
             public IEnumerable<string> TimeList => Parameters.BackgroundService.DeleteTenantTime;
-            public bool Enabled => Parameters.BackgroundService.DeleteTenant;
+            public bool Enabled => Parameters.BackgroundService.DeleteTenant
+                && Parameters.AllowMultiTenants();
             public JobKey JobKey => jobKey;
             public string JobName => "DeleteTenantsService";
             public Task<bool> SetCustomTimer(IScheduler scheduler) => Task.FromResult(false);

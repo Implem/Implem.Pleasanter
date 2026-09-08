@@ -553,6 +553,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     tenantModel: tenantModel)
                                 .FieldSetGeneral(context: context, ss: ss, tenantModel: tenantModel)
+                                .FieldSetScimToken(context: context)
                                 .FieldSetServerScript(context: context, tenantModel: tenantModel)
                                 .FieldSet(
                                     attributes: new HtmlAttributes()
@@ -601,6 +602,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss)
                 .OutgoingMailDialog(context: context)
+                .ScimTokenDialog(context: context)
                 .ServerScriptDialog(context: context)
                 .ServerScriptScheduleDialog(context: context)
                 .EditorExtensions(
@@ -620,6 +622,12 @@ namespace Implem.Pleasanter.Models
                     .A(
                         href: "#FieldSetGeneral",
                         text: Displays.General(context: context)))
+                .Li(
+                    action: () => hb
+                        .A(
+                            href: "#FieldSetScimToken",
+                            text: Displays.ScimTokens(context: context)),
+                    _using: ScimTokenUtilities.Enabled(context: context))
                 .Li(
                     action: () => hb
                         .A(
@@ -1242,6 +1250,36 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Tenants_TimeZone" + idSuffix,
                                     value: tenantModel.TimeZone.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UiType":
+                                res.Val(
+                                    target: "#Tenants_UiType" + idSuffix,
+                                    value: tenantModel.UiType.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UiColorScheme":
+                                res.Val(
+                                    target: "#Tenants_UiColorScheme" + idSuffix,
+                                    value: tenantModel.UiColorScheme.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UiMainColor":
+                                res.Val(
+                                    target: "#Tenants_UiMainColor" + idSuffix,
+                                    value: tenantModel.UiMainColor.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UiSubColor":
+                                res.Val(
+                                    target: "#Tenants_UiSubColor" + idSuffix,
+                                    value: tenantModel.UiSubColor.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UiBackgroundColor":
+                                res.Val(
+                                    target: "#Tenants_UiBackgroundColor" + idSuffix,
+                                    value: tenantModel.UiBackgroundColor.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             case "RestartScheduledTime":

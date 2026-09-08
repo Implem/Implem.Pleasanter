@@ -1,0 +1,13 @@
+{
+    "Id": "MarkdownFile",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "MarkdownFile"
+        },
+        {
+            "Language": "ja",
+            "Body": "mdファイル"
+        }
+    ]
+}

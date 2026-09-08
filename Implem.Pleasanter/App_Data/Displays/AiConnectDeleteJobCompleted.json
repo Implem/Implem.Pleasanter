@@ -1,0 +1,33 @@
+{
+    "Id": "AiConnectDeleteJobCompleted",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "The AI connection deletion has been completed."
+        },
+        {
+            "Language": "zh",
+            "Body": "AI集成的删除已完成。"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携の削除が完了しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Löschung der KI-Verbindung wurde abgeschlossen."
+        },
+        {
+            "Language": "ko",
+            "Body": "AI 연계 삭제가 완료되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "La eliminación de la conexión de IA se ha completado."
+        },
+        {
+            "Language": "vn",
+            "Body": "Việc xóa kết nối AI đã hoàn tất."
+        }
+    ]
+}

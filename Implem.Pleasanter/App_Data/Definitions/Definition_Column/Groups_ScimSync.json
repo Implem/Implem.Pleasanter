@@ -1,0 +1,18 @@
+{
+    "Id": "Groups_ScimSync",
+    "ModelName": "Group",
+    "TableName": "Groups",
+    "Label": "グループ",
+    "ColumnName": "ScimSync",
+    "LabelText": "SCIM同期",
+    "No": "207",
+    "History": "207",
+    "LinkColumn": "207",
+    "HistoryColumn": "207",
+    "TypeName": "bit",
+    "Default": "0",
+    "ControlCss": " not-send",
+    "EditorReadOnly": "1",
+    "LabelText_en": "SCIM synchronization",
+    "LabelText_zh": "SCIM同步"
+}

@@ -1,0 +1,42 @@
+﻿{
+    "ProviderEndpoints": {
+        "Dify": "",
+        "OpenAi": ""
+    },
+    "AllowInsecureLoopbackEndpoint": false,
+    "Rag": {
+        "Enabled": false,
+        "DeleteEnabled": false,
+        "FormatTemplate": [
+            "# [Title]",
+            "",
+            "| 項目 | 値 |",
+            "|------|----|",
+            "| 状況 | [Status] |",
+            "| 管理者 | [Manager] |",
+            "| 担当者 | [Owner] |",
+            "| 作成者 | [Creator] |",
+            "| 更新者 | [Updator] |",
+            "| 更新日時 | [UpdatedTime] |",
+            "",
+            "## 内容",
+            "",
+            "[Body]",
+            "",
+            "## コメント",
+            "",
+            "[Comments]",
+            "",
+            "---",
+            "",
+            "URL: {Url}",
+            ""
+        ],
+        "OutputFilePath": null,
+        "LogSucceeded": true,
+        "SyncRetryCount": 2,
+        "IndexCheckMaxAttempts": 10,
+        "DeleteRetryCount": 2,
+        "RetryAfterMaxSeconds": 60
+    }
+}

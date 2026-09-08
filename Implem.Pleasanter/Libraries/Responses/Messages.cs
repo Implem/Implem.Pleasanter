@@ -34,6 +34,96 @@ namespace Implem.Pleasanter.Libraries.Responses
                 : PasswordPolicyViolation(context: context));
         }
 
+        public static Message AiConnectDeleteJobRetryEnqueued(Context context, params string[] data)
+        {
+            return Get(
+                id: "AiConnectDeleteJobRetryEnqueued",
+                text: Displays.AiConnectDeleteJobRetryEnqueued(
+                    context: context,
+                    data: data),
+                css: "alert-warning");
+        }
+
+        public static Message AiConnectDeleteJobRetryExceeded(Context context, params string[] data)
+        {
+            return Get(
+                id: "AiConnectDeleteJobRetryExceeded",
+                text: Displays.AiConnectDeleteJobRetryExceeded(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message AiConnectIndexCheckFailed(Context context, params string[] data)
+        {
+            return Get(
+                id: "AiConnectIndexCheckFailed",
+                text: Displays.AiConnectIndexCheckFailed(
+                    context: context,
+                    data: data),
+                css: "alert-warning");
+        }
+
+        public static Message AiConnectIndexCheckIncomplete(Context context, params string[] data)
+        {
+            return Get(
+                id: "AiConnectIndexCheckIncomplete",
+                text: Displays.AiConnectIndexCheckIncomplete(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message AiConnectIndexResendExceeded(Context context, params string[] data)
+        {
+            return Get(
+                id: "AiConnectIndexResendExceeded",
+                text: Displays.AiConnectIndexResendExceeded(
+                    context: context,
+                    data: data),
+                css: "alert-warning");
+        }
+
+        public static Message AiConnectJobRetryEnqueued(Context context, params string[] data)
+        {
+            return Get(
+                id: "AiConnectJobRetryEnqueued",
+                text: Displays.AiConnectJobRetryEnqueued(
+                    context: context,
+                    data: data),
+                css: "alert-warning");
+        }
+
+        public static Message AiConnectJobRetryExceeded(Context context, params string[] data)
+        {
+            return Get(
+                id: "AiConnectJobRetryExceeded",
+                text: Displays.AiConnectJobRetryExceeded(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message AiConnectOutputFilePathNotSet(Context context, params string[] data)
+        {
+            return Get(
+                id: "AiConnectOutputFilePathNotSet",
+                text: Displays.AiConnectOutputFilePathNotSet(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message AiConnectResyncAlreadyEnqueued(Context context, params string[] data)
+        {
+            return Get(
+                id: "AiConnectResyncAlreadyEnqueued",
+                text: Displays.AiConnectResyncAlreadyEnqueued(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message AlreadyAdded(Context context, params string[] data)
         {
             return Get(
@@ -1014,6 +1104,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message FailedSyncAiProviders(Context context, params string[] data)
+        {
+            return Get(
+                id: "FailedSyncAiProviders",
+                text: Displays.FailedSyncAiProviders(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message FailedWriteFile(Context context, params string[] data)
         {
             return Get(
@@ -1309,6 +1409,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "InternalServerError",
                 text: Displays.InternalServerError(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message InvalidAiProviderSetting(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidAiProviderSetting",
+                text: Displays.InvalidAiProviderSetting(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -2074,6 +2184,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message ScimTokenIssued(Context context, params string[] data)
+        {
+            return Get(
+                id: "ScimTokenIssued",
+                text: Displays.ScimTokenIssued(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message ScimTokenOneTimeMessage(Context context, params string[] data)
+        {
+            return Get(
+                id: "ScimTokenOneTimeMessage",
+                text: Displays.ScimTokenOneTimeMessage(
+                    context: context,
+                    data: data),
+                css: "alert-information");
+        }
+
         public static Message SecondaryAuthentication(Context context, params string[] data)
         {
             return Get(
@@ -2222,6 +2352,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-error");
+        }
+
+        public static Message SyncAiProvidersCompleted(Context context, params string[] data)
+        {
+            return Get(
+                id: "SyncAiProvidersCompleted",
+                text: Displays.SyncAiProvidersCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
         public static Message SyncByLdapStarted(Context context, params string[] data)
@@ -2424,6 +2564,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message ValidationError(Context context, params string[] data)
+        {
+            return Get(
+                id: "ValidationError",
+                text: Displays.ValidationError(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message Warnings(Context context, params string[] data)
         {
             return Get(
@@ -2432,6 +2582,105 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static ResponseCollection ResponseAiConnectDeleteJobRetryEnqueued(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: AiConnectDeleteJobRetryEnqueued(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseAiConnectDeleteJobRetryExceeded(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: AiConnectDeleteJobRetryExceeded(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseAiConnectIndexCheckFailed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: AiConnectIndexCheckFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseAiConnectIndexCheckIncomplete(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: AiConnectIndexCheckIncomplete(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseAiConnectIndexResendExceeded(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: AiConnectIndexResendExceeded(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseAiConnectJobRetryEnqueued(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: AiConnectJobRetryEnqueued(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseAiConnectJobRetryExceeded(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: AiConnectJobRetryExceeded(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseAiConnectOutputFilePathNotSet(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: AiConnectOutputFilePathNotSet(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseAiConnectResyncAlreadyEnqueued(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: AiConnectResyncAlreadyEnqueued(
+                    context: context,
+                    data: data),
+                target: target);
         }
 
         public static ResponseCollection ResponseAlreadyAdded(
@@ -3512,6 +3761,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseFailedSyncAiProviders(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: FailedSyncAiProviders(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseFailedWriteFile(
             Context context, string target = null, params string[] data)
         {
@@ -3837,6 +4097,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: InternalServerError(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseInvalidAiProviderSetting(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: InvalidAiProviderSetting(
                     context: context,
                     data: data),
                 target: target);
@@ -4678,6 +4949,28 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseScimTokenIssued(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ScimTokenIssued(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseScimTokenOneTimeMessage(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ScimTokenOneTimeMessage(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseSecondaryAuthentication(
             Context context, string target = null, params string[] data)
         {
@@ -4838,6 +5131,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: SuspendRequired(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseSyncAiProvidersCompleted(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: SyncAiProvidersCompleted(
                     context: context,
                     data: data),
                 target: target);
@@ -5058,6 +5362,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: UserSwitched(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseValidationError(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ValidationError(
                     context: context,
                     data: data),
                 target: target);

@@ -1,0 +1,33 @@
+{
+    "Id": "AiProviderFormat",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Connection Format"
+        },
+        {
+            "Language": "zh",
+            "Body": "集成格式"
+        },
+        {
+            "Language": "ja",
+            "Body": "連携フォーマット"
+        },
+        {
+            "Language": "de",
+            "Body": "Verbindungsformat"
+        },
+        {
+            "Language": "ko",
+            "Body": "연계 형식"
+        },
+        {
+            "Language": "es",
+            "Body": "Formato de conexión"
+        },
+        {
+            "Language": "vn",
+            "Body": "Định dạng kết nối"
+        }
+    ]
+}

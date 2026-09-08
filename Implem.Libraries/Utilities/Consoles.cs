@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Implem.DefinitionAccessor;
+using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -35,8 +36,11 @@ namespace Implem.Libraries.Utilities
             {
                 Trace.WriteLine("\r\nAbort. Press any key to close.");
                 Trace.Flush();
-                Console.ReadKey();
-                Environment.Exit(-1);
+                if (!Console.IsInputRedirected)
+                {
+                    Console.ReadKey();
+                }
+                Environment.Exit(CodeDefinerExitCodes.Error);
             }
         }
 

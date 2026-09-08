@@ -1,0 +1,33 @@
+{
+    "Id": "BackgroundJobTypeAiConnect",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "AI Connect"
+        },
+        {
+            "Language": "zh",
+            "Body": "AI集成"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携"
+        },
+        {
+            "Language": "de",
+            "Body": "KI-Verbindung"
+        },
+        {
+            "Language": "ko",
+            "Body": "AI 연계"
+        },
+        {
+            "Language": "es",
+            "Body": "Conexión de IA"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kết nối AI"
+        }
+    ]
+}

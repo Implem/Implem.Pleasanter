@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.MCP.Models
             "GetItems",
             "GetSite",
             "GetSiteIdByTitle",
+            "GetSiteTemplates",
             "GetUserIdByName",
             "GetUsers",
             "CreateViewJson",

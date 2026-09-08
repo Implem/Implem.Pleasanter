@@ -10,6 +10,11 @@ namespace Implem.Pleasanter.Libraries.General
         public enum Types
         {
             None,
+            AiConnectDeleteJobRetryExceeded,
+            AiConnectIndexCheckIncomplete,
+            AiConnectJobRetryExceeded,
+            AiConnectOutputFilePathNotSet,
+            AiConnectResyncAlreadyEnqueued,
             AlreadyAdded,
             AlreadyLinked,
             ApplicationError,
@@ -59,6 +64,7 @@ namespace Implem.Pleasanter.Libraries.General
             ExternalMailAddress,
             FailedBulkUpsert,
             FailedReadFile,
+            FailedSyncAiProviders,
             FailedWriteFile,
             FileNotFound,
             FormulaExecutionFailed,
@@ -79,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.General
             IncorrectUser,
             InputMailAddress,
             InternalServerError,
+            InvalidAiProviderSetting,
             InvalidCsvData,
             InvalidDateHhMmFormat,
             InvalidFormula,
@@ -160,7 +167,8 @@ namespace Implem.Pleasanter.Libraries.General
             UserDisabled,
             UserLockout,
             UserNotSelfDelete,
-            UsersLimit
+            UsersLimit,
+            ValidationError
         }
 
         public static bool Has(this Types type)
@@ -172,6 +180,26 @@ namespace Implem.Pleasanter.Libraries.General
         {
             switch (type)
             {
+                case Types.AiConnectDeleteJobRetryExceeded:
+                    return Messages.AiConnectDeleteJobRetryExceeded(
+                        context: context,
+                        data: data);
+                case Types.AiConnectIndexCheckIncomplete:
+                    return Messages.AiConnectIndexCheckIncomplete(
+                        context: context,
+                        data: data);
+                case Types.AiConnectJobRetryExceeded:
+                    return Messages.AiConnectJobRetryExceeded(
+                        context: context,
+                        data: data);
+                case Types.AiConnectOutputFilePathNotSet:
+                    return Messages.AiConnectOutputFilePathNotSet(
+                        context: context,
+                        data: data);
+                case Types.AiConnectResyncAlreadyEnqueued:
+                    return Messages.AiConnectResyncAlreadyEnqueued(
+                        context: context,
+                        data: data);
                 case Types.AlreadyAdded:
                     return Messages.AlreadyAdded(
                         context: context,
@@ -368,6 +396,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.FailedReadFile(
                         context: context,
                         data: data);
+                case Types.FailedSyncAiProviders:
+                    return Messages.FailedSyncAiProviders(
+                        context: context,
+                        data: data);
                 case Types.FailedWriteFile:
                     return Messages.FailedWriteFile(
                         context: context,
@@ -446,6 +478,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InternalServerError:
                     return Messages.InternalServerError(
+                        context: context,
+                        data: data);
+                case Types.InvalidAiProviderSetting:
+                    return Messages.InvalidAiProviderSetting(
                         context: context,
                         data: data);
                 case Types.InvalidCsvData:
@@ -774,6 +810,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.UsersLimit:
                     return Messages.UsersLimit(
+                        context: context,
+                        data: data);
+                case Types.ValidationError:
+                    return Messages.ValidationError(
                         context: context,
                         data: data);
                 default: return null;

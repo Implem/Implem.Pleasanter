@@ -1,0 +1,4 @@
+﻿var errorData = #modelName#Model.Create(
+        context: context,
+        ss: ss,
+        #modelName#ApiModel: #modelName#ApiModel);

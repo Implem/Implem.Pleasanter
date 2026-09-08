@@ -1,4 +1,15 @@
 ﻿public static string History(Context context, SiteModel siteModel)
 {
-    return EditorResponse(context: context, siteModel: siteModel).ToJson();
+    return EditorResponse(context: context, siteModel: siteModel)
+        .PushState("History", Locations.Get(
+            context: context,
+            parts: new string[]
+            {
+                context.Controller,
+                siteModel.SiteId.ToString()
+                    + (siteModel.VerType == Versions.VerTypes.History
+                        ? "?ver=" + context.Forms.Int("Ver")
+                        : string.Empty)
+            }))
+        .ToJson();
 }

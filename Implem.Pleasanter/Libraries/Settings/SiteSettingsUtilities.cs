@@ -145,6 +145,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "passkeys": return PasskeysSiteSettings(context: context);
                 case "registrations": return RegistrationsSiteSettings(context: context);
                 case "reminderschedules": return ReminderSchedulesSiteSettings(context: context);
+                case "scimtokens": return ScimTokensSiteSettings(context: context);
                 case "sessions": return SessionsSiteSettings(context: context);
                 case "statuses": return StatusesSiteSettings(context: context);
                 case "syslogs": return SysLogsSiteSettings(context: context);
@@ -449,6 +450,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings()
             {
                 ReferenceType = "ReminderSchedules"
+            };
+            ss.Init(context: context);
+            ss.TableType = tableTypes;
+            return ss;
+        }
+
+        public static SiteSettings ScimTokensSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "ScimTokens"
             };
             ss.Init(context: context);
             ss.TableType = tableTypes;

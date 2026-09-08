@@ -2600,6 +2600,54 @@ namespace Implem.Pleasanter.Models
                                     value: userModel.LoginExpirationPeriod.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
+                            case "ScimId":
+                                res.Val(
+                                    target: "#Users_ScimId" + idSuffix,
+                                    value: userModel.ScimId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "ScimExternalId":
+                                res.Val(
+                                    target: "#Users_ScimExternalId" + idSuffix,
+                                    value: userModel.ScimExternalId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "ScimSync":
+                                res.Val(
+                                    target: "#Users_ScimSync" + idSuffix,
+                                    value: userModel.ScimSync,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UiType":
+                                res.Val(
+                                    target: "#Users_UiType" + idSuffix,
+                                    value: userModel.UiType.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UiColorScheme":
+                                res.Val(
+                                    target: "#Users_UiColorScheme" + idSuffix,
+                                    value: userModel.UiColorScheme.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UiMainColor":
+                                res.Val(
+                                    target: "#Users_UiMainColor" + idSuffix,
+                                    value: userModel.UiMainColor.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UiSubColor":
+                                res.Val(
+                                    target: "#Users_UiSubColor" + idSuffix,
+                                    value: userModel.UiSubColor.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UiBackgroundColor":
+                                res.Val(
+                                    target: "#Users_UiBackgroundColor" + idSuffix,
+                                    value: userModel.UiBackgroundColor.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
                             default:
                                 switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                 {
@@ -2918,6 +2966,148 @@ namespace Implem.Pleasanter.Models
                     value: message.Text);
                 return message;
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool CreateByServerScript(
+            Context context,
+            SiteSettings ss,
+            int userId)
+        {
+            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
+            if (userApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var userModel = new UserModel(
+                context: context,
+                ss: ss,
+                userId: userId,
+                userApiModel: userApiModel);
+            var invalid = UserValidators.OnCreating(
+                context: context,
+                ss: ss,
+                userModel: userModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            userModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: userModel);
+            var errorData = userModel.Create(
+                context: context,
+                ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool UpdateByServerScript(
+            Context context,
+            SiteSettings ss,
+            int userId)
+        {
+            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
+            if (userApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var userModel = new UserModel(
+                context: context,
+                ss: ss,
+                userId: userId,
+                userApiModel: userApiModel);
+            if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return false;
+            }
+            var invalid = UserValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                userModel: userModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            userModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: userModel);
+            var errorData = userModel.Update(
+                context: context,
+                ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static List<User> GetListByServerScript(
+            Context context,
+            SiteSettings ss,
+            string view,
+            int offset,
+            int pageSize)
+        {
+            var apiView = view.Deserialize<View>() ?? new View();
+            var maxPageSize = pageSize > 0 && pageSize <= Parameters.Api.PageSize
+                ? pageSize
+                : Parameters.Api.PageSize;
+            var minOffset = offset > 0
+                ? offset
+                : 0;
+            var dataTable = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectUsers(
+                    column: User.QueryColumnWithExtras(),
+                    join: Rds.UsersJoinDefault(),
+                    where: apiView.Where(
+                        context: context,
+                        ss: ss)
+                            .Users_TenantId(context.TenantId)
+                            .SqlWhereLike(
+                                tableName: "\"Users\"",
+                                name: "SearchText",
+                                searchText: apiView.ColumnFilterHash
+                                    ?.Where(f => f.Key == "SearchText")
+                                    ?.Select(f => f.Value)
+                                    ?.FirstOrDefault(),
+                                clauseCollection: SearchTextClauses(context: context)),
+                    orderBy: apiView.OrderBy(
+                        context: context,
+                        ss: ss),
+                    offset: minOffset,
+                    pageSize: maxPageSize));
+            return dataTable.AsEnumerable()
+                .Select(dataRow => new User(
+                    context: context,
+                    dataRow: dataRow))
+                .ToList();
         }
 
         public static string Delete(Context context, SiteSettings ss, int userId)
@@ -4977,16 +5167,7 @@ namespace Implem.Pleasanter.Models
                                         ?.Where(f => f.Key == "SearchText")
                                         ?.Select(f => f.Value)
                                         ?.FirstOrDefault(),
-                                    clauseCollection: new List<string>()
-                                    {
-                                        Rds.Users_LoginId_WhereLike(factory: context),
-                                        Rds.Users_Name_WhereLike(factory: context),
-                                        Rds.Users_UserCode_WhereLike(factory: context),
-                                        Rds.Users_Body_WhereLike(factory: context),
-                                        Rds.Depts_DeptCode_WhereLike(factory: context),
-                                        Rds.Depts_DeptName_WhereLike(factory: context),
-                                        Rds.Depts_Body_WhereLike(factory: context)
-                                    }),
+                                    clauseCollection: SearchTextClauses(context: context)),
                         orderBy: view.OrderBy(
                             context: context,
                             ss: ss),
@@ -5011,6 +5192,23 @@ namespace Implem.Pleasanter.Models
                         }
                     }.ToJson());
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static List<string> SearchTextClauses(Context context)
+        {
+            return new List<string>()
+            {
+                Rds.Users_LoginId_WhereLike(factory: context),
+                Rds.Users_Name_WhereLike(factory: context),
+                Rds.Users_UserCode_WhereLike(factory: context),
+                Rds.Users_Body_WhereLike(factory: context),
+                Rds.Depts_DeptCode_WhereLike(factory: context),
+                Rds.Depts_DeptName_WhereLike(factory: context),
+                Rds.Depts_Body_WhereLike(factory: context)
+            };
         }
 
         /// <summary>

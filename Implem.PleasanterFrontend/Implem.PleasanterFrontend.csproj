@@ -58,8 +58,22 @@
     <!-- Git ブランチ変更検知 -->
     <Target Name="CheckGitBranch" BeforeTargets="NpmBuild"
             Condition="'$(SkipBuildTask)' != 'true'">
-        <!-- 現在のブランチ名を取得 -->
+        <!-- 現在のブランチ名を取得。
+             git コマンドの起動は毎ビルド 0.5 秒ほどかかるため、通常構成では .git/HEAD を直接読む（約 1ms）。
+             通常は "ref: refs/heads/<branch>"、detached HEAD ではコミットSHAがそのまま入る。 -->
+        <PropertyGroup>
+            <GitHeadFile>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../.git/HEAD'))</GitHeadFile>
+            <GitHeadFileExists>$([System.IO.File]::Exists('$(GitHeadFile)'))</GitHeadFileExists>
+        </PropertyGroup>
+        <ReadLinesFromFile File="$(GitHeadFile)" ContinueOnError="true" Condition="$(GitHeadFileExists)">
+            <Output TaskParameter="Lines" PropertyName="CurrentBranchRaw" />
+        </ReadLinesFromFile>
+
+        <!-- worktree や submodule では .git がファイル（中身は "gitdir: ..."）になり、
+             上の .git/HEAD が存在しない。その場合だけ git に問い合わせる。
+             gitdir の解決を自前で持たずに済み、通常構成の速さも保てる。 -->
         <Exec Command="git rev-parse --abbrev-ref HEAD"
+            Condition="!$(GitHeadFileExists)"
             ConsoleToMSBuild="true"
             IgnoreExitCode="true"
             ContinueOnError="true">
@@ -67,9 +81,13 @@
             <Output TaskParameter="ExitCode" PropertyName="GitExitCode" />
         </Exec>
 
-        <!-- ブランチ名を正規化（改行・空白を除去） -->
+        <!-- ブランチ名を正規化（"ref: refs/heads/" を除去し、改行・空白も除去） -->
         <PropertyGroup>
-            <CurrentBranch>$(CurrentBranchRaw.Trim())</CurrentBranch>
+            <CurrentBranch Condition="'$(CurrentBranchRaw)' != ''">$(CurrentBranchRaw.Trim().Replace('ref: refs/heads/', ''))</CurrentBranch>
+            <GitAvailable>true</GitAvailable>
+            <GitAvailable Condition="'$(CurrentBranch)' == ''">false</GitAvailable>
+            <!-- フォールバックの git 自体が失敗した場合（未インストール等） -->
+            <GitAvailable Condition="'$(GitExitCode)' != '' AND '$(GitExitCode)' != '0'">false</GitAvailable>
         </PropertyGroup>
 
         <!-- 前回のブランチ名を読み込み -->
@@ -87,13 +105,13 @@
         </PropertyGroup>
 
         <!-- Git環境がない場合は強制クリーン -->
-        <PropertyGroup Condition="'$(GitExitCode)' != '0'">
+        <PropertyGroup Condition="'$(GitAvailable)' != 'true'">
             <ShouldCleanAssets>true</ShouldCleanAssets>
             <CleanReason>Git environment not available</CleanReason>
         </PropertyGroup>
 
         <!-- ブランチが変わった場合はクリーン（初回は除外） -->
-        <PropertyGroup Condition="'$(GitExitCode)' == '0' AND $(GitBranchFileExists) AND '$(CurrentBranch)' != '$(PreviousBranch)'">
+        <PropertyGroup Condition="'$(GitAvailable)' == 'true' AND $(GitBranchFileExists) AND '$(CurrentBranch)' != '$(PreviousBranch)'">
             <ShouldCleanAssets>true</ShouldCleanAssets>
             <CleanReason>Branch changed: $(PreviousBranch) → $(CurrentBranch)</CleanReason>
         </PropertyGroup>
@@ -108,7 +126,7 @@
         <WriteLinesToFile File="$(GitBranchFile)"
                         Lines="$(CurrentBranch)"
                         Overwrite="true"
-                        Condition="'$(GitExitCode)' == '0'" />
+                        Condition="'$(GitAvailable)' == 'true'" />
     </Target>
 
     <!-- ソース一覧をスナップショットに書き出し、削除・リネームをビルドトリガーにする -->

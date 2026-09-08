@@ -47,6 +47,11 @@ namespace Implem.Pleasanter.Models
         public string Language = string.Empty;
         public string TimeZone = string.Empty;
         public TenantSettings TenantSettings = new TenantSettings();
+        public string UiType = string.Empty;
+        public string UiColorScheme = string.Empty;
+        public string UiMainColor = string.Empty;
+        public string UiSubColor = string.Empty;
+        public string UiBackgroundColor = string.Empty;
         public DateTime RestartScheduledTime = 0.ToDateTime();
         public DateTime DeleteRequestTime = 0.ToDateTime();
         public int SavedTenantId = 0;
@@ -70,6 +75,11 @@ namespace Implem.Pleasanter.Models
         public string SavedLanguage = string.Empty;
         public string SavedTimeZone = string.Empty;
         public string SavedTenantSettings = string.Empty;
+        public string SavedUiType = string.Empty;
+        public string SavedUiColorScheme = string.Empty;
+        public string SavedUiMainColor = string.Empty;
+        public string SavedUiSubColor = string.Empty;
+        public string SavedUiBackgroundColor = string.Empty;
         public DateTime SavedRestartScheduledTime = 0.ToDateTime();
         public DateTime SavedDeleteRequestTime = 0.ToDateTime();
 
@@ -311,6 +321,66 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != TenantSettings.RecordingJson(context: context));
+        }
+
+        public bool UiType_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UiType;
+            }
+            return UiType != SavedUiType && UiType != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UiType);
+        }
+
+        public bool UiColorScheme_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UiColorScheme;
+            }
+            return UiColorScheme != SavedUiColorScheme && UiColorScheme != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UiColorScheme);
+        }
+
+        public bool UiMainColor_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UiMainColor;
+            }
+            return UiMainColor != SavedUiMainColor && UiMainColor != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UiMainColor);
+        }
+
+        public bool UiSubColor_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UiSubColor;
+            }
+            return UiSubColor != SavedUiSubColor && UiSubColor != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UiSubColor);
+        }
+
+        public bool UiBackgroundColor_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UiBackgroundColor;
+            }
+            return UiBackgroundColor != SavedUiBackgroundColor && UiBackgroundColor != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UiBackgroundColor);
         }
 
         public bool ContractDeadline_Updated(Context context, bool copy = false, Column column = null)
@@ -559,6 +629,11 @@ namespace Implem.Pleasanter.Models
                     case "Language": data.Language = Language; break;
                     case "TimeZone": data.TimeZone = TimeZone; break;
                     case "TenantSettings": data.TenantSettings = TenantSettings.RecordingJson(context: context); break;
+                    case "UiType": data.UiType = UiType; break;
+                    case "UiColorScheme": data.UiColorScheme = UiColorScheme; break;
+                    case "UiMainColor": data.UiMainColor = UiMainColor; break;
+                    case "UiSubColor": data.UiSubColor = UiSubColor; break;
+                    case "UiBackgroundColor": data.UiBackgroundColor = UiBackgroundColor; break;
                     case "RestartScheduledTime": data.RestartScheduledTime = RestartScheduledTime.ToLocal(context: context); break;
                     case "DeleteRequestTime": data.DeleteRequestTime = DeleteRequestTime.ToLocal(context: context); break;
                     case "Creator": data.Creator = Creator.Id; break;
@@ -674,6 +749,31 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "TimeZone":
                     return TimeZone.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiType":
+                    return UiType.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiColorScheme":
+                    return UiColorScheme.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiMainColor":
+                    return UiMainColor.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiSubColor":
+                    return UiSubColor.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UiBackgroundColor":
+                    return UiBackgroundColor.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1054,6 +1154,11 @@ namespace Implem.Pleasanter.Models
                     case "Tenants_Theme": Theme = value.ToString(); break;
                     case "Tenants_Language": Language = value.ToString(); break;
                     case "Tenants_TimeZone": TimeZone = value.ToString(); break;
+                    case "Tenants_UiType": UiType = value.ToString(); break;
+                    case "Tenants_UiColorScheme": UiColorScheme = value.ToString(); break;
+                    case "Tenants_UiMainColor": UiMainColor = value.ToString(); break;
+                    case "Tenants_UiSubColor": UiSubColor = value.ToString(); break;
+                    case "Tenants_UiBackgroundColor": UiBackgroundColor = value.ToString(); break;
                     case "Tenants_RestartScheduledTime": RestartScheduledTime = value.ToDateTime().ToUniversal(context: context); break;
                     case "Tenants_DeleteRequestTime": DeleteRequestTime = value.ToDateTime().ToUniversal(context: context); break;
                     case "Tenants_Timestamp": Timestamp = value.ToString(); break;
@@ -1140,6 +1245,11 @@ namespace Implem.Pleasanter.Models
             Language = tenantModel.Language;
             TimeZone = tenantModel.TimeZone;
             TenantSettings = tenantModel.TenantSettings;
+            UiType = tenantModel.UiType;
+            UiColorScheme = tenantModel.UiColorScheme;
+            UiMainColor = tenantModel.UiMainColor;
+            UiSubColor = tenantModel.UiSubColor;
+            UiBackgroundColor = tenantModel.UiBackgroundColor;
             RestartScheduledTime = tenantModel.RestartScheduledTime;
             DeleteRequestTime = tenantModel.DeleteRequestTime;
             Comments = tenantModel.Comments;
@@ -1177,6 +1287,11 @@ namespace Implem.Pleasanter.Models
             if (data.Theme != null) Theme = data.Theme.ToString().ToString();
             if (data.Language != null) Language = data.Language.ToString().ToString();
             if (data.TimeZone != null) TimeZone = data.TimeZone.ToString().ToString();
+            if (data.UiType != null) UiType = data.UiType.ToString().ToString();
+            if (data.UiColorScheme != null) UiColorScheme = data.UiColorScheme.ToString().ToString();
+            if (data.UiMainColor != null) UiMainColor = data.UiMainColor.ToString().ToString();
+            if (data.UiSubColor != null) UiSubColor = data.UiSubColor.ToString().ToString();
+            if (data.UiBackgroundColor != null) UiBackgroundColor = data.UiBackgroundColor.ToString().ToString();
             if (data.RestartScheduledTime != null) RestartScheduledTime = data.RestartScheduledTime.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.DeleteRequestTime != null) DeleteRequestTime = data.DeleteRequestTime.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.Comments != null) Comments.ClearAndSplitPrependByApi(context: context, ss: ss, body: data.Comments, update: AccessStatus == Databases.AccessStatuses.Selected);
@@ -1412,6 +1527,26 @@ namespace Implem.Pleasanter.Models
                             TenantSettings = GetTenantSettings(context: context, dataRow: dataRow);
                             SavedTenantSettings = TenantSettings.RecordingJson(context: context);
                             break;
+                        case "UiType":
+                            UiType = dataRow[column.ColumnName].ToString();
+                            SavedUiType = UiType;
+                            break;
+                        case "UiColorScheme":
+                            UiColorScheme = dataRow[column.ColumnName].ToString();
+                            SavedUiColorScheme = UiColorScheme;
+                            break;
+                        case "UiMainColor":
+                            UiMainColor = dataRow[column.ColumnName].ToString();
+                            SavedUiMainColor = UiMainColor;
+                            break;
+                        case "UiSubColor":
+                            UiSubColor = dataRow[column.ColumnName].ToString();
+                            SavedUiSubColor = UiSubColor;
+                            break;
+                        case "UiBackgroundColor":
+                            UiBackgroundColor = dataRow[column.ColumnName].ToString();
+                            SavedUiBackgroundColor = UiBackgroundColor;
+                            break;
                         case "RestartScheduledTime":
                             RestartScheduledTime = dataRow[column.ColumnName].ToDateTime();
                             SavedRestartScheduledTime = RestartScheduledTime;
@@ -1530,6 +1665,11 @@ namespace Implem.Pleasanter.Models
                 || Language_Updated(context: context)
                 || TimeZone_Updated(context: context)
                 || TenantSettings_Updated(context: context)
+                || UiType_Updated(context: context)
+                || UiColorScheme_Updated(context: context)
+                || UiMainColor_Updated(context: context)
+                || UiSubColor_Updated(context: context)
+                || UiBackgroundColor_Updated(context: context)
                 || RestartScheduledTime_Updated(context: context)
                 || DeleteRequestTime_Updated(context: context)
                 || Comments_Updated(context: context)
@@ -1595,6 +1735,11 @@ namespace Implem.Pleasanter.Models
                 || Language_Updated(context: context)
                 || TimeZone_Updated(context: context)
                 || TenantSettings_Updated(context: context)
+                || UiType_Updated(context: context)
+                || UiColorScheme_Updated(context: context)
+                || UiMainColor_Updated(context: context)
+                || UiSubColor_Updated(context: context)
+                || UiBackgroundColor_Updated(context: context)
                 || RestartScheduledTime_Updated(context: context)
                 || DeleteRequestTime_Updated(context: context)
                 || Comments_Updated(context: context)

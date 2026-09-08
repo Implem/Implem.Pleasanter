@@ -1,8 +1,13 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Data;
+using System.Dynamic;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelGroupModel
@@ -13,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly string GroupName;
         public readonly string Body;
         public readonly bool Disabled;
+        private readonly Dictionary<string, object> Extras;
 
         public ServerScriptModelGroupModel(
             Context context,
@@ -20,7 +26,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             int groupId,
             string groupName,
             string body,
-            bool disabled)
+            bool disabled,
+            Dictionary<string, object> extras)
         {
             Context = context;
             TenantId = tenantId;
@@ -28,29 +35,125 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             GroupName = groupName;
             Body = body;
             Disabled = disabled;
+            Extras = extras;
+        }
+
+        public object ToJson()
+        {
+            dynamic d = new ExpandoObject();
+            var dict = (IDictionary<string, object>)d;
+            dict["TenantId"] = TenantId;
+            dict["GroupId"] = GroupId;
+            dict["GroupName"] = GroupName;
+            dict["Body"] = Body;
+            dict["Disabled"] = Disabled;
+            ServerScriptUtilities.MergeExtras(dict, Extras);
+            return d;
+        }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(ToJson());
         }
 
         public List<ServerScriptModelGroupMemberModel> GetMembers()
         {
-            var groupMembers = new List<ServerScriptModelGroupMemberModel>();
-            GroupUtilities.GroupMembersDetail(
+            var detail = GroupUtilities.GroupMembersDetail(
                 context: Context,
-                groupId: GroupId)
-                    .ForEach(dataRow =>
-                        groupMembers.Add(new ServerScriptModelGroupMemberModel(
-                            context: Context,
-                            groupId: dataRow.Int("GroupId"),
-                            groupName: dataRow.String("GroupName"),
-                            deptId: dataRow.Int("DeptId"),
-                            deptName: dataRow.String("DeptName"),
-                            deptCode: dataRow.String("DeptCode"),
-                            userId: dataRow.Int("UserId"),
-                            loginId: dataRow.String("LoginId"),
-                            name: dataRow.String("Name"),
-                            userCode: dataRow.String("UserCode"),
-                            tenantManager: dataRow.Bool("TenantManager"),
-                            disabled: dataRow.Bool("Disabled"),
-                            admin: dataRow.Bool("Admin"))));
+                groupId: GroupId).ToList();
+            var userIds = detail
+                .Select(dataRow => dataRow.Int("UserId"))
+                .Where(id => id > 0)
+                .Distinct()
+                .ToList();
+            var deptIds = detail
+                .Select(dataRow => dataRow.Int("DeptId"))
+                .Where(id => id > 0)
+                .Distinct()
+                .ToList();
+            var childGroupIds = detail
+                .Select(dataRow => dataRow.Int("GroupId"))
+                .Where(id => id > 0)
+                .Distinct()
+                .ToList();
+            var userExtrasHash = userIds.Any()
+                ? Repository.ExecuteTable(
+                    context: Context,
+                    statements: Rds.SelectUsers(
+                        column: DataTypes.User.QueryColumnWithExtras(),
+                        where: Rds.UsersWhere()
+                            .TenantId(Context.TenantId)
+                            .UserId_In(userIds)))
+                        .AsEnumerable()
+                        .ToDictionary(
+                            dataRow => dataRow.Int("UserId"),
+                            dataRow => ServerScriptUtilities.BuildExtras(dataRow, "Users"))
+                : new Dictionary<int, Dictionary<string, object>>();
+            var deptExtrasHash = deptIds.Any()
+                ? Repository.ExecuteTable(
+                    context: Context,
+                    statements: Rds.SelectDepts(
+                        column: DataTypes.Dept.QueryColumnWithExtras(),
+                        where: Rds.DeptsWhere()
+                            .TenantId(Context.TenantId)
+                            .DeptId_In(deptIds)))
+                        .AsEnumerable()
+                        .ToDictionary(
+                            dataRow => dataRow.Int("DeptId"),
+                            dataRow => ServerScriptUtilities.BuildExtras(dataRow, "Depts"))
+                : new Dictionary<int, Dictionary<string, object>>();
+            var groupExtrasHash = childGroupIds.Any()
+                ? Repository.ExecuteTable(
+                    context: Context,
+                    statements: Rds.SelectGroups(
+                        column: DataTypes.Group.QueryColumnWithExtras(),
+                        where: Rds.GroupsWhere()
+                            .TenantId(Context.TenantId)
+                            .GroupId_In(childGroupIds)))
+                        .AsEnumerable()
+                        .ToDictionary(
+                            dataRow => dataRow.Int("GroupId"),
+                            dataRow => ServerScriptUtilities.BuildExtras(dataRow, "Groups"))
+                : new Dictionary<int, Dictionary<string, object>>();
+            var groupMembers = new List<ServerScriptModelGroupMemberModel>();
+            detail.ForEach(dataRow =>
+            {
+                var userId = dataRow.Int("UserId");
+                var deptId = dataRow.Int("DeptId");
+                var childGroupId = dataRow.Int("GroupId");
+                Dictionary<string, object> extras;
+                if (userId > 0)
+                {
+                    extras = userExtrasHash.Get(userId);
+                }
+                else if (deptId > 0)
+                {
+                    extras = deptExtrasHash.Get(deptId);
+                }
+                else if (childGroupId > 0)
+                {
+                    extras = groupExtrasHash.Get(childGroupId);
+                }
+                else
+                {
+                    extras = null;
+                }
+                groupMembers.Add(new ServerScriptModelGroupMemberModel(
+                    context: Context,
+                    groupId: childGroupId,
+                    groupName: dataRow.String("GroupName"),
+                    deptId: deptId,
+                    deptName: dataRow.String("DeptName"),
+                    deptCode: dataRow.String("DeptCode"),
+                    userId: userId,
+                    loginId: dataRow.String("LoginId"),
+                    name: dataRow.String("Name"),
+                    userCode: dataRow.String("UserCode"),
+                    tenantManager: dataRow.Bool("TenantManager"),
+                    disabled: dataRow.Bool("Disabled"),
+                    admin: dataRow.Bool("Admin"),
+                    extras: extras));
+            });
             return groupMembers;
         }
 
@@ -96,14 +199,34 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public List<ServerScriptModelGroupModel> GetChildren()
         {
-            var groupChildren = new List<ServerScriptModelGroupModel>();
-            GroupUtilities.GroupChildren(
+            var childIds = GroupUtilities.GroupChildren(
                 context: Context,
                 groupId: GroupId)
-                    .ForEach(dataRow =>
-                        groupChildren.Add(new ServerScriptModelGroups(context: Context)
-                        .Get(id: dataRow.Int("GroupId"))));
-            return groupChildren;
+                    .Select(dataRow => dataRow.Int("GroupId"))
+                    .ToList();
+            if (!childIds.Any())
+            {
+                return new List<ServerScriptModelGroupModel>();
+            }
+            var dataTable = Repository.ExecuteTable(
+                context: Context,
+                statements: Rds.SelectGroups(
+                    column: DataTypes.Group.QueryColumnWithExtras(),
+                    where: Rds.GroupsWhere()
+                        .TenantId(Context.TenantId)
+                        .GroupId_In(childIds),
+                    orderBy: Rds.GroupsOrderBy().GroupId()));
+            return dataTable.AsEnumerable()
+                .Select(dataRow => new DataTypes.Group(dataRow: dataRow))
+                .Select(g => new ServerScriptModelGroupModel(
+                    context: Context,
+                    tenantId: g.TenantId,
+                    groupId: g.Id,
+                    groupName: g.Name,
+                    body: g.Body,
+                    disabled: g.Disabled,
+                    extras: g.Extras))
+                .ToList();
         }
 
         public bool ContainsChild(int childId)

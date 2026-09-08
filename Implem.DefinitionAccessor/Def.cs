@@ -4,6 +4,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,25 @@ namespace Implem.DefinitionAccessor
     {
         public static Dictionary<string, string> ExtendedColumnTypes = new Dictionary<string, string>();
         public static ISqlDefinitionFiles SqllDefinitionFiles;
+        private static readonly ConcurrentDictionary<string, List<ColumnDefinition>>
+            ExtendedColumnDefinitionsByTable =
+                new ConcurrentDictionary<string, List<ColumnDefinition>>();
+
+        public static List<ColumnDefinition> GetExtendedColumnDefinitions(string tableName)
+        {
+            return ExtendedColumnDefinitionsByTable.GetOrAdd(
+                tableName,
+                key => ColumnDefinitionCollection
+                    .Where(columnDefinition => columnDefinition.TableName == key)
+                    .Where(columnDefinition => !columnDefinition.ExtendedColumnType.IsNullOrEmpty())
+                    .ToList());
+        }
+
+
+        public static void ClearExtendedColumnDefinitionsCache()
+        {
+            ExtendedColumnDefinitionsByTable.Clear();
+        }
 
         public static bool ExistsModel(
             string modelName,
@@ -365,6 +385,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_AddSqlParamIdentity": Code.Model_AddSqlParamIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamIdentity, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamPk": Code.Model_AddSqlParamPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamPk, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamPkHistory": Code.Model_AddSqlParamPkHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamPkHistory, definitionRow, CodeXls); break;
+                    case "Model_AiConnectDelete": Code.Model_AiConnectDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AiConnectDelete, definitionRow, CodeXls); break;
+                    case "Model_AiConnectSyncCreate": Code.Model_AiConnectSyncCreate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AiConnectSyncCreate, definitionRow, CodeXls); break;
+                    case "Model_AiConnectSyncUpdate": Code.Model_AiConnectSyncUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AiConnectSyncUpdate, definitionRow, CodeXls); break;
                     case "Model_AnalyCases": Code.Model_AnalyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AnalyCases, definitionRow, CodeXls); break;
                     case "Model_AnalyJsonCases": Code.Model_AnalyJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AnalyJsonCases, definitionRow, CodeXls); break;
                     case "Model_Api": Code.Model_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Api, definitionRow, CodeXls); break;
@@ -815,6 +838,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create_Tables": Code.Model_Utilities_Create_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateByApi": Code.Model_Utilities_CreateByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateByApiSynchronizeSummary": Code.Model_Utilities_CreateByApiSynchronizeSummary = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateByApiSynchronizeSummary, definitionRow, CodeXls); break;
+                    case "Model_Utilities_CreateByServerScript": Code.Model_Utilities_CreateByServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateByServerScript, definitionRow, CodeXls); break;
+                    case "Model_Utilities_CreateByServerScript_Call": Code.Model_Utilities_CreateByServerScript_Call = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateByServerScript_Call, definitionRow, CodeXls); break;
+                    case "Model_Utilities_CreateByServerScript_CallGroup": Code.Model_Utilities_CreateByServerScript_CallGroup = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateByServerScript_CallGroup, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedMessage": Code.Model_Utilities_CreatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedMessage, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse": Code.Model_Utilities_CreatedResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse_Forms": Code.Model_Utilities_CreatedResponse_Forms = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Forms, definitionRow, CodeXls); break;
@@ -858,6 +884,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Gantt": Code.Model_Utilities_Gantt = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Gantt, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetByApi": Code.Model_Utilities_GetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetFormDataSet": Code.Model_Utilities_GetFormDataSet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetFormDataSet, definitionRow, CodeXls); break;
+                    case "Model_Utilities_GetListByServerScript": Code.Model_Utilities_GetListByServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetListByServerScript, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetServerScriptModelRow": Code.Model_Utilities_GetServerScriptModelRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetServerScriptModelRow, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetSwitchTargets": Code.Model_Utilities_GetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridCopyRowFormData": Code.Model_Utilities_GridCopyRowFormData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridCopyRowFormData, definitionRow, CodeXls); break;
@@ -982,6 +1009,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_UpdateByApi": Code.Model_Utilities_UpdateByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByGrid": Code.Model_Utilities_UpdateByGrid = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByGrid, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByKamban": Code.Model_Utilities_UpdateByKamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByKamban, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpdateByServerScript": Code.Model_Utilities_UpdateByServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByServerScript, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpdateByServerScript_Call": Code.Model_Utilities_UpdateByServerScript_Call = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByServerScript_Call, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpdateByServerScript_CallGroup": Code.Model_Utilities_UpdateByServerScript_CallGroup = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByServerScript_CallGroup, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdatedMessage": Code.Model_Utilities_UpdatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdatedMessage, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateInvalid_Users": Code.Model_Utilities_UpdateInvalid_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateInvalid_Users, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateItems": Code.Model_Utilities_UpdateItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateItems, definitionRow, CodeXls); break;
@@ -1783,6 +1813,9 @@ namespace Implem.DefinitionAccessor
                     case "Groups_MemberKey": Column.Groups_MemberKey = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_MemberKey, definitionRow, ColumnXls); break;
                     case "Groups_MemberName": Column.Groups_MemberName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_MemberName, definitionRow, ColumnXls); break;
                     case "Groups_MemberType": Column.Groups_MemberType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_MemberType, definitionRow, ColumnXls); break;
+                    case "Groups_ScimExternalId": Column.Groups_ScimExternalId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_ScimExternalId, definitionRow, ColumnXls); break;
+                    case "Groups_ScimId": Column.Groups_ScimId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_ScimId, definitionRow, ColumnXls); break;
+                    case "Groups_ScimSync": Column.Groups_ScimSync = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_ScimSync, definitionRow, ColumnXls); break;
                     case "Groups_SynchronizedTime": Column.Groups_SynchronizedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_SynchronizedTime, definitionRow, ColumnXls); break;
                     case "Groups_TenantId": Column.Groups_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_TenantId, definitionRow, ColumnXls); break;
                     case "Groups_Title": Column.Groups_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_Title, definitionRow, ColumnXls); break;
@@ -1987,6 +2020,14 @@ namespace Implem.DefinitionAccessor
                     case "Results_SiteTitle": Column.Results_SiteTitle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_SiteTitle, definitionRow, ColumnXls); break;
                     case "Results_Status": Column.Results_Status = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Status, definitionRow, ColumnXls); break;
                     case "Results_Title": Column.Results_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Title, definitionRow, ColumnXls); break;
+                    case "ScimTokens_Disabled": Column.ScimTokens_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_Disabled, definitionRow, ColumnXls); break;
+                    case "ScimTokens_ExpiresTime": Column.ScimTokens_ExpiresTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_ExpiresTime, definitionRow, ColumnXls); break;
+                    case "ScimTokens_LastUsedTime": Column.ScimTokens_LastUsedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_LastUsedTime, definitionRow, ColumnXls); break;
+                    case "ScimTokens_ScimTokenId": Column.ScimTokens_ScimTokenId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_ScimTokenId, definitionRow, ColumnXls); break;
+                    case "ScimTokens_TenantId": Column.ScimTokens_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_TenantId, definitionRow, ColumnXls); break;
+                    case "ScimTokens_TokenHash": Column.ScimTokens_TokenHash = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_TokenHash, definitionRow, ColumnXls); break;
+                    case "ScimTokens_TokenPrefix": Column.ScimTokens_TokenPrefix = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_TokenPrefix, definitionRow, ColumnXls); break;
+                    case "ScimTokens_UserId": Column.ScimTokens_UserId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_UserId, definitionRow, ColumnXls); break;
                     case "Sessions_Key": Column.Sessions_Key = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_Key, definitionRow, ColumnXls); break;
                     case "Sessions_Page": Column.Sessions_Page = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_Page, definitionRow, ColumnXls); break;
                     case "Sessions_ReadOnce": Column.Sessions_ReadOnce = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_ReadOnce, definitionRow, ColumnXls); break;
@@ -2104,6 +2145,11 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_TopDashboards": Column.Tenants_TopDashboards = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopDashboards, definitionRow, ColumnXls); break;
                     case "Tenants_TopScript": Column.Tenants_TopScript = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopScript, definitionRow, ColumnXls); break;
                     case "Tenants_TopStyle": Column.Tenants_TopStyle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopStyle, definitionRow, ColumnXls); break;
+                    case "Tenants_UiBackgroundColor": Column.Tenants_UiBackgroundColor = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_UiBackgroundColor, definitionRow, ColumnXls); break;
+                    case "Tenants_UiColorScheme": Column.Tenants_UiColorScheme = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_UiColorScheme, definitionRow, ColumnXls); break;
+                    case "Tenants_UiMainColor": Column.Tenants_UiMainColor = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_UiMainColor, definitionRow, ColumnXls); break;
+                    case "Tenants_UiSubColor": Column.Tenants_UiSubColor = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_UiSubColor, definitionRow, ColumnXls); break;
+                    case "Tenants_UiType": Column.Tenants_UiType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_UiType, definitionRow, ColumnXls); break;
                     case "Users_AfterResetPassword": Column.Users_AfterResetPassword = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AfterResetPassword, definitionRow, ColumnXls); break;
                     case "Users_AfterResetPasswordValidator": Column.Users_AfterResetPasswordValidator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AfterResetPasswordValidator, definitionRow, ColumnXls); break;
                     case "Users_AllowApi": Column.Users_AllowApi = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowApi, definitionRow, ColumnXls); break;
@@ -2151,6 +2197,9 @@ namespace Implem.DefinitionAccessor
                     case "Users_PasswordHistries": Column.Users_PasswordHistries = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_PasswordHistries, definitionRow, ColumnXls); break;
                     case "Users_PasswordValidate": Column.Users_PasswordValidate = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_PasswordValidate, definitionRow, ColumnXls); break;
                     case "Users_RememberMe": Column.Users_RememberMe = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_RememberMe, definitionRow, ColumnXls); break;
+                    case "Users_ScimExternalId": Column.Users_ScimExternalId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ScimExternalId, definitionRow, ColumnXls); break;
+                    case "Users_ScimId": Column.Users_ScimId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ScimId, definitionRow, ColumnXls); break;
+                    case "Users_ScimSync": Column.Users_ScimSync = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ScimSync, definitionRow, ColumnXls); break;
                     case "Users_SecondaryAuthenticationCode": Column.Users_SecondaryAuthenticationCode = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SecondaryAuthenticationCode, definitionRow, ColumnXls); break;
                     case "Users_SecondaryAuthenticationCodeExpirationTime": Column.Users_SecondaryAuthenticationCodeExpirationTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SecondaryAuthenticationCodeExpirationTime, definitionRow, ColumnXls); break;
                     case "Users_SecretKey": Column.Users_SecretKey = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SecretKey, definitionRow, ColumnXls); break;
@@ -2163,6 +2212,11 @@ namespace Implem.DefinitionAccessor
                     case "Users_TimeZone": Column.Users_TimeZone = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_TimeZone, definitionRow, ColumnXls); break;
                     case "Users_TimeZoneInfo": Column.Users_TimeZoneInfo = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_TimeZoneInfo, definitionRow, ColumnXls); break;
                     case "Users_Title": Column.Users_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Title, definitionRow, ColumnXls); break;
+                    case "Users_UiBackgroundColor": Column.Users_UiBackgroundColor = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UiBackgroundColor, definitionRow, ColumnXls); break;
+                    case "Users_UiColorScheme": Column.Users_UiColorScheme = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UiColorScheme, definitionRow, ColumnXls); break;
+                    case "Users_UiMainColor": Column.Users_UiMainColor = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UiMainColor, definitionRow, ColumnXls); break;
+                    case "Users_UiSubColor": Column.Users_UiSubColor = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UiSubColor, definitionRow, ColumnXls); break;
+                    case "Users_UiType": Column.Users_UiType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UiType, definitionRow, ColumnXls); break;
                     case "Users_UserCode": Column.Users_UserCode = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UserCode, definitionRow, ColumnXls); break;
                     case "Users_UserId": Column.Users_UserId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UserId, definitionRow, ColumnXls); break;
                     case "Users_UserSettings": Column.Users_UserSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UserSettings, definitionRow, ColumnXls); break;
@@ -2449,6 +2503,14 @@ namespace Implem.DefinitionAccessor
                     case "Results_Updator": Column.Results_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Updator, definitionRow, ColumnXls); break;
                     case "Results_Ver": Column.Results_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Ver, definitionRow, ColumnXls); break;
                     case "Results_VerUp": Column.Results_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_VerUp, definitionRow, ColumnXls); break;
+                    case "ScimTokens_Comments": Column.ScimTokens_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_Comments, definitionRow, ColumnXls); break;
+                    case "ScimTokens_CreatedTime": Column.ScimTokens_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_CreatedTime, definitionRow, ColumnXls); break;
+                    case "ScimTokens_Creator": Column.ScimTokens_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_Creator, definitionRow, ColumnXls); break;
+                    case "ScimTokens_Timestamp": Column.ScimTokens_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_Timestamp, definitionRow, ColumnXls); break;
+                    case "ScimTokens_UpdatedTime": Column.ScimTokens_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_UpdatedTime, definitionRow, ColumnXls); break;
+                    case "ScimTokens_Updator": Column.ScimTokens_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_Updator, definitionRow, ColumnXls); break;
+                    case "ScimTokens_Ver": Column.ScimTokens_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_Ver, definitionRow, ColumnXls); break;
+                    case "ScimTokens_VerUp": Column.ScimTokens_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ScimTokens_VerUp, definitionRow, ColumnXls); break;
                     case "Sessions_Comments": Column.Sessions_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_Comments, definitionRow, ColumnXls); break;
                     case "Sessions_CreatedTime": Column.Sessions_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_CreatedTime, definitionRow, ColumnXls); break;
                     case "Sessions_Creator": Column.Sessions_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_Creator, definitionRow, ColumnXls); break;
@@ -7208,6 +7270,9 @@ namespace Implem.DefinitionAccessor
         public string Model_AddSqlParamIdentity;
         public string Model_AddSqlParamPk;
         public string Model_AddSqlParamPkHistory;
+        public string Model_AiConnectDelete;
+        public string Model_AiConnectSyncCreate;
+        public string Model_AiConnectSyncUpdate;
         public string Model_AnalyCases;
         public string Model_AnalyJsonCases;
         public string Model_Api;
@@ -7658,6 +7723,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create_Tables;
         public string Model_Utilities_CreateByApi;
         public string Model_Utilities_CreateByApiSynchronizeSummary;
+        public string Model_Utilities_CreateByServerScript;
+        public string Model_Utilities_CreateByServerScript_Call;
+        public string Model_Utilities_CreateByServerScript_CallGroup;
         public string Model_Utilities_CreatedMessage;
         public string Model_Utilities_CreatedResponse;
         public string Model_Utilities_CreatedResponse_Forms;
@@ -7701,6 +7769,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Gantt;
         public string Model_Utilities_GetByApi;
         public string Model_Utilities_GetFormDataSet;
+        public string Model_Utilities_GetListByServerScript;
         public string Model_Utilities_GetServerScriptModelRow;
         public string Model_Utilities_GetSwitchTargets;
         public string Model_Utilities_GridCopyRowFormData;
@@ -7825,6 +7894,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_UpdateByApi;
         public string Model_Utilities_UpdateByGrid;
         public string Model_Utilities_UpdateByKamban;
+        public string Model_Utilities_UpdateByServerScript;
+        public string Model_Utilities_UpdateByServerScript_Call;
+        public string Model_Utilities_UpdateByServerScript_CallGroup;
         public string Model_Utilities_UpdatedMessage;
         public string Model_Utilities_UpdateInvalid_Users;
         public string Model_Utilities_UpdateItems;
@@ -8095,6 +8167,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_AddSqlParamIdentity = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamPk = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamPkHistory = new CodeDefinition();
+        public CodeDefinition Model_AiConnectDelete = new CodeDefinition();
+        public CodeDefinition Model_AiConnectSyncCreate = new CodeDefinition();
+        public CodeDefinition Model_AiConnectSyncUpdate = new CodeDefinition();
         public CodeDefinition Model_AnalyCases = new CodeDefinition();
         public CodeDefinition Model_AnalyJsonCases = new CodeDefinition();
         public CodeDefinition Model_Api = new CodeDefinition();
@@ -8545,6 +8620,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateByApiSynchronizeSummary = new CodeDefinition();
+        public CodeDefinition Model_Utilities_CreateByServerScript = new CodeDefinition();
+        public CodeDefinition Model_Utilities_CreateByServerScript_Call = new CodeDefinition();
+        public CodeDefinition Model_Utilities_CreateByServerScript_CallGroup = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedMessage = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse_Forms = new CodeDefinition();
@@ -8588,6 +8666,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Gantt = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetFormDataSet = new CodeDefinition();
+        public CodeDefinition Model_Utilities_GetListByServerScript = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetServerScriptModelRow = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridCopyRowFormData = new CodeDefinition();
@@ -8712,6 +8791,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_UpdateByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByGrid = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByKamban = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpdateByServerScript = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpdateByServerScript_Call = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpdateByServerScript_CallGroup = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdatedMessage = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateInvalid_Users = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateItems = new CodeDefinition();
@@ -9552,6 +9634,9 @@ namespace Implem.DefinitionAccessor
         public string Groups_MemberKey;
         public string Groups_MemberName;
         public string Groups_MemberType;
+        public string Groups_ScimExternalId;
+        public string Groups_ScimId;
+        public string Groups_ScimSync;
         public string Groups_SynchronizedTime;
         public string Groups_TenantId;
         public string Groups_Title;
@@ -9756,6 +9841,14 @@ namespace Implem.DefinitionAccessor
         public string Results_SiteTitle;
         public string Results_Status;
         public string Results_Title;
+        public string ScimTokens_Disabled;
+        public string ScimTokens_ExpiresTime;
+        public string ScimTokens_LastUsedTime;
+        public string ScimTokens_ScimTokenId;
+        public string ScimTokens_TenantId;
+        public string ScimTokens_TokenHash;
+        public string ScimTokens_TokenPrefix;
+        public string ScimTokens_UserId;
         public string Sessions_Key;
         public string Sessions_Page;
         public string Sessions_ReadOnce;
@@ -9873,6 +9966,11 @@ namespace Implem.DefinitionAccessor
         public string Tenants_TopDashboards;
         public string Tenants_TopScript;
         public string Tenants_TopStyle;
+        public string Tenants_UiBackgroundColor;
+        public string Tenants_UiColorScheme;
+        public string Tenants_UiMainColor;
+        public string Tenants_UiSubColor;
+        public string Tenants_UiType;
         public string Users_AfterResetPassword;
         public string Users_AfterResetPasswordValidator;
         public string Users_AllowApi;
@@ -9920,6 +10018,9 @@ namespace Implem.DefinitionAccessor
         public string Users_PasswordHistries;
         public string Users_PasswordValidate;
         public string Users_RememberMe;
+        public string Users_ScimExternalId;
+        public string Users_ScimId;
+        public string Users_ScimSync;
         public string Users_SecondaryAuthenticationCode;
         public string Users_SecondaryAuthenticationCodeExpirationTime;
         public string Users_SecretKey;
@@ -9932,6 +10033,11 @@ namespace Implem.DefinitionAccessor
         public string Users_TimeZone;
         public string Users_TimeZoneInfo;
         public string Users_Title;
+        public string Users_UiBackgroundColor;
+        public string Users_UiColorScheme;
+        public string Users_UiMainColor;
+        public string Users_UiSubColor;
+        public string Users_UiType;
         public string Users_UserCode;
         public string Users_UserId;
         public string Users_UserSettings;
@@ -10218,6 +10324,14 @@ namespace Implem.DefinitionAccessor
         public string Results_Updator;
         public string Results_Ver;
         public string Results_VerUp;
+        public string ScimTokens_Comments;
+        public string ScimTokens_CreatedTime;
+        public string ScimTokens_Creator;
+        public string ScimTokens_Timestamp;
+        public string ScimTokens_UpdatedTime;
+        public string ScimTokens_Updator;
+        public string ScimTokens_Ver;
+        public string ScimTokens_VerUp;
         public string Sessions_Comments;
         public string Sessions_CreatedTime;
         public string Sessions_Creator;
@@ -10383,6 +10497,9 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Groups_MemberKey = new ColumnDefinition();
         public ColumnDefinition Groups_MemberName = new ColumnDefinition();
         public ColumnDefinition Groups_MemberType = new ColumnDefinition();
+        public ColumnDefinition Groups_ScimExternalId = new ColumnDefinition();
+        public ColumnDefinition Groups_ScimId = new ColumnDefinition();
+        public ColumnDefinition Groups_ScimSync = new ColumnDefinition();
         public ColumnDefinition Groups_SynchronizedTime = new ColumnDefinition();
         public ColumnDefinition Groups_TenantId = new ColumnDefinition();
         public ColumnDefinition Groups_Title = new ColumnDefinition();
@@ -10587,6 +10704,14 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Results_SiteTitle = new ColumnDefinition();
         public ColumnDefinition Results_Status = new ColumnDefinition();
         public ColumnDefinition Results_Title = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_Disabled = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_ExpiresTime = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_LastUsedTime = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_ScimTokenId = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_TenantId = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_TokenHash = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_TokenPrefix = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_UserId = new ColumnDefinition();
         public ColumnDefinition Sessions_Key = new ColumnDefinition();
         public ColumnDefinition Sessions_Page = new ColumnDefinition();
         public ColumnDefinition Sessions_ReadOnce = new ColumnDefinition();
@@ -10704,6 +10829,11 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_TopDashboards = new ColumnDefinition();
         public ColumnDefinition Tenants_TopScript = new ColumnDefinition();
         public ColumnDefinition Tenants_TopStyle = new ColumnDefinition();
+        public ColumnDefinition Tenants_UiBackgroundColor = new ColumnDefinition();
+        public ColumnDefinition Tenants_UiColorScheme = new ColumnDefinition();
+        public ColumnDefinition Tenants_UiMainColor = new ColumnDefinition();
+        public ColumnDefinition Tenants_UiSubColor = new ColumnDefinition();
+        public ColumnDefinition Tenants_UiType = new ColumnDefinition();
         public ColumnDefinition Users_AfterResetPassword = new ColumnDefinition();
         public ColumnDefinition Users_AfterResetPasswordValidator = new ColumnDefinition();
         public ColumnDefinition Users_AllowApi = new ColumnDefinition();
@@ -10751,6 +10881,9 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_PasswordHistries = new ColumnDefinition();
         public ColumnDefinition Users_PasswordValidate = new ColumnDefinition();
         public ColumnDefinition Users_RememberMe = new ColumnDefinition();
+        public ColumnDefinition Users_ScimExternalId = new ColumnDefinition();
+        public ColumnDefinition Users_ScimId = new ColumnDefinition();
+        public ColumnDefinition Users_ScimSync = new ColumnDefinition();
         public ColumnDefinition Users_SecondaryAuthenticationCode = new ColumnDefinition();
         public ColumnDefinition Users_SecondaryAuthenticationCodeExpirationTime = new ColumnDefinition();
         public ColumnDefinition Users_SecretKey = new ColumnDefinition();
@@ -10763,6 +10896,11 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_TimeZone = new ColumnDefinition();
         public ColumnDefinition Users_TimeZoneInfo = new ColumnDefinition();
         public ColumnDefinition Users_Title = new ColumnDefinition();
+        public ColumnDefinition Users_UiBackgroundColor = new ColumnDefinition();
+        public ColumnDefinition Users_UiColorScheme = new ColumnDefinition();
+        public ColumnDefinition Users_UiMainColor = new ColumnDefinition();
+        public ColumnDefinition Users_UiSubColor = new ColumnDefinition();
+        public ColumnDefinition Users_UiType = new ColumnDefinition();
         public ColumnDefinition Users_UserCode = new ColumnDefinition();
         public ColumnDefinition Users_UserId = new ColumnDefinition();
         public ColumnDefinition Users_UserSettings = new ColumnDefinition();
@@ -11049,6 +11187,14 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Results_Updator = new ColumnDefinition();
         public ColumnDefinition Results_Ver = new ColumnDefinition();
         public ColumnDefinition Results_VerUp = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_Comments = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_CreatedTime = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_Creator = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_Timestamp = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_UpdatedTime = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_Updator = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_Ver = new ColumnDefinition();
+        public ColumnDefinition ScimTokens_VerUp = new ColumnDefinition();
         public ColumnDefinition Sessions_Comments = new ColumnDefinition();
         public ColumnDefinition Sessions_CreatedTime = new ColumnDefinition();
         public ColumnDefinition Sessions_Creator = new ColumnDefinition();

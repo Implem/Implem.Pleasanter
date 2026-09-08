@@ -74,6 +74,23 @@ class CodeEditorElement extends HTMLElement {
         });
     }
 
+    setValue(text: string): void {
+        if (!this.editor) {
+            if (this.controller) {
+                this.controller.value = text;
+                $p.set($(this.controller), text);
+            }
+            return;
+        }
+        this.editor.dispatch({
+            changes: {
+                from: 0,
+                to: this.editor.state.doc.length,
+                insert: text
+            }
+        });
+    }
+
     private onChange = EditorView.updateListener.of(update => {
         if (!this.controller || !this.editorWrapElem) return;
         if (update.docChanged) {

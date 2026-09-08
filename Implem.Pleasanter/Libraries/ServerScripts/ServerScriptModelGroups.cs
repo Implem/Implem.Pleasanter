@@ -1,6 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 
@@ -17,7 +17,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public ServerScriptModelGroupModel Get(object id)
         {
-            var group = SiteInfo.Group(
+            var group = new Group(
+                context: Context,
                 tenantId: Context.TenantId,
                 groupId: id.ToInt());
             var groupModel = group.Id > 0
@@ -27,9 +28,25 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     groupId: group.Id,
                     groupName: group.Name,
                     body: group.Body,
-                    disabled: group.Disabled)
+                    disabled: group.Disabled,
+                    extras: group.Extras)
                 : null;
             return groupModel;
+        }
+
+        public bool Create(string model)
+        {
+            var id = 0;
+            var apiContext = ServerScriptUtilities.CreateContext(
+                context: Context,
+                controller: "Groups",
+                action: "Create",
+                id: id,
+                apiRequestBody: model);
+            return GroupUtilities.CreateByServerScript(
+                context: apiContext,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: apiContext),
+                groupId: id);
         }
 
         public bool Update(object id, string model)
@@ -43,8 +60,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return GroupUtilities.UpdateByServerScript(
                 context: apiContext,
                 ss: SiteSettingsUtilities.GroupsSiteSettings(context: apiContext),
-                groupId: id.ToInt(),
-                model: model);
+                groupId: id.ToInt());
         }
     }
 }

@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Tenants_UiType",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "UiType",
+    "LabelText": "UIタイプ",
+    "No": "125",
+    "History": "125",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Nullable": "1",
+    "LabelText_en": "UI Type",
+    "LabelText_zh": "UI类型",
+    "LabelText_de": "UI-Typ",
+    "LabelText_ko": "UI 타입",
+    "LabelText_es": "Tipo de UI",
+    "LabelText_vn": "Loại UI"
+}

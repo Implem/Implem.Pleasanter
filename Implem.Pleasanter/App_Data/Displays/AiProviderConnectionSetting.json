@@ -1,0 +1,33 @@
+{
+    "Id": "AiProviderConnectionSetting",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Connection Setting"
+        },
+        {
+            "Language": "zh",
+            "Body": "连接设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "連携設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Verbindungseinstellung"
+        },
+        {
+            "Language": "ko",
+            "Body": "연계 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de conexión"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt kết nối"
+        }
+    ]
+}

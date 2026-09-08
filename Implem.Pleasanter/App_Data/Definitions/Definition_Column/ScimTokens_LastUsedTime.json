@@ -1,0 +1,13 @@
+{
+    "Id": "ScimTokens_LastUsedTime",
+    "ModelName": "ScimToken",
+    "TableName": "ScimTokens",
+    "Label": "SCIMトークン",
+    "ColumnName": "LastUsedTime",
+    "LabelText": "最終使用日時",
+    "No": "105",
+    "TypeName": "datetime",
+    "Nullable": "1",
+    "LabelText_en": "Last used time",
+    "LabelText_zh": "最后使用时间"
+}

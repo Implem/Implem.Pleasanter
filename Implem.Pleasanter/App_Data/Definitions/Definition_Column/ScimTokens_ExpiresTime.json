@@ -1,0 +1,13 @@
+{
+    "Id": "ScimTokens_ExpiresTime",
+    "ModelName": "ScimToken",
+    "TableName": "ScimTokens",
+    "Label": "SCIMトークン",
+    "ColumnName": "ExpiresTime",
+    "LabelText": "有効期限",
+    "No": "104",
+    "TypeName": "datetime",
+    "Nullable": "1",
+    "LabelText_en": "Expires time",
+    "LabelText_zh": "过期时间"
+}

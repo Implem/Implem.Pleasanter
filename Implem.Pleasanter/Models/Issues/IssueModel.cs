@@ -1803,6 +1803,16 @@ namespace Implem.Pleasanter.Models
             SetByAfterCreateServerScript(
                 context: context,
                 ss: ss);
+            Implem.Pleasanter.Libraries.AiConnect.AiConnectUtilities.Sync(
+                context: context,
+                ss: ss,
+                referenceType: "Issues",
+                referenceId: IssueId,
+                replacedDisplayValues: value => ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: value),
+                operation: Implem.Pleasanter.Libraries.AiConnect.AiConnectSyncOperation.Create);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2105,6 +2115,16 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 force: true);
+            Implem.Pleasanter.Libraries.AiConnect.AiConnectUtilities.Sync(
+                context: context,
+                ss: ss,
+                referenceType: "Issues",
+                referenceId: IssueId,
+                replacedDisplayValues: value => ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: value),
+                operation: Implem.Pleasanter.Libraries.AiConnect.AiConnectSyncOperation.Update);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2534,6 +2554,11 @@ namespace Implem.Pleasanter.Models
                     notifications: notifications,
                     type: "Deleted");
             }
+            Implem.Pleasanter.Libraries.AiConnect.AiConnectUtilities.Delete(
+                context: context,
+                ss: ss,
+                referenceType: "Issues",
+                referenceId: IssueId);
             SetByAfterDeleteServerScript(
                 context: context,
                 ss: ss);

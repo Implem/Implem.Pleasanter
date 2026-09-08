@@ -13,5 +13,6 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         string JobName { get; }
         IEnumerable<string> TimeList { get; }
         Task<bool> SetCustomTimer(IScheduler scheduler);
+        IEnumerable<KeyValuePair<string, string>> JobData => null;
     }
 }

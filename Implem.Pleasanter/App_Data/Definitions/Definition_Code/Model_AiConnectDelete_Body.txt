@@ -1,0 +1,5 @@
+﻿Implem.Pleasanter.Libraries.AiConnect.AiConnectUtilities.Delete(
+    context: context,
+    ss: ss,
+    referenceType: "#TableName#",
+    referenceId: #ModelName#Id);

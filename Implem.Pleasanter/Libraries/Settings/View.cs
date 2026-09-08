@@ -2206,7 +2206,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     GroupMembers = data.Key == "GroupMembers",
                     OnSelectingWhere = data.Key == "OnSelectingWhere",
                 })
-                .Where(o => o.Column != null
+                .Where(o => (o.Column != null && !o.Column.NotSelect)
                     || o.Or
                     || o.And
                     || o.Eq

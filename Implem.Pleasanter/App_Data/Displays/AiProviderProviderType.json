@@ -1,0 +1,33 @@
+{
+    "Id": "AiProviderProviderType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Provider Type"
+        },
+        {
+            "Language": "zh",
+            "Body": "集成方式"
+        },
+        {
+            "Language": "ja",
+            "Body": "連携方式"
+        },
+        {
+            "Language": "de",
+            "Body": "Anbietertyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "연계 방식"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de proveedor"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phương thức kết nối"
+        }
+    ]
+}

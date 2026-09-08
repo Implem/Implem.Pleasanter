@@ -532,14 +532,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .FirstOrDefault(o => o.ColumnName == column.Name);
                 if (link != null)
                 {
-                    var linkedTableName = (!column.TableAlias.IsNullOrEmpty()
-                        ? column.TableAlias + "-"
-                        : string.Empty)
-                            + link.LinkedTableName();
+                    var linkedTableName = ColumnUtilities.LinkedTableAlias(
+                        tableAlias: column.TableAlias,
+                        link: link);
                     sqlColumn.Add(
                         columnBracket: "\"Title\"",
                         tableName: linkedTableName + "_Items",
-                        _as: linkedTableName + ",ItemTitle");
+                        _as: ColumnUtilities.ColumnName(
+                            tableAlias: linkedTableName,
+                            columnName: "ItemTitle"));
                 }
             }
             return sqlColumn;
@@ -560,10 +561,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .FirstOrDefault(o => o.ColumnName == column.Name);
                 if (link != null)
                 {
-                    var linkedTableName = (!column.TableAlias.IsNullOrEmpty()
-                        ? column.TableAlias + "-"
-                        : string.Empty)
-                            + link.LinkedTableName();
+                    var linkedTableName = ColumnUtilities.LinkedTableAlias(
+                        tableAlias: column.TableAlias,
+                        link: link);
                     groupBy.Add(
                         columnBracket: "\"Title\"",
                         tableName: linkedTableName + "_Items");
@@ -654,14 +654,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .FirstOrDefault(o => o.ColumnName == column.Name);
             if (link != null)
             {
-                var linkedTableName = (!column.TableAlias.IsNullOrEmpty()
-                    ? column.TableAlias + "-"
-                    : string.Empty)
-                        + link.LinkedTableName();
+                var linkedTableName = ColumnUtilities.LinkedTableAlias(
+                    tableAlias: column.TableAlias,
+                    link: link);
                 sqlColumn.Add(
                     columnBracket: "\"Title\"",
                     tableName: linkedTableName + "_Items",
-                    _as: linkedTableName + ",ItemTitle");
+                    _as: ColumnUtilities.ColumnName(
+                        tableAlias: linkedTableName,
+                        columnName: "ItemTitle"));
             }
             return sqlColumn;
         }
@@ -690,10 +691,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .FirstOrDefault(o => o.ColumnName == column.Name);
             if (link != null)
             {
-                var linkedTableName = (!column.TableAlias.IsNullOrEmpty()
-                    ? column.TableAlias + "-"
-                    : string.Empty)
-                        + link.LinkedTableName();
+                var linkedTableName = ColumnUtilities.LinkedTableAlias(
+                    tableAlias: column.TableAlias,
+                    link: link);
                 groupBy.Add(
                     columnBracket: "\"Title\"",
                     tableName: linkedTableName + "_Items");

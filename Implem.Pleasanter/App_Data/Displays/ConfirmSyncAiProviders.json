@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ConfirmSyncAiProviders",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Depending on the number of records, this may take some time. Are you sure you want to run the synchronization?"
+        },
+        {
+            "Language": "zh",
+            "Body": "根据记录数量，处理可能需要一些时间。确定要执行同步吗？"
+        },
+        {
+            "Language": "ja",
+            "Body": "対象レコード件数によっては時間がかかります。同期を実行してもよろしいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Je nach Anzahl der Datensätze kann dies einige Zeit dauern. Möchten Sie die Synchronisierung wirklich starten?"
+        },
+        {
+            "Language": "ko",
+            "Body": "레코드 수에 따라 시간이 걸릴 수 있습니다. 동기화를 실행하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "Según la cantidad de registros, puede tardar un tiempo. ¿Está seguro de que quiere ejecutar la sincronización?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tùy theo số lượng bản ghi, quá trình này có thể mất thời gian. Bạn có chắc muốn thực hiện đồng bộ hóa không?"
+        }
+    ]
+}

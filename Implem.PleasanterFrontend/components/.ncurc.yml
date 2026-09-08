@@ -1,0 +1,15 @@
+# npm-check-updates の設定。
+# 月次メンテナンス (npx npm-check-updates --target minor -u) で
+# 意図せず上がってほしくないパッケージをここで除外する。
+#
+# ncu は範囲記号の有無を問わず更新対象にするため、package.json 側で
+# 固定していても保護にならない。--target minor も上げ幅を制限するだけ。
+reject:
+    # メジャーが対象 Node のメジャーを表すため、volta.node (24.x) に合わせて 24 系に留める。
+    # マイナー・パッチは DefinitelyTyped 独自の採番で Node のリリースとは対応しない
+    # (24 系は 24.13.3 が最後。Node 24.14 以降に対応する @types/node は存在しない)。
+    # Node 本体のメジャーを上げるときにセットで上げること。
+    - "@types/node"
+    # jquery 本体のメジャーに対応する型定義のため、3 系に留める。
+    # 本体は wwwroot 側で 3.7.1 に固定運用しており、そちらと歩調を合わせる。
+    - "@types/jquery"

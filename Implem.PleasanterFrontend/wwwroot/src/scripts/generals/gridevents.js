@@ -61,6 +61,7 @@ $(function () {
                     data.SwitchTargets = $('#SwitchTargets').val();
                     $p.syncSend($control);
                     $p.setCurrentIndex();
+                    return false;
                 } else {
                     if (
                         event.target.tagName === 'IMAGE-VIEWER-MODAL' ||

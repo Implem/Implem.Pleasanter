@@ -1,11 +1,15 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Text.RegularExpressions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
@@ -18,18 +22,62 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string Name;
         public string Body;
         public bool Disabled;
+        public Dictionary<string, object> Extras = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         public Group()
         {
         }
 
+        public Group(Context context, int tenantId, int groupId)
+        {
+            if (groupId != 0)
+            {
+                var dataTable = Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectGroups(
+                        column: QueryColumnWithExtras(),
+                        where: Rds.GroupsWhere()
+                            .TenantId(tenantId)
+                            .GroupId(groupId)));
+                if (dataTable.Rows.Count == 1)
+                {
+                    Set(dataRow: dataTable.Rows[0]);
+                }
+            }
+        }
+
+        public static Rds.GroupsColumnCollection QueryColumn()
+        {
+            return Rds.GroupsColumn()
+                .TenantId()
+                .GroupId()
+                .GroupName()
+                .Body()
+                .Disabled();
+        }
+
+        public static Rds.GroupsColumnCollection QueryColumnWithExtras()
+        {
+            var column = QueryColumn();
+            Def.GetExtendedColumnDefinitions("Groups")
+                .ForEach(columnDefinition =>
+                    column.GroupsColumn(columnDefinition.ColumnName));
+            return column;
+        }
+
         public Group(DataRow dataRow)
+        {
+            Set(dataRow: dataRow);
+        }
+
+        private void Set(DataRow dataRow)
         {
             TenantId = dataRow.Int("TenantId");
             Id = dataRow.Int("GroupId");
             Name = dataRow.String("GroupName");
             Body = dataRow.String("Body");
             Disabled = dataRow.Bool("Disabled");
+            Extras = ServerScripts.ServerScriptUtilities.BuildExtras(dataRow, "Groups");
         }
 
         public string ToControl(Context context, SiteSettings ss, Column column)

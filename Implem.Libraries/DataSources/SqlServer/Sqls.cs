@@ -121,6 +121,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             ISqlObjectFactory factory,
             out int number,
             out string message,
+            out DbException dbException,
             params string[] connectionStrings)
         {
             try
@@ -133,18 +134,21 @@ namespace Implem.Libraries.DataSources.SqlServer
                 });
                 number = 0;
                 message = string.Empty;
+                dbException = null;
                 return true;
             }
             catch (DbException e)
             {
                 number = factory.SqlErrors.ErrorCode(e);
                 message = e.Message;
+                dbException = e;
                 return false;
             }
             catch (Exception e)
             {
                 number = -1;
                 message = e.Message;
+                dbException = null;
                 return false;
             }
         }

@@ -210,7 +210,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     data: CrosstabUtilities.Elements(
                         groupByX: groupByX,
                         groupByY: groupByY,
-                        dataRows: dataRows));
+                        dataRows: dataRows),
+                    groupByX: groupByX,
+                    groupByY: groupByY);
             }
             else
             {
@@ -240,10 +242,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         groupByX: groupByX,
                         dataRows: dataRows,
                         columnList: columnList),
+                    groupByX: groupByX,
                     columns: columnList);
             }
             return hb
                 .Hidden(controlId: "CrosstabXType", value: groupByX?.TypeName)
+                .Hidden(
+                    controlId: "CrosstabDrillDownUrl",
+                    value: Locations.ItemIndex(
+                        context: context,
+                        id: ss.SiteId))
+                .Hidden(
+                    controlId: "CrosstabDrillDownView",
+                    value: DrillDownView(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        groupByX: groupByX,
+                        groupByY: groupByY).ToJson())
+                .Hidden(
+                    controlId: "CrosstabReturnView",
+                    value: view.GetRecordingData(
+                        context: context,
+                        ss: ss).ToJson())
                 .Hidden(
                     controlId: "CrosstabPrevious",
                     value: Times.PreviousMonth(
@@ -264,6 +285,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return xColumn?.TypeName == "datetime" && timePeriod == "Daily";
         }
 
+        private static View DrillDownView(
+            Context context,
+            SiteSettings ss,
+            View view,
+            Column groupByX,
+            Column groupByY)
+        {
+            var drillDownView = view.GetRecordingData(
+                context: context,
+                ss: ss);
+            new[] { groupByX, groupByY }
+                .Where(o => o != null)
+                .ForEach(o => drillDownView.AddColumnFilterSearchTypes(
+                    columnName: o.ColumnName,
+                    searchType: Column.SearchTypes.ExactMatch));
+            drillDownView.CrosstabGroupByX = null;
+            drillDownView.CrosstabGroupByY = null;
+            drillDownView.CrosstabColumns = null;
+            drillDownView.CrosstabAggregateType = null;
+            drillDownView.CrosstabValue = null;
+            drillDownView.CrosstabTimePeriod = null;
+            drillDownView.CrosstabMonth = null;
+            return drillDownView;
+        }
+
         private static HtmlBuilder Table(
             this HtmlBuilder hb,
             Context context,
@@ -275,6 +321,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool daily,
             bool notShowZeroRows,
             Dictionary<string, CrosstabElement> data,
+            Column groupByX = null,
+            Column groupByY = null,
             IEnumerable<Column> columns = null)
         {
             var max = data.Any() && columns == null
@@ -352,7 +400,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 .CellValue(
                                                     data: data,
                                                     choiceX: choiceX.Key,
-                                                    choiceY: choiceY.Key)));
+                                                    choiceY: choiceY.Key),
+                                            groupByX: groupByX,
+                                            groupByY: groupByY,
+                                            choiceX: choiceX.Value,
+                                            y: choiceY.Key,
+                                            hasRecords: data.ContainsKey(
+                                                CrosstabUtilities.Key(
+                                                    choiceX: choiceX.Key,
+                                                    choiceY: choiceY.Key))));
                                 });
                             });
                     }));
@@ -380,18 +436,120 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool daily,
             string x,
             decimal max,
-            decimal data)
+            decimal data,
+            Column groupByX = null,
+            Column groupByY = null,
+            ControlData choiceX = null,
+            string y = null,
+            bool hasRecords = false)
         {
-            return hb.Td(css: DayOfWeekCss(daily, x), action: () => hb
-                .Text(text: CrosstabUtilities.CellText(
+            var attributes = hasRecords
+                ? DrillDownAttributes(
                     context: context,
-                    value: value,
-                    aggregateType: aggregateType,
-                    data: data))
-                .Svg(
                     ss: ss,
-                    max: max,
-                    data: data));
+                    groupByX: groupByX,
+                    groupByY: groupByY,
+                    x: x,
+                    choiceX: choiceX,
+                    y: y)
+                : null;
+            return hb.Td(
+                css: Css(
+                    daily: daily,
+                    x: x,
+                    drillDown: attributes != null),
+                attributes: attributes,
+                action: () => hb
+                    .Text(text: CrosstabUtilities.CellText(
+                        context: context,
+                        value: value,
+                        aggregateType: aggregateType,
+                        data: data))
+                    .Svg(
+                        ss: ss,
+                        max: max,
+                        data: data));
+        }
+
+        private static string Css(bool daily, string x, bool drillDown)
+        {
+            var css = DayOfWeekCss(daily, x);
+            return drillDown
+                ? (css + " crosstab-drill-down").Trim()
+                : css;
+        }
+
+        private static HtmlAttributes DrillDownAttributes(
+            Context context,
+            SiteSettings ss,
+            Column groupByX,
+            Column groupByY,
+            string x,
+            ControlData choiceX,
+            string y)
+        {
+            var filterX = DrillDownFilter(
+                context: context,
+                ss: ss,
+                column: groupByX,
+                choice: choiceX,
+                key: x);
+            if (filterX == null)
+            {
+                return null;
+            }
+            var attributes = new HtmlAttributes()
+                .Add("tabindex", "0")
+                .Add("role", "button")
+                .Add("data-crosstab-x-column", groupByX.ColumnName)
+                .Add("data-crosstab-x-filter", filterX);
+            var filterY = DrillDownFilter(
+                context: context,
+                ss: ss,
+                column: groupByY,
+                choice: null,
+                key: y);
+            return filterY != null
+                ? attributes
+                    .Add("data-crosstab-y-column", groupByY.ColumnName)
+                    .Add("data-crosstab-y-filter", filterY)
+                : attributes;
+        }
+
+        private static string DrillDownFilter(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            ControlData choice,
+            string key)
+        {
+            if (column == null)
+            {
+                return null;
+            }
+            if (column.TypeName == "datetime")
+            {
+                return choice?.From != null && choice?.To != null
+                    ? "[\"{0:yyyy/MM/dd HH:mm:ss.fff},{1:yyyy/MM/dd HH:mm:ss.fff}\"]".Params(
+                        choice.From,
+                        choice.To)
+                    : null;
+            }
+            if (key == column.BlankChoiceValue())
+            {
+                return "[\"\\t\"]";
+            }
+            if (key.IsNullOrEmpty())
+            {
+                return null;
+            }
+            var view = new View();
+            view.AddColumnFilterHash(
+                context: context,
+                ss: ss,
+                column: column,
+                objectValue: key);
+            return view.ColumnFilterHash?.Get(column.ColumnName);
         }
 
         private static HtmlBuilder Svg(

@@ -20,5 +20,10 @@ namespace Implem.PostgreSql
         {
             return dbException.InnerException is TimeoutException;
         }
+
+        public bool IsCertificateError(DbException dbException)
+        {
+            return false;
+        }
     }
 }

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SyncAiProvidersCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Synchronization has been completed. (Deleted: {0}, Succeeded: {1}, Failed: {2})"
+        },
+        {
+            "Language": "zh",
+            "Body": "同步已完成。（删除：{0}件，成功：{1}件，失败：{2}件）"
+        },
+        {
+            "Language": "ja",
+            "Body": "AI連携の同期が完了しました。（削除: {0}件、成功: {1}件、失敗: {2}件）"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Synchronisierung wurde abgeschlossen. (Gelöscht: {0}, Erfolgreich: {1}, Fehlgeschlagen: {2})"
+        },
+        {
+            "Language": "ko",
+            "Body": "동기화가 완료되었습니다. (삭제: {0}건, 성공: {1}건, 실패: {2}건)"
+        },
+        {
+            "Language": "es",
+            "Body": "La sincronización se ha completado. (Eliminados: {0}, Correctos: {1}, Fallidos: {2})"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đồng bộ hóa đã hoàn tất. (Đã xóa: {0}, Thành công: {1}, Thất bại: {2})"
+        }
+    ]
+}

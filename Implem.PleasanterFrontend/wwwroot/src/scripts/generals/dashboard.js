@@ -9,6 +9,7 @@
         disableDrag: isMobile
     });
     $p.gridstackInstance.load(JSON.parse(layout));
+    $p.setDashboardPartRefreshButtons();
 
     $p.gridstackInstance.on('resizestop dragstop', function (event, el) {
         let layouts = $p.gridstackInstance.save();
@@ -62,6 +63,40 @@ $p.setDashboardAsync = function () {
     });
 };
 
+$p.setDashboardPartRefreshButtons = function () {
+    if (!$p.gridstackInstance) {
+        return;
+    }
+    $($p.gridstackInstance.el)
+        .children('.grid-stack-item')
+        .each(function () {
+            const $gridStackItem = $(this);
+            const partElementId = $gridStackItem
+                .children('.grid-stack-item-content')
+                .children('[id^="DashboardPart_"]')
+                .attr('id');
+            if (!partElementId) {
+                return;
+            }
+            const partId = partElementId.substring(partElementId.indexOf('_') + 1);
+            if (!partId) {
+                return;
+            }
+            if ($gridStackItem.children('[id="DashboardRefresh_' + partId + '"]').length > 0) {
+                return;
+            }
+            const $buttonElement = $('<button />')
+                .attr('id', 'DashboardRefresh_' + partId)
+                .attr('type', 'button')
+                .on('click', function () {
+                    refreshDashboardPart(partId);
+                })
+                .addClass('dashboard-part-refresh')
+                .append($('<span />').addClass('material-symbols-outlined').text('refresh'));
+            $gridStackItem.append($buttonElement);
+        });
+};
+
 $(document).on('mouseenter', '.grid-stack-item:not(.grid-stack-placeholder)', function () {
     var partId = $(this)
         .find('[id^="DashboardPart_"]')
@@ -76,23 +111,4 @@ $(document).on('mouseleave', '.grid-stack-item:not(.grid-stack-placeholder)', fu
         .attr('id')
         .substring($(this).find('[id^="DashboardPart_"]').attr('id').indexOf('_'));
     $('#DashboardRefresh' + partId).css('opacity', '0');
-});
-
-$(function () {
-    var partElement = $('.grid-stack-item-content').get();
-    $($(partElement)).each(function (index, value) {
-        var partId = $(this)
-            .children()
-            .attr('id')
-            .substring($(this).children().attr('id').indexOf('_') + 1);
-        var buttonElement = $('<button />')
-            .attr('id', 'DashboardRefresh_' + partId)
-            .attr('type', 'button')
-            .on('click', function () {
-                refreshDashboardPart(partId);
-            })
-            .addClass('dashboard-part-refresh')
-            .append($('<span />').addClass('material-symbols-outlined').text('refresh'));
-        $(this).parent('.grid-stack-item').append(buttonElement);
-    });
 });

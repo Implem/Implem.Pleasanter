@@ -21,5 +21,10 @@ namespace Implem.MySql
                 && mySqlException.ErrorCode
                     == MySqlErrorCode.CommandTimeoutExpired;
         }
+
+        public bool IsCertificateError(DbException dbException)
+        {
+            return false;
+        }
     }
 }
