@@ -39,11 +39,11 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool Exists(SiteSettings ss, Dictionary<long, SiteSettings> joinedSsHash)
         {
-            if (!ss.ColumnDefinitionHash.ContainsKey(Name))
+            if (ss?.ColumnDefinitionHash?.ContainsKey(Name) != true)
             {
                 return false;
             }
-            if (!joinedSsHash.ContainsKey(SiteId))
+            if (joinedSsHash?.ContainsKey(SiteId) != true)
             {
                 return false;
             }

@@ -1520,14 +1520,25 @@ namespace Implem.Pleasanter.Libraries.Requests
                     addUpdatorParam: false));
         }
 
+        private static readonly Lazy<HashSet<string>> ThemeChoices =
+            new Lazy<HashSet<string>>(() => Def.ColumnTable.Users_Theme.ChoicesText
+                .SplitReturn()
+                .Select(o => o.Split_1st())
+                .ToHashSet());
+
         public string Theme()
         {
-            var theme = Strings.CoalesceEmpty(
-                UserTheme,
-                TenantTheme,
-                Parameters.User.Theme,
-                "cerulean");
-            return theme;
+            return InterpretableTheme(UserTheme)
+                ?? InterpretableTheme(TenantTheme)
+                ?? InterpretableTheme(Parameters.User.Theme)
+                ?? "cerulean";
+        }
+
+        private static string InterpretableTheme(string theme)
+        {
+            return !theme.IsNullOrEmpty() && ThemeChoices.Value.Contains(theme)
+                ? theme
+                : null;
         }
 
         public decimal ThemeVersion()
