@@ -2750,6 +2750,54 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public void UpsertLabelsByApi(
+           SiteSettings siteSetting,
+           int? labelLatestId,
+           List<ApiSiteSettings.LabelApiSettingModel> labelsApiSiteSetting)
+        {
+            if (labelLatestId != 0)
+            {
+                siteSetting.LabelLatestId = labelLatestId;
+            }
+            if (labelsApiSiteSetting == null)
+            {
+                return;
+            }
+            var apiLabelIds = labelsApiSiteSetting.Select(label => label.Id).ToList();
+            var deleteLabels = siteSetting.Labels?
+                .Where(label => !apiLabelIds.Contains(label.Id))
+                .Select(label => label.Id)
+                .ToList();
+            labelsApiSiteSetting.ForEach(label =>
+            {
+                var currentLabel = siteSetting.Labels?.FirstOrDefault(o =>
+                    o.Id == label.Id);
+                if (currentLabel != null)
+                {
+                    currentLabel.Update(
+                        id: label.Id,
+                        body: label.Body,
+                        labelType: label.LabelType,
+                        hide: label.Hide);
+                }
+                else
+                {
+                    if (siteSetting.Labels == null)
+                    {
+                        siteSetting.Labels = new List<Label>();
+                    }
+                    siteSetting.Labels.Add(label.GetRecordingData(siteSetting));
+                }
+            });
+            if (deleteLabels?.Any() == true)
+            {
+                siteSetting.Labels.RemoveAll(label => deleteLabels.Contains(label.Id));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertLinksByApi(
            SiteSettings siteSetting,
            List<ApiSiteSettings.LinkApiSettingModel> linksApiSiteSetting)
@@ -3309,6 +3357,11 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "UpdateSection":
                     UpdateSection(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateLabel":
+                    UpdateLabel(
                         context: context,
                         res: res);
                     break;
@@ -4522,8 +4575,10 @@ namespace Implem.Pleasanter.Models
                     columnName: selectedColumns.FirstOrDefault());
                 var section = SiteSettings.Sections.Get(SiteSettings.SectionId(selectedColumns
                     .FirstOrDefault()));
+                var label = SiteSettings.Labels.Get(SiteSettings.LabelId(selectedColumns
+                    .FirstOrDefault()));
                 var linkId = SiteSettings.LinkId(selectedColumns.FirstOrDefault());
-                if (column == null && section == null && linkId == 0)
+                if (column == null && section == null && label == null && linkId == 0)
                 {
                     res.Message(Messages.InvalidRequest(context: context));
                 }
@@ -4554,6 +4609,14 @@ namespace Implem.Pleasanter.Models
                             ss: SiteSettings,
                             controlId: context.Forms.ControlId(),
                             section: section));
+                    }
+                    else if (label != null)
+                    {
+                        res.Html("#EditorColumnDialog", SiteUtilities.LabelDialog(
+                            context: context,
+                            ss: SiteSettings,
+                            controlId: context.Forms.ControlId(),
+                            label: label));
                     }
                     else if (linkId != 0)
                     {
@@ -4941,6 +5004,37 @@ namespace Implem.Pleasanter.Models
                                 selectedValueTextCollection: new List<string> { sectionName },
                                 setMaterialSymbols: context.ThemeVersionOver2_0()));
                     }
+                    else if (context.Forms.List("EditorSourceColumns")?.FirstOrDefault()?.StartsWith("_Label-") == true)
+                    {
+                        var labelName = SiteSettings.LabelName(SiteSettings.AddLabel(new Label
+                        {
+                            Body = Displays.Label(context: context),
+                            LabelType = LabelTypes.Plain
+                        }).Id);
+                        var tab = SiteSettings
+                            .EditorColumnHash
+                            .Get(SiteSettings.TabName(context.Forms.Int("EditorColumnsTabsTarget")));
+                        if (tab == null)
+                        {
+                            tab = new List<string>();
+                            SiteSettings.AddOrUpdateEditorColumnHash(
+                                editorColumnsAll: tab,
+                                editorColumnsTabsTarget: context
+                                    .Forms
+                                    .Int("EditorColumnsTabsTarget")
+                                    .ToStr());
+                        }
+                        tab.Add(labelName);
+                        res.Html(
+                            "#EditorColumns",
+                            new HtmlBuilder().SelectableItems(
+                                listItemCollection: SiteSettings
+                                    .EditorSelectableOptions(
+                                        context: context,
+                                        tabId: context.Forms.Int("EditorColumnsTabs")),
+                                selectedValueTextCollection: new List<string> { labelName },
+                                setMaterialSymbols: context.ThemeVersionOver2_0()));
+                    }
                     break;
             }
         }
@@ -4974,6 +5068,41 @@ namespace Implem.Pleasanter.Models
                                         .Where(o => o
                                             .Value?
                                             .Contains(sectionName) == true)
+                                        .Select(o => o.Key)
+                                        .FirstOrDefault()))))
+                    .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateLabel(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.Int("LabelId");
+            var label = SiteSettings.Labels.Get(selected);
+            var labelName = SiteSettings.LabelName(label?.Id);
+            if (label == null)
+            {
+                res.Message(Messages.NotFound(context: context));
+            }
+            else
+            {
+                label.SetByForm(
+                    context: context,
+                    ss: SiteSettings);
+                res.Html(
+                    "#EditorColumns",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: SiteSettings
+                            .EditorSelectableOptions(
+                                context: context,
+                                tabId: SiteSettings
+                                    .TabId(SiteSettings
+                                        .EditorColumnHash
+                                        .Where(o => o
+                                            .Value?
+                                            .Contains(labelName) == true)
                                         .Select(o => o.Key)
                                         .FirstOrDefault()))))
                     .CloseDialog();

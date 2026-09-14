@@ -181,6 +181,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Tab> Tabs;
         public int? SectionLatestId;
         public List<Section> Sections;
+        public int? LabelLatestId;
+        public List<Label> Labels;
         public List<string> TitleColumns;
         public List<string> LinkColumns;
         public List<string> HistoryColumns;
@@ -355,6 +357,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             GeneralTabLabelText = GeneralTabLabelText ?? Displays.General(context);
             TabLatestId = TabLatestId ?? 0;
             SectionLatestId = SectionLatestId ?? 0;
+            LabelLatestId = LabelLatestId ?? 0;
             UpdateTitleColumns(context: context);
             UpdateLinkColumns(context: context);
             UpdateHistoryColumns(context: context);
@@ -919,6 +922,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Sections = new List<Section>();
                 }
                 ss.Sections.Add(section.GetRecordingData(ss: this));
+            });
+            if (LabelLatestId != 0)
+            {
+                ss.LabelLatestId = LabelLatestId;
+            }
+            Labels?.ForEach(label =>
+            {
+                if (ss.Labels == null)
+                {
+                    ss.Labels = new List<Label>();
+                }
+                ss.Labels.Add(label.GetRecordingData(ss: this));
             });
             if (!TitleColumns.SequenceEqual(DefaultTitleColumns()))
             {
@@ -2911,6 +2926,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             return sectionId > 0 ? $"_Section-{sectionId}" : null;
         }
 
+        public int LabelId(string columnName)
+        {
+            return columnName.StartsWith("_Label-")
+                ? columnName.Substring("_Label-".Length).ToInt()
+                : 0;
+        }
+
+        public string LabelName(int? labelId)
+        {
+            return labelId > 0 ? $"_Label-{labelId}" : null;
+        }
+
         public Dictionary<string, ControlData> TabSelectableOptions(
             Context context,
             bool habGeneral = false)
@@ -4320,6 +4347,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     ?? true
                         })
                         .ToList();
+                    Labels = EditorColumnHash
+                        .SelectMany(o => o
+                            .Value?
+                            .Select(columnName => LabelId(columnName))
+                            .Where(labelId => labelId != 0))
+                        .Select(labelId => new Label
+                        {
+                            Id = labelId,
+                            Body = Labels?
+                                .FirstOrDefault(label => label.Id == labelId)
+                                ?.Body
+                                    ?? Displays.Label(context: context),
+                            LabelType = LabelTypes.Normalize(Labels?
+                                .FirstOrDefault(label => label.Id == labelId)
+                                ?.LabelType)
+                        })
+                        .ToList();
                     break;
                 case "TabsAll":
                     Tabs = Tabs?.Join(context.Forms.List(propertyName).Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
@@ -4333,6 +4377,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         (v, l) => new { Sections = v, OrderNo = l.Key })
                         .OrderBy(v => v.OrderNo)
                         .Select(v => v.Sections)
+                        .ToList();
+                    break;
+                case "LabelsAll":
+                    Labels = Labels?.Join(context.Forms.List(propertyName).Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
+                        (v, l) => new { Labels = v, OrderNo = l.Key })
+                        .OrderBy(v => v.OrderNo)
+                        .Select(v => v.Labels)
                         .ToList();
                     break;
                 case "TitleColumnsAll": TitleColumns = context.Forms.List(propertyName); break;
@@ -5247,6 +5298,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             Sections.Add(section);
             return section;
+        }
+
+        public Label AddLabel(Label label)
+        {
+            LabelLatestId = LabelLatestId ?? 0;
+            LabelLatestId++;
+            label.Id = LabelLatestId.ToInt();
+            if (Labels == null)
+            {
+                Labels = new List<Label>();
+            }
+            Labels.Add(label);
+            return label;
         }
 
         public Error.Types AddSummary(

@@ -265,13 +265,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 var linkId = ss.LinkId(columnName);
                 var sectionId = ss.SectionId(columnName);
+                var labelId = ss.LabelId(columnName);
                 return new ControlData(linkId > 0
                     ? ss.Sources.Get(linkId)?.Title
                         ?? ss.Destinations.Get(linkId)?.Title
                         ?? string.Empty
                     : sectionId > 0
                         ? ss.Sections.FirstOrDefault(o => o.Id == sectionId)?.LabelText
-                        : string.Empty);
+                        : labelId > 0
+                            ? EditorLabelSummary(ss.Labels
+                                ?.FirstOrDefault(o => o.Id == labelId)
+                                ?.Body)
+                            : string.Empty);
             }
         }
 
@@ -561,6 +566,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                 "Locked" => false,
                 _ => true
             };
+        }
+
+        private static string EditorLabelSummary(string body)
+        {
+            if (body.IsNullOrEmpty())
+            {
+                return string.Empty;
+            }
+            var text = body
+                .Replace("\r\n", " ")
+                .Replace("\r", " ")
+                .Replace("\n", " ")
+                .Trim();
+            return text.Length > 20
+                ? text.Substring(0, 20) + "\u2026"
+                : text;
         }
     }
 }

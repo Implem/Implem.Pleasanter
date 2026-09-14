@@ -1,7 +1,7 @@
 <script lang="ts">
     import { get } from 'svelte/store';
     import { isEqual, cloneDeep } from 'lodash';
-    import type { ColumnData, ParamHash, SectionData } from './types';
+    import type { ColumnData, ParamHash, SectionData, LabelData } from './types';
     import {
         getIcon,
         viewType,
@@ -13,6 +13,7 @@
         filterColumns,
         linkTable,
         sections,
+        labels,
         columnParamHash,
         setAppEdited,
         editTabCurrentId
@@ -28,6 +29,9 @@
     import CheckBoxGroup from './Utility/form/CheckBoxGroup.svelte';
     import RadioGroup from './Utility/form/RadioGroup.svelte';
     import ReadField from './Utility/form/ReadField.svelte';
+
+    // 見出し・ラベルは項目ではない表示専用要素。基本設定の出し方を切り替える
+    const isDisplayElement = (type: string | undefined) => type === 'Section' || type === 'Label';
     import Button from './Utility/Button.svelte';
     import { pDisplay } from './Utility/$p';
 
@@ -118,7 +122,19 @@
             }
 
             if (index > -1) {
-                if (!item.ColumnName.match(/Section/)) {
+                if (paramHash.Type === 'Label') {
+                    item.LabelText = item.Body;
+                    labels.update(data => {
+                        const _index = data.items.findIndex(d => d.ColumnName === item.ColumnName);
+                        if (_index > -1) {
+                            const updatedItems = [...data.items];
+                            updatedItems[_index] = item as LabelData;
+                            return { ...data, items: updatedItems };
+                        }
+                        return data;
+                    });
+                    $columnCollection[index] = item;
+                } else if (!item.ColumnName.match(/Section/)) {
                     $columnCollection[index] = item;
                 } else {
                     sections.update(data => {
@@ -245,6 +261,18 @@
                                 return _list;
                             });
                             break;
+                        case 'Label':
+                            const _labelId = Number(item.ColumnName.split('_Label-')[1]);
+                            labels.update(data => {
+                                const _data = { ...data };
+                                return { ...data, items: _data.items.filter(label => label.Id !== _labelId) };
+                            });
+                            columnCollection.update(list => {
+                                const _list = [...list];
+                                _list.splice(index, 1);
+                                return _list;
+                            });
+                            break;
                         case 'LineBreak':
                             break;
                     }
@@ -289,7 +317,7 @@
                 <div class="icon">
                     <span class="material-symbols-sharp is-fill">{getIcon(paramHash.Type, item.ColumnName)}</span>
                 </div>
-                {#if viewType(paramHash.Type) !== 'Section'}
+                {#if !isDisplayElement(paramHash.Type)}
                     <h1 class="title">{pDisplay(item.ColumnName)}</h1>
                     <h2 class="column-name">{item.ColumnName}</h2>
                 {:else}
@@ -299,7 +327,7 @@
             <div class="modal-body">
                 <h2 class="hdg"><span>{pDisplay('BasicSettings')}</span></h2>
                 <div class="editor-section">
-                    {#if viewType(paramHash.Type) === 'Section'}
+                    {#if isDisplayElement(paramHash.Type)}
                         <div class="unit">
                             <p class="ttl is-required">{pDisplay('Id')}</p>
                             <div class="form-item">
@@ -307,13 +335,33 @@
                             </div>
                         </div>
                     {/if}
-                    <div class="unit">
-                        <p class="ttl is-required">{pDisplay('DisplayName')}</p>
-                        <div class="form-item">
-                            <TextField bind:model={item.LabelText} required />
+                    {#if paramHash.Type === 'Label'}
+                        <div class="unit">
+                            <p class="ttl is-required">{pDisplay('Body')}</p>
+                            <div class="form-item">
+                                <TextArea bind:model={item.Body} viewerType={3} required />
+                            </div>
                         </div>
-                    </div>
-                    {#if viewType(paramHash.Type) !== 'Section'}
+                        <div class="unit">
+                            <p class="ttl">{pDisplay('LabelType')}</p>
+                            <div class="form-item">
+                                <SelectBox bind:model={item.LabelType}>
+                                    <option value={'Plain'}>{pDisplay('None')}</option>
+                                    <option value={'Info'}>{pDisplay('LabelTypeInfo')}</option>
+                                    <option value={'Warning'}>{pDisplay('LabelTypeWarning')}</option>
+                                    <option value={'Alert'}>{pDisplay('LabelTypeAlert')}</option>
+                                </SelectBox>
+                            </div>
+                        </div>
+                    {:else}
+                        <div class="unit">
+                            <p class="ttl is-required">{pDisplay('DisplayName')}</p>
+                            <div class="form-item">
+                                <TextField bind:model={item.LabelText} required />
+                            </div>
+                        </div>
+                    {/if}
+                    {#if !isDisplayElement(paramHash.Type)}
                         <div class="unit">
                             <p class="ttl">{pDisplay('TextAlign')}</p>
                             <div class="form-item">
@@ -787,7 +835,13 @@
             <footer class="modal-footer">
                 <p><Button onClick={onClose} icon={'close'}>{pDisplay('Close')}</Button></p>
                 <p>
-                    <Button onClick={onUpdate} type="positive" icon={'save'} disabled={!Boolean(item?.LabelText)}
+                    <Button
+                        onClick={onUpdate}
+                        type="positive"
+                        icon={'save'}
+                        disabled={paramHash?.Type === 'Label'
+                            ? !Boolean(item?.Body)
+                            : !Boolean(item?.LabelText)}
                         >{pDisplay('Update')}</Button
                     >
                 </p>

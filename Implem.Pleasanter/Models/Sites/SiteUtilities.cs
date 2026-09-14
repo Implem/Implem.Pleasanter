@@ -2561,6 +2561,13 @@ namespace Implem.Pleasanter.Models
                     sectionLatestId: siteSettingsApiModel.SectionLatestId,
                     sectionsApiSiteSetting: siteSettingsApiModel.Sections);
             }
+            if (siteSettingsApiModel.Labels != null)
+            {
+                siteModel.UpsertLabelsByApi(
+                    siteSetting: ss,
+                    labelLatestId: siteSettingsApiModel.LabelLatestId,
+                    labelsApiSiteSetting: siteSettingsApiModel.Labels);
+            }
             if (siteSettingsApiModel.GeneralTabLabelText != null)
             {
                 ss.GeneralTabLabelText = siteSettingsApiModel.GeneralTabLabelText;
@@ -9375,6 +9382,10 @@ namespace Implem.Pleasanter.Models
                                         "_Section-0",
                                         new ControlData(Displays.Section(context: context))
                                     },
+                                    {
+                                        "_Label-0",
+                                        new ControlData(Displays.Label(context: context))
+                                    },
                                 },
                                 setMaterialSymbols: setMaterialSymbols));
                     break;
@@ -9537,6 +9548,78 @@ namespace Implem.Pleasanter.Models
                         .Div(css: "command-center", action: () => hb
                             .Button(
                                 controlId: "UpdateSection",
+                                text: Displays.Change(context: context),
+                                controlCss: "button-icon validate button-positive",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-disk",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                text: Displays.Cancel(context: context),
+                                controlCss: "button-icon button-neutral",
+                                onClick: "$p.closeDialog($(this));",
+                                icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder LabelDialog(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            Label label)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes().Id("LabelForm").Action(Locations.ItemAction(
+                    context: context,
+                    id: ss.SiteId)),
+                action: () => hb.FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.Label(context: context),
+                    action: () => hb
+                        .FieldText(
+                            controlId: "LabelId",
+                            controlCss: " always-send",
+                            labelText: Displays.Id(context: context),
+                            text: label.Id.ToString())
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.MultiLine,
+                            controlId: "LabelBody",
+                            fieldCss: "field-wide",
+                            controlCss: " always-send",
+                            labelText: Displays.Body(context: context),
+                            text: label.Body)
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "LabelType",
+                            controlCss: " always-send",
+                            labelText: Displays.LabelType(context: context),
+                            optionCollection: new Dictionary<string, string>
+                            {
+                                {
+                                    LabelTypes.Plain,
+                                    Displays.None(context: context)
+                                },
+                                {
+                                    LabelTypes.Info,
+                                    Displays.LabelTypeInfo(context: context)
+                                },
+                                {
+                                    LabelTypes.Warning,
+                                    Displays.LabelTypeWarning(context: context)
+                                },
+                                {
+                                    LabelTypes.Alert,
+                                    Displays.LabelTypeAlert(context: context)
+                                }
+                            },
+                            selectedValue: LabelTypes.Normalize(label.LabelType)))
+                        .P(css: "message-dialog")
+                        .Div(css: "command-center", action: () => hb
+                            .Button(
+                                controlId: "UpdateLabel",
                                 text: Displays.Change(context: context),
                                 controlCss: "button-icon validate button-positive",
                                 onClick: "$p.send($(this));",

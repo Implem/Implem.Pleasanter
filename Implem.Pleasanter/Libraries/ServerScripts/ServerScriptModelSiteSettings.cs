@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private readonly SiteSettings SiteSettings;
         public int? DefaultViewId { get; set; }
         public List<Section> Sections { get; set; }
+        public List<Label> Labels { get; set; }
 
         public ServerScriptModelSiteSettings(
             Context context,
@@ -22,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings = ss;
             DefaultViewId = ss?.GridView;
             Sections = ss?.Sections;
+            Labels = ss?.Labels;
         }
 
         public long SiteId(string title)
