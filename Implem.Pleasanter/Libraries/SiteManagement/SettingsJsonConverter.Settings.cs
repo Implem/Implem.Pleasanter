@@ -1861,6 +1861,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     public string SectionLabelText;
                     public bool? SectionAllowExpand;
                     public string SectionExpand;
+                    public string SectionLevel;
                     public List<string> ChangedColumns = new();
 
                     internal static List3TableHeader CreateHeaders(
@@ -1971,6 +1972,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                     new ("SectionLabelText", Displays.DisplayName(context: context)),
                                     new ("SectionAllowExpand", Displays.AllowExpand(context: context)),
                                     new ("SectionExpand", Displays.Expand(context: context)),
+                                    new ("SectionLevel", Displays.SectionLevel(context: context)),
                                 })
                             };
                         return new List3TableHeader(labels: labels);
@@ -2038,6 +2040,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                             dst.SectionExpand = section.Expand == true
                                 ? Displays.Open(context: context)
                                 : Displays.Close(context: context);
+                            dst.SectionLevel = (section.Level ?? 1).ToString();
                             return dst;
                         }
                         else if (columnName.StartsWith("_Links-"))

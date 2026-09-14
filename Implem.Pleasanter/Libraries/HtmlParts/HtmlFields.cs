@@ -2287,5 +2287,33 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             inputGuide: inputGuide))
                 : hb;
         }
+
+        public static HtmlBuilder SectionHeader(
+            this HtmlBuilder hb,
+            Section section)
+        {
+            return hb.Div(action: () => hb.Label(
+                css: "field-section" + (section.AllowExpand == true
+                    ? " expand"
+                    : string.Empty) + (section.Level == 2
+                    ? " field-section-level2"
+                    : string.Empty),
+                attributes: new HtmlAttributes()
+                    .For($"SectionFields{section.Id}"),
+                action: () => hb
+                    .Span(css: section.AllowExpand == true
+                        ? section.Expand == true
+                            ? "ui-icon ui-icon-triangle-1-s"
+                            : "ui-icon ui-icon-triangle-1-e"
+                        : string.Empty)
+                    .Text(text: section.LabelText)));
+        }
+
+        public static string SectionFieldsCss(this Section section)
+        {
+            return section.AllowExpand == true && section.Expand != true
+                ? "section-fields hidden"
+                : "section-fields";
+        }
     }
 }

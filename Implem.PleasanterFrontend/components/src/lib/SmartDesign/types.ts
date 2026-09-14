@@ -76,6 +76,7 @@ export type ColumnData = {
     MaxLength?: number;
     Expand?: boolean;
     AllowExpand?: boolean;
+    Level?: number;
     LocalFolderLimitTotalSize?: number;
     ThumbnailLimitSize?: number;
     SectionId?: number;
@@ -113,6 +114,7 @@ export type SectionData = {
     Expand: boolean;
     Id: number;
     LabelText: string;
+    Level?: number;
     ColumnName?: string;
 };
 

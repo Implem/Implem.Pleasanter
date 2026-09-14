@@ -2226,6 +2226,14 @@ label.required::after {
     border-bottom: solid 1px silver;
 }
 
+.field-section.field-section-level2 {
+    padding: 2px 0;
+    margin: 15px 15px 8px;
+    font-size: 0.9em;
+    font-weight: normal;
+    border-bottom: dotted 1px silver;
+}
+
 .container-normal {
     position: relative;
 }
