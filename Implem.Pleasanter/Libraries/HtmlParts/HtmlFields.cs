@@ -12,6 +12,9 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -2286,6 +2289,101 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateMaxLength: validateMaxLength,
                             inputGuide: inputGuide))
                 : hb;
+        }
+
+        public static HtmlBuilder EditorLabel(
+            this HtmlBuilder hb,
+            Context context,
+            Label label)
+        {
+            if (label == null || label.Hide == true)
+            {
+                return hb;
+            }
+            var labelType = LabelTypes.Normalize(label.LabelType);
+            var materialSymbols = context.ThemeVersionOver2_0();
+            return hb.Div(
+                id: $"EditorLabel{label.Id}",
+                css: $"field-label-block label-{labelType.ToLower()}",
+                action: () => hb
+                    .Span(
+                        css: materialSymbols
+                            ? "field-label-icon material-symbols-outlined"
+                            : $"field-label-icon ui-icon {EditorLabelLegacyIcon(labelType: labelType)}",
+                        _using: labelType != LabelTypes.Plain,
+                        action: () => hb.Text(text: materialSymbols
+                            ? EditorLabelMaterialIcon(labelType: labelType)
+                            : null))
+                    .Span(
+                        css: "field-label-body",
+                        action: () => hb.Raw(text: EditorLabelBodyHtml(body: label.Body))));
+        }
+
+        /// <summary>
+        /// 本文をHTMLエスケープしたうえで、URLだけをリンクに置き換える。
+        /// エスケープを先に済ませるため本文にタグを書いても効かない。
+        /// http/httpsしか拾わないのでjavascript:などは素通しされない。
+        /// </summary>
+        private static string EditorLabelBodyHtml(string body)
+        {
+            if (body.IsNullOrEmpty())
+            {
+                return string.Empty;
+            }
+            var sb = new StringBuilder();
+            var index = 0;
+            foreach (Match match in EditorLabelUrlRegex.Matches(body))
+            {
+                sb.Append(HttpUtility.HtmlEncode(body.Substring(index, match.Index - index)));
+                // 文末の句読点や閉じ括弧はURLに含めない
+                var url = match.Value.TrimEnd(EditorLabelUrlTrailings);
+                var encoded = HttpUtility.HtmlEncode(url);
+                sb.Append($"<a href=\"{encoded}\" target=\"_blank\" rel=\"noopener noreferrer\">{encoded}</a>");
+                sb.Append(HttpUtility.HtmlEncode(match.Value.Substring(url.Length)));
+                index = match.Index + match.Length;
+            }
+            sb.Append(HttpUtility.HtmlEncode(body.Substring(index)));
+            return sb.ToString();
+        }
+
+        private static readonly Regex EditorLabelUrlRegex = new Regex(
+            @"https?://[^\s<>""'　]+",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private static readonly char[] EditorLabelUrlTrailings = new[]
+        {
+            '.', ',', ';', ':', ')', ']', '}', '!', '?',
+            '。', '、', '）', '］', '！', '？'
+        };
+
+        private static string EditorLabelMaterialIcon(string labelType)
+        {
+            switch (labelType)
+            {
+                case LabelTypes.Info:
+                    return "info";
+                case LabelTypes.Warning:
+                    return "warning";
+                case LabelTypes.Alert:
+                    return "error";
+                default:
+                    return null;
+            }
+        }
+
+        private static string EditorLabelLegacyIcon(string labelType)
+        {
+            switch (labelType)
+            {
+                case LabelTypes.Info:
+                    return "ui-icon-info";
+                case LabelTypes.Warning:
+                    return "ui-icon-alert";
+                case LabelTypes.Alert:
+                    return "ui-icon-notice";
+                default:
+                    return string.Empty;
+            }
         }
     }
 }

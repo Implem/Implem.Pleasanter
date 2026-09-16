@@ -1340,6 +1340,77 @@ label {
     }
 }
 
+/* field-label-block */
+.field-label-block {
+    /* 種別ごとの色は custom property に持たせ、全幅は帯として、項目幅は注記として使う */
+    --label-accent: var(--base-border);
+    --label-bg: var(--nonColor15);
+    float: none;
+    clear: both;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    box-sizing: border-box;
+    width: auto;
+    padding: 10px 14px;
+    /* 左端を入力欄に揃える。120px は項目名の列幅（.container-normal の margin-left）*/
+    margin: 8px 10px 8px 120px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--base-text);
+    background-color: var(--label-bg);
+    border-left: solid 4px var(--label-accent);
+    border-radius: 4px;
+    .field-label-icon {
+        flex: 0 0 auto;
+        width: 20px;
+        height: 22px;
+        margin: 0;
+        color: var(--label-accent);
+        font-family: 'Material Symbols Outlined';
+        font-size: 20px;
+        font-style: normal;
+        font-weight: normal;
+        font-variation-settings: 'FILL' 1;
+        font-feature-settings: 'liga';
+        line-height: 22px;
+        text-indent: 0;
+        text-transform: none;
+        letter-spacing: normal;
+        white-space: nowrap;
+        background: none;
+        -webkit-font-smoothing: antialiased;
+    }
+    .field-label-body {
+        flex: 1 1 auto;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        /* 本文中のURLは自動でリンクになる。帯の中でもリンクだと分かるよう下線を残す */
+        a {
+            color: var(--link-text);
+            text-decoration: underline;
+        }
+    }
+    &.label-info {
+        --label-accent: var(--primaryColor);
+        --label-bg: var(--primarySub04);
+    }
+    &.label-warning {
+        --label-accent: var(--commonColor06);
+        --label-bg: var(--commonColor05);
+    }
+    &.label-alert {
+        --label-accent: var(--commonColor01);
+        --label-bg: var(--commonColor04);
+    }
+    &.label-plain {
+        /* 枠がないので、本文を入力欄の左端に直接そろえる */
+        padding-left: 0;
+        background-color: transparent;
+        border-left: none;
+    }
+}
 .field-normal {
     height: 4em;
 }

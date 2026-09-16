@@ -1117,17 +1117,30 @@ namespace Implem.Pleasanter.Models
             bool editInDialog = false,
             int tabIndex = 0)
         {
-            columnNames.ForEach(columnName => hb.Field(
-                context: context,
-                ss: ss,
-                id: id,
-                columnName: columnName,
-                dataSet: dataSet,
-                links: links,
-                wikiModel: wikiModel,
-                preview: preview,
-                editInDialog: editInDialog,
-                tabIndex: tabIndex));
+            columnNames.ForEach(columnName =>
+            {
+                var labelId = ss.LabelId(columnName);
+                if (labelId != 0)
+                {
+                    hb.EditorLabel(
+                        context: context,
+                        label: ss.Labels?.FirstOrDefault(o => o.Id == labelId));
+                }
+                else
+                {
+                    hb.Field(
+                        context: context,
+                        ss: ss,
+                        id: id,
+                        columnName: columnName,
+                        dataSet: dataSet,
+                        links: links,
+                        wikiModel: wikiModel,
+                        preview: preview,
+                        editInDialog: editInDialog,
+                        tabIndex: tabIndex);
+                }
+            });
             return hb;
         }
 

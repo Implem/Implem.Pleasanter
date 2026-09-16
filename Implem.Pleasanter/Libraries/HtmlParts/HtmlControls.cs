@@ -1203,6 +1203,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 iconTypesMap["_Links-"] = "add_link";
                 iconTypesMap["_Section-"] = "h_mobiledata";
+                iconTypesMap["_Label-"] = "label";
             }
             return iconTypesMap;
         }

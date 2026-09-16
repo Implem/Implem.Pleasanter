@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Label",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Label"
+        },
+        {
+            "Language": "zh",
+            "Body": "标签"
+        },
+        {
+            "Language": "ja",
+            "Body": "ラベル"
+        },
+        {
+            "Language": "de",
+            "Body": "Beschriftung"
+        },
+        {
+            "Language": "ko",
+            "Body": "라벨"
+        },
+        {
+            "Language": "es",
+            "Body": "Etiqueta"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nhãn"
+        }
+    ]
+}

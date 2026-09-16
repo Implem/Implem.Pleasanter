@@ -6,6 +6,7 @@ import type {
     LinkData,
     EditTabsData,
     SectionData,
+    LabelData,
     CloneRssData,
     ParamHash,
     RowData
@@ -50,6 +51,7 @@ export const getIcon = (key: string, ColumnName?: string) => {
         LinkTable: 'link',
         AddLinkTable: 'add_link',
         Section: 'h_mobiledata',
+        Label: 'label',
         LineBreak: 'subdirectory_arrow_right',
         ResultId: 'pin',
         IssueId: 'pin',
@@ -139,6 +141,8 @@ export const columnParamHash = writable(<{ [key: string]: ParamHash }>{});
 export const editTabs = writable(<{ LatestId: number; items: EditTabsData[] }>{});
 export const linkTable = writable(<LinkData[]>[]);
 export const sections = writable(<{ LatestId: number; items: SectionData[] }>{});
+
+export const labels = writable(<{ LatestId: number; items: LabelData[] }>{});
 export const rowData = writable<RowData | null>(null);
 export const cloneRssItems = writable(<CloneRssData[]>[
     {
@@ -277,6 +281,19 @@ export const cloneRssItems = writable(<CloneRssData[]>[
         Hash: {
             Category: 'Others',
             Type: 'Section',
+            Count: 0
+        }
+    },
+    {
+        Column: {
+            ColumnName: 'Label',
+            LabelText: 'Label',
+            Body: '',
+            LabelType: 'Plain'
+        },
+        Hash: {
+            Category: 'Others',
+            Type: 'Label',
             Count: 0
         }
     }

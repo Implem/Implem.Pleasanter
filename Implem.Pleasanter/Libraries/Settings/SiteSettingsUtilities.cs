@@ -54,6 +54,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return sections?.FirstOrDefault(o => o.Id == id);
         }
 
+        public static Label Get(this List<Label> labels, int? id)
+        {
+            return labels?.FirstOrDefault(o => o.Id == id);
+        }
+
         public static View Get(this List<View> views, int? id)
         {
             return views?.FirstOrDefault(o => o.Id == id);
