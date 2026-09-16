@@ -594,6 +594,15 @@
                     <h2 class="hdg"><span>{pDisplay('SectionSettings')}</span></h2>
                     <div class="editor-section">
                         <div class="unit is-small">
+                            <p class="ttl">{pDisplay('SectionLevel')}</p>
+                            <div class="form-item">
+                                <SelectBox bind:model={item.Level} init={1}>
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                </SelectBox>
+                            </div>
+                        </div>
+                        <div class="unit is-small">
                             <p class="ttl">{pDisplay('AllowCollapse')}</p>
                             <div class="form-item">
                                 <CheckBoxGroup>

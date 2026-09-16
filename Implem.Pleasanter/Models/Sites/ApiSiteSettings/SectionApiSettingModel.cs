@@ -12,6 +12,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public bool? AllowExpand;
         public bool? Expand;
         public bool? Hide;
+        public int? Level;
 
         public SectionApiSettingModel()
         {
@@ -23,6 +24,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             section.LabelText = LabelText;
             section.AllowExpand = AllowExpand;
             section.Expand = Expand ?? true;
+            section.Level = Level;
             return section;
         }
     }

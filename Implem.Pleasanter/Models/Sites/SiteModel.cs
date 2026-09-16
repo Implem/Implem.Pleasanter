@@ -2726,7 +2726,8 @@ namespace Implem.Pleasanter.Models
                             labelText: section.LabelText,
                             allowExpand : section.AllowExpand,
                             expand : section.Expand,
-                            hide: section.Hide);
+                            hide: section.Hide,
+                            level: section.Level);
                     }
                     else
                     {

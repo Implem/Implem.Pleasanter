@@ -613,12 +613,13 @@ private static HtmlBuilder Fields(
     bool editInDialog = false,
     int tabIndex = 0)
 {
+    var sectionGroups = new List<(Section Section, List<string> Columns, List<(Section Section, List<string> Columns)> Children)>();
     ss
         .GetEditorColumns(
             context: context,
             tab: tab,
             columnOnly: false)
-        ?.Aggregate(new List<KeyValuePair<Section, List<string>>>(), (columns, column) =>
+        ?.ForEach(column =>
         {
             var sectionId = ss.SectionId(column.ColumnName);
             var section = ss
@@ -626,82 +627,108 @@ private static HtmlBuilder Fields(
                 ?.FirstOrDefault(o => o.Id == sectionId);
             if (section != null)
             {
-                columns.Add(new KeyValuePair<Section, List<string>>(
-                    new Section
-                    {
-                        Id = section.Id,
-                        LabelText = section.LabelText,
-                        AllowExpand = section.AllowExpand,
-                        Expand = section.Expand,
-                        Hide = section.Hide
-                    },
-                    new List<string>()));
+                var current = new Section
+                {
+                    Id = section.Id,
+                    LabelText = section.LabelText,
+                    AllowExpand = section.AllowExpand,
+                    Expand = section.Expand,
+                    Hide = section.Hide,
+                    Level = section.Level
+                };
+                if (current.Level == 2
+                    && sectionGroups.Any()
+                    && sectionGroups.Last().Section != null)
+                {
+                    sectionGroups.Last().Children.Add((current, new List<string>()));
+                }
+                else
+                {
+                    sectionGroups.Add((
+                        current,
+                        new List<string>(),
+                        new List<(Section Section, List<string> Columns)>()));
+                }
             }
             else
             {
-                if (!columns.Any())
+                if (!sectionGroups.Any())
                 {
-                    columns.Add(new KeyValuePair<Section, List<string>>(
+                    sectionGroups.Add((
                         null,
-                        new List<string>()));
+                        new List<string>(),
+                        new List<(Section Section, List<string> Columns)>()));
                 }
-                columns.Last().Value.Add(column.ColumnName);
-            }
-            return columns;
-        }).ForEach(section =>
-        {
-            if (section.Key == null)
-            {
-                hb.Fields(
-                    context: context,
-                    ss: ss,
-                    id: id,
-                    columnNames: section.Value,
-                    dataSet: dataSet,
-                    links: links,
-                    #modelName#Model: #modelName#Model,
-                    preview: preview,
-                    editInDialog: editInDialog,
-                    tabIndex: tabIndex);
-            }
-            else if (section.Key.Hide != true)
-            {
-                hb
-                    .Div(
-                        id: $"SectionFields{section.Key.Id}Container",
-                        css: "section-fields-container",
-                        action: () => hb
-                            .Div(action: () => hb.Label(
-                                css: "field-section" + (section.Key.AllowExpand == true
-                                    ? " expand"
-                                    : string.Empty),
-                                attributes: new HtmlAttributes()
-                                    .For($"SectionFields{section.Key.Id}"),
-                                action: () => hb
-                                    .Span(css: section.Key.AllowExpand == true
-                                        ? section.Key.Expand == true
-                                            ? "ui-icon ui-icon-triangle-1-s"
-                                            : "ui-icon ui-icon-triangle-1-e"
-                                        : string.Empty)
-                                    .Text(text: section.Key.LabelText)))
-                            .Div(
-                                id: $"SectionFields{section.Key.Id}",
-                                css: section.Key.AllowExpand == true && section.Key.Expand != true
-                                    ? "section-fields hidden"
-                                    : "section-fields",
-                                action: () => hb.Fields(
-                                    context: context,
-                                    ss: ss,
-                                    id: id,
-                                    columnNames: section.Value,
-                                    dataSet: dataSet,
-                                    links: links,
-                                    #modelName#Model: #modelName#Model,
-                                    preview: preview,
-                                    editInDialog: editInDialog,
-                                    tabIndex: tabIndex)));
+                var group = sectionGroups.Last();
+                (group.Children.Any()
+                    ? group.Children.Last().Columns
+                    : group.Columns)
+                        .Add(column.ColumnName);
             }
         });
+    sectionGroups.ForEach(group =>
+    {
+        if (group.Section == null)
+        {
+            hb.Fields(
+                context: context,
+                ss: ss,
+                id: id,
+                columnNames: group.Columns,
+                dataSet: dataSet,
+                links: links,
+                #modelName#Model: #modelName#Model,
+                preview: preview,
+                editInDialog: editInDialog,
+                tabIndex: tabIndex);
+        }
+        else if (group.Section.Hide != true)
+        {
+            hb.Div(
+                id: $"SectionFields{group.Section.Id}Container",
+                css: "section-fields-container",
+                action: () => hb
+                    .SectionHeader(section: group.Section)
+                    .Div(
+                        id: $"SectionFields{group.Section.Id}",
+                        css: group.Section.SectionFieldsCss(),
+                        action: () =>
+                        {
+                            hb.Fields(
+                                context: context,
+                                ss: ss,
+                                id: id,
+                                columnNames: group.Columns,
+                                dataSet: dataSet,
+                                links: links,
+                                #modelName#Model: #modelName#Model,
+                                preview: preview,
+                                editInDialog: editInDialog,
+                                tabIndex: tabIndex);
+                            group.Children
+                                .Where(child => child.Section.Hide != true)
+                                .ForEach(child => hb.Div(
+                                    id: $"SectionFields{child.Section.Id}Container",
+                                    css: "section-fields-container",
+                                    action: () => hb
+                                        .SectionHeader(section: child.Section)
+                                        .Div(
+                                            id: $"SectionFields{child.Section.Id}",
+                                            css: child.Section.SectionFieldsCss(),
+                                            action: () => hb.Fields(
+                                                context: context,
+                                                ss: ss,
+                                                id: id,
+                                                columnNames: child.Columns,
+                                                dataSet: dataSet,
+                                                links: links,
+                                                #modelName#Model: #modelName#Model,
+                                                preview: preview,
+                                                editInDialog: editInDialog,
+                                                tabIndex: tabIndex))));
+                        }));
+        }
+    });
     return hb;
 }
 

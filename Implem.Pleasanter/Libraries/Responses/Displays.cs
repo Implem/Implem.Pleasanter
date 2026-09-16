@@ -10969,6 +10969,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SectionLevel(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SectionLevel",
+                data: data);
+        }
+
         public static string SectionSettings(
             Context context,
             params string[] data)

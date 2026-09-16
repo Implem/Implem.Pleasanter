@@ -4317,7 +4317,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                             Expand = Sections?
                                 .FirstOrDefault(section => section.Id == sectionId)
                                 ?.Expand
-                                    ?? true
+                                    ?? true,
+                            Level = Sections?
+                                .FirstOrDefault(section => section.Id == sectionId)
+                                ?.Level
                         })
                         .ToList();
                     break;
