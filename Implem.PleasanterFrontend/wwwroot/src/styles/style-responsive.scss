@@ -642,7 +642,6 @@
 
     /* #Application > #MainForm > #ViewFilters */
 
-    /* #ViewFilters > #ViewFiltersLabelMenus */
     #ViewFilters {
         gap: 8px 0;
         width: auto;
@@ -691,6 +690,19 @@
                 }
             }
         }
+        /* 否定メニューの導入で .view-filter-item が1階層挟まるため、
+           幅の指定はラッパー側に移し、中のフィールドは全幅にする */
+        .view-filter-item {
+            width: 50%;
+            > .field-auto-thin {
+                width: 100%;
+                padding: 0;
+            }
+        }
+        .view-filter-chip {
+            width: auto;
+            padding: 0 8px;
+        }
         .field-auto-thin {
             float: none;
             align-items: center;
@@ -729,13 +741,6 @@
                 flex: initial;
                 margin: 0;
             }
-            ~ .ui-icon.ui-icon-info {
-                margin: 0 -6px -2px 0;
-            }
-        }
-        .ui-icon.ui-icon-info {
-            margin: -3px 2px 0 0;
-            transform: scale(1);
         }
     }
 

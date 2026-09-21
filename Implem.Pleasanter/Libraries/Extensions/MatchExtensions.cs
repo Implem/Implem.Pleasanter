@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             if (column.Nullable == true && value.Value == null)
             {
-                return condition == "[\"\\t\"]";
+                return condition.Deserialize<List<string>>()?.Any(o => o == "\t") == true;
             }
             return value.Value.ToDecimal().Matched(column, condition);
         }

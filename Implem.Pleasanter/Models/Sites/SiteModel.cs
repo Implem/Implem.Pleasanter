@@ -6545,7 +6545,7 @@ namespace Implem.Pleasanter.Models
             {
                 res
                     .Append(
-                        $"#{prefix}ViewFiltersTab .items",
+                        $"#{prefix}ViewFiltersTab .view-filter-list",
                         new HtmlBuilder().ViewFilter(
                             context: context,
                             ss: ss,

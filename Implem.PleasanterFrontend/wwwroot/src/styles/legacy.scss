@@ -1,4 +1,5 @@
-@use 'plugins' as *;
+﻿@use 'plugins' as *;
+@use 'viewfilternegative' as *;
 
 * {
     box-sizing: border-box;
@@ -3606,22 +3607,6 @@ div.field-control .ui-multiselect.ui-state-disabled {
 .focus-inform {
     background-color: white !important;
     border: solid 1px orange !important;
-}
-
-.menu-negative {
-    position: absolute;
-    z-index: 10;
-    border-right: solid 1px white;
-    border-left: solid 1px white;
-}
-
-.menu-negative > li {
-    float: left;
-    clear: both;
-    display: block;
-    width: 100%;
-    cursor: pointer;
-    border-top: dotted 1px white;
 }
 
 .menu-sort {

@@ -3699,7 +3699,10 @@ namespace Implem.Pleasanter.Models
         private bool Matched(Context context, SiteSettings ss, View view)
         {
             var userId = context.UserId;
-            if (view.Own == true && !(Manager.Id == userId || Owner.Id == userId))
+            if (view.Own == true && !view.FilterMatched(
+                ss: ss,
+                name: "ViewFilters_Own",
+                matched: Manager.Id == userId || Owner.Id == userId))
             {
                 return false;
             }
@@ -3832,7 +3835,14 @@ namespace Implem.Pleasanter.Models
                             }
                             break;
                     }
-                    if (!match) return false;
+                    if (!view.FilterMatched(
+                        ss: ss,
+                        name: filter.Key,
+                        matched: match,
+                        negatable: column != null && View.HasFilterCondition(filter.Value)))
+                    {
+                        return false;
+                    }
                 }
             }
             return true;

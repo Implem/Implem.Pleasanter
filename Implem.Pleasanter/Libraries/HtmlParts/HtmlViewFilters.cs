@@ -27,9 +27,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? hb.Div(
                             id: "ViewFilters",
                             action: () => hb
-                                .ViewFiltersLabelMenus(
-                                    context: context,
-                                    ss: ss)
                                 .DisplayControl(
                                     context: context,
                                     view: view,
@@ -135,25 +132,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view,
             bool disabled = false)
         {
-            var labelIcon = LabelIcon(
-                ss: ss,
-                view: view,
-                name: "ViewFilters_Incomplete");
             return ss.UseIncompleteFilter == true
                 ? hb
-                    .FieldCheckBox(
-                        fieldId: "ViewFilters_Incomplete" + "Field",
-                        controlId: "ViewFilters_Incomplete",
-                        fieldCss: "field-auto-thin",
-                        controlCss: ss.UseFilterButton != true
-                            ? " auto-postback"
-                            : string.Empty,
+                    .ViewFilterPreset(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        name: "ViewFilters_Incomplete",
                         labelText: Displays.Incomplete(context: context),
-                        labelIcon: labelIcon,
                         _checked: view.Incomplete == true,
                         disabled: disabled,
-                        method: "post",
-                        labelPositionIsRight: true,
                         _using: view.HasIncompleteColumns(context: context, ss: ss)
                             && Visible(ss, "Status"))
                 : hb;
@@ -166,25 +154,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view,
             bool disabled = false)
         {
-            var labelIcon = LabelIcon(
-                ss: ss,
-                view: view,
-                name: "ViewFilters_Own");
             return ss.UseOwnFilter == true
                 ? hb
-                    .FieldCheckBox(
-                        fieldId: "ViewFilters_Own" + "Field",
-                        controlId: "ViewFilters_Own",
-                        fieldCss: "field-auto-thin",
-                        controlCss: ss.UseFilterButton != true
-                            ? " auto-postback"
-                            : string.Empty,
+                    .ViewFilterPreset(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        name: "ViewFilters_Own",
                         labelText: Displays.Own(context: context),
-                        labelIcon: labelIcon,
                         _checked: view.Own == true,
                         disabled: disabled,
-                        method: "post",
-                        labelPositionIsRight: true,
                         _using: view.HasOwnColumns(context: context, ss: ss)
                             && (Visible(ss, "Manager") || Visible(ss, "Owner")))
                 : hb;
@@ -197,25 +176,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view,
             bool disabled = false)
         {
-            var labelIcon = LabelIcon(
-                ss: ss,
-                view: view,
-                name: "ViewFilters_NearCompletionTime");
             return ss.UseNearCompletionTimeFilter == true
                 ? hb
-                    .FieldCheckBox(
-                        fieldId: "ViewFilters_NearCompletionTime" + "Field",
-                        controlId: "ViewFilters_NearCompletionTime",
-                        fieldCss: "field-auto-thin",
-                        controlCss: ss.UseFilterButton != true
-                            ? " auto-postback"
-                            : string.Empty,
+                    .ViewFilterPreset(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        name: "ViewFilters_NearCompletionTime",
                         labelText: Displays.NearCompletionTime(context: context),
-                        labelIcon: labelIcon,
                         _checked: view.NearCompletionTime == true,
                         disabled: disabled,
-                        method: "post",
-                        labelPositionIsRight: true,
                         _using: view.HasNearCompletionTimeColumns(context: context, ss: ss)
                             && Visible(ss, "CompletionTime"))
                 : hb;
@@ -228,25 +198,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view,
             bool disabled = false)
         {
-            var labelIcon = LabelIcon(
-                ss: ss,
-                view: view,
-                name: "ViewFilters_Delay");
             return ss.UseDelayFilter == true
                 ? hb
-                    .FieldCheckBox(
-                        fieldId: "ViewFilters_Delay" + "Field",
-                        controlId: "ViewFilters_Delay",
-                        fieldCss: "field-auto-thin",
-                        controlCss: ss.UseFilterButton != true
-                            ? " auto-postback"
-                            : string.Empty,
+                    .ViewFilterPreset(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        name: "ViewFilters_Delay",
                         labelText: Displays.Delay(context: context),
-                        labelIcon: labelIcon,
                         _checked: view.Delay == true,
                         disabled: disabled,
-                        method: "post",
-                        labelPositionIsRight: true,
                         _using: view.HasDelayColumns(context: context, ss: ss)
                             && Visible(ss, "ProgressRate"))
                 : hb;
@@ -259,25 +220,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view,
             bool disabled = false)
         {
-            var labelIcon = LabelIcon(
-                ss: ss,
-                view: view,
-                name: "ViewFilters_Overdue");
             return ss.UseOverdueFilter == true
                 ? hb
-                    .FieldCheckBox(
-                        fieldId: "ViewFilters_Overdue" + "Field",
-                        controlId: "ViewFilters_Overdue",
-                        fieldCss: "field-auto-thin",
-                        controlCss: ss.UseFilterButton != true
-                            ? " auto-postback"
-                            : string.Empty,
+                    .ViewFilterPreset(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        name: "ViewFilters_Overdue",
                         labelText: Displays.Overdue(context: context),
-                        labelIcon: labelIcon,
                         _checked: view.Overdue == true,
                         disabled: disabled,
-                        method: "post",
-                        labelPositionIsRight: true,
                         _using: view.HasOverdueColumns(context: context, ss: ss)
                             && Visible(ss, "CompletionTime"))
                 : hb;
@@ -330,13 +282,50 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 view: view,
                 checkPermission: true).ForEach(column =>
-                    Column(
-                        hb: hb,
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        column: column,
-                        process: process));
+                {
+                    if (ss.UseNegativeFilters == true
+                        && CanNegateColumn(column: column))
+                    {
+                        hb.Div(
+                            attributes: new HtmlAttributes()
+                                .Class("view-filter-item")
+                                .Add("data-state", NegativeState(
+                                    ss: ss,
+                                    view: view,
+                                    name: column.ColumnName)),
+                            action: () => hb
+                                .Column(
+                                    context: context,
+                                    ss: ss,
+                                    view: view,
+                                    column: column,
+                                    process: process)
+                                .ViewFilterMenu(
+                                    context: context,
+                                    withNone: false)
+                                .Div(css: "view-filter-state-inputs", action: () => hb
+                                    .FieldCheckBox(
+                                        controlId: "ViewFiltersNegative__" + column.ColumnName,
+                                        controlCss: ss.UseFilterButton != true
+                                            ? " auto-postback"
+                                            : string.Empty,
+                                        labelText: Displays.Negative(context: context),
+                                        _checked: view?.ColumnFilterNegatives
+                                            ?.Contains(column.ColumnName) == true,
+                                        labelPositionIsRight: true,
+                                        method: "post")));
+                    }
+                    else
+                    {
+                        Column(
+                            hb: hb,
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            column: column,
+                            process: process);
+                    }
+                });
             return hb;
         }
 
@@ -357,8 +346,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb;
         }
 
-        public static void Column(
-            HtmlBuilder hb,
+        public static HtmlBuilder Column(
+            this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
             View view,
@@ -372,10 +361,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var disabled = process != null
                 && ((column.ColumnName == "Status" && process.CurrentStatus != -1)
                     || process.View?.ColumnFilterHash?.ContainsKey(column.ColumnName) == true);
-            string labelIcon = LabelIcon(
-                ss: ss,
-                view: view,
-                name: column.ColumnName);
+            string labelIcon = onGridHeader
+                ? string.Empty
+                : LabelIcon(
+                    ss: ss,
+                    view: view,
+                    name: column.ColumnName,
+                    column: column);
             var labelText = Strings.CoalesceEmpty(
                 ColumnUtilities.GetMultilingualLabelText(
                     target: column.MultilingualLabelText,
@@ -505,15 +497,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             {
                                 ["onfocus"] = $"$p.openSetDateRangeDialog($(this))"
                             });
-                        if (!context.Forms.ContainsKey("ViewFilters_Negative"))
-                        {
-                            hb.Hidden(attributes: new HtmlAttributes()
-                                .Id(idPrefix + column.ColumnName)
-                                .Class(column.UseSearch == true ? " search" : string.Empty)
-                                .DataMethod("post")
-                                .DataAction(action)
-                                .Value(view.ColumnFilter(column.ColumnName)));
-                        }
+                        hb.Hidden(attributes: new HtmlAttributes()
+                            .Id(idPrefix + column.ColumnName)
+                            .Class(column.UseSearch == true ? " search" : string.Empty)
+                            .DataMethod("post")
+                            .DataAction(action)
+                            .Value(view.ColumnFilter(column.ColumnName)));
                     }
                     break;
                 case Types.CsString:
@@ -573,6 +562,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     break;
             }
+            return hb;
         }
 
         private static void SetNumericRangeDialog(
@@ -609,16 +599,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         ["onfocus"] = $"$p.openSetNumericRangeDialog($(this))"
                     });
-            if (!context.Forms.ContainsKey("ViewFilters_Negative"))
-            {
-                hb
-                    .Hidden(attributes: new HtmlAttributes()
-                    .Id(idPrefix + column.ColumnName)
-                    .Class(column.UseSearch == true ? " search" : string.Empty)
-                    .DataMethod("post")
-                    .DataAction(action)
-                    .Value(view.ColumnFilter(column.ColumnName)));
-            }
+            hb.Hidden(attributes: new HtmlAttributes()
+                .Id(idPrefix + column.ColumnName)
+                .Class(column.UseSearch == true ? " search" : string.Empty)
+                .DataMethod("post")
+                .DataAction(action)
+                .Value(view.ColumnFilter(column.ColumnName)));
         }
 
         private static HtmlBuilder CheckBox(
@@ -762,26 +748,57 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view,
             bool disabled = false)
         {
-            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_Search") == true
-                ? "ui-icon-info"
+            if (ss.UseSearchFilter != true
+                || (context.Controller != "items" && context.Controller != "publishes"))
+            {
+                return hb;
+            }
+            var negatable = ss.UseNegativeFilters == true;
+            var controlCss = ss.UseFilterButton != true
+                ? " auto-postback"
                 : string.Empty;
-            return ss.UseSearchFilter == true
-                ? hb
+            if (!negatable)
+            {
+                return hb.FieldTextBox(
+                    fieldId: "ViewFilters_Search" + "Field",
+                    controlId: "ViewFilters_Search",
+                    fieldCss: "field-auto-thin",
+                    controlCss: controlCss,
+                    labelText: Displays.Search(context: context),
+                    text: view.Search,
+                    disabled: disabled,
+                    method: "post");
+            }
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Class("view-filter-item")
+                    .Add("data-state", NegativeState(
+                        ss: ss,
+                        view: view,
+                        name: "ViewFilters_Search")),
+                action: () => hb
                     .FieldTextBox(
                         fieldId: "ViewFilters_Search" + "Field",
                         controlId: "ViewFilters_Search",
                         fieldCss: "field-auto-thin",
-                        controlCss: ss.UseFilterButton != true
-                            ? " auto-postback"
-                            : string.Empty,
+                        controlCss: controlCss,
                         labelText: Displays.Search(context: context),
-                        labelIcon: labelIcon,
+                        labelIcon: "ui-icon-cancel view-filter-mark",
                         text: view.Search,
                         disabled: disabled,
-                        method: "post",
-                        _using: context.Controller == "items"
-                            || context.Controller == "publishes")
-                : hb;
+                        method: "post")
+                    .ViewFilterMenu(
+                        context: context,
+                        withNone: false)
+                    .Div(css: "view-filter-state-inputs", action: () => hb
+                        .FieldCheckBox(
+                            controlId: "ViewFiltersNegative__ViewFilters_Search",
+                            controlCss: controlCss,
+                            labelText: Displays.Negative(context: context),
+                            _checked: view?.ColumnFilterNegatives
+                                ?.Contains("ViewFilters_Search") == true,
+                            labelPositionIsRight: true,
+                            method: "post")));
         }
 
         private static HtmlBuilder FilterButton(
@@ -804,13 +821,204 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static string LabelIcon(SiteSettings ss, View view, string name)
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ViewFilterChip(
+            this HtmlBuilder hb,
+            Context context,
+            View view,
+            string name,
+            string labelText,
+            string prefix,
+            bool _checked,
+            bool negatable = true,
+            string controlCss = null,
+            bool disabled = false,
+            string method = null,
+            bool _using = true)
         {
-            return view.UseNegativeFilters(
-                ss: ss,
-                name: name) == true
-                    ? "ui-icon-info"
+            if (!_using) return hb;
+            var negative = negatable
+                && view?.ColumnFilterNegatives?.Contains(name) == true;
+            var state = !_checked
+                ? "none"
+                : negative
+                    ? "negative"
+                    : "positive";
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Class("view-filter-item view-filter-chip" + (disabled
+                        ? " disabled"
+                        : string.Empty))
+                    .Add("data-state", state),
+                action: () => hb
+                    .Div(
+                        attributes: new HtmlAttributes()
+                            .Class("view-filter-chip-trigger")
+                            .Title(Displays.NegativeFilterToolTip(context: context))
+                            .Add("tabindex", "0"),
+                        action: () => hb
+                            .Span(css: "view-filter-chip-mark")
+                            .Span(css: "view-filter-chip-label", action: () => hb
+                                .Text(text: labelText))
+                            .Span(css: "view-filter-chip-caret"))
+                    .ViewFilterMenu(
+                        context: context,
+                        withNone: true,
+                        withNegative: negatable)
+                    .Div(css: "view-filter-state-inputs", action: () => hb
+                        .FieldCheckBox(
+                            controlId: $"{prefix}{name}",
+                            controlCss: controlCss,
+                            labelText: labelText,
+                            _checked: _checked,
+                            disabled: disabled,
+                            method: method,
+                            labelPositionIsRight: true)
+                        .FieldCheckBox(
+                            controlId: $"{prefix}ViewFiltersNegative__{name}",
+                            labelText: Displays.Negative(context: context),
+                            _checked: negative,
+                            labelPositionIsRight: true,
+                            _using: negatable)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        internal static HtmlBuilder ViewFilterMenu(
+            this HtmlBuilder hb,
+            Context context,
+            bool withNone,
+            bool withNegative = true,
+            bool _using = true)
+        {
+            if (!_using) return hb;
+            return hb.Ul(css: "view-filter-menu", action: () => hb
+                .Li(
+                    attributes: new HtmlAttributes()
+                        .Class("view-filter-menu-item")
+                        .Add("data-value", "none"),
+                    _using: withNone,
+                    action: () => hb
+                        .Span(css: "view-filter-menu-check")
+                        .Text(text: Displays.NotSpecified(context: context)))
+                .Li(
+                    attributes: new HtmlAttributes()
+                        .Class("view-filter-menu-item")
+                        .Add("data-value", "positive"),
+                    action: () => hb
+                        .Span(css: "view-filter-menu-check")
+                        .Text(text: Displays.Positive(context: context)))
+                .Li(
+                    attributes: new HtmlAttributes()
+                        .Class("view-filter-menu-item")
+                        .Add("data-value", "negative"),
+                    _using: withNegative,
+                    action: () => hb
+                        .Span(css: "view-filter-menu-check")
+                        .Text(text: Displays.Negative(context: context))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        internal static string ViewFilterMark(Context context)
+        {
+            return new HtmlBuilder()
+                .Span(attributes: new HtmlAttributes()
+                    .Class("ui-icon ui-icon-cancel view-filter-mark")
+                    .Title(Displays.NegativeFilterToolTip(context: context)))
+                .ToString();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// 否定を指定できる列かどうか。チェック列は On/Off の2値で足り、
+        /// 日付・数値の範囲指定は範囲の外側を指定できるため対象外とする。
+        /// </summary>
+        internal static bool CanNegateColumn(Column column)
+        {
+            switch (column.TypeName.CsTypeSummary())
+            {
+                case Types.CsDateTime:
+                case Types.CsNumeric:
+                    return column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default;
+                case Types.CsString:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// 一覧のプリセット条件。否定フィルタが有効なときは3択メニューのチップ、
+        /// 無効なときは従来どおりのチェックボックスを出す。
+        /// </summary>
+        private static HtmlBuilder ViewFilterPreset(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            string name,
+            string labelText,
+            bool _checked,
+            bool disabled = false,
+            bool _using = true)
+        {
+            if (!_using) return hb;
+            var controlCss = ss.UseFilterButton != true
+                ? " auto-postback"
+                : string.Empty;
+            return ss.UseNegativeFilters == true
+                ? hb.ViewFilterChip(
+                    context: context,
+                    view: view,
+                    name: name,
+                    labelText: labelText,
+                    prefix: string.Empty,
+                    _checked: _checked,
+                    controlCss: controlCss,
+                    disabled: disabled,
+                    method: "post")
+                : hb.FieldCheckBox(
+                    fieldId: name + "Field",
+                    controlId: name,
+                    fieldCss: "field-auto-thin",
+                    controlCss: controlCss,
+                    labelText: labelText,
+                    _checked: _checked,
+                    disabled: disabled,
+                    method: "post",
+                    labelPositionIsRight: true);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// 否定中の列に付けるマーク。サイト設定で否定フィルタが無効な場合は出さない。
+        /// </summary>
+        private static string LabelIcon(
+            SiteSettings ss,
+            View view,
+            string name,
+            Column column = null)
+        {
+            return ss.UseNegativeFilters == true
+                && (column == null || CanNegateColumn(column: column))
+                    ? "ui-icon-cancel view-filter-mark"
                     : string.Empty;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        internal static string NegativeState(SiteSettings ss, View view, string name)
+        {
+            return view?.UseNegativeFilters(ss: ss, name: name) == true
+                ? "negative"
+                : "positive";
         }
     }
 }
