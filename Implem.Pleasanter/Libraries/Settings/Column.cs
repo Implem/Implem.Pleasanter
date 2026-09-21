@@ -685,6 +685,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             var selected = view?
                 .ColumnFilter(ColumnName)?
                 .Deserialize<List<string>>();
+            // 否定指定のときは「選んだ値だけ」ではなく「選んだ値を除いた値」を選択肢にする。
+            // カンバンとクロス集計の軸がこの選択肢で組み立てられるため、反転しないと
+            // 否定で抽出したレコードの置き場がなくなる。
+            var negative = view?.UseNegativeFilters(name: ColumnName) == true
+                && selected?.Any(o => !o.IsNullOrEmpty()) == true;
             if (addNotSet && NotRequiredOrUser())
             {
                 hash.Add("\t", new ControlData(Displays.NotSet(context: context)));
@@ -705,7 +710,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 if (checkBlankInSelection == false
                     || selected?.Any() != true
-                    || selected.Contains("\t"))
+                    || (negative
+                        ? !selected.Contains("\t")
+                        : selected.Contains("\t")))
                 {
                     hash.Add(blank, new ControlData(string.Empty));
                 }
@@ -721,7 +728,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => !hash.ContainsKey(o.Value))
                 .GroupBy(o => o.Value)
                 .Select(o => o.FirstOrDefault())
-                .Where(o => selected?.Any() != true || selected.Contains(o.Value))
+                .Where(o => selected?.Any() != true
+                    || (negative
+                        ? !selected.Contains(o.Value)
+                        : selected.Contains(o.Value)))
                 .Take(limit > 0 ? limit : int.MaxValue)
                 .ForEach(choice =>
                     hash.Add(

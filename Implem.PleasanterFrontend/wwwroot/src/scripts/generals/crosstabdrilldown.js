@@ -38,6 +38,13 @@ $p.crosstabDrillDown = function ($control) {
     function addFilter(columnName, filter) {
         if (columnName && filter !== undefined) {
             view.ColumnFilterHash[columnName] = filter;
+            // クリックしたセルの値で絞り込み直すので、その列の否定は外す。
+            // 残すと「状況 ≠ 未着手」が「状況 ≠ 実施中」に化けて、
+            // クリックしたセルと逆のレコードが出る。
+            if (Array.isArray(view.ColumnFilterNegatives)) {
+                view.ColumnFilterNegatives = view.ColumnFilterNegatives
+                    .filter(function (o) { return o !== columnName; });
+            }
         }
     }
 };
