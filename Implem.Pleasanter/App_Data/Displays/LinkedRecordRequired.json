@@ -1,0 +1,33 @@
+{
+    "Id": "LinkedRecordRequired",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Please register at least one record in \"{0}\"."
+        },
+        {
+            "Language": "zh",
+            "Body": "请在“{0}”中至少登记一条记录。"
+        },
+        {
+            "Language": "ja",
+            "Body": "「{0}」のデータを1件以上登録してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte registrieren Sie mindestens einen Datensatz in \"{0}\"."
+        },
+        {
+            "Language": "ko",
+            "Body": "\"{0}\"에 데이터를 1건 이상 등록해 주십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Registre al menos un registro en \"{0}\"."
+        },
+        {
+            "Language": "vn",
+            "Body": "Vui lòng đăng ký ít nhất một bản ghi trong \"{0}\"."
+        }
+    ]
+}

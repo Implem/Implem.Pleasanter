@@ -10,7 +10,8 @@
             ss: ss,
             linkId: #modelName#Model.#ModelName#Id,
             methodType: #modelName#Model.MethodType,
-            links: links));
+            links: links,
+            statusControlHash: #modelName#Model.StatusControlHash));
     if (ss.HideLink != true)
     {
         hb.Div(id: "Links", css: "links", action: () => hb

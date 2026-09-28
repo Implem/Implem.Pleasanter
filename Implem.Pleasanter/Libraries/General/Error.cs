@@ -101,6 +101,7 @@ namespace Implem.Pleasanter.Libraries.General
             ItemsLimit,
             JoeAccountCheck,
             JsonParseError,
+            LinkedRecordRequired,
             LockedRecord,
             LockedTable,
             LoginExpired,
@@ -542,6 +543,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.JsonParseError:
                     return Messages.JsonParseError(
+                        context: context,
+                        data: data);
+                case Types.LinkedRecordRequired:
+                    return Messages.LinkedRecordRequired(
                         context: context,
                         data: data);
                 case Types.LockedRecord:
