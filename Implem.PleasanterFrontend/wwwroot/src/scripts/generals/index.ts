@@ -1,4 +1,4 @@
-import './_init.js';
+﻿import './_init.js';
 import './_ajax.js';
 import './_api.js';
 import './_data.js';
@@ -106,7 +106,7 @@ import './util.js';
 import './validator.js';
 import './video.js';
 import './view.js';
-import './viewfilterslabelevents.js';
+import './viewfilternegativemenu.js';
 import './viewmode.js';
 import './visibility.js';
 import './_show.js';

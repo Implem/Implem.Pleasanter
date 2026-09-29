@@ -221,38 +221,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _using: suffix.IsNullOrEmpty());
         }
 
-        public static HtmlBuilder ViewFiltersLabelMenus(
-           this HtmlBuilder hb,
-           Context context,
-           SiteSettings ss)
-        {
-            return ss.UseNegativeFilters == true
-                ? hb.Div(id: "ViewFiltersLabelMenus", action: () =>
-                    hb.Ul(
-                        id: "ViewFilters__",
-                        attributes: new HtmlAttributes()
-                            .Class("menu menu-negative")
-                            .DataMethod("post")
-                            .Add("style", "display: none; position: absolute;"),
-                        action: () => hb
-                            .Li(
-                                attributes: new HtmlAttributes()
-                                    .Class("negative"),
-                                action: () => hb
-                                    .Div(action: () => hb
-                                        .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-notice"))
-                                        .Text(text: Displays.Negative(context)))
-                                )
-                            .Li(
-                                attributes: new HtmlAttributes()
-                                    .Class("positive"),
-                                action: () => hb
-                                    .Div(action: () => hb
-                                        .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-power"))
-                                        .Text(text: Displays.Positive(context))))))
-                : hb;
-        }
-
         private static string OrderBy(View view, string key)
         {
             switch (view?.ColumnSorter(key))

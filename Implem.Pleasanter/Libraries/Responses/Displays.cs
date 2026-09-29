@@ -8559,6 +8559,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NegativeFilterToolTip(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NegativeFilterToolTip",
+                data: data);
+        }
+
         public static string New(
             Context context,
             params string[] data)
@@ -8896,6 +8906,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NotSendIfNotApplicable",
+                data: data);
+        }
+
+        public static string NotSpecified(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotSpecified",
                 data: data);
         }
 

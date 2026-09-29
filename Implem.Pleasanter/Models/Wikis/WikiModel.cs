@@ -1818,7 +1818,14 @@ namespace Implem.Pleasanter.Models
                             }
                             break;
                     }
-                    if (!match) return false;
+                    if (!view.FilterMatched(
+                        ss: ss,
+                        name: filter.Key,
+                        matched: match,
+                        negatable: column != null && View.HasFilterCondition(filter.Value)))
+                    {
+                        return false;
+                    }
                 }
             }
             return true;

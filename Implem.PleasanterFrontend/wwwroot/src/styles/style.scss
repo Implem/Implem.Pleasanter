@@ -2142,7 +2142,6 @@ body {
 
 /* #Application > #MainForm > #ViewFilters */
 
-/* #ViewFilters > #ViewFiltersLabelMenus */
 #ViewFilters {
     display: flex;
     flex-wrap: wrap;
@@ -2181,30 +2180,6 @@ body {
         }
     }
 
-    #ViewFiltersLabelMenus {
-        .menu-negative {
-            li {
-                float: none;
-                border-width: 0;
-                .ui-menu-item-wrapper {
-                    color: var(--btn-normal-label);
-                    background-color: var(--btn-normal-bg);
-                    border: 1px solid transparent;
-                    &:hover,
-                    &:focus,
-                    &.ui-state-active {
-                        margin: 0;
-                        font-weight: normal;
-                        color: var(--btn-positive-label);
-                        background: var(--btn-positive-bg);
-                        .ui-icon {
-                            background-image: url('../images/ui-icons_ffffff_256x240.png') !important;
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 /* #Application > #MainForm > #Aggregations */

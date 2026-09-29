@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NotSpecified",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Not specified"
+        },
+        {
+            "Language": "ja",
+            "Body": "指定なし"
+        }
+    ]
+}

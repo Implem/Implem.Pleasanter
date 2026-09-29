@@ -116,9 +116,11 @@ namespace Implem.Pleasanter.Libraries.Requests
                             break;
                         case 0:
                             view.ColumnFilterHash.AddOrUpdate("Status", $"[\"\t\"]");
+                            view.SetColumnFilterNegative(name: "Status", negative: false);
                             break;
                         default:
                             view.ColumnFilterHash.AddOrUpdate("Status", $"[\"{process.CurrentStatus}\"]");
+                            view.SetColumnFilterNegative(name: "Status", negative: false);
                             break;
                     }
                 }

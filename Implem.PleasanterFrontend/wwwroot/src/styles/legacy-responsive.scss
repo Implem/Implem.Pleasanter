@@ -155,7 +155,23 @@
         height: auto;
     }
 
-    #ViewFilters > .field-auto-thin {
+    /* 否定メニューの導入で .view-filter-item が1階層挟まる */
+    #ViewFilters > .view-filter-item {
+        width: 49%;
+        margin: 2% 0 0;
+    }
+
+    #ViewFilters > .view-filter-item > .field-auto-thin {
+        width: 100%;
+        margin: 0;
+    }
+
+    #ViewFilters > .view-filter-chip {
+        width: auto;
+    }
+
+    #ViewFilters > .field-auto-thin,
+    #ViewFilters > .view-filter-item > .field-auto-thin {
         display: flex;
         align-items: center;
         justify-content: start;
@@ -166,11 +182,13 @@
         line-height: 1;
     }
 
-    #ViewFilters > .field-auto-thin > .field-control {
+    #ViewFilters > .field-auto-thin > .field-control,
+    #ViewFilters > .view-filter-item > .field-auto-thin > .field-control {
         width: 100%;
     }
 
-    #ViewFilters > .field-auto-thin > .field-label {
+    #ViewFilters > .field-auto-thin > .field-label,
+    #ViewFilters > .view-filter-item > .field-auto-thin > .field-label {
         width: 30%;
         text-align: left;
     }

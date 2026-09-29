@@ -1,0 +1,264 @@
+﻿/* フィルタ条件の否定指定（肯定／否定メニュー）
+   legacy.scss から @use しているため、style.min.css と legacy.min.css の
+   両方に出力される。テーマのバージョンによらず同じ見た目にするための配置。 */
+
+/* ビュー・プロセス・状況による制御の条件設定 */
+.view-filter-item {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    &:empty {
+        display: none;
+    }
+    > .field-auto-thin {
+        float: none;
+        margin: 0;
+        padding: 0 4px 0 0;
+    }
+    /* 状態は data-state で持ち、入力要素そのものは隠す */
+    .view-filter-state-inputs {
+        display: none;
+    }
+}
+
+/* 否定中の列に出すマーク。肯定時は場所だけ残して隠す */
+.view-filter-mark {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin: 0 2px 0 0;
+    cursor: pointer;
+    visibility: hidden;
+}
+.view-filter-item:hover .view-filter-mark {
+    visibility: visible;
+    opacity: 0.35;
+}
+.view-filter-item[data-state='negative'] .view-filter-mark {
+    visibility: visible;
+    opacity: 1;
+}
+.view-filter-item[data-state='negative'] .field-label {
+    font-weight: 700;
+    color: var(--primaryColor);
+}
+
+/* 否定を指定できる行はラベル全体がメニューのトリガー */
+.view-filter-item:has(> .view-filter-menu) .field-label {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    label {
+        overflow: hidden;
+        cursor: pointer;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    &::after {
+        flex: none;
+        font-size: 12px;
+        line-height: 1;
+        color: #767676;
+        content: '▾';
+    }
+}
+
+/* 3択（プリセット）／2択（列条件）のメニュー */
+.view-filter-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 20;
+    display: none;
+    min-width: 126px;
+    padding: 0;
+    margin: 2px 0 0;
+    list-style: none;
+    background: var(--control-bg);
+    border: 1px solid var(--control-border);
+    border-radius: 4px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 15%);
+    &.open {
+        display: block;
+    }
+    .view-filter-menu-item {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        padding: 7px 10px;
+        font-size: 12.5px;
+        line-height: 1.2;
+        white-space: nowrap;
+        cursor: pointer;
+        &:hover {
+            background: var(--primarySub02);
+        }
+    }
+    .view-filter-menu-check {
+        flex: none;
+        width: 12px;
+        font-size: 12px;
+        line-height: 1;
+        text-align: center;
+        &::before {
+            content: '';
+        }
+    }
+    .view-filter-menu-item.current .view-filter-menu-check::before {
+        content: '✓';
+    }
+}
+
+/* プリセット条件のチップ */
+.view-filter-chip {
+    .view-filter-chip-trigger {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+    }
+    .view-filter-chip-mark {
+        flex: none;
+        width: 18px;
+        height: 18px;
+        background-color: var(--control-bg);
+        border: 1px solid var(--control-border);
+        border-radius: 4px;
+        &::before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--nonColor16);
+            content: '';
+        }
+    }
+    .view-filter-chip-label {
+        font-size: 12.5px;
+    }
+    .view-filter-chip-caret {
+        display: inline-flex;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+        line-height: 1;
+        color: #767676;
+        &::before {
+            content: '▾';
+        }
+    }
+    &[data-state='positive'] .view-filter-chip-mark {
+        background-color: var(--primaryColor);
+        border-color: transparent;
+        &::before {
+            content: '✓';
+        }
+    }
+    &[data-state='negative'] {
+        .view-filter-chip-mark {
+            background-color: var(--primaryColor);
+            border-color: transparent;
+            &::before {
+                content: '✕';
+            }
+        }
+        .view-filter-chip-label {
+            font-weight: 700;
+            color: var(--primaryColor);
+        }
+    }
+}
+
+/* 一覧のフィルタ欄。ラッパーを挟んだことで、中のフィールドが
+   内容より縦に大きくなり、チップと列条件のラベルがずれていた。
+   フィールド自身を flex にして内容の高さに合わせる。 */
+#ViewFilters {
+    .view-filter-item > .field-auto-thin {
+        display: flex;
+        align-items: center;
+    }
+}
+
+/* プリセット条件は横に流す */
+.view-filter-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    align-items: center;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--control-border);
+}
+
+/* 検索と列条件は1行1条件で縦に並べ、マーク・ラベル・入力を縦に揃える */
+.view-filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+    > .view-filter-item {
+        display: grid;
+        grid-template-columns: 20px 150px 260px;
+        gap: 0 8px;
+        align-items: center;
+        justify-content: start;
+        width: 100%;
+        > .field-auto-thin {
+            display: contents;
+        }
+        .field-label {
+            float: none;
+            width: auto;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            text-align: left;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .field-control {
+            float: none;
+            width: auto;
+            margin: 0;
+        }
+        .container-normal,
+        .select-field {
+            width: 100%;
+        }
+        input[type='text'] {
+            width: 100%;
+            max-width: none;
+        }
+        /* jQuery multiselect が幅をインラインで書き込むため、ここだけ上書きする */
+        .ui-multiselect {
+            width: 100% !important;
+            max-width: none;
+        }
+        /* マーク列を持たない行（検索など）はラベルから始める */
+        &:not(:has(.view-filter-mark)) .field-label {
+            grid-column: 2;
+        }
+        /* ラベルを持たない行（チェック列）は2列目から幅いっぱいに置く */
+        &:not(:has(.field-label)) > .field-auto-thin {
+            display: block;
+            grid-column: 2 / span 2;
+            padding: 0;
+        }
+        .view-filter-menu {
+            top: auto;
+            left: 28px;
+            margin-top: 0;
+            transform: translateY(50%);
+        }
+    }
+}

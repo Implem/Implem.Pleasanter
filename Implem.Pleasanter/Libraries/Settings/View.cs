@@ -525,6 +525,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix = "")
         {
             var columnFilterPrefix = $"{prefix}ViewFilters__";
+            var columnFilterNegativePrefix = $"{prefix}ViewFiltersNegative__";
             var columnFilterOnGridPrefix = $"{prefix}ViewFiltersOnGridHeader__";
             var columnSorterPrefix = $"{prefix}ViewSorters__";
             var columnViewExtensionPrefix = $"{prefix}ViewExtensions__";
@@ -671,50 +672,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 Search = String(
                                     context: context,
                                     controlId: controlId);
-                                break;
-                            case "ViewFilters_Negative":
-                                if (!context.Forms.Get(controlId).IsNullOrEmpty())
-                                {
-                                    var filterName = String(
-                                        context: context,
-                                        controlId: controlId);
-                                    if (filterName.Contains(columnFilterPrefix))
-                                    {
-                                        filterName = filterName.Substring(columnFilterPrefix.Length);
-                                        filterName = filterName.Replace("_NumericRange", string.Empty);
-                                        filterName = filterName.Replace("_DateRange", string.Empty);
-                                    }
-                                    if (UseNegativeFilters(
-                                        ss: ss,
-                                        name: filterName) != true)
-                                    {
-                                        if (ColumnFilterNegatives == null)
-                                        {
-                                            ColumnFilterNegatives = new List<string>();
-                                        }
-                                        ColumnFilterNegatives.Add(filterName);
-                                    }
-                                }
-                                break;
-                            case "ViewFilters_Positive":
-                                if (!context.Forms.Get(controlId).IsNullOrEmpty())
-                                {
-                                    var filterName = String(
-                                        context: context,
-                                        controlId: controlId);
-                                    if (filterName.Contains(columnFilterPrefix))
-                                    {
-                                        filterName = filterName.Substring(columnFilterPrefix.Length);
-                                        filterName = filterName.Replace("_NumericRange", string.Empty);
-                                        filterName = filterName.Replace("_DateRange", string.Empty);
-                                    }
-                                    if (UseNegativeFilters(
-                                        ss: ss,
-                                        name: filterName) == true)
-                                    {
-                                        ColumnFilterNegatives.Remove(filterName);
-                                    }
-                                }
                                 break;
                             case "KeepSorterState":
                                 KeepSorterState = Bool(
@@ -935,7 +892,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 AddDashboardPartLayoutHash(context: context);
                                 break;
                             default:
-                                if (controlId.StartsWith(columnFilterPrefix))
+                                if (controlId.StartsWith(columnFilterNegativePrefix))
+                                {
+                                    SetColumnFilterNegative(
+                                        name: controlId.Substring(columnFilterNegativePrefix.Length),
+                                        negative: Bool(
+                                            context: context,
+                                            controlId: controlId) == true);
+                                }
+                                else if (controlId.StartsWith(columnFilterPrefix))
                                 {
                                     AddColumnFilterHash(
                                         context: context,
@@ -1170,6 +1135,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     && ColumnFilterHash.ContainsKey(columnName))
                 {
                     ColumnFilterHash.Remove(columnName);
+                    SetColumnFilterNegative(
+                        name: columnName,
+                        negative: false);
                 }
                 else if (value != string.Empty)
                 {
@@ -1182,9 +1150,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ColumnFilterHash.Add(columnName, value);
                     }
                 }
-                else if (ColumnFilterHash.ContainsKey(columnName))
+                else
                 {
                     ColumnFilterHash.Remove(columnName);
+                    SetColumnFilterNegative(
+                        name: columnName,
+                        negative: false);
                 }
             }
         }
@@ -1656,8 +1627,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             if (ColumnFilterNegatives?.Any() == true)
             {
-                view.ColumnFilterNegatives = new List<string>();
-                ColumnFilterNegatives.ForEach(o => view.ColumnFilterNegatives.Add(o));
+                var negatives = ColumnFilterNegatives
+                    .Where(o => HasNegatableCondition(name: o))
+                    .ToList();
+                if (negatives.Any())
+                {
+                    view.ColumnFilterNegatives = negatives;
+                }
             }
             if (ColumnSorterHash?.Any() == true)
             {
@@ -3656,10 +3632,76 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public bool UseNegativeFilters(string name)
+        {
+            return ColumnFilterNegatives?.Contains(name) == true;
+        }
+
         public bool UseNegativeFilters(SiteSettings ss, string name)
         {
-            return ss.UseNegativeFilters == true
-                && ColumnFilterNegatives?.Contains(name) == true;
+            return UseNegativeFilters(name: name);
+        }
+
+        public bool FilterMatched(
+            SiteSettings ss,
+            string name,
+            bool matched,
+            bool negatable = true)
+        {
+            return negatable && UseNegativeFilters(ss: ss, name: name)
+                ? !matched
+                : matched;
+        }
+
+        private bool HasNegatableCondition(string name)
+        {
+            switch (name)
+            {
+                case "ViewFilters_Incomplete":
+                    return Incomplete == true;
+                case "ViewFilters_Own":
+                    return Own == true;
+                case "ViewFilters_NearCompletionTime":
+                    return NearCompletionTime == true;
+                case "ViewFilters_Delay":
+                    return Delay == true;
+                case "ViewFilters_Overdue":
+                    return Overdue == true;
+                case "ViewFilters_Search":
+                    return !Search.IsNullOrEmpty();
+                default:
+                    return HasFilterCondition(value: ColumnFilterHash?.Get(name));
+            }
+        }
+
+        public static bool HasFilterCondition(string value)
+        {
+            if (value.IsNullOrEmpty())
+            {
+                return false;
+            }
+            var param = value.Deserialize<List<string>>();
+            return param == null
+                || param.Any(o => !o.IsNullOrEmpty());
+        }
+
+        public void SetColumnFilterNegative(string name, bool negative)
+        {
+            if (negative)
+            {
+                if (ColumnFilterNegatives == null)
+                {
+                    ColumnFilterNegatives = new List<string>();
+                }
+                if (!ColumnFilterNegatives.Contains(name))
+                {
+                    ColumnFilterNegatives.Add(name);
+                }
+            }
+            else
+            {
+                ColumnFilterNegatives?.Remove(name);
+            }
         }
 
         public void MergeViewFilters(View view)
@@ -3675,6 +3717,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ColumnFilterHash = new Dictionary<string, string>();
             }
             view.ColumnFilterHash?.ForEach(o => ColumnFilterHash[o.Key] = o.Value);
+            view.ColumnFilterNegatives?.ForEach(o => SetColumnFilterNegative(
+                name: o,
+                negative: true));
             if (ColumnFilterSearchTypes == null)
             {
                 ColumnFilterSearchTypes = new Dictionary<string, Column.SearchTypes>();

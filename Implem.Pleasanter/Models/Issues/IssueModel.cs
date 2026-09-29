@@ -4031,28 +4031,43 @@ namespace Implem.Pleasanter.Models
 
         private bool Matched(Context context, SiteSettings ss, View view)
         {
-            if (view.Incomplete == true && !Status.Incomplete())
+            if (view.Incomplete == true && !view.FilterMatched(
+                ss: ss,
+                name: "ViewFilters_Incomplete",
+                matched: Status.Incomplete()))
             {
                 return false;
             }
             var userId = context.UserId;
-            if (view.Own == true && !(Manager.Id == userId || Owner.Id == userId))
+            if (view.Own == true && !view.FilterMatched(
+                ss: ss,
+                name: "ViewFilters_Own",
+                matched: Manager.Id == userId || Owner.Id == userId))
             {
                 return false;
             }
-            if (view.NearCompletionTime == true && !CompletionTime.Near(
-                context: context,
-                ss: ss))
+            if (view.NearCompletionTime == true && !view.FilterMatched(
+                ss: ss,
+                name: "ViewFilters_NearCompletionTime",
+                matched: CompletionTime.Near(
+                    context: context,
+                    ss: ss)))
             {
                 return false;
             }
-            if (view.Delay == true && !ProgressRate.Delay(
-                context: context,
-                status: Status))
+            if (view.Delay == true && !view.FilterMatched(
+                ss: ss,
+                name: "ViewFilters_Delay",
+                matched: ProgressRate.Delay(
+                    context: context,
+                    status: Status)))
             {
                 return false;
             }
-            if (view.Overdue == true && !CompletionTime.Overdue())
+            if (view.Overdue == true && !view.FilterMatched(
+                ss: ss,
+                name: "ViewFilters_Overdue",
+                matched: CompletionTime.Overdue()))
             {
                 return false;
             }
@@ -4207,7 +4222,14 @@ namespace Implem.Pleasanter.Models
                             }
                             break;
                     }
-                    if (!match) return false;
+                    if (!view.FilterMatched(
+                        ss: ss,
+                        name: filter.Key,
+                        matched: match,
+                        negatable: column != null && View.HasFilterCondition(filter.Value)))
+                    {
+                        return false;
+                    }
                 }
             }
             return true;

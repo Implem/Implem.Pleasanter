@@ -11430,6 +11430,7 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 prefix: "Process",
                 currentTableOnly: true,
+                memoryEvaluation: true,
                 action: () => hb
                     .FieldTextBox(
                         controlId: "ProcessErrorMessage",
@@ -12539,7 +12540,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 view: view,
                 prefix: "StatusControl",
-                currentTableOnly: true);
+                currentTableOnly: true,
+                memoryEvaluation: true);
         }
 
         /// <summary>
@@ -13062,6 +13064,7 @@ namespace Implem.Pleasanter.Models
             View view,
             string prefix = "",
             bool currentTableOnly = false,
+            bool memoryEvaluation = false,
             Action action = null)
         {
             return hb.TabsPanelField(id: $"{prefix}ViewFiltersTab", action: () =>
@@ -13152,51 +13155,83 @@ namespace Implem.Pleasanter.Models
                             legendText: Displays.FilterCondition(context: context),
                             action: () => hb
                                 .Div(css: "items", action: () => hb
-                                    .FieldCheckBox(
-                                        controlId: $"{prefix}ViewFilters_Incomplete",
-                                        fieldCss: "field-auto-thin",
+                                    .Div(css: "view-filter-presets", action: () => hb
+                                    .ViewFilterChip(
+                                        context: context,
+                                        view: view,
+                                        name: "ViewFilters_Incomplete",
                                         labelText: Displays.Incomplete(context: context),
+                                        prefix: prefix,
                                         _checked: view.Incomplete == true,
-                                        labelPositionIsRight: true,
                                         _using: view.HasIncompleteColumns(context: context, ss: ss))
-                                    .FieldCheckBox(
-                                        controlId: $"{prefix}ViewFilters_Own",
-                                        fieldCss: "field-auto-thin",
+                                    .ViewFilterChip(
+                                        context: context,
+                                        view: view,
+                                        name: "ViewFilters_Own",
                                         labelText: Displays.Own(context: context),
+                                        prefix: prefix,
                                         _checked: view.Own == true,
-                                        labelPositionIsRight: true,
                                         _using: view.HasOwnColumns(context: context, ss: ss))
-                                    .FieldCheckBox(
-                                        controlId: $"{prefix}ViewFilters_NearCompletionTime",
-                                        fieldCss: "field-auto-thin",
+                                    .ViewFilterChip(
+                                        context: context,
+                                        view: view,
+                                        name: "ViewFilters_NearCompletionTime",
                                         labelText: Displays.NearCompletionTime(context: context),
+                                        prefix: prefix,
                                         _checked: view.NearCompletionTime == true,
-                                        labelPositionIsRight: true,
                                         _using: view.HasNearCompletionTimeColumns(context: context, ss: ss))
-                                    .FieldCheckBox(
-                                        controlId: $"{prefix}ViewFilters_Delay",
-                                        fieldCss: "field-auto-thin",
+                                    .ViewFilterChip(
+                                        context: context,
+                                        view: view,
+                                        name: "ViewFilters_Delay",
                                         labelText: Displays.Delay(context: context),
+                                        prefix: prefix,
                                         _checked: view.Delay == true,
-                                        labelPositionIsRight: true,
                                         _using: view.HasDelayColumns(context: context, ss: ss))
-                                    .FieldCheckBox(
-                                        controlId: $"{prefix}ViewFilters_Overdue",
-                                        fieldCss: "field-auto-thin",
+                                    .ViewFilterChip(
+                                        context: context,
+                                        view: view,
+                                        name: "ViewFilters_Overdue",
                                         labelText: Displays.Overdue(context: context),
+                                        prefix: prefix,
                                         _checked: view.Overdue == true,
-                                        labelPositionIsRight: true,
-                                        _using: view.HasOverdueColumns(context: context, ss: ss))
-                                    .FieldTextBox(
-                                        controlId: $"{prefix}ViewFilters_Search",
-                                        fieldCss: "field-auto-thin",
-                                        labelText: Displays.Search(context: context),
-                                        text: view.Search)
+                                        _using: view.HasOverdueColumns(context: context, ss: ss)))
+                                    .Div(css: "view-filter-list", action: () => hb
+                                    .Div(
+                                        attributes: new HtmlAttributes()
+                                            .Class("view-filter-item")
+                                            .Add("data-state", view?.ColumnFilterNegatives
+                                                ?.Contains("ViewFilters_Search") == true
+                                                    ? "negative"
+                                                    : "positive"),
+                                        action: () => hb
+                                            .FieldTextBox(
+                                                controlId: $"{prefix}ViewFilters_Search",
+                                                fieldCss: "field-auto-thin",
+                                                labelText: Displays.Search(context: context),
+                                                text: view.Search,
+                                                extendedHtmlBeforeLabel: memoryEvaluation
+                                                    ? null
+                                                    : HtmlViewFilters.ViewFilterMark(context: context))
+                                            .ViewFilterMenu(
+                                                context: context,
+                                                withNone: false,
+                                                _using: !memoryEvaluation)
+                                            .Div(
+                                                css: "view-filter-state-inputs",
+                                                _using: !memoryEvaluation,
+                                                action: () => hb
+                                                    .FieldCheckBox(
+                                                        controlId: $"{prefix}ViewFiltersNegative__ViewFilters_Search",
+                                                        labelText: Displays.Negative(context: context),
+                                                        _checked: view?.ColumnFilterNegatives
+                                                            ?.Contains("ViewFilters_Search") == true,
+                                                        labelPositionIsRight: true)))
                                     .ViewColumnFilters(
                                         context: context,
                                         ss: ss,
                                         view: view,
-                                        prefix: prefix))
+                                        prefix: prefix)))
                                 .FieldCheckBox(
                                         controlId: $"{prefix}ViewFilters_ShowHistory",
                                         fieldCss: "field-auto-thin",
@@ -13260,7 +13295,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         columnName: data.Key),
                     value: data.Value,
-                    prefix: prefix));
+                    prefix: prefix,
+                    view: view));
             return hb;
         }
 
@@ -13273,7 +13309,54 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column,
             string prefix,
-            string value = null)
+            string value = null,
+            View view = null)
+        {
+            var name = column.ColumnName;
+            var negatable = HtmlViewFilters.CanNegateColumn(column: column);
+            var negative = view?.ColumnFilterNegatives?.Contains(name) == true;
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Class("view-filter-item")
+                    .Add("data-state", negative
+                        ? "negative"
+                        : "positive"),
+                action: () => hb
+                    .ViewFilterField(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        prefix: prefix,
+                        value: value,
+                        extendedHtmlBeforeLabel: negatable
+                            ? HtmlViewFilters.ViewFilterMark(context: context)
+                            : null)
+                    .ViewFilterMenu(
+                        context: context,
+                        withNone: false,
+                        _using: negatable)
+                    .Div(
+                        css: "view-filter-state-inputs",
+                        _using: negatable,
+                        action: () => hb
+                            .FieldCheckBox(
+                                controlId: $"{prefix}ViewFiltersNegative__{name}",
+                                labelText: Displays.Negative(context: context),
+                                _checked: negative,
+                                labelPositionIsRight: true)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewFilterField(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Column column,
+            string prefix,
+            string value = null,
+            string extendedHtmlBeforeLabel = null)
         {
             var labelTitle = ss.LabelTitle(column);
             var controlId = $"{prefix}ViewFilters__" + column.ColumnName;
@@ -13316,7 +13399,8 @@ namespace Implem.Pleasanter.Models
                             optionCollection: column.DateFilterOptions(context: context),
                             selectedValue: value,
                             multiple: true,
-                            addSelectedValue: false)
+                            addSelectedValue: false,
+                            extendedHtmlBeforeLabel: extendedHtmlBeforeLabel)
                         : hb.FieldTextBox(
                             controlId: controlId + "_DateRange",
                             fieldCss: "field-auto-thin",
@@ -13358,7 +13442,8 @@ namespace Implem.Pleasanter.Models
                                 : column.NumFilterOptions(context: context),
                             selectedValue: value,
                             multiple: true,
-                            addSelectedValue: false)
+                            addSelectedValue: false,
+                            extendedHtmlBeforeLabel: extendedHtmlBeforeLabel)
                         : hb.FieldTextBox(
                             controlId: controlId + "_NumericRange",
                             fieldCss: "field-auto-thin",
@@ -13411,7 +13496,8 @@ namespace Implem.Pleasanter.Models
                                 addNotSet: true),
                             selectedValue: value,
                             multiple: true,
-                            addSelectedValue: false);
+                            addSelectedValue: false,
+                            extendedHtmlBeforeLabel: extendedHtmlBeforeLabel);
                     }
                     else
                     {
@@ -13420,7 +13506,8 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-auto-thin",
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
-                            text: value);
+                            text: value,
+                            extendedHtmlBeforeLabel: extendedHtmlBeforeLabel);
                     }
                 default:
                     return hb;

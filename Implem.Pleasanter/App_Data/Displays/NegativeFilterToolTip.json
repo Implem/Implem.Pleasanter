@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NegativeFilterToolTip",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Extracts records that do not match any of the selected values. Records with no value are also included in the results. To exclude them, add \"Not set\" to the condition values."
+        },
+        {
+            "Language": "ja",
+            "Body": "選択した値のいずれにも一致しないレコードを抽出します。未設定のレコードも結果に含まれます。除外する場合は条件値に「未設定」を追加してください。"
+        }
+    ]
+}
