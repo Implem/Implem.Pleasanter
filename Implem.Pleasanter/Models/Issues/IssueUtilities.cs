@@ -1944,7 +1944,8 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             linkId: issueModel.IssueId,
                             methodType: issueModel.MethodType,
-                            links: links));
+                            links: links,
+                            statusControlHash: issueModel.StatusControlHash));
                     if (ss.HideLink != true)
                     {
                         hb.Div(id: "Links", css: "links", action: () => hb
@@ -2274,7 +2275,8 @@ namespace Implem.Pleasanter.Models
                     links: links,
                     dataSet: dataSet,
                     methodType: issueModel?.MethodType,
-                    tabIndex: tabIndex);
+                    tabIndex: tabIndex,
+                    statusControlHash: issueModel?.StatusControlHash);
             }
             return hb;
         }
@@ -2747,6 +2749,19 @@ namespace Implem.Pleasanter.Models
                         issueModel: issueModel,
                         serverScriptModelRow: serverScriptModelRow),
                     _using: ss.SwitchCommandButtonsAutoPostBack == true)
+                .Links(
+                    context: context,
+                    ss: ss,
+                    id: issueModel.IssueId,
+                    methodType: issueModel.MethodType,
+                    statusControlHash: issueModel.StatusControlHash,
+                    _using: StatusControlLinks.HasLinkControls(ss: ss))
+                .LinkCreations(
+                    context: context,
+                    ss: ss,
+                    linkId: issueModel.IssueId,
+                    methodType: issueModel.MethodType,
+                    statusControlHash: issueModel.StatusControlHash)
                 .Val("#ControlledOrder", context.ControlledOrder?.ToJson())
                 .Invoke("initRelatingColumnEditorNoSend")
                 .Messages(context.Messages);
@@ -4040,7 +4055,14 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 id: issueModel.IssueId,
-                                methodType: issueModel.MethodType)
+                                methodType: issueModel.MethodType,
+                                statusControlHash: issueModel.StatusControlHash)
+                            .LinkCreations(
+                                context: context,
+                                ss: ss,
+                                linkId: issueModel.IssueId,
+                                methodType: issueModel.MethodType,
+                                statusControlHash: issueModel.StatusControlHash)
                             .SetMemory("formChanged", false)
                             .Message(message: UpdatedMessage(
                                 context: context,

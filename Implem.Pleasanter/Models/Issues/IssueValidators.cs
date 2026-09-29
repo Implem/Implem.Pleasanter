@@ -837,6 +837,16 @@ namespace Implem.Pleasanter.Models
             {
                 return inputErrorData;
             }
+            var linkRequiredErrorData = StatusControlLinks.OnUpdating(
+                context: context,
+                ss: ss,
+                id: issueModel.IssueId,
+                statusControlHash: issueModel.StatusControlHash,
+                api: api);
+            if (linkRequiredErrorData.Type != Error.Types.None)
+            {
+                return linkRequiredErrorData;
+            }
             return new ErrorData(
                 context: context,
                 type: Error.Types.None,

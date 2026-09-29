@@ -147,6 +147,12 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 data => ReplaceLinkedColumnName(
                     header: header,
                     columns: data.Value));
+            ss.StatusControls?.ForEach(statusControl =>
+                statusControl.ColumnHash = statusControl.ColumnHash?.ToDictionary(
+                    data => ReplaceLinkedColumnName(
+                        header: header,
+                        columns: new List<string> { data.Key }).First(),
+                    data => data.Value));
             ss.Columns
                 ?.Where(e => e.ChoicesText != null)
                 .ForEach(column =>

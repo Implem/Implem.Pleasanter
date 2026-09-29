@@ -3525,6 +3525,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ? o.Column.LabelText
                         : $"{o.Column.LabelText}"
                 })
+                .Concat((Sources?.Values ?? Enumerable.Empty<SiteSettings>())
+                    .OrderBy(currentSs => currentSs.SiteId)
+                    .Select(currentSs => new
+                    {
+                        Key = $"{LinkId(currentSs)},{columnHash.Get(LinkId(currentSs))}",
+                        Text = $"[{Displays.Links(context: context)}] {currentSs.Title}"
+                    }))
                 .ToDictionary(
                     o => o.Key,
                     o => new ControlData(text: o.Text));

@@ -4150,6 +4150,11 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                 .Where(o => o.c != null)
                                 .OrderBy(o => o.c.EditorColumn)
                                 .Select(o => $"{o.c.LabelText}({Displays.Get(context: context, o.t.ToString())})")
+                                .Concat(statusControl.ColumnHash
+                                    .Select(kv => new { s = ss.Sources?.Get(ss.LinkId(columnName: kv.Key)), t = kv.Value })
+                                    .Where(o => o.s != null)
+                                    .OrderBy(o => o.s.SiteId)
+                                    .Select(o => $"[{Displays.Links(context: context)}] {o.s.Title}({Displays.Get(context: context, o.t.ToString())})"))
                                 .ToList();
                         }
 

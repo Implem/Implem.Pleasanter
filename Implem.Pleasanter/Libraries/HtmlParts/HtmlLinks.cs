@@ -57,7 +57,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             List<Link> links,
             DataSet dataSet,
             BaseModel.MethodTypes? methodType,
-            int tabIndex)
+            int tabIndex,
+            Dictionary<string, StatusControl.ControlConstraintsTypes> statusControlHash = null)
         {
             new[]
             {
@@ -91,7 +92,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             links: links,
                             dataSet: dataSet,
                             methodType: methodType,
-                            tabIndex: tabIndex));
+                            tabIndex: tabIndex,
+                            statusControlHash: statusControlHash));
                 }
             });
             return hb;
@@ -102,8 +104,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             long id,
-            BaseModel.MethodTypes? methodType)
+            BaseModel.MethodTypes? methodType,
+            Dictionary<string, StatusControl.ControlConstraintsTypes> statusControlHash = null,
+            bool _using = true)
         {
+            if (!_using)
+            {
+                return res;
+            }
             var dataSet = DataSet(
                 context: context,
                 ss: ss,
@@ -156,7 +164,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             links: links,
                                             dataSet: dataSet,
                                             methodType: methodType,
-                                            tabIndex: data.tabIndex));
+                                            tabIndex: data.tabIndex,
+                                            statusControlHash: statusControlHash));
                                 }
                             });
                         }
@@ -176,7 +185,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             List<Link> links,
             DataSet dataSet,
             BaseModel.MethodTypes? methodType,
-            int tabIndex)
+            int tabIndex,
+            Dictionary<string, StatusControl.ControlConstraintsTypes> statusControlHash)
         {
             var dataRows = DataRows(
                 dataSet: dataSet,
@@ -185,7 +195,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: targetSs,
                     direction: direction));
             var link = links.FirstOrDefault(o => o.SourceId == linkId);
-            var addButton = link != null && direction == "Source";
+            var controlType = StatusControlLinks.ControlType(
+                ss: ss,
+                statusControlHash: statusControlHash,
+                sourceId: linkId);
+            var addButton = link != null
+                && direction == "Source"
+                && controlType != StatusControl.ControlConstraintsTypes.Hidden;
             return dataRows?.Any() == true || addButton
                 ? hb.FieldSet(
                     css: addButton? " enclosed link-creations is-sources" : " enclosed link-creations",
@@ -201,7 +217,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 sourceId: link.SourceId,
                                 text: link.SiteTitle,
                                 tabIndex: tabIndex,
-                                notReturnParentRecord: link.NotReturnParentRecord ?? false));
+                                notReturnParentRecord: link.NotReturnParentRecord ?? false,
+                                disabled: controlType == StatusControl.ControlConstraintsTypes.ReadOnly));
                         }
                         hb.LinkTable(
                             context: context,
