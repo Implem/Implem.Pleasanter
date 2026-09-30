@@ -9,6 +9,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowExpand;
         public bool? Expand;
         public bool? Hide;
+        public int? Level;
 
         public Section GetRecordingData(SiteSettings ss)
         {
@@ -17,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             section.LabelText = LabelText;
             section.AllowExpand = AllowExpand;
             section.Expand = Expand ?? true;
+            section.Level = Level;
             return section;
         }
 
@@ -39,6 +41,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             context: context,
                             controlId: controlId);
                         break;
+                    case "SectionLevel":
+                        Level = context.Forms.Int(controlId);
+                        break;
                     default:
                         break;
                 }
@@ -56,13 +61,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             string labelText,
             bool? allowExpand,
             bool? expand,
-            bool? hide)
+            bool? hide,
+            int? level)
         {
             Id = id;
             if (labelText != null) LabelText = labelText;
             if (allowExpand != null) AllowExpand = allowExpand;
             if (expand != null) Expand = expand;
             if (hide != null) Hide = hide;
+            if (level != null) Level = level;
         }
     }
 }

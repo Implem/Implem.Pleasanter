@@ -9511,6 +9511,17 @@ namespace Implem.Pleasanter.Models
                             controlCss: " always-send",
                             labelText: Displays.DisplayName(context: context),
                             text: section.LabelText)
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "SectionLevel",
+                            labelText: Displays.SectionLevel(context: context),
+                            optionCollection: new Dictionary<string, string>
+                            {
+                                { "1", "1" },
+                                { "2", "2" }
+                            },
+                            selectedValue: (section.Level ?? 1).ToString(),
+                            alwaysSend: true)
                         .FieldCheckBox(
                             controlId: "AllowExpand",
                             labelText: Displays.AllowExpand(context: context),
