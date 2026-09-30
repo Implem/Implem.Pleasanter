@@ -2,13 +2,14 @@
     import { get } from 'svelte/store';
     import Sortable from 'sortablejs';
     import { cloneDeep } from 'lodash';
-    import type { ColumnData, SectionData } from './types';
+    import type { ColumnData, SectionData, LabelData } from './types';
     import {
         defaultColumns,
         editorColumnHash,
         columnCollection,
         linkTable,
         sections,
+        labels,
         columnParamHash,
         cloneRssItems,
         setAppEdited,
@@ -149,6 +150,26 @@
                             $columnCollection = [...$columnCollection, cloneItem];
                             $columnParamHash[cloneItem.ColumnName] = {
                                 Type: 'Section',
+                                Category: 'Others',
+                                State: {
+                                    Edit: 1,
+                                    Grid: -1,
+                                    Filter: -1
+                                }
+                            };
+                            break;
+                        case 'Label':
+                            $labels.LatestId++;
+                            cloneItem = { ...rssItem.Column };
+                            cloneItem.ColumnName = `_Label-${$labels.LatestId}`;
+                            cloneItem.Id = $labels.LatestId;
+                            cloneItem.Body = pDisplay('Label');
+                            cloneItem.LabelText = cloneItem.Body;
+                            cloneItem.LabelType = 'Plain';
+                            $labels = { ...$labels, items: [...$labels.items, cloneItem as LabelData] };
+                            $columnCollection = [...$columnCollection, cloneItem];
+                            $columnParamHash[cloneItem.ColumnName] = {
+                                Type: 'Label',
                                 Category: 'Others',
                                 State: {
                                     Edit: 1,
@@ -348,6 +369,8 @@
         } else if (columnName.match(/_Break-/)) {
             return false;
         } else if (columnName.match(/_Section-/)) {
+            return false;
+        } else if (columnName.match(/_Label-/)) {
             return false;
         } else {
             return true;

@@ -272,6 +272,13 @@
         padding: 0;
     }
 
+    .field-label-block {
+        float: none;
+        clear: both;
+        width: auto;
+        margin: 8px 0;
+    }
+
     .field-normal.right-align {
         text-align: left;
     }

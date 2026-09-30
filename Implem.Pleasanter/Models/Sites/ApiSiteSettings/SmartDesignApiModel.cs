@@ -235,7 +235,9 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             if (ss.GeneralTabLabelText != null) SiteSettings.GeneralTabLabelText = ss.GeneralTabLabelText;
             if (ss.TabLatestId != null) SiteSettings.TabLatestId = ss.TabLatestId;
             if (ss.Tabs != null) SiteSettings.Tabs = ss.Tabs;
+            if (ss.LabelLatestId != null) SiteSettings.LabelLatestId = ss.LabelLatestId;
             SiteSettings.Sections = ss.Sections != null ? ss.Sections : new List<Section>();
+            SiteSettings.Labels = ss.Labels != null ? ss.Labels : new List<Label>();
             if (ss.Columns != null)
             {
                 var enabledEditorColumns = ss.GetEditorColumnNames();

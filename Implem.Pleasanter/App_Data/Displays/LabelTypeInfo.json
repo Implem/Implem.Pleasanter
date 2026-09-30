@@ -1,0 +1,34 @@
+﻿{
+    "Id": "LabelTypeInfo",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Information"
+        },
+        {
+            "Language": "zh",
+            "Body": "信息"
+        },
+        {
+            "Language": "ja",
+            "Body": "情報"
+        },
+        {
+            "Language": "de",
+            "Body": "Information"
+        },
+        {
+            "Language": "ko",
+            "Body": "정보"
+        },
+        {
+            "Language": "es",
+            "Body": "Información"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thông tin"
+        }
+    ]
+}

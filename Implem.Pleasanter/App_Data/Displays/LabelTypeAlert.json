@@ -1,0 +1,34 @@
+﻿{
+    "Id": "LabelTypeAlert",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Warning"
+        },
+        {
+            "Language": "zh",
+            "Body": "警告"
+        },
+        {
+            "Language": "ja",
+            "Body": "警告"
+        },
+        {
+            "Language": "de",
+            "Body": "Warnung"
+        },
+        {
+            "Language": "ko",
+            "Body": "경고"
+        },
+        {
+            "Language": "es",
+            "Body": "Advertencia"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cảnh báo"
+        }
+    ]
+}

@@ -7159,6 +7159,56 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Label(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Label",
+                data: data);
+        }
+
+        public static string LabelType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LabelType",
+                data: data);
+        }
+
+        public static string LabelTypeAlert(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LabelTypeAlert",
+                data: data);
+        }
+
+        public static string LabelTypeInfo(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LabelTypeInfo",
+                data: data);
+        }
+
+        public static string LabelTypeWarning(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LabelTypeWarning",
+                data: data);
+        }
+
         public static string LastDayOfTheMonth(
             Context context,
             params string[] data)

@@ -2224,17 +2224,30 @@ namespace Implem.Pleasanter.Models
             bool editInDialog = false,
             int tabIndex = 0)
         {
-            columnNames.ForEach(columnName => hb.Field(
-                context: context,
-                ss: ss,
-                id: id,
-                columnName: columnName,
-                dataSet: dataSet,
-                links: links,
-                issueModel: issueModel,
-                preview: preview,
-                editInDialog: editInDialog,
-                tabIndex: tabIndex));
+            columnNames.ForEach(columnName =>
+            {
+                var labelId = ss.LabelId(columnName);
+                if (labelId != 0)
+                {
+                    hb.EditorLabel(
+                        context: context,
+                        label: ss.Labels?.FirstOrDefault(o => o.Id == labelId));
+                }
+                else
+                {
+                    hb.Field(
+                        context: context,
+                        ss: ss,
+                        id: id,
+                        columnName: columnName,
+                        dataSet: dataSet,
+                        links: links,
+                        issueModel: issueModel,
+                        preview: preview,
+                        editInDialog: editInDialog,
+                        tabIndex: tabIndex);
+                }
+            });
             return hb;
         }
 
@@ -5198,7 +5211,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-
         private static bool CheckKeyExists(string key, Newtonsoft.Json.Linq.JToken elementToCheck, SiteSettings ss)
         {
             if (!ss.ColumnDefinitionHash.ContainsKey(key))
@@ -5295,7 +5307,6 @@ namespace Implem.Pleasanter.Models
             }
             return found;
         }
-
 
         public static (bool isValid, List<string> missingKeys) ValidateJsonKeys(string jsonString, SiteSettings ss)
         {

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "LabelTypeWarning",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Caution"
+        },
+        {
+            "Language": "zh",
+            "Body": "注意"
+        },
+        {
+            "Language": "ja",
+            "Body": "注意"
+        },
+        {
+            "Language": "de",
+            "Body": "Achtung"
+        },
+        {
+            "Language": "ko",
+            "Body": "주의"
+        },
+        {
+            "Language": "es",
+            "Body": "Precaución"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chú ý"
+        }
+    ]
+}

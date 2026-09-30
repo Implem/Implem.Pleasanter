@@ -1,7 +1,15 @@
 <script lang="ts">
     /* module */
     import type { ColumnData, ParamHash, CloneRssData } from './types';
-    import { getIcon, viewType, cloneRssItems, columnCollection, columnParamHash, sections } from './store';
+    import {
+        getIcon,
+        viewType,
+        cloneRssItems,
+        columnCollection,
+        columnParamHash,
+        sections,
+        labels
+    } from './store';
     import { pDisplay } from './Utility/$p';
 
     /* params */
@@ -77,6 +85,12 @@
                     if (item) {
                         item.ColumnName = columnName;
                     }
+                } else if (hash.Type === 'Label') {
+                    item = $labels.items.find(data => `_Label-${data.Id}` === columnName) as ColumnData;
+                    if (item) {
+                        item.ColumnName = columnName;
+                        item.LabelText = item.Body;
+                    }
                 } else {
                     item = $columnCollection.find(data => data.ColumnName === columnName);
                 }
@@ -104,6 +118,7 @@
         class="unit"
         class:is-break={columnName === 'LineBreak'}
         class:is-section={hash.Type === 'Section' || item.ColumnName === 'Section'}
+        class:is-label={hash.Type === 'Label' || item.ColumnName === 'Label'}
         class:is-wide={item.FieldCss === 'field-wide' || item.ChoicesControlType === 'Radio'}
         class:is-markdown={item.FieldCss === 'field-markdown' ||
             item.FieldCss === 'field-rte' ||
@@ -139,7 +154,7 @@
                     </div>
                     <p class="label">{item.LabelText}</p>
                 </div>
-                {#if isRole !== 'Others' && hash.Type !== 'Section'}
+                {#if isRole !== 'Others' && hash.Type !== 'Section' && hash.Type !== 'Label'}
                     <div class="unit-body">
                         {#if item.ValidateRequired}
                             <p class="tag required">{pDisplay('Required')}</p>
@@ -370,6 +385,20 @@
                 .btn-setting {
                     top: 50%;
                     color: var(--sd-unit-edit-section-text);
+                    transform: translateY(-50%);
+                }
+            }
+
+            // ラベル
+            &.is-label {
+                width: 100%;
+                .unit-inner {
+                    width: initial;
+                    height: auto;
+                    min-height: 0;
+                }
+                .btn-setting {
+                    top: 50%;
                     transform: translateY(-50%);
                 }
             }

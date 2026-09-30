@@ -79,6 +79,8 @@ export type ColumnData = {
     LocalFolderLimitTotalSize?: number;
     ThumbnailLimitSize?: number;
     SectionId?: number;
+    Body?: string;
+    LabelType?: string;
     NoWrap?: boolean;
     IsNewEnable?: boolean;
 };
@@ -116,6 +118,14 @@ export type SectionData = {
     ColumnName?: string;
 };
 
+export type LabelData = {
+    Id: number;
+    Body: string;
+    LabelType: string;
+    ColumnName?: string;
+    LabelText?: string;
+};
+
 export type ParamHash = {
     Category: string;
     State: {
@@ -138,6 +148,8 @@ export type SiteSettingsData = {
     GeneralTabLabelText: string;
     SectionLatestId: number;
     Sections: SectionData[];
+    LabelLatestId: number;
+    Labels: LabelData[];
 };
 
 export type RowData = {
@@ -160,5 +172,7 @@ export type SubmitData = {
     Tabs: EditTabsData[];
     SectionLatestId: number;
     Sections: SectionData[];
+    LabelLatestId: number;
+    Labels: LabelData[];
     Timestamp: string;
 };

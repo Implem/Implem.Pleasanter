@@ -321,7 +321,7 @@ const updateToastMenuControlsVisibility = (listId?: string): void => {
 
     const value = lastClickedEditorLi?.getAttribute('data-value') || '';
     toggle(settingsBtn, /^_Links-/.test(value));
-    toggle(resetBtn, /^_Section-|^_Links-/.test(value));
+    toggle(resetBtn, /^_Section-|^_Label-|^_Links-/.test(value));
 };
 
 export const getMenu = (): ToastMenuEl | null => getElement('editor-columns-toast-menu') as ToastMenuEl | null;

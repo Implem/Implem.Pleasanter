@@ -17,6 +17,7 @@
         editTabs,
         linkTable,
         sections,
+        labels,
         columnParamHash,
         editTabCurrentId,
         cloneRssItems
@@ -24,7 +25,7 @@
     import Body from './layout/Body.svelte';
     import { promiseApi } from './Utility/functions';
     import type { AxiosError } from 'axios';
-    import type { SubmitData, SectionData } from './types';
+    import type { SubmitData, SectionData, LabelData } from './types';
     import { get } from 'svelte/store';
 
     $joinedSites = JSON.parse((document.getElementById('JoinedSites') as HTMLInputElement).value);
@@ -75,6 +76,10 @@
                 setSectionColumns({
                     LatestId: data.SiteSettings.SectionLatestId,
                     items: data.SiteSettings.Sections || []
+                });
+                setLabelColumns({
+                    LatestId: data.SiteSettings.LabelLatestId,
+                    items: data.SiteSettings.Labels || []
                 });
                 setBreakColumns();
                 setCloneRssItems();
@@ -152,6 +157,29 @@
         });
     };
 
+    const setLabelColumns = (data: { LatestId: number; items: LabelData[] }) => {
+        $labels = {
+            LatestId: data.LatestId,
+            items: data.items
+        };
+        data.items.forEach(label => {
+            const colName = `_Label-${label.Id}`;
+            // 一覧に出す文字は本文をそのまま使う（LabelText は表示専用の写し）
+            label.ColumnName = colName;
+            label.LabelText = label.Body;
+            $columnCollection = [...$columnCollection, { ...label, ColumnName: colName }];
+            $columnParamHash[colName] = {
+                Type: 'Label',
+                Category: 'Others',
+                State: {
+                    Edit: 1,
+                    Grid: -1,
+                    Filter: -1
+                }
+            };
+        });
+    };
+
     const setBreakColumns = () => {
         const breakHashItem = get(cloneRssItems).find(data => data.Hash.Type === 'LineBreak');
         let breakCount = breakHashItem?.Hash.Count ?? 0;
@@ -194,7 +222,9 @@
 
     const onSubmit = () => {
         $submitState = true;
-        const columns = [...get(columnCollection).filter(item => !item.ColumnName.match(/^_Section-/))];
+        const columns = [
+            ...get(columnCollection).filter(item => !item.ColumnName.match(/^(_Section-|_Label-)/))
+        ];
         const editorHashData: { [key: string]: string[] } = {};
         for (const [tabKey, hash] of Object.entries(get(editorColumnHash))) {
             editorHashData[tabKey] = [];
@@ -219,6 +249,8 @@
             EditorColumnHash: editorHashData,
             SectionLatestId: get(sections).LatestId,
             Sections: get(sections).items,
+            LabelLatestId: get(labels).LatestId,
+            Labels: get(labels).items,
             Columns: columns,
             GeneralTabLabelText: generalTab.LabelText!,
             TabLatestId: get(editTabs).LatestId,

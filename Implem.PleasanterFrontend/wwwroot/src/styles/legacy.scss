@@ -1,4 +1,4 @@
-@use 'plugins' as *;
+﻿@use 'plugins' as *;
 
 * {
     box-sizing: border-box;
@@ -2224,6 +2224,59 @@ label.required::after {
     margin: 15px;
     font-weight: bold;
     border-bottom: solid 1px silver;
+}
+
+.field-label-block {
+    float: none;
+    clear: both;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    box-sizing: border-box;
+    width: auto;
+    padding: 8px 12px;
+    margin: 8px 10px 8px 120px;
+    line-height: 1.6;
+    border-left: solid 4px silver;
+}
+
+.field-label-block .field-label-icon {
+    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
+    margin: 2px 0 0;
+}
+
+.field-label-block .field-label-body {
+    flex: 1 1 auto;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.field-label-block .field-label-body a {
+    color: #106ebe;
+    text-decoration: underline;
+}
+
+.field-label-block.label-plain {
+    padding-left: 0;
+    background-color: transparent;
+    border-left: none;
+}
+
+.field-label-block.label-info {
+    background-color: #eff6fc;
+    border-left-color: #106ebe;
+}
+
+.field-label-block.label-warning {
+    background-color: #fff9e3;
+    border-left-color: #ffa500;
+}
+
+.field-label-block.label-alert {
+    background-color: #ffe1e1;
+    border-left-color: #e03e3e;
 }
 
 .container-normal {

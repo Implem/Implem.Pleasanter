@@ -1793,6 +1793,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     public bool? Tab;
                     public bool? Section;
                     public bool? Links;
+                    public bool? Label;
                     public string TextAlign;
                     public string ChoicesText;
                     public string ChoicesControlType;
@@ -1861,6 +1862,9 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     public string SectionLabelText;
                     public bool? SectionAllowExpand;
                     public string SectionExpand;
+                    public int? LabelId;
+                    public string LabelBody;
+                    public string LabelTypeName;
                     public List<string> ChangedColumns = new();
 
                     internal static List3TableHeader CreateHeaders(
@@ -1971,6 +1975,14 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                     new ("SectionLabelText", Displays.DisplayName(context: context)),
                                     new ("SectionAllowExpand", Displays.AllowExpand(context: context)),
                                     new ("SectionExpand", Displays.Expand(context: context)),
+                                }),
+                            new (
+                                tabName: new("Label", Displays.Label(context: context)),
+                                labels: new ()
+                                {
+                                    new ("LabelId", Displays.Id(context: context)),
+                                    new ("LabelBody", Displays.Body(context: context)),
+                                    new ("LabelTypeName", Displays.LabelType(context: context)),
                                 })
                             };
                         return new List3TableHeader(labels: labels);
@@ -2038,6 +2050,18 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                             dst.SectionExpand = section.Expand == true
                                 ? Displays.Open(context: context)
                                 : Displays.Close(context: context);
+                            return dst;
+                        }
+                        else if (columnName.StartsWith("_Label-"))
+                        {
+                            var dst = new ListColumn();
+                            var label = ss.Labels
+                                ?.FirstOrDefault(v => v.Id == ss.LabelId(columnName: columnName));
+                            dst.Label = true;
+                            dst.LabelId = label?.Id;
+                            dst.LabelText = label?.Body.IsNotEmpty();
+                            dst.LabelBody = label?.Body.IsNotEmpty();
+                            dst.LabelTypeName = LabelTypes.Normalize(label?.LabelType);
                             return dst;
                         }
                         else if (columnName.StartsWith("_Links-"))
