@@ -14,6 +14,9 @@ $p.apply = function () {
                     $p.send(ui.newPanel);
                 }
             },
+            activate: function () {
+                $p.scrollToStickyEditorTabs($(this));
+            },
             active: $('#EditorTabsContainer').attr('tab-active'),
             items: '> ul > li:not(.ignore-tab)'
         })
@@ -26,6 +29,7 @@ $p.apply = function () {
                 SimpleMode.init();
             }
         });
+    $p.applyStickyEditorTabs();
     $('.button-icon:not(.applied)')
         .each(function () {
             var $control = $(this);

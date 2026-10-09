@@ -45,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 body: body,
                 methodType: methodType,
+                referenceType: referenceType,
                 action: () => hb
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
@@ -108,7 +109,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             string body,
             BaseModel.MethodTypes methodType,
-            Action action)
+            Action action,
+            string referenceType = null)
         {
             if (!context.Ajax)
             {
@@ -158,9 +160,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         id: context.Action == "login"
                             ? "login"
                             : string.Empty,
-                        css: context.ThemeVersion1_0()
-                            ? "theme-version-1_0"
-                            : string.Empty,
+                        css: BodyCss(
+                            context: context,
+                            ss: ss,
+                            referenceType: referenceType),
                         style: "visibility:hidden",
                         action: action));
             }
@@ -168,6 +171,41 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 action?.Invoke();
                 return hb;
+            }
+        }
+
+        private static string BodyCss(
+            Context context,
+            SiteSettings ss,
+            string referenceType)
+        {
+            return new[]
+            {
+                context.ThemeVersion1_0()
+                    ? "theme-version-1_0"
+                    : null,
+                StickyEditorTabs(
+                    ss: ss,
+                    referenceType: referenceType)
+                        ? "sticky-editor-tabs"
+                        : null
+            }
+                .Where(css => css != null)
+                .Join(" ");
+        }
+
+        private static bool StickyEditorTabs(
+            SiteSettings ss,
+            string referenceType)
+        {
+            switch (referenceType)
+            {
+                case "Issues":
+                case "Results":
+                    return ss?.StickyEditorTabs
+                        ?? Parameters.General.StickyEditorTabs;
+                default:
+                    return Parameters.General.StickyEditorTabs;
             }
         }
 

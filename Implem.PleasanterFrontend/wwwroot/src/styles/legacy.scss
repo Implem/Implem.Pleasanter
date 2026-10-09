@@ -1402,6 +1402,20 @@ th.calendar-header {
     width: 100%;
 }
 
+body.sticky-editor-tabs #Editor #EditorTabsContainer > #EditorTabs {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+html.sticky-editor-tabs-active {
+    scroll-padding-top: var(--sticky-editor-tabs-bottom);
+}
+
+html.sticky-editor-tabs-active #Editor #EditorTabsContainer .sun-editor .se-toolbar {
+    top: var(--sticky-editor-tabs-bottom) !important;
+}
+
 #MailEditorTabsContainer {
     float: left;
     width: 100%;

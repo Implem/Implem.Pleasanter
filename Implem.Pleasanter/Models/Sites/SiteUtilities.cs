@@ -7649,6 +7649,11 @@ namespace Implem.Pleasanter.Models
                     labelText: Displays.SwitchCommandButtonsAutoPostBack(context: context),
                     _checked: ss.SwitchCommandButtonsAutoPostBack == true)
                 .FieldCheckBox(
+                    controlId: "StickyEditorTabs",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.StickyEditorTabs(context: context),
+                    _checked: ss.StickyEditorTabs == true)
+                .FieldCheckBox(
                     controlId: "DeleteImageWhenDeleting",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.DeleteImageWhenDeleting(context: context),

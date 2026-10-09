@@ -1760,6 +1760,14 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                         },
                         new()
                         {
+                            Label = Displays.StickyEditorTabs(context: context),
+                            Name = "StickyEditorTabs",
+                            Type = "bool",
+                            Value = (ss.StickyEditorTabs == true).ToString().ToLower(),
+                            Changed = ssNew.StickyEditorTabs != ss.StickyEditorTabs
+                        },
+                        new()
+                        {
                             Label = Displays.DeleteImageWhenDeleting(context: context),
                             Name = "DeleteImageWhenDeleting",
                             Type = "bool",

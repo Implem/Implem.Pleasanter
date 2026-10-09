@@ -118,6 +118,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool HideCurrentTimeIcon { get; set; }
         public bool HideCurrentUserIcon { get; set; }
         public bool HideCurrentDeptIcon { get; set; }
+        public bool StickyEditorTabs { get; set; }
         public bool EnableLightBox { get; set; }
         public bool EnableCodeEditor { get; set; }
         public int GroupsDepthMax { get; set; }
