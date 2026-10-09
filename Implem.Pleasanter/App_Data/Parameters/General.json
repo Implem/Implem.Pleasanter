@@ -98,6 +98,7 @@
     "HideCurrentTimeIcon": false,
     "HideCurrentUserIcon": false,
     "HideCurrentDeptIcon": false,
+    "StickyEditorTabs": false,
     "EnableLightBox": true,
     "EnableCodeEditor": true,
     "GroupsDepthMax": 30,

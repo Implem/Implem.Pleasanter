@@ -1,0 +1,33 @@
+﻿{
+    "Id": "StickyEditorTabs",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Pin the tabs to the top of the screen"
+        },
+        {
+            "Language": "zh",
+            "Body": "将选项卡固定在屏幕顶部"
+        },
+        {
+            "Language": "ja",
+            "Body": "タブを画面上部に固定する"
+        },
+        {
+            "Language": "de",
+            "Body": "Registerkarten am oberen Bildschirmrand fixieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "탭을 화면 상단에 고정"
+        },
+        {
+            "Language": "es",
+            "Body": "Fijar las pestañas en la parte superior de la pantalla"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ghim các tab ở đầu màn hình"
+        }
+    ]
+}

@@ -236,6 +236,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? HideLink;
         public bool? SwitchRecordWithAjax;
         public bool? SwitchCommandButtonsAutoPostBack;
+        public bool? StickyEditorTabs;
         public bool? DeleteImageWhenDeleting;
         public bool? EnableCalendar;
         public CalendarTypes? CalendarType;
@@ -405,6 +406,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             HideLink = HideLink ?? false;
             SwitchRecordWithAjax = SwitchRecordWithAjax ?? false;
             SwitchCommandButtonsAutoPostBack = SwitchCommandButtonsAutoPostBack ?? false;
+            StickyEditorTabs = StickyEditorTabs ?? Parameters.General.StickyEditorTabs;
             DeleteImageWhenDeleting = DeleteImageWhenDeleting ?? true;
             EnableCalendar = EnableCalendar ?? true;
             CalendarType = CalendarType ?? (CalendarTypes)Parameters.General.DefaultCalendarType;
@@ -979,6 +981,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (SwitchCommandButtonsAutoPostBack == true)
             {
                 ss.SwitchCommandButtonsAutoPostBack = SwitchCommandButtonsAutoPostBack;
+            }
+            if (StickyEditorTabs != Parameters.General.StickyEditorTabs)
+            {
+                ss.StickyEditorTabs = StickyEditorTabs;
             }
             if (DeleteImageWhenDeleting == false)
             {
@@ -4239,6 +4245,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "HideLink": HideLink = value.ToBool(); break;
                 case "SwitchRecordWithAjax": SwitchRecordWithAjax = value.ToBool(); break;
                 case "SwitchCommandButtonsAutoPostBack": SwitchCommandButtonsAutoPostBack = value.ToBool(); break;
+                case "StickyEditorTabs": StickyEditorTabs = value.ToBool(); break;
                 case "DeleteImageWhenDeleting": DeleteImageWhenDeleting = value.ToBool(); break;
                 case "ImportEncoding": ImportEncoding = value; break;
                 case "UpdatableImport": UpdatableImport = value.ToBool(); break;

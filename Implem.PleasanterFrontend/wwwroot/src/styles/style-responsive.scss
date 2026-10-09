@@ -972,6 +972,10 @@
             }
         }
 
+        body.sticky-editor-tabs & #EditorTabsContainer > #EditorTabs {
+            top: 40px;
+        }
+
         #EditorSettingsEditor:has(input#ThemeVersionOver2[type='hidden'][name='ThemeVersionOver2']) {
             --editor-mid-gap-responsive: 50px;
 

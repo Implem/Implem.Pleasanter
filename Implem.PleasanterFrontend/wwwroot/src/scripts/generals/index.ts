@@ -98,6 +98,7 @@ import './splittotpform.js';
 import './startguide.js';
 import './statuscontrol.js';
 import './statusevents.js';
+import './stickyeditortabs.js';
 import './submitevents.js';
 import './template.js';
 import './timeseries.js';

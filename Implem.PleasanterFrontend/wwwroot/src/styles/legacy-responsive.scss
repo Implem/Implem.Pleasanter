@@ -1768,6 +1768,10 @@
         overflow: auto;
     }
 
+    body.sticky-editor-tabs #Editor #EditorTabsContainer > #EditorTabs {
+        position: static;
+    }
+
     #EditorComments {
         padding: 0;
         margin: 0;

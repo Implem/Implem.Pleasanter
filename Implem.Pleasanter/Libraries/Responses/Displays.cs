@@ -11699,6 +11699,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string StickyEditorTabs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "StickyEditorTabs",
+                data: data);
+        }
+
         public static string StickyOnLeftEdge(
             Context context,
             params string[] data)
