@@ -1360,6 +1360,15 @@ label {
     }
 }
 
+.no-field-label {
+    div.field-normal .container-normal,
+    div.field-wide .container-normal,
+    div.field-markdown .container-normal,
+    div.field-textarea .container-normal {
+        margin-left: 0;
+    }
+}
+
 /* command */
 .command-center,
 .command-right,
@@ -2107,6 +2116,16 @@ body {
     }
 }
 
+/* #Application > #BackgroundJobInfo */
+#BackgroundJobInfo {
+    margin: 0 10px 0 0;
+    border-radius: 0;
+}
+
+.background-job-notice {
+    border-radius: 4px;
+}
+
 /* #Application > #MainForm > #ViewSelectorField */
 #ViewSelectorField {
     top: 5px;
@@ -2143,7 +2162,37 @@ body {
 /* #Application > #MainForm > #ViewFilters */
 
 /* #ViewFilters > #ViewFiltersLabelMenus */
-#ViewFilters {
+
+/* #FieldSetPermissionsViewer > #PermissionsViewerLicenseGuide */
+#PermissionsViewerLicenseGuide {
+    padding: 10px 16px 8px;
+    margin: 8px 0;
+    color: var(--guide-text);
+    background-color: var(--guide-bg);
+    border: 1px solid var(--base-border);
+    border-radius: 4px;
+    a {
+        color: var(--recommend-guide-link-text) !important;
+        text-decoration: none;
+    }
+    .recommend-guide-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+/* #FieldSetPermissionsViewer > #PermissionsViewerCommands */
+#PermissionsViewerCommands {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 16px 0;
+}
+
+#ViewFilters,
+#PermissionsViewerFilters {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -2207,8 +2256,18 @@ body {
     }
 }
 
+#FieldSetPermissionsViewer {
+    .field-section.expand {
+        margin: 0;
+    }
+    #PermissionsViewerFilters {
+        padding-top: 8px;
+    }
+}
+
 /* #Application > #MainForm > #Aggregations */
-#Aggregations {
+#Aggregations,
+#PermissionsViewerCount {
     float: none;
     clear: both;
     display: flex;

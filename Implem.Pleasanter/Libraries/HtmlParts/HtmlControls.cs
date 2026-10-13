@@ -408,6 +408,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool multiple = false,
             bool addSelectedValue = true,
             bool insertBlank = false,
+            bool withoutBlank = false,
             bool disabled = false,
             bool alwaysSend = false,
             string onChange = null,
@@ -438,6 +439,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Multiple(multiple)
                                 .Disabled(disabled)
                                 .DataAlwaysSend(alwaysSend)
+                                .DataWithoutBlank(withoutBlank)
                                 .OnChange(onChange)
                                 .DataValidateRequired(validateRequired)
                                 .DataAction(action)

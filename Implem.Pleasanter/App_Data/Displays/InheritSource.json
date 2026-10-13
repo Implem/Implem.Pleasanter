@@ -1,0 +1,37 @@
+﻿{
+    "Id": "InheritSource",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Inherited from"
+        },
+        {
+            "Language": "zh",
+            "Body": "继承来源"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "繼承來源"
+        },
+        {
+            "Language": "ja",
+            "Body": "継承元"
+        },
+        {
+            "Language": "de",
+            "Body": "Geerbt von"
+        },
+        {
+            "Language": "ko",
+            "Body": "상속 원본"
+        },
+        {
+            "Language": "es",
+            "Body": "Heredado de"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kế thừa từ"
+        }
+    ]
+}

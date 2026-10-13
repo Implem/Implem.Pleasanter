@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NewVersion",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "New version"
+        },
+        {
+            "Language": "zh",
+            "Body": "新版本"
+        },
+        {
+            "Language": "ja",
+            "Body": "新バージョン"
+        },
+        {
+            "Language": "de",
+            "Body": "Neue Version"
+        },
+        {
+            "Language": "ko",
+            "Body": "새 버전"
+        },
+        {
+            "Language": "es",
+            "Body": "Versión nueva"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phiên bản mới"
+        }
+    ]
+}

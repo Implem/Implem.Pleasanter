@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             string id = null,
             string css = null,
+            string containerCss = null,
             HtmlAttributes attributes = null,
             bool scrollable = true,
             bool _using = true,
@@ -49,7 +50,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     id: !id.IsNullOrEmpty()
                         ? id + "Wrap"
                         : string.Empty,
-                    css: "grid-wrap",
+                    css: containerCss.IsNullOrEmpty()
+                        ? "grid-wrap"
+                        : "grid-wrap " + containerCss,
                     scrollable: scrollable,
                     action: () => hb.Table(
                         id: id,
@@ -184,40 +187,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     view: view,
                                     column: column),
                                 _using: ss.UseGridHeaderFilters == true && ss.IsDefaultFilterColumn(column))
-                            .Li(
-                                attributes: new HtmlAttributes()
-                                    .Class("sort")
-                                    .Add("data-order-type", "asc"),
-                                action: () => hb
-                                    .Div(action: () => hb
-                                        .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-triangle-1-n"))
-                                        .Text(text: Displays.OrderAsc(context)))
-                                )
-                            .Li(
-                                attributes: new HtmlAttributes()
-                                    .Class("sort")
-                                    .Add("data-order-type", "desc"),
-                                action: () => hb
-                                    .Div(action: () => hb
-                                        .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-triangle-1-s"))
-                                        .Text(text: Displays.OrderDesc(context)))
-                                )
-                            .Li(
-                                attributes: new HtmlAttributes()
-                                    .Class("sort")
-                                    .Add("data-order-type", "release"),
-                                action: () => hb
-                                    .Div(action: () => hb
-                                        .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-close"))
-                                        .Text(text: Displays.OrderRelease(context)))
-                                )
-                            .Li(
-                                attributes: new HtmlAttributes()
-                                    .Class("reset"),
-                                action: () => hb
-                                    .Div(action: () => hb
-                                        .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-power"))
-                                        .Text(text: Displays.ResetOrder(context)))))),
+                            .SorterMenuItems(context: context))),
                         _using: suffix.IsNullOrEmpty());
         }
 

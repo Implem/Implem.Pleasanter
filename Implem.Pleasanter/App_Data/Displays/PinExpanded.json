@@ -1,0 +1,34 @@
+﻿{
+    "Id": "PinExpanded",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Keep expanded"
+        },
+        {
+            "Language": "zh",
+            "Body": "保持展开"
+        },
+        {
+            "Language": "ja",
+            "Body": "開いたままにする"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausgeklappt lassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "펼친 상태로 유지"
+        },
+        {
+            "Language": "es",
+            "Body": "Mantener expandido"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giữ mở rộng"
+        }
+    ]
+}

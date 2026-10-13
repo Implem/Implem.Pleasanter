@@ -1,0 +1,33 @@
+﻿{
+    "Id": "BackgroundJobResultBulkDeleteCompleted",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} has been completed. {1} entries have been deleted."
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}已完成。已删除{1}条目。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}が完了しました。{1} 件削除しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} wurde abgeschlossen. {1} Einträge wurden gelöscht."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}가 완료되었습니다. {1}개의 항목이 삭제되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha completado {0}. Se han eliminado {1} entradas."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} đã hoàn tất. {1} bản ghi đã bị xóa."
+        }
+    ]
+}

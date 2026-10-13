@@ -174,6 +174,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message ApiKeyNotAllowedIpAddress(Context context, params string[] data)
+        {
+            return Get(
+                id: "ApiKeyNotAllowedIpAddress",
+                text: Displays.ApiKeyNotAllowedIpAddress(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message ApplicationError(Context context, params string[] data)
         {
             return Get(
@@ -1164,6 +1174,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message FormCountFailed(Context context, params string[] data)
+        {
+            return Get(
+                id: "FormCountFailed",
+                text: Displays.FormCountFailed(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message FormCountReset(Context context, params string[] data)
+        {
+            return Get(
+                id: "FormCountReset",
+                text: Displays.FormCountReset(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message FormulaExecutionFailed(Context context, params string[] data)
         {
             return Get(
@@ -1419,6 +1449,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "InvalidAiProviderSetting",
                 text: Displays.InvalidAiProviderSetting(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message InvalidApiAllowIpAddressRange(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidApiAllowIpAddressRange",
+                text: Displays.InvalidApiAllowIpAddressRange(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1694,6 +1734,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message NewVersionMustBeNewer(Context context, params string[] data)
+        {
+            return Get(
+                id: "NewVersionMustBeNewer",
+                text: Displays.NewVersionMustBeNewer(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message NoLinks(Context context, params string[] data)
         {
             return Get(
@@ -1779,6 +1829,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "OverLimitApi",
                 text: Displays.OverLimitApi(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message OverLimitForm(Context context, params string[] data)
+        {
+            return Get(
+                id: "OverLimitForm",
+                text: Displays.OverLimitForm(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -2733,6 +2793,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: ApiKeyDeleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApiKeyNotAllowedIpAddress(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ApiKeyNotAllowedIpAddress(
                     context: context,
                     data: data),
                 target: target);
@@ -3827,6 +3898,28 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseFormCountFailed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: FormCountFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseFormCountReset(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: FormCountReset(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseFormulaExecutionFailed(
             Context context, string target = null, params string[] data)
         {
@@ -4108,6 +4201,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: InvalidAiProviderSetting(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseInvalidApiAllowIpAddressRange(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: InvalidApiAllowIpAddressRange(
                     context: context,
                     data: data),
                 target: target);
@@ -4410,6 +4514,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseNewVersionMustBeNewer(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: NewVersionMustBeNewer(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseNoLinks(
             Context context, string target = null, params string[] data)
         {
@@ -4504,6 +4619,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: OverLimitApi(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseOverLimitForm(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: OverLimitForm(
                     context: context,
                     data: data),
                 target: target);

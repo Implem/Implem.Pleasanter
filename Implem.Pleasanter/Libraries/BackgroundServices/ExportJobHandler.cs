@@ -57,6 +57,9 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 request: false,
                 setAuthenticated: true)
             {
+                TimeZoneInfo = BackgroundJobQueue.ResolveTimeZoneInfo(
+                    timeZoneId: jobParameters.TimeZoneId,
+                    fallback: Environments.TimeZoneInfoDefault),
                 ContentType = jobParameters.ContentType,
                 Forms = new Forms(),
                 SessionData = jobParameters.SessionData ?? new Dictionary<string, string>(),
@@ -127,6 +130,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     {
         public string ContentType { get; set; }
         public string Language { get; set; }
+        public string TimeZoneId { get; set; }
         public Dictionary<string, string> Forms { get; set; }
         public Dictionary<string, string> SessionData { get; set; }
         public Dictionary<string, string> UserSessionData { get; set; }
@@ -137,6 +141,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             {
                 ContentType = context.ContentType,
                 Language = context.Language,
+                TimeZoneId = context.TimeZoneInfo?.Id,
                 Forms = new Dictionary<string, string>(context.Forms),
                 SessionData = new Dictionary<string, string>(context.SessionData),
                 UserSessionData = new Dictionary<string, string>(context.UserSessionData)

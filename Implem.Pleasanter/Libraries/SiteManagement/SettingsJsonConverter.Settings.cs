@@ -690,7 +690,22 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                             Type = "bool",
                             Value = (Parameters.Site.DisableSiteConditions == true || ss.DisableSiteConditions == true).ToString().ToLower(),
                             Changed = ss.DisableSiteConditions != ssNew.DisableSiteConditions
-                        }
+                        },
+                        (siteModel.ReferenceType != "Sites"
+                            && siteModel.ReferenceType != "Wikis"
+                            && siteModel.ReferenceType != "Dashboards")
+                                ? new ()
+                                {
+                                    Label = Displays.FirstDayOfWeek(context: context),
+                                    Name = "FirstDayOfWeek",
+                                    Type = "string",
+                                    Value = FirstDayOfWeeks.OptionCollection(
+                                        context: context,
+                                        inherit: true)
+                                            .Get((ss.FirstDayOfWeek ?? FirstDayOfWeeks.Inherit).ToString()),
+                                    Changed = ss.FirstDayOfWeek != ssNew.FirstDayOfWeek
+                                }
+                                : null
                     };
                     table.Columns.AddRange(columns.Where(v => v != null));
                     return obj;

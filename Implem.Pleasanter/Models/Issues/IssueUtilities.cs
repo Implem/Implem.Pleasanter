@@ -1692,6 +1692,13 @@ namespace Implem.Pleasanter.Models
                                         .DataMethod("post"),
                                     _using: issueModel.MethodType != BaseModel.MethodTypes.New
                                         && !context.Publish)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetHistoryDiff")
+                                        .DataAction("HistoryDiff")
+                                        .DataMethod("post"),
+                                    _using: issueModel.MethodType != BaseModel.MethodTypes.New
+                                        && !context.Publish)
                                 .TabsPanelField(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetRecordAccessControl")
@@ -1712,6 +1719,10 @@ namespace Implem.Pleasanter.Models
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
                             controlId: "Ver",
+                            value: issueModel.Ver.ToString())
+                        .Hidden(
+                            controlId: "HistoryDiffBaseVer",
+                            css: "control-hidden always-send",
                             value: issueModel.Ver.ToString())
                         .Hidden(
                             controlId: "LockedTable",
@@ -1834,6 +1845,14 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#FieldSetHistories",
                                 text: Displays.ChangeHistoryList(context: context)))
+                    .Li(
+                        _using: issueModel.MethodType != BaseModel.MethodTypes.New
+                            && !context.Publish
+                            && !editInDialog,
+                        action: () => hb
+                            .A(
+                                href: "#FieldSetHistoryDiff",
+                                text: Displays.HistoryDiff(context: context)))
                     .Li(
                         _using: context.CanManagePermission(ss: ss)
                             && !ss.Locked()
@@ -2025,7 +2044,9 @@ namespace Implem.Pleasanter.Models
                     idSuffix: idSuffix,
                     isResponse: isResponse,
                     preview: preview,
-                    disableSection: disableSection);
+                    disableSection: disableSection,
+                    ignoreHide: bulkUpdate,
+                    savedRecord: issueModel.IssueId > 0);
             }
             return hb;
         }
@@ -4204,6 +4225,16 @@ namespace Implem.Pleasanter.Models
             var columns = ss.GetBulkUpdateColumns(
                 context: context,
                 target: target);
+            ss.SetBulkUpdateColumnDetail(
+                columns: columns,
+                target: target);
+            columns = columns
+                .Where(column => column.EditorReadOnly != true)
+                .ToList();
+            if (!columns.Any())
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
             if (!columns.All(column => column.CanUpdate(
                 context: context,
                 ss: ss,
@@ -4320,6 +4351,12 @@ namespace Implem.Pleasanter.Models
                     statements: onBulkUpdatingExtendedStatements.ToArray());
             }
             var count = 0;
+            var bulkUpdateFormKeys = columns
+                .Select(column => $"{ss.ReferenceType}_{column.ColumnName}")
+                .ToHashSet();
+            var formData = context.Forms
+                .Where(o => bulkUpdateFormKeys.Contains(o.Key))
+                .ToDictionary(o => o.Key, o => o.Value);
             new IssueCollection(
                 context: context,
                 ss: ss,
@@ -4335,7 +4372,7 @@ namespace Implem.Pleasanter.Models
                     issueModel.SetByForm(
                         context: context,
                         ss: ss,
-                        formData: context.Forms);
+                        formData: formData);
                     issueModel.SetBySettings(
                         context: context,
                         ss: ss);
@@ -6425,6 +6462,74 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
+        public static string HistoryDiff(Context context, SiteSettings ss, long issueId)
+        {
+            if (!context.CanRead(ss: ss))
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
+            return HistoryDiffUtilities.HistoryDiff(
+                context: context,
+                ss: ss,
+                versions: new IssueCollection(
+                    context: context,
+                    ss: ss,
+                    column: Rds.IssuesColumn()
+                        .IssueId()
+                        .Ver()
+                        .Updator()
+                        .UpdatedTime(),
+                    where: HistoryDiffWhere(
+                        context: context,
+                        issueId: issueId),
+                    orderBy: Rds.IssuesOrderBy().Ver(SqlOrderBy.Types.desc),
+                    tableType: Sqls.TableTypes.NormalAndHistory)
+                        .ToList(),
+                getModel: ver => HistoryDiffIssueModel(
+                    context: context,
+                    ss: ss,
+                    issueId: issueId,
+                    ver: ver),
+                toDisplay: (issueModel, column, mine) => issueModel.ToDisplay(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    mine: mine));
+        }
+
+
+        private static SqlWhereCollection HistoryDiffWhere(
+            Context context,
+            long issueId,
+            int? ver = null)
+        {
+            return Rds.IssuesWhere()
+                .IssueId(issueId)
+                .Ver(value: ver, _using: ver.HasValue);
+        }
+
+        private static IssueModel HistoryDiffIssueModel(
+            Context context,
+            SiteSettings ss,
+            long issueId,
+            int ver)
+        {
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                issueId: issueId);
+            issueModel.Get(
+                context: context,
+                ss: ss,
+                where: HistoryDiffWhere(
+                    context: context,
+                    issueId: issueId,
+                    ver: ver),
+                tableType: Sqls.TableTypes.NormalAndHistory);
+            issueModel.SetChoiceHash(context: context, ss: ss);
+            return issueModel;
+        }
+
         public static string EditSeparateSettings(
             Context context, SiteSettings ss, long issueId)
         {
@@ -6704,90 +6809,117 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkDelete(Context context, SiteSettings ss)
         {
-            if (context.CanDelete(ss: ss))
+            var resultData = BulkDeleteCore(
+                context: context,
+                ss: ss);
+            if (resultData.HasError())
             {
-                var selectedWhere = SelectedWhere(
+                return resultData.ErrorData.MessageJson(context: context);
+            }
+            return GridRows(
+                context: context,
+                ss: ss,
+                clearCheck: true,
+                message: Messages.BulkDeleted(
                     context: context,
-                    ss: ss);
-                if (selectedWhere == null)
-                {
-                    return Messages.ResponseSelectTargets(context: context).ToJson();
-                }
-                var view = Views.GetBySession(
-                    context: context,
-                    ss: ss);
-                var where = view.Where(
-                    context: context,
-                    ss: ss,
-                    where: selectedWhere,
-                    itemJoin: false);
-                var param = view.Param(
-                    context: context,
-                    ss: ss);
-                var invalid = ExistsLockedRecord(
-                    context: context,
-                    ss: ss,
-                    where: where,
-                    param: param,
-                    orderBy: view.OrderBy(
-                        context: context,
-                        ss: ss));
-                switch (invalid.Type)
-                {
-                    case Error.Types.None: break;
-                    default: return invalid.MessageJson(context: context);
-                }
-                using var exclusiveObj = new Sessions.TableExclusive(context: context);
-                if (!exclusiveObj.TryLock())
-                {
-                    return Error.Types.ImportLock.MessageJson(context: context);
-                }
-                var count = BulkDelete(
-                    context: context,
-                    ss: ss,
-                    where: where,
-                    param: param,
-                    watchdog: () => exclusiveObj.Refresh());
-                exclusiveObj.Refresh();
-                Summaries.Synchronize(context: context, ss: ss);
-                var data = new string[]
-                {
-                    ss.Title,
-                    count.ToString()
-                };
-                ss.Notifications.ForEach(notification =>
-                {
-                    var body = new System.Text.StringBuilder();
-                    body.Append(Locations.ItemIndexAbsoluteUri(
-                        context: context,
-                        ss.SiteId) + "\n");
-                    body.Append(
-                        $"{Displays.Issues_Updator(context: context)}: ",
-                        $"{context.User.Name}\n");
-                    if (notification.AfterBulkDelete != false)
+                    data: new string[]
                     {
-                        notification.Send(
-                            context: context,
-                            ss: ss,
-                            title: Displays.BulkDeleted(
-                                context: context,
-                                data: data),
-                            body: body.ToString());
-                    }
-                });
-                exclusiveObj.Refresh();
-                return GridRows(
-                    context: context,
-                    ss: ss,
-                    clearCheck: true,
-                    message: Messages.BulkDeleted(
-                        context: context,
-                        data: data));
-            }
-            else
+                        ss.Title,
+                        resultData.Count.ToString()
+                    }));
+        }
+
+        public static BulkDeleteResultData BulkDeleteCore(
+            Context context,
+            SiteSettings ss)
+        {
+            if (!context.CanDelete(ss: ss))
             {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
+                return new BulkDeleteResultData
+                {
+                    ErrorData = new ErrorData(type: Error.Types.HasNotPermission)
+                };
             }
+            var selectedWhere = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (selectedWhere == null)
+            {
+                return new BulkDeleteResultData
+                {
+                    ErrorData = new ErrorData(type: Error.Types.SelectTargets)
+                };
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var where = view.Where(
+                context: context,
+                ss: ss,
+                where: selectedWhere,
+                itemJoin: false);
+            var param = view.Param(
+                context: context,
+                ss: ss);
+            var invalid = ExistsLockedRecord(
+                context: context,
+                ss: ss,
+                where: where,
+                param: param,
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss));
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return new BulkDeleteResultData { ErrorData = invalid };
+            }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return new BulkDeleteResultData
+                {
+                    ErrorData = new ErrorData(type: Error.Types.ImportLock)
+                };
+            }
+            var count = BulkDelete(
+                context: context,
+                ss: ss,
+                where: where,
+                param: param,
+                watchdog: () => exclusiveObj.Refresh());
+            exclusiveObj.Refresh();
+            Summaries.Synchronize(context: context, ss: ss);
+            var data = new string[]
+            {
+                ss.Title,
+                count.ToString()
+            };
+            ss.Notifications.ForEach(notification =>
+            {
+                var body = new System.Text.StringBuilder();
+                body.Append(Locations.ItemIndexAbsoluteUri(
+                    context: context,
+                    ss.SiteId) + "\n");
+                body.Append(
+                    $"{Displays.Issues_Updator(context: context)}: ",
+                    $"{context.User.Name}\n");
+                if (notification.AfterBulkDelete != false)
+                {
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: Displays.BulkDeleted(
+                            context: context,
+                            data: data),
+                        body: body.ToString());
+                }
+            });
+            exclusiveObj.Refresh();
+            return new BulkDeleteResultData
+            {
+                Count = count
+            };
         }
 
         public static int BulkDelete(
@@ -6892,6 +7024,81 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss);
             return affectedRows;
+        }
+
+        public static int BulkDeleteTargetCount(
+            Context context,
+            SiteSettings ss)
+        {
+            var selectedWhere = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (selectedWhere == null)
+            {
+                return 0;
+            }
+            var recordSelector = new RecordSelector(context: context);
+            if (!recordSelector.All)
+            {
+                return recordSelector.Selected.Count;
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var where = view.Where(
+                context: context,
+                ss: ss,
+                where: selectedWhere,
+                itemJoin: false);
+            var param = view.Param(
+                context: context,
+                ss: ss);
+            return Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectIssues(
+                    column: Rds.IssuesColumn().IssuesCount(),
+                    join: ss.Join(
+                        context: context,
+                        join: new IJoin[]
+                        {
+                            where
+                        }),
+                    where: where,
+                    param: param));
+        }
+
+        public static ErrorData ValidateBeforeEnqueueBulkDelete(
+            Context context,
+            SiteSettings ss)
+        {
+            if (!context.CanDelete(ss: ss))
+            {
+                return new ErrorData(type: Error.Types.HasNotPermission);
+            }
+            var selectedWhere = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (selectedWhere == null)
+            {
+                return new ErrorData(type: Error.Types.SelectTargets);
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            return ExistsLockedRecord(
+                context: context,
+                ss: ss,
+                where: view.Where(
+                    context: context,
+                    ss: ss,
+                    where: selectedWhere,
+                    itemJoin: false),
+                param: view.Param(
+                    context: context,
+                    ss: ss),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss));
         }
 
         public static ContentResultInheritance BulkDeleteByApi(

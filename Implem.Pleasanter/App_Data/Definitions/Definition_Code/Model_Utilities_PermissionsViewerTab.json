@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_Utilities_PermissionsViewerTab",
+    "Indent": "6",
+    "Include": "Depts,Groups,Users"
+}

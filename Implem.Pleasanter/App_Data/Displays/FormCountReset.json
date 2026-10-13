@@ -1,0 +1,37 @@
+﻿{
+    "Id": "FormCountReset",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Form Count has been reset {0} to {1}."
+        },
+        {
+            "Language": "zh",
+            "Body": "表单登记数已从 {0} 重置为 {1}。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "表單登記數已從 {0} 重設為 {1}。"
+        },
+        {
+            "Language": "ja",
+            "Body": "フォームの登録件数を {0} から {1} に戻しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Formularanzahl wurde von {0} auf {1} zurückgesetzt."
+        },
+        {
+            "Language": "ko",
+            "Body": "폼 등록 건수를 {0}에서 {1}(으)로 되돌렸습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El recuento de formularios se ha restablecido de {0} a {1}."
+        },
+        {
+            "Language": "vn",
+            "Body": "Số lượng biểu mẫu đã được đặt lại từ {0} thành {1}."
+        }
+    ]
+}

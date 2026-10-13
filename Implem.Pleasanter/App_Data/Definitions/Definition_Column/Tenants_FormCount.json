@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Tenants_FormCount",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "FormCount",
+    "LabelText": "フォーム登録数",
+    "No": "192",
+    "History": "192",
+    "TypeName": "int",
+    "Default": "0",
+    "ReadAccessControl": "ManageService",
+    "CreateAccessControl": "ManageService",
+    "UpdateAccessControl": "ManageService",
+    "NotForm": "1",
+    "LabelText_en": "Form count",
+    "LabelText_zh": "表单计数",
+    "LabelText_de": "Formularanzahl",
+    "LabelText_ko": "폼 수",
+    "LabelText_es": "Recuento de formularios",
+    "LabelText_vn": "Số lượng biểu mẫu"
+}

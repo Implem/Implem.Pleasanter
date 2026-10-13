@@ -1,0 +1,8 @@
+﻿            text: Displays.ChangeHistoryList(context: context)))
+.Li(
+    _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
+        && !context.Publish,
+    action: () => hb
+        .A(
+            href: "#FieldSetHistoryDiff",
+            text: Displays.HistoryDiff(context: context))));

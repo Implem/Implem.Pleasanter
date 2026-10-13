@@ -55,17 +55,17 @@ namespace Implem.MySql
 
         public string CreateTryCast(string left, string name, string from, string to)
         {
-            string type;
             switch (to)
             {
                 case "bigint":
-                    type = "signed";
-                    break;
+                    if (from == "int")
+                    {
+                        return $@"""{left}"".""{name}""";
+                    }
+                    return $@"(CASE WHEN ""{left}"".""{name}"" REGEXP '^0*[0-9]{{1,19}}$' AND CAST(""{left}"".""{name}"" AS DECIMAL(20,0)) <= {long.MaxValue} THEN CAST(""{left}"".""{name}"" AS SIGNED) ELSE null END)";
                 default:
-                    type = to;
-                    break;
+                    throw new NotSupportedException($"CreateTryCast does not support conversion to [{to}].");
             }
-            return $@"cast(""{left}"".""{name}"" as {type})";
         }
 
         public string CreateUpdateOrInsert(

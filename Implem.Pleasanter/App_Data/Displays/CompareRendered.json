@@ -1,0 +1,34 @@
+﻿{
+    "Id": "CompareRendered",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Compare rendered result"
+        },
+        {
+            "Language": "zh",
+            "Body": "比较渲染后的内容"
+        },
+        {
+            "Language": "ja",
+            "Body": "レンダリング後で比較"
+        },
+        {
+            "Language": "de",
+            "Body": "Gerendertes Ergebnis vergleichen"
+        },
+        {
+            "Language": "ko",
+            "Body": "렌더링 후로 비교"
+        },
+        {
+            "Language": "es",
+            "Body": "Comparar el resultado renderizado"
+        },
+        {
+            "Language": "vn",
+            "Body": "So sánh sau khi kết xuất"
+        }
+    ]
+}

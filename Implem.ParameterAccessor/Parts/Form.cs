@@ -4,6 +4,7 @@ namespace Implem.ParameterAccessor.Parts
     public class Form
     {
         public bool Enabled;
+        public int LimitPerMonth;
         public HashSet<string> AttachmentExcludedExtensions;
     }
 }

@@ -152,6 +152,37 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string PermissionsViewer(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.PermissionsViewer(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                userId: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public ActionResult PermissionsViewerCsv(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var responseFile = UserUtilities.PermissionsViewerCsv(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                userId: id);
+            if (responseFile == null)
+            {
+                log.Finish(context: context);
+                return null;
+            }
+            log.Finish(context: context, responseSize: responseFile.Length);
+            return responseFile.ToFile();
+        }
+
+        [HttpPost]
         public string Histories(int id)
         {
             var context = new Context();
@@ -170,6 +201,19 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.History(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                userId: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string HistoryDiff(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.HistoryDiff(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 userId: id);
@@ -583,6 +627,21 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.DeleteApiKey(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string UpdateApiAllowIpAddressRange()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.UpdateApiAllowIpAddressRange(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
             log.Finish(context: context, responseSize: json.Length);

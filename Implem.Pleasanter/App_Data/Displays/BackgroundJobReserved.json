@@ -1,0 +1,31 @@
+﻿{
+    "Id": "BackgroundJobReserved",
+    "Type": 110,
+    "Languages": [
+        { "Body": "{0} have been reserved." },
+        {
+            "Language": "zh",
+            "Body": "{0}已预约。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}が予約されています。"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} wurden reserviert."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}이(가) 예약되어 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "{0} han sido reservados."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} đã được đặt trước."
+        }
+    ]
+}

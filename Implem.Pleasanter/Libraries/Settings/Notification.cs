@@ -17,6 +17,8 @@ namespace Implem.Pleasanter.Libraries.Settings
     [Serializable()]
     public class Notification : ISettingListItem
     {
+        private const string RelatedUsersPlaceholder = "[RelatedUsers]";
+
         public int Id { get; set; }
         public Types Type;
         public string Prefix;
@@ -413,35 +415,49 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool HasRelatedUsers()
         {
-            return Type == Types.Mail && Address?.Contains("[RelatedUsers]") == true;
+            return Type == Types.Mail
+                && (Address?.Contains(RelatedUsersPlaceholder) == true
+                    || CcAddress?.Contains(RelatedUsersPlaceholder) == true
+                    || BccAddress?.Contains(RelatedUsersPlaceholder) == true);
         }
 
         public void ReplaceRelatedUsers(Context context, List<int> users)
         {
-            Address = Address.Replace(
-                "[RelatedUsers]",
-                Repository.ExecuteTable(
-                    context: context,
-                    statements: Rds.SelectMailAddresses(
-                        column: Rds.MailAddressesColumn()
-                            .OwnerId()
-                            .MailAddress(),
-                        where: Rds.MailAddressesWhere()
-                            .OwnerId_In(users
-                                .Distinct()
-                                .Where(userId => SiteInfo.User(
+            if (!HasRelatedUsers())
+            {
+                return;
+            }
+            var addresses = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectMailAddresses(
+                    column: Rds.MailAddressesColumn()
+                        .OwnerId()
+                        .MailAddress(),
+                    where: Rds.MailAddressesWhere()
+                        .OwnerId_In(users
+                            .Distinct()
+                            .Where(userId => SiteInfo.User(
+                                context: context,
+                                userId: userId).Id != SiteInfo.AnonymousId)
+                            .Select(userId => userId.ToLong()))
+                        .OwnerType("Users")))
+                            .AsEnumerable()
+                            .GroupBy(o => o["OwnerId"])
+                            .Select(o => MailAddressUtilities.Get(
+                                SiteInfo.UserName(
                                     context: context,
-                                    userId: userId).Id != SiteInfo.AnonymousId)
-                                .Select(userId => userId.ToLong()))
-                            .OwnerType("Users")))
-                                .AsEnumerable()
-                                .GroupBy(o => o["OwnerId"])
-                                .Select(o => MailAddressUtilities.Get(
-                                    SiteInfo.UserName(
-                                        context: context,
-                                        userId: o.First().Int("OwnerId")),
-                                    o.First()["MailAddress"].ToString()))
-                                .Join(";"));
+                                    userId: o.First().Int("OwnerId")),
+                                o.First()["MailAddress"].ToString()))
+                            .Join(";");
+            Address = Address?.Replace(
+                RelatedUsersPlaceholder,
+                addresses);
+            CcAddress = CcAddress?.Replace(
+                RelatedUsersPlaceholder,
+                addresses);
+            BccAddress = BccAddress?.Replace(
+                RelatedUsersPlaceholder,
+                addresses);
         }
 
         public Notification GetRecordingData(Context context, SiteSettings ss)

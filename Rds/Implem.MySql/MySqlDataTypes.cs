@@ -16,7 +16,7 @@ namespace Implem.MySql
                 .Replace("datetime", "datetime(3)");
         }
 
-        public string ConvertBack(string name, bool isQrtzTable)
+        public string ConvertBack(string name, string definitionTypeName, bool isQrtzTable)
         {
             if (isQrtzTable)
             {
@@ -30,15 +30,23 @@ namespace Implem.MySql
                         break;
                 }
             }
-
-            return name == "char"
-                ? "nchar"
-                : name
-                    .Replace("varchar", "nvarchar")
-                    .Replace("longtext", "nvarchar")
-                    .Replace("text", "nvarchar")
-                    .Replace("tinyint", "bit")
-                    .Replace("longblob", "image");
+            switch (name)
+            {
+                case "char":
+                    return definitionTypeName == "char"
+                        ? "char"
+                        : "nchar";
+                case "varchar":
+                    return definitionTypeName == "varchar"
+                        ? "varchar"
+                        : "nvarchar";
+                default:
+                    return name
+                        .Replace("longtext", "nvarchar")
+                        .Replace("text", "nvarchar")
+                        .Replace("tinyint", "bit")
+                        .Replace("longblob", "image");
+            }
         }
 
         public string DefaultDefinition(DataRow dataRow)

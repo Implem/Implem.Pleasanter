@@ -13,6 +13,7 @@ namespace Implem.ParameterAccessor.Parts
         SamlExtendedAttributes = 1 << 4,
         Scim = 1 << 5,
         BlockSiteTaskWhileRunning = 1 << 6,
+        PermissionsViewer = 1 << 7,
 
         Trial = AdvancedCache
             | Queue
@@ -20,5 +21,6 @@ namespace Implem.ParameterAccessor.Parts
             | SamlExtendedAttributes
             | Scim
             | BlockSiteTaskWhileRunning
+            | PermissionsViewer
     }
 }

@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Tenants_FormCountDate",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "FormCountDate",
+    "LabelText": "フォームカウント日時",
+    "No": "193",
+    "History": "193",
+    "TypeName": "datetime",
+    "Nullable": "1",
+    "ReadAccessControl": "ManageService",
+    "CreateAccessControl": "ManageService",
+    "UpdateAccessControl": "ManageService",
+    "NotForm": "1",
+    "LabelText_en": "Form count date",
+    "LabelText_zh": "表单计数日期",
+    "LabelText_de": "Formularzähldatum",
+    "LabelText_ko": "폼 카운트 날짜",
+    "LabelText_es": "Fecha de recuento de formularios",
+    "LabelText_vn": "Thời gian đếm biểu mẫu"
+}

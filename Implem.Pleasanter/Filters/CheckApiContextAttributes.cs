@@ -69,6 +69,16 @@ namespace Implem.PleasanterFilters
                     });
                 return;
             }
+            if (!ApiKeyIpRestrictions.Allowed(context: context))
+            {
+                filterContext.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+                filterContext.Result = new JsonResult(
+                    new
+                    {
+                        Message = Displays.ApiKeyNotAllowedIpAddress(context: context)
+                    });
+                return;
+            }
             if (context.InvalidJsonData)
             {
                 filterContext.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -94,5 +104,6 @@ namespace Implem.PleasanterFilters
                 }
             }
         }
+
     }
 }

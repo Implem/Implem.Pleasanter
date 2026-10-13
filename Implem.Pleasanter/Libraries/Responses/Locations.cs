@@ -200,13 +200,19 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static string ItemIndexAbsoluteUri(Context context, long id)
         {
-            return Parameters.Service.AbsoluteUri != null
-                ? Parameters.Service.AbsoluteUri + "/items/" + id + "/index"
-                : context.AbsoluteUri.Replace(
-                    context.AbsolutePath,
-                    ItemIndex(
-                        context: context,
-                        id: id));
+            var itemIndex = ItemIndex(
+                context: context,
+                id: id);
+            if (Parameters.Service.AbsoluteUri != null)
+            {
+                return Parameters.Service.AbsoluteUri + "/items/" + id + "/index";
+            }
+            if (context.AbsoluteUri.IsNullOrEmpty()
+                || context.AbsolutePath.IsNullOrEmpty())
+            {
+                return itemIndex;
+            }
+            return context.AbsoluteUri.Replace(context.AbsolutePath, itemIndex);
         }
 
         public static string ItemEditAbsoluteUri(Context context, long id)

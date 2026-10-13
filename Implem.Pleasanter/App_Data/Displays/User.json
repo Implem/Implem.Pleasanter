@@ -1,0 +1,37 @@
+﻿{
+    "Id": "User",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "User"
+        },
+        {
+            "Language": "zh",
+            "Body": "用户"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "使用者"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザ"
+        },
+        {
+            "Language": "de",
+            "Body": "Benutzer"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자"
+        },
+        {
+            "Language": "es",
+            "Body": "Usuario"
+        },
+        {
+            "Language": "vn",
+            "Body": "Người dùng"
+        }
+    ]
+}

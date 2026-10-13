@@ -1,0 +1,37 @@
+﻿{
+    "Id": "RecommendPermissionsViewer",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "This feature lists and exports permissions across sites for each user, department, and group. It is available with Enterprise Edition Basic plan or above. * Free trial available for 90 days."
+        },
+        {
+            "Language": "zh",
+            "Body": "该功能可按用户、组织、群组一览并导出跨站点的权限。需 Enterprise Edition 基本套餐及以上。※可免费试用90天。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "該功能可依使用者、組織、群組一覽並匯出跨網站的權限。需 Enterprise Edition 基本方案以上。※可免費試用90天。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザ・組織・グループごとに、サイトを横断して権限を一覧・出力できる機能です。Enterprise Edition ベーシックプラン以上でご利用いただけます。※無料のトライアル機能で90日間お試しいただけます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Diese Funktion listet und exportiert Berechtigungen über alle Sites hinweg je Benutzer, Abteilung und Gruppe. Verfügbar ab Enterprise Edition Basic-Plan. * 90 Tage kostenlos testen."
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자·조직·그룹별로 사이트를 넘나드는 권한을 일람·내보낼 수 있는 기능입니다. Enterprise Edition 베이직 플랜 이상에서 이용하실 수 있습니다. ※무료 체험 기능으로 90일간 사용해 보실 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Esta función permite consultar y exportar los permisos de todos los sitios por usuario, departamento y grupo. Disponible con Enterprise Edition, plan Básico o superior. * Prueba gratuita de 90 días."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tính năng này cho phép xem và xuất quyền trên toàn bộ các trang theo người dùng, tổ chức và nhóm. Có sẵn với Enterprise Edition gói Basic trở lên. * Dùng thử miễn phí 90 ngày."
+        }
+    ]
+}

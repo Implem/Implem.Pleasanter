@@ -1,0 +1,37 @@
+﻿{
+    "Id": "ExpandTarget",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Expand target"
+        },
+        {
+            "Language": "zh",
+            "Body": "展开对象"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "展開對象"
+        },
+        {
+            "Language": "ja",
+            "Body": "対象の展開"
+        },
+        {
+            "Language": "de",
+            "Body": "Ziel aufklappen"
+        },
+        {
+            "Language": "ko",
+            "Body": "대상 전개"
+        },
+        {
+            "Language": "es",
+            "Body": "Expandir destino"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mở rộng đối tượng"
+        }
+    ]
+}

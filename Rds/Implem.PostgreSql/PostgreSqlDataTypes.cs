@@ -17,7 +17,7 @@ namespace Implem.PostgreSql
                 .Replace("datetime", "timestamp(3)");
         }
 
-        public string ConvertBack(string name, bool isQrtzTable)
+        public string ConvertBack(string name, string definitionTypeName, bool isQrtzTable)
         {
             if (isQrtzTable)
             {
@@ -31,18 +31,27 @@ namespace Implem.PostgreSql
                         break;
                 }
             }
-
-            return name
-                .Replace("int4", "int")
-                .Replace("int8", "bigint")
-                .Replace("float8", "float")
-                .Replace("numeric", "decimal")
-                .Replace("bpchar", "nchar")
-                .Replace("varchar", "nvarchar")
-                .Replace("text", "nvarchar")
-                .Replace("bool", "bit")
-                .Replace("bytea", "image")
-                .Replace("timestamp", "datetime");
+            switch (name)
+            {
+                case "varchar":
+                    return definitionTypeName == "varchar"
+                        ? "varchar"
+                        : "nvarchar";
+                case "bpchar":
+                    return definitionTypeName == "char"
+                        ? "char"
+                        : "nchar";
+                default:
+                    return name
+                        .Replace("int4", "int")
+                        .Replace("int8", "bigint")
+                        .Replace("float8", "float")
+                        .Replace("numeric", "decimal")
+                        .Replace("text", "nvarchar")
+                        .Replace("bool", "bit")
+                        .Replace("bytea", "image")
+                        .Replace("timestamp", "datetime");
+            }
         }
 
         public string DefaultDefinition(DataRow dataRow)

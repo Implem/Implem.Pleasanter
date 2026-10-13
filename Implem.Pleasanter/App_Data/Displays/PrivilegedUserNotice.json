@@ -1,0 +1,37 @@
+﻿{
+    "Id": "PrivilegedUserNotice",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "As a privileged user, this user has all permissions on all sites regardless of the settings below."
+        },
+        {
+            "Language": "zh",
+            "Body": "该用户为特权用户，无论下表的设置如何，均拥有所有站点的全部权限。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "該使用者為特權使用者，無論下表的設定為何，均擁有所有網站的全部權限。"
+        },
+        {
+            "Language": "ja",
+            "Body": "特権ユーザのため、下表の設定に関わらず、すべてのサイトの全権限を持ちます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Als privilegierter Benutzer hat dieser Benutzer unabhängig von den Einstellungen unten alle Berechtigungen für alle Sites."
+        },
+        {
+            "Language": "ko",
+            "Body": "특권 사용자이므로 아래 표의 설정과 관계없이 모든 사이트의 모든 권한을 가집니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Como usuario privilegiado, tiene todos los permisos en todos los sitios independientemente de la configuración siguiente."
+        },
+        {
+            "Language": "vn",
+            "Body": "Là người dùng đặc quyền, người dùng này có toàn bộ quyền trên tất cả các trang bất kể thiết lập bên dưới."
+        }
+    ]
+}

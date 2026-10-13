@@ -1039,6 +1039,16 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     deptModel: deptModel)
                                 .FieldSetGeneral(context: context, ss: ss, deptModel: deptModel)
+                        .FieldSet(
+                            attributes: new HtmlAttributes()
+                                .Id("FieldSetPermissionsViewer")
+                                .DataAction("PermissionsViewer")
+                                .DataMethod("post"),
+                            _using: deptModel.MethodType != BaseModel.MethodTypes.New
+                                && !context.Publish
+                                && HtmlPermissionsViewer.Readable(
+                                    context: context,
+                                    tableName: "Depts"))
                                 .FieldSet(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetHistories")
@@ -1046,6 +1056,13 @@ namespace Implem.Pleasanter.Models
                                         .DataMethod("post"),
                                     _using: deptModel.MethodType != BaseModel.MethodTypes.New
                                         && !context.Publish)
+                        .FieldSet(
+                            attributes: new HtmlAttributes()
+                                .Id("FieldSetHistoryDiff")
+                                .DataAction("HistoryDiff")
+                                .DataMethod("post"),
+                            _using: deptModel.MethodType != BaseModel.MethodTypes.New
+                                && !context.Publish)
                                 .MainCommands(
                                     context: context,
                                     ss: ss,
@@ -1064,6 +1081,10 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "Ver",
                             value: deptModel.Ver.ToString())
+                .Hidden(
+                    controlId: "HistoryDiffBaseVer",
+                    css: "control-hidden always-send",
+                    value: deptModel.Ver.ToString())
                         .Hidden(
                             controlId: "MethodType",
                             value: deptModel.MethodType.ToString().ToLower())
@@ -1103,13 +1124,30 @@ namespace Implem.Pleasanter.Models
                     .A(
                         href: "#FieldSetGeneral",
                         text: Displays.General(context: context)))
+                        .Li(
+                            _using: deptModel.MethodType != BaseModel.MethodTypes.New
+                                && !context.Publish
+                                && HtmlPermissionsViewer.Readable(
+                                    context: context,
+                                    tableName: "Depts"),
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetPermissionsViewer",
+                                    text: Displays.PermissionsViewer(context: context)))
                 .Li(
                     _using: deptModel.MethodType != BaseModel.MethodTypes.New
                         && !context.Publish,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList(context: context))));
+                            text: Displays.ChangeHistoryList(context: context)))
+                .Li(
+                    _using: deptModel.MethodType != BaseModel.MethodTypes.New
+                        && !context.Publish,
+                    action: () => hb
+                        .A(
+                            href: "#FieldSetHistoryDiff",
+                            text: Displays.HistoryDiff(context: context))));
         }
 
         private static HtmlBuilder FieldSetGeneral(
@@ -1882,6 +1920,55 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string PermissionsViewer(
+            Context context, SiteSettings ss, int deptId)
+        {
+            var deptModel = new DeptModel(context: context, ss: ss, deptId: deptId);
+            if (!context.CanRead(ss: ss))
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
+            if (!HtmlPermissionsViewer.Readable(context: context, tableName: "Depts"))
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
+            if (deptModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Error.Types.NotFound.MessageJson(context: context);
+            }
+            return HtmlPermissionsViewer.PermissionsViewer(
+                context: context,
+                res: new DeptsResponseCollection(
+                    context: context,
+                    deptModel: deptModel),
+                tableName: "Depts",
+                id: deptId)
+                    .Messages(context.Messages)
+                    .ToJson();
+        }
+
+        public static ResponseFile PermissionsViewerCsv(
+            Context context, SiteSettings ss, int deptId)
+        {
+            var deptModel = new DeptModel(context: context, ss: ss, deptId: deptId);
+            if (!context.CanRead(ss: ss))
+            {
+                return null;
+            }
+            if (!HtmlPermissionsViewer.Readable(context: context, tableName: "Depts"))
+            {
+                return null;
+            }
+            if (deptModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return null;
+            }
+            return HtmlPermissionsViewer.PermissionsViewerCsv(
+                context: context,
+                tableName: "Depts",
+                id: deptId);
+        }
+
         public static string Histories(
             Context context, SiteSettings ss, int deptId, Message message = null)
         {
@@ -2004,6 +2091,74 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty)
                     }))
                 .ToJson();
+        }
+
+        public static string HistoryDiff(Context context, SiteSettings ss, int deptId)
+        {
+            if (!context.CanRead(ss: ss))
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
+            return HistoryDiffUtilities.HistoryDiff(
+                context: context,
+                ss: ss,
+                versions: new DeptCollection(
+                    context: context,
+                    ss: ss,
+                    column: Rds.DeptsColumn()
+                        .DeptId()
+                        .Ver()
+                        .Updator()
+                        .UpdatedTime(),
+                    where: HistoryDiffWhere(
+                        context: context,
+                        deptId: deptId),
+                    orderBy: Rds.DeptsOrderBy().Ver(SqlOrderBy.Types.desc),
+                    tableType: Sqls.TableTypes.NormalAndHistory)
+                        .ToList(),
+                getModel: ver => HistoryDiffDeptModel(
+                    context: context,
+                    ss: ss,
+                    deptId: deptId,
+                    ver: ver),
+                toDisplay: (deptModel, column, mine) => deptModel.ToDisplay(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    mine: mine));
+        }
+
+
+        private static SqlWhereCollection HistoryDiffWhere(
+            Context context,
+            int deptId,
+            int? ver = null)
+        {
+            return Rds.DeptsWhere()
+                .TenantId(context.TenantId)
+                .DeptId(deptId)
+                .Ver(value: ver, _using: ver.HasValue);
+        }
+
+        private static DeptModel HistoryDiffDeptModel(
+            Context context,
+            SiteSettings ss,
+            int deptId,
+            int ver)
+        {
+            var deptModel = new DeptModel(
+                context: context,
+                ss: ss,
+                deptId: deptId);
+            deptModel.Get(
+                context: context,
+                ss: ss,
+                where: HistoryDiffWhere(
+                    context: context,
+                    deptId: deptId,
+                    ver: ver),
+                tableType: Sqls.TableTypes.NormalAndHistory);
+            return deptModel;
         }
 
         /// <summary>

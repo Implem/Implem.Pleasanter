@@ -16,10 +16,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var endval = string.Empty;
             if (itemfilter)
             {
-                var textval = context.Forms.Data(context.Forms.ControlId())?.Split('-');
+                var textval = context.Forms.Data(context.Forms.ControlId())
+                    ?.Split(
+                        separator: new[] { " - " },
+                        count: 2,
+                        options: StringSplitOptions.None);
                 satartval = DateTimeString(textval?[0]);
                 endval = string.Empty;
-                if (textval.Length > 1)
+                if (textval != null && textval.Length > 1)
                 {
                     endval = DateTimeString(textval?[1]);
                 }
@@ -50,11 +54,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateEmail: column.ValidateEmail ?? false,
                             validateEqualTo: column.ValidateEqualTo,
                             validateMaxLength: column.ValidateMaxLength ?? 0,
-                            attributes: column.DateTimeStep == null
-                                ? null
-                                : new Dictionary<string, string>() {
-                                    { "data-step", column.DateTimeStep?.ToString() }
-                                })
+                            attributes: FirstDayOfWeeks.DataAttributes(
+                                context: context,
+                                ss: ss,
+                                attributes: column.DateTimeStep == null
+                                    ? null
+                                    : new Dictionary<string, string>() {
+                                        { "data-step", column.DateTimeStep?.ToString() }
+                                    }))
                         .FieldTextBox(
                             context: context,
                             textType: HtmlTypes.TextTypes.DateTime,
@@ -73,11 +80,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateEmail: column.ValidateEmail ?? false,
                             validateEqualTo: column.ValidateEqualTo,
                             validateMaxLength: column.ValidateMaxLength ?? 0,
-                            attributes: column.DateTimeStep == null
-                                ? null
-                                : new Dictionary<string, string>() {
-                                    { "data-step", column.DateTimeStep?.ToString() }
-                                })
+                            attributes: FirstDayOfWeeks.DataAttributes(
+                                context: context,
+                                ss: ss,
+                                attributes: column.DateTimeStep == null
+                                    ? null
+                                    : new Dictionary<string, string>() {
+                                        { "data-step", column.DateTimeStep?.ToString() }
+                                    }))
                         .P(css: "message-dialog")
                         .Div(
                             css: "command-center",

@@ -5,6 +5,7 @@
         private string schemaName = null;
         private bool isCreatingDb = false;
         public int IdentifierPostfixLength { get; } = 32;
+        public int CharacterStoredSizeCoefficient { get; } = 4;
         public int NationalCharacterStoredSizeCoefficient { get; } = 4;
         public int ReducedVarcharLength { get; }
         public string SchemaName { get { return schemaName; } set { schemaName = value; } }

@@ -4,6 +4,9 @@
     box-sizing: border-box;
 }
 
+$background-job-notice-bg: #24537a;
+$background-job-notice-text: #fff;
+
 html,
 body,
 div,
@@ -571,6 +574,31 @@ pre {
     text-decoration: none;
 }
 
+#BackgroundJobInfo {
+    float: left;
+    display: block;
+    width: 100%;
+    padding: 5px 10px;
+    margin: 0 10px 5px 0;
+    color: $background-job-notice-text;
+    background: $background-job-notice-bg;
+    border-radius: 7px;
+}
+
+#BackgroundJobInfo > a {
+    color: $background-job-notice-text;
+    text-decoration: none;
+}
+
+.background-job-notice {
+    display: block;
+    width: 100%;
+    padding: 5px 10px;
+    margin: 0 0 10px;
+    color: $background-job-notice-text;
+    background: $background-job-notice-bg;
+}
+
 #Application {
     position: relative;
     float: left;
@@ -692,7 +720,36 @@ pre {
     right: 0;
 }
 
-#ViewFilters {
+#PermissionsViewerLicenseGuide {
+    float: left;
+    width: 100%;
+    padding: 10px;
+    margin: 0 0 5px;
+    border: solid 1px silver;
+    border-radius: 5px;
+}
+
+#PermissionsViewerCommands {
+    float: left;
+    width: 100%;
+    margin: 0 0 5px;
+    > .field-auto-thin {
+        float: left;
+        height: 32px;
+        padding: 0;
+        margin: 0 20px 0 0;
+        .container-normal:has(.check-option) {
+            position: static;
+            .check-option {
+                padding-bottom: 8px;
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+#ViewFilters,
+#PermissionsViewerFilters {
     float: left;
     width: 100%;
     padding: 5px 5px 2px;
@@ -707,7 +764,8 @@ pre {
     border: none;
 }
 
-#ViewFilters > .field-auto-thin {
+#ViewFilters > .field-auto-thin,
+#PermissionsViewerFilters > .field-auto-thin {
     float: left;
     height: 32px;
     padding: 0;
@@ -753,7 +811,8 @@ pre {
     display: block;
 }
 
-#Aggregations {
+#Aggregations,
+#PermissionsViewerCount {
     float: left;
     width: 100%;
     padding: 3px 5px 5px;
@@ -768,7 +827,8 @@ pre {
     border: none;
 }
 
-#Aggregations .label {
+#Aggregations .label,
+#PermissionsViewerCount .label {
     float: left;
     display: block;
     height: 26px;
@@ -785,7 +845,8 @@ pre {
     background-color: red;
 }
 
-#Aggregations .data {
+#Aggregations .data,
+#PermissionsViewerCount .data {
     float: left;
     display: block;
     height: 26px;
@@ -1579,14 +1640,6 @@ th.calendar-header {
     float: none;
     display: inline;
     margin: 2px 4px;
-}
-
-#ApiEditorCommands {
-    padding: 0 5px 200px 140px;
-}
-
-#ApiEditorCommands > * {
-    margin-right: 10px;
 }
 
 #BottomMargin {
@@ -3276,7 +3329,7 @@ h3.title-header {
     cursor: pointer;
 }
 
-#passwordGenerateicon {
+.generate-password {
     position: absolute;
     top: 4px;
     right: -60px;
@@ -4256,4 +4309,251 @@ div.lower-search-ui {
         width: auto;
         padding: 0;
     }
+}
+
+.history-diff {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#HistoryDiffToolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    align-items: center;
+    margin-bottom: 8px;
+
+    > .field-auto-thin {
+        float: none;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        .check-option {
+            margin: 0;
+            white-space: nowrap;
+        }
+    }
+}
+
+.history-diff-pane-ver {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    > .field-label {
+        float: none;
+        flex: 0 0 auto;
+        width: auto;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+        white-space: nowrap;
+    }
+    > .field-control {
+        float: none;
+        flex: 0 1 auto;
+        width: auto;
+        min-width: 0;
+        .container-normal {
+            width: auto;
+            margin-left: 0;
+        }
+
+        .select-field,
+        select.control-dropdown {
+            width: auto;
+            min-width: 150px;
+            max-width: 100%;
+        }
+    }
+}
+.history-diff-panes {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-top: 8px;
+}
+.history-diff-pane {
+    flex: 1 1 50%;
+    min-width: 0;
+}
+
+.history-diff-section {
+    + .history-diff-section {
+        margin-top: 16px;
+    }
+}
+
+.history-diff-pane .history-diff-section-header.ui-tabs-nav {
+    padding: 6px 0 6px 8px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+}
+.history-diff-pane-ver-detail {
+    margin-bottom: 8px;
+    color: var(--nonColor07, #666);
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.history-diff-fields {
+    width: 100%;
+    table-layout: fixed;
+    tbody tr.history-diff-row {
+        vertical-align: top;
+    }
+    th,
+    td {
+        &.history-diff-label {
+            width: 30%;
+            text-align: left;
+            overflow-wrap: anywhere;
+        }
+        &.history-diff-value {
+            width: auto;
+            text-align: left;
+            overflow-wrap: anywhere;
+        }
+    }
+
+    .history-diff-value-inner {
+        max-height: 6.4em;
+        overflow: hidden;
+        white-space: pre-wrap;
+    }
+
+    .history-diff-value-inner[data-mode='source'] {
+        display: none;
+    }
+    tbody tr.history-diff-row.source-mode {
+        .history-diff-value-inner[data-mode='rendered'] {
+            display: none;
+        }
+        .history-diff-value-inner[data-mode='source'] {
+            display: block;
+            white-space: pre-wrap;
+        }
+    }
+
+    tbody tr.history-diff-row.hovered,
+    tbody tr.history-diff-row.pinned {
+        .history-diff-value-inner {
+            max-height: 40em;
+            overflow: auto;
+        }
+    }
+
+    .history-diff-image {
+        display: block;
+        max-width: 100%;
+        max-height: 5em;
+        margin: 4px 0;
+        cursor: pointer;
+        border: 1px solid var(--base-border, #ddd);
+    }
+    tbody tr.history-diff-row.hovered .history-diff-image,
+    tbody tr.history-diff-row.pinned .history-diff-image {
+        max-height: 24em;
+    }
+
+    &.grid > tbody > tr > th,
+    &.grid > tbody > tr > td {
+        background-color: var(--grid-cell-bg, #fff);
+        border-bottom: solid 1px var(--grid-cell-border, #8f8f8f);
+    }
+
+    &.grid > tbody > tr.hovered > th,
+    &.grid > tbody > tr.hovered > td {
+        background-color: var(--grid-cell-hover, #f5f5f5);
+    }
+
+    tbody th.history-diff-label {
+        font-weight: normal;
+        color: var(--base-text, #222);
+    }
+
+    .history-diff-label-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        align-items: flex-start;
+    }
+    .history-diff-label-text {
+        overflow-wrap: anywhere;
+    }
+
+    .history-diff-label-tools {
+        display: none;
+        gap: 2px;
+    }
+    .history-diff-row.overflowing .history-diff-label-tools,
+    .history-diff-row:has(.history-diff-source-toggle) .history-diff-label-tools {
+        display: flex;
+    }
+}
+
+.history-diff-tool {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    cursor: pointer;
+    background: none;
+    border: solid 1px transparent;
+    border-radius: 3px;
+    &:hover {
+        border-color: var(--base-border, #ddd);
+    }
+
+    &.on {
+        background-color: var(--grid-cell-hover, #f5f5f5);
+        border-color: var(--base-border, #ddd);
+    }
+    .ui-icon {
+        display: block;
+    }
+}
+
+.history-diff-row:not(.overflowing) .history-diff-pin {
+    display: none;
+}
+.history-diff-removed {
+    color: #a3000c;
+    text-decoration: line-through;
+    background-color: #ffdce0;
+}
+.history-diff-added {
+    color: #04642a;
+    background-color: #d6f5dd;
+}
+// 画像はブロックで描画されるため、囲みの背景色が画像の周りに出ない。
+// 文字と同じ色の枠で、削除・追加された画像であることを示す。
+// 画像の縁と枠が重なって見分けにくくならないよう、内側に余白を空ける
+.history-diff-removed .history-diff-image,
+.history-diff-added .history-diff-image {
+    padding: 3px;
+}
+.history-diff-removed .history-diff-image {
+    border: 3px solid #a3000c;
+}
+.history-diff-added .history-diff-image {
+    border: 3px solid #04642a;
+}
+.history-diff-empty {
+    padding: 16px 8px;
+    color: var(--nonColor07, #666);
+}
+.history-diff.changed-only .history-diff-row:not(.changed) {
+    display: none;
+}
+
+.history-diff.changed-only .history-diff-section:not(:has(.history-diff-row.changed)) {
+    display: none;
 }

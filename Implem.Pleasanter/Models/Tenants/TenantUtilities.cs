@@ -735,6 +735,15 @@ namespace Implem.Pleasanter.Models
                         columnName: "TimeZone").EditChoices(context: context),
                     selectedValue: tenantModel.TimeZone,
                     insertBlank: true)
+                .FieldDropDown(
+                    context: context,
+                    controlId: "Tenants_FirstDayOfWeek",
+                    controlCss: " always-send",
+                    labelText: Displays.Tenants_FirstDayOfWeek(context),
+                    optionCollection: FirstDayOfWeeks.OptionCollection(
+                        context: context,
+                        inherit: true),
+                    selectedValue: tenantModel.FirstDayOfWeek.ToString())
                 .FieldSet(
                     id: "PermissionsField",
                     css: " enclosed",
@@ -1250,6 +1259,12 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Tenants_TimeZone" + idSuffix,
                                     value: tenantModel.TimeZone.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "FirstDayOfWeek":
+                                res.Val(
+                                    target: "#Tenants_FirstDayOfWeek" + idSuffix,
+                                    value: tenantModel.FirstDayOfWeek.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             case "UiType":

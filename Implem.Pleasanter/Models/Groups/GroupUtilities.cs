@@ -1104,8 +1104,23 @@ namespace Implem.Pleasanter.Models
                                     groupModel: groupModel)
                                 .FieldSet(
                                     attributes: new HtmlAttributes()
+                                        .Id("FieldSetPermissionsViewer")
+                                        .DataAction("PermissionsViewer")
+                                        .DataMethod("post"),
+                                    _using: groupModel.MethodType != BaseModel.MethodTypes.New
+                                        && HtmlPermissionsViewer.Readable(
+                                            context: context,
+                                            tableName: "Groups"))
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
                                         .Id("FieldSetHistories")
                                         .DataAction("Histories")
+                                        .DataMethod("post"),
+                                    _using: groupModel.MethodType != BaseModel.MethodTypes.New)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetHistoryDiff")
+                                        .DataAction("HistoryDiff")
                                         .DataMethod("post"),
                                     _using: groupModel.MethodType != BaseModel.MethodTypes.New)
                                 .MainCommands(
@@ -1125,6 +1140,10 @@ namespace Implem.Pleasanter.Models
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
                             controlId: "Ver",
+                            value: groupModel.Ver.ToString())
+                        .Hidden(
+                            controlId: "HistoryDiffBaseVer",
+                            css: "control-hidden always-send",
                             value: groupModel.Ver.ToString())
                         .Hidden(
                             controlId: "MethodType",
@@ -1179,11 +1198,26 @@ namespace Implem.Pleasanter.Models
                         text: Displays.ChildGroup(context: context),
                         _using: groupModel.MethodType != BaseModel.MethodTypes.New))
                 .Li(
+                    _using: groupModel.MethodType != BaseModel.MethodTypes.New
+                        && HtmlPermissionsViewer.Readable(
+                            context: context,
+                            tableName: "Groups"),
+                    action: () => hb
+                        .A(
+                            href: "#FieldSetPermissionsViewer",
+                            text: Displays.PermissionsViewer(context: context)))
+                .Li(
                     _using: groupModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList(context: context))));
+                            text: Displays.ChangeHistoryList(context: context)))
+                .Li(
+                    _using: groupModel.MethodType != BaseModel.MethodTypes.New,
+                    action: () => hb
+                        .A(
+                            href: "#FieldSetHistoryDiff",
+                            text: Displays.HistoryDiff(context: context))));
         }
 
         private static HtmlBuilder FieldSetGeneral(
@@ -2038,6 +2072,55 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string PermissionsViewer(
+            Context context, SiteSettings ss, int groupId)
+        {
+            var groupModel = new GroupModel(context: context, ss: ss, groupId: groupId);
+            if (!context.CanRead(ss: ss))
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
+            if (!HtmlPermissionsViewer.Readable(context: context, tableName: "Groups"))
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
+            if (groupModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Error.Types.NotFound.MessageJson(context: context);
+            }
+            return HtmlPermissionsViewer.PermissionsViewer(
+                context: context,
+                res: new GroupsResponseCollection(
+                    context: context,
+                    groupModel: groupModel),
+                tableName: "Groups",
+                id: groupId)
+                    .Messages(context.Messages)
+                    .ToJson();
+        }
+
+        public static ResponseFile PermissionsViewerCsv(
+            Context context, SiteSettings ss, int groupId)
+        {
+            var groupModel = new GroupModel(context: context, ss: ss, groupId: groupId);
+            if (!context.CanRead(ss: ss))
+            {
+                return null;
+            }
+            if (!HtmlPermissionsViewer.Readable(context: context, tableName: "Groups"))
+            {
+                return null;
+            }
+            if (groupModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return null;
+            }
+            return HtmlPermissionsViewer.PermissionsViewerCsv(
+                context: context,
+                tableName: "Groups",
+                id: groupId);
+        }
+
         public static string Histories(
             Context context, SiteSettings ss, int groupId, Message message = null)
         {
@@ -2160,6 +2243,74 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty)
                     }))
                 .ToJson();
+        }
+
+        public static string HistoryDiff(Context context, SiteSettings ss, int groupId)
+        {
+            if (!context.CanRead(ss: ss))
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
+            return HistoryDiffUtilities.HistoryDiff(
+                context: context,
+                ss: ss,
+                versions: new GroupCollection(
+                    context: context,
+                    ss: ss,
+                    column: Rds.GroupsColumn()
+                        .GroupId()
+                        .Ver()
+                        .Updator()
+                        .UpdatedTime(),
+                    where: HistoryDiffWhere(
+                        context: context,
+                        groupId: groupId),
+                    orderBy: Rds.GroupsOrderBy().Ver(SqlOrderBy.Types.desc),
+                    tableType: Sqls.TableTypes.NormalAndHistory)
+                        .ToList(),
+                getModel: ver => HistoryDiffGroupModel(
+                    context: context,
+                    ss: ss,
+                    groupId: groupId,
+                    ver: ver),
+                toDisplay: (groupModel, column, mine) => groupModel.ToDisplay(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    mine: mine));
+        }
+
+
+        private static SqlWhereCollection HistoryDiffWhere(
+            Context context,
+            int groupId,
+            int? ver = null)
+        {
+            return Rds.GroupsWhere()
+                .TenantId(context.TenantId)
+                .GroupId(groupId)
+                .Ver(value: ver, _using: ver.HasValue);
+        }
+
+        private static GroupModel HistoryDiffGroupModel(
+            Context context,
+            SiteSettings ss,
+            int groupId,
+            int ver)
+        {
+            var groupModel = new GroupModel(
+                context: context,
+                ss: ss,
+                groupId: groupId);
+            groupModel.Get(
+                context: context,
+                ss: ss,
+                where: HistoryDiffWhere(
+                    context: context,
+                    groupId: groupId,
+                    ver: ver),
+                tableType: Sqls.TableTypes.NormalAndHistory);
+            return groupModel;
         }
 
         /// <summary>

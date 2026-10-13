@@ -404,6 +404,12 @@ declare global {
          */
         apiDeleteSite(options: PleasanterApiOptions): void;
         /**
+         * 指定したサイトを移動します。
+         *
+         * @param options id（移動元サイトID）とdata（ParentId）、done/fail/alwaysコールバックを指定します。
+         */
+        apiMoveSite(options: PleasanterApiOptions): void;
+        /**
          * サイト名検索で該当サイトに最も近いサイトのIDを取得します。
          *
          * @param options id（検索起点のサイトID）とdata（サイト名）、done/fail/alwaysコールバックを指定します。

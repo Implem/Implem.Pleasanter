@@ -1,5 +1,6 @@
 ﻿{
     "Enabled": false,
+    "LimitPerMonth": 0,
     "AttachmentExcludedExtensions": [
         ".exe",
         ".dll",

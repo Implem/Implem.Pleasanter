@@ -1,0 +1,69 @@
+﻿public static string HistoryDiff(Context context, SiteSettings ss, #IdType# #modelName#Id)
+{
+    if (!context.CanRead(ss: ss))
+    {
+        return Error.Types.HasNotPermission.MessageJson(context: context);
+    }
+    return HistoryDiffUtilities.HistoryDiff(
+        context: context,
+        ss: ss,
+        versions: new #ModelName#Collection(
+            context: context,
+            ss: ss,
+            column: Rds.#TableName#Column()
+                .#ModelName#Id()
+                .Ver()
+                .Updator()
+                .UpdatedTime(),
+            where: HistoryDiffWhere(
+                context: context,
+                #modelName#Id: #modelName#Id),
+            orderBy: Rds.#TableName#OrderBy().Ver(SqlOrderBy.Types.desc),
+            tableType: Sqls.TableTypes.NormalAndHistory)
+                .ToList(),
+        getModel: ver => HistoryDiff#ModelName#Model(
+            context: context,
+            ss: ss,
+            #modelName#Id: #modelName#Id,
+            ver: ver),
+        toDisplay: (#modelName#Model, column, mine) => #modelName#Model.ToDisplay(
+            context: context,
+            ss: ss,
+            column: column,
+            mine: mine));
+}
+
+private static SqlWhereCollection HistoryDiffWhere(
+    Context context,
+    #IdType# #modelName#Id,
+    int? ver = null)
+{
+    return Rds.#TableName#Where()
+<!--Model_Utilities_HistoryDiffTenantIdWhere-->
+        .#ModelName#Id(#modelName#Id)
+        .Ver(value: ver, _using: ver.HasValue);
+}
+
+private static #ModelName#Model HistoryDiff#ModelName#Model(
+    Context context,
+    SiteSettings ss,
+    #IdType# #modelName#Id,
+    int ver)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id);
+    #modelName#Model.Get(
+        context: context,
+        ss: ss,
+        where: HistoryDiffWhere(
+            context: context,
+            #modelName#Id: #modelName#Id,
+            ver: ver),
+        tableType: Sqls.TableTypes.NormalAndHistory);
+
+<!--Model_Utilities_HistoryDiffSetChoiceHash-->
+
+    return #modelName#Model;
+}

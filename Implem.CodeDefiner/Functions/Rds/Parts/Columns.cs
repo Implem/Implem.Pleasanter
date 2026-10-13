@@ -43,6 +43,13 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             DataRow rdsColumn,
             ColumnDefinition columnDefinition)
         {
+            bool ColumnTypeHasChanges()
+            {
+                return factory.SqlDataType.ConvertBack(
+                    rdsColumn["TypeName"].ToString(),
+                    columnDefinition.TypeName,
+                    Tables.IsQuartzTable(sourceTableName)) != columnDefinition.TypeName;
+            }
             bool ColumnSizeHasChanges()
             {
                 switch (Parameters.Rds.Dbms)
@@ -73,7 +80,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 return true;
             }
-            if (!(factory.SqlDataType.ConvertBack(rdsColumn["TypeName"].ToString(), Tables.IsQuartzTable(sourceTableName)) == columnDefinition.TypeName))
+            if (ColumnTypeHasChanges())
             {
                 return true;
             }

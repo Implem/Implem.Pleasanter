@@ -1,0 +1,7 @@
+﻿.FieldSet(
+    attributes: new HtmlAttributes()
+        .Id("FieldSetHistoryDiff")
+        .DataAction("HistoryDiff")
+        .DataMethod("post"),
+    _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
+        && !context.Publish)

@@ -1,0 +1,37 @@
+﻿{
+    "Id": "OverLimitForm",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This form is not accepting responses because it has reached the upper limit."
+        },
+        {
+            "Language": "zh",
+            "Body": "此表单因已达到受理上限，目前无法受理。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "此表單因已達到受理上限，目前無法受理。"
+        },
+        {
+            "Language": "ja",
+            "Body": "このフォームは受付件数の上限に達したため、現在受け付けていません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieses Formular nimmt keine Antworten mehr an, da das Limit erreicht wurde."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 양식은 접수 건수 상한에 도달하여 현재 접수하지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Este formulario no acepta respuestas porque ha alcanzado el límite."
+        },
+        {
+            "Language": "vn",
+            "Body": "Biểu mẫu này không nhận phản hồi vì đã đạt giới hạn."
+        }
+    ]
+}

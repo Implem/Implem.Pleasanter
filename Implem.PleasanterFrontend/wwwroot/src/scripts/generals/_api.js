@@ -161,6 +161,10 @@ $p.apiDeleteSite = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'deletesite'), args);
 };
 
+$p.apiMoveSite = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'movesite'), args);
+};
+
 $p.apiGetClosestSiteId = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'getclosestsiteid'), args);
 };

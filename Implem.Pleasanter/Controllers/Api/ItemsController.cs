@@ -363,5 +363,26 @@ namespace Implem.Pleasanter.Controllers.Api
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(request: Request);
         }
+
+        [HttpPost("{id}/MoveSite")]
+        public ContentResult MoveSite(long id)
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType,
+                api: true);
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? SiteUtilities.MoveByApi(
+                    context: context,
+                    siteId: id)
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
+            return result.ToHttpResponse(request: Request);
+        }
     }
 }

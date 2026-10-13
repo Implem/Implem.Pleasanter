@@ -63,8 +63,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         case "edit":
                             return Strings.CoalesceEmpty(
                                 referer?.EndsWith("/new") == false
-                                    ? referer
-                                    : null,
+                                    && IsSelfReferer(context: context, referer: referer) == false
+                                        ? referer
+                                        : null,
                                 Locations.Get(
                                     context: context,
                                     parts: context.Controller));
@@ -184,6 +185,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             }
                     }
             }
+        }
+
+        private static bool IsSelfReferer(
+            Context context,
+            string referer)
+        {
+            return System.Uri.TryCreate(
+                referer,
+                System.UriKind.Absolute,
+                out var uri)
+                && string.Equals(
+                    System.Uri.UnescapeDataString(uri.AbsolutePath),
+                    context.AbsolutePath,
+                    System.StringComparison.OrdinalIgnoreCase);
         }
 
         private static string AdminsOrTop(Context context)

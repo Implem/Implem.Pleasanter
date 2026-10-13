@@ -2383,6 +2383,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "UiBackgroundColor":
                             sql.Users_UiBackgroundColor(tableName: path, _as: _as);
                             break;
+                        case "ApiAllowIpAddressRange":
+                            sql.Users_ApiAllowIpAddressRange(tableName: path, _as: _as);
+                            break;
                         case "Comments":
                             sql.Users_Comments(tableName: path, _as: _as);
                             break;

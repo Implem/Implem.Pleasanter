@@ -31,6 +31,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
+using ModelContextProtocol;
 using NLog;
 using NLog.Web;
 using System;
@@ -49,6 +50,7 @@ using Implem.Pleasanter.Libraries.Security.Captcha;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.RateLimit;
 using Implem.Pleasanter.MCP.Infrastructure;
+using Implem.Pleasanter.MCP.Utilities;
 using Implem.Pleasanter.Middlewares;
 
 namespace Implem.Pleasanter.NetCore
@@ -369,9 +371,11 @@ namespace Implem.Pleasanter.NetCore
         {
             if (Parameters.McpServer?.Enabled == true)
             {
+                var options = new JsonSerializerOptions(McpJsonUtilities.DefaultOptions);
+                options.Converters.Add(new ColumnFilterHashJsonConverter());
                 services.AddMcpServer()
                     .WithHttpTransport()
-                    .WithToolsFromAssembly()
+                    .WithToolsFromAssembly(serializerOptions: options)
                     .WithPromptsFromAssembly()
                     .WithResourcesFromAssembly()
                     .WithRequestFilters(requestFilters =>
@@ -381,6 +385,7 @@ namespace Implem.Pleasanter.NetCore
                             var result = await next(context, cancellationToken);
                             if (result?.Tools != null)
                             {
+                                ColumnFilterHashInputSchemaUtilities.Correct(result.Tools);
                                 result.Tools = result.Tools
                                     .OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
                                     .ToList();

@@ -1,6 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
-using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -29,16 +28,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                 case "Weekly":
                     DateTime begin;
                     string calendarType = view.GetCalendarType(ss: ss);
-                    if ((int)first.DayOfWeek < Parameters.General.FirstDayOfWeek)
-                    {
-                        begin = first.AddDays(
-                            ((int)first.DayOfWeek - Parameters.General.FirstDayOfWeek + 7) * -1);
-                    }
-                    else
-                    {
-                        begin = first.AddDays(
-                            ((int)first.DayOfWeek - Parameters.General.FirstDayOfWeek) * -1);
-                    }
+                    begin = first.WeekFrom(firstDayOfWeek: FirstDayOfWeeks.Resolve(
+                        context: context,
+                        ss: ss));
                     if (timePeriod == "Weekly")
                     {
                         begin = begin.AddDays(((date - begin).Days / 7) *7);

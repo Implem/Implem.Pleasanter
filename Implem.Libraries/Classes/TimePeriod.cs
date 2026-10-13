@@ -9,6 +9,7 @@ namespace Implem.Libraries.Classes
         public DateTime ReferenceDate;
         public DateTime From;
         public DateTime To;
+        private int FirstDayOfWeek;
 
         public enum Types
         {
@@ -20,10 +21,11 @@ namespace Implem.Libraries.Classes
             Fy
         }
 
-        public TimePeriod(Types type, DateTime referenceTime, int diff)
+        public TimePeriod(Types type, DateTime referenceTime, int diff, int? firstDayOfWeek = null)
         {
             Type = type;
             ReferenceDate = referenceTime.Date;
+            FirstDayOfWeek = firstDayOfWeek ?? DateTimes.FirstDayOfWeek;
             switch (Type)
             {
                 case Types.Day: Day(); break;
@@ -51,7 +53,7 @@ namespace Implem.Libraries.Classes
 
         private void Week()
         {
-            From = ReferenceDate.WeekFrom();
+            From = ReferenceDate.WeekFrom(firstDayOfWeek: FirstDayOfWeek);
             To = From.AddDays(7).AddMilliseconds(Parameters.Rds.MinimumTime * -1);
         }
 

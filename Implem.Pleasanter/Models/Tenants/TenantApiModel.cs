@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Models
         public string Language { get; set; }
         public string TimeZone { get; set; }
         public string TenantSettings { get; set; }
+        public int? FirstDayOfWeek { get; set; }
         public string UiType { get; set; }
         public string UiColorScheme { get; set; }
         public string UiMainColor { get; set; }
@@ -35,6 +36,8 @@ namespace Implem.Pleasanter.Models
         public string UiBackgroundColor { get; set; }
         public DateTime? RestartScheduledTime { get; set; }
         public DateTime? DeleteRequestTime { get; set; }
+        public int? FormCount { get; set; }
+        public DateTime? FormCountDate { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }
@@ -71,6 +74,7 @@ namespace Implem.Pleasanter.Models
                 case "Language": return Language;
                 case "TimeZone": return TimeZone;
                 case "TenantSettings": return TenantSettings;
+                case "FirstDayOfWeek": return FirstDayOfWeek;
                 case "UiType": return UiType;
                 case "UiColorScheme": return UiColorScheme;
                 case "UiMainColor": return UiMainColor;
@@ -78,6 +82,8 @@ namespace Implem.Pleasanter.Models
                 case "UiBackgroundColor": return UiBackgroundColor;
                 case "RestartScheduledTime": return RestartScheduledTime;
                 case "DeleteRequestTime": return DeleteRequestTime;
+                case "FormCount": return FormCount;
+                case "FormCountDate": return FormCountDate;
                 case "Comments": return Comments;
                 case "Creator": return Creator;
                 case "Updator": return Updator;

@@ -23,7 +23,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         id: ss.SiteId)),
                 action: () =>
                 {
-                    hb.FieldDropDown(
+                    hb
+                    .BackgroundJobNotice(
+                        context: context,
+                        ss: ss)
+                    .FieldDropDown(
                        context: context,
                        controlId: "BulkUpdateColumnName",
                        controlCss: " always-send",

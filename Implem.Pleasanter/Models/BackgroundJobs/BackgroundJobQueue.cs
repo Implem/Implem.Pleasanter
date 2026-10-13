@@ -14,6 +14,7 @@ using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +34,7 @@ namespace Implem.Pleasanter.Models
         {
             { BackgroundJobTypes.Export, "Export" },
             { BackgroundJobTypes.Import, "Import" },
+            { BackgroundJobTypes.BulkDelete, "BulkDelete" },
             { BackgroundJobTypes.AiConnectSync, "BackgroundJobTypeAiConnect" },
             { BackgroundJobTypes.AiConnectResync, "BackgroundJobTypeAiConnectResync" },
             { BackgroundJobTypes.AiConnectIndexCheck, "BackgroundJobTypeAiConnect" },
@@ -58,7 +60,15 @@ namespace Implem.Pleasanter.Models
                 }
             },
             {
-                "AiConnect",
+                BackgroundJobTypes.BulkDelete,
+                new JobTypeFilterGroup
+                {
+                    DisplayId = "BulkDelete",
+                    JobTypes = new[] { BackgroundJobTypes.BulkDelete }
+                }
+            },
+            {
+                BackgroundJobTypes.AiConnect,
                 new JobTypeFilterGroup
                 {
                     DisplayId = "BackgroundJobTypeAiConnect",
@@ -83,6 +93,14 @@ namespace Implem.Pleasanter.Models
             new HashSet<string>
         {
             BackgroundJobTypes.Import
+        };
+        private static readonly HashSet<string> NoticeExcludedJobTypes =
+            new HashSet<string>
+        {
+            BackgroundJobTypes.AiConnectSync,
+            BackgroundJobTypes.AiConnectResync,
+            BackgroundJobTypes.AiConnectIndexCheck,
+            BackgroundJobTypes.AiConnectDelete
         };
         private static readonly Dictionary<string, QueueFilePathDefinition> QueueFilePathDefinitions =
             new Dictionary<string, QueueFilePathDefinition>
@@ -553,10 +571,26 @@ namespace Implem.Pleasanter.Models
                 && Parameters.AllowQueue();
         }
 
-        public static bool ShouldQueueExport(Context context, SiteSettings ss)
+        internal static bool IsQueueDisabled(string jobType)
+        {
+            return Parameters.BackgroundJobs?.DisabledJobTypes?.Contains(jobType) == true;
+        }
+
+        private static bool ShouldQueue(
+            string jobType,
+            bool canQueueReferenceType)
         {
             return BackgroundQueueEnabled()
-                && CanQueueExportReferenceType(referenceType: ss?.ReferenceType);
+                && IsQueueDisabled(jobType: jobType) == false
+                && canQueueReferenceType;
+        }
+
+        public static bool ShouldQueueExport(Context context, SiteSettings ss)
+        {
+            return ShouldQueue(
+                jobType: BackgroundJobTypes.Export,
+                canQueueReferenceType: CanQueueExportReferenceType(
+                    referenceType: ss?.ReferenceType));
         }
 
         private static bool CanQueueExportReferenceType(string referenceType)
@@ -596,8 +630,10 @@ namespace Implem.Pleasanter.Models
 
         public static bool ShouldQueueImport(Context context, SiteSettings ss)
         {
-            return BackgroundQueueEnabled()
-                && CanQueueImportReferenceType(referenceType: ss?.ReferenceType);
+            return ShouldQueue(
+                jobType: BackgroundJobTypes.Import,
+                canQueueReferenceType: CanQueueImportReferenceType(
+                    referenceType: ss?.ReferenceType));
         }
 
         private static bool CanQueueImportReferenceType(string referenceType)
@@ -660,6 +696,123 @@ namespace Implem.Pleasanter.Models
                 directory: Directories.BackgroundJobImport(),
                 extension: ".csv",
                 fileBytes: fileBytes);
+        }
+
+        public static bool ShouldQueueBulkDelete(
+            Context context,
+            SiteSettings ss)
+        {
+            if (ShouldQueue(
+                jobType: BackgroundJobTypes.BulkDelete,
+                canQueueReferenceType: CanQueueBulkDeleteReferenceType(
+                    referenceType: ss?.ReferenceType)) == false)
+            {
+                return false;
+            }
+            var threshold = Parameters.BackgroundJobs?.BulkQueueThreshold ?? 0;
+            if (threshold == 0)
+            {
+                return true;
+            }
+            if (context.CanDelete(ss: ss) == false)
+            {
+                return false;
+            }
+            return BulkDeleteTargetCount(
+                context: context,
+                ss: ss) >= threshold;
+        }
+
+        private static bool CanQueueBulkDeleteReferenceType(string referenceType)
+        {
+            return referenceType == "Issues"
+                || referenceType == "Results";
+        }
+
+        public static int BulkDeleteTargetCount(
+            Context context,
+            SiteSettings ss)
+        {
+            switch (ss?.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.BulkDeleteTargetCount(
+                        context: context,
+                        ss: ss);
+                case "Results":
+                    return ResultUtilities.BulkDeleteTargetCount(
+                        context: context,
+                        ss: ss);
+                default:
+                    return 0;
+            }
+        }
+
+        public static ErrorData ValidateBeforeEnqueueBulkDelete(
+            Context context,
+            SiteSettings ss)
+        {
+            switch (ss?.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.ValidateBeforeEnqueueBulkDelete(
+                        context: context,
+                        ss: ss);
+                case "Results":
+                    return ResultUtilities.ValidateBeforeEnqueueBulkDelete(
+                        context: context,
+                        ss: ss);
+                default:
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+        }
+
+        public static long EnqueueBulkDelete(
+            Context context,
+            long siteId)
+        {
+            var jobParameters = BulkDeleteJobParameters.FromContext(context: context);
+            return Enqueue(
+                context: context,
+                siteId: siteId,
+                jobType: BackgroundJobTypes.BulkDelete,
+                jobParameters: jobParameters.ToJson());
+        }
+
+        public static string EnqueuedJson(
+            Context context,
+            long backgroundJobId,
+            bool closeDialog = false)
+        {
+            return new ResponseCollection(
+                context: context,
+                id: backgroundJobId)
+                    .CloseDialog(_using: closeDialog)
+                    .Html(
+                        target: "#Message",
+                        value: EnqueuedMessageHtml(
+                            context: context,
+                            backgroundJobId: backgroundJobId))
+                    .ToJson();
+        }
+
+        public static string EnqueuedMessageHtml(
+            Context context,
+            long backgroundJobId)
+        {
+            var backgroundJobsUrl = Locations.Get(
+                context: context,
+                parts: new string[] { "BackgroundJobs" });
+            var messageText = Displays.EnqueuedToBackgroundJob(
+                context: context,
+                data: new string[]
+                {
+                    Displays.BackgroundJobs(context: context),
+                    $"<a href=\"{backgroundJobsUrl}\">{backgroundJobId}</a>"
+                });
+            return $"<div><span class=\"body alert-success\">{messageText}"
+                + "<span class=\"ui-icon ui-icon-close close\"></span>"
+                + "</span></div>";
         }
 
         public static string GetJobTypeLabel(
@@ -741,6 +894,11 @@ namespace Implem.Pleasanter.Models
         {
             return jobType.IsNullOrEmpty() == false
                 && InputFileJobTypes.Contains(jobType);
+        }
+
+        internal static IEnumerable<string> NoticeExcludedJobTypeValues()
+        {
+            return NoticeExcludedJobTypes;
         }
 
         public static Context CreateSysLogContext(
@@ -1057,6 +1215,19 @@ namespace Implem.Pleasanter.Models
                 ? Parameters.BackgroundJobs?.FallbackLanguage
                     ?? Parameters.Service.DefaultLanguage
                 : language;
+        }
+
+        internal static TimeZoneInfo ResolveTimeZoneInfo(
+            string timeZoneId,
+            TimeZoneInfo fallback)
+        {
+            if (timeZoneId.IsNullOrEmpty())
+            {
+                return fallback;
+            }
+            return TimeZoneInfo.GetSystemTimeZones()
+                .FirstOrDefault(o => o.Id == timeZoneId)
+                ?? fallback;
         }
 
         [GeneratedRegex(
@@ -2104,6 +2275,64 @@ namespace Implem.Pleasanter.Models
                     }
                     return (null, null);
             }
+        }
+
+        public static List<string> ReservedJobTypeLabels(
+            Context context,
+            SiteSettings ss)
+        {
+            if (context == null
+                || ss == null
+                || ss.SiteId <= 0
+                || BackgroundQueueEnabled() == false)
+            {
+                return new List<string>();
+            }
+            if (context.ReservedJobTypeLabelHash.TryGetValue(ss.SiteId, out var cached))
+            {
+                return cached;
+            }
+            var dataTable = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBackgroundJobs(
+                    dataTableName: "ReservedJobTypes",
+                    column: Rds.BackgroundJobsColumn().JobType(),
+                    where: Rds.BackgroundJobsWhere()
+                        .TenantId(context.TenantId)
+                        .SiteId(ss.SiteId)
+                        .Status_In(value: new[]
+                        {
+                            BackgroundJobStatus.Preparing,
+                            BackgroundJobStatus.Pending,
+                            BackgroundJobStatus.Running,
+                            BackgroundJobStatus.RunningOverdue
+                        }),
+                    groupBy: Rds.BackgroundJobsGroupBy().JobType()));
+            var labels = ToNoticeJobTypeLabels(
+                context: context,
+                jobTypes: dataTable
+                    .AsEnumerable()
+                    .Select(static row => row["JobType"].ToStr()));
+            context.ReservedJobTypeLabelHash[ss.SiteId] = labels;
+            return labels;
+        }
+
+        internal static List<string> ToNoticeJobTypeLabels(
+            Context context,
+            IEnumerable<string> jobTypes)
+        {
+            if (jobTypes == null)
+            {
+                return new List<string>();
+            }
+            return jobTypes
+                .Where(o => !NoticeExcludedJobTypes.Contains(o))
+                .Select(o => GetJobTypeLabel(
+                    context: context,
+                    jobType: o))
+                .Where(o => !o.IsNullOrEmpty())
+                .Distinct()
+                .ToList();
         }
 
         private sealed class JobTypeFilterGroup

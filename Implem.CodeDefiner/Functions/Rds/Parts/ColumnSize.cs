@@ -16,7 +16,8 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 case "char":
                 case "varchar":
                     return Char(
-                        columnDefinition, rdsColumn, coefficient: 1);
+                        columnDefinition, rdsColumn,
+                        coefficient: factory.SqlDefinitionSetting.CharacterStoredSizeCoefficient);
                 case "nchar":
                 case "nvarchar":
                     return Char(

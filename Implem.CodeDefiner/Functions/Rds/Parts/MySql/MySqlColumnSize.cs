@@ -52,6 +52,17 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
             }
             switch (columnDefinition.TypeName)
             {
+                case "char":
+                    return ColumnSize.Char(
+                        columnDefinition: columnDefinition,
+                        rdsColumn: rdsColumn,
+                        coefficient: factory.SqlDefinitionSetting.CharacterStoredSizeCoefficient);
+                case "varchar":
+                    return rdsColumn["TypeName"].ToString() != "varchar"
+                        || ColumnSize.Char(
+                            columnDefinition: columnDefinition,
+                            rdsColumn: rdsColumn,
+                            coefficient: factory.SqlDefinitionSetting.CharacterStoredSizeCoefficient);
                 case "nchar":
                     return ColumnSize.Char(
                         columnDefinition: columnDefinition,

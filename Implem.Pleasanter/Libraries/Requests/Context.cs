@@ -22,6 +22,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.MCP.Infrastructure;
 using Implem.Pleasanter.Models;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
@@ -62,8 +63,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             get
             {
-                return AbsolutePath != null &&
-                       AbsolutePath.StartsWith(Implem.Pleasanter.MCP.Infrastructure.McpConstants.BasePath, StringComparison.OrdinalIgnoreCase);
+                return RequestPath.StartsWithSegments(McpConstants.BasePath);
             }
         }
 
@@ -82,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string ApplicationPath { get; set; }
         public string AbsoluteUri { get; set; }
         public string AbsolutePath { get; set; }
+        public PathString RequestPath { get; set; }
         public string Url { get; set; }
         public string UrlReferrer { get; set; }
         public string Query { get; set; }
@@ -95,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public long Id { get; set; }
         public Dictionary<long, Permissions.Types> PermissionHash { get; set; }
         public Dictionary<string, ContextPermission> ContextPermissions { get; set; } = [];
+        public Dictionary<long, List<string>> ReservedJobTypeLabelHash { get; set; } = [];
         public List<int> Groups { get; set; }
         public string Guid { get; set; }
         public TenantModel.LogoTypes LogoType { get; set; }
@@ -111,6 +113,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string TopStyle { get; set; }
         public string TopScript { get; set; }
         public string TenantTheme { get; set; }
+        public int TenantFirstDayOfWeek { get; set; } = FirstDayOfWeeks.Inherit;
         public int DeptId { get; set; }
         public int UserId { get; set; }
         public string LoginId { get; set; }
@@ -130,6 +133,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public decimal ApiVersion { get; set; } = Parameters.Api.Version;
         public string ApiRequestBody { get; set; }
         public string ApiKey { get; set; }
+        public string ApiAllowIpAddressRange { get; set; }
         public bool ApiSsCache { get; set; }
         public string RequestDataString { get => !string.IsNullOrEmpty(ApiRequestBody) ? ApiRequestBody : FormString; }
         public string ContentType { get; set; }
@@ -283,6 +287,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 ApplicationPath = CreateApplicationPath();
                 AbsoluteUri = CreateAbsoluteUri();
                 AbsolutePath = CreateAbsolutePath();
+                RequestPath = request.Path;
                 Url = CreateUrl(AspNetCoreHttpContext.Current.Request);
                 UrlReferrer = CreateUrlReferrer(AspNetCoreHttpContext.Current.Request);
                 Query = AspNetCoreHttpContext.Current.Request.QueryString.ToString();
@@ -315,6 +320,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 ApplicationPath = context.ApplicationPath;
                 AbsoluteUri = context.AbsoluteUri;
                 AbsolutePath = context.AbsolutePath;
+                RequestPath = context.RequestPath;
                 Url = context.Url;
                 UrlReferrer = context.UrlReferrer;
                 Query = context.Query;
@@ -365,6 +371,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (string.IsNullOrWhiteSpace(sessionGuid)) return;
             var httpContext = AspNetCoreHttpContext.Current;
             if (httpContext?.Response == null) return;
+            if (httpContext.Response.HasStarted) return;
             var protectedSessionGuid = ProtectSessionGuid(sessionGuid);
             if (string.IsNullOrWhiteSpace(protectedSessionGuid)) return;
             httpContext.Response.Cookies.Append(
@@ -376,7 +383,11 @@ namespace Implem.Pleasanter.Libraries.Requests
         public static void DeleteSessionGuidCookie()
         {
             var httpContext = AspNetCoreHttpContext.Current;
-            httpContext?.Response?.Cookies.Delete(SessionGuidCookieName, CreateSessionGuidCookieOptions(httpContext));
+            if (httpContext?.Response == null) return;
+            if (httpContext.Response.HasStarted) return;
+            httpContext.Response.Cookies.Delete(
+                SessionGuidCookieName,
+                CreateSessionGuidCookieOptions(httpContext));
         }
 
         private static CookieOptions CreateSessionGuidCookieOptions(HttpContext httpContext)
@@ -492,7 +503,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     SetUser(userModel: GetUser(where: Rds.UsersWhere()
                         .ApiKey(ApiKey)));
                 }
-                else if (!LoginId.IsNullOrEmpty())
+                else if (LoginId.IsNullOrEmpty() == false && IsMcp == false)
                 {
                     var loginId = Strings.CoalesceEmpty(
                         Permissions.PrivilegedUsers(
@@ -572,6 +583,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Developer = userModel.Developer;
                 TimeZoneInfo = userModel.TimeZoneInfo;
                 UserSettings = userModel.UserSettings;
+                ApiAllowIpAddressRange = userModel.ApiAllowIpAddressRange;
                 HasPrivilege = Permissions.PrivilegedUsers(userModel.LoginId);
                 if (!Parameters.MultiTenant.IsProtectedTenant(TenantId) && !Parameters.AllowMultiTenants())
                 {
@@ -601,7 +613,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .HtmlTitleRecord()
                             .TopStyle()
                             .TopScript()
-                            .Theme(),
+                            .Theme()
+                            .FirstDayOfWeek(),
                         where: Rds.TenantsWhere().TenantId(TenantId)))
                             .AsEnumerable()
                             .FirstOrDefault();
@@ -622,6 +635,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     TopStyle = dataRow.String("TopStyle");
                     TopScript = dataRow.String("TopScript");
                     TenantTheme = dataRow.String("Theme");
+                    TenantFirstDayOfWeek = dataRow.Int("FirstDayOfWeek");
                 }
             }
         }

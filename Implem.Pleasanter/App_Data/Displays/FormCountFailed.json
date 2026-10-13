@@ -1,0 +1,37 @@
+{
+    "Id": "FormCountFailed",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Failed to increment the monthly form registration count. (TenantId: {0})"
+        },
+        {
+            "Language": "zh",
+            "Body": "未能增加表单的月度登记件数。(TenantId: {0})"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "未能增加表單的月度登記件數。(TenantId: {0})"
+        },
+        {
+            "Language": "ja",
+            "Body": "フォームの月間登録件数を加算できませんでした。(TenantId: {0})"
+        },
+        {
+            "Language": "de",
+            "Body": "Die monatliche Anzahl der Formularregistrierungen konnte nicht erhöht werden. (TenantId: {0})"
+        },
+        {
+            "Language": "ko",
+            "Body": "폼의 월간 등록 건수를 증가시키지 못했습니다. (TenantId: {0})"
+        },
+        {
+            "Language": "es",
+            "Body": "No se pudo incrementar el número mensual de registros del formulario. (TenantId: {0})"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể tăng số lượng đăng ký biểu mẫu trong tháng. (TenantId: {0})"
+        }
+    ]
+}

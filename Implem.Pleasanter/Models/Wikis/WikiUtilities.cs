@@ -705,6 +705,12 @@ namespace Implem.Pleasanter.Models
                                     _using: wikiModel.MethodType != BaseModel.MethodTypes.New)
                                 .FieldSet(
                                     attributes: new HtmlAttributes()
+                                        .Id("FieldSetHistoryDiff")
+                                        .DataAction("HistoryDiff")
+                                        .DataMethod("post"),
+                                    _using: wikiModel.MethodType != BaseModel.MethodTypes.New)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
                                         .Id("FieldSetRecordAccessControl")
                                         .DataAction("Permissions")
                                         .DataMethod("post"),
@@ -724,6 +730,10 @@ namespace Implem.Pleasanter.Models
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
                             controlId: "Ver",
+                            value: wikiModel.Ver.ToString())
+                        .Hidden(
+                            controlId: "HistoryDiffBaseVer",
+                            css: "control-hidden always-send",
                             value: wikiModel.Ver.ToString())
                         .Hidden(
                             controlId: "MethodType",
@@ -796,6 +806,14 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#FieldSetHistories",
                                 text: Displays.ChangeHistoryList(context: context)))
+                    .Li(
+                        _using: wikiModel.MethodType != BaseModel.MethodTypes.New
+                            && !context.Publish
+                            && !editInDialog,
+                        action: () => hb
+                            .A(
+                                href: "#FieldSetHistoryDiff",
+                                text: Displays.HistoryDiff(context: context)))
                     .Li(
                         _using: context.CanManagePermission(ss: ss)
                             && !ss.Locked()
@@ -918,7 +936,9 @@ namespace Implem.Pleasanter.Models
                     idSuffix: idSuffix,
                     isResponse: isResponse,
                     preview: preview,
-                    disableSection: disableSection);
+                    disableSection: disableSection,
+                    ignoreHide: bulkUpdate,
+                    savedRecord: wikiModel.WikiId > 0);
             }
             return hb;
         }
@@ -2924,6 +2944,74 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty)
                     }))
                 .ToJson();
+        }
+
+        public static string HistoryDiff(Context context, SiteSettings ss, long wikiId)
+        {
+            if (!context.CanRead(ss: ss))
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
+            return HistoryDiffUtilities.HistoryDiff(
+                context: context,
+                ss: ss,
+                versions: new WikiCollection(
+                    context: context,
+                    ss: ss,
+                    column: Rds.WikisColumn()
+                        .WikiId()
+                        .Ver()
+                        .Updator()
+                        .UpdatedTime(),
+                    where: HistoryDiffWhere(
+                        context: context,
+                        wikiId: wikiId),
+                    orderBy: Rds.WikisOrderBy().Ver(SqlOrderBy.Types.desc),
+                    tableType: Sqls.TableTypes.NormalAndHistory)
+                        .ToList(),
+                getModel: ver => HistoryDiffWikiModel(
+                    context: context,
+                    ss: ss,
+                    wikiId: wikiId,
+                    ver: ver),
+                toDisplay: (wikiModel, column, mine) => wikiModel.ToDisplay(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    mine: mine));
+        }
+
+
+        private static SqlWhereCollection HistoryDiffWhere(
+            Context context,
+            long wikiId,
+            int? ver = null)
+        {
+            return Rds.WikisWhere()
+                .WikiId(wikiId)
+                .Ver(value: ver, _using: ver.HasValue);
+        }
+
+        private static WikiModel HistoryDiffWikiModel(
+            Context context,
+            SiteSettings ss,
+            long wikiId,
+            int ver)
+        {
+            var wikiModel = new WikiModel(
+                context: context,
+                ss: ss,
+                wikiId: wikiId);
+            wikiModel.Get(
+                context: context,
+                ss: ss,
+                where: HistoryDiffWhere(
+                    context: context,
+                    wikiId: wikiId,
+                    ver: ver),
+                tableType: Sqls.TableTypes.NormalAndHistory);
+            wikiModel.SetChoiceHash(context: context, ss: ss);
+            return wikiModel;
         }
 
         public static string DeleteHistory(Context context, SiteSettings ss, long wikiId)

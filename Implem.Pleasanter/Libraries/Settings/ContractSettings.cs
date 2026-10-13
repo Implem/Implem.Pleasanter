@@ -39,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? AllowOriginalLogin;
         public bool? AllowNewFeatures;
         public int? ApiLimitPerSite;
+        public int? FormLimitPerMonth;
         public Dictionary<string, QuotaDetails?> Quotas;
 
         public ContractSettings()
@@ -141,6 +142,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             return (ApiLimitPerSite != null)
                 ? (int)ApiLimitPerSite
                 : Parameters.Api.LimitPerSite;
+        }
+
+        public int FormLimit()
+        {
+            return (FormLimitPerMonth != null)
+                ? (int)FormLimitPerMonth
+                : Parameters.Form.LimitPerMonth;
         }
     }
     public class QuotaDetails

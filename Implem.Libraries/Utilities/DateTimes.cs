@@ -54,10 +54,16 @@ namespace Implem.Libraries.Utilities
 
         public static DateTime WeekFrom(this DateTime self)
         {
-            var diff = self.DayOfWeek.ToInt() - FirstDayOfWeek;
-            return self.AddDays(diff >= 0
-                ? diff * -1
-                : 7 - diff);
+            return self.WeekFrom(firstDayOfWeek: FirstDayOfWeek);
+        }
+
+        public static DateTime WeekFrom(this DateTime self, int firstDayOfWeek)
+        {
+            var first = ((firstDayOfWeek % 7) + 7) % 7;
+            var diff = (self.DayOfWeek.ToInt() - first + 7) % 7;
+            return self >= DateTime.MinValue.AddDays(diff)
+                ? self.AddDays(diff * -1)
+                : self;
         }
 
         public static DateTime MonthFrom(this DateTime self)

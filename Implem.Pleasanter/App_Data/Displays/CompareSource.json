@@ -1,0 +1,34 @@
+﻿{
+    "Id": "CompareSource",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Compare source text"
+        },
+        {
+            "Language": "zh",
+            "Body": "比较渲染前的原文"
+        },
+        {
+            "Language": "ja",
+            "Body": "レンダリング前で比較"
+        },
+        {
+            "Language": "de",
+            "Body": "Quelltext vergleichen"
+        },
+        {
+            "Language": "ko",
+            "Body": "렌더링 전으로 비교"
+        },
+        {
+            "Language": "es",
+            "Body": "Comparar el texto de origen"
+        },
+        {
+            "Language": "vn",
+            "Body": "So sánh văn bản gốc"
+        }
+    ]
+}

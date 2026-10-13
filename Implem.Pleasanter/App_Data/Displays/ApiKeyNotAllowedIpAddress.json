@@ -1,0 +1,37 @@
+{
+    "Id": "ApiKeyNotAllowedIpAddress",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The use of the API key from this IP address is not allowed."
+        },
+        {
+            "Language": "zh",
+            "Body": "不允许从此IP地址使用该API密钥。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "不允許從此IP位址使用該API金鑰。"
+        },
+        {
+            "Language": "ja",
+            "Body": "このIPアドレスからのAPIキーの利用は許可されていません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Verwendung des API-Schlüssels von dieser IP-Adresse ist nicht zulässig."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 IP 주소에서 API 키의 사용은 허용되지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se permite el uso de la clave API desde esta dirección IP."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không được phép sử dụng khóa API từ địa chỉ IP này."
+        }
+    ]
+}

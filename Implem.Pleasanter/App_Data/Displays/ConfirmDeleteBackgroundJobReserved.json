@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ConfirmDeleteBackgroundJobReserved",
+    "Type": 310,
+    "Languages": [
+        {
+            "Body": "{0} have been reserved. Are you sure you want to delete?"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}已预约。是否确定删除？"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}が予約されています。本当に削除してもよろしいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} wurden reserviert. Tatsächlich löschen?"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}이(가) 예약되어 있습니다. 삭제하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "{0} han sido reservados. ¿Está seguro de que quiere eliminar?"
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} đã được đặt trước. Bạn có chắc muốn xóa không?"
+        }
+    ]
+}

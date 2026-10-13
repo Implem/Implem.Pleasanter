@@ -1,0 +1,4 @@
+﻿.Hidden(
+    controlId: "HistoryDiffBaseVer",
+    css: "control-hidden always-send",
+    value: #modelName#Model.Ver.ToString())

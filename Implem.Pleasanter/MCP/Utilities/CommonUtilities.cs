@@ -45,7 +45,9 @@ namespace Implem.Pleasanter.MCP.Utilities
             if (invalidApiRequestJson ||
                 invalidViewJson)
             {
-                return new Context
+                return new Context(
+                    sessionStatus: false,
+                    sessionData: false)
                 {
                     InvalidJsonData = true,
                     Controller = McpExecutionScope.CurrentMcpClass,
@@ -58,8 +60,8 @@ namespace Implem.Pleasanter.MCP.Utilities
                 viewJson: viewJson);
 
             var context = new Context(
-                sessionStatus: true,
-                sessionData: true,
+                sessionStatus: false,
+                sessionData: false,
                 apiRequestBody: apiRequestBody,
                 contentType: ContentTypeJson,
                 api: true);

@@ -1,0 +1,37 @@
+{
+    "Id": "InvalidApiAllowIpAddressRange",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The IP address range is not in a valid format. ({0})"
+        },
+        {
+            "Language": "zh",
+            "Body": "IP地址范围的格式不正确。({0})"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "IP位址範圍的格式不正確。({0})"
+        },
+        {
+            "Language": "ja",
+            "Body": "IPアドレス範囲の書式が正しくありません。({0})"
+        },
+        {
+            "Language": "de",
+            "Body": "Der IP-Adressbereich hat kein gültiges Format. ({0})"
+        },
+        {
+            "Language": "ko",
+            "Body": "IP 주소 범위의 형식이 올바르지 않습니다. ({0})"
+        },
+        {
+            "Language": "es",
+            "Body": "El rango de direcciones IP no tiene un formato válido. ({0})"
+        },
+        {
+            "Language": "vn",
+            "Body": "Dải địa chỉ IP không đúng định dạng. ({0})"
+        }
+    ]
+}

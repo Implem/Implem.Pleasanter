@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ShowChangedColumnsOnly",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Show changed items only ({0})"
+        },
+        {
+            "Language": "zh",
+            "Body": "仅显示有差异的项目（{0} 个）"
+        },
+        {
+            "Language": "ja",
+            "Body": "差異ある項目（{0}件）のみ表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Nur geänderte Elemente anzeigen ({0})"
+        },
+        {
+            "Language": "ko",
+            "Body": "변경된 항목만 표시({0}건)"
+        },
+        {
+            "Language": "es",
+            "Body": "Mostrar solo los elementos modificados ({0})"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chỉ hiển thị mục có thay đổi ({0})"
+        }
+    ]
+}

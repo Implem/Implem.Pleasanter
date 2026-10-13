@@ -1,0 +1,37 @@
+﻿{
+    "Id": "FirstDayOfWeek",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "First day of week"
+        },
+        {
+            "Language": "zh",
+            "Body": "一周的第一天"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "一週的第一天"
+        },
+        {
+            "Language": "ja",
+            "Body": "週の開始曜日"
+        },
+        {
+            "Language": "de",
+            "Body": "Erster Tag der Woche"
+        },
+        {
+            "Language": "ko",
+            "Body": "주의 시작 요일"
+        },
+        {
+            "Language": "es",
+            "Body": "Primer día de la semana"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ngày đầu tuần"
+        }
+    ]
+}

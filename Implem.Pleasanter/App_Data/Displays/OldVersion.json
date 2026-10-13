@@ -1,0 +1,33 @@
+﻿{
+    "Id": "OldVersion",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Old version"
+        },
+        {
+            "Language": "zh",
+            "Body": "旧版本"
+        },
+        {
+            "Language": "ja",
+            "Body": "旧バージョン"
+        },
+        {
+            "Language": "de",
+            "Body": "Alte Version"
+        },
+        {
+            "Language": "ko",
+            "Body": "이전 버전"
+        },
+        {
+            "Language": "es",
+            "Body": "Versión anterior"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phiên bản cũ"
+        }
+    ]
+}

@@ -330,15 +330,15 @@ namespace Implem.Pleasanter.Models
             SiteSettings source,
             SiteSettings destination)
         {
-            if (currentId != 0 && !context.CanManageSite(ss: current))
+            if (currentId != 0 && !context.CanManageSite(ss: current, site: true))
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }
-            if (!context.CanManageSite(ss: source))
+            if (!context.CanManageSite(ss: source, site: true))
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }
-            if (destinationId != 0 && !context.CanManageSite(ss: destination))
+            if (destinationId != 0 && !context.CanManageSite(ss: destination, site: true))
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }

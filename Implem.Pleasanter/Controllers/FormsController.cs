@@ -53,12 +53,22 @@ namespace Implem.Pleasanter.Controllers
             var id = context.Id; // context.IsFormの場合には new Context()中で SiteId を取得する
             var log = new SysLogModel(context: context);
             var model = new ItemModel(context: context, referenceId: id);
-            var ss = model.GetSite(context: context).SiteSettings;
+            var siteModel = model.GetSite(context: context);
+            var ss = siteModel.SiteSettings;
             if (!IsFormAvailable(context, ss))
             {
                 var htmlUnavailable = model.FormUnavailable(context: context);
                 ViewBag.HtmlBody = htmlUnavailable;
                 log.Finish(context: context, responseSize: htmlUnavailable.Length);
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                        : (ActionResult)Redirect(context.RedirectData.Url);
+            }
+            if (!siteModel.WithinFormLimits(context: context))
+            {
+                var htmlOverLimit = model.FormOverLimit(context: context);
+                ViewBag.HtmlBody = htmlOverLimit;
+                log.Finish(context: context, responseSize: htmlOverLimit.Length, message: "Form registration limit reached.");
                 return context.RedirectData.Url.IsNullOrEmpty()
                     ? View()
                         : (ActionResult)Redirect(context.RedirectData.Url);
@@ -133,7 +143,8 @@ namespace Implem.Pleasanter.Controllers
             var id = context.Id; // context.IsFormの場合には new Context()中で SiteId を取得する
             var log = new SysLogModel(context: context);
             var model = new ItemModel(context: context, referenceId: id);
-            var ss = model.GetSite(context: context).SiteSettings;
+            var siteModel = model.GetSite(context: context);
+            var ss = siteModel.SiteSettings;
             if (!IsFormAvailable(context, ss))
             {
                 return InvalidRequestJson(context, log);
@@ -146,6 +157,12 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context, responseSize: errorJson.Length, message: $"CAPTCHA verification failed: {errorCodes}");
                 return errorJson;
             }
+            if (!siteModel.WithinFormLimits(context: context))
+            {
+                var overLimitJson = Error.Types.OverLimitForm.MessageJson(context: context);
+                log.Finish(context: context, responseSize: overLimitJson.Length, message: "Form registration limit reached.");
+                return overLimitJson;
+            }
             var json = model.Create(context: context);
             var urlOfThanks = Locations.FormThanks(
                 context: context,
@@ -157,6 +174,7 @@ namespace Implem.Pleasanter.Controllers
             if (isSuccess)
             {
                 TempData[FormCreateSuccess] = true;
+                siteModel.AddFormCount(context: context);
             }
             log.Finish(context: context, responseSize: json.Length);
             return json;

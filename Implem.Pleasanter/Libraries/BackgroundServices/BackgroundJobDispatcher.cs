@@ -47,6 +47,9 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 jobType: BackgroundJobTypes.Import,
                 handler: new ImportJobHandler());
             RegisterHandler(
+                jobType: BackgroundJobTypes.BulkDelete,
+                handler: new BulkDeleteJobHandler());
+            RegisterHandler(
                 jobType: BackgroundJobTypes.AiConnectSync,
                 handler: new AiConnectSyncJobHandler());
             RegisterHandler(
@@ -119,6 +122,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             IBackgroundJobHandler handler)
         {
             s_handlers[jobType] = handler;
+        }
+
+        internal static IEnumerable<string> RegisteredJobTypes()
+        {
+            return new List<string>(s_handlers.Keys);
         }
 
         public override Task Execute(IJobExecutionContext quartzContext)

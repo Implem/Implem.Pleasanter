@@ -95,3 +95,4 @@ Env.json
 # Copilot / ZAP reports
 /.copilot/va/reports/*report.md
 !/.copilot/va/reports/README.md
+/.copilot/plans

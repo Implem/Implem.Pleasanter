@@ -383,6 +383,17 @@ describe('リスト (実 SunEditor / ブラウザ)', () => {
 
         await vi.waitFor(() => expect(wysiwyg.querySelector('ul')).toBeTruthy());
     });
+
+    // #3637: 項目全体への文字スタイルは suneditor が li 自身の style に書くため、読み込み(html.set)時に除去されないこと
+    it('保存済みの li の文字スタイル (サイズ/色) が読み込み時に除去されない', async () => {
+        const { wysiwyg } = await mountRealEditor({
+            value: '<ol><li style="font-size: 22px; color: rgb(255, 0, 0)">あああ</li></ol>'
+        });
+
+        const li = wysiwyg.querySelector('li') as HTMLElement;
+        expect(li.style.fontSize).toBe('22px');
+        expect(li.style.color).toBe('rgb(255, 0, 0)');
+    });
 });
 
 describe('リンク / 表 (実 SunEditor / ブラウザ)', () => {

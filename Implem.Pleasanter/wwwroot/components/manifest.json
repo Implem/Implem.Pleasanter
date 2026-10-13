@@ -1,15 +1,15 @@
 {
-  "_vendor_Cc6AMriI.js": {
-    "file": "vendor_Cc6AMriI.js",
+  "_vendor_BObAelPe.js": {
+    "file": "vendor_BObAelPe.js",
     "name": "vendor"
   },
   "src/main.ts": {
-    "file": "components_YCy3wABy.js",
+    "file": "components_DkwKS05I.js",
     "name": "main",
     "src": "src/main.ts",
     "isEntry": true,
     "imports": [
-      "_vendor_Cc6AMriI.js"
+      "_vendor_BObAelPe.js"
     ]
   }
 }

@@ -2282,11 +2282,19 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private SqlParamCollection McpLogParam(Context context)
         {
-            return Rds.McpLogsParamDefault(
+            var param = Rds.McpLogsParamDefault(
                 context: context,
                 ss: null,
                 mcpLogModel: this,
                 setDefault: true);
+            if (param.Any(static o => o.Name == "JsonRpcErrorCode") == false)
+            {
+                param.JsonRpcErrorCode(
+                    value: JsonRpcErrorCode,
+                    _using: true
+                );
+            }
+            return param;
         }
 
         /// <summary>

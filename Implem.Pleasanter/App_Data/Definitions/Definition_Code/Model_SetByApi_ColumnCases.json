@@ -8,7 +8,7 @@
     "NotCalc": "1",
     "Form": "1",
     "Select": "1",
-    "Exclude": "SiteSettings,ImageSettings,ExportColumns,ApiKey",
+    "Exclude": "SiteSettings,ImageSettings,ExportColumns,ApiKey,ApiAllowIpAddressRange",
     "ExcludeTypeName": "image",
     "ExcludeTypeCs": "Attachments"
 }

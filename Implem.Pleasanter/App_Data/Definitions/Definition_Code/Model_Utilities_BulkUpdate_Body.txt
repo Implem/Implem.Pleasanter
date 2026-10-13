@@ -92,6 +92,16 @@ public static string BulkUpdate(Context context, SiteSettings ss)
     var columns = ss.GetBulkUpdateColumns(
         context: context,
         target: target);
+    ss.SetBulkUpdateColumnDetail(
+        columns: columns,
+        target: target);
+    columns = columns
+        .Where(column => column.EditorReadOnly != true)
+        .ToList();
+    if (!columns.Any())
+    {
+        return Error.Types.InvalidRequest.MessageJson(context: context);
+    }
     if (!columns.All(column => column.CanUpdate(
         context: context,
         ss: ss,
@@ -208,6 +218,12 @@ private static int BulkUpdate(
             statements: onBulkUpdatingExtendedStatements.ToArray());
     }
     var count = 0;
+    var bulkUpdateFormKeys = columns
+        .Select(column => $"{ss.ReferenceType}_{column.ColumnName}")
+        .ToHashSet();
+    var formData = context.Forms
+        .Where(o => bulkUpdateFormKeys.Contains(o.Key))
+        .ToDictionary(o => o.Key, o => o.Value);
     new #ModelName#Collection(
         context: context,
         ss: ss,
@@ -223,7 +239,7 @@ private static int BulkUpdate(
             #modelName#Model.SetByForm(
                 context: context,
                 ss: ss,
-                formData: context.Forms);
+                formData: formData);
             #modelName#Model.SetBySettings(
                 context: context,
                 ss: ss);

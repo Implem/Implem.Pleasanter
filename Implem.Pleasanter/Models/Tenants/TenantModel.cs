@@ -47,6 +47,7 @@ namespace Implem.Pleasanter.Models
         public string Language = string.Empty;
         public string TimeZone = string.Empty;
         public TenantSettings TenantSettings = new TenantSettings();
+        public int FirstDayOfWeek = -2;
         public string UiType = string.Empty;
         public string UiColorScheme = string.Empty;
         public string UiMainColor = string.Empty;
@@ -54,6 +55,8 @@ namespace Implem.Pleasanter.Models
         public string UiBackgroundColor = string.Empty;
         public DateTime RestartScheduledTime = 0.ToDateTime();
         public DateTime DeleteRequestTime = 0.ToDateTime();
+        public int FormCount = 0;
+        public DateTime FormCountDate = 0.ToDateTime();
         public int SavedTenantId = 0;
         public string SavedTenantName = string.Empty;
         public string SavedTitle = string.Empty;
@@ -75,6 +78,7 @@ namespace Implem.Pleasanter.Models
         public string SavedLanguage = string.Empty;
         public string SavedTimeZone = string.Empty;
         public string SavedTenantSettings = string.Empty;
+        public int SavedFirstDayOfWeek = -2;
         public string SavedUiType = string.Empty;
         public string SavedUiColorScheme = string.Empty;
         public string SavedUiMainColor = string.Empty;
@@ -82,6 +86,8 @@ namespace Implem.Pleasanter.Models
         public string SavedUiBackgroundColor = string.Empty;
         public DateTime SavedRestartScheduledTime = 0.ToDateTime();
         public DateTime SavedDeleteRequestTime = 0.ToDateTime();
+        public int SavedFormCount = 0;
+        public DateTime SavedFormCountDate = 0.ToDateTime();
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -323,6 +329,18 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context).ToString() != TenantSettings.RecordingJson(context: context));
         }
 
+        public bool FirstDayOfWeek_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != FirstDayOfWeek;
+            }
+            return FirstDayOfWeek != SavedFirstDayOfWeek
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != FirstDayOfWeek);
+        }
+
         public bool UiType_Updated(Context context, bool copy = false, Column column = null)
         {
             if (copy && column?.CopyByDefault == true)
@@ -383,6 +401,18 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context).ToString() != UiBackgroundColor);
         }
 
+        public bool FormCount_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != FormCount;
+            }
+            return FormCount != SavedFormCount
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != FormCount);
+        }
+
         public bool ContractDeadline_Updated(Context context, bool copy = false, Column column = null)
         {
             if (copy && column?.CopyByDefault == true)
@@ -417,6 +447,18 @@ namespace Implem.Pleasanter.Models
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.DefaultTime(context: context).Date != DeleteRequestTime.Date);
+        }
+
+        public bool FormCountDate_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != FormCountDate;
+            }
+            return FormCountDate != SavedFormCountDate
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != FormCountDate.Date);
         }
 
         public TenantSettings Session_TenantSettings(Context context)
@@ -629,6 +671,7 @@ namespace Implem.Pleasanter.Models
                     case "Language": data.Language = Language; break;
                     case "TimeZone": data.TimeZone = TimeZone; break;
                     case "TenantSettings": data.TenantSettings = TenantSettings.RecordingJson(context: context); break;
+                    case "FirstDayOfWeek": data.FirstDayOfWeek = FirstDayOfWeek; break;
                     case "UiType": data.UiType = UiType; break;
                     case "UiColorScheme": data.UiColorScheme = UiColorScheme; break;
                     case "UiMainColor": data.UiMainColor = UiMainColor; break;
@@ -636,6 +679,8 @@ namespace Implem.Pleasanter.Models
                     case "UiBackgroundColor": data.UiBackgroundColor = UiBackgroundColor; break;
                     case "RestartScheduledTime": data.RestartScheduledTime = RestartScheduledTime.ToLocal(context: context); break;
                     case "DeleteRequestTime": data.DeleteRequestTime = DeleteRequestTime.ToLocal(context: context); break;
+                    case "FormCount": data.FormCount = FormCount; break;
+                    case "FormCountDate": data.FormCountDate = FormCountDate.ToLocal(context: context); break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -749,6 +794,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "TimeZone":
                     return TimeZone.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "FirstDayOfWeek":
+                    return FirstDayOfWeek.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1154,6 +1204,7 @@ namespace Implem.Pleasanter.Models
                     case "Tenants_Theme": Theme = value.ToString(); break;
                     case "Tenants_Language": Language = value.ToString(); break;
                     case "Tenants_TimeZone": TimeZone = value.ToString(); break;
+                    case "Tenants_FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                     case "Tenants_UiType": UiType = value.ToString(); break;
                     case "Tenants_UiColorScheme": UiColorScheme = value.ToString(); break;
                     case "Tenants_UiMainColor": UiMainColor = value.ToString(); break;
@@ -1245,6 +1296,7 @@ namespace Implem.Pleasanter.Models
             Language = tenantModel.Language;
             TimeZone = tenantModel.TimeZone;
             TenantSettings = tenantModel.TenantSettings;
+            FirstDayOfWeek = tenantModel.FirstDayOfWeek;
             UiType = tenantModel.UiType;
             UiColorScheme = tenantModel.UiColorScheme;
             UiMainColor = tenantModel.UiMainColor;
@@ -1252,6 +1304,8 @@ namespace Implem.Pleasanter.Models
             UiBackgroundColor = tenantModel.UiBackgroundColor;
             RestartScheduledTime = tenantModel.RestartScheduledTime;
             DeleteRequestTime = tenantModel.DeleteRequestTime;
+            FormCount = tenantModel.FormCount;
+            FormCountDate = tenantModel.FormCountDate;
             Comments = tenantModel.Comments;
             Creator = tenantModel.Creator;
             Updator = tenantModel.Updator;
@@ -1287,6 +1341,7 @@ namespace Implem.Pleasanter.Models
             if (data.Theme != null) Theme = data.Theme.ToString().ToString();
             if (data.Language != null) Language = data.Language.ToString().ToString();
             if (data.TimeZone != null) TimeZone = data.TimeZone.ToString().ToString();
+            if (data.FirstDayOfWeek != null) FirstDayOfWeek = data.FirstDayOfWeek.ToInt().ToInt();
             if (data.UiType != null) UiType = data.UiType.ToString().ToString();
             if (data.UiColorScheme != null) UiColorScheme = data.UiColorScheme.ToString().ToString();
             if (data.UiMainColor != null) UiMainColor = data.UiMainColor.ToString().ToString();
@@ -1527,6 +1582,10 @@ namespace Implem.Pleasanter.Models
                             TenantSettings = GetTenantSettings(context: context, dataRow: dataRow);
                             SavedTenantSettings = TenantSettings.RecordingJson(context: context);
                             break;
+                        case "FirstDayOfWeek":
+                            FirstDayOfWeek = dataRow[column.ColumnName].ToInt();
+                            SavedFirstDayOfWeek = FirstDayOfWeek;
+                            break;
                         case "UiType":
                             UiType = dataRow[column.ColumnName].ToString();
                             SavedUiType = UiType;
@@ -1554,6 +1613,14 @@ namespace Implem.Pleasanter.Models
                         case "DeleteRequestTime":
                             DeleteRequestTime = dataRow[column.ColumnName].ToDateTime();
                             SavedDeleteRequestTime = DeleteRequestTime;
+                            break;
+                        case "FormCount":
+                            FormCount = dataRow[column.ColumnName].ToInt();
+                            SavedFormCount = FormCount;
+                            break;
+                        case "FormCountDate":
+                            FormCountDate = dataRow[column.ColumnName].ToDateTime();
+                            SavedFormCountDate = FormCountDate;
                             break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
@@ -1665,6 +1732,7 @@ namespace Implem.Pleasanter.Models
                 || Language_Updated(context: context)
                 || TimeZone_Updated(context: context)
                 || TenantSettings_Updated(context: context)
+                || FirstDayOfWeek_Updated(context: context)
                 || UiType_Updated(context: context)
                 || UiColorScheme_Updated(context: context)
                 || UiMainColor_Updated(context: context)
@@ -1672,6 +1740,8 @@ namespace Implem.Pleasanter.Models
                 || UiBackgroundColor_Updated(context: context)
                 || RestartScheduledTime_Updated(context: context)
                 || DeleteRequestTime_Updated(context: context)
+                || FormCount_Updated(context: context)
+                || FormCountDate_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -1735,6 +1805,7 @@ namespace Implem.Pleasanter.Models
                 || Language_Updated(context: context)
                 || TimeZone_Updated(context: context)
                 || TenantSettings_Updated(context: context)
+                || FirstDayOfWeek_Updated(context: context)
                 || UiType_Updated(context: context)
                 || UiColorScheme_Updated(context: context)
                 || UiMainColor_Updated(context: context)
@@ -1742,6 +1813,8 @@ namespace Implem.Pleasanter.Models
                 || UiBackgroundColor_Updated(context: context)
                 || RestartScheduledTime_Updated(context: context)
                 || DeleteRequestTime_Updated(context: context)
+                || FormCount_Updated(context: context)
+                || FormCountDate_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);

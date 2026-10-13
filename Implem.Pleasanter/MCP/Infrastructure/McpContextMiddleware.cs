@@ -1,5 +1,8 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.MCP.McpContext;
 using Implem.Pleasanter.Models;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +40,25 @@ namespace Implem.Pleasanter.MCP.Infrastructure
             if (!string.IsNullOrEmpty(apiKey))
             {
                 ApiKeyHolder.CurrentApiKey = apiKey;
+            }
+
+            if (!string.IsNullOrEmpty(apiKey)
+                && !ApiKeyIpRestrictions.Allowed(context: new Context(
+                    sessionStatus: false,
+                    sessionData: false,
+                    item: false,
+                    setPermissions: false,
+                    apiRequestBody: JsonSerializer.Serialize(new { ApiKey = apiKey }))))
+            {
+                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                await context.Response.WriteAsJsonAsync(new
+                {
+                    Message = Displays.ApiKeyNotAllowedIpAddress(context: new Context(
+                        sessionStatus: false,
+                        sessionData: false,
+                        item: false))
+                });
+                return;
             }
 
             HttpContextAccessorHolder.Current = context;
@@ -123,7 +145,6 @@ namespace Implem.Pleasanter.MCP.Infrastructure
 
                     var tenantId = McpInfoHolder.GetTenantIdFromHttpContext(context);
                     var userId = McpInfoHolder.GetUserIdFromHttpContext(context);
-
                     var logClientName = McpInfoHolder.GetClientNameFromHttpContext(context);
                     var logClientVersion = McpInfoHolder.GetClientVersionFromHttpContext(context);
                     var logProtocolVersion = McpInfoHolder.GetProtocolVersionFromHttpContext(context);
@@ -186,7 +207,16 @@ namespace Implem.Pleasanter.MCP.Infrastructure
                     sessionData: false,
                     user: false,
                     item: false);
-
+                if (userId == 0 && string.IsNullOrEmpty(apiKey) == false
+                    && McpApiKeyUserResolver.TryResolve(
+                        context: context,
+                        apiKey: apiKey,
+                        tenantId: out var resolvedTenantId,
+                        userId: out var resolvedUserId))
+                {
+                    tenantId = resolvedTenantId;
+                    userId = resolvedUserId;
+                }
                 var mcpLog = new McpLogModel
                 {
                     StartTime = startTime,
@@ -196,7 +226,11 @@ namespace Implem.Pleasanter.MCP.Infrastructure
                     McpMethod = mcpRequestInfo.Method ?? string.Empty,
                     TargetName = GetTargetName(mcpRequestInfo),
                     TenantId = tenantId,
-                    UserId = Libraries.Server.SiteInfo.User(context: context, userId: userId),
+                    UserId = new User
+                    {
+                        TenantId = tenantId,
+                        Id = userId
+                    },
                     ApiKeyPrefix = GetApiKeyPrefix(apiKey),
                     ClientName = clientName,
                     ClientVersion = clientVersion,

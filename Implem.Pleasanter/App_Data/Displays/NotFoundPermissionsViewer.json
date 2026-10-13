@@ -1,0 +1,37 @@
+﻿{
+    "Id": "NotFoundPermissionsViewer",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No permissions have been set for any site."
+        },
+        {
+            "Language": "zh",
+            "Body": "未对任何站点设置权限。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "未對任何網站設定權限。"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトへの権限は設定されていません"
+        },
+        {
+            "Language": "de",
+            "Body": "Für keine Site wurden Berechtigungen festgelegt."
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트에 대한 권한이 설정되어 있지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se han establecido permisos para ningún sitio."
+        },
+        {
+            "Language": "vn",
+            "Body": "Chưa thiết lập quyền cho trang nào."
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "UnpinExpanded",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Stop keeping expanded"
+        },
+        {
+            "Language": "zh",
+            "Body": "取消保持展开"
+        },
+        {
+            "Language": "ja",
+            "Body": "開いたままを解除"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausgeklappt lassen aufheben"
+        },
+        {
+            "Language": "ko",
+            "Body": "펼친 상태 유지 해제"
+        },
+        {
+            "Language": "es",
+            "Body": "Dejar de mantener expandido"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bỏ giữ mở rộng"
+        }
+    ]
+}

@@ -1019,6 +1019,22 @@ public string History(Context context)
     }
 }
 
+public string HistoryDiff(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        tableType: Sqls.TableTypes.NormalAndHistory);
+    switch (ReferenceType)
+    {
+
+<!--Model_HistoryDiffCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
 public string EditorJson(Context context)
 {
     SetSite(

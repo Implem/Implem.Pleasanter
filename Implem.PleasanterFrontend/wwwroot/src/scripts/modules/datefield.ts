@@ -1,9 +1,29 @@
 ﻿import flatpickr from 'flatpickr';
 import { Japanese } from 'flatpickr/dist/l10n/ja.js';
+import { German } from 'flatpickr/dist/l10n/de.js';
+import { Korean } from 'flatpickr/dist/l10n/ko.js';
+import { Spanish } from 'flatpickr/dist/l10n/es.js';
+import { Mandarin } from 'flatpickr/dist/l10n/zh.js';
+import { MandarinTraditional } from 'flatpickr/dist/l10n/zh-tw.js';
+import { Vietnamese } from 'flatpickr/dist/l10n/vn.js';
 import type { Options } from 'flatpickr/dist/types/options';
+import type { CustomLocale } from 'flatpickr/dist/types/locale';
 import type { Instance } from 'flatpickr/dist/types/instance';
 import moment from 'moment';
 import $ from 'jquery';
+
+// Pleasanter の言語コードに対応する flatpickr のロケール。
+// en は flatpickr の既定のため定義しない。
+// 言語を追加する場合はここに追記する。
+const locales: Record<string, CustomLocale> = {
+    ja: Japanese,
+    de: German,
+    ko: Korean,
+    es: Spanish,
+    zh: Mandarin,
+    zh_tw: MandarinTraditional,
+    vn: Vietnamese
+};
 
 class InputDate extends HTMLElement {
     static isRwd: boolean;
@@ -18,6 +38,23 @@ class InputDate extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+    }
+
+    // 表示言語に対応する flatpickr のロケールを返す。
+    // 該当が無い場合は空とし、flatpickr の既定 (英語) に委ねる。
+    static locale(): Partial<CustomLocale> {
+        return locales[InputDate.language] ?? {};
+    }
+
+    // 週の開始曜日 (0:日曜〜6:土曜) を、日付項目単位の設定、ページ全体の設定の順に参照する。
+    // 取得できない場合は undefined を返し、flatpickr のロケール既定に委ねる。
+    static firstDayOfWeek(inputElm: HTMLInputElement): number | undefined {
+        const value =
+            inputElm.dataset.firstdayofweek ??
+            (document.getElementById('ResolvedFirstDayOfWeek') as HTMLInputElement)?.value;
+        if (value === undefined || value === '') return undefined;
+        const parsed = Number(value);
+        return Number.isNaN(parsed) || parsed < 0 || parsed > 6 ? undefined : parsed;
     }
 
     connectedCallback() {
@@ -129,10 +166,14 @@ class InputDate extends HTMLElement {
     private initDatePicker() {
         if (!this.inputElm) return;
         const dialog = this.inputElm.closest('.ui-dialog');
+        const firstDayOfWeek = InputDate.firstDayOfWeek(this.inputElm);
         const fpOptions: Options = {
-            locale: Object.assign({}, flatpickr.l10ns.default, InputDate.language === 'ja' ? Japanese : {}, {
-                firstDayOfWeek: 1
-            }),
+            locale: Object.assign(
+                {},
+                flatpickr.l10ns.default,
+                InputDate.locale(),
+                firstDayOfWeek !== undefined ? { firstDayOfWeek } : {}
+            ),
             appendTo: dialog ? (dialog as HTMLElement) : document.body,
             positionElement: this.inputElm,
             enableTime: this.inputElm.dataset.timepicker === '1',

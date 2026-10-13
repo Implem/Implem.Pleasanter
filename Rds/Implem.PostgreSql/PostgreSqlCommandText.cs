@@ -56,9 +56,17 @@ namespace Implem.PostgreSql
 
         public string CreateTryCast(string left, string name, string from, string to)
         {
-            return from == "int"
-                ? $"\"{left}\".\"{name}\""
-                : $"(CASE WHEN \"{left}\".\"{name}\"~E'^\\\\d+$' THEN \"{left}\".\"{name}\"::{to} ELSE null END)";
+            switch (to)
+            {
+                case "bigint":
+                    if (from == "int")
+                    {
+                        return $"\"{left}\".\"{name}\"";
+                    }
+                    return $"(CASE WHEN \"{left}\".\"{name}\"~E'^0*[0-9]{{1,19}}$' THEN (CASE WHEN \"{left}\".\"{name}\"::numeric<={long.MaxValue} THEN \"{left}\".\"{name}\"::{to} END) ELSE null END)";
+                default:
+                    throw new NotSupportedException($"CreateTryCast does not support conversion to [{to}].");
+            }
         }
 
         public string CreateUpdateOrInsert(

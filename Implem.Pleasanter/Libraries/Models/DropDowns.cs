@@ -435,7 +435,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         selectedValue: selectedValue,
                         multiple: multiple,
                         addSelectedValue: false,
-                        insertBlank: !filter,
+                        insertBlank: !filter && !multiple,
                         column: column))
                 .Invoke("callbackRelatingColumn", "#" + controlId)
                 .ClearFormData("#" + controlId)

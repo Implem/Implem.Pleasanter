@@ -104,6 +104,7 @@
     "BulkUpsertMax": 0,
     "EnableExpandLinkPath": false,
     "BlockSiteTaskWhileRunning": false,
+    "PermissionsViewer": true,
     "LinkPageSizeMin": 0,
     "LinkPageSizeMax": 100
 }

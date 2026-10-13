@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NoPreviousVersion",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "There is no previous version to compare."
+        },
+        {
+            "Language": "zh",
+            "Body": "没有可供比较的上一版本。"
+        },
+        {
+            "Language": "ja",
+            "Body": "比較できる前のバージョンがありません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Es gibt keine vorherige Version zum Vergleichen."
+        },
+        {
+            "Language": "ko",
+            "Body": "비교할 이전 버전이 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No hay una versión anterior para comparar."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không có phiên bản trước để so sánh."
+        }
+    ]
+}

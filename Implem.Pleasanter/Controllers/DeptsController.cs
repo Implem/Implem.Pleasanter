@@ -147,6 +147,37 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string PermissionsViewer(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = DeptUtilities.PermissionsViewer(
+                context: context,
+                ss: SiteSettingsUtilities.DeptsSiteSettings(context: context),
+                deptId: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public ActionResult PermissionsViewerCsv(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var responseFile = DeptUtilities.PermissionsViewerCsv(
+                context: context,
+                ss: SiteSettingsUtilities.DeptsSiteSettings(context: context),
+                deptId: id);
+            if (responseFile == null)
+            {
+                log.Finish(context: context);
+                return null;
+            }
+            log.Finish(context: context, responseSize: responseFile.Length);
+            return responseFile.ToFile();
+        }
+
+        [HttpPost]
         public string Histories(int id)
         {
             var context = new Context();
@@ -165,6 +196,19 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = DeptUtilities.History(
+                context: context,
+                ss: SiteSettingsUtilities.DeptsSiteSettings(context: context),
+                deptId: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string HistoryDiff(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = DeptUtilities.HistoryDiff(
                 context: context,
                 ss: SiteSettingsUtilities.DeptsSiteSettings(context: context),
                 deptId: id);

@@ -5,5 +5,5 @@
     "Separator": "\\r\\n",
     "NotCalc": "1",
     "Select": "1",
-    "Exclude": "ApiKey"
+    "Exclude": "ApiKey,ApiAllowIpAddressRange"
 }

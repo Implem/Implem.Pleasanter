@@ -2641,14 +2641,6 @@
 }
 
 @media screen and (width <= 1024px) and (width >= 0) {
-    #ApiEditorCommands {
-        display: flex;
-        justify-content: center;
-        padding: 10vw 0;
-    }
-}
-
-@media screen and (width <= 1024px) and (width >= 0) {
     #Editor #TenantForm #EditorTabsContainer .fieldset .field-auto-thin {
         width: 100%;
         height: 7vw;
@@ -2754,5 +2746,20 @@
     #DropDownSearchDialogBody {
         display: flex;
         flex-direction: column;
+    }
+}
+
+@media screen and (width <= 1024px) and (width >= 0) {
+    // 変更履歴の差分は旧版と新版を左右に並べる。スマホ幅で 2 等分すると
+    // 1 ペインが 180px 程度になり、バージョン選択欄 (ラベル + 最小 150px の
+    // セレクト) だけで収まらない。body が overflow-x: hidden のため、
+    // はみ出した側はスクロールで追えず切り落とされる。
+    // ペインには読める幅を残し、あふれた分はペインの並びの中で横スクロールさせる。
+    .history-diff-panes {
+        overflow-x: auto;
+
+        .history-diff-pane {
+            min-width: 320px;
+        }
     }
 }

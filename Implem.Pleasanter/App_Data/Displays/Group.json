@@ -1,0 +1,37 @@
+﻿{
+    "Id": "Group",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Group"
+        },
+        {
+            "Language": "zh",
+            "Body": "组"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "群組"
+        },
+        {
+            "Language": "ja",
+            "Body": "グループ"
+        },
+        {
+            "Language": "de",
+            "Body": "Gruppe"
+        },
+        {
+            "Language": "ko",
+            "Body": "그룹"
+        },
+        {
+            "Language": "es",
+            "Body": "Grupo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nhóm"
+        }
+    ]
+}

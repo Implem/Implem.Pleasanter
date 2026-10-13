@@ -1,41 +1,47 @@
 ﻿$(function () {
-    var passwordObject;
-    var passwordValidateObject;
-    if ($('input#Users_PasswordValidate').length) {
-        $p.generatePasswordButton('#Users_Password', '#Users_PasswordValidate');
-    }
-    if ($('input#Users_ChangedPasswordValidator').length) {
-        $p.generatePasswordButton('#Users_ChangedPassword', '#Users_ChangedPasswordValidator');
-    }
-    if ($('input#Users_AfterResetPasswordValidator').length) {
-        $p.generatePasswordButton(
-            '#Users_AfterResetPassword',
-            '#Users_AfterResetPasswordValidator'
+    $(document).on('click', '.generate-password', function () {
+        const $control = $(this);
+        $p.generatePassword(
+            $control,
+            $control.attr('data-password-object'),
+            $control.attr('data-password-validate-object')
         );
-    }
+    });
+    $p.setGeneratePasswordButton();
 });
 
+$p.setGeneratePasswordButton = function () {
+    $p.generatePasswordButton('#Users_Password', '#Users_PasswordValidate');
+    $p.generatePasswordButton('#Users_ChangedPassword', '#Users_ChangedPasswordValidator');
+    $p.generatePasswordButton('#Users_AfterResetPassword', '#Users_AfterResetPasswordValidator');
+};
+
 $p.generatePasswordButton = function (passwordObject, passwordValidateObject) {
-    if (!parseInt($(passwordObject).data('passwordgenerator'))) {
+    const $password = $(passwordObject);
+    if (!$password.length || !$(passwordValidateObject).length) {
+        return;
+    }
+    if (!parseInt($password.data('passwordgenerator'))) {
+        return;
+    }
+    const $container = $password.closest('div');
+    if ($container.children('.generate-password').length) {
         return;
     }
     $('<span>', {
-        id: 'passwordGenerateicon',
         class: 'material-symbols-outlined generate-password',
         title: $p.display('PasswordAutoGenerate'),
         text: 'key',
-        'data-action': 'GeneratePassword'
-    }).appendTo($(passwordObject).closest('div'));
-
-    $(document).on('click', '#passwordGenerateicon', function () {
-        $p.generatePassword($(this), passwordObject, passwordValidateObject);
-    });
+        'data-action': 'GeneratePassword',
+        'data-password-object': passwordObject,
+        'data-password-validate-object': passwordValidateObject
+    }).appendTo($container);
 };
 
 $p.generatePassword = function ($control, passwordObject, passwordValidateObject) {
     var action = $control.attr('data-action');
     var url = action
-        ? $('.main-form').attr('action').replace('_action_', action.toLowerCase())
+        ? $control.closest('form').attr('action').replace('_action_', action.toLowerCase())
         : location.href;
     var data = {
         passwordObject: passwordObject,

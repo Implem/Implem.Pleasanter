@@ -1,89 +1,116 @@
 ﻿public static string BulkDelete(Context context, SiteSettings ss)
 {
-    if (context.CanDelete(ss: ss))
+    var resultData = BulkDeleteCore(
+        context: context,
+        ss: ss);
+    if (resultData.HasError())
     {
-        var selectedWhere = SelectedWhere(
+        return resultData.ErrorData.MessageJson(context: context);
+    }
+    return GridRows(
+        context: context,
+        ss: ss,
+        clearCheck: true,
+        message: Messages.BulkDeleted(
             context: context,
-            ss: ss);
-        if (selectedWhere == null)
-        {
-            return Messages.ResponseSelectTargets(context: context).ToJson();
-        }
-        var view = Views.GetBySession(
-            context: context,
-            ss: ss);
-        var where = view.Where(
-            context: context,
-            ss: ss,
-            where: selectedWhere,
-            itemJoin: false);
-        var param = view.Param(
-            context: context,
-            ss: ss);
-        var invalid = ExistsLockedRecord(
-            context: context,
-            ss: ss,
-            where: where,
-            param: param,
-            orderBy: view.OrderBy(
-                context: context,
-                ss: ss));
-        switch (invalid.Type)
-        {
-            case Error.Types.None: break;
-            default: return invalid.MessageJson(context: context);
-        }
-        using var exclusiveObj = new Sessions.TableExclusive(context: context);
-        if (!exclusiveObj.TryLock())
-        {
-            return Error.Types.ImportLock.MessageJson(context: context);
-        }
-        var count = BulkDelete(
-            context: context,
-            ss: ss,
-            where: where,
-            param: param,
-            watchdog: () => exclusiveObj.Refresh());
-        exclusiveObj.Refresh();
-        Summaries.Synchronize(context: context, ss: ss);
-        var data = new string[]
-        {
-            ss.Title,
-            count.ToString()
-        };
-        ss.Notifications.ForEach(notification =>
-        {
-            var body = new System.Text.StringBuilder();
-            body.Append(Locations.ItemIndexAbsoluteUri(
-                context: context,
-                ss.SiteId) + "\n");
-            body.Append(
-                $"{Displays.#TableName#_Updator(context: context)}: ",
-                $"{context.User.Name}\n");
-            if (notification.AfterBulkDelete != false)
+            data: new string[]
             {
-                notification.Send(
-                    context: context,
-                    ss: ss,
-                    title: Displays.BulkDeleted(
-                        context: context,
-                        data: data),
-                    body: body.ToString());
-            }
-        });
-        exclusiveObj.Refresh();
-        return GridRows(
-            context: context,
-            ss: ss,
-            clearCheck: true,
-            message: Messages.BulkDeleted(
-                context: context,
-                data: data));
-    }
-    else
+                ss.Title,
+                resultData.Count.ToString()
+            }));
+}
+
+public static BulkDeleteResultData BulkDeleteCore(
+    Context context,
+    SiteSettings ss)
+{
+    if (!context.CanDelete(ss: ss))
     {
-        return Messages.ResponseHasNotPermission(context: context).ToJson();
+        return new BulkDeleteResultData
+        {
+            ErrorData = new ErrorData(type: Error.Types.HasNotPermission)
+        };
     }
+    var selectedWhere = SelectedWhere(
+        context: context,
+        ss: ss);
+    if (selectedWhere == null)
+    {
+        return new BulkDeleteResultData
+        {
+            ErrorData = new ErrorData(type: Error.Types.SelectTargets)
+        };
+    }
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    var where = view.Where(
+        context: context,
+        ss: ss,
+        where: selectedWhere,
+        itemJoin: false);
+    var param = view.Param(
+        context: context,
+        ss: ss);
+    var invalid = ExistsLockedRecord(
+        context: context,
+        ss: ss,
+        where: where,
+        param: param,
+        orderBy: view.OrderBy(
+            context: context,
+            ss: ss));
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return new BulkDeleteResultData { ErrorData = invalid };
+    }
+    using var exclusiveObj = new Sessions.TableExclusive(context: context);
+    if (!exclusiveObj.TryLock())
+    {
+        return new BulkDeleteResultData
+        {
+            ErrorData = new ErrorData(type: Error.Types.ImportLock)
+        };
+    }
+    var count = BulkDelete(
+        context: context,
+        ss: ss,
+        where: where,
+        param: param,
+        watchdog: () => exclusiveObj.Refresh());
+    exclusiveObj.Refresh();
+    Summaries.Synchronize(context: context, ss: ss);
+    var data = new string[]
+    {
+        ss.Title,
+        count.ToString()
+    };
+    ss.Notifications.ForEach(notification =>
+    {
+        var body = new System.Text.StringBuilder();
+        body.Append(Locations.ItemIndexAbsoluteUri(
+            context: context,
+            ss.SiteId) + "\n");
+        body.Append(
+            $"{Displays.#TableName#_Updator(context: context)}: ",
+            $"{context.User.Name}\n");
+        if (notification.AfterBulkDelete != false)
+        {
+            notification.Send(
+                context: context,
+                ss: ss,
+                title: Displays.BulkDeleted(
+                    context: context,
+                    data: data),
+                body: body.ToString());
+        }
+    });
+    exclusiveObj.Refresh();
+    return new BulkDeleteResultData
+    {
+        Count = count
+    };
 }
 
 public static int BulkDelete(
@@ -188,4 +215,79 @@ public static int BulkDelete(
         context: context,
         ss: ss);
     return affectedRows;
+}
+
+public static int BulkDeleteTargetCount(
+    Context context,
+    SiteSettings ss)
+{
+    var selectedWhere = SelectedWhere(
+        context: context,
+        ss: ss);
+    if (selectedWhere == null)
+    {
+        return 0;
+    }
+    var recordSelector = new RecordSelector(context: context);
+    if (!recordSelector.All)
+    {
+        return recordSelector.Selected.Count;
+    }
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    var where = view.Where(
+        context: context,
+        ss: ss,
+        where: selectedWhere,
+        itemJoin: false);
+    var param = view.Param(
+        context: context,
+        ss: ss);
+    return Repository.ExecuteScalar_int(
+        context: context,
+        statements: Rds.Select#TableName#(
+            column: Rds.#TableName#Column().#TableName#Count(),
+            join: ss.Join(
+                context: context,
+                join: new IJoin[]
+                {
+                    where
+                }),
+            where: where,
+            param: param));
+}
+
+public static ErrorData ValidateBeforeEnqueueBulkDelete(
+    Context context,
+    SiteSettings ss)
+{
+    if (!context.CanDelete(ss: ss))
+    {
+        return new ErrorData(type: Error.Types.HasNotPermission);
+    }
+    var selectedWhere = SelectedWhere(
+        context: context,
+        ss: ss);
+    if (selectedWhere == null)
+    {
+        return new ErrorData(type: Error.Types.SelectTargets);
+    }
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    return ExistsLockedRecord(
+        context: context,
+        ss: ss,
+        where: view.Where(
+            context: context,
+            ss: ss,
+            where: selectedWhere,
+            itemJoin: false),
+        param: view.Param(
+            context: context,
+            ss: ss),
+        orderBy: view.OrderBy(
+            context: context,
+            ss: ss));
 }

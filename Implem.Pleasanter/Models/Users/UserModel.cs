@@ -93,6 +93,7 @@ namespace Implem.Pleasanter.Models
         public string UiMainColor = string.Empty;
         public string UiSubColor = string.Empty;
         public string UiBackgroundColor = string.Empty;
+        public string ApiAllowIpAddressRange = string.Empty;
 
         public TimeZoneInfo TimeZoneInfo
         {
@@ -185,6 +186,7 @@ namespace Implem.Pleasanter.Models
         public string SavedUiMainColor = string.Empty;
         public string SavedUiSubColor = string.Empty;
         public string SavedUiBackgroundColor = string.Empty;
+        public string SavedApiAllowIpAddressRange = string.Empty;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -760,6 +762,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != UiBackgroundColor);
+        }
+
+        public bool ApiAllowIpAddressRange_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ApiAllowIpAddressRange;
+            }
+            return ApiAllowIpAddressRange != SavedApiAllowIpAddressRange && ApiAllowIpAddressRange != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ApiAllowIpAddressRange);
         }
 
         public bool Birthday_Updated(Context context, bool copy = false, Column column = null)
@@ -1611,6 +1625,18 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "ApiAllowIpAddressRange":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ApiAllowIpAddressRange.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "Comments":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -2327,6 +2353,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "ApiAllowIpAddressRange":
+                    return ApiAllowIpAddressRange.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Timestamp":
                     return Timestamp.ToDisplay(
                         context: context,
@@ -2753,6 +2784,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "ApiAllowIpAddressRange":
+                    return ApiAllowIpAddressRange.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Comments":
                     return Comments.ToApiDisplayValue(
                         context: context,
@@ -3176,6 +3212,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "UiBackgroundColor":
                     return UiBackgroundColor.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ApiAllowIpAddressRange":
+                    return ApiAllowIpAddressRange.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -3667,6 +3708,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_UiMainColor": UiMainColor = value.ToString(); break;
                     case "Users_UiSubColor": UiSubColor = value.ToString(); break;
                     case "Users_UiBackgroundColor": UiBackgroundColor = value.ToString(); break;
+                    case "Users_ApiAllowIpAddressRange": ApiAllowIpAddressRange = value.ToString(); break;
                     case "Users_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -3797,6 +3839,7 @@ namespace Implem.Pleasanter.Models
             UiMainColor = userModel.UiMainColor;
             UiSubColor = userModel.UiSubColor;
             UiBackgroundColor = userModel.UiBackgroundColor;
+            ApiAllowIpAddressRange = userModel.ApiAllowIpAddressRange;
             Comments = userModel.Comments;
             Creator = userModel.Creator;
             Updator = userModel.Updator;
@@ -4240,6 +4283,10 @@ namespace Implem.Pleasanter.Models
                             UiBackgroundColor = dataRow[column.ColumnName].ToString();
                             SavedUiBackgroundColor = UiBackgroundColor;
                             break;
+                        case "ApiAllowIpAddressRange":
+                            ApiAllowIpAddressRange = dataRow[column.ColumnName].ToString();
+                            SavedApiAllowIpAddressRange = ApiAllowIpAddressRange;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -4384,6 +4431,7 @@ namespace Implem.Pleasanter.Models
                 || UiMainColor_Updated(context: context)
                 || UiSubColor_Updated(context: context)
                 || UiBackgroundColor_Updated(context: context)
+                || ApiAllowIpAddressRange_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -4481,6 +4529,7 @@ namespace Implem.Pleasanter.Models
                 || UiMainColor_Updated(context: context)
                 || UiSubColor_Updated(context: context)
                 || UiBackgroundColor_Updated(context: context)
+                || ApiAllowIpAddressRange_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);

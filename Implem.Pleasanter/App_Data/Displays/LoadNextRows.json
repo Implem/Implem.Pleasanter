@@ -1,0 +1,37 @@
+﻿{
+    "Id": "LoadNextRows",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Load next {0} rows"
+        },
+        {
+            "Language": "zh",
+            "Body": "加载后续{0}行"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "載入接下來的{0}列"
+        },
+        {
+            "Language": "ja",
+            "Body": "次の{0}行を読み込み"
+        },
+        {
+            "Language": "de",
+            "Body": "Nächste {0} Zeilen laden"
+        },
+        {
+            "Language": "ko",
+            "Body": "다음 {0}행 읽기"
+        },
+        {
+            "Language": "es",
+            "Body": "Cargar las siguientes {0} filas"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tải {0} dòng tiếp theo"
+        }
+    ]
+}

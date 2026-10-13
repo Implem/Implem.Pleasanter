@@ -7237,23 +7237,11 @@ namespace Implem.Pleasanter.Models
                     res.Message(Messages.AiConnectResyncAlreadyEnqueued(context: context));
                     return;
                 }
-                var backgroundJobsUrl = Locations.Get(
-                    context: context,
-                    parts: new string[] { "BackgroundJobs" });
-                var idLinkHtml = $"<a href=\"{backgroundJobsUrl}\">{backgroundJobId}</a>";
-                var messageText = Displays.Get(
-                    context: context,
-                    id: "EnqueuedToBackgroundJob",
-                    Displays.Get(
-                        context: context,
-                        id: "BackgroundJobs"),
-                    idLinkHtml);
-                var messageHtml = $"<div><span class=\"body alert-success\">{messageText}"
-                    + "<span class=\"ui-icon ui-icon-close close\"></span>"
-                    + "</span></div>";
                 res.Html(
                     target: "#Message",
-                    value: messageHtml);
+                    value: BackgroundJobQueue.EnqueuedMessageHtml(
+                        context: context,
+                        backgroundJobId: backgroundJobId));
                 return;
             }
             var result = Implem.Pleasanter.Libraries.AiConnect.AiConnectResyncUtilities.Resync(
@@ -10144,6 +10132,122 @@ namespace Implem.Pleasanter.Models
                         beforeResetCount.ToString(),
                         apiCount.ToString()
                     }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public bool WithinFormLimits(Context context)
+        {
+            var limit = context.ContractSettings.FormLimit();
+            if (limit <= 0)
+            {
+                return true;
+            }
+            var monthStart = FormCountMonthStart(context: context);
+            var current = Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectTenants(
+                    column: Rds.TenantsColumn().FormCount(),
+                    where: Rds.TenantsWhere()
+                        .TenantId(context.TenantId)
+                        .FormCountDate(monthStart, _operator: ">=")));
+            return current < limit;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void AddFormCount(Context context)
+        {
+            if (context.ContractSettings.FormLimit() <= 0)
+            {
+                return;
+            }
+            var monthStart = FormCountMonthStart(context: context);
+            for (var attempt = 0; attempt < 3; attempt++)
+            {
+                var incremented = Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateTenants(
+                        where: Rds.TenantsWhere()
+                            .TenantId(context.TenantId)
+                            .FormCountDate(monthStart, _operator: ">="),
+                        param: Rds.TenantsParam()
+                            .FormCount(raw: "\"Tenants\".\"FormCount\"+1"),
+                        addUpdatorParam: false,
+                        addUpdatedTimeParam: false));
+                if (incremented > 0)
+                {
+                    return;
+                }
+                var beforeResetCount = Repository.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectTenants(
+                        column: Rds.TenantsColumn().FormCount(),
+                        where: Rds.TenantsWhere().TenantId(context.TenantId)));
+                var reset = Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateTenants(
+                        where: Rds.TenantsWhere()
+                            .TenantId(context.TenantId)
+                            .Or(or: Rds.TenantsWhere()
+                                .FormCountDate(_operator: " is null")
+                                .FormCountDate(monthStart, _operator: "<")),
+                        param: Rds.TenantsParam()
+                            .FormCount(1)
+                            .FormCountDate(monthStart),
+                        addUpdatorParam: false,
+                        addUpdatedTimeParam: false));
+                if (reset > 0)
+                {
+                    LogFormCountReset(
+                        context: context,
+                        beforeResetCount: beforeResetCount);
+                    return;
+                }
+            }
+            LogFormCountFailed(context: context);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DateTime FormCountMonthStart(Context context)
+        {
+            var local = DateTime.Now.ToDateTime().ToLocal(context: context);
+            return new DateTime(local.Year, local.Month, 1);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void LogFormCountReset(Context context, int beforeResetCount)
+        {
+            new SysLogModel(
+                context: context,
+                method: nameof(LogFormCountReset),
+                message: Displays.FormCountReset(
+                    context: context,
+                    new string[]
+                    {
+                        beforeResetCount.ToString(),
+                        "1"
+                    }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void LogFormCountFailed(Context context)
+        {
+            new SysLogModel(
+                context: context,
+                method: nameof(AddFormCount),
+                message: Displays.FormCountFailed(
+                    context: context,
+                    data: context.TenantId.ToString()),
+                sysLogType: SysLogModel.SysLogTypes.Warning);
         }
 
         /// <summary>

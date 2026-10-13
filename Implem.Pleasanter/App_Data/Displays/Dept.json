@@ -1,0 +1,37 @@
+﻿{
+    "Id": "Dept",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Department"
+        },
+        {
+            "Language": "zh",
+            "Body": "部门"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "部門"
+        },
+        {
+            "Language": "ja",
+            "Body": "組織"
+        },
+        {
+            "Language": "de",
+            "Body": "Abteilung"
+        },
+        {
+            "Language": "ko",
+            "Body": "부서"
+        },
+        {
+            "Language": "es",
+            "Body": "Departamento"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bộ phận"
+        }
+    ]
+}

@@ -86,9 +86,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DashboardPart GetRecordingData(Context context)
         {
             var dashboardPart = new DashboardPart();
-            var ss = SiteSettingsUtilities.Get(
-                context: context,
-                siteId: SiteId);
+            var ss = SiteId != 0
+                ? SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: SiteId)
+                : null;
             dashboardPart.Id = Id;
             dashboardPart.Title = Title;
             if (ShowTitle == true) dashboardPart.ShowTitle = true;

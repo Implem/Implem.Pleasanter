@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Tenants_FirstDayOfWeek",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "FirstDayOfWeek",
+    "LabelText": "週の開始曜日",
+    "No": "125",
+    "History": "125",
+    "TypeName": "int",
+    "Default": "-2",
+    "LabelText_en": "First day of week",
+    "LabelText_zh": "一周的第一天",
+    "LabelText_zh_tw": "一週的第一天",
+    "LabelText_de": "Erster Tag der Woche",
+    "LabelText_ko": "주의 시작 요일",
+    "LabelText_es": "Primer día de la semana",
+    "LabelText_vn": "Ngày đầu tuần"
+}

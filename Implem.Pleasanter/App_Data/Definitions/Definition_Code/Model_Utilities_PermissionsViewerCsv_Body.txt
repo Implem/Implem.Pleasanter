@@ -1,0 +1,21 @@
+﻿public static ResponseFile PermissionsViewerCsv(
+    Context context, SiteSettings ss, int #modelName#Id)
+{
+    var #modelName#Model = new #ModelName#Model(context: context, ss: ss, #modelName#Id: #modelName#Id);
+    if (!context.CanRead(ss: ss))
+    {
+        return null;
+    }
+    if (!HtmlPermissionsViewer.Readable(context: context, tableName: "#TableName#"))
+    {
+        return null;
+    }
+    if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
+    {
+        return null;
+    }
+    return HtmlPermissionsViewer.PermissionsViewerCsv(
+        context: context,
+        tableName: "#TableName#",
+        id: #modelName#Id);
+}

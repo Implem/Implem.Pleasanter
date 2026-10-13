@@ -1,0 +1,26 @@
+﻿public static string PermissionsViewer(
+    Context context, SiteSettings ss, int #modelName#Id)
+{
+    var #modelName#Model = new #ModelName#Model(context: context, ss: ss, #modelName#Id: #modelName#Id);
+    if (!context.CanRead(ss: ss))
+    {
+        return Error.Types.HasNotPermission.MessageJson(context: context);
+    }
+    if (!HtmlPermissionsViewer.Readable(context: context, tableName: "#TableName#"))
+    {
+        return Error.Types.HasNotPermission.MessageJson(context: context);
+    }
+    if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
+    {
+        return Error.Types.NotFound.MessageJson(context: context);
+    }
+    return HtmlPermissionsViewer.PermissionsViewer(
+        context: context,
+        res: new #TableName#ResponseCollection(
+            context: context,
+            #modelName#Model: #modelName#Model),
+        tableName: "#TableName#",
+        id: #modelName#Id)
+            .Messages(context.Messages)
+            .ToJson();
+}

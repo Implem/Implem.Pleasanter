@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NewVersionMustBeNewer",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Specify a version newer than the old version."
+        },
+        {
+            "Language": "zh",
+            "Body": "请为新版本指定比旧版本更新的版本。"
+        },
+        {
+            "Language": "ja",
+            "Body": "新バージョンには旧バージョンより新しいバージョンを指定してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Geben Sie für die neue Version eine Version an, die neuer als die alte Version ist."
+        },
+        {
+            "Language": "ko",
+            "Body": "새 버전에는 이전 버전보다 새로운 버전을 지정하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Especifique una versión más reciente que la versión anterior."
+        },
+        {
+            "Language": "vn",
+            "Body": "Hãy chọn phiên bản mới hơn phiên bản cũ."
+        }
+    ]
+}

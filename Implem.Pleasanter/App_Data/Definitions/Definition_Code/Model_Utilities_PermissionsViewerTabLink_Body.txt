@@ -1,0 +1,10 @@
+﻿.Li(
+    _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
+        && !context.Publish
+        && HtmlPermissionsViewer.Readable(
+            context: context,
+            tableName: "#TableName#"),
+    action: () => hb
+        .A(
+            href: "#FieldSetPermissionsViewer",
+            text: Displays.PermissionsViewer(context: context)))

@@ -3,6 +3,7 @@
     internal class SqlServerDefinitionSetting : ISqlDefinitionSetting
     {
         public int IdentifierPostfixLength { get; } = 64;
+        public int CharacterStoredSizeCoefficient { get; } = 1;
         public int NationalCharacterStoredSizeCoefficient { get; } = 2;
         public int ReducedVarcharLength { get; }
         public string SchemaName { get => ""; set => _ = value; }

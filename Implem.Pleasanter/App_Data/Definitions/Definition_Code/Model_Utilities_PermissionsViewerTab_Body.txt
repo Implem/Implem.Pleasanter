@@ -1,0 +1,10 @@
+﻿.FieldSet(
+    attributes: new HtmlAttributes()
+        .Id("FieldSetPermissionsViewer")
+        .DataAction("PermissionsViewer")
+        .DataMethod("post"),
+    _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
+        && !context.Publish
+        && HtmlPermissionsViewer.Readable(
+            context: context,
+            tableName: "#TableName#"))

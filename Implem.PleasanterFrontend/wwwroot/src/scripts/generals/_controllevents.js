@@ -17,6 +17,39 @@
         $p.setData($control);
         e.preventDefault();
     });
+    // 空のoptionは選択肢としてのブランクではなく、値が空という状態の表示。
+    // optionを差し替えるレスポンスは直後にchangeを発生させること
+    // (callbackRelatingColumn、SelectSearchDropDownResponseのTrigger)
+    $(document).on('change', 'select[data-without-blank="1"]', function () {
+        var $control = $(this);
+        var multiple = $control.attr('multiple') !== undefined;
+        // 複数選択は未選択＝空のため空のoptionが不要。valも空配列(真)を返し判定に使えない
+        if (!multiple && $control.val()) {
+            $control.find('option[value=""]').remove();
+        }
+        // 検索機能を使う列は以降のdisabled判定のみ対象外。選択肢をダイアログで
+        // 取得するため0件が常態で、disabledにするとダイアログも開けなくなる。
+        // 空のoptionはダイアログのレスポンスが必ず返すため削除は検索列でも必要
+        if ($control.hasClass('search')) {
+            return;
+        }
+        // 空のoptionは選択肢ではないため数えない
+        var noChoices =
+            $control.find('option').filter(function () {
+                return this.value !== '';
+            }).length === 0;
+        // 選択肢の有無に合わせて切り替える(EditorReadOnlyによる読取専用とは別物)
+        if ($control.prop('disabled') !== noChoices) {
+            if (multiple) {
+                // 操作対象はウィジェットのボタンとメニュー。
+                // disableが付けたinputの属性をrefreshが消すため必ずrefreshの後に呼ぶ
+                $control.multiselect('refresh');
+                $control.multiselect(noChoices ? 'disable' : 'enable');
+            } else {
+                $control.prop('disabled', noChoices);
+            }
+        }
+    });
     $(document).on('spin', '.control-spinner', function (event, ui) {
         var $control = $(this);
         var data = $p.getData($control);

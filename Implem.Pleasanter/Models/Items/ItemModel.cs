@@ -3053,6 +3053,34 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string HistoryDiff(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                tableType: Sqls.TableTypes.NormalAndHistory);
+            switch (ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.HistoryDiff(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        issueId: ReferenceId);
+                case "Results":
+                    return ResultUtilities.HistoryDiff(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        resultId: ReferenceId);
+                case "Wikis":
+                    return WikiUtilities.HistoryDiff(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        wikiId: ReferenceId);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public string EditorJson(Context context)
         {
             SetSite(
@@ -4069,6 +4097,32 @@ namespace Implem.Pleasanter.Models
                     var message = ReplaceFormBinarySrcIfForm(context: context, message: ss.FormUnavailableMessage, defaultMessage: Displays.FormUnavailableMessageDefault(context: context));
                     var html = HtmlTemplates.SimpleMessages(context: context, message: message);
                     return html;
+                default:
+                    return HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string FormOverLimit(Context context)
+        {
+            SetSite(
+                context: context,
+                siteOnly: true,
+                initSiteSettings: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                case "Results":
+                    var message = Displays.OverLimitForm(context: context);
+                    return HtmlTemplates.SimpleMessages(context: context, message: message);
                 default:
                     return HtmlTemplates.Error(
                         context: context,

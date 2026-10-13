@@ -106,6 +106,7 @@ private static HtmlBuilder Editor(
                             context: context,
                             #modelName#Model: #modelName#Model)
                         .FieldSetGeneral(context: context, ss: ss, #modelName#Model: #modelName#Model)
+<!--Model_Utilities_PermissionsViewerTab-->
                         .FieldSet(
                             attributes: new HtmlAttributes()
                                 .Id("FieldSetHistories")
@@ -113,6 +114,8 @@ private static HtmlBuilder Editor(
                                 .DataMethod("post"),
                             _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
                                 && !context.Publish)
+
+<!--Model_Utilities_HistoryDiffFieldSet-->
                         .MainCommands(
                             context: context,
                             ss: ss,
@@ -131,6 +134,8 @@ private static HtmlBuilder Editor(
                 .Hidden(
                     controlId: "Ver",
                     value: #modelName#Model.Ver.ToString())
+
+<!--Model_Utilities_HistoryDiffBaseVer-->
                 .Hidden(
                     controlId: "MethodType",
                     value: #modelName#Model.MethodType.ToString().ToLower())
@@ -170,13 +175,15 @@ private static HtmlBuilder EditorTabs(
             .A(
                 href: "#FieldSetGeneral",
                 text: Displays.General(context: context)))
+<!--Model_Utilities_PermissionsViewerTabLink-->
         .Li(
             _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
                 && !context.Publish,
             action: () => hb
                 .A(
                     href: "#FieldSetHistories",
-                    text: Displays.ChangeHistoryList(context: context))));
+<!--Model_Utilities_HistoryDiffTabLi-->
+<!--Model_Utilities_HistoriesTabLiEnd-->
 }
 
 private static HtmlBuilder FieldSetGeneral(

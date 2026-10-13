@@ -13,6 +13,7 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -279,7 +280,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: toColumn?.DefaultInput)
                 .Hidden(
                     controlId: $"CalendarType{suffix}",
-                    value: calendarType);
+                    value: calendarType)
+                .Hidden(
+                    controlId: $"ResolvedCalendarFirstDayOfWeek{suffix}",
+                    value: FirstDayOfWeeks.Resolve(
+                        context: context,
+                        ss: ss).ToString());
             if (calendarType == "Standard") { 
                 return inRange
                     ? hb
@@ -449,7 +455,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         attributes: new HtmlAttributes()
                                             .Class("container")
                                             .DataValue(value: choice.Key, allowEmpty: true, _using: choice.Value != null)
-                                            .DataId(date.ToString("yyyy/M/d")),
+                                            .DataId(DataId(date: date)),
                                         action: () => hb
                                             .Div());
                                 }
@@ -467,6 +473,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime begin,
             Dictionary<string, ControlData> choices)
         {
+            var firstDayOfWeek = FirstDayOfWeeks.Resolve(
+                context: context,
+                ss: ss);
             return hb.GridTable(
                 context: context,
                 id: ss.DashboardParts.Count == 0
@@ -484,10 +493,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _using: groupBy != null);
                             for (var x = 0; x < 7; x++)
                             {
-                                hb.Th(css: DayOfWeekCss(x) + " calendar-header", action: () => hb
-                                    .Text(text: DayOfWeekString(
-                                        context: context,
-                                        x: x)));
+                                hb.Th(
+                                    css: DayOfWeekCss(
+                                        firstDayOfWeek: firstDayOfWeek,
+                                        x: x) + " calendar-header",
+                                    action: () => hb
+                                        .Text(text: DayOfWeekString(
+                                            context: context,
+                                            firstDayOfWeek: firstDayOfWeek,
+                                            x: x)));
                             }
                         }))
                     .TBody(action: () =>
@@ -519,7 +533,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                 ? " other-month"
                                                                 : string.Empty))
                                                     .DataValue(value: choice.Key, allowEmpty: true, _using: choice.Value != null)
-                                                    .DataId(currentDate.ToString("yyyy/M/d")),
+                                                    .DataId(DataId(date: currentDate)),
                                                 action: () => hb
                                                     .Div(action: () => hb
                                                         .Div(
@@ -543,6 +557,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime begin,
             Dictionary<string, ControlData> choices)
         {
+            var firstDayOfWeek = FirstDayOfWeeks.Resolve(
+                context: context,
+                ss: ss);
             var today = DateTime.Now.ToLocal(context: context).Date;
             var beginLocal = begin.ToLocal(context: context);
             var dateLocalMonth = date.ToLocal(context: context).Month;
@@ -566,7 +583,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 var currentDate = beginLocal.AddDays(x);
                                 var isToday = currentDate == today;
                                 var todayCss = isToday ? " today" : string.Empty;
-                                hb.Th(css: DayOfWeekCss(x) + " calendar-header" + todayCss, action: () => hb
+                                hb.Th(css: DayOfWeekCss(
+                                    firstDayOfWeek: firstDayOfWeek,
+                                    x: x) + " calendar-header" + todayCss, action: () => hb
                                     .Span(css: "weekly-day", action: () => hb
                                         .Text(currentDate.ToString(Displays.Get(
                                             context: context,
@@ -596,7 +615,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     ? " other-month"
                                                     : string.Empty))
                                             .DataValue(value: choice.Key, allowEmpty: true, _using: choice.Value != null)
-                                            .DataId(currentDate.ToString("yyyy/M/d")),
+                                            .DataId(DataId(date: currentDate)),
                                         action: () => hb.Div());
                                 }
                             });
@@ -818,20 +837,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static string DayOfWeekCss(int x)
+        internal static string DataId(DateTime date)
         {
-            return Parameters.General.FirstDayOfWeek + x > 6
-                ? ((DayOfWeek)(Parameters.General.FirstDayOfWeek + x - 7)).ToString().ToLower()
-                : ((DayOfWeek)(Parameters.General.FirstDayOfWeek + x)).ToString().ToLower();
+            return date.ToString("yyyy/M/d", CultureInfo.InvariantCulture);
         }
 
-        private static string DayOfWeekString(Context context, int x)
+        private static string DayOfWeekCss(int firstDayOfWeek, int x)
         {
-            return Displays.Get(
+            return FirstDayOfWeeks
+                .ToDayOfWeek(dayOfWeek: firstDayOfWeek + x)
+                .ToString()
+                .ToLower();
+        }
+
+        private static string DayOfWeekString(Context context, int firstDayOfWeek, int x)
+        {
+            return FirstDayOfWeeks.DisplayName(
                 context: context,
-                id: Parameters.General.FirstDayOfWeek + x > 6
-                    ? ((DayOfWeek)(Parameters.General.FirstDayOfWeek + x - 7)).ToString()
-                    : ((DayOfWeek)(Parameters.General.FirstDayOfWeek + x)).ToString());
+                dayOfWeek: firstDayOfWeek + x);
         }
 
         private static string ElementStatus(

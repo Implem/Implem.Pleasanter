@@ -1,0 +1,33 @@
+﻿{
+    "Id": "HistoryDiff",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Difference"
+        },
+        {
+            "Language": "zh",
+            "Body": "差异"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更差分"
+        },
+        {
+            "Language": "de",
+            "Body": "Unterschied"
+        },
+        {
+            "Language": "ko",
+            "Body": "차이"
+        },
+        {
+            "Language": "es",
+            "Body": "Diferencia"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khác biệt"
+        }
+    ]
+}

@@ -21,6 +21,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Class("dialog")
                     .Title(Displays.Import(context: context)),
                 action: () => hb
+                    .BackgroundJobNotice(
+                        context: context,
+                        ss: ss)
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.File,
                         controlId: "Import",

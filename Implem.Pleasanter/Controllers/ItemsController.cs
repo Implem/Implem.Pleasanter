@@ -479,29 +479,10 @@ namespace Implem.Pleasanter.Controllers
                         responseSize: failedJson.Length);
                     return failedJson;
                 }
-                var backgroundJobId = enqueueResult.BackgroundJobId;
-                var backgroundJobsUrl = Locations.Get(
+                var enqueuedJson = BackgroundJobQueue.EnqueuedJson(
                     context: context,
-                    parts: new string[] { "BackgroundJobs" });
-                var idLinkHtml = $"<a href=\"{backgroundJobsUrl}\">{backgroundJobId}</a>";
-                var messageText = Displays.Get(
-                    context: context,
-                    id: "EnqueuedToBackgroundJob",
-                    Displays.Get(
-                        context: context,
-                        id: "BackgroundJobs"),
-                    idLinkHtml);
-                var messageHtml = $"<div><span class=\"body alert-success\">{messageText}"
-                    + "<span class=\"ui-icon ui-icon-close close\"></span>"
-                    + "</span></div>";
-                var enqueuedJson = new ResponseCollection(
-                    context: context,
-                    id: backgroundJobId)
-                    .CloseDialog()
-                    .Html(
-                        target: "#Message",
-                        value: messageHtml)
-                    .ToJson();
+                    backgroundJobId: enqueueResult.BackgroundJobId,
+                    closeDialog: true);
                 log.Finish(
                     context: context,
                     responseSize: enqueuedJson.Length);
@@ -589,27 +570,9 @@ namespace Implem.Pleasanter.Controllers
                 var backgroundJobId = BackgroundJobQueue.EnqueueExport(
                     context: context,
                     siteId: id);
-                var backgroundJobsUrl = Locations.Get(
+                var json = BackgroundJobQueue.EnqueuedJson(
                     context: context,
-                    parts: new string[] { "BackgroundJobs" });
-                var idLinkHtml = $"<a href=\"{backgroundJobsUrl}\">{backgroundJobId}</a>";
-                var messageText = Displays.Get(
-                    context: context,
-                    id: "EnqueuedToBackgroundJob",
-                    Displays.Get(
-                        context: context,
-                        id: "BackgroundJobs"),
-                    idLinkHtml);
-                var messageHtml = $"<div><span class=\"body alert-success\">{messageText}"
-                    + "<span class=\"ui-icon ui-icon-close close\"></span>"
-                    + "</span></div>";
-                var json = new ResponseCollection(
-                    context: context,
-                    id: backgroundJobId)
-                    .Html(
-                        target: "#Message",
-                        value: messageHtml)
-                    .ToJson();
+                    backgroundJobId: backgroundJobId);
                 log.Finish(
                     context: context,
                     responseSize: json.Length);
@@ -995,6 +958,38 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
+            var ss = BackgroundJobQueue.BackgroundQueueEnabled()
+                ? SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: id,
+                    setSiteIntegration: true)
+                : null;
+            if (BackgroundJobQueue.ShouldQueueBulkDelete(
+                context: context,
+                ss: ss))
+            {
+                var invalid = BackgroundJobQueue.ValidateBeforeEnqueueBulkDelete(
+                    context: context,
+                    ss: ss);
+                if (invalid.Type != Error.Types.None)
+                {
+                    var invalidJson = invalid.MessageJson(context: context);
+                    log.Finish(
+                        context: context,
+                        responseSize: invalidJson?.Length ?? 0);
+                    return invalidJson;
+                }
+                var backgroundJobId = BackgroundJobQueue.EnqueueBulkDelete(
+                    context: context,
+                    siteId: id);
+                var enqueuedJson = BackgroundJobQueue.EnqueuedJson(
+                    context: context,
+                    backgroundJobId: backgroundJobId);
+                log.Finish(
+                    context: context,
+                    responseSize: enqueuedJson.Length);
+                return enqueuedJson;
+            }
             var json = new ItemModel(context: context, referenceId: id).BulkDelete(context: context);
             log.Finish(context: context, responseSize: json.Length);
             return json;
@@ -1214,6 +1209,16 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = new ItemModel(context: context, referenceId: id).History(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string HistoryDiff(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).HistoryDiff(context: context);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }

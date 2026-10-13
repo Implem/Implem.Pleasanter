@@ -164,15 +164,7 @@ $(function () {
         if (filterHide._running) return;
         filterHide._running = true;
         try {
-            var $self = $('.menu-sort:visible');
-            if ($self.length) {
-                $self.find('select[multiple].applied').each(function () {
-                    if ($(this).multiselect('isOpen')) {
-                        $(this).multiselect('close');
-                    }
-                });
-                $self.hide();
-            }
+            $p.hideSorterMenu($('.menu-sort:visible'));
             spToggle = false;
         } finally {
             filterHide._running = false;
@@ -180,38 +172,10 @@ $(function () {
     };
 
     var filterShow = function ($control) {
-        $('select[multiple].applied').each(function () {
-            if ($(this).multiselect('isOpen')) {
-                $(this).multiselect('close');
-            }
-        });
         filterHide();
         var dataName = $control.attr('data-name');
         $p.store.$menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");
-        $p.store.$menuSort.css('width', 'auto');
-
-        var cssProps = (() => {
-            if (!isRwd) {
-                return {
-                    position: 'fixed',
-                    top: $control.offset().top + $control.outerHeight() - $(window).scrollTop(),
-                    left: $control.offset().left - $(window).scrollLeft(),
-                    width: Math.max($control.outerWidth(), $p.store.$menuSort.outerWidth())
-                };
-            } else {
-                var stageWidth = $('#ViewModeContainer').width();
-                var cssWidth = Math.max($control.outerWidth(), $p.store.$menuSort.outerWidth());
-                var cssLeft = $control.offset().left;
-                cssLeft = cssLeft + cssWidth > stageWidth ? stageWidth - cssWidth : cssLeft;
-                return {
-                    position: 'absolute',
-                    marginTop: $control.outerHeight() - 1,
-                    left: cssLeft,
-                    width: cssWidth
-                };
-            }
-        })();
-        $p.store.$menuSort.css(cssProps).show();
+        $p.showSorterMenu($control, $p.store.$menuSort, isRwd);
     };
 
     $(document).on('mouseenter', '#Grid th.sortable', function () {

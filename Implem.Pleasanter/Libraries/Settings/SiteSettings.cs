@@ -346,7 +346,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Parameters.General.NearCompletionTimeAfterDays;
             GridPageSize = GridPageSize ?? Parameters.General.GridPageSize;
             AllowViewReset = AllowViewReset ?? Parameters.General.AllowViewReset;
-            FirstDayOfWeek = FirstDayOfWeek ?? Parameters.General.FirstDayOfWeek;
             FirstMonth = FirstMonth ?? Parameters.General.FirstMonth;
             UpdateColumnDefinitionHash();
             UpdateGridColumns(context: context);
@@ -867,7 +866,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.LinkPageSize = LinkPageSize;
             }
-            if (FirstDayOfWeek != param.FirstDayOfWeek)
+            if (FirstDayOfWeek != null && FirstDayOfWeek != FirstDayOfWeeks.Inherit)
             {
                 ss.FirstDayOfWeek = FirstDayOfWeek;
             }
@@ -2754,10 +2753,17 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> GetAllowBulkUpdateOptions(Context context)
         {
-            var options = BulkUpdateColumns?.ToDictionary(o => $"BulkUpdate_{o.Id}", o => o.Title)
+            var allowBulkUpdateColumns = GetAllowBulkUpdateColumns(context: context);
+            var allowBulkUpdateColumnNames = allowBulkUpdateColumns
+                .Select(column => column.ColumnName)
+                .ToHashSet();
+            var options = BulkUpdateColumns?
+                .Where(o => o.Columns?.Any(columnName =>
+                    allowBulkUpdateColumnNames.Contains(columnName)) == true)
+                .ToDictionary(o => $"BulkUpdate_{o.Id}", o => o.Title)
                 ?? new Dictionary<string, string>();
             options = options
-                .Concat(GetAllowBulkUpdateColumns(context: context)
+                .Concat(allowBulkUpdateColumns
                     .ToDictionary(o => o.ColumnName, o => o.LabelText))
                 .ToDictionary(o => o.Key, o => o.Value);
             return options;
@@ -5965,12 +5971,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             var columnNames = target.StartsWith("BulkUpdate_")
                 ? BulkUpdateColumns.Get(target.Split_2nd('_').ToInt())?.Columns
                 : target.ToSingleList();
+            var allowBulkUpdateColumnNames = GetAllowBulkUpdateColumns(context: context)
+                .Select(column => column.ColumnName)
+                .ToHashSet();
             var columns = columnNames
+                ?.Where(columnName => allowBulkUpdateColumnNames.Contains(columnName))
                 .Select(columnName => GetColumn(
                     context: context,
                     columnName: columnName))
+                .Where(column => column != null)
                 .ToList();
-            return columns;
+            return columns ?? new List<Column>();
         }
 
         public void SetBulkUpdateColumnDetail(

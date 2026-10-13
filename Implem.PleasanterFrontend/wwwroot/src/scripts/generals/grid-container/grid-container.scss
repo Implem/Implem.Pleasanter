@@ -18,6 +18,12 @@
         max-height: 100vh;
     }
 }
+//行を追加読み込みして縦に伸ばす表では、横だけスクロールさせる。
+:host(.app-auto-height) {
+    .app-grid-frame {
+        max-height: none;
+    }
+}
 
 
 .app-grid-inner {

@@ -1,0 +1,17 @@
+﻿        [HttpPost]
+        public ActionResult PermissionsViewerCsv(#IdType# id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var responseFile = #ModelName#Utilities.PermissionsViewerCsv(
+                context: context,
+                ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context),
+                #modelName#Id: id);
+            if (responseFile == null)
+            {
+                log.Finish(context: context);
+                return null;
+            }
+            log.Finish(context: context, responseSize: responseFile.Length);
+            return responseFile.ToFile();
+        }

@@ -109,6 +109,11 @@ namespace Implem.DefinitionAccessor
             return TrialLicense?.Check() ?? License.Check() && HasBlockSiteTaskWhileRunning();
         }
 
+        public static bool AllowPermissionsViewer()
+        {
+            return TrialLicense?.Check() ?? License.Check() && HasPermissionsViewer();
+        }
+
         public static bool AllowSamlExtendedAttributes()
         {
             return TrialLicense?.Check() ?? License.Check() && HasSamlExtendedAttributes();
@@ -199,6 +204,12 @@ namespace Implem.DefinitionAccessor
             return (LicenseOptions)(int?)(prop?.GetValue(License) ?? 0);
         }
 
+        private static int GetLicensePlan()
+        {
+            var prop = License.GetType().GetProperty("Plan");
+            return (int)(prop?.GetValue(License) ?? 0);
+        }
+
         public static bool HasAdvancedCache()
         {
             return GetLicenseOptions().HasFlag(LicenseOptions.AdvancedCache);
@@ -232,6 +243,12 @@ namespace Implem.DefinitionAccessor
         public static bool HasScim()
         {
             return GetLicenseOptions().HasFlag(LicenseOptions.Scim);
+        }
+
+        public static bool HasPermissionsViewer()
+        {
+            return GetLicensePlan() >= 2
+                || GetLicenseOptions().HasFlag(LicenseOptions.PermissionsViewer);
         }
     }
 }

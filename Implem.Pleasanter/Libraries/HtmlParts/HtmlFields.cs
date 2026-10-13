@@ -95,6 +95,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool isResponse = false,
             bool preview = false,
             bool disableSection = false,
+            bool ignoreHide = false,
+            bool savedRecord = false,
             bool _using = true)
         {
             if (columnPermissionType == Permissions.ColumnPermissionTypes.Deny || !_using)
@@ -147,7 +149,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         column: column,
                         serverScriptModelColumn: serverScriptModelColumn,
                         controlConstraintsType: controlConstraintsType,
-                        fieldCss: fieldCss),
+                        fieldCss: fieldCss,
+                        ignoreHide: ignoreHide),
                     fieldDescription: Strings.CoalesceEmpty(
                         ColumnUtilities.GetMultilingualDescription(
                             target: column.MultilingualLabelText,
@@ -182,6 +185,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     mobile: context.Mobile,
                     controlOnly: controlOnly,
                     gridEditMode: gridEditMode,
+                    savedRecord: savedRecord,
                     alwaysSend: alwaysSend,
                     required: column.Required
                         || column.GetValidateRequired()
@@ -212,7 +216,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column column,
             ServerScriptModelColumn serverScriptModelColumn,
             StatusControl.ControlConstraintsTypes controlConstraintsType = StatusControl.ControlConstraintsTypes.None,
-            string fieldCss = null)
+            string fieldCss = null,
+            bool ignoreHide = false)
         {
             var extendedFieldCss = Strings.CoalesceEmpty(
                 serverScriptModelColumn?.ExtendedFieldCss,
@@ -221,7 +226,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 + (column.NoWrap == true
                     ? " both"
                     : string.Empty)
-                + (column.GetHide() || controlConstraintsType == StatusControl.ControlConstraintsTypes.Hidden
+                + ((!ignoreHide && column.GetHide())
+                    || controlConstraintsType == StatusControl.ControlConstraintsTypes.Hidden
                     ? " hidden"
                     : string.Empty)
                 + (column.TextAlign switch
@@ -417,6 +423,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 mobile: context.Mobile,
                 controlOnly: false,
                 gridEditMode: false,
+                savedRecord: false,
                 alwaysSend: false,
                 required: column.Required
                     || column.GetValidateRequired(),
@@ -457,6 +464,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool mobile,
             bool controlOnly,
             bool gridEditMode,
+            bool savedRecord,
             bool alwaysSend,
             bool required,
             bool preview,
@@ -652,7 +660,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 selectedValue: value,
                                 multiple: column.MultipleSelections == true,
                                 insertBlank: column.MultipleSelections != true
-                                    && column.NotInsertBlankChoice != true,
+                                    && (column.NotInsertBlankChoice != true
+                                        || (savedRecord
+                                            && value.IsNullOrEmpty()
+                                            && optionCollection?.Any() == true)),
+                                withoutBlank: column.NotInsertBlankChoice == true,
+                                disabled: column.NotInsertBlankChoice == true
+                                    && column.UseSearch != true
+                                    && optionCollection?.Any() != true,
                                 alwaysSend: alwaysSend,
                                 validateRequired: required,
                                 column: column,
@@ -907,12 +922,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     : column.ValidateMaxLength ?? 0,
                                 validateRegex: column.ClientRegexValidation,
                                 validateRegexErrorMessage: column.RegexValidationMessage,
-                                attributes: column.DateTimeStep == null
-                                    ? null
-                                    : new Dictionary<string, string>()
-                                    {
-                                        { "data-step", column.DateTimeStep?.ToString() }
-                                    },
+                                attributes: FirstDayOfWeeks.DataAttributes(
+                                    context: context,
+                                    ss: ss,
+                                    attributes: column.DateTimeStep == null
+                                        ? null
+                                        : new Dictionary<string, string>()
+                                        {
+                                            { "data-step", column.DateTimeStep?.ToString() }
+                                        }),
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -1761,6 +1779,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool multiple = false,
             bool addSelectedValue = true,
             bool insertBlank = false,
+            bool withoutBlank = false,
             bool disabled = false,
             bool alwaysSend = false,
             string onChange = null,
@@ -1805,6 +1824,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 multiple: multiple,
                                 addSelectedValue: addSelectedValue,
                                 insertBlank: insertBlank,
+                                withoutBlank: withoutBlank,
                                 disabled: disabled,
                                 alwaysSend: alwaysSend,
                                 onChange: onChange,

@@ -484,6 +484,23 @@ namespace Implem.Pleasanter.Libraries.AiConnect
             return current;
         }
 
+        internal static bool WaitImmediateOperations(int milliseconds = 30000)
+        {
+            Task[] chains;
+            lock (immediateOperationChains)
+            {
+                chains = immediateOperationChains.Values.ToArray();
+            }
+            try
+            {
+                return Task.WaitAll(chains, milliseconds);
+            }
+            catch (AggregateException)
+            {
+                return true;
+            }
+        }
+
         private static void RemoveImmediateOperationChain(string key, Task completed)
         {
             lock (immediateOperationChains)

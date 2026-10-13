@@ -1,0 +1,37 @@
+﻿{
+    "Id": "PermissionSetTime",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Set time"
+        },
+        {
+            "Language": "zh",
+            "Body": "设置时间"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "設定時間"
+        },
+        {
+            "Language": "ja",
+            "Body": "設定日時"
+        },
+        {
+            "Language": "de",
+            "Body": "Einstellungszeit"
+        },
+        {
+            "Language": "ko",
+            "Body": "설정 일시"
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha de configuración"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thời gian thiết lập"
+        }
+    ]
+}

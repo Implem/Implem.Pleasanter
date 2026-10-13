@@ -18,6 +18,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlTemplates
     {
+        private static readonly HashSet<string> ViewModeActions =
+            new HashSet<string>
+        {
+            "index",
+            "calendar",
+            "crosstab",
+            "gantt",
+            "burndown",
+            "timeseries",
+            "analy",
+            "kamban",
+            "imagelib"
+        };
+
         public static HtmlBuilder Template(
             this HtmlBuilder hb,
             Context context,
@@ -398,6 +412,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss))
                 .LockWarning(
                     context: context,
+                    ss: ss)
+                .BackgroundJobInfo(
+                    context: context,
                     ss: ss);
         }
 
@@ -483,6 +500,44 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Text(text: Displays.PublishWarning(context: context))))
                 : hb;
+        }
+
+        private static HtmlBuilder BackgroundJobInfo(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
+        {
+            if (context.Publish)
+            {
+                return hb;
+            }
+            if (ss?.ReferenceType != "Issues"
+                && ss?.ReferenceType != "Results")
+            {
+                return hb;
+            }
+            if (ViewModeActions.Contains(context.Action) == false)
+            {
+                return hb;
+            }
+            var labels = BackgroundJobQueue.ReservedJobTypeLabels(
+                context: context,
+                ss: ss);
+            if (labels.Any() == false)
+            {
+                return hb;
+            }
+            var text = Displays.BackgroundJobReservedNotice(
+                context: context,
+                data: new string[]
+                {
+                    $"<a href=\"{Locations.Get(context: context, parts: new string[] { "BackgroundJobs" })}\">"
+                        + Displays.BackgroundJobs(context: context)
+                        + "</a>",
+                    WebUtility.HtmlEncode(labels.Join(", "))
+                });
+            return hb.Div(id: "BackgroundJobInfo", action: () => hb
+                .Raw(text: text));
         }
 
         private static HtmlBuilder LockWarning(
@@ -686,6 +741,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: context.Token(),
                         _using: Parameters.Security.TokenCheck)
                     .Hidden(controlId: "Language", value: context.Language)
+                    .Hidden(
+                        controlId: "ResolvedFirstDayOfWeek",
+                        value: FirstDayOfWeeks.Resolve(
+                            context: context,
+                            ss: ss).ToString())
                     .Hidden(
                         controlId: "TimeZoneOffset",
                         value: context.TimeZoneInfoOffset())

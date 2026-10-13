@@ -1,12 +1,13 @@
-﻿using Implem.Libraries.Utilities;
+﻿using System;
+using System.Linq;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
-using System;
-using System.Linq;
+using Implem.Pleasanter.Models;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -365,7 +366,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                             && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
                                                             && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
                                                                 .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
-                                                            && !readOnly)
+                                                            && !readOnly);
+                                                var canBulkDelete = context.CanDelete(ss: ss)
+                                                    && ss.ReferenceType != null
+                                                    && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
+                                                    && !readOnly;
+                                                var bulkDeleteConfirm = canBulkDelete
+                                                    && BackgroundJobQueue.ReservedJobTypeLabels(
+                                                        context: context,
+                                                        ss: ss).Any()
+                                                            ? Displays.ConfirmDeleteBackgroundJobReserved(
+                                                                context: context,
+                                                                data: Displays.BackgroundJobs(context: context))
+                                                            : Displays.ConfirmDelete(context: context);
+                                                hb
                                                     .Button(
                                                         serverScriptModelRow: serverScriptModelRow,
                                                         commandDisplayTypes: view?.BulkDeleteCommand,
@@ -377,11 +391,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         icon: "ui-icon-trash",
                                                         action: "BulkDelete",
                                                         method: "delete",
-                                                        confirm: "ConfirmDelete",
-                                                        _using: context.CanDelete(ss: ss)
-                                                            && ss.ReferenceType != null
-                                                            && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
-                                                            && !readOnly)
+                                                        confirm: bulkDeleteConfirm,
+                                                        _using: canBulkDelete)
                                                     .Button(
                                                         serverScriptModelRow: serverScriptModelRow,
                                                         commandDisplayTypes: view?.EditImportSettings,

@@ -108,7 +108,7 @@ columnFilterHash の詳細な値指定方法は resource://pleasanter/specs/view
         bool overdue = false,
             [Description(@"全文検索キーワード。")]
         string search = "",
-            [Description(@"列ごとの検索条件。キー:列名（日本語表示名可）、値:検索値の配列。例: {""状況"": [""実施中""]}。詳細は resource://pleasanter/specs/view-json を参照。")]
+            [Description(@"列ごとの検索条件。キー:列名（日本語表示名可）、値:文字列1つまたは検索値の文字列配列（数値・真偽値・null は指定不可）。例: {""状況"": [""実施中""]}。詳細は resource://pleasanter/specs/view-json を参照。")]
         Dictionary<string, List<string>> columnFilterHash = null,
             [Description(@"列ごとの検索方法。キー:列名、値:""ExactMatch""|""PartialMatch""|""ForwardMatch""。複数値OR: ""ExactMatchMultiple""等。")]
         Dictionary<string, string> columnFilterSearchTypes = null,

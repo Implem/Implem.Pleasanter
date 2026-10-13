@@ -1,0 +1,37 @@
+﻿{
+    "Id": "Site",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Site"
+        },
+        {
+            "Language": "zh",
+            "Body": "站点"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "網站"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト"
+        },
+        {
+            "Language": "de",
+            "Body": "Site"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트"
+        },
+        {
+            "Language": "es",
+            "Body": "Sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Trang"
+        }
+    ]
+}

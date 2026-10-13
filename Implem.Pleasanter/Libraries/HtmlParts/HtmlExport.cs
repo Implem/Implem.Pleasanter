@@ -16,6 +16,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context:context,
                 ss:ss);
             return hb
+                .BackgroundJobNotice(
+                    context: context,
+                    ss: ss)
                 .Hidden(
                     controlId: "BackgroundQueueEnabled",
                     value: "1",

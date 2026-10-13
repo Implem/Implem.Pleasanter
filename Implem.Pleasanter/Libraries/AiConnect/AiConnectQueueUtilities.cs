@@ -15,7 +15,9 @@ namespace Implem.Pleasanter.Libraries.AiConnect
         public static bool ShouldQueue()
         {
             return BackgroundJobQueue.BackgroundQueueEnabled()
-                && Parameters.BackgroundJobs?.OutputFilePath.IsNullOrEmpty() == false;
+                && Parameters.BackgroundJobs?.OutputFilePath.IsNullOrEmpty() == false
+                && BackgroundJobQueue.IsQueueDisabled(
+                    jobType: BackgroundJobTypes.AiConnect) == false;
         }
 
         public static long EnqueueSync(

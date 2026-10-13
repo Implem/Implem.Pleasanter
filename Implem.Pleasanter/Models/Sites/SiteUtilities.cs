@@ -3833,6 +3833,17 @@ namespace Implem.Pleasanter.Models
                             destinationSiteModel: destinationSiteModel);
                 }
             }
+            if (CircularMoveDestination(
+                context: context,
+                siteId: sourceSiteModel.SiteId,
+                destinationId: destinationSiteModel.SiteId))
+            {
+                return SiteMenuError(
+                    context: context,
+                    id: id,
+                    siteModel: siteModel,
+                    invalid: new ErrorData(type: Error.Types.CanNotPerformed));
+            }
             var toParent = id != 0 &&
                 SiteInfo.TenantCaches.Get(context.TenantId)
                     .SiteMenu.Get(id).ParentId == destinationSiteModel.SiteId;
@@ -4000,6 +4011,155 @@ namespace Implem.Pleasanter.Models
                         param: Rds.SitesParam().ParentId(destinationId))
                 });
             SiteInfo.Refresh(context: context);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance MoveByApi(Context context, long siteId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var siteApiModel = context.RequestDataString.Deserialize<SiteApiModel>();
+            if (siteApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: siteId);
+            if (siteModel.NotFound())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.NotFound));
+            }
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: siteId);
+            var invalid = SiteValidators.OnEntry(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: invalid);
+            }
+            if (siteApiModel?.ParentId == null)
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var destinationId = siteApiModel.ParentId.ToLong();
+            if (!siteModel.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: siteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            var destinationSiteModel = new SiteModel(
+                context: context,
+                siteId: destinationId);
+            if (destinationSiteModel.NotFound())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.NotFound));
+            }
+            if (destinationSiteModel.ReferenceType != "Sites")
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.CanNotPerformed));
+            }
+            if (CircularMoveDestination(
+                context: context,
+                siteId: siteId,
+                destinationId: destinationId))
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.CanNotPerformed));
+            }
+            var currentId = siteModel.ParentId;
+            invalid = SiteValidators.OnMoving(
+                context: context,
+                currentId: currentId,
+                destinationId: destinationId,
+                current: SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: currentId,
+                    referenceId: currentId),
+                source: SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: siteModel.SiteId,
+                    referenceId: siteModel.SiteId),
+                destination: SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: destinationId,
+                    referenceId: destinationId));
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: invalid);
+            }
+            MoveSiteMenu(
+                context: context,
+                ss: ss,
+                sourceId: siteModel.SiteId,
+                destinationId: destinationId);
+            return ApiResults.Success(
+                id: siteModel.SiteId,
+                limitPerDate: context.ContractSettings.ApiLimit(),
+                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                message: Displays.Moved(
+                    context: context,
+                    data: siteModel.Title.MessageDisplay(context: context)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool CircularMoveDestination(
+            Context context, long siteId, long destinationId)
+        {
+            if (siteId == destinationId)
+            {
+                return true;
+            }
+            var siteMenu = SiteInfo.TenantCaches.Get(context.TenantId)?.SiteMenu;
+            if (siteMenu == null)
+            {
+                return false;
+            }
+            var visited = new HashSet<long>();
+            var currentId = destinationId;
+            while (currentId != 0 && visited.Add(currentId))
+            {
+                if (currentId == siteId)
+                {
+                    return true;
+                }
+                var siteMenuElement = siteMenu.Get(
+                    context: context,
+                    siteId: currentId);
+                if (siteMenuElement == null)
+                {
+                    return false;
+                }
+                currentId = siteMenuElement.ParentId;
+            }
+            return false;
         }
 
         /// <summary>
@@ -5908,11 +6068,17 @@ namespace Implem.Pleasanter.Models
                                                 banner.ImgName))),
                                 _using: showBanner);
                         }
+                        var editorTabs = new HtmlBuilder()
+                            .EditorTabs(context: context, siteModel: siteModel)
+                            .ToString();
                         hb.Div(
                             id: "EditorTabsContainer",
                             css: "tab-container" + tabsCss,
+                            attributes: new HtmlAttributes().TabActive(
+                                context: context,
+                                editorTabs: editorTabs),
                             action: () => hb
-                                .EditorTabs(context: context, siteModel: siteModel)
+                                .Raw(editorTabs)
                                 .FieldSetGeneral(context: context, siteModel: siteModel)
                                 .FieldSet(
                                     attributes: new HtmlAttributes()
@@ -6293,6 +6459,21 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Sites_EnableSsCache(context: context),
                         _checked: siteModel.EnableSsCache,
                         _using: Parameters.AllowSsCache())
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "FirstDayOfWeek",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " always-send",
+                        labelText: Displays.FirstDayOfWeek(context: context),
+                        optionCollection: FirstDayOfWeeks.OptionCollection(
+                            context: context,
+                            inherit: true),
+                        selectedValue: (siteModel.SiteSettings?.FirstDayOfWeek
+                            ?? FirstDayOfWeeks.Inherit).ToString(),
+                        _using: siteModel.MethodType != BaseModel.MethodTypes.New
+                            && siteModel.ReferenceType != "Sites"
+                            && siteModel.ReferenceType != "Wikis"
+                            && siteModel.ReferenceType != "Dashboards")
                     .VerUpCheckBox(
                         context: context,
                         ss: ss,

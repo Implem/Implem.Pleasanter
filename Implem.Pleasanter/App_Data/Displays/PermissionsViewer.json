@@ -1,0 +1,37 @@
+﻿{
+    "Id": "PermissionsViewer",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Permissions viewer"
+        },
+        {
+            "Language": "zh",
+            "Body": "权限查看器"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "權限檢視器"
+        },
+        {
+            "Language": "ja",
+            "Body": "権限ビューア"
+        },
+        {
+            "Language": "de",
+            "Body": "Berechtigungs-Viewer"
+        },
+        {
+            "Language": "ko",
+            "Body": "권한 뷰어"
+        },
+        {
+            "Language": "es",
+            "Body": "Visor de permisos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Trình xem quyền"
+        }
+    ]
+}

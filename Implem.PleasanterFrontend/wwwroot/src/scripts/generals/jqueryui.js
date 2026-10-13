@@ -14,6 +14,12 @@ $p.apply = function () {
                     $p.send(ui.newPanel);
                 }
             },
+            //最初から開いているタブは切り替えが発生しないため、ここで内容を取得する。
+            create: function (event, ui) {
+                if (ui.panel.attr('data-action')) {
+                    $p.send(ui.panel);
+                }
+            },
             active: $('#EditorTabsContainer').attr('tab-active'),
             items: '> ul > li:not(.ignore-tab)'
         })

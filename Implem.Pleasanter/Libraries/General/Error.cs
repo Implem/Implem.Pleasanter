@@ -17,6 +17,7 @@ namespace Implem.Pleasanter.Libraries.General
             AiConnectResyncAlreadyEnqueued,
             AlreadyAdded,
             AlreadyLinked,
+            ApiKeyNotAllowedIpAddress,
             ApplicationError,
             ApprovalMessageInvited,
             ApprovalMessageInviting,
@@ -86,6 +87,7 @@ namespace Implem.Pleasanter.Libraries.General
             InputMailAddress,
             InternalServerError,
             InvalidAiProviderSetting,
+            InvalidApiAllowIpAddressRange,
             InvalidCsvData,
             InvalidDateHhMmFormat,
             InvalidFormula,
@@ -106,6 +108,7 @@ namespace Implem.Pleasanter.Libraries.General
             LoginExpired,
             LoginIdAlreadyUse,
             MailAddressHasNotSet,
+            NewVersionMustBeNewer,
             NoLinks,
             NotContainKeyColumn,
             NotFound,
@@ -115,6 +118,7 @@ namespace Implem.Pleasanter.Libraries.General
             Overlap,
             OverlapCsvImport,
             OverLimitApi,
+            OverLimitForm,
             OverLimitQuantity,
             OverLimitSize,
             OverLocalFolderLimitSize,
@@ -206,6 +210,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.AlreadyLinked:
                     return Messages.AlreadyLinked(
+                        context: context,
+                        data: data);
+                case Types.ApiKeyNotAllowedIpAddress:
+                    return Messages.ApiKeyNotAllowedIpAddress(
                         context: context,
                         data: data);
                 case Types.ApplicationError:
@@ -484,6 +492,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.InvalidAiProviderSetting(
                         context: context,
                         data: data);
+                case Types.InvalidApiAllowIpAddressRange:
+                    return Messages.InvalidApiAllowIpAddressRange(
+                        context: context,
+                        data: data);
                 case Types.InvalidCsvData:
                     return Messages.InvalidCsvData(
                         context: context,
@@ -564,6 +576,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.MailAddressHasNotSet(
                         context: context,
                         data: data);
+                case Types.NewVersionMustBeNewer:
+                    return Messages.NewVersionMustBeNewer(
+                        context: context,
+                        data: data);
                 case Types.NoLinks:
                     return Messages.NoLinks(
                         context: context,
@@ -598,6 +614,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.OverLimitApi:
                     return Messages.OverLimitApi(
+                        context: context,
+                        data: data);
+                case Types.OverLimitForm:
+                    return Messages.OverLimitForm(
                         context: context,
                         data: data);
                 case Types.OverLimitQuantity:
