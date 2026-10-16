@@ -7799,6 +7799,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string LinkedRecordRequired(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LinkedRecordRequired",
+                data: data);
+        }
+
         public static string LinkPageSize(
             Context context,
             params string[] data)

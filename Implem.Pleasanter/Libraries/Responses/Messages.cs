@@ -1644,6 +1644,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message LinkedRecordRequired(Context context, params string[] data)
+        {
+            return Get(
+                id: "LinkedRecordRequired",
+                text: Displays.LinkedRecordRequired(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message LockedRecord(Context context, params string[] data)
         {
             return Get(
@@ -4410,6 +4420,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: LinkCreated(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseLinkedRecordRequired(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: LinkedRecordRequired(
                     context: context,
                     data: data),
                 target: target);

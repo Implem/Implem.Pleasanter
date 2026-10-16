@@ -19,11 +19,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             long linkId,
             BaseModel.MethodTypes methodType,
-            List<Link> links = null)
+            List<Link> links = null,
+            Dictionary<string, StatusControl.ControlConstraintsTypes> statusControlHash = null)
         {
-            links = links ?? Links(
+            links = (links ?? Links(
                 context: context,
-                ss: ss);
+                ss: ss))
+                    .Where(link => StatusControlLinks.ControlType(
+                        ss: ss,
+                        statusControlHash: statusControlHash,
+                        sourceId: link.SourceId) != StatusControl.ControlConstraintsTypes.Hidden)
+                    .ToList();
             return
                 methodType != BaseModel.MethodTypes.New &&
                 links.Any()
@@ -35,8 +41,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 context: context,
                                 ss: ss,
                                 links: links,
-                                linkId: linkId))
+                                linkId: linkId,
+                                statusControlHash: statusControlHash))
                     : hb;
+        }
+
+        public static ResponseCollection LinkCreations(
+            this ResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            long linkId,
+            BaseModel.MethodTypes methodType,
+            Dictionary<string, StatusControl.ControlConstraintsTypes> statusControlHash)
+        {
+            return res.Html(
+                "#LinkCreations",
+                new HtmlBuilder().LinkCreations(
+                    context: context,
+                    ss: ss,
+                    linkId: linkId,
+                    methodType: methodType,
+                    statusControlHash: statusControlHash),
+                _using: StatusControlLinks.HasLinkControls(ss: ss)
+                    && ss
+                        .EditorColumnHash
+                        ?.SelectMany(tab => tab.Value ?? Enumerable.Empty<string>())
+                        .Any(columnName => ss.LinkId(columnName) != 0) == false);
         }
 
         public static List<Link> Links(Context context, SiteSettings ss)
@@ -100,7 +130,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             List<Link> links,
-            long linkId)
+            long linkId,
+            Dictionary<string, StatusControl.ControlConstraintsTypes> statusControlHash)
         {
             return hb.Div(action: () => links.ForEach(link => hb
                 .LinkCreationButton(
@@ -109,7 +140,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     linkId: linkId,
                     sourceId: link.SourceId,
                     text: link.SiteTitle,
-                    notReturnParentRecord: link.NotReturnParentRecord ?? false)));
+                    notReturnParentRecord: link.NotReturnParentRecord ?? false,
+                    disabled: StatusControlLinks.ControlType(
+                        ss: ss,
+                        statusControlHash: statusControlHash,
+                        sourceId: link.SourceId) == StatusControl.ControlConstraintsTypes.ReadOnly)));
         }
 
         public static HtmlBuilder LinkCreationButton(
@@ -120,11 +155,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long sourceId,
             string text,
             int tabIndex = 0,
-            bool? notReturnParentRecord = false)
+            bool? notReturnParentRecord = false,
+            bool disabled = false)
         {
             return hb.Button(
                 attributes: new HtmlAttributes()
                     .Class("button button-icon confirm-unload")
+                    .Disabled(disabled)
                     .OnClick("$p.new($(this));")
                     .Title(SiteInfo.TenantCaches.Get(context.TenantId)?
                         .SiteMenu
