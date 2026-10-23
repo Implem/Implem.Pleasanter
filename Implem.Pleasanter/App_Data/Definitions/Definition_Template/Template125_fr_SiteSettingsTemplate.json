@@ -1,0 +1,95 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "ClassD",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassE",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassC",
+                          "ClassD",
+                          "ClassA",
+                          "ClassB",
+                          "ClassE",
+                          "Body",
+                          "DescriptionA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassD",
+                        "ClassA",
+                        "ClassB",
+                        "ClassE",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "ClassD",
+                           "ClassA",
+                           "ClassB",
+                           "ClassE",
+                           "Comments",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom complet",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "téléphone fixe"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Téléphone mobile"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Code postal"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Adresse",
+                        "GridDesign":  "〒[ClassC]\n[ClassD]",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Autres contacts"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "E-mail"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "ViewLatestId":  0,
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

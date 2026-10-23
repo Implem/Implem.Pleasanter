@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại thành viên không hợp lệ. Dòng: {0}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type d’élément non valide. Ligne : {0}."
         }
     ]
 }

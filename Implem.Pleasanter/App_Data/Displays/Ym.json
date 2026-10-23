@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Ym",
     "Type": 120,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tháng năm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mois et année"
         }
     ]
 }

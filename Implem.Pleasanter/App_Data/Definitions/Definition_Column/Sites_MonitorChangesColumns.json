@@ -22,5 +22,6 @@
     "LabelText_de": "Benachrichtigungsspalten",
     "LabelText_ko": "알림 열",
     "LabelText_es": "Columnas de notificación",
-    "LabelText_vn": "Cột thông báo"
+    "LabelText_vn": "Cột thông báo",
+    "LabelText_fr": "Colonnes surveillées pour les notifications"
 }

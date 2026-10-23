@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Giờ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Heures"
         }
     ]
 }

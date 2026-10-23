@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ValidateEmail",
     "Type": 410,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng địa chỉ email không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’adresse e-mail n’est pas valide."
         }
     ]
 }

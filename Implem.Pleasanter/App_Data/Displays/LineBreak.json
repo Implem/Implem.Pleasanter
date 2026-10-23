@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Ngắt dòng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Saut de ligne"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Các ký tự để thêm khi sao chép"
+        },
+        {
+            "Language": "fr",
+            "Body": "Caractères à ajouter lors de la copie"
         }
     ]
 }

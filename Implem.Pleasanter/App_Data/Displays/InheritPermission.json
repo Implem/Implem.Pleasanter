@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InheritPermission",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kế thừa quyền truy cập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Hériter des permissions"
         }
     ]
 }

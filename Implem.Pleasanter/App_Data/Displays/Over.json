@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Over",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quá {0}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Plus de {0}"
         }
     ]
 }

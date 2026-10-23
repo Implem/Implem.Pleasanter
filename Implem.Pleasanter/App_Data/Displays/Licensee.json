@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Licensee",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Người được cấp giấy phép"
+        },
+        {
+            "Language": "fr",
+            "Body": "Titulaire de la licence"
         }
     ]
 }

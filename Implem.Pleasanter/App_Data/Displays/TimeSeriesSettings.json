@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt biểu đồ chuỗi thời gian"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres du graphique de série chronologique"
         }
     ]
 }

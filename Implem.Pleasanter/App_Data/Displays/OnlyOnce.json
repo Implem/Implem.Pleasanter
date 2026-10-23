@@ -1,4 +1,4 @@
-{
+﻿{
     "id": "OnlyOnce",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "chỉ một lần"
+        },
+        {
+            "Language": "fr",
+            "Body": "Une seule fois"
         }
     ]
 }

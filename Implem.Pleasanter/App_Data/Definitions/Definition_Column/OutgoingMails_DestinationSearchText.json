@@ -21,5 +21,6 @@
     "LabelText_de": "Empfänger-Suchtext",
     "LabelText_ko": "수신인 검색 텍스트",
     "LabelText_es": "Texto de búsqueda de destinatarios",
-    "LabelText_vn": "Văn bản tìm kiếm người nhận"
+    "LabelText_vn": "Văn bản tìm kiếm người nhận",
+    "LabelText_fr": "Texte de recherche des destinataires"
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Inviting",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đang mời..."
+        },
+        {
+            "Language": "fr",
+            "Body": "Invitation en cours…"
         }
     ]
 }

@@ -1,0 +1,150 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "DateC",
+                        "Status",
+                        "ClassB",
+                        "TitleBody",
+                        "ClassC",
+                        "ClassD",
+                        "DateA",
+                        "DateB",
+                        "NumA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateC",
+                          "ClassB",
+                          "ClassA",
+                          "ClassC",
+                          "Status",
+                          "ClassD",
+                          "DateA",
+                          "DateB",
+                          "NumA",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassA",
+    "LinkColumns":  [
+                        "ResultId",
+                        "DateC",
+                        "Status",
+                        "ClassB",
+                        "ClassA",
+                        "ClassC",
+                        "ClassD",
+                        "DateA",
+                        "DateB",
+                        "NumA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "DateC",
+                           "Status",
+                           "ClassA",
+                           "ClassB",
+                           "ClassC",
+                           "ClassD",
+                           "DateA",
+                           "DateB",
+                           "NumA",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Création de la demande,Démarré,status-new\n900,Approuver,Approuvé,status-closed\n910,Rejeté,Rejet,status-review\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom complet",
+                        "ChoicesText":  "Nom complet 1\nNom complet 2\nNom complet 3\nNom complet 4\nNom complet 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Approbateur",
+                        "ChoicesText":  "Approbateur 1\nApprobateur 2\nApprobateur 3\nApprobateur 4\nApprobateur 5"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Classement des vacances",
+                        "ChoicesText":  "congés payés\ncongé spécial\nCongé de félicitations et de condoléances\nRepos compensatoire\nAutre"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "nombre de jours",
+                        "DecimalPlaces":  1,
+                        "Unit":  "Jour"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Période (à partir de)",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Période (à)",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "DateC",
+                        "LabelText":  "Date de création de la demande"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Motif"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "TimeSeriesAggregateType":  "Total",
+                  "KambanGroupByY":  "ClassA"
+              },
+    "TitleSeparator":  ")"
+}

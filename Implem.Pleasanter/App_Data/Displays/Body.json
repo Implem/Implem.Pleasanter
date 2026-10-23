@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Nội dung"
+        },
+        {
+            "Language": "fr",
+            "Body": "Corps"
         }
     ]
 }

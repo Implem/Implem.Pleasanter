@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Hình ảnh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Image"
         }
     ]
 }

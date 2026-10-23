@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ForceUnlockTable",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bắt buộc mở khóa bảng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Forcer le déverrouillage du tableau"
         }
     ]
 }

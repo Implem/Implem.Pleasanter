@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CodeDefinerRdsCompleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cấu hình cơ sở dữ liệu đã hoàn thành."
+        },
+        {
+            "Language": "fr",
+            "Body": "La configuration de la base de données est terminée."
         }
     ]
 }

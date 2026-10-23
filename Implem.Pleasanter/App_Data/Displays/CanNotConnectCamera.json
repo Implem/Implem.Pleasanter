@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CanNotConnectCamera",
     "Type": 410,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Không thể kết nối đến máy ảnh."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de se connecter à la caméra."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InformationSystem",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hệ thống thông tin"
+        },
+        {
+            "Language": "fr",
+            "Body": "Système d’information"
         }
     ]
 }

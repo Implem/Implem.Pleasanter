@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "HumanResourcesAndGeneralAffairs",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nhân sự và các vấn đề chung"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ressources humaines et administration générale"
         }
     ]
 }

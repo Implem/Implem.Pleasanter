@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Members",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thành viên"
+        },
+        {
+            "Language": "fr",
+            "Body": "Membres"
         }
     ]
 }

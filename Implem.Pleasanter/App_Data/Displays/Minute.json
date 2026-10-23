@@ -1,4 +1,4 @@
-{
+﻿{
     "id": "Minute",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Phút"
+        },
+        {
+            "Language": "fr",
+            "Body": "Minute"
         }
     ]
 }

@@ -24,5 +24,6 @@
     "LabelText_de": "Dienstmanager",
     "LabelText_ko": "서비스 관리자",
     "LabelText_es": "Gestor de servicios",
-    "LabelText_vn": "Quản lí dịch vụ"
+    "LabelText_vn": "Quản lí dịch vụ",
+    "LabelText_fr": "Administrateur du service"
 }

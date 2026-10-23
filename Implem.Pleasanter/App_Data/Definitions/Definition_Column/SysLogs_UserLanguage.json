@@ -24,5 +24,6 @@
     "LabelText_de": "Benutzersprache",
     "LabelText_ko": "사용자 언어",
     "LabelText_es": "Idioma del usuario",
-    "LabelText_vn": "Ngôn ngữ ngườ dùng"
+    "LabelText_vn": "Ngôn ngữ ngườ dùng",
+    "LabelText_fr": "Langue de l’utilisateur"
 }

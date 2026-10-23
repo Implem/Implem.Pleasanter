@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ServerRegexValidation",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Biểu thức chính quy phía máy chủ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Expression régulière côté serveur"
         }
     ]
 }

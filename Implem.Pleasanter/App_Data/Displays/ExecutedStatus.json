@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã thay đổi trạng thái"
+        },
+        {
+            "Language": "fr",
+            "Body": "État modifié"
         }
     ]
 }

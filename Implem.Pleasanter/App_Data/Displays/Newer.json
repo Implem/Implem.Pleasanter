@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Newer",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mới"
+        },
+        {
+            "Language": "fr",
+            "Body": "Plus récent"
         }
     ]
 }

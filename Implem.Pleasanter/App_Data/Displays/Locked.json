@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Khóa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Verrouillé"
         }
     ]
 }

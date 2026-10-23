@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Diện tích"
+        },
+        {
+            "Language": "fr",
+            "Body": "Aires"
         }
     ]
 }

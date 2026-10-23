@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InvalidTimeLineSites",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hãy chỉ định ID trang web hoặc tên nhóm trang web của bảng ghi hoặc bảng hạn chế"
+        },
+        {
+            "Language": "fr",
+            "Body": "Indiquez l’ID du site ou le nom du groupe de sites du tableau d’enregistrements ou d’échéances."
         }
     ]
 }

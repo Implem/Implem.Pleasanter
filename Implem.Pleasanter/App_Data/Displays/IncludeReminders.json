@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bao gồm lời nhắc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Inclure les rappels"
         }
     ]
 }

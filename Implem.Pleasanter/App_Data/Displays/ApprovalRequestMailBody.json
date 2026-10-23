@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApprovalRequestMailBody",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đây là yêu cầu phê duyệt {0}.\n\nXin mời truy cập URL sau để phê duyệt.\n\n{1}\n\n"
+        },
+        {
+            "Language": "fr",
+            "Body": "Une demande d’approbation est adressée à {0}.\n\nAccédez à l’URL suivante pour l’approuver.\n\n{1}"
         }
     ]
 }

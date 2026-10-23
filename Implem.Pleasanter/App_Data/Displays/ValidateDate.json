@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ValidateDate",
     "Type": 410,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Ngày hoặc giờ không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "La date ou l’heure n’est pas valide."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ValidateInput",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xác thực đầu vào"
+        },
+        {
+            "Language": "fr",
+            "Body": "Validation de la saisie"
         }
     ]
 }

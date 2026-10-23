@@ -8,27 +8,31 @@
         },
         {
             "Language": "zh",
-            "Body": "将您在过滤器中不使用的项目\\n拖到这里"
+            "Body": "将您在过滤器中不使用的项目\n拖到这里"
         },
         {
             "Language": "ja",
-            "Body": "フィルタで使用しない項目は\\nこちらにドラッグ"
+            "Body": "フィルタで使用しない項目は\nこちらにドラッグ"
         },
         {
             "Language": "de",
-            "Body": "Ziehen Sie die nicht verwendeten Elemente\\nim Filter hierher"
+            "Body": "Ziehen Sie die nicht verwendeten Elemente\nim Filter hierher"
         },
         {
             "Language": "ko",
-            "Body": "필터에서 사용하지 않는 항목을\\n여기에 드래그하세요"
+            "Body": "필터에서 사용하지 않는 항목을\n여기에 드래그하세요"
         },
         {
             "Language": "es",
-            "Body": "Arrastra los elementos que no uses\\nen el filtro aquí"
+            "Body": "Arrastra los elementos que no uses\nen el filtro aquí"
         },
         {
             "Language": "vn",
-            "Body": "Kéo các mục không sử dụng\\ntrong bộ lọc vào đây"
+            "Body": "Kéo các mục không sử dụng\ntrong bộ lọc vào đây"
+        },
+        {
+            "Language": "fr",
+            "Body": "Faites glisser ici les éléments que vous n’utilisez pas dans le filtre."
         }
     ]
 }

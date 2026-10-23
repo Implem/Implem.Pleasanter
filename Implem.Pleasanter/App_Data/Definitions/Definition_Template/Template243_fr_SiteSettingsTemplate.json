@@ -1,0 +1,105 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "DescriptionA",
+                        "DescriptionB",
+                        "DescriptionC",
+                        "ClassA",
+                        "NumA",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "NumA",
+                          "DateA",
+                          "Owner",
+                          "Body",
+                          "DescriptionA",
+                          "DescriptionB",
+                          "DescriptionC",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "Body",
+                        "ClassA",
+                        "NumA",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Fichiers joints"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Description du produit"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Catégorie de produit",
+                        "ChoicesText":  "Catégorie de produit 1\nCatégorie de produit 2\nCatégorie de produit 3\nCatégorie de produit 4\nCatégorie de produit 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Price",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Argument de vente"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Mesure face à la concurrence"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Un dossier"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "ClassA",
+                         "Type":  0,
+                         "Target":  ""
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "Standard",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassA",
+                  "TimeSeriesGroupBy":  "ClassA"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

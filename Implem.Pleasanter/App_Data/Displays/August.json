@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "August",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "de",
             "Body": "August"
+        },
+        {
+            "Language": "fr",
+            "Body": "Août"
         }
     ]
 }

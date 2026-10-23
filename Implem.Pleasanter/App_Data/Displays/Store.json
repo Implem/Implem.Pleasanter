@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Store",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cửa hàng/Giao dịch"
+        },
+        {
+            "Language": "fr",
+            "Body": "Magasin"
         }
     ]
 }

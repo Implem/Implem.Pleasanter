@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Phân loại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Catégorie"
         }
     ]
 }

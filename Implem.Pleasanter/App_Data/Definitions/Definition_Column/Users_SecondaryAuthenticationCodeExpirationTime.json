@@ -20,5 +20,6 @@
     "LabelText_de": "Der Authentifizierungscode läuft am ab",
     "LabelText_ko": "인증 코드가 만료됩니다",
     "LabelText_es": "El código de autenticación caducará el",
-    "LabelText_vn": "Thời hạn sử dụng mã xác thực"
+    "LabelText_vn": "Thời hạn sử dụng mã xác thực",
+    "LabelText_fr": "Date limite du code de vérification"
 }

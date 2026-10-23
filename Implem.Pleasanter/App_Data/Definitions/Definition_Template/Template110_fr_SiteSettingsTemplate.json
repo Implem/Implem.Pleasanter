@@ -1,0 +1,185 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "TitleBody",
+                        "Comments",
+                        "DescriptionA",
+                        "DescriptionB",
+                        "DescriptionC",
+                        "DescriptionD",
+                        "NumE",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "Gestionnaire",
+                          "Owner",
+                          "NumE",
+                          "Body",
+                          "NumA",
+                          "DescriptionA",
+                          "NumB",
+                          "DescriptionB",
+                          "NumC",
+                          "DescriptionC",
+                          "NumD",
+                          "DescriptionD",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassA",
+    "LinkColumns":  [
+                        "ClassA",
+                        "NumE",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "ClassA",
+                           "NumE",
+                           "NumA",
+                           "NumB",
+                           "NumC",
+                           "NumD",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Points forts (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Faiblesses (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Opportunité (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Menace (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Points forts (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Faiblesse (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Opportunité (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionD",
+                        "LabelText":  "Menace (contenu)"
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Note totale",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Synthèse"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumE"
+                         }
+                     ],
+    "Formulas":  {
+                     "Target":  "NumE",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "OperatorType":  0,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumA",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumB",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumC",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumD",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  0,
+    "EnableCalendar":  false,
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

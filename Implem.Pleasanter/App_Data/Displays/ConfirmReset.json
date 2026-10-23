@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ConfirmReset",
     "Type": 310,
     "ClientScript": true,
@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Bạn có chắc muốn đặt lại không?"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous vraiment réinitialiser ?"
         }
     ]
 }

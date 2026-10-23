@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "PermissionSource",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Danh sách có thể lựa chọn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Liste de sélection"
         }
     ]
 }

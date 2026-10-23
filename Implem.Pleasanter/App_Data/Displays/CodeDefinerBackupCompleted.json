@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CodeDefinerBackupCompleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã hoàn thành sao lưu các tệp giải pháp."
+        },
+        {
+            "Language": "fr",
+            "Body": "La sauvegarde des fichiers de solution est terminée."
         }
     ]
 }

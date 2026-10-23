@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Trước nhãn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Avant le libellé"
         }
     ]
 }

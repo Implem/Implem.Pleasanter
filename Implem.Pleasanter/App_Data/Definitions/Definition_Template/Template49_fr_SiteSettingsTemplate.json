@@ -1,0 +1,125 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "ClassA",
+                        "ClassC",
+                        "NumC",
+                        "NumD",
+                        "DateA",
+                        "ClassB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "DateA",
+                          "ClassA",
+                          "ClassC",
+                          "NumC",
+                          "NumD",
+                          "ClassB",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassC",
+                        "NumC",
+                        "NumD",
+                        "DateA",
+                        "ClassB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du client",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nouveau/de retour",
+                        "ChoicesText":  "nouveau\nDeuxième venue"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date et heure",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Responsable",
+                        "ChoicesText":  "Responsable 1\nResponsable 2\nResponsable 3\nResponsable 4\nResponsable 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Contenu des services",
+                        "ChoicesText":  "Prestation 1\nprestation 2\nprestation 3\nprestation 4\nservice 5"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Montant des ventes",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Rester le temps",
+                        "Unit":  "Minute"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassC",
+                  "CrosstabValue":  "NumC",
+                  "TimeSeriesGroupBy":  "ClassB",
+                  "TimeSeriesAggregateType":  "Total",
+                  "TimeSeriesValue":  "NumC"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DateRange",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phạm vi ngày"
+        },
+        {
+            "Language": "fr",
+            "Body": "Plage de dates"
         }
     ]
 }

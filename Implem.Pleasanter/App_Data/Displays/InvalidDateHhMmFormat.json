@@ -28,7 +28,10 @@
         {
             "Language": "vi",
             "Body": "Nhập ở định dạng 00:00(24 giờ)."
+        },
+        {
+            "Language": "fr",
+            "Body": "Saisissez l’heure au format 00:00 (24 heures)."
         }
     ]
 }
-	

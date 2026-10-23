@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Duplicated",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể cập nhật vì {0} đã bị trùng."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de mettre à jour, car {0} existe déjà."
         }
     ]
 }

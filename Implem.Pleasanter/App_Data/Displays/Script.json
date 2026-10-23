@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bản thảo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Script"
         }
     ]
 }

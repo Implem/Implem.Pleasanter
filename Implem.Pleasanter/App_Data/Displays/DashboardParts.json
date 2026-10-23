@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DashboardParts",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Các bộ phận bảng điều khiển"
+        },
+        {
+            "Language": "fr",
+            "Body": "Éléments du tableau de bord"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "RequireManagePermission",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thao tác này không thể thực hiện vì quản trị viên vắng mặt."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cette opération ne peut pas être effectuée, car l’administrateur est absent."
         }
     ]
 }

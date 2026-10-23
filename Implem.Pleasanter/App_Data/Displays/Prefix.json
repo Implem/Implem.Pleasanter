@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Prefix",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tiền tố"
+        },
+        {
+            "Language": "fr",
+            "Body": "Préfixe"
         }
     ]
 }

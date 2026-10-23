@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NotSendIfNotApplicable",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không gửi nếu không phù hợp."
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas envoyer si non applicable."
         }
     ]
 }

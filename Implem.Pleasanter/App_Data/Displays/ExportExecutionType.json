@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cách thức xuất dữ liệu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type d’exécution"
         }
     ]
 }

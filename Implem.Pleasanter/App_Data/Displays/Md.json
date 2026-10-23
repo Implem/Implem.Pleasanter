@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Md",
     "Type": 120,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ngày tháng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mois et jour"
         }
     ]
 }

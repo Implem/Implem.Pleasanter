@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UserDisabled",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "ID đăng nhập đã bị vô hiệu hóa."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’identifiant de connexion indiqué est désactivé."
         }
     ]
 }

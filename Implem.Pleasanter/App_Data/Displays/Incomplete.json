@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Incomplete",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chưa hoàn thành"
+        },
+        {
+            "Language": "fr",
+            "Body": "Incomplet"
         }
     ]
 }

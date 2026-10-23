@@ -1,0 +1,100 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "DescriptionA",
+                        "Comments",
+                        "ClassA",
+                        "ClassB",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "Owner",
+                          "ClassA",
+                          "ClassB",
+                          "Title",
+                          "Body",
+                          "DescriptionA",
+                          "DescriptionB",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de création de la demande"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Demandeur"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Produit ou service",
+                        "ChoicesText":  "Produit ou service 1\nProduit ou service 2\nProduit ou service 3\nProduit ou service 4\nProduit ou service 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Catégorie",
+                        "ChoicesText":  "Produit ou service\nPrix\nDate de livraison\nQualité\nAutre"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Motif de la demande"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Commentaire"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassA"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "There were {0} errors. Please check the log file ({1})."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} erreur(s) détectée(s). Consultez le fichier journal ({1})."
         }
     ]
 }

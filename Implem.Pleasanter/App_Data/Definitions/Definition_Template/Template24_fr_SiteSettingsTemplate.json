@@ -1,0 +1,132 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassA",
+                        "TitleBody",
+                        "ClassB",
+                        "ClassC",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "Title",
+                          "ClassB",
+                          "ClassC",
+                          "Body",
+                          "DescriptionA",
+                          "DescriptionB",
+                          "DescriptionC",
+                          "DescriptionD",
+                          "DateA",
+                          "Owner",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ClassA",
+                        "Title",
+                        "ClassB",
+                        "ClassC",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Produit ou service",
+                        "ChoicesText":  "Produit ou service 1\nProduit ou service 2\nProduit ou service 3\nProduit ou service 4\nProduit ou service 5"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du client"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Secteur d’activité",
+                        "ChoicesText":  "A, Agriculture, Foresterie\nB,Pêche\nC. Mines,Industries extractives, carrières et extraction de gravier\nD.Industrie de la construction\nE,Industrie manufacturière\nF, électricité, gaz, approvisionnement en chaleur, industrie de l\u0027eau\nG,Information et communication\nH, Industrie des transports, Industrie postale\nI, Commerce de gros, Commerce de détail\nJ, Industrie financière, Industrie des assurances\nK, Activité immobilière, activité de location de biens\nL, Recherche universitaire, industrie des services professionnels/techniques\nM, Industrie de l\u0027hébergement, Restauration\nN, industrie des services liés à la vie, industrie du divertissement\nO, Éducation, industrie de soutien à l\u0027apprentissage\nP, soins médicaux, bien-être\nQ,Services composites\nR,Services non classés ailleurs\nS,Services publics (hors catégories classées ailleurs)\nT,Secteur non classé ailleurs"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Service"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Présentation générale"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Problème du client"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Solution"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Effet"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’enregistrement"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Créé par"
+                    },
+                    {
+                        "ColumnName":  "DescriptionD",
+                        "LabelText":  "Facteur décisif de la vente"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassA",
+                  "CrosstabAggregateType":  "Count",
+                  "TimeSeriesGroupBy":  "ClassA"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

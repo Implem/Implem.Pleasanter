@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Kéo các cột bạn muốn sử dụng."
+        },
+        {
+            "Language": "fr",
+            "Body": "Faites glisser les colonnes que vous souhaitez utiliser."
         }
     ]
 }

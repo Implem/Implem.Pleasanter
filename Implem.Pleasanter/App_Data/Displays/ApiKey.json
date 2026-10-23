@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApiKey",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khóa API"
+        },
+        {
+            "Language": "fr",
+            "Body": "Clé API"
         }
     ]
 }

@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Bạn có muốn đóng hộp thoại mà không lưu thay đổi không?"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous fermer la fenêtre sans enregistrer les modifications ?"
         }
     ]
 }

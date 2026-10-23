@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Selected."
+        },
+        {
+            "Language": "fr",
+            "Body": "Sélectionné."
         }
     ]
 }

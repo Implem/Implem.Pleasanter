@@ -1,0 +1,160 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "ClassC",
+                        "ClassD",
+                        "ClassE",
+                        "NumE",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "DateA",
+                          "ClassB",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "ClassC",
+                          "ClassD",
+                          "ClassE",
+                          "NumE",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "ClassC",
+                        "ClassD",
+                        "ClassE",
+                        "NumE",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "NumE",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Référence du modèle"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Fabricant",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Sans fil / avec fil",
+                        "ChoicesText":  "Sans fil\nAvec fil"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Poids",
+                        "DecimalPlaces":  1,
+                        "Unit":  "g"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Dimensions (largeur)",
+                        "DecimalPlaces":  1,
+                        "Unit":  "cm"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Dimensions (hauteur)",
+                        "DecimalPlaces":  1,
+                        "Unit":  "cm"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Couleur"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Systèmes d’exploitation compatibles"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  2,
+                             "Target":  "NumE"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "KambanAggregateType":  "Average",
+                  "KambanValue":  "NumE",
+                  "KambanAggregationView":  true
+              },
+    "TitleSeparator":  ")"
+}

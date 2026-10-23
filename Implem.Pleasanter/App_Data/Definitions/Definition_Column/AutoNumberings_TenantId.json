@@ -14,5 +14,6 @@
     "LabelText_de": "Mandanten-ID",
     "LabelText_ko": "테넌트 ID",
     "LabelText_es": "ID de arrendatario",
-    "LabelText_vn": "ID Người thuê"
+    "LabelText_vn": "ID Người thuê",
+    "LabelText_fr": "Identifiant du tenant"
 }

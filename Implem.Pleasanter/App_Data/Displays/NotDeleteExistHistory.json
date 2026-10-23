@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không xóa các tập tin tồn tại trong lịch sử"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas supprimer les fichiers présents dans l’historique"
         }
     ]
 }

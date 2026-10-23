@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nâng cấp phiên bản tự động"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mise à niveau automatique de la version"
         }
     ]
 }

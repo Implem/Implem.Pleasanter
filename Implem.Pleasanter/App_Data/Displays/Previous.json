@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Previous",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Trước"
+        },
+        {
+            "Language": "fr",
+            "Body": "Précédent"
         }
     ]
 }

@@ -1,0 +1,138 @@
+﻿{
+    "Version":  1.017,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "DescriptionA",
+                        "Comments",
+                        "ClassA",
+                        "Gestionnaire",
+                        "Owner",
+                        "Status",
+                        "NumA",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumnHash":  {
+                             "General":  [
+                                             "ResultId",
+                                             "Ver",
+                                             "Status",
+                                             "_Section-1",
+                                             "Title",
+                                             "Owner",
+                                             "DateA",
+                                             "NumA",
+                                             "Body",
+                                             "AttachmentsA",
+                                             "_Section-2",
+                                             "Gestionnaire",
+                                             "DateB",
+                                             "DescriptionA",
+                                             "Comments"
+                                         ]
+                         },
+    "SectionLatestId":  2,
+    "Sections":  [
+                     {
+                         "Id":  1,
+                         "LabelText":  "Colonne des candidats",
+                         "AllowExpand":  false,
+                         "Expand":  true
+                     },
+                     {
+                         "Id":  2,
+                         "LabelText":  "Colonne Approbateur",
+                         "AllowExpand":  false,
+                         "Expand":  true
+                     }
+                 ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "Status",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Status",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Création de la demande,Démarré\n900,Approuver,Approuvé\n920,Rejet,Non\n930,approbation conditionnelle,article\n940,En attente,En attente"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Montant",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de la demande",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date d’approbation",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Commentaire d\u0027approbation"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Objet"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Approbateur"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Contenu de la demande"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Demandeur"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "KambanGroupByY":  "ClassA"
+              },
+    "TitleSeparator":  ")"
+}

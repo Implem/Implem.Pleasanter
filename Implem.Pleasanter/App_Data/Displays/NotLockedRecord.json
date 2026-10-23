@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NotLockedRecord",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bản ghi này không bị khóa."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cet enregistrement n’est pas verrouillé."
         }
     ]
 }

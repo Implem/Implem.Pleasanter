@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Trung bình"
+        },
+        {
+            "Language": "fr",
+            "Body": "Moyenne"
         }
     ]
 }

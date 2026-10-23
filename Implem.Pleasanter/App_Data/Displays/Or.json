@@ -1,9 +1,13 @@
-{
+﻿{
     "Id": "Or",
     "Type": 110,
     "Languages": [
         {
             "Body": "Or"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ou"
         }
     ]
 }

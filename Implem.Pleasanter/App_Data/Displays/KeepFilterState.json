@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giữ trạng thái bộ lọc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Conserver l’état des filtres"
         }
     ]
 }

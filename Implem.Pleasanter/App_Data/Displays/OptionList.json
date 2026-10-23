@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Danh sách các lựa chọn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Liste d’options"
         }
     ]
 }

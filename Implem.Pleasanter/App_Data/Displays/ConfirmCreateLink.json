@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ConfirmCreateLink",
     "Type": 310,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bạn có muốn tạo liên kết không?"
+        },
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous créer un lien ?"
         }
     ]
 }

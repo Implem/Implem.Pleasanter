@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Login",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đăng nhập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Connexion"
         }
     ]
 }

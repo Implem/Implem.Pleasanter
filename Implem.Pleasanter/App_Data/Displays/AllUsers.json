@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AllUsers",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Toàn bộ người dùng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Tous les utilisateurs"
         }
     ]
 }

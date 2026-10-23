@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Tổng cộng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Total"
         }
     ]
 }

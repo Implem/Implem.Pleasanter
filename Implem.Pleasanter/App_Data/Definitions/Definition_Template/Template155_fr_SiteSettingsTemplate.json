@@ -1,0 +1,105 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "Status",
+                        "Owner",
+                        "ClassA",
+                        "DateA",
+                        "DateB",
+                        "DateC",
+                        "DateD",
+                        "NumA",
+                        "NumB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "Status",
+                          "Owner",
+                          "DateA",
+                          "DateB",
+                          "ClassA",
+                          "DateC",
+                          "DateD",
+                          "NumA",
+                          "NumB",
+                          "DescriptionA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Objet"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Lieu"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "heure de début",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Capacité",
+                        "Unit":  "Personne"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Heure de fin",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Nombre de candidats",
+                        "Unit":  "Personne"
+                    },
+                    {
+                        "ColumnName":  "DateC",
+                        "LabelText":  "Début du recrutement",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "DateD",
+                        "LabelText":  "Fin du recrutement",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Avant l’événement,Précédent,status-new\n900,Fin,Terminé,status-closed",
+                        "ValidateRequired":  true
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "Status",
+                         "Type":  0,
+                         "Target":  ""
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme"
+              },
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

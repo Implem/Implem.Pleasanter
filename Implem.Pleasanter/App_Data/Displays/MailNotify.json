@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thông báo URL qua email"
+        },
+        {
+            "Language": "fr",
+            "Body": "Notifier l’URL par e-mail"
         }
     ]
 }

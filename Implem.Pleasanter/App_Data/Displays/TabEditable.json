@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tab (có thể chỉnh sửa)"
+        },
+        {
+            "Language": "fr",
+            "Body": "Onglet modifiable"
         }
     ]
 }

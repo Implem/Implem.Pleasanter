@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Căn trái"
+        },
+        {
+            "Language": "fr",
+            "Body": "Alignement à gauche"
         }
     ]
 }

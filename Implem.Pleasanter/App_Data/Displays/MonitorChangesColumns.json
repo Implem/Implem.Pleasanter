@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "MonitorChangesColumns",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Các mục cần theo dõi sự thay đổi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Colonnes dont les modifications sont surveillées"
         }
     ]
 }

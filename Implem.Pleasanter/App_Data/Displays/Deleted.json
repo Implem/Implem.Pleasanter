@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Deleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "\" {0} \" đã bị xóa."
+        },
+        {
+            "Language": "fr",
+            "Body": "« {0} » a été supprimé."
         }
     ]
 }

@@ -24,5 +24,6 @@
     "LabelText_de": "Benutzercode",
     "LabelText_ko": "사용자 코드",
     "LabelText_es": "Código de usuario",
-    "LabelText_vn": "Mã người dùng"
+    "LabelText_vn": "Mã người dùng",
+    "LabelText_fr": "Code utilisateur"
 }

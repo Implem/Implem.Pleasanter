@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chế độ di chuyển"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mode de migration"
         }
     ]
 }

@@ -1,0 +1,147 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "ClassB",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Owner",
+                          "ClassA",
+                          "ClassB",
+                          "StartTime",
+                          "CompletionTime",
+                          "Body",
+                          "DescriptionA",
+                          "Status",
+                          "Gestionnaire",
+                          "DateA",
+                          "DescriptionB",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  [
+                         "Owner",
+                         "ClassA"
+                     ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "ClassB",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "ClassB",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Demandeur",
+                        "Section":  "Contenu de la demande"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Approbateur"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Numéro de l’actif"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type de borne",
+                        "ChoicesText":  "Ordinateur portable\nOrdinateur tablette"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date de retour prévue"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Motif"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Lieu"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de retour"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Création de la demande,Démarré,status-new\n150,Approuvé,Approuvé,status-preparation\n200,Sortir,Tenir,status-inprogress\n900,Retourné,Retour,status-closed\n910,En attente,En attente,status-rejected",
+                        "Section":  "Situation"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "StartTime",
+                  "CrosstabGroupByY":  "Owner",
+                  "KambanGroupByY":  "Owner"
+              },
+    "ShowGanttProgressRate":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

@@ -26,5 +26,6 @@
     "LabelText_de": "Sekundäre Authentifizierung aktivieren",
     "LabelText_ko": "2차 인증 활성화",
     "LabelText_es": "Habilitar autenticación secundaria",
-    "LabelText_vn": "Bật xác thực phụ"
+    "LabelText_vn": "Bật xác thực phụ",
+    "LabelText_fr": "Activer l’authentification secondaire"
 }

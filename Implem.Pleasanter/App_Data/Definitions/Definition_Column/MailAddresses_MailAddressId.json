@@ -25,5 +25,6 @@
     "LabelText_de": "E-Mail-Adress-ID",
     "LabelText_ko": "이메일 주소 ID",
     "LabelText_es": "ID de la dirección de correo electrónico",
-    "LabelText_vn": "ID Địa chỉ email"
+    "LabelText_vn": "ID Địa chỉ email",
+    "LabelText_fr": "Identifiant de l’adresse e-mail"
 }

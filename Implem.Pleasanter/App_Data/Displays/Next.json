@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Next",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tiếp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Suivant"
         }
     ]
 }

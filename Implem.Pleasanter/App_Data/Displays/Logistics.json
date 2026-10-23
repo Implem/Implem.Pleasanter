@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Logistics",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phân phối"
+        },
+        {
+            "Language": "fr",
+            "Body": "Logistique"
         }
     ]
 }

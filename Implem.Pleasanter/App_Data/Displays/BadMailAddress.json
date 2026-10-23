@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BadMailAddress",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Địa chỉ email không hợp lệ.[{0}]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Adresse e-mail non valide. [{0}]"
         }
     ]
 }

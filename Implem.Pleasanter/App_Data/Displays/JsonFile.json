@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tệp JSON"
+        },
+        {
+            "Language": "fr",
+            "Body": "Fichier JSON"
         }
     ]
 }

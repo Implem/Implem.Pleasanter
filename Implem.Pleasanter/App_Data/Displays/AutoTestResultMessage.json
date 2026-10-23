@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "{0} , {1} , Target：{2} , Expected：{3} , Result：{4}"
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} , {1} , Cible : {2} , Attendu : {3} , Résultat : {4}"
         }
     ]
 }

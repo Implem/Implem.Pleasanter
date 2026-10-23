@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "MenuGuide",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hướng dẫn màn hình danh mục"
+        },
+        {
+            "Language": "fr",
+            "Body": "Guide du menu"
         }
     ]
 }

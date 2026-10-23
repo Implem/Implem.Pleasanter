@@ -1,0 +1,104 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "ClassA",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "Owner",
+                          "ClassA",
+                          "DateA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "terme"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Créé par"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Catégorie",
+                        "ChoicesText":  "Catégorie 1\nCatégorie 2\nCatégorie 3\nCatégorie 4\nCatégorie 5"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’enregistrement",
+                        "DefaultInput":  "0"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "sens"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "TitleBody":  0
+                                       },
+                  "CalendarColumn":  "DateA",
+                  "TimeSeriesGroupBy":  "ClassA"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

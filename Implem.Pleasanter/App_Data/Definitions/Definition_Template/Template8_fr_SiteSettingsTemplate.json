@@ -1,0 +1,61 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "Comments",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "ClassA",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "Comments",
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassA",
+                          "DateA"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "Status",
+                        "Owner",
+                        "ClassA",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Catégorie soulignée",
+                        "ChoicesText":  "Signalé catégorie 1\nSignalé catégorie 2\nSignalé catégorie 3\nSignalé catégorie 4\nSignalé catégorie 5"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Évaluateur"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date et heure de révision",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    }
+                ],
+    "ViewLatestId":  0,
+    "TitleSeparator":  ")"
+}

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Truncate",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Làm tròn xuống"
+        },
+        {
+            "Language": "fr",
+            "Body": "Tronquer"
         }
     ]
 }

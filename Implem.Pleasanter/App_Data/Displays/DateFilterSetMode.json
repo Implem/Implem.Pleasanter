@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DateFilterSetMode",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Lựa chọn chế độ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mode de définition"
         }
     ]
 }

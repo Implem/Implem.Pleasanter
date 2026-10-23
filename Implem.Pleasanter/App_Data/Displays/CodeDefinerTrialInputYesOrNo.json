@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Type \"y\" (yes) to continue the Pleasanter Extensions Trial process, otherwise type \"n\" (no)."
+        },
+        {
+            "Language": "fr",
+            "Body": "Saisissez « y » (oui) pour poursuivre l’essai de Pleasanter Extensions, sinon « n » (non)."
         }
     ]
 }

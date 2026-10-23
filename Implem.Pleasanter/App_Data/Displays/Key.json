@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chìa khóa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Clé"
         }
     ]
 }

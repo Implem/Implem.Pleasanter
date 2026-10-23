@@ -1,0 +1,176 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassD",
+                        "ClassC",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumG",
+                        "NumF",
+                        "NumE",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "DateA",
+                          "ClassB",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "NumD",
+                          "ClassC",
+                          "ClassD",
+                          "NumF",
+                          "NumG",
+                          "NumE",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassD",
+                        "ClassC",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumG",
+                        "NumF",
+                        "NumE",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "NumE",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Référence du modèle"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Fabricant",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Couleur"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Poids",
+                        "DecimalPlaces":  1,
+                        "Unit":  "kg"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Dimensions (largeur)",
+                        "Unit":  "cm"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Dimensions (hauteur)",
+                        "Unit":  "cm"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Dimensions (profondeur)",
+                        "Unit":  "cm"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Type",
+                        "ChoicesText":  "Mural\npour fenêtres\nau sol\nplafond encastré"
+                    },
+                    {
+                        "ColumnName":  "NumF",
+                        "LabelText":  "Indication du chauffage",
+                        "Unit":  "Tatami"
+                    },
+                    {
+                        "ColumnName":  "NumG",
+                        "LabelText":  "Directive de refroidissement",
+                        "Unit":  "Tatami"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  2,
+                             "Target":  "NumE"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "KambanGroupByY":  "ClassD",
+                  "KambanAggregateType":  "Average",
+                  "KambanValue":  "NumE",
+                  "KambanAggregationView":  true
+              },
+    "TitleSeparator":  ")"
+}

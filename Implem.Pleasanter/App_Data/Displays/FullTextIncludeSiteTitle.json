@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bao gồm tiêu đề trang web"
+        },
+        {
+            "Language": "fr",
+            "Body": "Inclure le titre du site"
         }
     ]
 }

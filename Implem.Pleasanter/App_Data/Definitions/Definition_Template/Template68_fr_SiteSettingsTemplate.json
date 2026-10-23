@@ -1,0 +1,120 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "ClassA",
+                        "ClassB",
+                        "TitleBody",
+                        "Comments",
+                        "StartTime",
+                        "CompletionTime",
+                        "WorkValue",
+                        "ProgressRate",
+                        "RemainingWorkValue",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "StartTime",
+                          "CompletionTime",
+                          "WorkValue",
+                          "ProgressRate",
+                          "RemainingWorkValue",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassA",
+                          "ClassB",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "ClassA",
+                        "ClassB",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "WorkValue",
+                        "ProgressRate",
+                        "RemainingWorkValue",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "StartTime",
+                           "CompletionTime",
+                           "WorkValue",
+                           "ProgressRate",
+                           "RemainingWorkValue",
+                           "Status",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Classement du travail",
+                        "ChoicesText":  "stand d\u0027exposition\narticles promotionnels\nAttraction de clientèle"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Passer ou non une commande",
+                        "ChoicesText":  "Au sein de l\u0027entreprise\nexternalisation"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "StartTime",
+                  "KambanGroupByY":  "Owner"
+              },
+    "TitleSeparator":  ")"
+}

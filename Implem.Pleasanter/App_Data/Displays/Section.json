@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đầu đề"
+        },
+        {
+            "Language": "fr",
+            "Body": "Section"
         }
     ]
 }

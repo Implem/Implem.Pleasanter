@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OverTenantStorageSize",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thao tác này không thể thực hiện vì vượt quá dung lượng lưu trữ khả dụng là {0} GB."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cette opération dépasse l’espace de stockage disponible de {0} Go et ne peut pas être effectuée."
         }
     ]
 }

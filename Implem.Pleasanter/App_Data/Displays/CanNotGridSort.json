@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Không thể sắp xếp mục này"
+        },
+        {
+            "Language": "fr",
+            "Body": "Le tri n’est pas disponible pour cet élément."
         }
     ]
 }

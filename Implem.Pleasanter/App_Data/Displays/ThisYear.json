@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Năm nay"
+        },
+        {
+            "Language": "fr",
+            "Body": "Cette année"
         }
     ]
 }

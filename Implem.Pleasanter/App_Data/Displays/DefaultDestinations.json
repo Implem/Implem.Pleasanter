@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DefaultDestinations",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Người nhận mặc định"
+        },
+        {
+            "Language": "fr",
+            "Body": "Destinataires par défaut"
         }
     ]
 }

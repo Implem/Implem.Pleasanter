@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AnnualSupportService",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dịch vụ hỗ trợ hàng năm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Service d’assistance annuel"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DaysAgo",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0} ngày trước"
+        },
+        {
+            "Language": "fr",
+            "Body": "Il y a {0} jours"
         }
     ]
 }

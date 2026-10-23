@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OnOnly",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chỉ bật"
+        },
+        {
+            "Language": "fr",
+            "Body": "Activé uniquement"
         }
     ]
 }

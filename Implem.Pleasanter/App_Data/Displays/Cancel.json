@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Hủy bỏ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Annuler"
         }
     ]
 }

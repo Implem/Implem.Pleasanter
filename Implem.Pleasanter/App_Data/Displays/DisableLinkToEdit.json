@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Vô hiệu hóa liên kết để chỉnh sửa màn hình"
+        },
+        {
+            "Language": "fr",
+            "Body": "Désactiver le lien de modification"
         }
     ]
 }

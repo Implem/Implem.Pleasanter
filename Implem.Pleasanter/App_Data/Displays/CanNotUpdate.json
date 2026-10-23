@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể cập nhật vì chỉ có quyền đọc."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de mettre à jour cet élément en lecture seule."
         }
     ]
 }

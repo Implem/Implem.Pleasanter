@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ImageOnly",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chỉ hình ảnh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Image uniquement"
         }
     ]
 }

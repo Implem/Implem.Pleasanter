@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OrderAsc",
     "Type": 110,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Tăng dần"
+        },
+        {
+            "Language": "fr",
+            "Body": "Croissant"
         }
     ]
 }

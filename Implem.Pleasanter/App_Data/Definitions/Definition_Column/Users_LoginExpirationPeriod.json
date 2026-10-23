@@ -24,5 +24,6 @@
     "LabelText_de": "Anzahl der Tage bis zur Deaktivierung",
     "LabelText_ko": "비활성화까지의 일수",
     "LabelText_es": "Número de días hasta la desactivación",
-    "LabelText_vn": "Số ngày cho đến khi hết hiệu lực"
+    "LabelText_vn": "Số ngày cho đến khi hết hiệu lực",
+    "LabelText_fr": "Durée de validité (jours)"
 }

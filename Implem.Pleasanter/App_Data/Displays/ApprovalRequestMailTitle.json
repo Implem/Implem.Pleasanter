@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApprovalRequestMailTitle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Email yêu cầu phê duyệt {0}"
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} Demande d’approbation"
         }
     ]
 }

@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Rocket.Chat"
+        },
+        {
+            "Language": "fr",
+            "Body": "Rocket.Chat"
         }
     ]
 }

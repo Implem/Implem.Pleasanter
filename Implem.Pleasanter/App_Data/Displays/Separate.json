@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Separate",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Séparer"
         }
     ]
 }

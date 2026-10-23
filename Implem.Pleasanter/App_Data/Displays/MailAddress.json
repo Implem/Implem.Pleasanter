@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "MailAddress",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Địa chỉ email"
+        },
+        {
+            "Language": "fr",
+            "Body": "Adresse e-mail"
         }
     ]
 }

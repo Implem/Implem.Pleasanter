@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SelectOne",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xin mời chọn 1 bản ghi."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez en sélectionner un."
         }
     ]
 }

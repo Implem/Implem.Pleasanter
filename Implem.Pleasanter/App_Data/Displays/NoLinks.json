@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NoLinks",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không có mục đã liên kết."
+        },
+        {
+            "Language": "fr",
+            "Body": "Aucune colonne liée."
         }
     ]
 }

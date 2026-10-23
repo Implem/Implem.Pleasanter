@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Ký tự"
+        },
+        {
+            "Language": "fr",
+            "Body": "Caractères"
         }
     ]
 }

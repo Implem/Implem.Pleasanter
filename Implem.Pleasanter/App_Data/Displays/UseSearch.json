@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UseSearch",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng chức năng tìm kiếm."
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser la fonction de recherche."
         }
     ]
 }

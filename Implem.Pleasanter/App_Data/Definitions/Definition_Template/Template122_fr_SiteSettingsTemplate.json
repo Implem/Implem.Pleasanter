@@ -1,0 +1,264 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "ClassA",
+                        "ClassB",
+                        "NumI",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumE",
+                        "NumF",
+                        "NumG",
+                        "NumH",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "DateA",
+                          "NumI",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "NumD",
+                          "NumE",
+                          "NumF",
+                          "NumG",
+                          "NumH",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  [
+                         "ClassA",
+                         "ClassB"
+                     ],
+    "LinkColumns":  [
+                        "ClassA",
+                        "ClassB",
+                        "NumI",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumE",
+                        "NumF",
+                        "NumG",
+                        "NumH",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Nom complet",
+                        "ChoicesText":  "Nom complet 1\nNom complet 2\nNom complet 3\nNom complet 4\nNom complet 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Satisfaction (travail)",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Niveau de satisfaction (évaluation)",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Satisfaction (amélioration des compétences)",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Niveau de satisfaction (politique de gestion)",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Niveau de satisfaction (patron)",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumF",
+                        "LabelText":  "Niveau de satisfaction (organisation)",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumG",
+                        "LabelText":  "Niveau de satisfaction (prestations sociales)",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumH",
+                        "LabelText":  "Niveau de satisfaction (salaire)",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumI",
+                        "LabelText":  "Niveau de satisfaction totale",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de réponse"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  2,
+                             "Target":  "NumI"
+                         }
+                     ],
+    "Formulas":  {
+                     "Target":  "NumI",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "OperatorType":  0,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumA",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumB",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumC",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumD",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumE",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumF",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumG",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumH",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesAggregateType":  "Max",
+                  "TimeSeriesValue":  "NumI",
+                  "KambanAggregateType":  "Average",
+                  "KambanValue":  "NumI",
+                  "KambanAggregationView":  true
+              },
+    "EnableCalendar":  false,
+    "TitleSeparator":  ")"
+}

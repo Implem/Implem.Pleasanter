@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Hiển thị trạng thái tệp đính kèm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Afficher l’état des pièces jointes"
         }
     ]
 }

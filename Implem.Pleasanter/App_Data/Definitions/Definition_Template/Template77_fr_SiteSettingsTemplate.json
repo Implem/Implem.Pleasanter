@@ -1,0 +1,100 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "ClassA",
+                        "NumA",
+                        "ClassB",
+                        "Status",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "NumA",
+                          "ClassB",
+                          "Status",
+                          "DateA",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "NumA",
+                        "ClassB",
+                        "Status",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassA",
+                           "NumA",
+                           "ClassB",
+                           "Status",
+                           "DateA",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom complet",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom de l’entreprise"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Montant",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Hébergement",
+                        "ChoicesText":  "Non\nOui"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date et heure de réception",
+                        "DefaultInput":  "0",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,En attendant les visiteurs,En attente,status-new\n900,Accepté,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    }
+                ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "Status",
+                  "KambanGroupByY":  "ClassB"
+              },
+    "TitleSeparator":  ")"
+}

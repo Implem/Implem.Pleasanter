@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UserManual",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hướng dẫn sử dụng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Manuel utilisateur"
         }
     ]
 }

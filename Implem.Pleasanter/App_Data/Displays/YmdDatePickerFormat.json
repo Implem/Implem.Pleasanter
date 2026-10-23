@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Y/m/d"
+        },
+        {
+            "Language": "fr",
+            "Body": "d/m/Y"
         }
     ]
 }

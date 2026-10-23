@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "HTML element does not exist."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’élément HTML n’existe pas."
         }
     ]
 }

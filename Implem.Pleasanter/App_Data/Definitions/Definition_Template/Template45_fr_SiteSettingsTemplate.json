@@ -1,0 +1,189 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "Comments",
+                        "ClassG",
+                        "ClassH",
+                        "DateA",
+                        "Status",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "NumA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "ClassE",
+                          "ClassF",
+                          "ClassG",
+                          "NumC",
+                          "DescriptionB",
+                          "DescriptionC",
+                          "DescriptionD",
+                          "DescriptionA",
+                          "Body",
+                          "ClassH",
+                          "NumB",
+                          "DateA",
+                          "Status",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassG",
+                        "ClassH",
+                        "Status",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassG",
+                           "ClassH",
+                           "Status",
+                           "DateA",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom complet",
+                        "Section":  "Données personnelles",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom phonétique"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Âge",
+                        "ControlType":  "Spinner",
+                        "Max":  100.0
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Sexe",
+                        "ChoicesText":  "Homme\nFemme"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Adresse",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Téléphone"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "E-mail"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "Comment avez-vous connu l’entreprise ?",
+                        "ChoicesText":  "Publication d’offres d’emploi\nSite d’offres d’emploi\nRecommandation d’une connaissance"
+                    },
+                    {
+                        "ColumnName":  "ClassG",
+                        "LabelText":  "Poste visé",
+                        "ChoicesText":  "Profession 1\nProfession 2\nProfession 3\nProfession 4\nProfession 5"
+                    },
+                    {
+                        "ColumnName":  "ClassH",
+                        "LabelText":  "Type d’emploi",
+                        "ChoicesText":  "Salarié intérimaire\nSous-traitance\nEmployé sous contrat\nEmploi à temps partiel\nEmploi à temps partiel"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Salaire horaire",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Reçu\n200,Entretien\n900,Recruté\n910,Non retenu\n920,En attente"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de l’entretien"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Résultat de l’entretien",
+                        "Section":  "Informations sur le recrutement"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Motivation"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Expérience professionnelle"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Certification"
+                    },
+                    {
+                        "ColumnName":  "DescriptionD",
+                        "LabelText":  "Points forts"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Années d’expérience",
+                        "ControlType":  "Spinner",
+                        "Max":  30.0,
+                        "Unit":  "Année"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  3,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassG",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassH",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassH",
+                  "CrosstabAggregateType":  "Count",
+                  "TimeSeriesGroupBy":  "ClassG",
+                  "KambanGroupByY":  "ClassG"
+              },
+    "TitleSeparator":  ")"
+}

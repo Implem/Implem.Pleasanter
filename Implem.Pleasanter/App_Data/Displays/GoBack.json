@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Quay lại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Retour"
         }
     ]
 }

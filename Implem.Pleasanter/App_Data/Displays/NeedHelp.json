@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cần giúp đỡ?"
+        },
+        {
+            "Language": "fr",
+            "Body": "Besoin d’aide ?"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CantSetAtTopOfSite",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể cài đặt trên trang web cấp cao nhất."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de définir cette option sur le site de niveau supérieur."
         }
     ]
 }

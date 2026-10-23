@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Số kí tự tối đa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre maximal de caractères"
         }
     ]
 }

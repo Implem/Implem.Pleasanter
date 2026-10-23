@@ -1,0 +1,124 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridColumns":  [
+                        "IssueId",
+                        "ClassA",
+                        "TitleBody",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "Gestionnaire",
+                          "Owner",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "ClassA",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "ClassA",
+                           "Title",
+                           "Comments",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Gestionnaire",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date de début d’utilisation",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date de retour prévue",
+                        "DefaultInput":  "365",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Disponible,Vide,status-new\n200,En cours d’utilisation,Utilisation,status-inprogress\n900,Retourné,Retour,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Utilisateur"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "nom de l\u0027ordinateur",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Catégorie",
+                        "ChoicesText":  "Ordinateur portable\nOrdinateur de bureau\nTablette"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "KambanGroupByY":  "ClassA"
+              },
+    "EnableGantt":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

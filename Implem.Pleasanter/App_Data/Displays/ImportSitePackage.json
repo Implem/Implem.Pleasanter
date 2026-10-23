@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nhập dữ liệu của gói trang web"
+        },
+        {
+            "Language": "fr",
+            "Body": "Importer un package de site"
         }
     ]
 }

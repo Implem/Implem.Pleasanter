@@ -33,5 +33,6 @@
     "LabelText_de": "Protokoll-ID",
     "LabelText_ko": "로그 ID",
     "LabelText_es": "ID de registro",
-    "LabelText_vn": "ID Log"
+    "LabelText_vn": "ID Log",
+    "LabelText_fr": "Identifiant du journal"
 }

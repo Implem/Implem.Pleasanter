@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "dấu phẩy"
+        },
+        {
+            "Language": "fr",
+            "Body": "Virgule"
         }
     ]
 }

@@ -1,0 +1,136 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "DateA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "DateA",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "DateA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "cave",
+                        "ChoicesText":  "cave 1\ncave 2\ncave 3\ncave 4\ncave 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type",
+                        "ChoicesText":  "vin rouge\nvin blanc\nvin rosé\nvin mousseux\nvin doux\nvin sans alcool"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "goûter",
+                        "ChoicesText":  "corps entier\nCorps moyen\ncorps léger"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Alcool",
+                        "ControlType":  "Spinner",
+                        "DecimalPlaces":  1,
+                        "Max":  100.0,
+                        "Unit":  "%"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Contenance",
+                        "Unit":  "ml"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "ControlType":  "Normal",
+                        "Max":  100.0
+                    },
+                    {
+                        "ColumnName":  "NumF",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Description"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "ClassB",
+                  "CrosstabGroupByY":  "ClassA",
+                  "CrosstabAggregateType":  "Average",
+                  "CrosstabValue":  "NumF",
+                  "TimeSeriesGroupBy":  "ClassB"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

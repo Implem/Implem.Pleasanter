@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quá khứ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Passé"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại lời nhắc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type de rappel"
         }
     ]
 }

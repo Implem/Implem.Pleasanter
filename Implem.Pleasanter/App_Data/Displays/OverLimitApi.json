@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã vượt qua giới hạn API ({1} yêu cầu/ngày) có thể dùng trên trang web với ID {0}."
+        },
+        {
+            "Language": "fr",
+            "Body": "La limite de l’API ({1} requêtes par jour) du site ayant l’ID {0} a été dépassée."
         }
     ]
 }

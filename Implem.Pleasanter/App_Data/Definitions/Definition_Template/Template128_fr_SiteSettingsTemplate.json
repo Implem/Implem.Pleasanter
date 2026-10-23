@@ -1,0 +1,167 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "ClassB",
+                        "TitleBody",
+                        "Comments",
+                        "Status",
+                        "ClassC",
+                        "DateA",
+                        "DateB",
+                        "DateC",
+                        "DateD",
+                        "NumA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassB",
+                          "ClassA",
+                          "ClassC",
+                          "Status",
+                          "DateA",
+                          "DateB",
+                          "Body",
+                          "DateC",
+                          "DateD",
+                          "NumA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  [
+                         "ClassB",
+                         "ClassA"
+                     ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "ClassB",
+                        "Title",
+                        "ClassC",
+                        "Status",
+                        "DateA",
+                        "DateB",
+                        "DateC",
+                        "DateD",
+                        "NumA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Status",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Création de la demande,Démarré,status-new\n900,Approuver,Approuvé,status-closed\n910,Rejeté,Rejet,status-review\n920,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom complet",
+                        "ChoicesText":  "Nom complet 1\nNom complet 2\nNom complet 3\nNom complet 4\nNom complet 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Titre du manager",
+                        "ChoicesText":  "Nom du gestionnaire 1\nTitre d\u0027entraîneur 2\nTitre de manager 3\nNom du responsable 4\nNom du gestionnaire 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Durée",
+                        "ControlType":  "Spinner",
+                        "DecimalPlaces":  1,
+                        "Max":  10.0,
+                        "Step":  0.1,
+                        "Unit":  "h"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Début (prévu)",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Terminé (prévu)",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "DateC",
+                        "LabelText":  "Début (réel)",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "DateD",
+                        "LabelText":  "Terminé (réel)",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Motif"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "ClassB",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         },
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "TimeSeriesAggregateType":  "Total",
+                  "KambanGroupByY":  "ClassA"
+              },
+    "TitleSeparator":  ")"
+}

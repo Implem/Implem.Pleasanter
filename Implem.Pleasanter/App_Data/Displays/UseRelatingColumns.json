@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng các mục liên quan"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser les colonnes associées"
         }
     ]
 }

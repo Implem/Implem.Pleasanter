@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng gần thời điểm hoàn thành bộ lọc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser le filtre d’échéance proche"
         }
     ]
 }

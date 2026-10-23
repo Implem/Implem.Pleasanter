@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "StartDateTime",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thời gian bắt đầu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Commencé le"
         }
     ]
 }

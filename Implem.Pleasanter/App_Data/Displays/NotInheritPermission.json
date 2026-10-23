@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NotInheritPermission",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không kế thừa quyền truy cập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas hériter des permissions"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ngày hết hạn đăng nhập hoặc số ngày cho đến khi quá trình hủy kích hoạt kết thúc."
+        },
+        {
+            "Language": "fr",
+            "Body": "La période autorisée avant expiration de la connexion ou désactivation est écoulée."
         }
     ]
 }

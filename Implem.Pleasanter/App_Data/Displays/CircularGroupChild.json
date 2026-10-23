@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể đặt nhóm con vì đây là tham chiếu vòng tròn."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de définir des groupes enfants, car cela créerait une référence circulaire."
         }
     ]
 }

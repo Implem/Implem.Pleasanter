@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Confirmation target."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cible de confirmation"
         }
     ]
 }

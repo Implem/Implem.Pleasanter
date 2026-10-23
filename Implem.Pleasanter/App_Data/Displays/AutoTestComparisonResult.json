@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Comparison result."
+        },
+        {
+            "Language": "fr",
+            "Body": "Résultat de la comparaison"
         }
     ]
 }

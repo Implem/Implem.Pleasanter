@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Người dùng không chính xác.[{0}]"
+        },
+        {
+            "Language": "fr",
+            "Body": "L’utilisateur est incorrect. [{0}]"
         }
     ]
 }

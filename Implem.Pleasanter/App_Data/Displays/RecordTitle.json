@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "RecordTitle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tiêu đề bản ghi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Titre de l’enregistrement"
         }
     ]
 }

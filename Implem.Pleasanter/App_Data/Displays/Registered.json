@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "\" {0} \" đã được đăng ký."
+        },
+        {
+            "Language": "fr",
+            "Body": "« {0} » a été enregistré."
         }
     ]
 }

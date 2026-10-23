@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xin mời tải về từ đường dẫn sau."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez télécharger le fichier à partir du lien ci-dessous."
         }
     ]
 }

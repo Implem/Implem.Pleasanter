@@ -1,0 +1,121 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "Body",
+                        "DescriptionA",
+                        "Comments",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassC",
+                          "Body",
+                          "ClassD",
+                          "DescriptionA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  [
+                         "ClassA",
+                         "ClassB"
+                     ],
+    "LinkColumns":  [
+                        "ClassA",
+                        "ClassB",
+                        "Gestionnaire",
+                        "Owner",
+                        "ClassC",
+                        "ClassD",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "ClassC",
+                           "ClassD",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Processus métier",
+                        "ChoicesText":  "Processus 1\nprocessus 2\nprocessus 3\nprocessus 4\nprocessus 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Niveau actuel",
+                        "ChoicesText":  "10,Niveau 1 (initial)\n20,Niveau 2 (géré)\n30,Niveau 3 (défini)\n40,Niveau 4 (géré de manière quantitative)\n50,Niveau 5 (optimisé)"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "niveau cible",
+                        "ChoicesText":  "10,Niveau 1 (initial)\n20,Niveau 2 (géré)\n30,Niveau 3 (défini)\n40,Niveau 4 (géré de manière quantitative)\n50,Niveau 5 (optimisé)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Mesures"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Analyse de la situation actuelle"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "ClassA":  0,
+                                           "ClassB":  0
+                                       }
+              },
+    "EnableCalendar":  false,
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

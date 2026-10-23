@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tỉ lệ sử dụng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Taux d’utilisation de l’espace de stockage"
         }
     ]
 }

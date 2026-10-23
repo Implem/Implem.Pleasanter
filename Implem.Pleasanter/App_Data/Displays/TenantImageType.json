@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TenantImageType",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại biểu tượng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type de logo"
         }
     ]
 }

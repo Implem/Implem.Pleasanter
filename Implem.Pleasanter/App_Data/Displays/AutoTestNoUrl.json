@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "No URL is specified. Please enter."
+        },
+        {
+            "Language": "fr",
+            "Body": "Aucune URL n’est indiquée. Veuillez en saisir une."
         }
     ]
 }

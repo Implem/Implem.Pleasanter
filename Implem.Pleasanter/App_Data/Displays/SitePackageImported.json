@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0} trang web và {1} bản ghi được thêm vào."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} site(s) importé(s) et {1} enregistrement(s) inséré(s)."
         }
     ]
 }

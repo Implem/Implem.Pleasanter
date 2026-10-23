@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Sao chép từ"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Copier depuis"
         }
     ]
 }

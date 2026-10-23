@@ -26,5 +26,6 @@
     "LabelText_de": "Sekundäre Authentifizierung deaktivieren",
     "LabelText_ko": "2차 인증 비활성화",
     "LabelText_es": "Deshabilitar autenticación secundaria",
-    "LabelText_vn": "Tắt xác thực phụ"
+    "LabelText_vn": "Tắt xác thực phụ",
+    "LabelText_fr": "Désactiver l’authentification secondaire"
 }

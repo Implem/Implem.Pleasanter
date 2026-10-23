@@ -1,0 +1,135 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "DescriptionA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumA",
+                        "DateA",
+                        "Owner",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "DescriptionA",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "NumA",
+                          "DateA",
+                          "Owner",
+                          "Gestionnaire",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumA",
+                        "DateA",
+                        "Owner",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "DateA",
+                           "Gestionnaire",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Produit ou service",
+                        "ChoicesText":  "Produit ou service 1\nProduit ou service 2\nProduit ou service 3\nProduit ou service 4\nProduit ou service 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type de travail",
+                        "ChoicesText":  "Type de travail 1\nType de travail 2\nType de travail 3\nType de travail 4\nType de travail 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Difficulté",
+                        "ChoicesText":  "Élevé\nModéré\nFaible"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Temps nécessaire",
+                        "Unit":  "Minute"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom de la tâche"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Description du travail"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Points de vigilance"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’enregistrement"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Approbateur"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Créé par"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassA",
+                  "CrosstabAggregateType":  "Count",
+                  "TimeSeriesGroupBy":  "ClassA"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

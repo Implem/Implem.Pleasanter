@@ -28,5 +28,6 @@
     "LabelText_de": "Sperrungszähler",
     "LabelText_ko": "잠김 카운터",
     "LabelText_es": "Contador de bloqueos",
-    "LabelText_vn": "Bộ đếm khóa"
+    "LabelText_vn": "Bộ đếm khóa",
+    "LabelText_fr": "Nombre de verrouillages"
 }

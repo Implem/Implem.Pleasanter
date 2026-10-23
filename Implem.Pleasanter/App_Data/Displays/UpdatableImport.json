@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cập nhật bản ghi bằng khóa phù hợp."
+        },
+        {
+            "Language": "fr",
+            "Body": "Mettre à jour l’enregistrement ayant la même clé."
         }
     ]
 }

@@ -1,0 +1,168 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassB",
+                        "ClassA",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "DateA",
+                        "ClassC",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassB",
+                          "ClassA",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "DateA",
+                          "ClassC",
+                          "Owner",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassB",
+                        "ClassA",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "DateA",
+                        "Owner",
+                        "ClassC",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "ClassB",
+                           "ClassA",
+                           "NumA",
+                           "NumB",
+                           "NumC",
+                           "DateA",
+                           "ClassC",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "fournisseur",
+                        "ChoicesText":  "Fournisseur 1\nFournisseur 2\nFournisseur 3\nFournisseur 4\nFournisseur 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Catégorie de produit",
+                        "ChoicesText":  "Catégorie de produit 1\nCatégorie de produit 2\nCatégorie de produit 3\nCatégorie de produit 4\nCatégorie de produit 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix unitaire",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Quantité"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Montant",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Demandeur"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Magasin",
+                        "ChoicesText":  "Magasin 1\nMagasin 2\nMagasin 3\nMagasin 4\nMagasin 5"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassB",
+                             "Type":  1,
+                             "Target":  "NumC"
+                         }
+                     ],
+    "Formulas":  {
+                     "Target":  "NumC",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "ColumnName":  "NumA",
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "ColumnName":  "NumB",
+                                                          "OperatorType":  3
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassB",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "TimeSeriesAggregateType":  "Total",
+                  "TimeSeriesValue":  "NumC",
+                  "KambanGroupByX":  "ClassB",
+                  "KambanGroupByY":  "Owner",
+                  "KambanValue":  "NumC"
+              },
+    "TitleSeparator":  ")"
+}

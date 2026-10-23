@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Mô tả"
+        },
+        {
+            "Language": "fr",
+            "Body": "Description"
         }
     ]
 }

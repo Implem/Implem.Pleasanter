@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đăng nhập SSO"
+        },
+        {
+            "Language": "fr",
+            "Body": "Connexion SSO"
         }
     ]
 }

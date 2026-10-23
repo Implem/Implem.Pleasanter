@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Scripts",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bản thảo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Scripts"
         }
     ]
 }

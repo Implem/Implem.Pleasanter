@@ -1,0 +1,211 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "Comments",
+                        "ClassE",
+                        "ClassF",
+                        "ClassG",
+                        "ClassH",
+                        "ClassI",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "DateA",
+                          "ClassL",
+                          "Title",
+                          "Body",
+                          "DescriptionA",
+                          "ClassE",
+                          "ClassF",
+                          "ClassG",
+                          "ClassH",
+                          "ClassI",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "Owner",
+                          "ClassJ",
+                          "DateB",
+                          "ClassK",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "ClassE",
+                        "ClassF",
+                        "ClassG",
+                        "ClassH",
+                        "ClassI",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "ClassE",
+                           "ClassF",
+                           "ClassG",
+                           "ClassH",
+                           "ClassI",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Demandeur",
+                        "Section":  "Informations sur le demandeur"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Téléphone"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "E-mail"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Personne chargée de la réception",
+                        "Section":  "Informations de réception"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date et heure de réception",
+                        "DefaultInput":  "0",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "Section":  "Informations sur l’incident"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Résultat du traitement"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Catégorie",
+                        "ChoicesText":  "Catégorie 1\nCatégorie 2\nCatégorie 3\nCatégorie 4\nCatégorie 5"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "Sous-catégorie",
+                        "ChoicesText":  "Sous-catégorie 1\nSous-catégorie 2\nSous-catégorie 3\nSous-catégorie 4\nSous-catégorie 5"
+                    },
+                    {
+                        "ColumnName":  "ClassG",
+                        "LabelText":  "Urgence",
+                        "ChoicesText":  "Faible\nModéré\nÉlevé"
+                    },
+                    {
+                        "ColumnName":  "ClassH",
+                        "LabelText":  "Impact",
+                        "ChoicesText":  "Faible\nModéré\nÉlevé"
+                    },
+                    {
+                        "ColumnName":  "ClassI",
+                        "LabelText":  "Priorité",
+                        "ChoicesText":  "Intégrer à la planification\nFaible\nModéré\nÉlevé\nCritique"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date et heure de début",
+                        "DefaultInput":  "",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date et heure de fin",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "LabelText":  "État",
+                        "ChoicesText":  "100,Non commencé,Non commencé,status-new\n200,En cours,En cours,status-inprogress\n900,Terminé,Terminé,status-closed\n910,Fermé,Terminé,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Responsable du traitement"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date et heure de clôture",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "ClassJ",
+                        "LabelText":  "Catégorie de clôture",
+                        "Section":  "Informations de clôture"
+                    },
+                    {
+                        "ColumnName":  "ClassK",
+                        "LabelText":  "Approbateur de clôture"
+                    },
+                    {
+                        "ColumnName":  "ClassL",
+                        "LabelText":  "Mode de réception",
+                        "ChoicesText":  "Téléphone\nE-mail\nNotification"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassE",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassF",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassI",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "StartTime",
+                  "CrosstabGroupByY":  "ClassE",
+                  "KambanGroupByY":  "Owner"
+              },
+    "ShowGanttProgressRate":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

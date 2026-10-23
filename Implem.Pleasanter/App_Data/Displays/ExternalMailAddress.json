@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ExternalMailAddress",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể gửi đến địa chỉ email bên ngoài.[{0}]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible d’envoyer un e-mail à une adresse externe. [{0}]"
         }
     ]
 }

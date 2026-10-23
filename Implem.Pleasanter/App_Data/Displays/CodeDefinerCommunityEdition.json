@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "This edition is \"Community Edition\"."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cette édition est « Community Edition »."
         }
     ]
 }

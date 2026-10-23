@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dấu phân cách chữ số"
+        },
+        {
+            "Language": "fr",
+            "Body": "Séparateur de milliers"
         }
     ]
 }

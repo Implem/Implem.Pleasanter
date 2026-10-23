@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép tách bản ghi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser la séparation des enregistrements"
         }
     ]
 }

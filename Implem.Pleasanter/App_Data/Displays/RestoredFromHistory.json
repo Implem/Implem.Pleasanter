@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "RestoredFromHistory",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khôi phục từ phiên bản {0}."
+        },
+        {
+            "Language": "fr",
+            "Body": "Restauré à partir de la version {0}."
         }
     ]
 }

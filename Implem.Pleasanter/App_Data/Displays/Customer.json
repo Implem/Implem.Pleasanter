@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Customer",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khách hàng/Dịch vụ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Client / service"
         }
     ]
 }

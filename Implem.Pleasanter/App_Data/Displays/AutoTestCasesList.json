@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "No.{0} TestCases{1}.json {2}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Test n° {0} TestCases{1}.json {2}"
         }
     ]
 }

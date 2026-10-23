@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NearCompletionTime",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Gần đến thời hạn"
+        },
+        {
+            "Language": "fr",
+            "Body": "À l’approche de l’échéance"
         }
     ]
 }

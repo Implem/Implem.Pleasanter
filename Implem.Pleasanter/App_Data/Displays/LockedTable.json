@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LockedTable",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bảng này bị khóa đến {1} bởi {0}."
+        },
+        {
+            "Language": "fr",
+            "Body": "Ce tableau a été verrouillé par {0} jusqu’à {1}."
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép sao chép"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser la copie"
         }
     ]
 }

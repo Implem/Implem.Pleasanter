@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không hiển thị đồ thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas afficher le graphique"
         }
     ]
 }

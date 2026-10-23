@@ -18,5 +18,6 @@
     "LabelText_de": "Dienstname",
     "LabelText_ko": "서비스 이름",
     "LabelText_es": "Nombre del servicio",
-    "LabelText_vn": "Tên dịch vụ"
+    "LabelText_vn": "Tên dịch vụ",
+    "LabelText_fr": "Nom du service"
 }

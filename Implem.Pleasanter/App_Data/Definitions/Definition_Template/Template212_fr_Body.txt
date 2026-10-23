@@ -1,0 +1,51 @@
+﻿101,Avocat
+102,Conseil en brevets
+103,Notaire judiciaire
+104,Géomètre-expert
+105,Conseiller en démarches administratives
+106,Agent maritime
+107,Déclarant en douane
+201,Expert-comptable
+202,Conseiller fiscal
+203,Conseiller en diagnostic des petites et moyennes entreprises
+204,Conseiller en assurance sociale et droit du travail
+205,Conseiller en planification financière
+301,Agent immobilier agréé
+302,Expert immobilier
+303,Architecte
+304,Gestionnaire d’immeubles résidentiels
+305,Conseiller en aménagement foncier
+306,Géomètre
+401,Technicien
+402,Géomètre-topographe
+403,Météorologue
+404,Ingénieur océanographe
+405,Métrologue
+406,Préventeur en santé et sécurité au travail
+407,Technicien des équipements au gaz de pétrole liquéfié
+408,Pompier
+409,Électricien
+501,Assistant en sécurité des systèmes d’information
+502,Ingénieur en systèmes d’information
+601,Guide-interprète
+701,Médecin
+702,Chirurgien-dentiste
+703,Vétérinaire
+704,Infirmier
+705,Pharmacien
+706,Prothésiste orthopédique
+707,Assistant social
+708,Aide-soignant
+709,Professionnel de la santé mentale
+710,Secouriste en urgence
+711,Kinésithérapeute
+712,Ergothérapeute
+713,Orthophoniste
+714,Orthoptiste
+715,Ingénieur biomédical
+716,Technicien de laboratoire médical
+717,Manipulateur en électroradiologie médicale
+718,Acupuncteur
+719,Praticien en massage et shiatsu
+720,Praticien en judo-thérapie
+721,Assistant dentaire

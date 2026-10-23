@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Số lượng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre"
         }
     ]
 }

@@ -1,0 +1,159 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "ClassE",
+                        "Body",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "ClassF",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "ClassA",
+                          "Title",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "ClassE",
+                          "Body",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "ClassF",
+                          "Owner",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "ClassE",
+                        "Body",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "ClassF",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "ClassA",
+                           "ClassB",
+                           "ClassC",
+                           "ClassD",
+                           "ClassE",
+                           "Body",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "ClassF",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "segment"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Adresse IP",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "nom d\u0027hôte"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Type",
+                        "ChoicesText":  "ordinateur de bureau\nOrdinateur portable"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Modèle",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "OS",
+                        "ChoicesText":  "Windows7\nWindows8\nWindows10"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "But d\u0027utilisation"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date de début d’utilisation"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date de retour prévue"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "200,En cours d’utilisation,Utilisation,status-inprogress\n900,Retourné,Terminé,status-closed"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "Département d\u0027utilisation",
+                        "ChoicesText":  "Service utilisateur 1\nService utilisateur 2\nService utilisateur 3\nService utilisateur 4\nService utilisateur 5"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Utilisateur"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassF",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "ClassF",
+                  "KambanGroupByY":  "ClassF"
+              },
+    "EnableGantt":  false,
+    "ShowGanttProgressRate":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

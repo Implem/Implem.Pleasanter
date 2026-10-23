@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Tháng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mois"
         }
     ]
 }

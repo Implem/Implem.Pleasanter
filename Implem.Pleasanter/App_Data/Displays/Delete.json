@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Xóa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Supprimer"
         }
     ]
 }

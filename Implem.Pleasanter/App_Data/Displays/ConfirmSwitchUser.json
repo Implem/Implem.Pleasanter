@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ConfirmSwitchUser",
     "Type": 310,
     "ClientScript": true,
@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Bạn có chắc muốn thay đổi người dùng không?"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous vraiment changer de compte ?"
         }
     ]
 }

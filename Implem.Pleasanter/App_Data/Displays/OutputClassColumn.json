@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phân loại đầu ra thành cột"
+        },
+        {
+            "Language": "fr",
+            "Body": "Exporter la catégorie dans une colonne"
         }
     ]
 }

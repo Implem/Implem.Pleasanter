@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khóa nhập mặc định"
+        },
+        {
+            "Language": "fr",
+            "Body": "Clé d’importation par défaut"
         }
     ]
 }

@@ -1,0 +1,217 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "ClassC",
+                        "NumB",
+                        "NumA",
+                        "NumC",
+                        "ClassD",
+                        "ClassB",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "ClassE",
+                        "ClassF",
+                        "ClassG",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "ClassC",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "ClassD",
+                          "Title",
+                          "ClassB",
+                          "Body",
+                          "DescriptionA",
+                          "DescriptionB",
+                          "DescriptionC",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "ClassE",
+                          "ClassF",
+                          "ClassG",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "ClassB",
+                        "ClassC",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "ClassD",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "ClassE",
+                        "ClassF",
+                        "ClassG",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "ClassE",
+                           "ClassF",
+                           "ClassG",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du client",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Adresse",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Produit ou service",
+                        "ChoicesText":  "Produit ou service 1\nProduit ou service 2\nProduit ou service 3\nProduit ou service 4\nProduit ou service 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix unitaire",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Quantité"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Montant",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Mode de paiement",
+                        "ChoicesText":  "crédit\nvirement bancaire\npaiement à la livraison"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Reçu"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date de livraison"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Reçu,Reçu,status-new\n200,Inventaire réservé,Modéré,status-inprogress\n900,Expédié,Terminé,status-closed\n"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Informations complémentaires"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Personne chargée de la réception",
+                        "ChoicesText":  "Responsable 1\nResponsable 2\nResponsable 3\nResponsable 4\nResponsable 5"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "répartiteur d\u0027inventaire",
+                        "ChoicesText":  "Responsable 1\nResponsable 2\nResponsable 3\nResponsable 4\nResponsable 5"
+                    },
+                    {
+                        "ColumnName":  "ClassG",
+                        "LabelText":  "livreur",
+                        "ChoicesText":  "Responsable 1\nResponsable 2\nResponsable 3\nResponsable 4\nResponsable 5"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Champ de saisie Réception"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Colonne de saisie des réservations de stock"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Champ d’informations sur l’expédition"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "ClassD",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "Formulas":  {
+                     "Target":  "NumC",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "ColumnName":  "NumA",
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "ColumnName":  "NumB",
+                                                          "OperatorType":  3
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "StartTime",
+                  "CrosstabGroupByY":  "Columns",
+                  "CrosstabColumns":  "[\"NumC\"]",
+                  "CrosstabValue":  "NumC",
+                  "KambanGroupByY":  "Owner"
+              },
+    "ShowGanttProgressRate":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

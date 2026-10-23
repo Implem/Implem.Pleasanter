@@ -1,0 +1,6 @@
+﻿100,Voiture particulière
+200,Voiture de tourisme
+300,Camion
+400,Véhicule spécial lourd
+500,Véhicule spécial
+600,Autre

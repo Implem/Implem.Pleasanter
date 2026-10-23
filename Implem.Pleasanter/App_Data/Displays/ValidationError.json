@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ValidationError",
     "Type": 410,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Nội dung nhập vào không chính xác."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les données saisies sont incorrectes."
         }
     ]
 }

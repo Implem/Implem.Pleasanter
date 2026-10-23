@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TimeLineStandard",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tiêu chuẩn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Standard"
         }
     ]
 }

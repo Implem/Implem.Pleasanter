@@ -23,5 +23,6 @@
     "LabelText_de": "Berechtigungstyp",
     "LabelText_ko": "권한 유형",
     "LabelText_es": "Tipo de permiso",
-    "LabelText_vn": "Loại quyền"
+    "LabelText_vn": "Loại quyền",
+    "LabelText_fr": "Type d’autorisation"
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0}: {1} mặt hàng đã được cập nhật cùng một lúc."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} : {1} élément(s) mis à jour en une seule opération."
         }
     ]
 }

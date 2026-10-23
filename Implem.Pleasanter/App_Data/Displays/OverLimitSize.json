@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OverLimitSize",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Có tệp vượt quá giới hạn tối đa {0} MB."
+        },
+        {
+            "Language": "fr",
+            "Body": "Un fichier dépasse la taille maximale de {0} Mo."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CodeDefinerCssCompleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã hoàn thành xử lí tạo mã CSS."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le code CSS a été généré."
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Kiểu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Style"
         }
     ]
 }

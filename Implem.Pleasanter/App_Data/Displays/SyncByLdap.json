@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đồng bộ hóa bằng LDAP"
+        },
+        {
+            "Language": "fr",
+            "Body": "Synchroniser via LDAP"
         }
     ]
 }

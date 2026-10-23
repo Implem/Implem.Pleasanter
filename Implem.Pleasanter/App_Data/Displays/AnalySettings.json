@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt biểu đồ phân tích"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres du graphique d’analyse"
         }
     ]
 }

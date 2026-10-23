@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CopySettings",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Cài đặt sao chép"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Copier les paramètres"
         }
     ]
 }

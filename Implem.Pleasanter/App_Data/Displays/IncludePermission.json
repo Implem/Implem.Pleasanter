@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bao gồm kiểm soát truy cập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Inclure les permissions"
         }
     ]
 }

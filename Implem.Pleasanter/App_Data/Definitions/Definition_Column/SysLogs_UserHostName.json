@@ -24,5 +24,6 @@
     "LabelText_de": "Benutzer-Hostname",
     "LabelText_ko": "사용자 호스트 이름",
     "LabelText_es": "Nombre de host del usuario",
-    "LabelText_vn": "Tên người dùng máy chủ"
+    "LabelText_vn": "Tên người dùng máy chủ",
+    "LabelText_fr": "Nom d’hôte de l’utilisateur"
 }

@@ -1,0 +1,158 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "ClassA",
+                        "TitleBody",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "Title",
+                          "ClassB",
+                          "NumA",
+                          "Body",
+                          "NumB",
+                          "DescriptionA",
+                          "NumC",
+                          "DescriptionB",
+                          "NumD",
+                          "DescriptionC",
+                          "DescriptionD",
+                          "DateA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ClassA",
+                        "Title",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassB",
+                           "NumA",
+                           "NumB",
+                           "NumC",
+                           "NumD",
+                           "DateA",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Numéro d’employé"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom complet",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Rôle",
+                        "ChoicesText":  "Responsable\nsuperviseur\nGestionnaire"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Compétence totale",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Synthèse"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Tâche 1. Compétence",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Travail 1. Détails"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Tâche 2. Compétence",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Travail 2. Détails"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Tâche 3. Compétence",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Travail 3. Détails"
+                    },
+                    {
+                        "ColumnName":  "DescriptionD",
+                        "LabelText":  "Commentaire"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’enregistrement"
+                    }
+                ],
+    "Formulas":  {
+                     "Target":  "NumA",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "ColumnName":  "NumB",
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "ColumnName":  "NumC",
+                                                          "OperatorType":  1
+                                                      },
+                                                      {
+                                                          "ColumnName":  "NumD",
+                                                          "OperatorType":  1
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByY":  "Columns",
+                  "TimeSeriesGroupBy":  "ClassB",
+                  "KambanGroupByX":  "Status"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

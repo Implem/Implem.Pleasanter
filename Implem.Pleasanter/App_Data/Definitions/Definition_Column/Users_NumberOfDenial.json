@@ -24,5 +24,6 @@
     "LabelText_de": "Anzahl der fehlgeschlagenen Anmeldungen",
     "LabelText_ko": "실패한 로그인 횟수",
     "LabelText_es": "N.º de inicios de sesión fallidos",
-    "LabelText_vn": "Số lần đăng nhập thất bại"
+    "LabelText_vn": "Số lần đăng nhập thất bại",
+    "LabelText_fr": "Nombre d’échecs de connexion"
 }

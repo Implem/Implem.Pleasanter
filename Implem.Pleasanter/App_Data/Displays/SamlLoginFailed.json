@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SamlLoginFailed",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đăng nhập SAML thất bại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Échec de la connexion SAML."
         }
     ]
 }

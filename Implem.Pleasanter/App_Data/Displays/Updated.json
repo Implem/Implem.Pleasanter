@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Updated",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "\" {0} \" đã được cập nhật."
+        },
+        {
+            "Language": "fr",
+            "Body": "« {0} » a été mis à jour."
         }
     ]
 }

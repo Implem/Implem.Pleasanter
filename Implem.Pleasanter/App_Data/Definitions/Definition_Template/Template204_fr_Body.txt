@@ -1,0 +1,243 @@
+﻿4,Afghanistan
+8,Albanie
+12,Algérie
+16,Samoa
+20,Andorre
+24,Angola
+660,Anguilla
+10,Antarctique
+28,Antigua-et-Barbuda
+32,Argentine
+51,Arménie
+533,Aruba
+36,Australie
+40,Autriche
+31,Azerbaïdjan
+44,Bahamas
+48,Bahreïn
+50,Bangladesh
+52,Barbade
+112,Bélarus
+56,Belgique
+84,Belize
+204,Bénin
+60,Bermudes
+64,Bhoutan
+68,Bolivie
+70, Bosnie-Herzégovine
+72,Botswana
+74,Île Bouvet
+76,Brésil
+86,Territoire britannique de l’océan Indien
+96,Brunei
+100,Bulgarie
+854,Burkina Faso
+108,Burundi
+384,Côte d’Ivoire
+116,Cambodge
+120,Cameroun
+124,Canada
+132,Cap-Vert
+136,Îles Caïmans
+140,République centrafricaine
+148,Tchad
+-,Îles Anglo-Normandes
+152,Chili
+156,République populaire de Chine
+162,Île Christmas
+166,Îles Cocos (Keeling)
+170,Colombie
+174,Comores
+République du Congo 178
+180,République démocratique du Congo
+184,Îles Cook
+-,Territoire des îles de la mer de Corail
+188,Costa Rica
+191,Croatie
+192,Cuba
+196,Chypre
+203,République tchèque
+208,Danemark
+262,Djibouti
+212,Dominique
+214,République dominicaine
+626,Timor oriental
+218,Équateur
+818,Égypte
+222,Salvador
+226,Guinée équatoriale
+232,Érythrée
+233,Estonie
+231,Éthiopie
+238,Îles Falkland (Malouines)
+234,Îles Féroé
+242,Îles Fidji
+246,Finlande
+250,France
+249,Territoire français
+254,Guyane française
+258,Polynésie française
+260,Terres australes et antarctiques françaises
+266,Gabon
+270,Gambie
+-,Bande de Gaza
+268,Géorgie
+276,Allemagne
+288,Ghana
+292,Gibraltar
+300,Grèce
+304,Groenland
+308,Grenade
+312,Guadeloupe
+316,Guam
+320,Guatemala
+-,Guernesey
+324,Guinée
+624,Guinée-Bissau
+328,Guyana
+332,Haïti
+334, Îles Heard-et-MacDonald
+340,Honduras
+344,Hong Kong
+348,Hongrie
+352,Islande
+356,Inde
+360,Indonésie
+364,Iran
+368,Irak
+372,Irlande
+376,Israël
+380,Italie
+388,Jamaïque
+392,Japon
+-,Jersey
+400,Jordanie
+398,Kazakhstan
+404,Kenya
+296,Kiribati
+410,République de Corée
+414,Koweït
+417,Kirghizistan
+418,Laos
+428,Lettonie
+422,Liban
+426,Lesotho
+430,Libéria
+434,Libye
+438,Liechtenstein
+440,Lituanie
+442,Luxembourg
+446,Macao
+807,Macédoine du Nord
+450,Madagascar
+454,Malawi
+458,Malaisie
+462,Maldives
+466,Mali
+470,Malte
+-,Île de Man
+584,Îles Marshall
+474,Martinique
+478,Mauritanie
+480,Maurice
+175,Mayotte
+484,Mexique
+583,Micronésie
+498,Moldavie
+492,Monaco
+496,Mongolie
+500,Montserrat
+504,Maroc
+508,Mozambique
+104,Myanmar
+516,Namibie
+520,Nauru
+524,Népal
+530,Antilles néerlandaises
+528,Pays-Bas
+540,Nouvelle-Calédonie
+554,Nouvelle-Zélande
+558,Nicaragua
+562,Niger
+566,Nigeria
+570,Niue
+574,Île Norfolk
+408,République populaire démocratique de Corée
+580,Îles Mariannes du Nord
+578,Norvège
+512,Oman
+586,Pakistan
+585,Palaos
+591,Panama
+598,Papouasie-Nouvelle-Guinée
+600,Paraguay
+604,Pérou
+608,Philippines
+612,Pitcairn
+616,Pologne
+620,Portugal
+630,Porto Rico
+634,Qatar
+638,La Réunion
+642,Roumanie
+643,Russie
+646,Rwanda
+678,Sao Tomé-et-Principe
+674,Saint-Marin
+682,Arabie saoudite
+686,Sénégal
+690,Seychelles
+694,Sierra Leone
+702,Singapour
+703,Slovaquie
+705,Slovénie
+90,Îles Salomon
+706,Somalie
+710,Afrique du Sud
+239, Géorgie du Sud et îles Sandwich du Sud
+724,Espagne
+144,Sri Lanka
+654,Sainte-Hélène
+659,Saint-Christophe-et-Niévès
+662,Sainte-Lucie
+666,Saint-Pierre-et-Miquelon
+670,Saint-Vincent
+736,Soudan
+740,Suriname
+744,Svalbard et Jan Mayen
+748,Eswatini
+752,Suède
+756,Suisse
+760,Syrie
+158,Taïwan
+762,Tadjikistan
+834,Tanzanie
+764,Thaïlande
+768,Togo
+772,Tokelau
+776,Tonga
+780,Trinité-et-Tobago
+788,Tunisie
+792,Turquie
+795,Turkménistan
+796,Îles Turques-et-Caïques
+798,Tuvalu
+581,Îles mineures éloignées des États-Unis
+800,Ouganda
+804,Ukraine
+784,Émirats arabes unis
+826,Royaume-Uni
+840,États-Unis
+858,Uruguay
+860,Ouzbékistan
+548,Vanuatu
+336,Vatican
+862,Venezuela
+704,Vietnam
+850,Îles Vierges des États-Unis
+92,Îles Vierges britanniques
+876,Wallis-et-Futuna
+887,Yémen
+891,Yougoslavie
+894,Zambie
+716,Zimbabwe

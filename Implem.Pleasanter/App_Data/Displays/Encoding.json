@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mã hóa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Encodage"
         }
     ]
 }

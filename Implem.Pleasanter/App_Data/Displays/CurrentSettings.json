@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CurrentSettings",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt hiện tại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres actuels"
         }
     ]
 }

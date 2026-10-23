@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "End",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kết thúc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Fin"
         }
     ]
 }

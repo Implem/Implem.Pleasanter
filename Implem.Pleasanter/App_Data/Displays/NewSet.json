@@ -8,6 +8,10 @@
         {
             "Language": "ja",
             "Body": "(新規作成)"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nouveau jeu"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kích hoạt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Activé"
         }
     ]
 }

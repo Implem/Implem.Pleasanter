@@ -1,0 +1,162 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "ClassC",
+                        "Title",
+                        "ClassD",
+                        "ClassA",
+                        "ClassB",
+                        "StartTime",
+                        "CompletionTime",
+                        "NumA",
+                        "Status",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "ClassC",
+                          "Title",
+                          "ClassD",
+                          "ClassA",
+                          "ClassB",
+                          "StartTime",
+                          "CompletionTime",
+                          "NumA",
+                          "Status",
+                          "DateA",
+                          "DateB",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "ClassC",
+                        "Title",
+                        "ClassD",
+                        "ClassA",
+                        "ClassB",
+                        "StartTime",
+                        "CompletionTime",
+                        "NumA",
+                        "Status",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "ClassC",
+                           "Title",
+                           "ClassD",
+                           "ClassA",
+                           "ClassB",
+                           "StartTime",
+                           "CompletionTime",
+                           "NumA",
+                           "Status",
+                           "DateA",
+                           "DateB",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Début d’utilisation",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date d’expiration",
+                        "DefaultInput":  "180",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "300,Création de la demande,Démarré,status-review\n900,Approuver,Approuvé,status-closed\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Section d\u0027utilisation (départ)"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Section d\u0027utilisation (arrivée)"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "[[Depts]]"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Lieu de travail",
+                        "ChoicesText":  "Lieu de travail 1\nLieu de travail 2\nLieu de travail 3\nLieu de travail 4\nLieu de travail 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Montant",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de création de la demande",
+                        "DefaultInput":  "0",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date d’approbation",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Utilisateur",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassC",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassD",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "KambanGroupByY":  "ClassC"
+              },
+    "TitleSeparator":  ")"
+}

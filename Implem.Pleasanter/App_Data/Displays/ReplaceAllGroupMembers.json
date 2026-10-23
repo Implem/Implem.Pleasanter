@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xóa thành viên trước khi nhập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Supprimer les membres avant l’importation"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Name",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Tên"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Nom"
         }
     ]
 }

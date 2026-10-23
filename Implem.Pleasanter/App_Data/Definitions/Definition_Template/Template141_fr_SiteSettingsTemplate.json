@@ -1,0 +1,140 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "NumA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassA",
+                          "ClassB",
+                          "ClassD",
+                          "ClassC",
+                          "NumA",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Owner",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Gestionnaire",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date d’achat"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date d’expiration",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Avant l’achat,Précédent,status-new\n900,Acheté,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Utilisateur"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Fabricant",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type de véhicule",
+                        "ChoicesText":  "Voiture particulière\nAutobus\nVéhicule utilitaire\nVéhicule spécial lourd\nAutre"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Numéro"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix d’acquisition",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Numéro de gestion de l’actif"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Nom du véhicule"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "KambanGroupByY":  "Owner",
+                  "KambanValue":  "NumA"
+              },
+    "EnableGantt":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

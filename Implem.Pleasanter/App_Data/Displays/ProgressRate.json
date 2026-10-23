@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Tỉ lệ tiến độ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Taux d’avancement"
         }
     ]
 }

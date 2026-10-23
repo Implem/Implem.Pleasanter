@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng trình biên tập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Format de l’éditeur"
         }
     ]
 }

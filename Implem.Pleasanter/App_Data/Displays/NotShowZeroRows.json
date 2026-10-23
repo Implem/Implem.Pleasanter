@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "không hiển thị 0 hàng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas afficher les lignes à zéro"
         }
     ]
 }

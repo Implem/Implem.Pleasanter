@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Value",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giá trị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Valeur"
         }
     ]
 }

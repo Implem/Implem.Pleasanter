@@ -1,0 +1,152 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "DateA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumE",
+                        "NumF",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "DateA",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "NumD",
+                          "NumE",
+                          "NumF",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "DateA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumE",
+                        "NumF",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Brasserie",
+                        "ChoicesText":  "Brasserie 1\nBrasserie 2\nBrasserie 3\nBrasserie 4\nBrasserie 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type",
+                        "ChoicesText":  "Saké Daiginjo\nJunmai Daiginjo\nSaké Ginjo\nSaké Junmai Ginjo\nSaké honjōzō\nSaké de riz pur"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "riz cru"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Rapport de polissage du riz",
+                        "ControlType":  "Spinner",
+                        "DecimalPlaces":  1,
+                        "Max":  100.0,
+                        "Unit":  "%"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "diplôme de saké"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "acidité",
+                        "DecimalPlaces":  1
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Alcool",
+                        "ControlType":  "Spinner",
+                        "DecimalPlaces":  1,
+                        "Max":  100.0,
+                        "Unit":  "%"
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Contenance",
+                        "Unit":  "ml"
+                    },
+                    {
+                        "ColumnName":  "NumF",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Description"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "ClassB",
+                  "CrosstabGroupByY":  "ClassA",
+                  "CrosstabAggregateType":  "Average",
+                  "CrosstabValue":  "NumF",
+                  "TimeSeriesGroupBy":  "ClassB"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "PermissionSetting",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt quyền"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètre de permission"
         }
     ]
 }

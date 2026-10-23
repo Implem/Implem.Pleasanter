@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép bản sao tham chiếu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser la copie de référence"
         }
     ]
 }

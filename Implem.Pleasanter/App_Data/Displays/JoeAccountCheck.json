@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "JoeAccountCheck",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mật khẩu phải khác với ID đăng nhập."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le mot de passe doit être différent de l’identifiant de connexion."
         }
     ]
 }

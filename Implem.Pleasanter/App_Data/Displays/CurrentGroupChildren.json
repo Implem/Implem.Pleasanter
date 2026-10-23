@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "nhóm trẻ hiện tại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Groupes enfants actuels"
         }
     ]
 }

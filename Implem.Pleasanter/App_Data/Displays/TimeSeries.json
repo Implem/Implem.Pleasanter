@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TimeSeries",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Biểu đồ theo thời gian"
+        },
+        {
+            "Language": "fr",
+            "Body": "Graphique de série chronologique"
         }
     ]
 }

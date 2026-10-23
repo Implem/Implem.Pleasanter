@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ExportTypes",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kiểu xuất dữ liệu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type d’exportation"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CanNotDelete",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể xóa {0}."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de supprimer {0}."
         }
     ]
 }

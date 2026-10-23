@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Sao chép giá trị"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Copier la valeur"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khoảng giá trị số"
+        },
+        {
+            "Language": "fr",
+            "Body": "Plage numérique"
         }
     ]
 }

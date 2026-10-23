@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "RelatingColumnSettings",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt các mục liên quan"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres des colonnes associées"
         }
     ]
 }

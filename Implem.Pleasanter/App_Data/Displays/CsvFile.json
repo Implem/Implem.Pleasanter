@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CsvFile",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tệp CSV"
+        },
+        {
+            "Language": "fr",
+            "Body": "Fichier CSV"
         }
     ]
 }

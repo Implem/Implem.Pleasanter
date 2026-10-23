@@ -1,0 +1,112 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "DateA",
+                        "ClassA",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumE",
+                        "NumF",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "ClassA",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "NumD",
+                          "NumE",
+                          "NumF",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassA",
+    "LinkColumns":  [
+                        "DateA",
+                        "ClassA",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumE",
+                        "NumF",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom du site",
+                        "ChoicesText":  "site 1\nSite 2\nsite 3\nsite 4\nsite 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Pages vues"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "utilisateur unique"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "afflux naturel"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "direct"
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "référence"
+                    },
+                    {
+                        "ColumnName":  "NumF",
+                        "LabelText":  "SNS"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "ClassA",
+                         "Type":  0,
+                         "Target":  ""
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "Columns",
+                  "CrosstabColumns":  "[\"NumA\",\"NumB\",\"NumC\",\"NumD\",\"NumE\",\"NumF\"]",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "TimeSeriesAggregateType":  "Total"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

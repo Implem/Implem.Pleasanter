@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Luôn ẩn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Toujours masqué"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0}) Lỗi lời nhắc"
+        },
+        {
+            "Language": "fr",
+            "Body": "{0}) Erreur de rappel"
         }
     ]
 }

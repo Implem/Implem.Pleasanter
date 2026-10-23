@@ -1,0 +1,112 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "ClassA",
+                        "ClassC",
+                        "DateA",
+                        "ClassB",
+                        "NumA",
+                        "Status",
+                        "TitleBody",
+                        "Comments",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassC",
+                          "DateA",
+                          "ClassB",
+                          "NumA",
+                          "Status",
+                          "ClassD",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassE",
+    "LinkColumns":  [
+                        "ClassA",
+                        "ClassC",
+                        "DateA",
+                        "ClassB",
+                        "NumA",
+                        "Status",
+                        "ClassD",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Status",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Non vérifié,Non commencé,status-new\n900,Confirmé,Terminé,status-closed"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "appelant"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Destinataire"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "destination"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Urgence",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Heure de réception",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Contenu du message"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Résumé des messages",
+                        "ChoicesText":  "S\u0027il vous plaît, rappelez-moi.\nS\u0027il te plaît, fais-moi savoir que tu as appelé\nJe vous rappellerai\nNous vous enverrons un e-mail, alors veuillez vérifier\nS\u0027il vous plaît laissez un message",
+                        "FieldCss":  "field-wide"
+                    }
+                ],
+    "ViewLatestId":  0,
+    "EnableCalendar":  false,
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

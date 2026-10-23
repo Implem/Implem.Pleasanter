@@ -1,0 +1,92 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "Gestionnaire",
+                        "Owner",
+                        "Status",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "Gestionnaire",
+                          "Owner",
+                          "Status",
+                          "DateA",
+                          "DateB",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Status",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Inutilisé,Non commencé,status-new\n200,En cours d’utilisation,Utilisation,status-inprogress\n900,Retourné,Retour,status-closed\n"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Utilisateur"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Type",
+                        "ChoicesText":  "casier\nBureau\nCâble de sécurité",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de début d’utilisation",
+                        "DefaultInput":  "0",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date de retour"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "numéro de clé"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  3,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  0,
+    "TitleSeparator":  ")"
+}

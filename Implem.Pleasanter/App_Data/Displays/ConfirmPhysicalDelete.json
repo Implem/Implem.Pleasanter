@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ConfirmPhysicalDelete",
     "Type": 310,
     "ClientScript": true,
@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Thao tác này không thể khôi phục. Bạn có chắc muốn xóa không?"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Cette opération est irréversible. Voulez-vous vraiment supprimer cet élément ?"
         }
     ]
 }

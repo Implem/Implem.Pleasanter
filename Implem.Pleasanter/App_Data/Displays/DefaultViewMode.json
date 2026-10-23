@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Chế độ hiển thị mặc định"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mode d’affichage par défaut"
         }
     ]
 }

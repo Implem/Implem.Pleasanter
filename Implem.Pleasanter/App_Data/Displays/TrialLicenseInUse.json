@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Đang tiến hành thử nghiệm Tiện ích mở rộng Pleasanter"
+        },
+        {
+            "Language": "fr",
+            "Body": "Essai de Pleasanter Extensions en cours"
         }
     ]
 }

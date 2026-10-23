@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt bộ lọc và tổng hợp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres des filtres et des agrégations"
         }
     ]
 }

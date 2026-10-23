@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xin mời chỉ định điều kiện tìm kiếm."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez indiquer les critères de recherche."
         }
     ]
 }

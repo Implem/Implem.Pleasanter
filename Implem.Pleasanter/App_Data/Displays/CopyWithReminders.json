@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sao chép với lời nhắc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Copier avec les rappels"
         }
     ]
 }

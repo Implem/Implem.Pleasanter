@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bộ phận đầu vào"
+        },
+        {
+            "Language": "fr",
+            "Body": "Saisir un service"
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Yêu cầu không hợp lệ đã được gửi."
+        },
+        {
+            "Language": "fr",
+            "Body": "La requête envoyée n’est pas valide."
         }
     ]
 }

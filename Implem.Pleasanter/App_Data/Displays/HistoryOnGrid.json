@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "HistoryOnGrid",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hiển thị lịch sử trên danh sách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Afficher l’historique dans la grille"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Gói trang web"
+        },
+        {
+            "Language": "fr",
+            "Body": "Package du site"
         }
     ]
 }

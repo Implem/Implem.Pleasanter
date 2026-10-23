@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại dấu phân cách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Types de séparateur"
         }
     ]
 }

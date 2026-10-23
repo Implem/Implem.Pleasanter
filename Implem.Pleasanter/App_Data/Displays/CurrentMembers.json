@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CurrentMembers",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thành viên hiện tại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Membres actuels"
         }
     ]
 }

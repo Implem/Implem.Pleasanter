@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bạn có muốn thoát Thiết kế thông minh mà không lưu các thay đổi không?"
+        },
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous quitter Smart Design sans enregistrer les modifications ?"
         }
     ]
 }

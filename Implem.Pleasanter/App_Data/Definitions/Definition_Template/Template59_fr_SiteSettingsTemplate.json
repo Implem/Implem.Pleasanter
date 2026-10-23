@@ -1,0 +1,121 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "Comments",
+                        "NumA",
+                        "NumB",
+                        "DateA",
+                        "DateB",
+                        "Status",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "NumA",
+                          "DateA",
+                          "DateB",
+                          "Status",
+                          "DescriptionA",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "NumB",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "NumA",
+                        "NumB",
+                        "DateA",
+                        "DateB",
+                        "Status",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "NumA",
+                           "NumB",
+                           "DateA",
+                           "DateB",
+                           "Status",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom",
+                        "Section":  "Informations de base"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Objectif de ventes annuel",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de début des ventes"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date de fin de vente"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "200,En vente,ventes,status-inprogress\n900,Vente terminée,Terminé,status-closed\n"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Méthode de vente",
+                        "Section":  "plan de vente"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Âge cible",
+                        "ChoicesText":  "Moins de 10 ans\n10 à 19 ans\n20 à 29 ans\n30 à 39 ans\n40 à 49 ans\n50 à 59 ans\n60 à 69 ans\n70 à 79 ans\n80 à 89 ans\n90 à 99 ans"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "cible.genre",
+                        "ChoicesText":  "Homme\nFemme"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "cible.région",
+                        "ChoicesText":  "Région 1\nrégion 2\nrégion 3\nrégion 4\nrégion 5"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "Status",
+                         "Type":  0,
+                         "Target":  ""
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByY":  "Columns"
+              },
+    "TitleSeparator":  ")"
+}

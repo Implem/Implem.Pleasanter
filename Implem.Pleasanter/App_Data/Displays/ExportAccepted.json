@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chấp nhận xuất dữ liệu."
+        },
+        {
+            "Language": "fr",
+            "Body": "Exportation acceptée."
         }
     ]
 }

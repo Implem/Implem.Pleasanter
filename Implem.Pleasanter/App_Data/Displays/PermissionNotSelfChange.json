@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "PermissionNotSelfChange",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể thay đổi quyền của chính mình."
+        },
+        {
+            "Language": "fr",
+            "Body": "Vous ne pouvez pas modifier vos propres permissions."
         }
     ]
 }

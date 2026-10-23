@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đây là một mẫu thông báo lỗi."
+        },
+        {
+            "Language": "fr",
+            "Body": "Ceci est un exemple de message d’erreur."
         }
     ]
 }

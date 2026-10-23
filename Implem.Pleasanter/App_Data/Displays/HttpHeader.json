@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tiêu đề htp"
+        },
+        {
+            "Language": "fr",
+            "Body": "En-tête HTTP"
         }
     ]
 }

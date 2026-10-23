@@ -1,0 +1,326 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassB",
+                        "TitleBody",
+                        "Comments",
+                        "NumJ",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumE",
+                        "NumF",
+                        "NumG",
+                        "NumH",
+                        "NumI",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "Gestionnaire",
+                          "Owner",
+                          "NumJ",
+                          "Body",
+                          "NumA",
+                          "DescriptionA",
+                          "NumB",
+                          "DescriptionB",
+                          "NumC",
+                          "DescriptionC",
+                          "NumD",
+                          "DescriptionD",
+                          "NumE",
+                          "DescriptionE",
+                          "NumF",
+                          "DescriptionF",
+                          "NumG",
+                          "DescriptionG",
+                          "NumH",
+                          "DescriptionH",
+                          "NumI",
+                          "DescriptionI",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassA",
+    "LinkColumns":  [
+                        "ClassB",
+                        "ClassA",
+                        "NumJ",
+                        "NumE",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumF",
+                        "NumG",
+                        "NumH",
+                        "NumI",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "NumJ",
+                           "NumE",
+                           "NumA",
+                           "NumB",
+                           "NumC",
+                           "NumD",
+                           "NumF",
+                           "NumG",
+                           "NumH",
+                           "NumI",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom de l’activité",
+                        "ChoicesText":  "Activité 1\nActivité 2\nActivité 3\nActivité 4\nActivité 5",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Client (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Valeur à donner (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Chaîne (contenu)"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Synthèse"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Client (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Valeur donnée (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Chaîne (classement)",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Relation avec les clients (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "DescriptionD",
+                        "LabelText":  "Relation avec les clients (contenu)"
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Revenus (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumF",
+                        "LabelText":  "Ressource clé (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumG",
+                        "LabelText":  "Activité clé (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumH",
+                        "LabelText":  "Partenaire clé (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumI",
+                        "LabelText":  "Coût (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumJ",
+                        "LabelText":  "Note totale",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "DescriptionE",
+                        "LabelText":  "Revenu (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionF",
+                        "LabelText":  "Ressource clé (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionG",
+                        "LabelText":  "Activité clé (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionH",
+                        "LabelText":  "Partenaire clé (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionI",
+                        "LabelText":  "Coût (contenu)"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "Formulas":  {
+                     "Target":  "NumJ",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "OperatorType":  0,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumA",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumB",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumC",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumD",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumE",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumF",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumG",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumH",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumI",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "ClassB":  0,
+                                           "ClassA":  0
+                                       },
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "TimeSeriesAggregateType":  "Total",
+                  "TimeSeriesValue":  "NumJ",
+                  "KambanGroupByX":  "ClassB",
+                  "KambanGroupByY":  "ClassA",
+                  "KambanValue":  "NumJ",
+                  "KambanAggregationView":  true
+              },
+    "EnableCalendar":  false,
+    "TitleSeparator":  ")"
+}

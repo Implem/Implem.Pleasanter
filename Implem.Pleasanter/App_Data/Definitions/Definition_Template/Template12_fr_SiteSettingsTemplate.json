@@ -1,0 +1,115 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "DescriptionA",
+                        "ClassA",
+                        "ClassB",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "DescriptionA",
+                          "ClassA",
+                          "ClassB",
+                          "DateA",
+                          "Owner",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassA",
+                           "ClassB",
+                           "DateA",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Créé par"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Catégorie principale",
+                        "ChoicesText":  "Catégorie principale 1\nCatégorie principale 2\nCatégorie principale 3\nCatégorie principale 4\nCatégorie principale 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Classement mineur",
+                        "ChoicesText":  "Sous-catégorie 1\nSous-catégorie 2\nSous-catégorie 3\nSous-catégorie 4\nSous-catégorie 5"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’enregistrement"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Réponse"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Contenu de la question"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassA",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "KambanGroupByX":  "ClassA"
+              },
+    "TitleSeparator":  ")"
+}

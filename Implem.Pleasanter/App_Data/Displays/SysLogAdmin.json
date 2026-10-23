@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quản trị nhật ký hệ thống"
+        },
+        {
+            "Language": "fr",
+            "Body": "Administration du journal système"
         }
     ]
 }

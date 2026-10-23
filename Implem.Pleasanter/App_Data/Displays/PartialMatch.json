@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "PartialMatch",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khớp một phần"
+        },
+        {
+            "Language": "fr",
+            "Body": "Correspondance partielle"
         }
     ]
 }

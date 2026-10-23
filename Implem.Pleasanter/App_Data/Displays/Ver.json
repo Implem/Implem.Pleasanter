@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Phiên bản"
+        },
+        {
+            "Language": "fr",
+            "Body": "Version"
         }
     ]
 }

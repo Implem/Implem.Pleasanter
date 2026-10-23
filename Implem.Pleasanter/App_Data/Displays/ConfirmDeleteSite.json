@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ConfirmDeleteSite",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xin mời xác nhận xóa trang web."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez confirmer la suppression du site."
         }
     ]
 }

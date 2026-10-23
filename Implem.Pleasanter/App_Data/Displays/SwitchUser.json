@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SwitchUser",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chuyển sang người dùng này"
+        },
+        {
+            "Language": "fr",
+            "Body": "Basculer vers cet utilisateur"
         }
     ]
 }

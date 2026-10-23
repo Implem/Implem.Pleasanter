@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AlreadyAdded",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã thêm."
+        },
+        {
+            "Language": "fr",
+            "Body": "Déjà ajouté."
         }
     ]
 }

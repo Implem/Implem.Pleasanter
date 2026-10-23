@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DefaultAddressBook",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sổ địa chỉ mặc định"
+        },
+        {
+            "Language": "fr",
+            "Body": "Carnet d’adresses par défaut"
         }
     ]
 }

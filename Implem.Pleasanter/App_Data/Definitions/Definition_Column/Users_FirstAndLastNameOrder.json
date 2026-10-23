@@ -28,5 +28,6 @@
     "LabelText_de": "Reihenfolge Vor- und Nachname",
     "LabelText_ko": "이름 및 성 순",
     "LabelText_es": "Orden de nombre y apellido(s)",
-    "LabelText_vn": "Thứ tự họ và tên"
+    "LabelText_vn": "Thứ tự họ và tên",
+    "LabelText_fr": "Ordre du prénom et du nom"
 }

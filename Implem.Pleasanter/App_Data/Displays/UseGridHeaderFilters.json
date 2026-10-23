@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng bộ lọc trên danh mục tiêu đề danh sách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser les filtres de l’en-tête de la grille"
         }
     ]
 }

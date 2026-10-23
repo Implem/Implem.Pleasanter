@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CodeDefinerMvcCompleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã hoàn thành xử lí tạo mã MVC."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le code MVC a été créé."
         }
     ]
 }

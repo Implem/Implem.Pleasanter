@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "quá khứ hoặc tương lai"
+        },
+        {
+            "Language": "fr",
+            "Body": "Passé ou futur"
         }
     ]
 }

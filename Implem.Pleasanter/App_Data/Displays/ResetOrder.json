@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ResetOrder",
     "Type": 110,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cài lại thứ tự"
+        },
+        {
+            "Language": "fr",
+            "Body": "Réinitialiser l’ordre"
         }
     ]
 }

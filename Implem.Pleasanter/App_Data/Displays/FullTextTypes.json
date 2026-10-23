@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại toàn bộ văn bản"
+        },
+        {
+            "Language": "fr",
+            "Body": "Types de recherche en texte intégral"
         }
     ]
 }

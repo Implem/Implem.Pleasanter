@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thêm mới"
+        },
+        {
+            "Language": "fr",
+            "Body": "Débordement"
         }
     ]
 }

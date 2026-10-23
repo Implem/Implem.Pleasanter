@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0}: {1} bản ghi đã được thêm và {2} bản ghi đã được cập nhật."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} : {1} entrée(s) ajoutée(s) et {2} mise(s) à jour."
         }
     ]
 }

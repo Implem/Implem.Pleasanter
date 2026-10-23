@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Week",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tuần"
+        },
+        {
+            "Language": "fr",
+            "Body": "Semaine"
         }
     ]
 }

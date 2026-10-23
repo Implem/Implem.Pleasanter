@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bao gồm cùng một trang web với các đường dẫn liên kết khác nhau"
+        },
+        {
+            "Language": "fr",
+            "Body": "Inclure le même site avec des chemins de lien différents"
         }
     ]
 }

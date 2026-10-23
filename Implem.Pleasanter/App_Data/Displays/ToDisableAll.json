@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Để vô hiệu hóa tất cả"
+        },
+        {
+            "Language": "fr",
+            "Body": "Tout désactiver"
         }
     ]
 }

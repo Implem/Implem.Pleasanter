@@ -1,0 +1,157 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassG",
+                        "ClassD",
+                        "ClassH",
+                        "ClassI",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "Title",
+                          "ClassA",
+                          "DateC",
+                          "ClassB",
+                          "ClassC",
+                          "ClassE",
+                          "ClassF",
+                          "ClassG",
+                          "ClassD",
+                          "Body",
+                          "DescriptionA",
+                          "ClassH",
+                          "ClassI",
+                          "CheckA",
+                          "ClassJ",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassG",
+                        "ClassD",
+                        "ClassH",
+                        "ClassI",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassH",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Fichiers joints"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Phonetic"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Sex",
+                        "ChoicesText":  "Male\nFmale"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Occupation"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du client",
+                        "Section":  "Informations personnelles",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "E-mail"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Code postal"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "Address",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassG",
+                        "LabelText":  "Téléphone"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’enregistrement"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarks"
+                    },
+                    {
+                        "ColumnName":  "DateC",
+                        "LabelText":  "Birthday"
+                    },
+                    {
+                        "ColumnName":  "ClassH",
+                        "LabelText":  "Classement du client",
+                        "ChoicesText":  "A\nB\nC\nD\nE"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Demande habituelle",
+                        "Section":  "Informations d’utilisation"
+                    },
+                    {
+                        "ColumnName":  "ClassI",
+                        "LabelText":  "Responsable principal",
+                        "ChoicesText":  "Responsible1\nResponsible2\nResponsible3\nResponsible4\nResponsible5"
+                    },
+                    {
+                        "ColumnName":  "CheckA",
+                        "LabelText":  "DMNecessity"
+                    },
+                    {
+                        "ColumnName":  "ClassJ",
+                        "LabelText":  "Motif de visite en magasin",
+                        "ChoicesText":  "Flyer\nMagazine\nInternet\nCommercial\nRecommandation\nOther"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassH",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "Standard",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassH",
+                  "TimeSeriesGroupBy":  "ClassH"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

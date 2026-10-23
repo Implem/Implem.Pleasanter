@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt Kanban"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres du Kanban"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Ứng dụng tùy chỉnh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Applications personnalisées"
         }
     ]
 }

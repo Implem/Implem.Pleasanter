@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TooManyColumnCases",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Có quá nhiều mục trong cột. Giới hạn xuống {0} mục hoặc ít hơn."
+        },
+        {
+            "Language": "fr",
+            "Body": "Trop d’éléments dans la colonne. Réduisez leur nombre à {0} ou moins."
         }
     ]
 }

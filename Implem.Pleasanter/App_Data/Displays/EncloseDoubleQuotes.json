@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đặt trong dấu ngoặc kép"
+        },
+        {
+            "Language": "fr",
+            "Body": "Entourer de guillemets doubles"
         }
     ]
 }

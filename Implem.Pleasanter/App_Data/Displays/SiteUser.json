@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SiteUser",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Người dùng trang web"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utilisateur du site"
         }
     ]
 }

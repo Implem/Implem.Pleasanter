@@ -20,5 +20,6 @@
     "LabelText_de": "ID der untergeordneten Gruppe",
     "LabelText_ko": "하위 그룹 ID",
     "LabelText_es": "ID de grupo infantil",
-    "LabelText_vn": "ID nhóm con"
+    "LabelText_vn": "ID nhóm con",
+    "LabelText_fr": "ID du groupe enfant"
 }

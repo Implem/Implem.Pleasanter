@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khóa Upsert không hợp lệ.{0}"
+        },
+        {
+            "Language": "fr",
+            "Body": "La clé de mise à jour ou d’insertion n’est pas valide. {0}"
         }
     ]
 }

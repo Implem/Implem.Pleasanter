@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Format",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Format"
         }
     ]
 }

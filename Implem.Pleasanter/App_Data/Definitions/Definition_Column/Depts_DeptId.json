@@ -30,5 +30,6 @@
     "LabelText_de": "Abteilungs-ID",
     "LabelText_ko": "부서 ID",
     "LabelText_es": "ID de departamento",
-    "LabelText_vn": "ID Tổ chức"
+    "LabelText_vn": "ID Tổ chức",
+    "LabelText_fr": "Identifiant du service"
 }

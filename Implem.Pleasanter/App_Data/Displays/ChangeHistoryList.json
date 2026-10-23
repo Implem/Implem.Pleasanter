@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ChangeHistoryList",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Danh sách lịch sử thay đổi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Historique des modifications"
         }
     ]
 }

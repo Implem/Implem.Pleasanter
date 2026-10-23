@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hành hình"
+        },
+        {
+            "Language": "fr",
+            "Body": "Exécuter"
         }
     ]
 }

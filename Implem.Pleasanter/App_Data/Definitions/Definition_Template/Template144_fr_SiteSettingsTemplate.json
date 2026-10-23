@@ -1,0 +1,110 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "DateA",
+                        "ClassA",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "ClassA",
+                          "ClassB",
+                          "NumA",
+                          "NumB",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  [
+                         "ClassA",
+                         "ClassB"
+                     ],
+    "LinkColumns":  [
+                        "DateA",
+                        "ClassA",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Utilisateur",
+                        "ChoicesText":  "Utilisateur 1\nUtilisateur 2\nUtilisateur 3\nUtilisateur 4\nUtilisateur 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Nombre de compteurs",
+                        "Unit":  "Feuille"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Nombre de billets utilisés",
+                        "Unit":  "Feuille"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "ClassA",
+                         "Type":  1,
+                         "Target":  "NumB"
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "TimeSeriesAggregateType":  "Total",
+                  "TimeSeriesValue":  "NumB",
+                  "KambanGroupByY":  "ClassB",
+                  "KambanAggregateType":  "Total",
+                  "KambanValue":  "NumB",
+                  "KambanAggregationView":  true
+              },
+    "TitleSeparator":  ")"
+}

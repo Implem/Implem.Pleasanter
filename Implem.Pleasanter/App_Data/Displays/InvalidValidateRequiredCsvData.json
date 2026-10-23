@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giá trị của trường bắt buộc không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "La valeur du champ obligatoire n’est pas valide."
         }
     ]
 }

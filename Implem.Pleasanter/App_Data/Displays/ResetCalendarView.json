@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đặt lại \u0022Bộ lọc\u0022, \u0022Nhóm theo\u0022 và \u0022Cột\u0022 vì trang tham chiếu đã bị thay đổi."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les filtres, le regroupement et les colonnes sont réinitialisés, car le site de référence a changé."
         }
     ]
 }

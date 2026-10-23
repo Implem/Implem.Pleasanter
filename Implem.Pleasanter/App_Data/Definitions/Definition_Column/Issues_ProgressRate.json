@@ -42,5 +42,6 @@
     "LabelText_de": "Fortschritt",
     "LabelText_ko": "진행률",
     "LabelText_es": "Índice de progresión",
-    "LabelText_vn": "Tỉ lệ tiến độ"
+    "LabelText_vn": "Tỉ lệ tiến độ",
+    "LabelText_fr": "Taux d’avancement"
 }

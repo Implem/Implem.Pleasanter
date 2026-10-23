@@ -1,0 +1,229 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "DescriptionA",
+                        "ClassA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumE",
+                        "NumF",
+                        "NumG",
+                        "DateA",
+                        "Status",
+                        "Owner",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "ClassA",
+                          "Owner",
+                          "Body",
+                          "NumA",
+                          "NumB",
+                          "NumD",
+                          "NumF",
+                          "NumC",
+                          "NumE",
+                          "NumG",
+                          "DescriptionA",
+                          "Gestionnaire",
+                          "Status",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  [
+                         "ClassA",
+                         "Owner"
+                     ],
+    "LinkColumns":  [
+                        "DateA",
+                        "ClassA",
+                        "Status",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumE",
+                        "Owner",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Status",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "jours ouvrables",
+                        "DefaultInput":  "0",
+                        "Section":  "Contenu du rapport"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom du magasin",
+                        "ChoicesText":  "Magasin 1\nMagasin 2\nMagasin 3\nMagasin 4\nMagasin 5"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Créé par"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Vérifié par"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Soumission,Soumis,status-new\n900,Vérifié,Terminé,status-closed\n910,En attente,En attente,status-rejected",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Contenu du rapport"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Objectif de ventes",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Ventes totales",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Taux d’atteinte de l’objectif",
+                        "DecimalPlaces":  1,
+                        "EditorReadOnly":  true,
+                        "Unit":  "%"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Nombre de clients",
+                        "Unit":  "Personne"
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Prix par client",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Commentaire",
+                        "Section":  "Commentaire"
+                    },
+                    {
+                        "ColumnName":  "NumF",
+                        "LabelText":  "Nombre d\u0027employés",
+                        "Unit":  "Personne"
+                    },
+                    {
+                        "ColumnName":  "NumG",
+                        "LabelText":  "Ventes par membre du personnel",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumB"
+                         }
+                     ],
+    "Formulas":  [
+                     {
+                         "Target":  "NumC",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumB",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumA",
+                                                              "OperatorType":  4
+                                                          },
+                                                          {
+                                                              "RawValue":  100.0,
+                                                              "OperatorType":  3
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  1
+                     },
+                     {
+                         "Target":  "NumE",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumB",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumD",
+                                                              "OperatorType":  4
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  2
+                     },
+                     {
+                         "Target":  "NumG",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumB",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumF",
+                                                              "OperatorType":  4
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  3
+                     }
+                 ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "Columns",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "TimeSeriesAggregateType":  "Total",
+                  "TimeSeriesValue":  "NumB",
+                  "KambanGroupByY":  "Manager"
+              },
+    "TitleSeparator":  ")"
+}

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bảng tin"
+        },
+        {
+            "Language": "fr",
+            "Body": "Kanban"
         }
     ]
 }

@@ -1,0 +1,7 @@
+﻿lune
+feu
+eau
+arbre
+argent
+sol
+Jour

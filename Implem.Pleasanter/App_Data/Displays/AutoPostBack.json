@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tự động đăng lại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Publication automatique"
         }
     ]
 }

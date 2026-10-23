@@ -1,0 +1,214 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "DateA",
+                        "TitleBody",
+                        "Comments",
+                        "ClassA",
+                        "Status",
+                        "NumD",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "Title",
+                          "ClassB",
+                          "ClassE",
+                          "ClassC",
+                          "ClassD",
+                          "Status",
+                          "ClassA",
+                          "NumD",
+                          "Body",
+                          "NumA",
+                          "DescriptionA",
+                          "NumB",
+                          "DescriptionB",
+                          "NumC",
+                          "DescriptionC",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "DateA",
+                        "Title",
+                        "ClassB",
+                        "ClassA",
+                        "Status",
+                        "NumD",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Status",
+                           "NumD",
+                           "NumA",
+                           "NumB",
+                           "NumC",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom complet",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Candidature\n150,Premier entretien\n200,Deuxième entretien\n250,Entretien final\n900,Recruté\n910,Non retenu\n920,En attente"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Nom phonétique"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Téléphone"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "E-mail"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Adresse",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Synthèse"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nouveau diplômé/mi-carrière",
+                        "ChoicesText":  "Nouveau diplômé\nà mi-chemin"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Motivation (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Compétence (évaluation)",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "attitude (évaluation)",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Min":  1.0,
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Note totale",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d\u0027entrée"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Motivation (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Compétences (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "attitude (contenu)"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "Formulas":  {
+                     "Target":  "NumD",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "OperatorType":  0,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumA",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumB",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumC",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "KambanGroupByY":  "ClassA",
+                  "KambanAggregationView":  true
+              },
+    "TitleSeparator":  ")"
+}

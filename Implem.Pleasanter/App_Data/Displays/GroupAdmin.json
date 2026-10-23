@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "GroupAdmin",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quản lí nhóm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Administration des groupes"
         }
     ]
 }

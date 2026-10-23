@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Thông báo lỗi"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Message d’erreur"
         }
     ]
 }

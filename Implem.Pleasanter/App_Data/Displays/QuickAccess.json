@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "QuickAccess",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Truy cập nhanh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Accès rapide"
         }
     ]
 }

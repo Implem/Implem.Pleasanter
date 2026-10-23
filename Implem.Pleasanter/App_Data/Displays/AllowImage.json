@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép thêm ảnh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser l’ajout d’images"
         }
     ]
 }

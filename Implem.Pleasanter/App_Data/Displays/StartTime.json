@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bắt đầu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Heure de début"
         }
     ]
 }

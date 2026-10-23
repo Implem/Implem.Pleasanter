@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UnlockedRecord",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bản ghi đã được mở khóa."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’enregistrement est déverrouillé."
         }
     ]
 }

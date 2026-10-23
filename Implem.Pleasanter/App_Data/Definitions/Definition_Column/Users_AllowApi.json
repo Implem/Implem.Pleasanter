@@ -26,5 +26,6 @@
     "LabelText_de": "API zulassen",
     "LabelText_ko": "API 허용",
     "LabelText_es": "Permitir API",
-    "LabelText_vn": "Cho phép API"
+    "LabelText_vn": "Cho phép API",
+    "LabelText_fr": "Autoriser l’API"
 }

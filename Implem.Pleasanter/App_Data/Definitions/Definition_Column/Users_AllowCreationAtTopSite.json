@@ -26,5 +26,6 @@
     "LabelText_de": "Erlaube die Erstellung oben auf der Site",
     "LabelText_ko": "사이트 상단에서 생성 허용",
     "LabelText_es": "Permitir la creación en la parte superior del sitio",
-    "LabelText_vn": "Cho phép tạo ở đầu trang"
+    "LabelText_vn": "Cho phép tạo ở đầu trang",
+    "LabelText_fr": "Autoriser la création à la racine du site"
 }

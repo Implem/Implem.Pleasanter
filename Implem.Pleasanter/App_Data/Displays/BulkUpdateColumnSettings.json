@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cập nhật hàng loạt cài đặt cột"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mise à jour groupée des paramètres de colonne"
         }
     ]
 }

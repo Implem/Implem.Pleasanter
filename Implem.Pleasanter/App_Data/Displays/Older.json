@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Older",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cũ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Plus ancien"
         }
     ]
 }

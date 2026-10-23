@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CopyToNew",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Sao chép rồi tạo mới"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Copier pour créer un nouvel élément"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Có nhiều bản ghi phù hợp với các điều kiện."
+        },
+        {
+            "Language": "fr",
+            "Body": "Plusieurs enregistrements correspondent à cette condition."
         }
     ]
 }

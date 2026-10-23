@@ -15,5 +15,6 @@
     "LabelText_de": "Erinnerungs-ID",
     "LabelText_ko": "알림 ID",
     "LabelText_es": "ID recordatorio",
-    "LabelText_vn": "ID Lời nhắc"
+    "LabelText_vn": "ID Lời nhắc",
+    "LabelText_fr": "ID du rappel"
 }

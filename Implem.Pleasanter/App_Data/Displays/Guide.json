@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hướng dẫn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Guide"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể đặt nhóm con vì hệ thống phân cấp quá sâu."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de définir des groupes enfants, car la hiérarchie est trop profonde."
         }
     ]
 }

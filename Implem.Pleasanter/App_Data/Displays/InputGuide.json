@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "hướng dẫn đầu vào"
+        },
+        {
+            "Language": "fr",
+            "Body": "Guide de saisie"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OutputDestination",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nơi xuất ra"
+        },
+        {
+            "Language": "fr",
+            "Body": "Exporter vers"
         }
     ]
 }

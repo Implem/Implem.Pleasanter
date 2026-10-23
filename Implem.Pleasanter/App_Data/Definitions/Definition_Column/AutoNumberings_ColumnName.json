@@ -15,5 +15,6 @@
     "LabelText_de": "Spaltenname",
     "LabelText_ko": "열 이름",
     "LabelText_es": "Nombre de la columna",
-    "LabelText_vn": "Tên cột dọc"
+    "LabelText_vn": "Tên cột dọc",
+    "LabelText_fr": "Nom de colonne"
 }

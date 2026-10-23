@@ -1,0 +1,14 @@
+﻿[md]
+## Nom du projet
+Projet XX
+
+## Mission
+
+## Objectif commercial
+
+## Objectif du projet
+* Période
+* Budget
+* Qualité
+
+## Règles du projet

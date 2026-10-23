@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bao gồm danh sách breadcrumb"
+        },
+        {
+            "Language": "fr",
+            "Body": "Inclure le fil d’Ariane"
         }
     ]
 }

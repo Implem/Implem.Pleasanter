@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Không hiển thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Masqué"
         }
     ]
 }

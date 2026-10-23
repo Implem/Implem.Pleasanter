@@ -1,0 +1,133 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassC",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassD",
+                        "Gestionnaire",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassC",
+                          "Title",
+                          "ClassA",
+                          "ClassB",
+                          "ClassD",
+                          "Gestionnaire",
+                          "DateA",
+                          "DateB",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ClassC",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassD",
+                        "Gestionnaire",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "ClassC",
+                           "Title",
+                           "ClassA",
+                           "ClassB",
+                           "Gestionnaire",
+                           "ClassD",
+                           "DateA",
+                           "DateB",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "nom de fichier"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Catégorie",
+                        "ChoicesText":  "Catégorie 1\nCatégorie 2\nCatégorie 3\nCatégorie 4\nCatégorie 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Lieu de stockage",
+                        "ChoicesText":  "Lieu de stockage 1\nLieu de stockage 2\nLieu de stockage 3\nLieu de stockage 4\nLieu de stockage 5"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’enregistrement"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Durée de conservation"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Numéro de gestion"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Service responsable",
+                        "ChoicesText":  "Service responsable 1\nService responsable 2\nService responsable 3\nService responsable 4\nService responsable 5"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassD",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "Title":  0
+                                       }
+              },
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

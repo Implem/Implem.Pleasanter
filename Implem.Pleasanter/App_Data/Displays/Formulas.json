@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Formulas",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Công thức"
+        },
+        {
+            "Language": "fr",
+            "Body": "Formules"
         }
     ]
 }

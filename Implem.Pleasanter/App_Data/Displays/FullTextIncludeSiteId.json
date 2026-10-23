@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bao gồm id trang web"
+        },
+        {
+            "Language": "fr",
+            "Body": "Inclure l’ID du site"
         }
     ]
 }

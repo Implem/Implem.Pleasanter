@@ -15,5 +15,6 @@
     "LabelText_de": "Site-ID",
     "LabelText_ko": "사이트 ID",
     "LabelText_es": "ID del sitio",
-    "LabelText_vn": "ID Trang web"
+    "LabelText_vn": "ID Trang web",
+    "LabelText_fr": "ID du site"
 }

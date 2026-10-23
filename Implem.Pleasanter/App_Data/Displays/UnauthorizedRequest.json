@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bạn phải đăng nhập để thực hiện thao tác này."
+        },
+        {
+            "Language": "fr",
+            "Body": "Vous devez être connecté pour effectuer cette opération."
         }
     ]
 }

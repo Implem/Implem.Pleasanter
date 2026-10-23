@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Execution test case."
+        },
+        {
+            "Language": "fr",
+            "Body": "Scénario de test en cours d’exécution"
         }
     ]
 }

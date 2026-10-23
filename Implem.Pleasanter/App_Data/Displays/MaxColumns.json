@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "MaxColumns",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Số cột tối đa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre maximal de colonnes"
         }
     ]
 }

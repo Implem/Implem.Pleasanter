@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đang khởi chạy với người thuê được thay đổi. Bấm để quay về người thuê ban đầu."
+        },
+        {
+            "Language": "fr",
+            "Body": "Vous utilisez actuellement le tenant vers lequel vous avez basculé. Cliquez pour revenir au tenant d’origine."
         }
     ]
 }

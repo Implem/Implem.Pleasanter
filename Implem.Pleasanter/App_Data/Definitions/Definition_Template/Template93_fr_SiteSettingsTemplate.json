@@ -1,0 +1,108 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "DateA",
+                        "ClassC",
+                        "NumA",
+                        "ClassD",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "ClassB",
+                          "DateA",
+                          "ClassC",
+                          "NumA",
+                          "ClassD",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "DateA",
+                        "ClassC",
+                        "NumA",
+                        "ClassD",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassA",
+                           "ClassB",
+                           "DateA",
+                           "ClassC",
+                           "NumA",
+                           "ClassD",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "nom de domaine",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Société d\u0027acquisition de domaines"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "serveur DNS"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’acquisition"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Mois de mise à jour",
+                        "ChoicesText":  "janvier\nFévrier\nMars\navril\npeut\njuin\njuillet\naoût\nseptembre\nOctobre\nNovembre\nDécembre"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Frais annuels d’entretien",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "mise à jour automatique",
+                        "ChoicesText":  "automatique\nmanuel"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "ClassC",
+                  "CrosstabGroupByY":  "Columns",
+                  "TimeSeriesGroupBy":  "ClassC"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

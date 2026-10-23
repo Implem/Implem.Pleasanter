@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đổi loại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Modifier les types"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DeleteHistory",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Xóa lịch sử thay đổi"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Supprimer l’historique des modifications"
         }
     ]
 }

@@ -1,0 +1,8 @@
+﻿Rouge
+Jaune
+Vert
+Bleu
+Violet
+Blanc
+Gris cendré
+Noir

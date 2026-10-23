@@ -20,11 +20,12 @@
     "Default": "ja",
     "Required": "1",
     "ControlType": "ChoicesText",
-    "ChoicesText": "en,English\nzh,Chinese\nja,Japanese\nde,German\nko,Korean\nes,Spanish\nvn,Vietnamese",
+    "ChoicesText": "en,English\nzh,Chinese\nja,Japanese\nde,German\nko,Korean\nes,Spanish\nvn,Vietnamese\nfr,French",
     "LabelText_en": "Language",
     "LabelText_zh": "语言",
     "LabelText_de": "Sprache",
     "LabelText_ko": "언어",
     "LabelText_es": "Idioma",
-    "LabelText_vn": "Ngôn ngữ"
+    "LabelText_vn": "Ngôn ngữ",
+    "LabelText_fr": "Langue"
 }

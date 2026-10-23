@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EnterTitle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xin mời nhập tiêu đề."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez saisir un titre."
         }
     ]
 }

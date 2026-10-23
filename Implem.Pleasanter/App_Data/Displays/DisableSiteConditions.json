@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không hiển thị thông tin trang web"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas afficher les informations du site"
         }
     ]
 }

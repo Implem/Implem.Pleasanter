@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng bộ lọc độ trễ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser le filtre différé"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EarnedValue",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thực thu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Valeur acquise"
         }
     ]
 }

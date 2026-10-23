@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Head bottom"
+        },
+        {
+            "Language": "fr",
+            "Body": "En bas de l’en-tête"
         }
     ]
 }

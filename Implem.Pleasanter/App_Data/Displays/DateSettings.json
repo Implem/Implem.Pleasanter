@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt ngày"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de date"
         }
     ]
 }
