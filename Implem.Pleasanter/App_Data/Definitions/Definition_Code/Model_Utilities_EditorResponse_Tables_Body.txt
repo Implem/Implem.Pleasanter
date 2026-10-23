@@ -95,6 +95,19 @@ private static ResponseCollection EditorFields(
                 #modelName#Model: #modelName#Model,
                 serverScriptModelRow: serverScriptModelRow),
             _using: ss.SwitchCommandButtonsAutoPostBack == true)
+        .Links(
+            context: context,
+            ss: ss,
+            id: #modelName#Model.#ModelName#Id,
+            methodType: #modelName#Model.MethodType,
+            statusControlHash: #modelName#Model.StatusControlHash,
+            _using: StatusControlLinks.HasLinkControls(ss: ss))
+        .LinkCreations(
+            context: context,
+            ss: ss,
+            linkId: #modelName#Model.#ModelName#Id,
+            methodType: #modelName#Model.MethodType,
+            statusControlHash: #modelName#Model.StatusControlHash)
         .Val("#ControlledOrder", context.ControlledOrder?.ToJson())
         .Invoke("initRelatingColumnEditorNoSend")
         .Messages(context.Messages);
