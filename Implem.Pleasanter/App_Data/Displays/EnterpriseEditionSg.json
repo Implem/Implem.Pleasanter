@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EnterpriseEditionSg",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mở rộng tính năng\n[Phiên bản doanh nghiệp]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Fonctionnalités étendues\n[Édition Enterprise]"
         }
     ]
 }

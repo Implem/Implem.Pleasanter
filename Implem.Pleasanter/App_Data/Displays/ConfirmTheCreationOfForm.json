@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bạn có chắc chắn muốn tạo dữ liệu này không? Sau khi tạo, sẽ không thể thay đổi."
+        },
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous vraiment créer cet élément ? Il ne pourra plus être modifié ensuite."
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể di chuyển vì đang hiển thị bản ghi từ nhiều trang web."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible d’accéder à cette page, car les enregistrements affichés proviennent de plusieurs sites."
         }
     ]
 }

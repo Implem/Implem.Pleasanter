@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobNoHandler",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không có trình xử lý nào được đăng ký cho JobType: {0}."
+        },
+        {
+            "Language": "fr",
+            "Body": "Aucun gestionnaire n’est enregistré pour le type de tâche : {0}"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs_JobEnqueuedTime",
     "ModelName": "BackgroundJob",
     "TableName": "BackgroundJobs",
@@ -16,5 +16,6 @@
     "LabelText_de": "Auftragseinreihungszeit",
     "LabelText_ko": "작업 등록 일시",
     "LabelText_es": "Hora de registro del trabajo",
-    "LabelText_vn": "Thời gian đăng ký công việc"
+    "LabelText_vn": "Thời gian đăng ký công việc",
+    "LabelText_fr": "Mis en file le"
 }

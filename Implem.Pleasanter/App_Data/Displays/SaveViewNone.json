@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không lưu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas enregistrer"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NewStyle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kiểu màn hình mới"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nouveau style d’écran"
         }
     ]
 }

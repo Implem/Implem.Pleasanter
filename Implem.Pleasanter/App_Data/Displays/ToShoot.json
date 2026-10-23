@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ToShoot",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chụp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Prendre une photo"
         }
     ]
 }

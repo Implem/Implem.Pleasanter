@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ScimTokens_TokenHash",
     "ModelName": "ScimToken",
     "TableName": "ScimTokens",
@@ -12,5 +12,6 @@
     "Ix2": "1",
     "EditorReadOnly": "1",
     "LabelText_en": "Token hash",
-    "LabelText_zh": "Token hash"
+    "LabelText_zh": "Token hash",
+    "LabelText_fr": "Empreinte du jeton"
 }

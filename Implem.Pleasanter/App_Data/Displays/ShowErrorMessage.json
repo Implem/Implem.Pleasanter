@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Hiển thị thông báo lỗi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Afficher le message d’erreur"
         }
     ]
 }

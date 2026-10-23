@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thư mục cục bộ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Dossier local"
         }
     ]
 }

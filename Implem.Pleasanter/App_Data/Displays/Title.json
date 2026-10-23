@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Tiêu đề"
+        },
+        {
+            "Language": "fr",
+            "Body": "Titre"
         }
     ]
 }

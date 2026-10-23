@@ -17,5 +17,6 @@
     "LabelText_de": "Anwendungsabrufintervall",
     "LabelText_ko": "애플리케이션 요청 간격",
     "LabelText_es": "Intervalo de solicitud de la aplicación",
-    "LabelText_vn": "Khoảng thời gian yêu cầu ứng dụng"
+    "LabelText_vn": "Khoảng thời gian yêu cầu ứng dụng",
+    "LabelText_fr": "Intervalle entre les requêtes de l’application"
 }

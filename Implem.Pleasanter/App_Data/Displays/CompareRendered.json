@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "So sánh sau khi kết xuất"
+        },
+        {
+            "Language": "fr",
+            "Body": "Comparer le résultat affiché"
         }
     ]
 }

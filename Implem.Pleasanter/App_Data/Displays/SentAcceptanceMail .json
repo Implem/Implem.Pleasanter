@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SentAcceptanceMail ",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xin chờ một lúc để nhận được URL đăng nhập."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez patienter pour recevoir l’URL de connexion."
         }
     ]
 }

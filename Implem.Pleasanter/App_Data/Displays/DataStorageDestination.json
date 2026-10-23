@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DataStorageDestination",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nơi lưu trữ dữ liệu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Enregistrer les données dans"
         }
     ]
 }

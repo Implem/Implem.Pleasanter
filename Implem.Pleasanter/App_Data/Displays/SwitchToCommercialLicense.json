@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chuyển sang giấy phép thương mại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Passer à une licence commerciale"
         }
     ]
 }

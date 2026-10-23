@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiConnectJobSkipped",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không tìm thấy đối tượng kết nối AI nên đã bỏ qua xử lý."
+        },
+        {
+            "Language": "fr",
+            "Body": "Aucune cible pour la connexion à l’IA n’a été trouvée. L’opération a été ignorée."
         }
     ]
 }

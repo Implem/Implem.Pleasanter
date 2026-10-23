@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Giá trị đã nhập không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "La valeur saisie n’est pas valide."
         }
     ]
 }

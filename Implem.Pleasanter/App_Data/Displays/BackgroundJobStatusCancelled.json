@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobStatusCancelled",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Abgebrochen" },
         { "Language": "ko", "Body": "취소됨" },
         { "Language": "es", "Body": "Cancelado" },
-        { "Language": "vn", "Body": "Đã hủy" }
+        { "Language": "vn", "Body": "Đã hủy" },
+        {
+            "Language": "fr",
+            "Body": "Annulée"
+        }
     ]
 }

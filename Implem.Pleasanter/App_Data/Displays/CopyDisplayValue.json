@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Sao chép giá trị hiển thị"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Copier la valeur affichée"
         }
     ]
 }

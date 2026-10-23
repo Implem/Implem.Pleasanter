@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0} đã hoàn tất. {1} bản ghi đã bị xóa."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} terminé. {1} entrée(s) supprimée(s)."
         }
     ]
 }

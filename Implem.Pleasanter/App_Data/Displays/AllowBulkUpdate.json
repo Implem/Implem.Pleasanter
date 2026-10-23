@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép cập nhật hàng loạt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser la mise à jour groupée"
         }
     ]
 }

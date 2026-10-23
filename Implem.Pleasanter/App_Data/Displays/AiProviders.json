@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiProviders",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kết nối AI"
+        },
+        {
+            "Language": "fr",
+            "Body": "Connexions à l’IA"
         }
     ]
 }

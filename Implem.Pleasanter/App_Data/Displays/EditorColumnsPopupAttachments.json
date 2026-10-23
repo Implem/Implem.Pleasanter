@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Mục này được sử dụng để đính kèm các tệp khác nhau. Có thể chỉ định số lượng và kích thước tệp được đính kèm. Có thể sử dụng tối đa 26 mục, từ Tệp đính kèm A đến Tệp đính kèm Z."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cet élément permet de joindre des fichiers. Le nombre et la taille des fichiers autorisés peuvent être définis. Jusqu’à 26 éléments, de Pièce jointe A à Pièce jointe Z, sont disponibles."
         }
     ]
 }

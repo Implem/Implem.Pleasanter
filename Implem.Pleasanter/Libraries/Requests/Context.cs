@@ -713,6 +713,10 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 return new CultureInfo("vi");
             }
+            if (Language == "fr")
+            {
+                return new CultureInfo("fr-FR");
+            }
             return new CultureInfo(Language);
         }
 
@@ -898,6 +902,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         case "de":
                         case "ko":
                         case "es":
+                        case "fr":
                             language = lang;
                             break;
                         case "vi":
@@ -1430,6 +1435,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                     return new CultureInfo("ko-KR");
                 case "es":
                     return new CultureInfo("es-ES");
+                case "fr":
+                    return new CultureInfo("fr-FR");
                 case "vn":
                     return new CultureInfo("vi-VN");
                 default:

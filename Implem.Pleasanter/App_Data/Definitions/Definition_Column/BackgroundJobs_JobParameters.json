@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs_JobParameters",
     "ModelName": "BackgroundJob",
     "TableName": "BackgroundJobs",
@@ -15,5 +15,6 @@
     "LabelText_de": "Parameter",
     "LabelText_ko": "매개변수",
     "LabelText_es": "Parámetros",
-    "LabelText_vn": "Tham số"
+    "LabelText_vn": "Tham số",
+    "LabelText_fr": "Paramètres"
 }

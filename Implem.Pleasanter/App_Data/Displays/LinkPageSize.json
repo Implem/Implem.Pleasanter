@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Số lượng jispy"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre d’éléments affichés"
         }
     ]
 }

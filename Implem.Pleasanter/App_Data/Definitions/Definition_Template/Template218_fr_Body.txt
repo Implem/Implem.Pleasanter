@@ -1,0 +1,6 @@
+﻿À pied
+Vélo
+Train
+Bus
+Taxi
+Avion

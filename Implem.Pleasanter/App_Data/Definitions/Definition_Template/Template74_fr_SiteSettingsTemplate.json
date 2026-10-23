@@ -1,0 +1,110 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "Comments",
+                        "ClassA",
+                        "ClassB",
+                        "DateA",
+                        "ClassC",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "ClassA",
+                          "ClassB",
+                          "DateA",
+                          "ClassC",
+                          "Owner",
+                          "DescriptionA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "DateA",
+                        "ClassC",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassA",
+                           "ClassB",
+                           "DateA",
+                           "ClassC",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Points d\u0027utilisation"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Produit ou service",
+                        "ChoicesText":  "Produit ou service 1\nProduit ou service 2\nProduit ou service 3\nProduit ou service 4\nProduit ou service 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type de matériau",
+                        "ChoicesText":  "catalogue\ndépliant\naffiche\nProspectus"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de création"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Département Création",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "TimeSeriesGroupBy":  "ClassA"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

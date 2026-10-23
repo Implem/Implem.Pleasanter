@@ -22,5 +22,6 @@
     "LabelText_de": "Parametername",
     "LabelText_ko": "매개변수 이름",
     "LabelText_es": "Nombre del parámetro",
-    "LabelText_vn": "Tên tham số"
+    "LabelText_vn": "Tên tham số",
+    "LabelText_fr": "Nom du paramètre"
 }

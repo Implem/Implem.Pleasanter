@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt nút lệnh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres des boutons de commande"
         }
     ]
 }

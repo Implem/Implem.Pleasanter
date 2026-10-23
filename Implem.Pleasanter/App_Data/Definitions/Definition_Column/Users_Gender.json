@@ -29,5 +29,6 @@
     "LabelText_de": "Geschlecht",
     "LabelText_ko": "성별",
     "LabelText_es": "Sexo",
-    "LabelText_vn": "Giới tính"
+    "LabelText_vn": "Giới tính",
+    "LabelText_fr": "Genre"
 }

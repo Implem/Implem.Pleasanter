@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Tenants_DeleteRequestTime",
     "ModelName": "Tenant",
     "TableName": "Tenants",
@@ -14,5 +14,6 @@
     "LabelText_de": "Löschanfragezeitpunkt",
     "LabelText_ko": "삭제 요청 시간",
     "LabelText_es": "Hora de solicitud de eliminación",
-    "LabelText_vn": "Thời gian yêu cầu xóa"
+    "LabelText_vn": "Thời gian yêu cầu xóa",
+    "LabelText_fr": "Date de la demande de suppression"
 }

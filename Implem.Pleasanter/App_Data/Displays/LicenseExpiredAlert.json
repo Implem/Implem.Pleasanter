@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giấy phép phiên bản doanh nghiệp của bạn đã hết hạn. Vui lòng gia hạn hợp đồng càng sớm càng tốt nếu bạn muốn tiếp tục sử dụng dịch vụ."
+        },
+        {
+            "Language": "fr",
+            "Body": "Votre licence Enterprise Edition a expiré. Veuillez renouveler votre contrat dès que possible pour continuer à utiliser le service."
         }
     ]
 }

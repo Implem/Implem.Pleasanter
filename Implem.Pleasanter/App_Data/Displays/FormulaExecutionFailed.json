@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tính toán công thức thất bại.\nVui lòng kiểm tra và sửa công thức rồi thử lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Échec du calcul de la formule.\nVeuillez vérifier et corriger la formule, puis réessayer."
         }
     ]
 }

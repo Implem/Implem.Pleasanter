@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OrderDesc",
     "Type": 110,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Giảm dần"
+        },
+        {
+            "Language": "fr",
+            "Body": "Décroissant"
         }
     ]
 }

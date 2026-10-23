@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Vertical",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dọc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Vertical"
         }
     ]
 }

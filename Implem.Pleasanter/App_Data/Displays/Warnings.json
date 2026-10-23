@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Warnings",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "[Cảnh báo]"
+        },
+        {
+            "Language": "fr",
+            "Body": "[Avertissements]"
         }
     ]
 }

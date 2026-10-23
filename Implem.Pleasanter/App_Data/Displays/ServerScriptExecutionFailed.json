@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thực thi bản thảo máy chủ thất bại.\nVui lòng kiểm tra và sửa bản thảo máy chủ rồi thử lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Échec de l’exécution du script serveur.\nVérifiez et corrigez le script serveur, puis réessayez."
         }
     ]
 }

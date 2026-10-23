@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Sobrescribir el archivo con el mismo nombre"
+        },
+        {
+            "Language": "fr",
+            "Body": "Remplacer le fichier portant le même nom"
         }
     ]
 }

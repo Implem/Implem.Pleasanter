@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Không có mục nào thay đổi."
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Aucun élément n’a été modifié."
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Ngày tháng năm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Date"
         }
     ]
 }

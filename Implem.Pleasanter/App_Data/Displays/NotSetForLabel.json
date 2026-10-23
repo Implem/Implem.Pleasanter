@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Chưa thiết lập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Non défini"
         }
     ]
 }

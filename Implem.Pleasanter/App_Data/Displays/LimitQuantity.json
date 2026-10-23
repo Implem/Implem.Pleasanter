@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LimitQuantity",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giới hạn số lượng tệp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre maximal de fichiers"
         }
     ]
 }

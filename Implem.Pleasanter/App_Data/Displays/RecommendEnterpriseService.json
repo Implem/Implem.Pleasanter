@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Ngay cả những nghiệp vụ vượt quá 26 hạng mục từ A đến Z cũng có thể đáp ứng linh hoạt.Với Enterprise Edition, số lượng hạng mục có thể được mở rộng đáng kể, giúp vận hành hệ thống một cách yên tâm. *Có thể dùng thử miễn phí trong 90 ngày."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’édition Enterprise permet de dépasser la limite de 26 éléments (A à Z) et d’augmenter considérablement leur nombre pour répondre à des besoins professionnels. Essayez-la gratuitement pendant 90 jours."
         }
     ]
 }

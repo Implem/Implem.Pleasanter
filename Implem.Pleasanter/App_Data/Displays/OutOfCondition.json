@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OutOfCondition",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Điều kiện không đáp ứng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Les conditions ne sont pas remplies"
         }
     ]
 }

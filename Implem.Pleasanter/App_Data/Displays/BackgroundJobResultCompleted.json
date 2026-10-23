@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobResultCompleted",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "{0} wurde abgeschlossen." },
         { "Language": "ko", "Body": "{0}가 완료되었습니다." },
         { "Language": "es", "Body": "Se ha completado {0}." },
-        { "Language": "vn", "Body": "{0} đã hoàn tất." }
+        { "Language": "vn", "Body": "{0} đã hoàn tất." },
+        {
+            "Language": "fr",
+            "Body": "{0} terminé."
+        }
     ]
 }

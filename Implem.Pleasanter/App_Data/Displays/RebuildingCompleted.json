@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hoàn thành xây dựng lại chỉ mục tìm kiếm."
+        },
+        {
+            "Language": "fr",
+            "Body": "La reconstruction de l’index de recherche est terminée."
         }
     ]
 }

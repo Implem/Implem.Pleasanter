@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "-->TestParts{0}{1} {2}"
+        },
+        {
+            "Language": "fr",
+            "Body": "--\u003eTestParts{0}{1} {2}"
         }
     ]
 }

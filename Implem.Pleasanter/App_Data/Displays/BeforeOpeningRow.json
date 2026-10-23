@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Trước khi mở hàng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Avant l’ouverture de la ligne"
         }
     ]
 }

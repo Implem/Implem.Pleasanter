@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Luôn xuất"
+        },
+        {
+            "Language": "fr",
+            "Body": "Toujours produire"
         }
     ]
 }

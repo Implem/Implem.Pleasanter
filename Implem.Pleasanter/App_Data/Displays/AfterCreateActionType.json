@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thao tác sau khi tạo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Action après création"
         }
     ]
 }

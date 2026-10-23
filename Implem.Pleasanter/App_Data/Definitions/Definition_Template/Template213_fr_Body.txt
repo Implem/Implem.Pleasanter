@@ -1,0 +1,14 @@
+﻿1,Japonais
+2,Histoire et géographie
+3,Éducation civique
+4,Mathématiques
+5,Sciences
+6,Musique
+7,Arts plastiques
+8,Calligraphie
+9,Travaux manuels
+10,Éducation physique
+11,Éducation à la santé
+12,Économie domestique
+13,Informatique
+14,Anglais

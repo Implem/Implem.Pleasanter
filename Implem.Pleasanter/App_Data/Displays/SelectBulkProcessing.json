@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chọn xử lý hàng loạt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Sélectionner un traitement groupé"
         }
     ]
 }

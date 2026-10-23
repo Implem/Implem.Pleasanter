@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xuất dữ liệu thất bại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Échec de l’exportation"
         }
     ]
 }

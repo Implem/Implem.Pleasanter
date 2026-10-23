@@ -29,5 +29,6 @@
     "LabelText_de": "MCP-Protokoll-ID",
     "LabelText_ko": "MCP 로그 ID",
     "LabelText_es": "ID de registro MCP",
-    "LabelText_vn": "ID Log MCP"
+    "LabelText_vn": "ID Log MCP",
+    "LabelText_fr": "Identifiant du journal MCP"
 }

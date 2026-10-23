@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đánh dấu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Markdown"
         }
     ]
 }

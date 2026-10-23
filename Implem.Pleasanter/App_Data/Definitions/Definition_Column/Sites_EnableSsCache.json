@@ -16,5 +16,6 @@
     "LabelText_de": "Site-Settings-Cache aktivieren",
     "LabelText_ko": "사이트 설정 캐시 활성화",
     "LabelText_es": "Habilitar la caché de configuración del sitio",
-    "LabelText_vn": "Bật bộ nhớ đệm cài đặt site"
+    "LabelText_vn": "Bật bộ nhớ đệm cài đặt site",
+    "LabelText_fr": "Activer le cache des paramètres du site"
 }

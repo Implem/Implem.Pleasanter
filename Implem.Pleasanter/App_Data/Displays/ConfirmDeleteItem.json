@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Bạn có muốn xóa '{0}' không?"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous supprimer « {0} » ?"
         }
     ]
 }

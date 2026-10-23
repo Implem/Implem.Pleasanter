@@ -25,5 +25,6 @@
     "LabelText_de": "Fehlermeldung",
     "LabelText_ko": "오류 메시지",
     "LabelText_es": "Mensaje de error",
-    "LabelText_vn": "Thông báo lỗi"
+    "LabelText_vn": "Thông báo lỗi",
+    "LabelText_fr": "Message d’erreur"
 }

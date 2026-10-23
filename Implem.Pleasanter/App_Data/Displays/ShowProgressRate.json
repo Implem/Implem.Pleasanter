@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ShowProgressRate",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hiển thị tỉ lệ tiến độ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Afficher le taux d’avancement"
         }
     ]
 }

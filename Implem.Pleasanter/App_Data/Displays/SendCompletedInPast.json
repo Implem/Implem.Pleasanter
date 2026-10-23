@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SendCompletedInPast",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Gửi cùng với những thứ bạn đã hoàn thành"
+        },
+        {
+            "Language": "fr",
+            "Body": "Envoyer avec les éléments terminés précédemment"
         }
     ]
 }

@@ -22,5 +22,6 @@
     "LabelText_de": "LDAP-Synchronisierungszeit",
     "LabelText_ko": "LDAP 동기화 시간",
     "LabelText_es": "Tiempo de sincronización LDAP",
-    "LabelText_vn": "Thời gian đồng bộ hóa LDAP"
+    "LabelText_vn": "Thời gian đồng bộ hóa LDAP",
+    "LabelText_fr": "Synchronisé via LDAP le"
 }

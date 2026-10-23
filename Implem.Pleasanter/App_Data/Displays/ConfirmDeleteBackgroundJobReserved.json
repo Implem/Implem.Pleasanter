@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0} đã được đặt trước. Bạn có chắc muốn xóa không?"
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} réservé(s). Voulez-vous vraiment supprimer ?"
         }
     ]
 }

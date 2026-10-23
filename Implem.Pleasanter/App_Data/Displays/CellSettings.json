@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt ô"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de cellule"
         }
     ]
 }

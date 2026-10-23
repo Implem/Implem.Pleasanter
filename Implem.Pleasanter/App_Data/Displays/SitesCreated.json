@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SitesCreated",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Trang web đã được tạo."
+        },
+        {
+            "Language": "fr",
+            "Body": "Un site a été créé."
         }
     ]
 }

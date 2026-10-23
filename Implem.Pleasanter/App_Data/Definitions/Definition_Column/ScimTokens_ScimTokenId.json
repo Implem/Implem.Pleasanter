@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ScimTokens_ScimTokenId",
     "ModelName": "ScimToken",
     "TableName": "ScimTokens",
@@ -15,5 +15,6 @@
     "ControlType": "Id",
     "EditorReadOnly": "1",
     "LabelText_en": "SCIM token ID",
-    "LabelText_zh": "SCIM token ID"
+    "LabelText_zh": "SCIM token ID",
+    "LabelText_fr": "Identifiant du jeton SCIM"
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AllowEditingComments",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép sửa bình luận"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser la modification des commentaires"
         }
     ]
 }

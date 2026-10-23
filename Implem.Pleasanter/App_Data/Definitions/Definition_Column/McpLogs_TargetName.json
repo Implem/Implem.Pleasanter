@@ -24,5 +24,6 @@
     "LabelText_de": "Zielname",
     "LabelText_ko": "대상 이름",
     "LabelText_es": "Nombre de destino",
-    "LabelText_vn": "Tên đích"
+    "LabelText_vn": "Tên đích",
+    "LabelText_fr": "Nom de la cible"
 }

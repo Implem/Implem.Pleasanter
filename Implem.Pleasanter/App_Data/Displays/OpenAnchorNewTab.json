@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "mở neo trong tab mới"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ouvrir le lien d’ancrage dans un nouvel onglet"
         }
     ]
 }

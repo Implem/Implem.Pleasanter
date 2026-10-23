@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Các trường nhập liệu được sử dụng trong tab sẽ bị xóa."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les champs de saisie utilisés dans l’onglet seront supprimés."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ShowHistory",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hiển thị lịch sử"
+        },
+        {
+            "Language": "fr",
+            "Body": "Afficher l’historique"
         }
     ]
 }

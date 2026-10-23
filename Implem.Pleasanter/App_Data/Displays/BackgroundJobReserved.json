@@ -26,6 +26,10 @@
         {
             "Language": "vn",
             "Body": "{0} đã được đặt trước."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} réservé(s)."
         }
     ]
 }

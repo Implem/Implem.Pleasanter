@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đường dẫn đầu vào (InputFilePath) chưa được cấu hình."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le chemin du fichier d’entrée (InputFilePath) n’est pas configuré."
         }
     ]
 }

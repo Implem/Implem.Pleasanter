@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xóa hình ảnh khi xóa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Supprimer l’image lors de la suppression"
         }
     ]
 }

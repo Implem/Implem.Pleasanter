@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hiển thị đa ngôn ngữ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Affichage multilingue"
         }
     ]
 }

@@ -1,0 +1,130 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "Owner",
+                        "TitleBody",
+                        "DateA",
+                        "DateB",
+                        "NumA",
+                        "Status",
+                        "ClassA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Owner",
+                          "DateA",
+                          "DateB",
+                          "NumA",
+                          "Status",
+                          "ClassA",
+                          "Title",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Owner",
+                        "DateA",
+                        "DateB",
+                        "NumA",
+                        "Status",
+                        "ClassA",
+                        "Title",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Owner",
+                           "DateA",
+                           "DateB",
+                           "NumA",
+                           "Status",
+                           "ClassA",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du cours"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Prévu pour y assister,Prévisions,status-new\n200,Je suis actuellement en cours,Modéré,status-inprogress\n900,Terminé,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Participants"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Montant",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Début",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Fin",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Catégorie",
+                        "ChoicesText":  "compétences humaines\ntechnologie\nAutre"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "Owner",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "Owner",
+                  "KambanGroupByY":  "Owner"
+              },
+    "TitleSeparator":  ")"
+}

@@ -1,0 +1,238 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "Title",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "ClassA",
+                        "CheckA",
+                        "CheckB",
+                        "CheckC",
+                        "CheckD",
+                        "CheckE",
+                        "CheckF",
+                        "CheckG",
+                        "CheckH",
+                        "NumC",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "FilterColumns":  [
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "ClassE",
+                          "ClassF",
+                          "ClassG",
+                          "ClassH",
+                          "ClassI",
+                          "ClassJ",
+                          "ClassK",
+                          "ClassL",
+                          "ClassM",
+                          "ClassN",
+                          "ClassO",
+                          "ClassP",
+                          "ClassQ",
+                          "ClassR",
+                          "ClassS",
+                          "ClassT",
+                          "ClassU",
+                          "ClassV",
+                          "ClassW",
+                          "ClassX",
+                          "ClassY",
+                          "ClassZ",
+                          "CheckA",
+                          "CheckB",
+                          "CheckC",
+                          "CheckD",
+                          "CheckE",
+                          "CheckF",
+                          "CheckG",
+                          "CheckH",
+                          "CheckI",
+                          "CheckJ",
+                          "CheckK",
+                          "CheckL",
+                          "CheckM",
+                          "CheckN",
+                          "CheckO",
+                          "CheckP",
+                          "CheckQ",
+                          "CheckR",
+                          "CheckS",
+                          "CheckT",
+                          "CheckU",
+                          "CheckV",
+                          "CheckW",
+                          "CheckX",
+                          "CheckY",
+                          "CheckZ",
+                          "SiteTitle"
+                      ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassB",
+                          "DateA",
+                          "NumA",
+                          "NumB",
+                          "ClassA",
+                          "CheckA",
+                          "CheckB",
+                          "CheckC",
+                          "CheckD",
+                          "CheckE",
+                          "CheckF",
+                          "CheckG",
+                          "CheckH",
+                          "NumC",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "ClassA",
+                        "CheckA",
+                        "CheckB",
+                        "CheckC",
+                        "CheckD",
+                        "CheckE",
+                        "CheckF",
+                        "CheckG",
+                        "CheckH",
+                        "NumC",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "NumC",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Systèmes d’exploitation compatibles"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Date limite de mise à jour",
+                        "Unit":  "Année"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Nombre de machines pouvant être installées",
+                        "Unit":  "se tenir debout"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "CheckA",
+                        "LabelText":  "Mesures contre les virus et les logiciels espions"
+                    },
+                    {
+                        "ColumnName":  "CheckB",
+                        "LabelText":  "pare-feu"
+                    },
+                    {
+                        "ColumnName":  "CheckC",
+                        "LabelText":  "Sauvegarde"
+                    },
+                    {
+                        "ColumnName":  "CheckD",
+                        "LabelText":  "Mise au point du PC"
+                    },
+                    {
+                        "ColumnName":  "CheckE",
+                        "LabelText":  "Mesures anti-spam (mesures anti-spam)"
+                    },
+                    {
+                        "ColumnName":  "CheckF",
+                        "LabelText":  "Réglementation des sites nuisibles"
+                    },
+                    {
+                        "ColumnName":  "CheckG",
+                        "LabelText":  "Mesures anti-hameçonnage"
+                    },
+                    {
+                        "ColumnName":  "CheckH",
+                        "LabelText":  "Protection des informations personnelles"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Fabricant",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  2,
+                             "Target":  "NumC"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "KambanAggregateType":  "Average",
+                  "KambanValue":  "NumC",
+                  "KambanAggregationView":  true
+              },
+    "TitleSeparator":  ")"
+}

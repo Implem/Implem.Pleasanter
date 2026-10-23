@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Ngày đầu tuần"
+        },
+        {
+            "Language": "fr",
+            "Body": "Premier jour de la semaine"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobsSiteName",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Standorttitel" },
         { "Language": "ko", "Body": "사이트 제목" },
         { "Language": "es", "Body": "Título del sitio" },
-        { "Language": "vn", "Body": "Tiêu đề trang web" }
+        { "Language": "vn", "Body": "Tiêu đề trang web" },
+        {
+            "Language": "fr",
+            "Body": "Nom du site"
+        }
     ]
 }

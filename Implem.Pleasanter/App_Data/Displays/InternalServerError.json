@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InternalServerError",
     "Type": 240,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đã xảy ra lỗi trong máy chủ nội bộ."
+        },
+        {
+            "Language": "fr",
+            "Body": "Une erreur interne du serveur est survenue."
         }
     ]
 }

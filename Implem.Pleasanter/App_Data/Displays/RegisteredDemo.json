@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Địa chỉ email của bạn đã được đăng ký cho bản demo."
+        },
+        {
+            "Language": "fr",
+            "Body": "Votre adresse e-mail a été enregistrée pour la démonstration."
         }
     ]
 }

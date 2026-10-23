@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs_File",
     "ModelName": "BackgroundJob",
     "TableName": "BackgroundJobs",
@@ -15,5 +15,6 @@
     "LabelText_de": "Datei",
     "LabelText_ko": "파일",
     "LabelText_es": "Archivo",
-    "LabelText_vn": "Tệp"
+    "LabelText_vn": "Tệp",
+    "LabelText_fr": "Fichier"
 }

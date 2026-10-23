@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ScimTokens_TokenPrefix",
     "ModelName": "ScimToken",
     "TableName": "ScimTokens",
@@ -11,5 +11,6 @@
     "Nullable": "1",
     "EditorReadOnly": "1",
     "LabelText_en": "Token prefix",
-    "LabelText_zh": "Token prefix"
+    "LabelText_zh": "Token prefix",
+    "LabelText_fr": "Préfixe du jeton"
 }

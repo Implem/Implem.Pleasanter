@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Tên cột"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nom de colonne"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chi tiết lỗi: {0}{1}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Détails de l’erreur : {0}{1}"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobsJobType",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Auftragstyp" },
         { "Language": "ko", "Body": "작업 유형" },
         { "Language": "es", "Body": "Tipo de trabajo" },
-        { "Language": "vn", "Body": "Loại tác vụ" }
+        { "Language": "vn", "Body": "Loại tác vụ" },
+        {
+            "Language": "fr",
+            "Body": "Type de tâche"
+        }
     ]
 }

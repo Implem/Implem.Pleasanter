@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InvalidAiProviderSetting",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt kết nối AI không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "La configuration de la connexion au fournisseur d’IA n’est pas valide."
         }
     ]
 }

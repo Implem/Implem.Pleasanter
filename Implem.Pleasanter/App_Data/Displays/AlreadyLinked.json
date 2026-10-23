@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AlreadyLinked",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã liên kết."
+        },
+        {
+            "Language": "fr",
+            "Body": "Déjà lié."
         }
     ]
 }

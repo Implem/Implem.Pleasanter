@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobsJobFinishedTime",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Auftragsabschlusszeit" },
         { "Language": "ko", "Body": "작업 종료 일시" },
         { "Language": "es", "Body": "Hora de finalización del trabajo" },
-        { "Language": "vn", "Body": "Thời gian kết thúc công việc" }
+        { "Language": "vn", "Body": "Thời gian kết thúc công việc" },
+        {
+            "Language": "fr",
+            "Body": "Heure de fin"
+        }
     ]
 }

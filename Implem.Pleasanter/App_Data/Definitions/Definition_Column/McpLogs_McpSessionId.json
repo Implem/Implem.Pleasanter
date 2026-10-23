@@ -26,5 +26,6 @@
     "LabelText_de": "MCP-Sitzungs-ID",
     "LabelText_ko": "MCP 세션 ID",
     "LabelText_es": "ID de sesión MCP",
-    "LabelText_vn": "ID phiên MCP"
+    "LabelText_vn": "ID phiên MCP",
+    "LabelText_fr": "Identifiant de session MCP"
 }

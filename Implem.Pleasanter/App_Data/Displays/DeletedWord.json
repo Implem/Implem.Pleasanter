@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Đã xóa"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Supprimé"
         }
     ]
 }

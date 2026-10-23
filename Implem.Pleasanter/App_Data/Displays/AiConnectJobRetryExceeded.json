@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiConnectJobRetryExceeded",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Gửi kết nối AI không thành công. Đã đạt giới hạn thử lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’envoi via la connexion à l’IA a échoué. Le nombre maximal de tentatives a été atteint."
         }
     ]
 }

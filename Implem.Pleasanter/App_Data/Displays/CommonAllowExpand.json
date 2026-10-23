@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép mở rộng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser le développement"
         }
     ]
 }

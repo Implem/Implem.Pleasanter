@@ -1,0 +1,153 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "Comments",
+                        "ClassD",
+                        "ClassE",
+                        "Status",
+                        "NumA",
+                        "DateA",
+                        "DateB",
+                        "DateC",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "ClassC",
+                          "ClassA",
+                          "ClassB",
+                          "ClassD",
+                          "DateB",
+                          "Body",
+                          "ClassE",
+                          "Status",
+                          "NumA",
+                          "DateC",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  [
+                         "ClassC",
+                         "ClassA",
+                         "ClassB"
+                     ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassD",
+                        "ClassE",
+                        "Status",
+                        "NumA",
+                        "DateA",
+                        "DateB",
+                        "DateC",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassD",
+                           "ClassE",
+                           "Status",
+                           "NumA",
+                           "DateA",
+                           "DateB",
+                           "DateC",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Candidature actuelle,Singe,status-new\n200,Entrer dans le dortoir,Entrez,status-inprogress\n900,Sorti du dortoir,Retraite,status-closed\n910,Rejeté,Rejet,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Nom complet",
+                        "ChoicesText":  "Nom complet 1\nNom complet 2\nNom complet 3\nNom complet 4\nNom complet 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Numéro d’employé"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "dortoir souhaité",
+                        "ChoicesText":  "dortoir 1\ndortoir 2\ndortoir 3\ndortoir 4\ndortoir 5"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Coordonnées"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de la demande"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date d\u0027emménagement souhaitée"
+                    },
+                    {
+                        "ColumnName":  "DateC",
+                        "LabelText":  "Date de départ"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Raison de l\u0027entrée dans le dortoir"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Frais de dortoir",
+                        "Format":  "C"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateB",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "KambanGroupByX":  "ClassA",
+                  "KambanGroupByY":  "ClassD",
+                  "KambanAggregationView":  true
+              },
+    "TitleSeparator":  ")"
+}

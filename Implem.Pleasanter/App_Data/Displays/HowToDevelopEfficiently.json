@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "💡 Làm thế nào để phát triển hiệu quả?"
+        },
+        {
+            "Language": "fr",
+            "Body": "💡 Comment développer efficacement ?"
         }
     ]
 }

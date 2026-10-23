@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Lấy chi tiết lỗi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Obtenir les détails de l’erreur"
         }
     ]
 }

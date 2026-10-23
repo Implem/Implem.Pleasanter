@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Không"
+        },
+        {
+            "Language": "fr",
+            "Body": "Aucun"
         }
     ]
 }

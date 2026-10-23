@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Clear",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Xóa"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Effacer"
         }
     ]
 }

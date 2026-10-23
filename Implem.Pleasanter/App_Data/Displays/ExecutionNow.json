@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "thực hiện ngay bây giờ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Exécuter maintenant"
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Tự động"
+        },
+        {
+            "Language": "fr",
+            "Body": "Automatique"
         }
     ]
 }

@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Check for changes in database tables."
+        },
+        {
+            "Language": "fr",
+            "Body": "Vérifier les modifications des tables de la base de données."
         }
     ]
 }

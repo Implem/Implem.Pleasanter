@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cảm ơn bạn đã đăng kí sử dụng môi trường giả lập.\r\n\r\n Vui lòng truy cập URL bên dưới và đăng nhập bằng ID / PW của bạn. \r\n\r\n{0}\r\n\r\nID quản trị viên\r\n{1}\r\n\r\nID người dùng chung (có thể sử dụng 19 ID)\r\n{2}\r\n\r\n Môi trường giả lập có hiệu lực trong {3} ngày. \r\n\r\n Xin lưu ý rằng trang demo có thể được duy trì mà không cần thông báo trước."
+        },
+        {
+            "Language": "fr",
+            "Body": "Merci de vous être inscrit pour utiliser l’environnement de démonstration.\n\nAccédez à l’URL ci-dessous et connectez-vous avec votre identifiant et votre mot de passe.\n\n{0}\n\nIdentifiant administrateur\n{1}\n\nIdentifiants utilisateur standard (19 comptes disponibles)\n{2}\n\nL’environnement de démonstration est disponible pendant {3} jour(s).\n\nVeuillez noter que le site de démonstration peut faire l’objet d’une maintenance sans préavis."
         }
     ]
 }

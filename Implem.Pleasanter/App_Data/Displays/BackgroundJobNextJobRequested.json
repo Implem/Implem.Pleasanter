@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobNextJobRequested",
     "Type": 210,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Ausführung des nächsten Jobs für {0} Element(e) angefordert." },
         { "Language": "ko", "Body": "{0}개 항목의 다음 작업 실행을 요청했습니다." },
         { "Language": "es", "Body": "Se solicitó la ejecución del siguiente trabajo para {0} elemento(s)." },
-        { "Language": "vn", "Body": "Đã yêu cầu thực thi công việc tiếp theo cho {0} mục." }
+        { "Language": "vn", "Body": "Đã yêu cầu thực thi công việc tiếp theo cho {0} mục." },
+        {
+            "Language": "fr",
+            "Body": "Exécution de la prochaine tâche demandée pour {0} élément(s)."
+        }
     ]
 }

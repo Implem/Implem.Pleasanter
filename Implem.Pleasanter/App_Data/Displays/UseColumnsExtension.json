@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Mặc định có 26 mục từ A đến Z. Sử dụng tiện ích mở rộng mục, có thể thêm tối đa 900 mục bổ sung khi cần thiết."
+        },
+        {
+            "Language": "fr",
+            "Body": "Par défaut, 26 éléments (de A à Z) sont disponibles. L’extension des éléments permet d’en ajouter jusqu’à 900 si nécessaire."
         }
     ]
 }

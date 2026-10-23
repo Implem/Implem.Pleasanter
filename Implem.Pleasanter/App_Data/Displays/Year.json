@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Year",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Năm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Année"
         }
     ]
 }

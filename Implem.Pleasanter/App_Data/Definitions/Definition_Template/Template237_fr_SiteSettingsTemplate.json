@@ -1,0 +1,167 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "DescriptionA",
+                        "ClassA",
+                        "ClassB",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "ClassC",
+                        "Owner",
+                        "ClassD",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "ClassA",
+                          "ClassB",
+                          "ClassE",
+                          "NumA",
+                          "StartTime",
+                          "ClassC",
+                          "Owner",
+                          "DescriptionA",
+                          "CompletionTime",
+                          "Status",
+                          "ClassD",
+                          "Gestionnaire",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "ClassC",
+                        "Owner",
+                        "ClassD",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "ClassA",
+                           "ClassB",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Gestionnaire",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Fichiers joints"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Objet",
+                        "Section":  "Requested_information"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Requested_details"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Answer",
+                        "Section":  "Answered_information"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Emergency",
+                        "ChoicesText":  "Élevé\nMiddle\nFaible"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Request_category",
+                        "ChoicesText":  "Description du produit ou service\nDemonstration\nVisiting_a_cunstomer\nProviding_information\nOther"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Requested_date",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Answered_date",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Requested_person"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Answered_person"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Not_start,Not,status-new\n900,Answered,Ans,status-closed\n910,Pending,Pending,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Service du demandeur",
+                        "ChoicesText":  "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Service du répondant",
+                        "ChoicesText":  "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Possibility_of_business_meeting",
+                        "ChoicesText":  "90%\n50%\n30%"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Range_of_business_meeting",
+                        "Format":  "C"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "Standard",
+                  "CrosstabGroupByX":  "StartTime",
+                  "CrosstabAggregateType":  "Count",
+                  "KambanGroupByY":  "ClassB"
+              },
+    "ShowGanttProgressRate":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

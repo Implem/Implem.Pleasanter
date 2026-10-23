@@ -27,6 +27,10 @@
         {
             "Language": "vn",
             "Body": "Thao tác khóa truy cập đã quá thời gian chờ. Vui lòng thử lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’opération avec la clé d’accès a expiré. Veuillez réessayer."
         }
     ]
 }

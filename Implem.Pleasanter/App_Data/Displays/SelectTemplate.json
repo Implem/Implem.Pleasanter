@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SelectTemplate",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xin mời chọn mẫu từ danh sách. Màn hình ví dụ sẽ được hiển thị."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez sélectionner un modèle dans la liste. Un aperçu de l’écran sera affiché."
         }
     ]
 }

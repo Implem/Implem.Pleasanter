@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng khu vực cài đặt bộ lọc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser la zone de filtres"
         }
     ]
 }

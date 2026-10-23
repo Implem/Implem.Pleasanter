@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Histories",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Lịch sử"
+        },
+        {
+            "Language": "fr",
+            "Body": "Historique"
         }
     ]
 }

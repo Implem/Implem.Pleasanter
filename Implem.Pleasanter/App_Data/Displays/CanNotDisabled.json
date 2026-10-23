@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CanNotDisabled",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể vô hiệu hóa {0}."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de désactiver {0}."
         }
     ]
 }

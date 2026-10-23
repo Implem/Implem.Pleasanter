@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tình trạng hiện tại"
+        },
+        {
+            "Language": "fr",
+            "Body": "État actuel"
         }
     ]
 }

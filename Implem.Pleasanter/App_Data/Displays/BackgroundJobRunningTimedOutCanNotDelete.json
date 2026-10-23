@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobRunningTimedOutCanNotDelete",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tác vụ này đã vượt quá thời gian thực thi công việc mặc định và đang chờ hoàn tất quá trình dừng. Vui lòng chờ rồi thử lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cette tâche a dépassé le temps d’exécution par défaut et attend la fin de son arrêt. Veuillez réessayer plus tard."
         }
     ]
 }

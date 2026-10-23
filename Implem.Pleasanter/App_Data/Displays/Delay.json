@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Delay",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Trì hoãn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Délai"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ResearchAndDevelopment",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nghiên cứu/Phát triển"
+        },
+        {
+            "Language": "fr",
+            "Body": "Recherche et développement"
         }
     ]
 }

@@ -18,5 +18,6 @@
     "LabelText_de": "Berechtigung erben von",
     "LabelText_ko": "권한 계승 대상",
     "LabelText_es": "Heredar permiso de",
-    "LabelText_vn": "Nguồn kế thừa quyền truy cập"
+    "LabelText_vn": "Nguồn kế thừa quyền truy cập",
+    "LabelText_fr": "Hériter des autorisations de"
 }

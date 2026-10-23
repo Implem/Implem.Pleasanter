@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiConnectIndexCheckIncomplete",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể xác nhận hoàn tất đăng ký tại đích kết nối."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de confirmer la fin de l’enregistrement auprès de la cible de connexion."
         }
     ]
 }

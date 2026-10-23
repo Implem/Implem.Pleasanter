@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Có cài đặt đã thay đổi. Hãy nhấn “Cập nhật” để lưu thay đổi hoặc tải lại trang để hủy thay đổi."
+        },
+        {
+            "Language": "fr",
+            "Body": "Des paramètres ont été modifiés. Cliquez sur « Mettre à jour » pour enregistrer vos modifications, ou rechargez la page pour les abandonner."
         }
     ]
 }

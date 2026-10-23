@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "FileDeleteCompleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xóa tệp tin đã hoàn thành."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le fichier a été supprimé."
         }
     ]
 }

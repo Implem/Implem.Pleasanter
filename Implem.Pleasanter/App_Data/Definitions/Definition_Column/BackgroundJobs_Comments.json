@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs_Comments",
     "ModelName": "BackgroundJob",
     "TableName": "BackgroundJobs",
@@ -19,5 +19,6 @@
     "LabelText_de": "Kommentare",
     "LabelText_ko": "주석",
     "LabelText_es": "Comentarios",
-    "LabelText_vn": "Bình luận"
+    "LabelText_vn": "Bình luận",
+    "LabelText_fr": "Commentaires"
 }

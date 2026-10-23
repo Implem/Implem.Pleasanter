@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Mục này được sử dụng để nhập ngày. Ngoài việc nhập văn bản tự do, có thể chọn ngày và giờ từ lịch. Có thể sử dụng tối đa 26 mục, từ Ngày A đến Ngày Z."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cet élément permet de saisir une date. Les dates et heures peuvent être saisies ou sélectionnées dans un calendrier. Jusqu’à 26 éléments, de Date A à Date Z, sont disponibles."
         }
     ]
 }

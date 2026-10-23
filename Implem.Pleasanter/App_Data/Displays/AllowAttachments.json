@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép xóa các tệp đính kèm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser la suppression des pièces jointes"
         }
     ]
 }

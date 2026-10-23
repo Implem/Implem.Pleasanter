@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "\nServerName: {0}\nDatabase: {1}\nDeadline: {2}\nLicensee: {3}\nUsers: {4}"
+        },
+        {
+            "Language": "fr",
+            "Body": "\nNom du serveur : {0}\nBase de données : {1}\nÉchéance : {2}\nTitulaire de la licence : {3}\nUtilisateurs : {4}"
         }
     ]
 }

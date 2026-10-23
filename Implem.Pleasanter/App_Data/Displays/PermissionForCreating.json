@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "PermissionForCreating",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Các quyền cho phép khi tạo bản ghi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Permission de création d’enregistrements"
         }
     ]
 }

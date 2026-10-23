@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ứng dụng khách Http"
+        },
+        {
+            "Language": "fr",
+            "Body": "Client HTTP"
         }
     ]
 }

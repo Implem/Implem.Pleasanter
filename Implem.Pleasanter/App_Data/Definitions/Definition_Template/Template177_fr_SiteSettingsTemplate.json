@@ -1,0 +1,144 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "NumA",
+                        "ClassC",
+                        "ClassD",
+                        "ClassE",
+                        "NumE",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "DateA",
+                          "ClassB",
+                          "NumA",
+                          "ClassC",
+                          "ClassE",
+                          "NumE",
+                          "ClassD",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "NumA",
+                        "ClassC",
+                        "ClassD",
+                        "ClassE",
+                        "NumE",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "NumE",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Référence du modèle"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Marque",
+                        "ChoicesText":  "Marque 1\nMarque 2\nMarque 3\nMarque 4\nMarque 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Type",
+                        "ChoicesText":  "entreprise\nbaskets\nsport\nen plein air\nbottes\nsandales\nchaussures de pluie"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Taille",
+                        "DecimalPlaces":  1,
+                        "Unit":  "cm"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Couleur"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Cible",
+                        "ChoicesText":  "Homme\nFemme\nMixte\nEnfant"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  2,
+                             "Target":  "NumE"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "KambanGroupByY":  "ClassC",
+                  "KambanAggregateType":  "Average",
+                  "KambanValue":  "NumE",
+                  "KambanAggregationView":  true
+              },
+    "TitleSeparator":  ")"
+}

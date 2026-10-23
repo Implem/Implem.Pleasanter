@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Yêu cầu không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "Requête non valide."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs_ResultMessage",
     "ModelName": "BackgroundJob",
     "TableName": "BackgroundJobs",
@@ -15,5 +15,6 @@
     "LabelText_de": "Ergebnismeldung",
     "LabelText_ko": "결과 메시지",
     "LabelText_es": "Mensaje del resultado",
-    "LabelText_vn": "Thông điệp kết quả"
+    "LabelText_vn": "Thông điệp kết quả",
+    "LabelText_fr": "Message de résultat"
 }

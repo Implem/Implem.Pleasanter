@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DisabledGroup",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "(Nhóm vô hiệu hóa)"
+        },
+        {
+            "Language": "fr",
+            "Body": "(Groupe désactivé)"
         }
     ]
 }

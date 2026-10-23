@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "FormThanksMessageDefault",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         {
             "Language": "ja",
             "Body": "ご入力ありがとうございました。"
+        },
+        {
+            "Language": "fr",
+            "Body": "Merci pour votre saisie."
         }
     ]
 }

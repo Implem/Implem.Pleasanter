@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AggregationSettings",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt thống kê"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres d’agrégation"
         }
     ]
 }

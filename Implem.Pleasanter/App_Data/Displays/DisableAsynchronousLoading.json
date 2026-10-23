@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "vô hiệu hóa tải không đồng bộ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Désactiver le chargement asynchrone"
         }
     ]
 }

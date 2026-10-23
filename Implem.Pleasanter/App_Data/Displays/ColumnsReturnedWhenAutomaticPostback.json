@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Các cột được trả lại khi đăng lại tự động"
+        },
+        {
+            "Language": "fr",
+            "Body": "Colonnes renvoyées lors de la publication automatique"
         }
     ]
 }

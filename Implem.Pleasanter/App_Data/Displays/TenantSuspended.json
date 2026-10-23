@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TenantSuspended",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "\" {0} \" đã bị tạm dừng."
+        },
+        {
+            "Language": "fr",
+            "Body": "« {0} » a été suspendu."
         }
     ]
 }

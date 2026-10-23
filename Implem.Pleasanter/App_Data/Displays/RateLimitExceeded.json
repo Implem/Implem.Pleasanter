@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quá nhiều yêu cầu. Vui lòng thử lại sau."
+        },
+        {
+            "Language": "fr",
+            "Body": "Trop de requêtes. Veuillez réessayer plus tard."
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không tìm thấy tiến trình được chỉ định."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le processus indiqué est introuvable."
         }
     ]
 }

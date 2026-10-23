@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiConnectJobCompleted",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kết nối AI đã hoàn tất."
+        },
+        {
+            "Language": "fr",
+            "Body": "La connexion à l’IA est terminée."
         }
     ]
 }

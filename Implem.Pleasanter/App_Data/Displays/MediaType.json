@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại phương tiện"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type de média"
         }
     ]
 }

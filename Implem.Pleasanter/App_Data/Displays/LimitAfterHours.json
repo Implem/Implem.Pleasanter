@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LimitAfterHours",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0} giờ sau"
+        },
+        {
+            "Language": "fr",
+            "Body": "Dans {0} heures"
         }
     ]
 }

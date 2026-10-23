@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Vui lòng nhập dữ liệu [{0}]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez saisir les données. [{0}]"
         }
     ]
 }

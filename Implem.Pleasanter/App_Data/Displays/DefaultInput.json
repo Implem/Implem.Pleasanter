@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Giá trị mặc định"
+        },
+        {
+            "Language": "fr",
+            "Body": "Valeur par défaut"
         }
     ]
 }

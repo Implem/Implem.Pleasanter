@@ -1,0 +1,144 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "Comments",
+                        "NumA",
+                        "ClassA",
+                        "DateA",
+                        "DateB",
+                        "Status",
+                        "ClassB",
+                        "Owner",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "NumA",
+                          "ClassA",
+                          "DateA",
+                          "DateB",
+                          "Status",
+                          "ClassB",
+                          "Owner",
+                          "Gestionnaire",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "NumA",
+                        "ClassA",
+                        "DateA",
+                        "DateB",
+                        "Status",
+                        "ClassB",
+                        "Owner",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Status",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom de la réunion"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Approbateur"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Créé par"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Lieu"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Début",
+                        "GridFormat":  "Ymdahm",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Fin",
+                        "GridFormat":  "Ymdahm",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "DefaultInput":  "[md]\n##Participants\n\n\n## Ordre du jour\n1. xxxx\n1. xxxx\n1. xxxx\n\n## Contenu\n\n\nC\u0027est tout"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "200,En construction,Fabriqué par,status-inprogress\n300,En attente d\u0027approbation,En attente,status-review\n900,Approuvé,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Durée",
+                        "ControlType":  "Normal",
+                        "Unit":  "Minute"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassB",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "TimeSeriesGroupBy":  "ClassB",
+                  "TimeSeriesAggregateType":  "Total",
+                  "KambanGroupByX":  "Status",
+                  "KambanGroupByY":  "Manager"
+              },
+    "TitleSeparator":  ")"
+}

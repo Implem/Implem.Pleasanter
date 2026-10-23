@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ExportNotSetSupportFrom",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Địa chỉ email người gửi (SupportFrom) chưa được cấu hình. Không thể gửi thông báo xuất dữ liệu qua email."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’adresse d’expédition (SupportFrom) n’est pas configurée. La notification d’exportation ne peut pas être envoyée."
         }
     ]
 }

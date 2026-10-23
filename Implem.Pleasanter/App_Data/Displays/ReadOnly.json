@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Chỉ được đọc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Lecture seule"
         }
     ]
 }

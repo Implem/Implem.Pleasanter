@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SolutionSupportSg",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Vận hành an tâm\n[Hỗ trợ giải quyết vấn đề]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Fonctionnement fiable\n[Assistance à la résolution des problèmes]"
         }
     ]
 }

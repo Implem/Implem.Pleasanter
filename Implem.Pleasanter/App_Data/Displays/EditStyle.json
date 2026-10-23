@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EditStyle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kiểu màn hình biên tập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Style de l’écran de modification"
         }
     ]
 }

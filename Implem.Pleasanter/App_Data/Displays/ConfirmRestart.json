@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Hệ thống sẽ không khả dụng trong quá trình khởi động lại. Bạn có chắc chắn muốn khởi động lại không?"
+        },
+        {
+            "Language": "fr",
+            "Body": "Le système sera indisponible pendant son redémarrage. Voulez-vous continuer ?"
         }
     ]
 }

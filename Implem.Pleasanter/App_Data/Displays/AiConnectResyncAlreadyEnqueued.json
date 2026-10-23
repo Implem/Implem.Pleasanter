@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiConnectResyncAlreadyEnqueued",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Việc gửi lại toàn bộ cho cài đặt kết nối AI này đã được đăng ký vào một tác vụ nền."
+        },
+        {
+            "Language": "fr",
+            "Body": "La resynchronisation complète de cette connexion à l’IA est déjà planifiée en tâche de fond."
         }
     ]
 }

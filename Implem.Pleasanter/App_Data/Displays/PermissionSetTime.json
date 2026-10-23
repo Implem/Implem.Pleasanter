@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Thời gian thiết lập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Heure de définition"
         }
     ]
 }

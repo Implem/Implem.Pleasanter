@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ghi lại kiểm soát"
+        },
+        {
+            "Language": "fr",
+            "Body": "Contrôle de l’enregistrement"
         }
     ]
 }

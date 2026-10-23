@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Xin mời kéo thả tệp tin."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez faire glisser le fichier et le déposer ici."
         }
     ]
 }

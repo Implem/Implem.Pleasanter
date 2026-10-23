@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SeparateSettings",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt tách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de division"
         }
     ]
 }

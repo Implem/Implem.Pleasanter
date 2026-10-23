@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể xóa tác vụ này vì người dùng khác đang tải xuống tệp kết quả. Vui lòng chờ rồi thử lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cette tâche ne peut pas être supprimée car un autre utilisateur télécharge le fichier de résultats. Veuillez réessayer plus tard."
         }
     ]
 }

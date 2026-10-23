@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ValidateNumber",
     "Type": 410,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Chỉ có thể nhập giá trị số."
+        },
+        {
+            "Language": "fr",
+            "Body": "Seules les valeurs numériques sont autorisées."
         }
     ]
 }

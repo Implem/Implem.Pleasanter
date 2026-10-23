@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Crosstab",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bảng chéo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Tableau croisé"
         }
     ]
 }

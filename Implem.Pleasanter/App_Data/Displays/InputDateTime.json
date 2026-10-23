@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nhập ngày giờ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Saisir une date et une heure"
         }
     ]
 }

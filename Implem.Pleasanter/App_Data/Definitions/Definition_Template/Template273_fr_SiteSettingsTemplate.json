@@ -1,0 +1,95 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "ClassA",
+                        "NumA",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "NumA",
+                          "DateA",
+                          "Owner",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "NumA",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassA",
+                           "NumA",
+                           "DateA",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Fichiers joints"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom de l’article"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Type de produit",
+                        "ChoicesText":  "Type de produit 1\nType de produit 2\nType de produit 3\nType de produit 4\nType de produit 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Quantité en stock"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Confirmer"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarks"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de confirmation",
+                        "DefaultInput":  "0"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "ClassA",
+                         "Type":  1,
+                         "Target":  "NumA"
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "Standard",
+                  "CrosstabGroupByY":  "Columns",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "TimeSeriesAggregateType":  "Total"
+              },
+    "TitleSeparator":  ")"
+}

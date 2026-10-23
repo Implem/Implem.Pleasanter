@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mở màn hình tạo mới"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ouvrir un nouvel éditeur"
         }
     ]
 }

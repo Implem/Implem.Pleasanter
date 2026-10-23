@@ -1,0 +1,235 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "Comments",
+                        "ClassA",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumF",
+                        "Status",
+                        "StartTime",
+                        "CompletionTime",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "ClassA",
+                          "NumA",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "NumB",
+                          "NumD",
+                          "NumC",
+                          "NumE",
+                          "NumF",
+                          "NumG",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumF",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "NumB",
+                           "NumC",
+                           "NumF",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Fichiers joints"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "End",
+                        "DefaultInput":  "90",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Non commencé,Notyet,status-new\n150,Preparation,Preparation,status-preparation\n200,En cours,En cours,status-inprogress\n900,Done,Done,status-closed\n910,En attente,Hold,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Personne responsable"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Frais publicitaires",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Inquiry",
+                        "Section":  "Résultat de la mise en œuvre",
+                        "Unit":  "Case"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Négociation commerciale",
+                        "NoWrap":  true,
+                        "Unit":  "Case"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom de la mesure"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Measures"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Type",
+                        "ChoicesText":  "Publicité en ligne\nPublicité de masse\nSPAd"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Dépenses publicitaires ÷ demandes de renseignements",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Dépenses publicitaires ÷ recommandations",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "NumF",
+                        "LabelText":  "Commandes reçues",
+                        "NoWrap":  true,
+                        "Unit":  "Case"
+                    },
+                    {
+                        "ColumnName":  "NumG",
+                        "LabelText":  "Coût publicitaire ÷ commandes",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "Formulas":  [
+                     {
+                         "Target":  "NumD",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumA",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumB",
+                                                              "OperatorType":  4
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  1
+                     },
+                     {
+                         "Target":  "NumE",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumA",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumC",
+                                                              "OperatorType":  4
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  2
+                     },
+                     {
+                         "Target":  "NumG",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumA",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumF",
+                                                              "OperatorType":  4
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  3
+                     }
+                 ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "Standard",
+                  "CalendarColumn":  "StartTime",
+                  "CrosstabGroupByX":  "StartTime",
+                  "CrosstabGroupByY":  "Columns",
+                  "CrosstabColumns":  "[\"NumA\",\"NumB\",\"NumC\",\"NumF\"]",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "TimeSeriesAggregateType":  "Count",
+                  "TimeSeriesValue":  "WorkValue",
+                  "KambanGroupByY":  "ClassA",
+                  "KambanAggregateType":  "Total",
+                  "KambanValue":  "NumA",
+                  "KambanAggregationView":  true
+              },
+    "EnableGantt":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

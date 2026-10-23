@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Người dùng thực thi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utilisateur d’exécution"
         }
     ]
 }

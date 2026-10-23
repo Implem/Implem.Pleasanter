@@ -26,6 +26,10 @@
         {
             "Language": "vn",
             "Body": "Chỉnh sửa khóa truy cập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Modifier la clé d’accès"
         }
     ]
 }

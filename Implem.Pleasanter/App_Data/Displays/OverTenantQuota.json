@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OverTenantQuota",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã vượt quá giới hạn hạn ngạch cho \"{0}\" ({1} yêu cầu/{2})."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le quota de « {0} » ({1} requêtes / {2}) a été dépassé."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NewScript",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bản thảo màn hình mới"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nouveau script d’écran"
         }
     ]
 }

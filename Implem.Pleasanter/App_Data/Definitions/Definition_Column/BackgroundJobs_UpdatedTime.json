@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs_UpdatedTime",
     "ModelName": "BackgroundJob",
     "TableName": "BackgroundJobs",
@@ -19,5 +19,6 @@
     "LabelText_de": "Aktualisiert am",
     "LabelText_ko": "업데이트 날짜",
     "LabelText_es": "Actualizado el",
-    "LabelText_vn": "Thời gian cập nhật"
+    "LabelText_vn": "Thời gian cập nhật",
+    "LabelText_fr": "Mis à jour le"
 }

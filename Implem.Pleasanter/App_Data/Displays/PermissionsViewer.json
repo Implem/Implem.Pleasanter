@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Trình xem quyền"
+        },
+        {
+            "Language": "fr",
+            "Body": "Consultation des permissions"
         }
     ]
 }

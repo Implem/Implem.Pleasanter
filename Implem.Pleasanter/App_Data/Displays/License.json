@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "License",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giấy phép"
+        },
+        {
+            "Language": "fr",
+            "Body": "Licence"
         }
     ]
 }

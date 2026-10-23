@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Overdue",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quá hạn"
+        },
+        {
+            "Language": "fr",
+            "Body": "En retard"
         }
     ]
 }

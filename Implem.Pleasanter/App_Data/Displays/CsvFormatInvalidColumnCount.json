@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CsvFormatInvalidColumnCount",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng CSV không hợp lệ: thiếu cột."
+        },
+        {
+            "Language": "fr",
+            "Body": "Format CSV non valide : le nombre de colonnes est insuffisant."
         }
     ]
 }

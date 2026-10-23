@@ -18,5 +18,6 @@
     "LabelText_de": "Verknüpfungsziel-ID",
     "LabelText_ko": "링크 대상 ID",
     "LabelText_es": "ID de destino de enlace",
-    "LabelText_vn": "ID Liên kết đích"
+    "LabelText_vn": "ID Liên kết đích",
+    "LabelText_fr": "ID de destination du lien"
 }

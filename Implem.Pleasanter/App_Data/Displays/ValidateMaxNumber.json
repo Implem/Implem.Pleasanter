@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ValidateMaxNumber",
     "Type": 410,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Số nhập vào quá lớn."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le nombre saisi est trop élevé."
         }
     ]
 }

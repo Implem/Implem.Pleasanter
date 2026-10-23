@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tự động (Cơ sở dữ liệu hoặc thư mục cục bộ)"
+        },
+        {
+            "Language": "fr",
+            "Body": "Automatique (base de données ou dossier local)"
         }
     ]
 }

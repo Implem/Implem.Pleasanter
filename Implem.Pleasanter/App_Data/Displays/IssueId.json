@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "ID"
+        },
+        {
+            "Language": "fr",
+            "Body": "ID"
         }
     ]
 }

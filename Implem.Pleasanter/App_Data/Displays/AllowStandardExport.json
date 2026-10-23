@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép xuất tiêu chuẩn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser l’exportation standard"
         }
     ]
 }

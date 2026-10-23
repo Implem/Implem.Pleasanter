@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobRunNextJob",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Nächsten Job ausführen" },
         { "Language": "ko", "Body": "다음 작업 실행" },
         { "Language": "es", "Body": "Ejecutar siguiente trabajo" },
-        { "Language": "vn", "Body": "Chạy công việc tiếp theo" }
+        { "Language": "vn", "Body": "Chạy công việc tiếp theo" },
+        {
+            "Language": "fr",
+            "Body": "Exécuter la tâche suivante"
+        }
     ]
 }

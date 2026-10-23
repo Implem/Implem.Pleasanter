@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đăng nhập bằng Passkey"
+        },
+        {
+            "Language": "fr",
+            "Body": "Se connecter avec une clé d’accès"
         }
     ]
 }

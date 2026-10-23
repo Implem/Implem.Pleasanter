@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Nhập khóa"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Clé d’importation"
         }
     ]
 }

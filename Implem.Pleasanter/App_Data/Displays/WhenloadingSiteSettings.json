@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khi tải cài đặt trang web"
+        },
+        {
+            "Language": "fr",
+            "Body": "Lors du chargement des paramètres du site"
         }
     ]
 }

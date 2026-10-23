@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "LINE WORKS"
+        },
+        {
+            "Language": "fr",
+            "Body": "LINE WORKS"
         }
     ]
 }

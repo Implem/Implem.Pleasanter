@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Lần đặt lại tới"
+        },
+        {
+            "Language": "fr",
+            "Body": "Prochaine réinitialisation"
         }
     ]
 }

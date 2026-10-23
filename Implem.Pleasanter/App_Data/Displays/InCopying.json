@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InCopying",
     "Type": 220,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đang sao chép..."
+        },
+        {
+            "Language": "fr",
+            "Body": "Copie en cours…"
         }
     ]
 }

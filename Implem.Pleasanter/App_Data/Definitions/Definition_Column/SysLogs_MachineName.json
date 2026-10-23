@@ -25,5 +25,6 @@
     "LabelText_de": "Maschinenname",
     "LabelText_ko": "기기 이름",
     "LabelText_es": "Nombre de la máquina",
-    "LabelText_vn": "Tên máy"
+    "LabelText_vn": "Tên máy",
+    "LabelText_fr": "Nom de la machine"
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NoClassification",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Không phân loại"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Aucune catégorie"
         }
     ]
 }

@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "The file described as NG was not found. Cancel the process."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le fichier indiqué comme incorrect est introuvable. Annulation du traitement."
         }
     ]
 }

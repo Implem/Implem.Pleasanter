@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Chỉ xuất khi ở bản nháp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Produire uniquement en mode brouillon"
         }
     ]
 }

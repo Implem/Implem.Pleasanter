@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobsTotalCount",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Anzahl" },
         { "Language": "ko", "Body": "건수" },
         { "Language": "es", "Body": "Total" },
-        { "Language": "vn", "Body": "Tổng số" }
+        { "Language": "vn", "Body": "Tổng số" },
+        {
+            "Language": "fr",
+            "Body": "Total"
+        }
     ]
 }

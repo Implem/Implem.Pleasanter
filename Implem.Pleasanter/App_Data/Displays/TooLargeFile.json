@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TooLargeFile",
     "Type": 240,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Kích thước tệp quá lớn."
+        },
+        {
+            "Language": "fr",
+            "Body": "La taille du fichier est trop importante."
         }
     ]
 }

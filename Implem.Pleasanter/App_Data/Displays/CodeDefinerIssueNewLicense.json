@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "This license has expired. Please issue a new license."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cette licence a expiré. Veuillez en émettre une nouvelle."
         }
     ]
 }

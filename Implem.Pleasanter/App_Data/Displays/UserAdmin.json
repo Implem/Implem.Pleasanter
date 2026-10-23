@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UserAdmin",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quản lí người dùng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Administration des utilisateurs"
         }
     ]
 }

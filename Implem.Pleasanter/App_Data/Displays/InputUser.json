@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Người dùng đầu vào"
+        },
+        {
+            "Language": "fr",
+            "Body": "Saisir un utilisateur"
         }
     ]
 }

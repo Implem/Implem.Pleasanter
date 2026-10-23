@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bảng liên kết"
+        },
+        {
+            "Language": "fr",
+            "Body": "Tableau de liens"
         }
     ]
 }

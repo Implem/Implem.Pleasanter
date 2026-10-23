@@ -1,0 +1,147 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "DescriptionA",
+                        "DescriptionB",
+                        "DateA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "DateB",
+                        "Status",
+                        "Owner",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "DescriptionA",
+                          "DescriptionB",
+                          "DateA",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "DateB",
+                          "Status",
+                          "Owner",
+                          "Gestionnaire",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "DateA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "DateB",
+                        "Status",
+                        "Owner",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Status",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Cause de l\u0027événement"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Solution"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date et heure de survenue",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Lieu d\u0027occurrence",
+                        "ChoicesText":  "Lieu de l\u0027événement 1\nLieu de l\u0027événement 2\nLieu de l\u0027événement 3\nLieu de l\u0027événement 4\nLieu de l\u0027événement 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type de travail",
+                        "ChoicesText":  "Type de travail 1\nType de travail 2\nType de travail 3\nType de travail 4\nType de travail 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Catégorie",
+                        "ChoicesText":  "Automne/automne\ntomber\nAffrontement\nVoler/tomber\neffondrement/effondrement\ns\u0027est écrasé\nSe faire prendre/rattraper\nCoupures/rayures\nContact avec des objets chauds ou froids\nChoc électrique/incendie\nContact avec des substances dangereuses\naccident de la route\nRéaction au mouvement/mouvement déraisonnable\nrupture\nAutre"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date de création"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Soumission,Soumis,status-new\n900,Vérifié,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Créé par"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Approbateur"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassA",
+                  "TimeSeriesGroupBy":  "ClassC"
+              },
+    "TitleSeparator":  ")"
+}

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ServiceUnavailable",
     "Type": 240,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Máy chủ tạm thời không khả dụng. Vui lòng đợi một lát và tải lại trang."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le serveur est temporairement indisponible. Veuillez patienter un instant, puis recharger la page."
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt tab"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de l’onglet"
         }
     ]
 }

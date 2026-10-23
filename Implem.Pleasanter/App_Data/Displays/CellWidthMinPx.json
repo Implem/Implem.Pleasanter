@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0}px trở lên"
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} px minimum"
         }
     ]
 }

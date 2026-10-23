@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs_BackgroundJobId",
     "ModelName": "BackgroundJob",
     "TableName": "BackgroundJobs",
@@ -19,5 +19,6 @@
     "LabelText_de": "Hintergrundauftrag-ID",
     "LabelText_ko": "백그라운드 작업 ID",
     "LabelText_es": "ID de trabajo en segundo plano",
-    "LabelText_vn": "ID tác vụ nền"
+    "LabelText_vn": "ID tác vụ nền",
+    "LabelText_fr": "Identifiant de la tâche en arrière-plan"
 }

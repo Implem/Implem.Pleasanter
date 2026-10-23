@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Vị trí: dòng {0}, cột {1}\n\nMã lỗi:\n{2}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Emplacement : ligne {0}, colonne {1}\n\nCode d’erreur :\n{2}"
         }
     ]
 }

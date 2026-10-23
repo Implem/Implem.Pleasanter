@@ -26,5 +26,6 @@
     "LabelText_de": "Gruppenverwaltung zulassen",
     "LabelText_ko": "그룹 관리 허용",
     "LabelText_es": "Permitir la administración de grupos",
-    "LabelText_vn": "Cho phép quản trị nhóm"
+    "LabelText_vn": "Cho phép quản trị nhóm",
+    "LabelText_fr": "Autoriser la gestion des groupes"
 }

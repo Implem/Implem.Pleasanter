@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SuspendRequired",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Vui lòng tạm dừng tenant trước khi yêu cầu xóa."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez suspendre le tenant avant de demander sa suppression."
         }
     ]
 }

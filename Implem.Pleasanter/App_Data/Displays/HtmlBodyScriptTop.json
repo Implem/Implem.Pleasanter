@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Body script top"
+        },
+        {
+            "Language": "fr",
+            "Body": "Script en haut du corps"
         }
     ]
 }

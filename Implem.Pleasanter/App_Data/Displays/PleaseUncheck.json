@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Vui lòng bỏ chọn [{0}]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez décocher [{0}]"
         }
     ]
 }

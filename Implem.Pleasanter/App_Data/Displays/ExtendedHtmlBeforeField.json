@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phía trước trường"
+        },
+        {
+            "Language": "fr",
+            "Body": "Avant le champ"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "HelpfulContentsSg",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thúc đẩy việc sử dụng\n[Nội dung hữu ích]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Conseils d’utilisation\n[Contenu d’aide]"
         }
     ]
 }

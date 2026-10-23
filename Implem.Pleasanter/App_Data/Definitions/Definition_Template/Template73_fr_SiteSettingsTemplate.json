@@ -1,0 +1,142 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "Comments",
+                        "ClassA",
+                        "ClassB",
+                        "NumA",
+                        "CheckA",
+                        "CheckB",
+                        "CheckC",
+                        "CheckD",
+                        "CheckE",
+                        "DateA"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "ClassA",
+                          "ClassB",
+                          "NumA",
+                          "CheckA",
+                          "CheckB",
+                          "CheckC",
+                          "CheckD",
+                          "CheckE",
+                          "DescriptionA",
+                          "DateA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "NumA",
+                        "CheckA",
+                        "CheckB",
+                        "CheckC",
+                        "CheckD",
+                        "CheckE",
+                        "DateA"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "CheckA",
+                           "CheckB",
+                           "CheckC",
+                           "CheckD",
+                           "CheckE",
+                           "NumA",
+                           "DateA"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de l’enquête",
+                        "DefaultInput":  "0"
+                    },
+                    {
+                        "ColumnName":  "CheckA",
+                        "LabelText":  "Présence de la fonction A"
+                    },
+                    {
+                        "ColumnName":  "CheckB",
+                        "LabelText":  "Présence de la fonction B"
+                    },
+                    {
+                        "ColumnName":  "CheckC",
+                        "LabelText":  "Présence de la fonction C"
+                    },
+                    {
+                        "ColumnName":  "CheckD",
+                        "LabelText":  "Présence de la fonction D"
+                    },
+                    {
+                        "ColumnName":  "CheckE",
+                        "LabelText":  "Présence de la fonction E"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Fabricant",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Origine"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Catégorie de produit",
+                        "ChoicesText":  "Catégorie de produit 1\nCatégorie de produit 2\nCatégorie de produit 3\nCatégorie de produit 4\nCatégorie de produit 5"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "ClassA":  0,
+                                           "Title":  0
+                                       }
+              },
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

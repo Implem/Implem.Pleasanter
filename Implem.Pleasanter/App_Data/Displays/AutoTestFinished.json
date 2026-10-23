@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Auto test execution finished."
+        },
+        {
+            "Language": "fr",
+            "Body": "Exécution du test automatique terminée."
         }
     ]
 }

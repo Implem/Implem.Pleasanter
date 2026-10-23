@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Nút radio"
+        },
+        {
+            "Language": "fr",
+            "Body": "Bouton radio"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng mã sau như là mã xác thực Pleasanter. \nMã xác thực: [AuthenticationCode]\nCảm ơn đã sử dụng Pleasanter."
+        },
+        {
+            "Language": "fr",
+            "Body": "Utilisez le code suivant pour vous authentifier auprès de Pleasanter.\nCode d’authentification : [AuthenticationCode]\nMerci d’utiliser Pleasanter."
         }
     ]
 }

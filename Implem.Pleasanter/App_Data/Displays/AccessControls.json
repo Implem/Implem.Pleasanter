@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kiểm soát truy cập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Contrôles d’accès"
         }
     ]
 }

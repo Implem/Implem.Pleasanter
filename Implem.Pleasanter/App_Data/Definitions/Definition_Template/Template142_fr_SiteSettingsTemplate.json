@@ -1,0 +1,143 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "ClassB",
+                        "DateA",
+                        "DateB",
+                        "ClassC",
+                        "ClassD",
+                        "NumA",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "Gestionnaire",
+                          "Owner",
+                          "DateA",
+                          "DateB",
+                          "ClassC",
+                          "ClassD",
+                          "NumA",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassA",
+    "LinkColumns":  [
+                        "ClassA",
+                        "ClassB",
+                        "DateA",
+                        "DateB",
+                        "ClassC",
+                        "ClassD",
+                        "NumA",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Véhicule utilisé",
+                        "ChoicesText":  "Véhicule utilisé 1\nVéhicule utilisé 2\nVéhicule utilisé 3\nVéhicule utilisé 4\nVéhicule utilisé 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type de véhicule",
+                        "ChoicesText":  "Voiture particulière\nAutobus\nVéhicule utilitaire\nVéhicule spécial lourd\nAutre"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "destination",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Objectif",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Kilométrage",
+                        "Unit":  "km"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "départ",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "arrivée",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "conducteur"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "TimeSeriesGroupBy":  "Owner",
+                  "TimeSeriesAggregateType":  "Total",
+                  "KambanGroupByX":  "ClassA",
+                  "KambanAggregateType":  "Total",
+                  "KambanAggregationView":  true
+              },
+    "TitleSeparator":  ")"
+}

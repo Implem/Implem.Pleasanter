@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thao tác sau khi cập nhật"
+        },
+        {
+            "Language": "fr",
+            "Body": "Action après mise à jour"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Các loại hành động"
+        },
+        {
+            "Language": "fr",
+            "Body": "Types d’action"
         }
     ]
 }

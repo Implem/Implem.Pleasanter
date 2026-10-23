@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Expired",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giấy phép này đã hết hạn nên không thể sử dụng."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cette licence a expiré et ne peut plus être utilisée."
         }
     ]
 }

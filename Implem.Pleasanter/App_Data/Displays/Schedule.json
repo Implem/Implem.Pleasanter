@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "lịch trình"
+        },
+        {
+            "Language": "fr",
+            "Body": "Planification"
         }
     ]
 }

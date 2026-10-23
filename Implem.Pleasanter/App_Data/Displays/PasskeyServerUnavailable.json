@@ -27,6 +27,10 @@
         {
             "Language": "vn",
             "Body": "Máy chủ tạm thời không thể xử lý yêu cầu Passkey. Vui lòng thử lại sau hoặc liên hệ quản trị viên."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le serveur ne peut temporairement pas traiter les requêtes de clé d’accès. Réessayez plus tard ou contactez votre administrateur."
         }
     ]
 }

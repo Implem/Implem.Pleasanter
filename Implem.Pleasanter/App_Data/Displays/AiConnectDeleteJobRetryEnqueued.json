@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiConnectDeleteJobRetryEnqueued",
     "Type": 230,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xóa kết nối AI không thành công. Đã đăng ký thử lại. (ID:{0})"
+        },
+        {
+            "Language": "fr",
+            "Body": "Échec de la suppression de la connexion à l’IA. Une nouvelle tentative a été planifiée. (ID : {0})"
         }
     ]
 }

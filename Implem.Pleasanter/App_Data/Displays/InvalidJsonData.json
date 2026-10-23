@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dữ liệu json không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "Données JSON non valides."
         }
     ]
 }

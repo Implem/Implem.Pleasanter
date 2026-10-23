@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Trước khi mở trang"
+        },
+        {
+            "Language": "fr",
+            "Body": "Avant l’ouverture de la page"
         }
     ]
 }

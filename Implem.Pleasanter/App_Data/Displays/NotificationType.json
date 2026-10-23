@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NotificationType",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại thông báo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type de notification"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tin nhắn khi bị trùng lặp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Message en cas de doublon"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tải không đồng bộ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Chargement asynchrone"
         }
     ]
 }

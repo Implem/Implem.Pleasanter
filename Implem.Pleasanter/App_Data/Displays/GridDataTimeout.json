@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Yêu cầu đã hết thời gian chờ. Vui lòng thu hẹp tiêu chí tìm kiếm hoặc thử lại sau."
+        },
+        {
+            "Language": "fr",
+            "Body": "La requête a expiré. Réduisez les critères de recherche ou réessayez plus tard."
         }
     ]
 }

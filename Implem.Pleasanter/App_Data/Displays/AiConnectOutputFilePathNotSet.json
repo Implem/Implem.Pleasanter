@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chưa thiết lập đường dẫn xuất của kết nối AI."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le chemin du fichier de sortie de la connexion à l’IA n’est pas défini."
         }
     ]
 }

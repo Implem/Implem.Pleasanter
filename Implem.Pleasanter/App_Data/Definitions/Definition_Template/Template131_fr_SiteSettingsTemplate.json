@@ -1,0 +1,204 @@
+﻿{
+    "Version":  1.009,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "DateA",
+                        "Gestionnaire",
+                        "ClassB",
+                        "ClassA",
+                        "ClassH",
+                        "NumA",
+                        "Status",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "FilterColumns":  [
+                          "DateA",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "ClassE",
+                          "ClassG",
+                          "ClassH",
+                          "ClassI",
+                          "ClassJ",
+                          "ClassK",
+                          "ClassL",
+                          "ClassM",
+                          "ClassN",
+                          "ClassO",
+                          "ClassP",
+                          "ClassQ",
+                          "ClassR",
+                          "ClassS",
+                          "ClassT",
+                          "ClassU",
+                          "ClassV",
+                          "ClassW",
+                          "ClassX",
+                          "ClassY",
+                          "ClassZ",
+                          "CheckA",
+                          "CheckB",
+                          "CheckC",
+                          "CheckD",
+                          "CheckE",
+                          "CheckF",
+                          "CheckG",
+                          "CheckH",
+                          "CheckI",
+                          "CheckJ",
+                          "CheckK",
+                          "CheckL",
+                          "CheckM",
+                          "CheckN",
+                          "CheckO",
+                          "CheckP",
+                          "CheckQ",
+                          "CheckR",
+                          "CheckS",
+                          "CheckT",
+                          "CheckU",
+                          "CheckV",
+                          "CheckW",
+                          "CheckX",
+                          "CheckY",
+                          "CheckZ"
+                      ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "Gestionnaire",
+                          "ClassB",
+                          "ClassA",
+                          "ClassH",
+                          "ClassE",
+                          "NumA",
+                          "Status"
+                      ],
+    "TitleColumns":  [
+                         "ClassA",
+                         "ClassB"
+                     ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "ClassB",
+                        "DateA",
+                        "Gestionnaire",
+                        "ClassA",
+                        "ClassH",
+                        "NumA",
+                        "Status",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "ClassB",
+                           "Gestionnaire",
+                           "ClassA",
+                           "ClassH",
+                           "NumA",
+                           "Status",
+                           "Comments",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Utilisateur",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Lieu de départ",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "destination",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Raison du déplacement professionnel",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Montant",
+                        "Format":  "C",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d\u0027utilisation",
+                        "DefaultInput":  "0",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Création de la demande,Création de la demande\n200,Approuvé,Approuvé\n300,Réglé,Réglé\n900,En attente,En attente",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "ClassH",
+                        "LabelText":  "destination",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  5,
+                             "GroupBy":  "[NotGroupBy]",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "Gestionnaire",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Gestionnaire",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "DateA":  0,
+                                           "Manager":  0
+                                       },
+                  "TimeSeriesGroupBy":  "Manager",
+                  "TimeSeriesAggregateType":  "Total",
+                  "KambanGroupByY":  "Manager"
+              },
+    "TitleSeparator":  "→"
+}

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hạn mức sử dụng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Limite"
         }
     ]
 }

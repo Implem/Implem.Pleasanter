@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Màn hình di động"
+        },
+        {
+            "Language": "fr",
+            "Body": "Affichage mobile"
         }
     ]
 }

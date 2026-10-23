@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Tối thiểu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Minimum"
         }
     ]
 }

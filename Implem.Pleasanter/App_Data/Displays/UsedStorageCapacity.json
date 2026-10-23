@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dung lượng sử dụng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Espace de stockage utilisé"
         }
     ]
 }

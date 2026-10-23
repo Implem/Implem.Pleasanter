@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Passkey của {0} {1}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Clé d’accès de {0} {1}"
         }
     ]
 }

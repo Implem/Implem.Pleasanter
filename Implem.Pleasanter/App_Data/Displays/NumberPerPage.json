@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NumberPerPage",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Số bản ghi hiển thị mỗi trang"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre d’éléments affichés par page"
         }
     ]
 }

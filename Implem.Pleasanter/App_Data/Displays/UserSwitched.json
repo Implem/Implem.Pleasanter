@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UserSwitched",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Người dùng đã được chuyển sang \" {0} \"."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’utilisateur est passé à « {0} »."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Hourly",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "hàng giờ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Toutes les heures"
         }
     ]
 }

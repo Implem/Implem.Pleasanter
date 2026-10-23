@@ -1,0 +1,147 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "Status",
+                        "ClassE",
+                        "NumA",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "Title",
+                          "Status",
+                          "ClassE",
+                          "NumA",
+                          "DateA",
+                          "Owner",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "Status",
+                        "ClassE",
+                        "NumA",
+                        "DateA",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassA",
+                           "ClassB",
+                           "ClassC",
+                           "ClassD",
+                           "Status",
+                           "ClassE",
+                           "NumA",
+                           "DateA",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Secteur d’activité",
+                        "ChoicesText":  "A, Agriculture, Foresterie\nB,Pêche\nC. Mines,Industries extractives, carrières et extraction de gravier\nD.Industrie de la construction\nE,Industrie manufacturière\nF, électricité, gaz, approvisionnement en chaleur, industrie de l\u0027eau\nG,Information et communication\nH, Industrie des transports, Industrie postale\nI, Commerce de gros, Commerce de détail\nJ, Industrie financière, Industrie des assurances\nK, Activité immobilière, activité de location de biens\nL, Recherche universitaire, industrie des services professionnels/techniques\nM, Industrie de l\u0027hébergement, Restauration\nN, industrie des services liés à la vie, industrie du divertissement\nO, Éducation, industrie de soutien à l\u0027apprentissage\nP, soins médicaux, bien-être\nQ,Services composites\nR,Services non classés ailleurs\nS,Services publics (hors catégories classées ailleurs)\nT,Secteur non classé ailleurs"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Nom de l’entreprise"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Adresse",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "numéro de téléphone"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "LabelText":  "État",
+                        "ChoicesText":  "100,Non pris en charge\n150,Absence\n200,Envoi de matériel\n900,Rendez-vous établi\n910,Rendez-vous NG"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Raison NG",
+                        "ChoicesText":  "occupé\nRefus d\u0027affaires\nInutile\nA déjà acheté un produit d’une autre entreprise"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Nombre de rendez-vous",
+                        "ControlType":  "Spinner",
+                        "Max":  100.0,
+                        "Unit":  "Fois"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date et heure du rendez-vous",
+                        "GridFormat":  "Ymdahm",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassE",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "Owner",
+                  "TimeSeriesGroupBy":  "ClassE",
+                  "KambanGroupByY":  "Owner"
+              },
+    "TitleSeparator":  ")"
+}

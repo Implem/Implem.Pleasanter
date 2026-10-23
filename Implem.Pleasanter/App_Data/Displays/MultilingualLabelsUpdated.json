@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "MultilingualLabelsUpdated",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0} cột đã được cập nhật."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} colonne(s) mise(s) à jour."
         }
     ]
 }

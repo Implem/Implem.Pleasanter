@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ConfirmRestore",
     "Type": 310,
     "ClientScript": true,
@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Bạn có chắc muốn khôi phục không?"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous vraiment restaurer cet élément ?"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobNextJobRequestFailed",
     "Type": 240,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Anforderung zur Ausführung des nächsten Jobs für {0} Element(e) fehlgeschlagen." },
         { "Language": "ko", "Body": "{0}개 항목의 다음 작업 실행 요청에 실패했습니다." },
         { "Language": "es", "Body": "No se pudo solicitar la ejecución del siguiente trabajo para {0} elemento(s)." },
-        { "Language": "vn", "Body": "Không thể yêu cầu thực thi công việc tiếp theo cho {0} mục." }
+        { "Language": "vn", "Body": "Không thể yêu cầu thực thi công việc tiếp theo cho {0} mục." },
+        {
+            "Language": "fr",
+            "Body": "Impossible de demander l’exécution de la prochaine tâche pour {0} élément(s)."
+        }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "[{0}]Xuất dữ liệu hoàn thành"
+        },
+        {
+            "Language": "fr",
+            "Body": "[{0}] Exportation terminée"
         }
     ]
 }

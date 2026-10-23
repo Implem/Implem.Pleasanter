@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Ymda",
     "Type": 120,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thứ ngày tháng năm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Date et jour de la semaine"
         }
     ]
 }

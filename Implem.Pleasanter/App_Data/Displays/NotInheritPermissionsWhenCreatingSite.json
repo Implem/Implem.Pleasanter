@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không kế thừa quyền khi tạo trang web"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas hériter des permissions lors de la création d’un site"
         }
     ]
 }

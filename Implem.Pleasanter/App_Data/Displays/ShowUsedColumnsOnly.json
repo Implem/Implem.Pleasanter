@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chỉ hiển thị các cột đang được sử dụng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Afficher uniquement les colonnes utilisées"
         }
     ]
 }

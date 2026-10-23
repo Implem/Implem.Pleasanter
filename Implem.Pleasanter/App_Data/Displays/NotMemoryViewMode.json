@@ -8,6 +8,10 @@
         {
             "Language": "ja",
             "Body": "ビューモードを記憶しない"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas mémoriser le mode d’affichage"
         }
     ]
 }

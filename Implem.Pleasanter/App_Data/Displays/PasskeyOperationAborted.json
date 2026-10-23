@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thao tác khóa truy cập đã bị gián đoạn. Vui lòng thử lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’opération avec la clé d’accès a été interrompue. Veuillez réessayer."
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Kích thước ảnh thu nhỏ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Taille maximale des miniatures"
         }
     ]
 }

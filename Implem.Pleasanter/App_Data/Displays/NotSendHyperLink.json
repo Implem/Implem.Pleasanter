@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không gửi URL"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas envoyer l’URL"
         }
     ]
 }

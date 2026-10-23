@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khóa truy cập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Clé d’accès"
         }
     ]
 }

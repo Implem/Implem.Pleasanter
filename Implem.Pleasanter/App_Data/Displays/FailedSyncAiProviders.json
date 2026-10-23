@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã hủy đồng bộ hóa vì không thể lấy danh sách tài liệu từ đích kết nối."
+        },
+        {
+            "Language": "fr",
+            "Body": "La synchronisation a été annulée, car la liste des documents n’a pas pu être récupérée auprès de la cible de connexion."
         }
     ]
 }

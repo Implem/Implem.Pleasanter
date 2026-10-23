@@ -1,0 +1,181 @@
+﻿{
+    "Version":  1.017,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "Title",
+                        "ClassC",
+                        "CompletionTime",
+                        "ClassA",
+                        "ClassB",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumnHash":  {
+                             "General":  [
+                                             "IssueId",
+                                             "Ver",
+                                             "_Section-1",
+                                             "Title",
+                                             "ClassC",
+                                             "Gestionnaire",
+                                             "ClassB",
+                                             "DateA",
+                                             "CompletionTime",
+                                             "ClassA",
+                                             "Body",
+                                             "AttachmentsA",
+                                             "_Section-2",
+                                             "Status",
+                                             "Owner",
+                                             "DateB",
+                                             "DescriptionA",
+                                             "AttachmentsB",
+                                             "Comments"
+                                         ]
+                         },
+    "SectionLatestId":  2,
+    "Sections":  [
+                     {
+                         "Id":  1,
+                         "LabelText":  "Demande de renseignement",
+                         "AllowExpand":  false,
+                         "Expand":  true
+                     },
+                     {
+                         "Id":  2,
+                         "LabelText":  "Réponse",
+                         "AllowExpand":  false,
+                         "Expand":  true
+                     }
+                 ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "CompletionTime",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Fichier joint (pour demandes de renseignements)"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Urgence",
+                        "ChoicesText":  "100,Élevé,Élevé,status-review\n200,Modéré,Modéré,status-inprogress\n300,Faible,Faible,status-new"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Création de la demande,Démarré,status-new\n150,Réception,Reçu,status-preparation\n200,En cours de traitement,Contre,status-inprogress\n300,En attente de réponse,En attente,status-review\n900,Terminé,Terminé,status-closed\n910,En attente,En attente,status-rejected",
+                        "ValidateRequired":  false
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Personne à contacter"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Répondant",
+                        "DefaultInput":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type de demande de renseignement",
+                        "ChoicesText":  "Demande de renseignement\nDemande de travail\nProblème\nAutre"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Équipement cible",
+                        "ChoicesText":  "Équipement 1\nÉquipement 2\nÉquipement 3\nÉquipement 4\néquipement 5"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Réponse"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Détails de la demande"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date souhaitée pour la réponse"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de l\u0027enquête",
+                        "DefaultInput":  "0"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date de réponse"
+                    },
+                    {
+                        "ColumnName":  "AttachmentsB",
+                        "LabelText":  "Fichier joint (pour réponse)"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  6,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  5,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "ClassB",
+                  "CrosstabGroupByY":  "ClassA",
+                  "CrosstabAggregateType":  "Count",
+                  "KambanGroupByX":  "ClassB",
+                  "KambanGroupByY":  "ClassA",
+                  "KambanAggregateType":  "Count"
+              },
+    "EnableGantt":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

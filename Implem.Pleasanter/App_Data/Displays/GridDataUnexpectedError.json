@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Đã xảy ra lỗi không mong muốn khi tải dữ liệu."
+        },
+        {
+            "Language": "fr",
+            "Body": "Une erreur inattendue est survenue lors du chargement des données."
         }
     ]
 }

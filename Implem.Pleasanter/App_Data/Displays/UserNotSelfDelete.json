@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UserNotSelfDelete",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể xóa tài khoản của bản thân."
+        },
+        {
+            "Language": "fr",
+            "Body": "Vous ne pouvez pas supprimer votre propre compte."
         }
     ]
 }

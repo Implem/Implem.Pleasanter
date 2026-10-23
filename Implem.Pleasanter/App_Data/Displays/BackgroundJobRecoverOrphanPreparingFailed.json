@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quá trình tải lên CSV đã bị gián đoạn. Vui lòng nhập lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le traitement d’importation du fichier CSV a été interrompu. Veuillez relancer l’importation."
         }
     ]
 }

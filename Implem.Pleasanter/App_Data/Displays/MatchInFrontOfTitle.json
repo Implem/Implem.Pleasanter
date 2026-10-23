@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "MatchInFrontOfTitle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khớp ở đầu tiêu đề"
+        },
+        {
+            "Language": "fr",
+            "Body": "Correspondance au début du titre"
         }
     ]
 }

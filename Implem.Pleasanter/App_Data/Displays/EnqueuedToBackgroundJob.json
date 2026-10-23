@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EnqueuedToBackgroundJob",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "In {0} registriert. (ID:{1})" },
         { "Language": "ko", "Body": "{0}에 등록되었습니다. (ID:{1})" },
         { "Language": "es", "Body": "Se registró en {0}. (ID:{1})" },
-        { "Language": "vn", "Body": "Đã đăng ký vào {0}. (ID:{1})" }
+        { "Language": "vn", "Body": "Đã đăng ký vào {0}. (ID:{1})" },
+        {
+            "Language": "fr",
+            "Body": "{0} a été planifié. (ID : {1})"
+        }
     ]
 }

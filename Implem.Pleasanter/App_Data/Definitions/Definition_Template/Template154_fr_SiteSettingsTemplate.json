@@ -1,0 +1,129 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassB",
+                        "Owner",
+                        "ClassA",
+                        "Title",
+                        "DateA",
+                        "DateB",
+                        "DateC",
+                        "Status",
+                        "NumA"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "DateA",
+                          "DateB",
+                          "DateC",
+                          "Status",
+                          "NumA",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du diplôme"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Type de diplôme",
+                        "ChoicesText":  "Type de certification 1\nType de certification 2\nType de certification 3\nType de certification 4\nType de diplôme 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Service"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’acquisition",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date de mise à jour"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "LabelText":  "Activer/Désactiver",
+                        "ChoicesText":  "Valide\ninvalide"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Responsable"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Frais",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateC",
+                        "LabelText":  "Date limite de mise à jour",
+                        "ExportFormat":  "Ymda"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "KambanGroupByX":  "Status",
+                  "KambanGroupByY":  "ClassA"
+              },
+    "TitleSeparator":  ")"
+}

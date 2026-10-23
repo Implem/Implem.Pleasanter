@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại thực thi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Types d’exécution"
         }
     ]
 }

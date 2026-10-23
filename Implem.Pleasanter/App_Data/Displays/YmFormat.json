@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "yyyy/MM"
+        },
+        {
+            "Language": "fr",
+            "Body": "MM/yyyy"
         }
     ]
 }

@@ -27,5 +27,6 @@
     "LabelText_de": "Mandantenmanager",
     "LabelText_ko": "테넌트 관리자",
     "LabelText_es": "Gestor arrendatario",
-    "LabelText_vn": "Quản lí người thuê"
+    "LabelText_vn": "Quản lí người thuê",
+    "LabelText_fr": "Administrateur du tenant"
 }

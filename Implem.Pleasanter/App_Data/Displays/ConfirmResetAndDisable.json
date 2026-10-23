@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ConfirmResetAndDisable",
     "Type": 110,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bạn c&#243; chắc chắn muốn v&#244; hiệu h&#243;a sau khi đặt lại kh&#244;ng?"
+        },
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous le désactiver après la réinitialisation ?"
         }
     ]
 }

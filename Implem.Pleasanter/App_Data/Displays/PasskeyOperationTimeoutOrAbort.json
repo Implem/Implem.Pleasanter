@@ -27,6 +27,10 @@
         {
             "Language": "vn",
             "Body": "Thao tác Passkey đã hết thời gian chờ hoặc bị gián đoạn. Vui lòng kiểm tra thiết bị xác thực và thử lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’opération avec la clé d’accès a expiré ou a été interrompue. Vérifiez votre dispositif d’authentification et réessayez."
         }
     ]
 }

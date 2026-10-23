@@ -1,0 +1,169 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "ClassA",
+                        "TitleBody",
+                        "Comments",
+                        "ClassB",
+                        "ClassC",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "ClassD",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "Gestionnaire",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Gestionnaire",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date d’achat",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date d’expiration",
+                        "DefaultInput":  "365",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "150,Avant l’achat,Précédent,status-preparation\n200,En cours d’utilisation,Utilisation,status-inprogress\n900,Annulation,Solution,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Fabricant"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "version"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "N° de série"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix unitaire",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Nombre de licences",
+                        "DefaultInput":  "1"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Montant total",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Destination d\u0027installation",
+                        "ChoicesText":  "PC\nserveur\nmobile\nAutre"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassD",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassD",
+                             "Type":  1,
+                             "Target":  "NumC"
+                         }
+                     ],
+    "Formulas":  {
+                     "Target":  "NumC",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "ColumnName":  "NumA",
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "ColumnName":  "NumB",
+                                                          "OperatorType":  3
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassD",
+                  "TimeSeriesAggregateType":  "Total",
+                  "TimeSeriesValue":  "NumC"
+              },
+    "EnableGantt":  false,
+    "EnableBurnDown":  false,
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

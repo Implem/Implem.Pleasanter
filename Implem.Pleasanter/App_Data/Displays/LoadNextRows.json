@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Tải {0} dòng tiếp theo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Charger les {0} lignes suivantes"
         }
     ]
 }

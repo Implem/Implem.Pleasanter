@@ -1,0 +1,218 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "Comments",
+                        "ClassA",
+                        "ClassC",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "ClassA",
+                          "ClassC",
+                          "ClassB",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "NumD",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "ClassA",
+                        "ClassC",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "ClassC",
+                           "ClassB",
+                           "NumA",
+                           "NumB",
+                           "NumC",
+                           "NumD",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date de commande prévue"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Demande commerciale,Tirer,status-new\n150,Proposition,Soumis,status-preparation\n200,Négociation,Échange,status-inprogress\n300,Contrat,Contrat,status-review\n900,Commande obtenue,Reçu,status-closed\n910,Commande perdue,perte,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom du client",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Précision",
+                        "ChoicesText":  "90%\n50%\n30%"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Chiffre d’affaires",
+                        "Format":  "C",
+                        "DateFilterSetMode":  2
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Total des achats",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "bénéfice brut",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Taux de marge brute",
+                        "DecimalPlaces":  1,
+                        "EditorReadOnly":  true,
+                        "Unit":  "%"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Objet"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Classement des produits",
+                        "ChoicesText":  "développement du système\nventes de logiciels\nconsultation"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date de début des négociations"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassC",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         }
+                     ],
+    "Formulas":  [
+                     {
+                         "Target":  "NumC",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumA",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumB",
+                                                              "OperatorType":  2
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  1
+                     },
+                     {
+                         "Target":  "NumD",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumC",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumA",
+                                                              "OperatorType":  4
+                                                          },
+                                                          {
+                                                              "RawValue":  100.0,
+                                                              "OperatorType":  3
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  2
+                     }
+                 ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "CompletionTime",
+                  "CrosstabGroupByY":  "ClassC",
+                  "CrosstabColumns":  "[\"NumA\",\"NumB\",\"NumC\",\"NumD\"]",
+                  "CrosstabAggregateType":  "Total",
+                  "CrosstabValue":  "NumA",
+                  "TimeSeriesAggregateType":  "Total",
+                  "TimeSeriesValue":  "NumA",
+                  "KambanGroupByX":  "Status",
+                  "KambanGroupByY":  "ClassB",
+                  "KambanAggregateType":  "Total",
+                  "KambanValue":  "NumA"
+              },
+    "ShowGanttProgressRate":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

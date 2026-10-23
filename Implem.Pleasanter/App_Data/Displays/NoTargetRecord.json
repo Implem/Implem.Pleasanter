@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NoTargetRecord",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không có bản ghi mục tiêu."
+        },
+        {
+            "Language": "fr",
+            "Body": "Aucun enregistrement correspondant."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SiteImageSettingsEditor",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ảnh trang web"
+        },
+        {
+            "Language": "fr",
+            "Body": "Image du site"
         }
     ]
 }

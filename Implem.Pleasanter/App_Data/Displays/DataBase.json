@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cơ sở dữ liệu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Base de données"
         }
     ]
 }

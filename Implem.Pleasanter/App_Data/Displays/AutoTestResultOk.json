@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "OK"
+        },
+        {
+            "Language": "fr",
+            "Body": "OK"
         }
     ]
 }

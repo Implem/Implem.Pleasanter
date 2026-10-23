@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Danh sách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Grille"
         }
     ]
 }

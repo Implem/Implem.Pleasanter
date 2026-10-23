@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phiên bản mới"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nouvelle version"
         }
     ]
 }

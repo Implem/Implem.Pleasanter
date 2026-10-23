@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "các loại biểu đồ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Types de graphiques"
         }
     ]
 }

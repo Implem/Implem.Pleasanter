@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Các token SCIM đã chọn sẽ bị vô hiệu hóa. Bạn có muốn tiếp tục không?"
+        },
+        {
+            "Language": "fr",
+            "Body": "Les jetons SCIM sélectionnés seront désactivés. Voulez-vous continuer ?"
         }
     ]
 }

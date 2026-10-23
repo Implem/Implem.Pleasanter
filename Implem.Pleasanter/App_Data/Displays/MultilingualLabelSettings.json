@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt nhãn đa ngôn ngữ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres des libellés multilingues"
         }
     ]
 }

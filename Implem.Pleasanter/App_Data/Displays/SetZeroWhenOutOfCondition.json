@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SetZeroWhenOutOfCondition",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chỉnh về 0 khi điều kiện không được thỏa mãn."
+        },
+        {
+            "Language": "fr",
+            "Body": "Définir la valeur sur zéro lorsque les conditions ne sont pas remplies."
         }
     ]
 }

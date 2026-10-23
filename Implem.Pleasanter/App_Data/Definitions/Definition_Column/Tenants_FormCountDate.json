@@ -18,5 +18,6 @@
     "LabelText_de": "Formularzähldatum",
     "LabelText_ko": "폼 카운트 날짜",
     "LabelText_es": "Fecha de recuento de formularios",
-    "LabelText_vn": "Thời gian đếm biểu mẫu"
+    "LabelText_vn": "Thời gian đếm biểu mẫu",
+    "LabelText_fr": "Date du compteur de formulaires"
 }

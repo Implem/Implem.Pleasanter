@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LimitSize",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giới hạn dung lượng (MB)"
+        },
+        {
+            "Language": "fr",
+            "Body": "Taille maximale (Mo)"
         }
     ]
 }

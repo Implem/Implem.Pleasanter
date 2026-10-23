@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Kết thúc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Achèvement"
         }
     ]
 }

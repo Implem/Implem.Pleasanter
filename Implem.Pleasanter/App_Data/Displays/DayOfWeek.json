@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DayOfWeek",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ngày trong tuần"
+        },
+        {
+            "Language": "fr",
+            "Body": "Jour de la semaine"
         }
     ]
 }

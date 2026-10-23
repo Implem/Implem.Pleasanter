@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cơ bản"
+        },
+        {
+            "Language": "fr",
+            "Body": "De base"
         }
     ]
 }

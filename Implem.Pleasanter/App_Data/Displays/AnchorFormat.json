@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng neo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Format de l’ancre"
         }
     ]
 }

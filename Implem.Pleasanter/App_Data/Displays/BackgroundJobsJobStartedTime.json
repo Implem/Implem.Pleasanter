@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobsJobStartedTime",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Auftragsstartzeitpunkt" },
         { "Language": "ko", "Body": "작업 시작 일시" },
         { "Language": "es", "Body": "Hora de inicio del trabajo" },
-        { "Language": "vn", "Body": "Thời gian bắt đầu công việc" }
+        { "Language": "vn", "Body": "Thời gian bắt đầu công việc" },
+        {
+            "Language": "fr",
+            "Body": "Heure de début"
+        }
     ]
 }

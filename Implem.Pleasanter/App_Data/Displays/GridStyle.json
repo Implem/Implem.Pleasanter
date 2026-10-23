@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "GridStyle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kiểu màn hình danh sách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Style de la grille"
         }
     ]
 }

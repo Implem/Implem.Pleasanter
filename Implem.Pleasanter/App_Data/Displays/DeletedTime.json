@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DeletedTime",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Thời gian xóa"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Supprimé le"
         }
     ]
 }

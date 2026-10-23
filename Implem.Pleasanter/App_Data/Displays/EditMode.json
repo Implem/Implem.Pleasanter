@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EditMode",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chế độ chỉnh sửa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mode de modification"
         }
     ]
 }

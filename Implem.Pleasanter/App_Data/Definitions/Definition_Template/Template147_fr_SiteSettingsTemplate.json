@@ -1,0 +1,63 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "DateA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "Owner",
+                        "Body",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "Owner",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  [
+                         "ClassA",
+                         "ClassB"
+                     ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom de l’entreprise/nom de l’organisation"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "nom"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Réservation",
+                        "ChoicesText":  "Oui\nNon",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date et heure",
+                        "DefaultInput":  "0",
+                        "GridFormat":  "Ymdahm",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm",
+                        "ValidateRequired":  true
+                    }
+                ],
+    "ViewLatestId":  0,
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

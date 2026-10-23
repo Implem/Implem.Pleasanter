@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dữ liệu quá {0} dòng không thể nhập vào cùng một lúc."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les données dépassant {0} lignes ne peuvent pas être importées en une seule fois."
         }
     ]
 }

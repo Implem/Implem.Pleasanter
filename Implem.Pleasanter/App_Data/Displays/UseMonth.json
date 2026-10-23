@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UseMonth",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng tháng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser le mois"
         }
     ]
 }

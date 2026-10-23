@@ -27,6 +27,10 @@
         {
             "Language": "vn",
             "Body": "Phản hồi Passkey nhận được không hợp lệ hoặc chưa đầy đủ. Hãy làm mới trang và thử lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "La réponse de la clé d’accès reçue est invalide ou incomplète. Veuillez actualiser la page et réessayer."
         }
     ]
 }

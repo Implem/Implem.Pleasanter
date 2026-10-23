@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "vị trí chèn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Position d’insertion"
         }
     ]
 }

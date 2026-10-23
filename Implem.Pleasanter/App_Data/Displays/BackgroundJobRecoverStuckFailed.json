@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobRecoverStuckFailed",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dịch vụ đã khởi động lại trong khi tác vụ đang chạy. Đã đánh dấu là thất bại để ngăn chặn thực thi lại tự động."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le service a redémarré pendant l’exécution de la tâche. Celle-ci a été marquée comme échouée pour éviter son exécution automatique."
         }
     ]
 }

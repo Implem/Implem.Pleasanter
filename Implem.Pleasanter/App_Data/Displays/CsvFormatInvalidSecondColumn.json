@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CsvFormatInvalidSecondColumn",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng CSV không hợp lệ: cột thứ hai phải là 'Thuộc tính'."
+        },
+        {
+            "Language": "fr",
+            "Body": "Format CSV non valide : la deuxième colonne doit être « Attribute »."
         }
     ]
 }

@@ -18,5 +18,6 @@
     "LabelText_de": "Clientversion",
     "LabelText_ko": "클라이언트 버전",
     "LabelText_es": "Versión del cliente",
-    "LabelText_vn": "Phiên bản máy khách"
+    "LabelText_vn": "Phiên bản máy khách",
+    "LabelText_fr": "Version du client"
 }

@@ -1,0 +1,118 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassB",
+                        "TitleBody",
+                        "Comments",
+                        "ClassC",
+                        "NumA",
+                        "NumB",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "Gestionnaire",
+                          "Owner",
+                          "NumA",
+                          "NumB",
+                          "ClassC",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassA",
+    "LinkColumns":  [
+                        "ClassB",
+                        "ClassA",
+                        "ClassC",
+                        "NumA",
+                        "NumB",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "ClassB",
+                           "ClassA",
+                           "Comments",
+                           "ClassC",
+                           "NumA",
+                           "NumB",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom de l’activité",
+                        "ChoicesText":  "Activité 1\nActivité 2\nActivité 3\nActivité 4\nActivité 5",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Catégorie d’activité",
+                        "ChoicesText":  "entreprise vedette\narbre à argent\nenfant à problèmes\noutsider\n"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "taux de croissance du marché",
+                        "Unit":  "%/an"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "part de marché relative",
+                        "DefaultInput":  "1",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0,
+                        "Step":  0.1,
+                        "Unit":  "fois : logarithme"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Synthèse"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "ClassC",
+                         "Type":  0,
+                         "Target":  ""
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "ClassB":  0
+                                       },
+                  "TimeSeriesGroupBy":  "ClassC"
+              },
+    "EnableCalendar":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

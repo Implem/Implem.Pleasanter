@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiConnectIndexResendExceeded",
     "Type": 230,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đăng ký tại đích kết nối lại không thành công. Đã hủy gửi lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’enregistrement auprès de la cible de connexion a de nouveau échoué. Le nouvel envoi a été annulé."
         }
     ]
 }

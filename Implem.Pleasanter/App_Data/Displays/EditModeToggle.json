@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Chuyển đổi chế độ chỉnh sửa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Basculer le mode de modification"
         }
     ]
 }

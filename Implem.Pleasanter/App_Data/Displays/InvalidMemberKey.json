@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nó là một thành viên không tồn tại. Dòng: {0}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Cet élément n’existe pas. Ligne : {0}."
         }
     ]
 }

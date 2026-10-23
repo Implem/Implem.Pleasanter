@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiProviderFormat",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng kết nối"
+        },
+        {
+            "Language": "fr",
+            "Body": "Format de connexion"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs_Updator",
     "ModelName": "BackgroundJob",
     "TableName": "BackgroundJobs",
@@ -20,5 +20,6 @@
     "LabelText_de": "Aktualisiert von",
     "LabelText_ko": "업데이트자",
     "LabelText_es": "Actualizado por",
-    "LabelText_vn": "Người cập nhật"
+    "LabelText_vn": "Người cập nhật",
+    "LabelText_fr": "Mis à jour par"
 }

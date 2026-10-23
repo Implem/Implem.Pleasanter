@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ValidateRequired",
     "Type": 410,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đây là trường bắt buộc nhập."
+        },
+        {
+            "Language": "fr",
+            "Body": "Ce champ est obligatoire."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "PartsType",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại bộ phận"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type d’élément"
         }
     ]
 }

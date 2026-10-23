@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobOutputFilePathNotConfigured",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đường dẫn đầu ra (OutputFilePath) chưa được cấu hình."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le chemin du fichier de sortie (OutputFilePath) n’est pas configuré."
         }
     ]
 }

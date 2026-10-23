@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Top",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Trang chủ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Haut"
         }
     ]
 }

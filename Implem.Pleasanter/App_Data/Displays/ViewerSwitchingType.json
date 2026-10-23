@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Chuyển đổi người xem"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type de changement d’affichage"
         }
     ]
 }

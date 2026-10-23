@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng bộ lọc quá hạn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser le filtre des éléments en retard"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chuyển sang bản ghi tiếp theo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Passer à l’enregistrement suivant"
         }
     ]
 }

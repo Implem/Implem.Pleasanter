@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mở màn hình chỉnh sửa trong một tab riêng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ouvrir la modification dans un nouvel onglet"
         }
     ]
 }

@@ -22,5 +22,6 @@
     "LabelText_de": "Ldap-Suchwurzel",
     "LabelText_ko": "Ldap 검색 루트",
     "LabelText_es": "Radice di ricerca Ldap",
-    "LabelText_vn": "Vị trí bắt đầu tìm kiếm LDAP"
+    "LabelText_vn": "Vị trí bắt đầu tìm kiếm LDAP",
+    "LabelText_fr": "Racine de recherche LDAP"
 }

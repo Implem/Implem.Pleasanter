@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Copied",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã sao chép."
+        },
+        {
+            "Language": "fr",
+            "Body": "Copié."
         }
     ]
 }

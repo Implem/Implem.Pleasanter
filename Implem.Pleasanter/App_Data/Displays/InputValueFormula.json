@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Các phép toán hàm trên giá trị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Opérations sur les valeurs"
         }
     ]
 }

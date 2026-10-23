@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SitesLimit",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Số lượng trang web đã đạt mức giới hạn."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le nombre maximal de sites a été atteint."
         }
     ]
 }

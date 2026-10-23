@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SelectTargets",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xin mời chọn mục tiêu."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez sélectionner la cible."
         }
     ]
 }

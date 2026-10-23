@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ImportColumnNotFound",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khong tim thay cot '{0}'."
+        },
+        {
+            "Language": "fr",
+            "Body": "La colonne « {0} » est introuvable."
         }
     ]
 }

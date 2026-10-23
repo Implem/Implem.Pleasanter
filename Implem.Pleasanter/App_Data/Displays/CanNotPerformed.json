@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CanNotPerformed",
     "Type": 240,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Thao tác này không thể thực hiện."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cette opération ne peut pas être effectuée."
         }
     ]
 }

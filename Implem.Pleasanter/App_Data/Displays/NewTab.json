@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Tạo tab mới"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Créer un nouvel onglet"
         }
     ]
 }

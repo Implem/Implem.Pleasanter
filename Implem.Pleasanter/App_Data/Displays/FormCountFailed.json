@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "FormCountFailed",
     "Type": 210,
     "Languages": [
@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Không thể tăng số lượng đăng ký biểu mẫu trong tháng. (TenantId: {0})"
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible d’incrémenter le nombre mensuel d’inscriptions au formulaire. (ID du tenant : {0})"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ServerConnectionError",
     "Type": 240,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng và tải lại trang."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de se connecter au serveur. Vérifiez votre connexion réseau et rechargez la page."
         }
     ]
 }

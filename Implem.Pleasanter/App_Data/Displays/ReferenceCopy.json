@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bản sao tham chiếu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Copie de référence"
         }
     ]
 }

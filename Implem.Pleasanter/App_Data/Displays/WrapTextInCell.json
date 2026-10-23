@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Ngắt dòng theo chiều rộng ô"
+        },
+        {
+            "Language": "fr",
+            "Body": "Renvoyer le texte à la ligne selon la largeur de la cellule"
         }
     ]
 }

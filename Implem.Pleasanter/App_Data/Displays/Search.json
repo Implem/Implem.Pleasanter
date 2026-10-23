@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Search",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tìm kiếm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Rechercher"
         }
     ]
 }

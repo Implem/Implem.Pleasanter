@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ScimTokens_Disabled",
     "ModelName": "ScimToken",
     "TableName": "ScimTokens",
@@ -9,5 +9,6 @@
     "TypeName": "bit",
     "Default": "0",
     "LabelText_en": "Disabled",
-    "LabelText_zh": "禁用"
+    "LabelText_zh": "禁用",
+    "LabelText_fr": "Désactivé"
 }

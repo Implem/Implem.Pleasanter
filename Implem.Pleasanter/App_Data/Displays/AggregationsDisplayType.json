@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại hiển thị tổng hợp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type d’affichage des agrégations"
         }
     ]
 }

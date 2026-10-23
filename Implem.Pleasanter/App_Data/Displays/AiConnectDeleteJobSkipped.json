@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiConnectDeleteJobSkipped",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không tìm thấy đối tượng xóa kết nối AI nên đã bỏ qua xử lý."
+        },
+        {
+            "Language": "fr",
+            "Body": "Aucune connexion à l’IA à supprimer n’a été trouvée. L’opération a été ignorée."
         }
     ]
 }

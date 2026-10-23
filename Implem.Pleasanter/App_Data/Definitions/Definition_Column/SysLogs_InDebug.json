@@ -18,5 +18,6 @@
     "LabelText_de": "Debug-Flag",
     "LabelText_ko": "디버그 플래그",
     "LabelText_es": "Indicador de depuración",
-    "LabelText_vn": "Cờ gỡ lỗi"
+    "LabelText_vn": "Cờ gỡ lỗi",
+    "LabelText_fr": "Indicateur de débogage"
 }

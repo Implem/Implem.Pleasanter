@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ScimTokens_TenantId",
     "ModelName": "ScimToken",
     "TableName": "ScimTokens",
@@ -10,5 +10,6 @@
     "Required": "1",
     "Ix2": "1",
     "LabelText_en": "Tenant ID",
-    "LabelText_zh": "租户ID"
+    "LabelText_zh": "租户ID",
+    "LabelText_fr": "ID du tenant"
 }

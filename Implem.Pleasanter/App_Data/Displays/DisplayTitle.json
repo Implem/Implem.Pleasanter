@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DisplayTitle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hiển thị tiêu đề"
+        },
+        {
+            "Language": "fr",
+            "Body": "Afficher le titre"
         }
     ]
 }

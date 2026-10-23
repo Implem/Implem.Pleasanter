@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bỏ giữ mở rộng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne plus conserver le développement"
         }
     ]
 }

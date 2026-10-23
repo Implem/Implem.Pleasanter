@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Là người dùng đặc quyền, người dùng này có toàn bộ quyền trên tất cả các trang bất kể thiết lập bên dưới."
+        },
+        {
+            "Language": "fr",
+            "Body": "En tant qu’utilisateur privilégié, cet utilisateur dispose de toutes les permissions sur tous les sites, quels que soient les paramètres ci-dessous."
         }
     ]
 }

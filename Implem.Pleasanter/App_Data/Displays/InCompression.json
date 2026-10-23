@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InCompression",
     "Type": 220,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đang nén..."
+        },
+        {
+            "Language": "fr",
+            "Body": "Compression en cours…"
         }
     ]
 }

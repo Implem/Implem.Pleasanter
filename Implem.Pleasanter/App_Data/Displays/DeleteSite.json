@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DeleteSite",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Xóa trang"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Supprimer le site"
         }
     ]
 }

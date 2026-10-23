@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "GeneralUser",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Người dùng thông thường"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utilisateur standard"
         }
     ]
 }

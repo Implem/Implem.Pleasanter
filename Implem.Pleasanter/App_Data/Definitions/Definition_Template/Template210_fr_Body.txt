@@ -1,0 +1,15 @@
+﻿10,Temps clair
+20,Ensoleillé
+30,Partiellement nuageux
+40,Couvert
+50,Brume sèche
+60,Tempête de sable
+70,Brume au ras du sol
+80,Brouillard
+90,Pluie fine
+100,Pluie
+110,Pluie et neige mêlées
+120,Neige
+130,Grésil
+140,Grêle
+150,Orage

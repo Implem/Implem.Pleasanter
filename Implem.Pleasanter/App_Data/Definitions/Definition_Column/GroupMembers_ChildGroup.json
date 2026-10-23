@@ -18,5 +18,6 @@
     "LabelText_de": "Benutzer der untergeordneten Gruppe",
     "LabelText_ko": "하위 그룹의 사용자",
     "LabelText_es": "Usuario del grupo infantil",
-    "LabelText_vn": "Người dùng nhóm con"
+    "LabelText_vn": "Người dùng nhóm con",
+    "LabelText_fr": "Utilisateur du groupe enfant"
 }

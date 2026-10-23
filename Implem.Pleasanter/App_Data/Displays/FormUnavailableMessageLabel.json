@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "FormUnavailableMessageLabel",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         {
             "Language": "ja",
             "Body": "利用不可メッセージ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Message d’indisponibilité"
         }
     ]
 }

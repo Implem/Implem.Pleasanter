@@ -1,0 +1,129 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassB",
+                        "ClassA",
+                        "ClassD",
+                        "ClassE",
+                        "ClassC",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassB",
+                          "ClassA",
+                          "ClassD",
+                          "ClassE",
+                          "ClassC",
+                          "DateA",
+                          "DateB",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassA",
+    "LinkColumns":  [
+                        "ClassB",
+                        "ClassA",
+                        "ClassD",
+                        "ClassE",
+                        "ClassC",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "ClassB",
+                           "ClassA",
+                           "ClassD",
+                           "ClassE",
+                           "ClassC",
+                           "DateA",
+                           "DateB",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Visiteurs"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Affiliation des visiteurs"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Heure d\u0027admission",
+                        "GridFormat":  "Ymdahm",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Temps de départ",
+                        "GridFormat":  "Ymdahm",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdahm"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Motif"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Numéro de carte d\u0027admission"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Lieu de visite",
+                        "ChoicesText":  "Lieu de visite 1\nLieu de visite 2\nLieu de visite 3\nLieu de visite 4\nLieu de visite 5"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Responsable visiteur",
+                        "ChoicesText":  "Responsable de la visite 1\nResponsable de la visite 2\nResponsable visiteur 3\nResponsable de la visite 4\nPersonne responsable de la visite 5"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "ClassD",
+                         "Type":  0,
+                         "Target":  ""
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "DateA":  1
+                                       }
+              },
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CaptchaLibraryNotLoaded",
     "Type": 410,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Thư viện CAPTCHA chưa được tải. Vui lòng tải lại trang."
+        },
+        {
+            "Language": "fr",
+            "Body": "La bibliothèque CAPTCHA n’est pas chargée. Veuillez recharger la page."
         }
     ]
 }

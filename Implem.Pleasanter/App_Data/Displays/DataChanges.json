@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thay đổi dữ liệu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Modifications des données"
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "danh sách thả xuống"
+        },
+        {
+            "Language": "fr",
+            "Body": "Liste déroulante"
         }
     ]
 }

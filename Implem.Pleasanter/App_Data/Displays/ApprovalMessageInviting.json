@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApprovalMessageInviting",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0} đang được mời nên không thể phê duyệt."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} est actuellement invité et ne peut pas être approuvé."
         }
     ]
 }

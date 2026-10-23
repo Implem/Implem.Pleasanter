@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApiKeyNotAllowedIpAddress",
     "Type": 240,
     "Languages": [
@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Không được phép sử dụng khóa API từ địa chỉ IP này."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’utilisation de la clé API depuis cette adresse IP n’est pas autorisée."
         }
     ]
 }

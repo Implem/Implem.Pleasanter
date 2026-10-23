@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Trước khi tạo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Avant la création"
         }
     ]
 }

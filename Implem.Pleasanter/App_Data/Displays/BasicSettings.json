@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt cơ bản"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de base"
         }
     ]
 }

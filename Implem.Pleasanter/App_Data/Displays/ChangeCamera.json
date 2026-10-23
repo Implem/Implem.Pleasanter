@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thay đổi máy ảnh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Changer la caméra"
         }
     ]
 }

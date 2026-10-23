@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng chức năng thụt lề"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser l’option d’indentation"
         }
     ]
 }

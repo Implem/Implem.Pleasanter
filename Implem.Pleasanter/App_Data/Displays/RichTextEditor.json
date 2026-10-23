@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Trình soạn thảo Rich Text"
+        },
+        {
+            "Language": "fr",
+            "Body": "Éditeur de texte enrichi"
         }
     ]
 }

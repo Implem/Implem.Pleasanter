@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không chèn khoảng trống trong các lựa chọn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas insérer de choix vide"
         }
     ]
 }

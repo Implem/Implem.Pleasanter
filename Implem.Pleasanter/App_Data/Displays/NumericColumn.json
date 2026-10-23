@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NumericColumn",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mục giá trị số"
+        },
+        {
+            "Language": "fr",
+            "Body": "Colonne numérique"
         }
     ]
 }

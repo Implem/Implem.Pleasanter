@@ -1,0 +1,170 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "TitleBody",
+                        "Comments",
+                        "DescriptionA",
+                        "DescriptionB",
+                        "DescriptionC",
+                        "DescriptionD",
+                        "NumE",
+                        "DateA",
+                        "UpdatedTime",
+                        "Updator"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "DateA",
+                          "NumE",
+                          "Body",
+                          "NumA",
+                          "DescriptionA",
+                          "NumB",
+                          "DescriptionB",
+                          "NumC",
+                          "DescriptionC",
+                          "NumD",
+                          "DescriptionD",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassA",
+    "LinkColumns":  [
+                        "ClassA",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumE",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "ClassA",
+                           "NumA",
+                           "NumB",
+                           "NumC",
+                           "NumD",
+                           "NumE",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom de l’entreprise",
+                        "ChoicesText":  "Notre entreprise\nNom de l’entreprise 1\nNom de l’entreprise 2\nNom de l’entreprise 3\nNom de l’entreprise 4",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Capacité de développement de produits (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  100.0
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Force de vente (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  100.0
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Synthèse"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Capacité de prestation de services (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  100.0
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Solidité financière (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  100.0
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Note totale",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’enregistrement"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Capacité de développement de produits (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Force de vente (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Capacité de prestation de services (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionD",
+                        "LabelText":  "Solidité financière (contenu)"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "ClassA",
+                         "Type":  1,
+                         "Target":  "NumE"
+                     },
+    "Formulas":  {
+                     "Target":  "NumE",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "ColumnName":  "NumA",
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "ColumnName":  "NumB",
+                                                          "OperatorType":  1
+                                                      },
+                                                      {
+                                                          "ColumnName":  "NumC",
+                                                          "OperatorType":  1
+                                                      },
+                                                      {
+                                                          "ColumnName":  "NumD",
+                                                          "OperatorType":  1
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  0,
+    "EnableCalendar":  false,
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

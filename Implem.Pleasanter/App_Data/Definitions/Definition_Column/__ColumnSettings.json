@@ -135,5 +135,6 @@
     "LabelText_ko": "string",
     "LabelText_es": "string",
     "LabelText_vn": "string",
+    "LabelText_fr": "string",
     "ExcludeBaseColumns": "bool"
 }

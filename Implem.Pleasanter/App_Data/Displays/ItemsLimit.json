@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ItemsLimit",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Số bản ghi đã đạt giới hạn."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le nombre maximal d’enregistrements a été atteint."
         }
     ]
 }

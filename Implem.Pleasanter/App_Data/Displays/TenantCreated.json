@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TenantCreated",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "\" {0} \" đã được tạo."
+        },
+        {
+            "Language": "fr",
+            "Body": "« {0} » a été créé."
         }
     ]
 }

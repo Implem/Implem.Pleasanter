@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiProviderConnectionSetting",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt kết nối"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de connexion"
         }
     ]
 }

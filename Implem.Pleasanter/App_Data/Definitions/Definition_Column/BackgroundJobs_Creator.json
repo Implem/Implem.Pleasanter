@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs_Creator",
     "ModelName": "BackgroundJob",
     "TableName": "BackgroundJobs",
@@ -20,5 +20,6 @@
     "LabelText_de": "Erstellt von",
     "LabelText_ko": "생성자",
     "LabelText_es": "Creado por",
-    "LabelText_vn": "Người tạo"
+    "LabelText_vn": "Người tạo",
+    "LabelText_fr": "Créé par"
 }

@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Biểu mẫu này không nhận phản hồi vì đã đạt giới hạn."
+        },
+        {
+            "Language": "fr",
+            "Body": "Ce formulaire n’accepte plus de réponses, car sa limite maximale a été atteinte."
         }
     ]
 }

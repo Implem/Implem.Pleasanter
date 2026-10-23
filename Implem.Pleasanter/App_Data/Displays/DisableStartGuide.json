@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không hiển thị hướng dẫn bắt đầu trong lần tới"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne plus afficher le guide de démarrage"
         }
     ]
 }

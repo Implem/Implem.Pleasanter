@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt bảng chéo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres du tableau croisé"
         }
     ]
 }

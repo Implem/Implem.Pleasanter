@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Restarting",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hệ thống đang khởi động lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le système redémarre."
         }
     ]
 }

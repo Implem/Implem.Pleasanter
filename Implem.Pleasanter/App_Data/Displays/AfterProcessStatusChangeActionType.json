@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thao tác sau khi thay đổi trạng thái"
+        },
+        {
+            "Language": "fr",
+            "Body": "Actions après changement d’état du processus"
         }
     ]
 }

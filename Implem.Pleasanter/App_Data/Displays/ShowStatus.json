@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hiển thị trạng thái"
+        },
+        {
+            "Language": "fr",
+            "Body": "Afficher l’état"
         }
     ]
 }

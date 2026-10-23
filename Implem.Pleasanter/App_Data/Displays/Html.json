@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "HTML"
+        },
+        {
+            "Language": "fr",
+            "Body": "HTML"
         }
     ]
 }

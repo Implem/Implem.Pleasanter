@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Trước khi cập nhật"
+        },
+        {
+            "Language": "fr",
+            "Body": "Avant la mise à jour"
         }
     ]
 }

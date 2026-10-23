@@ -1,8 +1,12 @@
-{
+﻿{
     "Id": "Slack",
     "Type": 110,
     "Languages": [
         {
+            "Body": "Slack"
+        },
+        {
+            "Language": "fr",
             "Body": "Slack"
         }
     ]

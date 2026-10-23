@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt lịch"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres du calendrier"
         }
     ]
 }

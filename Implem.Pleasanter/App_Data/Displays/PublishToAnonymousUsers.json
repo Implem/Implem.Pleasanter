@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "PublishToAnonymousUsers",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Công khai cho người dùng ẩn danh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Publier pour les utilisateurs anonymes"
         }
     ]
 }

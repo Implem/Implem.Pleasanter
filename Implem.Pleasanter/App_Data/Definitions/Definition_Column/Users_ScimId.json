@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Users_ScimId",
     "ModelName": "User",
     "TableName": "Users",
@@ -16,5 +16,6 @@
     "ControlCss": " not-send",
     "EditorReadOnly": "1",
     "LabelText_en": "SCIM ID",
-    "LabelText_zh": "SCIM ID"
+    "LabelText_zh": "SCIM ID",
+    "LabelText_fr": "Identifiant SCIM"
 }

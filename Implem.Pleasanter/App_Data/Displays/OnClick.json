@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "OnClick"
+        },
+        {
+            "Language": "fr",
+            "Body": "Au clic"
         }
     ]
 }

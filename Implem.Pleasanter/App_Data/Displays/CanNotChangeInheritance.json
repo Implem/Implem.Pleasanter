@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CanNotChangeInheritance",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bạn không thể thay đổi cài đặt kế thừa cho các trang web đã được kế thừa."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les paramètres d’héritage des sites déjà hérités ne peuvent pas être modifiés."
         }
     ]
 }

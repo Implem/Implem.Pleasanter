@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hãy chọn phiên bản mới hơn phiên bản cũ."
+        },
+        {
+            "Language": "fr",
+            "Body": "Indiquez une version supérieure à la version précédente."
         }
     ]
 }

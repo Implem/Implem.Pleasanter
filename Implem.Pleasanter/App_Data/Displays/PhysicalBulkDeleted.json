@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "\" {0} \" mục đã được xóa vật lí"
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} élément(s) supprimé(s) définitivement."
         }
     ]
 }

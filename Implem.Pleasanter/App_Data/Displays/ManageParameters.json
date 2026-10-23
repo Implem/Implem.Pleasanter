@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quản trị tham số"
+        },
+        {
+            "Language": "fr",
+            "Body": "Administration des paramètres"
         }
     ]
 }

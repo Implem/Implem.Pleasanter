@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Half2",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nửa cuối năm tài khóa {0}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Exercice {0} - 2e semestre"
         }
     ]
 }

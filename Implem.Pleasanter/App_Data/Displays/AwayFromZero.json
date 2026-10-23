@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AwayFromZero",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Làm tròn số"
+        },
+        {
+            "Language": "fr",
+            "Body": "Arrondi à l’opposé de zéro"
         }
     ]
 }

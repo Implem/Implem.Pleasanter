@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã thêm nút"
+        },
+        {
+            "Language": "fr",
+            "Body": "Bouton ajouté"
         }
     ]
 }

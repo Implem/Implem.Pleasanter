@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thời gian kết thúc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Terminé le"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TooLongText",
     "Type": 240,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Xin mời nhập trong khoảng {0} kí tự."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez saisir au maximum {0} caractères."
         }
     ]
 }

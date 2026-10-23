@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Loại điều khiển"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type de contrôle"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BeforeCondition",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Điều kiện trước khi thay đổi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Conditions avant modification"
         }
     ]
 }

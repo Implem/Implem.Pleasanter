@@ -13,6 +13,11 @@
         {
             "Language": "vn",
             "Body": "Bạn có muốn tải lại trang web này không?"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous vraiment recharger cette page ?"
         }
     ]
 }

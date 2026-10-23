@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xem chi tiết"
+        },
+        {
+            "Language": "fr",
+            "Body": "Afficher les détails"
         }
     ]
 }

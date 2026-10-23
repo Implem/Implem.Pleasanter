@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Giá trị thiết lập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Valeur du paramètre"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ShortDisplayName",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tên hiển thị ngắn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nom d’affichage abrégé"
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Mở"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ouvrir"
         }
     ]
 }

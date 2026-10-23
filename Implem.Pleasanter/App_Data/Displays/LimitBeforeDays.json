@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LimitBeforeDays",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quá {0} ngày"
+        },
+        {
+            "Language": "fr",
+            "Body": "Il y a plus de {0} jours"
         }
     ]
 }

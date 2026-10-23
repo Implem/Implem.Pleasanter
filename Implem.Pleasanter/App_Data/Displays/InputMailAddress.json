@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InputMailAddress",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xin mời nhập địa chỉ email."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez saisir votre adresse e-mail."
         }
     ]
 }

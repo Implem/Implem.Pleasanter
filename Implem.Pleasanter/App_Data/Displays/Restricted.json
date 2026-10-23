@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Restricted",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Việc sử dụng chức năng này bị hạn chế."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’utilisation de cette fonctionnalité est restreinte."
         }
     ]
 }

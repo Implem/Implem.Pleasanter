@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đồng bộ hóa đã hoàn tất. (Đã xóa: {0}, Thành công: {1}, Thất bại: {2})"
+        },
+        {
+            "Language": "fr",
+            "Body": "Synchronisation terminée. (Supprimés : {0}, réussis : {1}, échecs : {2})"
         }
     ]
 }

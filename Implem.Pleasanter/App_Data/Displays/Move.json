@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Move",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Di chuyển"
+        },
+        {
+            "Language": "fr",
+            "Body": "Déplacer"
         }
     ]
 }

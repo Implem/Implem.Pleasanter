@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Không xuất khi ở bản nháp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Masquer en mode brouillon"
         }
     ]
 }

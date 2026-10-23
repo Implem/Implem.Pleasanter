@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đây là các mục tiêu chuẩn được thiết lập khi tạo bảng có thời hạn và bảng ghi. Các mục cấu hình bao gồm ID, Phiên bản, Tiêu đề, Nội dung, Trạng thái, Quản trị viên, Người phụ trách, Bình luận và Khóa. Đối với bảng có thời hạn, còn có thêm các mục Bắt đầu, Hoàn thành, Khối lượng công việc, Tỷ lệ tiến độ và Khối lượng công việc còn lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Ces éléments standards sont définis lors de la création de tableaux d’enregistrements ou d’échéances. Ils comprennent l’identifiant, la version, le titre, le contenu, l’état, le responsable, l’assigné, le commentaire et le verrouillage. Les tableaux d’échéances comportent également des éléments tels que le début, l’achèvement, la charge de travail, le taux d’avancement et la charge restante."
         }
     ]
 }

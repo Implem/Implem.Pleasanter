@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Thiết lập các mục"
+        },
+        {
+            "Language": "fr",
+            "Body": "Éléments de paramétrage"
         }
     ]
 }

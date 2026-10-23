@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobStatusRunningOverdue",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Wird ausgeführt (Überfällig)" },
         { "Language": "ko", "Body": "실행 중 (시간 초과)" },
         { "Language": "es", "Body": "En ejecución (Excedido)" },
-        { "Language": "vn", "Body": "Đang chạy (Quá hạn)" }
+        { "Language": "vn", "Body": "Đang chạy (Quá hạn)" },
+        {
+            "Language": "fr",
+            "Body": "En cours (en retard)"
+        }
     ]
 }

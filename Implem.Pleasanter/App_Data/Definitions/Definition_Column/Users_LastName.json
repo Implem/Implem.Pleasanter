@@ -20,5 +20,6 @@
     "LabelText_de": "Nachname",
     "LabelText_ko": "성",
     "LabelText_es": "Apellido(s)",
-    "LabelText_vn": "Họ"
+    "LabelText_vn": "Họ",
+    "LabelText_fr": "Nom de famille"
 }

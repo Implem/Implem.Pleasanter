@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại lưu hiển thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type de vue à enregistrer"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại hiển thị bộ lọc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Affichage des filtres"
         }
     ]
 }

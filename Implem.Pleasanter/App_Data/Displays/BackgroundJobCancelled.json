@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobCancelled",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tác vụ nền đã bị hủy."
+        },
+        {
+            "Language": "fr",
+            "Body": "La tâche en arrière-plan a été annulée."
         }
     ]
 }

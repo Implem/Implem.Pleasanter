@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ScimTokenOneTimeMessage",
     "Type": 220,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Token này chỉ hiển thị một lần. Hãy sao chép và lưu ở nơi an toàn."
+        },
+        {
+            "Language": "fr",
+            "Body": "Ce jeton ne sera affiché qu’une seule fois. Copiez-le et conservez-le en lieu sûr."
         }
     ]
 }

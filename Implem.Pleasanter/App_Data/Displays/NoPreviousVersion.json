@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không có phiên bản trước để so sánh."
+        },
+        {
+            "Language": "fr",
+            "Body": "Il n’existe aucune version précédente à comparer."
         }
     ]
 }

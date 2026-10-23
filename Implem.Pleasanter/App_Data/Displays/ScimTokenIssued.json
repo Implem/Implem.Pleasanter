@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ScimTokenIssued",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Token SCIM đã được phát hành."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le jeton SCIM a été émis."
         }
     ]
 }

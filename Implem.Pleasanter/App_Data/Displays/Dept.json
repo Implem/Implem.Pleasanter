@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Bộ phận"
+        },
+        {
+            "Language": "fr",
+            "Body": "Service"
         }
     ]
 }

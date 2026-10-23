@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ExportFormat",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Định dạng xuất dữ liệu"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Format d’exportation"
         }
     ]
 }

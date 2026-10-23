@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quay lại màn hình danh sách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Retour à la liste"
         }
     ]
 }

@@ -24,5 +24,6 @@
     "LabelText_de": "Client-IP",
     "LabelText_ko": "클라이언트 IP",
     "LabelText_es": "IP del cliente",
-    "LabelText_vn": "IP máy khách"
+    "LabelText_vn": "IP máy khách",
+    "LabelText_fr": "Adresse IP du client"
 }

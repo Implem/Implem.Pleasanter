@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bao gồm kiểm soát truy cập bản ghi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Inclure les permissions d’enregistrement"
         }
     ]
 }

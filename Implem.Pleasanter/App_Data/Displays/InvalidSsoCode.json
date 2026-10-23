@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InvalidSsoCode",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mã SSO chỉ định không thể sử dụng."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le code SSO spécifié ne peut pas être utilisé."
         }
     ]
 }

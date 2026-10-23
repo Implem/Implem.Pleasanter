@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs_Ver",
     "ModelName": "BackgroundJob",
     "TableName": "BackgroundJobs",
@@ -17,5 +17,6 @@
     "LabelText_de": "Version",
     "LabelText_ko": "버전",
     "LabelText_es": "Versión",
-    "LabelText_vn": "Phiên bản"
+    "LabelText_vn": "Phiên bản",
+    "LabelText_fr": "Version"
 }

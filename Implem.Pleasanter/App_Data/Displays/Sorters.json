@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Sorters",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Người sắp xếp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Tris"
         }
     ]
 }

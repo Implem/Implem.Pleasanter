@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SummarySourceColumn",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mục tổng hợp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Colonne récapitulative"
         }
     ]
 }

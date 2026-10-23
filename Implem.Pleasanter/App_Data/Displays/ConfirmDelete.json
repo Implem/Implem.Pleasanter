@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ConfirmDelete",
     "Type": 310,
     "ClientScript": true,
@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Bạn có chắc muốn xóa không?"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous vraiment supprimer cet élément ?"
         }
     ]
 }

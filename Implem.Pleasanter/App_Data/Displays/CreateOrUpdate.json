@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Tạo hoặc cập nhật"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Créer ou mettre à jour"
         }
     ]
 }

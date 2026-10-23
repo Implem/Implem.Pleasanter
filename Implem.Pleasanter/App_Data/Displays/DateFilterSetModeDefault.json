@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mặc định"
+        },
+        {
+            "Language": "fr",
+            "Body": "Par défaut"
         }
     ]
 }

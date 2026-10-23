@@ -19,5 +19,6 @@
     "LabelText_de": "Teilmenge",
     "LabelText_ko": "서브세트",
     "LabelText_es": "Subgrupo",
-    "LabelText_vn": "Tập con"
+    "LabelText_vn": "Tập con",
+    "LabelText_fr": "Sous-ensemble"
 }

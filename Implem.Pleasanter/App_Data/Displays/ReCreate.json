@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ReCreate",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tạo lại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Recréer"
         }
     ]
 }

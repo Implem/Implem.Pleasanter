@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TenantCreatedMailBody",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tenant \"{0}\" đã được tạo.\r\n\r\nTenantId: {1}\r\nLoginId: {2}\r\n\r\nBạn cần thay đổi mật khẩu khi đăng nhập lần đầu.\r\n\r\nURL đăng nhập\r\n{3}\r\n\r\nVui lòng liên hệ quản trị viên nếu bạn có bất kỳ câu hỏi nào.\r\n\r\nNếu bạn không mong đợi email này, hãy xóa nó.\r\nĐây là email được gửi tự động. Xin lưu ý rằng chúng tôi không thể trả lời các phản hồi cho email này."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le tenant « {0} » a été créé.\n\nID du tenant : {1}\nIdentifiant de connexion : {2}\n\nVous devrez modifier votre mot de passe lors de votre première connexion.\n\nURL de connexion\n{3}\n\nPour toute question, veuillez contacter l’administrateur.\n\nSi vous n’attendiez pas cet e-mail, vous pouvez le supprimer.\nCet e-mail a été envoyé automatiquement. Les réponses ne sont pas traitées."
         }
     ]
 }

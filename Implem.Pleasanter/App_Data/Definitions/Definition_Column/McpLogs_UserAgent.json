@@ -25,5 +25,6 @@
     "LabelText_de": "Benutzer-Agent",
     "LabelText_ko": "사용자 에이전트",
     "LabelText_es": "Agente de usuario",
-    "LabelText_vn": "Trình duyệt người dùng"
+    "LabelText_vn": "Trình duyệt người dùng",
+    "LabelText_fr": "Agent utilisateur"
 }

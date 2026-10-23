@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Thẩm quyền"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autorité"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InvalidIpAddress",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Địa chỉ IP không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "Adresse IP non valide."
         }
     ]
 }

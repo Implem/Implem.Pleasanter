@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Mục này được sử dụng để nhập số. Nó cũng có thể được sử dụng dưới dạng spinner với các nút lên và xuống để thay đổi giá trị. Có thể sử dụng tối đa 26 mục, từ Số A đến Số Z."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cet élément permet de saisir un nombre, éventuellement avec des boutons pour incrémenter ou décrémenter la valeur. Jusqu’à 26 éléments, de Nombre A à Nombre Z, sont disponibles."
         }
     ]
 }

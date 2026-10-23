@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã bắt đầu đồng bộ hóa LDAP."
+        },
+        {
+            "Language": "fr",
+            "Body": "La synchronisation LDAP a démarré."
         }
     ]
 }

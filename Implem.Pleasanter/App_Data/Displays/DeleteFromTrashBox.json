@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DeleteFromTrashBox",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Xóa khỏi thùng rác"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Supprimer de la corbeille"
         }
     ]
 }

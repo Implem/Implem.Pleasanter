@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "PermissionDestination",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt quyền hiện tại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de permission actuels"
         }
     ]
 }

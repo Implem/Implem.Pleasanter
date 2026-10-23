@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Không có dữ liệu phù hợp."
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Aucune donnée correspondante."
         }
     ]
 }

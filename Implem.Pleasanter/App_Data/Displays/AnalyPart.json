@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phần phân tích"
+        },
+        {
+            "Language": "fr",
+            "Body": "Élément d’analyse"
         }
     ]
 }

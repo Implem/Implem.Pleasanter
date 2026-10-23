@@ -1,0 +1,130 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "DateA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "Status",
+                        "DateB",
+                        "Body",
+                        "NumA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "Status",
+                          "DateB",
+                          "Body",
+                          "NumA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassB",
+    "LinkColumns":  [
+                        "DateA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "Status",
+                        "DateB",
+                        "NumA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Status",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Demandeur",
+                        "ChoicesText":  "Candidat 1\nDemandeur 2\nCandidat 3\ndemandeur 4\nCandidat 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Approbateur",
+                        "ChoicesText":  "Approbateur 1\nApprobateur 2\nApprobateur 3\nApprobateur 4\nApprobateur 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Montant",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de la demande"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date d’achat"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Contenu/raison"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Création de la demande,Création de la demande\n200,Approuvé,Approuvé\n300,Réglé,Réglé\n900,En attente,En attente"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "TimeSeriesAggregateType":  "Total",
+                  "KambanGroupByY":  "ClassB"
+              },
+    "TitleSeparator":  ")"
+}

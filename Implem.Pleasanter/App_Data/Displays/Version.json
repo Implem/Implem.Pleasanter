@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Version",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phiên bản"
+        },
+        {
+            "Language": "fr",
+            "Body": "Version"
         }
     ]
 }

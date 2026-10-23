@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Khối lượng công việc còn lại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Charge de travail restante"
         }
     ]
 }

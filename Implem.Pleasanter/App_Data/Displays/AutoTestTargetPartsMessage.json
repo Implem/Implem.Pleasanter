@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Test cases marked with \"*\" run all test parts under the folder."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les scénarios de test marqués d’un astérisque (*) exécutent toutes les parties de test du dossier."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InvitationMailBody",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bạn đã được mời đến {0}.\r\n\r\nTruy cập đường dẫn sau và đăng kí thông tin của bạn, sau đó yêu cầu phê duyệt.\r\n\r\n{1}\r\n\r\n"
+        },
+        {
+            "Language": "fr",
+            "Body": "Vous êtes invité à rejoindre {0}.\n\nAccédez à l’URL suivante, renseignez vos informations utilisateur et demandez l’approbation.\n\n{1}"
         }
     ]
 }

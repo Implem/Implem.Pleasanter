@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Import",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Nhập dữ liệu"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Importer"
         }
     ]
 }

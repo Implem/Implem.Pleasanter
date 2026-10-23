@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quy trình"
+        },
+        {
+            "Language": "fr",
+            "Body": "Processus"
         }
     ]
 }

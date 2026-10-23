@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UpdateConflicts",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể cập nhật vì {0} đã cập nhật trước đó. Xin mời tải lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de mettre à jour, car {0} a modifié cet élément en premier. Rechargez la page."
         }
     ]
 }

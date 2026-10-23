@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobStatusFailed",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Fehlgeschlagen" },
         { "Language": "ko", "Body": "실패" },
         { "Language": "es", "Body": "Fallido" },
-        { "Language": "vn", "Body": "Thất bại" }
+        { "Language": "vn", "Body": "Thất bại" },
+        {
+            "Language": "fr",
+            "Body": "Échec"
+        }
     ]
 }

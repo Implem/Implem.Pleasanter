@@ -1,0 +1,114 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "ClassE",
+                        "NumA",
+                        "NumB",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "DateA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "ClassE",
+                          "NumA",
+                          "NumB",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "ClassE",
+                        "NumA",
+                        "NumB",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Référence du produit"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Fabricant",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Type",
+                        "ChoicesText":  "droit\nmélanger"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "torréfaction",
+                        "ChoicesText":  "rôti léger\nrôti à la cannelle\ntorréfaction moyenne\ntorréfaction élevée\nrôti de ville\nTorréfaction « full city »\nrôti français\nrôti italien"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Pays d\u0027origine"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Contenance",
+                        "Unit":  "g"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Description"
+                    }
+                ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabValue":  "NumB",
+                  "TimeSeriesGroupBy":  "ClassB"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

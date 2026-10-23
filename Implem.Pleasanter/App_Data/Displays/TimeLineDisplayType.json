@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TimeLineDisplayType",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại hiển thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type d’affichage"
         }
     ]
 }

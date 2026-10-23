@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InvalidApiAllowIpAddressRange",
     "Type": 240,
     "Languages": [
@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Dải địa chỉ IP không đúng định dạng. ({0})"
+        },
+        {
+            "Language": "fr",
+            "Body": "La plage d’adresses IP n’est pas au format valide. ({0})"
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Mục này được sử dụng để nhập văn bản tự do. Nó cũng có thể được sử dụng dưới dạng trường nhập định dạng Markdown hoặc Văn bản Rich Text. Có thể dán hình ảnh. Có thể sử dụng tối đa 26 mục, từ Mô tả A đến Mô tả Z."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cet élément permet la saisie de texte libre, au format Markdown ou en texte enrichi. Des images peuvent être collées. Jusqu’à 26 éléments, de Description A à Description Z, sont disponibles."
         }
     ]
 }

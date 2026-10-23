@@ -18,5 +18,6 @@
     "LabelText_de": "Protokollversion",
     "LabelText_ko": "프로토콜 버전",
     "LabelText_es": "Versión del protocolo",
-    "LabelText_vn": "Phiên bản giao thức"
+    "LabelText_vn": "Phiên bản giao thức",
+    "LabelText_fr": "Version du protocole"
 }

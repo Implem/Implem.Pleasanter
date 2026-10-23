@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "IncorrectSiteDeleting",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tiêu đề hoặc mật khẩu cho trang web chỉ định không chính xác."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le titre ou le mot de passe du site indiqué est incorrect."
         }
     ]
 }

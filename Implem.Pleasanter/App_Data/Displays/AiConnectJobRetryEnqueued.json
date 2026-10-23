@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiConnectJobRetryEnqueued",
     "Type": 230,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Gửi kết nối AI không thành công. Đã đăng ký thử lại. (ID:{0})"
+        },
+        {
+            "Language": "fr",
+            "Body": "L’envoi via la connexion à l’IA a échoué. Une nouvelle tentative a été planifiée. (ID : {0})"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ViewDemoEnvironment",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xem môi trường giả lập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Voir l’environnement de démonstration"
         }
     ]
 }

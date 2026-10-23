@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tác vụ nền"
+        },
+        {
+            "Language": "fr",
+            "Body": "Tâches en arrière-plan"
         }
     ]
 }

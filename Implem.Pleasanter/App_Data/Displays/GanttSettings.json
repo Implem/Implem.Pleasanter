@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt biểu đồ Gantt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres du diagramme de Gantt"
         }
     ]
 }

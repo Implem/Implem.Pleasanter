@@ -1,0 +1,153 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "Comments",
+                        "StartTime",
+                        "CompletionTime",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "DescriptionA",
+                          "StartTime",
+                          "CompletionTime",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Urgence",
+                        "ChoicesText":  "100,Élevé,Élevé,status-review\n200,Modéré,Modéré,status-inprogress\n300,Faible,Faible,status-new"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Création de la demande,Démarré,status-new\n150,Réception,Reçu,status-preparation\n200,En cours de traitement,Contre,status-inprogress\n300,En attente de réponse,En attente,status-review\n900,Terminé,Terminé,status-closed\n910,En attente,En attente,status-rejected",
+                        "ValidateRequired":  false
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Demandeur"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Responsable du traitement"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type de travail",
+                        "ChoicesText":  "Type de travail 1\nType de travail 2\nType de travail 3\nType de travail 4\nType de travail 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Produit ou service",
+                        "ChoicesText":  "Produit ou service 1\nProduit ou service 2\nProduit ou service 3\nProduit ou service 4\nProduit ou service 5"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "résultat du travail"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Contenu de la demande"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "GridFormat":  "Ymdahm",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "GridFormat":  "Ymdahm",
+                        "EditorFormat":  "Ymdhm"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  6,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  5,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "StartTime",
+                  "CrosstabGroupByY":  "ClassC",
+                  "KambanGroupByY":  "Owner"
+              },
+    "EnableGantt":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

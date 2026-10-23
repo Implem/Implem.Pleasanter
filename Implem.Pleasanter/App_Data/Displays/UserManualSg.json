@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UserManualSg",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giải thích tính năng\n[Sổ tay người dùng]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Présentation des fonctionnalités\n[Manuel utilisateur]"
         }
     ]
 }

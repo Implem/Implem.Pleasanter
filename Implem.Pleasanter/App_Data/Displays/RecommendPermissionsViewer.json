@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Tính năng này cho phép xem và xuất quyền trên toàn bộ các trang theo người dùng, tổ chức và nhóm. Có sẵn với Enterprise Edition gói Basic trở lên. * Dùng thử miễn phí 90 ngày."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cette fonctionnalité répertorie et exporte les permissions des sites par utilisateur, service et groupe. Elle est disponible à partir du forfait Enterprise Basic. Essai gratuit de 90 jours."
         }
     ]
 }

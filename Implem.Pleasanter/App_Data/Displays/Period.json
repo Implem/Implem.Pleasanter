@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Period",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giai đoạn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Période"
         }
     ]
 }

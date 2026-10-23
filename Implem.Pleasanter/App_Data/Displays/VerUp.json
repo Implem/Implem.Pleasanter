@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "VerUp",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Lưu thành phiên bản mới"
+        },
+        {
+            "Language": "fr",
+            "Body": "Enregistrer comme nouvelle version"
         }
     ]
 }

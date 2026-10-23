@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ParameterSyntaxError",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tệp tham số \"{0}\" lỗi cú pháp. Không thể khởi động hệ thống."
+        },
+        {
+            "Language": "fr",
+            "Body": "Erreur de syntaxe dans le fichier de paramètres « {0} ». Impossible de démarrer le système."
         }
     ]
 }

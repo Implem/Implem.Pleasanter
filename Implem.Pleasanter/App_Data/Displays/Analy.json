@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Biểu đồ phân tích"
+        },
+        {
+            "Language": "fr",
+            "Body": "Graphique d’analyse"
         }
     ]
 }

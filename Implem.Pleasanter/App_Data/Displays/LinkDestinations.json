@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đích liên kết"
+        },
+        {
+            "Language": "fr",
+            "Body": "Destinations des liens"
         }
     ]
 }

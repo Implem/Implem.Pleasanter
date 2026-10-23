@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Classification",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phân loại dữ liệu gốc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Référentiel des catégories"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Range",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phạm vi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Plage"
         }
     ]
 }

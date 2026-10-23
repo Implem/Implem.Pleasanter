@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SeparateNumber",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Số phần tách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre de divisions"
         }
     ]
 }

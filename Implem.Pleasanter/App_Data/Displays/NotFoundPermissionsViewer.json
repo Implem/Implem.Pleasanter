@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Chưa thiết lập quyền cho trang nào."
+        },
+        {
+            "Language": "fr",
+            "Body": "Aucune permission n’a été définie pour les sites."
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng bộ lọc phủ định"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser les filtres négatifs"
         }
     ]
 }

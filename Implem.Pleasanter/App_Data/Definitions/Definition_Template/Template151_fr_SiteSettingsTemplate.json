@@ -1,0 +1,164 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "ClassA",
+                        "DateA",
+                        "DateB",
+                        "NumD",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumE",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassA",
+                          "DateA",
+                          "DateB",
+                          "NumD",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "NumE",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "Status",
+                        "Owner",
+                        "ClassA",
+                        "DateA",
+                        "DateB",
+                        "NumD",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumE",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Status",
+                           "Owner",
+                           "ClassA",
+                           "NumD",
+                           "DateA",
+                           "DateB",
+                           "NumA",
+                           "NumB",
+                           "NumC",
+                           "NumE",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom de l’événement"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Non commencé,Non commencé,status-new\n150,Préparation,Préparation,status-preparation\n200,En cours,En cours,status-inprogress\n900,Terminé,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Lieu"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "coût par personne",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Nombre de participants",
+                        "Unit":  "Personne"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Début"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Fin"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Coût total",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "budget",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "différence",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    }
+                ],
+    "Formulas":  [
+                     {
+                         "Target":  "NumC",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumA",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumB",
+                                                              "OperatorType":  3
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  1
+                     },
+                     {
+                         "Target":  "NumE",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumD",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumC",
+                                                              "OperatorType":  2
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  2
+                     }
+                 ],
+    "ViewLatestId":  0,
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

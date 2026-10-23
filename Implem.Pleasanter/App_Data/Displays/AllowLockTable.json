@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép khóa bảng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser le verrouillage du tableau"
         }
     ]
 }

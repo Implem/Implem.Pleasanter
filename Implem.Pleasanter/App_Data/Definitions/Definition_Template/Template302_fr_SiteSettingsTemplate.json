@@ -1,0 +1,152 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassC",
+                        "Title",
+                        "DescriptionA",
+                        "ClassB",
+                        "ClassD",
+                        "ClassA",
+                        "DateA",
+                        "DateB",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassC",
+                          "Title",
+                          "ClassB",
+                          "ClassA",
+                          "ClassD",
+                          "Owner",
+                          "Gestionnaire",
+                          "DateA",
+                          "DateB",
+                          "DescriptionA",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ClassC",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassD",
+                        "DateA",
+                        "DateB",
+                        "Owner",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "ClassC",
+                           "Title",
+                           "ClassA",
+                           "ClassB",
+                           "ClassD",
+                           "DateA",
+                           "DateB",
+                           "Owner",
+                           "Gestionnaire",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Fichiers joints"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Approver"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Creator"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Management_section",
+                        "ChoicesText":  "Management_section1\nManagement_section2\nManagement_section3\nManagement_section4\nManagement_section5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Catégorie",
+                        "ChoicesText":  "Catégorie 1\nCatégorie 2\nCatégorie 3\nCatégorie 4\nCatégorie 5"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Created_date"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Notes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "File_name"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Management_number"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Security_level",
+                        "ChoicesText":  "Faible\nMiddle\nÉlevé"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Stored_period"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Stored_URL"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassD",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "Standard",
+                  "CalendarColumn":  "DateA",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "KambanGroupByX":  "ClassA",
+                  "KambanGroupByY":  "ClassD",
+                  "KambanAggregationView":  true
+              },
+    "TitleSeparator":  ")"
+}

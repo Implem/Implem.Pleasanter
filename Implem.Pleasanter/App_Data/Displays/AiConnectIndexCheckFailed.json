@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiConnectIndexCheckFailed",
     "Type": 230,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đăng ký tại đích kết nối không thành công. Đã đăng ký gửi lại. (ID:{0})"
+        },
+        {
+            "Language": "fr",
+            "Body": "L’enregistrement auprès de la cible de connexion a échoué. Un nouvel envoi a été planifié. (ID : {0})"
         }
     ]
 }

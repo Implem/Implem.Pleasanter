@@ -1,0 +1,141 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "DescriptionA",
+                        "Comments",
+                        "ClassA",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "DescriptionA",
+                          "ClassA",
+                          "ClassB",
+                          "NumA",
+                          "NumB",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "Owner",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Sortie prévue"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Catégorie",
+                        "ChoicesText":  "Catégorie 1\nCatégorie 2\nCatégorie 3\nCatégorie 4\nCatégorie 5"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Mot-clé SEO"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Méthode de publication",
+                        "ChoicesText":  "Blogue\nBulletin électronique\nYouTube"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Début de la création"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Non commencé,Non commencé,status-new\n200,En cours,En cours,status-inprogress\n900,Terminé,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Frais",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "PV cible"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "CompletionTime",
+                  "CrosstabGroupByX":  "CompletionTime",
+                  "TimeSeriesGroupBy":  "ClassB",
+                  "KambanGroupByY":  "Owner"
+              },
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

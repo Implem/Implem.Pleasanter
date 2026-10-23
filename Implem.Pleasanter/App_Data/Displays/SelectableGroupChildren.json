@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "nhóm có thể lựa chọn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Groupes sélectionnables"
         }
     ]
 }

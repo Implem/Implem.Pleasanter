@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kiểm soát cột"
+        },
+        {
+            "Language": "fr",
+            "Body": "Contrôle de colonne"
         }
     ]
 }

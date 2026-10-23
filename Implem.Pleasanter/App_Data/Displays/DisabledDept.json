@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DisabledDept",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "(Phòng ban vô hiệu hóa)"
+        },
+        {
+            "Language": "fr",
+            "Body": "(Service désactivé)"
         }
     ]
 }

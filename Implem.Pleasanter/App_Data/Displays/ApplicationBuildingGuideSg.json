@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApplicationBuildingGuideSg",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hướng dẫn thực hành\n[Hướng dẫn tạo ứng dụng]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Guide pratique\n[Guide de création d’applications]"
         }
     ]
 }

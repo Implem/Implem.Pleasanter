@@ -17,5 +17,6 @@
     "LabelText_de": "Passkey‑ID",
     "LabelText_ko": "Passkey ID",
     "LabelText_es": "ID de passkey",
-    "LabelText_vn": "ID passkey"
+    "LabelText_vn": "ID passkey",
+    "LabelText_fr": "Identifiant de la clé d’accès"
 }

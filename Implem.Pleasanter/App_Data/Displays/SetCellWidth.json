@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Chiều rộng ô"
+        },
+        {
+            "Language": "fr",
+            "Body": "Largeur de cellule"
         }
     ]
 }

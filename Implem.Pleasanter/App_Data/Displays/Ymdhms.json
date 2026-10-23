@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Ngày tháng và thời gian (giây)"
+        },
+        {
+            "Language": "fr",
+            "Body": "Date et heure (secondes)"
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Ngày"
+        },
+        {
+            "Language": "fr",
+            "Body": "Jours"
         }
     ]
 }

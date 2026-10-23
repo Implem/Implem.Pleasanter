@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Latest",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mới nhất"
+        },
+        {
+            "Language": "fr",
+            "Body": "Le plus récent"
         }
     ]
 }

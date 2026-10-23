@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Gửi biểu mẫu không thành công. Vui lòng tải lại trang và thử lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’envoi du formulaire a échoué. Veuillez recharger la page et réessayer."
         }
     ]
 }

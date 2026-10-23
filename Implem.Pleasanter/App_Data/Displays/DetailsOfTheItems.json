@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": " Chi tiết về các mục có tại đây"
+        },
+        {
+            "Language": "fr",
+            "Body": "Les détails des éléments se trouvent ici."
         }
     ]
 }

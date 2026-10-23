@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép thu gọn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser le repli"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Users_ScimSync",
     "ModelName": "User",
     "TableName": "Users",
@@ -14,5 +14,6 @@
     "ControlCss": " not-send",
     "EditorReadOnly": "1",
     "LabelText_en": "SCIM synchronization",
-    "LabelText_zh": "SCIM同步"
+    "LabelText_zh": "SCIM同步",
+    "LabelText_fr": "Synchronisation SCIM"
 }

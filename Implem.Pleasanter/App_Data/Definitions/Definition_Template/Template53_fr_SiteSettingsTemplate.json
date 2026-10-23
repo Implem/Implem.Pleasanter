@@ -1,0 +1,155 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "DescriptionA",
+                        "ClassA",
+                        "ClassB",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "ClassC",
+                        "Owner",
+                        "ClassD",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "ClassA",
+                          "ClassB",
+                          "StartTime",
+                          "ClassC",
+                          "Owner",
+                          "DescriptionA",
+                          "CompletionTime",
+                          "Status",
+                          "ClassD",
+                          "Gestionnaire",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "ClassC",
+                        "Owner",
+                        "ClassD",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "ClassA",
+                           "ClassB",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Gestionnaire",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Objet",
+                        "Section":  "Informations sur la demande"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Contenu de la demande"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Réponse",
+                        "Section":  "Informations sur la réponse"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Urgence",
+                        "ChoicesText":  "Élevé\nModéré\nFaible"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type de demande",
+                        "ChoicesText":  "Je veux emprunter de l\u0027aide\nJe souhaite emprunter des stocks/matériaux\nJe veux louer du matériel\nAutre"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date et heure de la demande",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date et heure de la réponse",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Demandeur"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "LabelText":  "Répondant"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Non commencé,Non commencé,status-new\n900,Répondu,Fois,status-closed\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Magasin du demandeur",
+                        "ChoicesText":  "Magasin 1\nMagasin 2\nMagasin 3\nMagasin 4\nMagasin 5"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Répondant.Store",
+                        "ChoicesText":  "Magasin 1\nMagasin 2\nMagasin 3\nMagasin 4\nMagasin 5"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "StartTime",
+                  "CrosstabAggregateType":  "Count",
+                  "KambanGroupByY":  "ClassB"
+              },
+    "ShowGanttProgressRate":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

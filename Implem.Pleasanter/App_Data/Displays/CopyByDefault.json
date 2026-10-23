@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CopyByDefault",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sao chép với giá trị mặc định"
+        },
+        {
+            "Language": "fr",
+            "Body": "Copier avec les valeurs par défaut"
         }
     ]
 }

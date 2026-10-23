@@ -18,5 +18,6 @@
     "LabelText_de": "Nebenstellen-ID",
     "LabelText_ko": "내선 ID",
     "LabelText_es": "ID de extensión",
-    "LabelText_vn": "ID Tiện ích"
+    "LabelText_vn": "ID Tiện ích",
+    "LabelText_fr": "Identifiant de l’extension"
 }

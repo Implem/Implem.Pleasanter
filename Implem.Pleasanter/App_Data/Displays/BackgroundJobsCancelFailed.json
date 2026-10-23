@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobsCancelFailed",
     "Type": 240,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "{0}: {1} Elemente konnten nicht abgebrochen werden." },
         { "Language": "ko", "Body": "{0}: {1} 개의 항목을 취소할 수 없습니다." },
         { "Language": "es", "Body": "{0}: No se pudieron cancelar {1} elemento(s)." },
-        { "Language": "vn", "Body": "{0}: Không thể hủy {1} mục." }
+        { "Language": "vn", "Body": "{0}: Không thể hủy {1} mục." },
+        {
+            "Language": "fr",
+            "Body": "{0} : {1} tâche(s) n’ont pas pu être annulées."
+        }
     ]
 }

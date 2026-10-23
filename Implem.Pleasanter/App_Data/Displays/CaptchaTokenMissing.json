@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đã xảy ra lỗi tạm thời khi tải hoặc gửi biểu mẫu. Vui lòng tải lại trang và thử lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Une erreur temporaire est survenue lors du chargement ou de l’envoi du formulaire. Veuillez recharger la page et réessayer."
         }
     ]
 }

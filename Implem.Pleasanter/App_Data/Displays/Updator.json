@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Người cập nhật"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mis à jour par"
         }
     ]
 }

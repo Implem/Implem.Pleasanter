@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobTypeAiConnectResync",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kết nối AI (Đồng bộ)"
+        },
+        {
+            "Language": "fr",
+            "Body": "Connexion à l’IA (synchronisation)"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApprovalMailBody",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đây là email để thông báo đến {0} rằng yêu cầu đã được phê duyệt.\n\nXin mời truy cập vào URL sau để bắt đầu sử dụng.\n\n{1}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ce message informe {0} que la demande a été approuvée.\n\nAccédez à l’URL suivante pour commencer à utiliser le service.\n\n{1}"
         }
     ]
 }

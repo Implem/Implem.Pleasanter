@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "No changes to the database tables."
+        },
+        {
+            "Language": "fr",
+            "Body": "Aucune modification des tables de la base de données."
         }
     ]
 }

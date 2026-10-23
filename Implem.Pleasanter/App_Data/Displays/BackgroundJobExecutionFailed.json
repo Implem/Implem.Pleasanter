@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0} nền không thành công."
+        },
+        {
+            "Language": "fr",
+            "Body": "Échec de la tâche en arrière-plan {0}."
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt giá trị số"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres numériques"
         }
     ]
 }

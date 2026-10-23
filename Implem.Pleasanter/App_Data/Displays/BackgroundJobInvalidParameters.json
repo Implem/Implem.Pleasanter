@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobInvalidParameters",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tham số tác vụ nền không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les paramètres de la tâche en arrière-plan ne sont pas valides."
         }
     ]
 }

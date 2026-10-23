@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép người dùng ẩn danh truy cập biểu mẫu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Rendre les formulaires accessibles aux utilisateurs anonymes"
         }
     ]
 }

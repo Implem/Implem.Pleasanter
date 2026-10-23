@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ScimTokens_UserId",
     "ModelName": "ScimToken",
     "TableName": "ScimTokens",
@@ -9,5 +9,6 @@
     "TypeName": "int",
     "Default": "0",
     "LabelText_en": "User ID",
-    "LabelText_zh": "用户ID"
+    "LabelText_zh": "用户ID",
+    "LabelText_fr": "ID utilisateur"
 }

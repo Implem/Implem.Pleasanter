@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Registrierter Benutzer" },
         { "Language": "ko", "Body": "등록 사용자" },
         { "Language": "es", "Body": "Usuario registrado" },
-        { "Language": "vn", "Body": "Người đăng ký" }
+        { "Language": "vn", "Body": "Người đăng ký" },
+        {
+            "Language": "fr",
+            "Body": "Utilisateur enregistré"
+        }
     ]
 }

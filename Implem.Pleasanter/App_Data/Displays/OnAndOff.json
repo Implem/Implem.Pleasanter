@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OnAndOff",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bật và tắt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Activé et désactivé"
         }
     ]
 }

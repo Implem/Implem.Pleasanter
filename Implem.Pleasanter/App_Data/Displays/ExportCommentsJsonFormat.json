@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xuất nhận xét ở định dạng JSON"
+        },
+        {
+            "Language": "fr",
+            "Body": "Exporter les commentaires au format JSON"
         }
     ]
 }

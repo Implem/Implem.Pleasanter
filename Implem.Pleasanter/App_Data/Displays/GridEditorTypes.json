@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "GridEditorTypes",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại chỉnh sửa danh sách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Types d’éditeur de grille"
         }
     ]
 }

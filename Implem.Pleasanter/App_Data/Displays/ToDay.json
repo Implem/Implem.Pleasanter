@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Hôm nay"
+        },
+        {
+            "Language": "fr",
+            "Body": "Aujourd’hui"
         }
     ]
 }

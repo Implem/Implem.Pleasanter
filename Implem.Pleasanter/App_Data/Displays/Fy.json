@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Fy",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Năm tài khóa {0}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Exercice {0}"
         }
     ]
 }

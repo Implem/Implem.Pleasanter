@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Gantt",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Biểu đồ Gantt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Diagramme de Gantt"
         }
     ]
 }

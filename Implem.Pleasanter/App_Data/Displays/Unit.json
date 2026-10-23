@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đơn vị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Unité"
         }
     ]
 }

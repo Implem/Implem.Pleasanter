@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Chế độ xuất bản nháp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mode de sortie du brouillon"
         }
     ]
 }

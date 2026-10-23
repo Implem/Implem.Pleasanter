@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Không thể sử dụng Passkey trong trình duyệt này, vui lòng dùng cách đăng nhập khác."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les clés d’accès ne sont pas disponibles dans ce navigateur. Utilisez une autre méthode de connexion."
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Mục này được sử dụng để nhập văn bản tự do. Nó cũng có thể được sử dụng dưới dạng danh sách thả xuống hoặc nút radio để lựa chọn. Có thể sử dụng tối đa 26 mục, từ Phân loại A đến Phân loại Z."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cet élément permet la saisie de texte libre ou peut être configuré en liste déroulante ou en boutons radio. Jusqu’à 26 éléments, de Catégorie A à Catégorie Z, sont disponibles."
         }
     ]
 }

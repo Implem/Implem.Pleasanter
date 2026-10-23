@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giá trị và tên hiển thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Valeur et nom d’affichage"
         }
     ]
 }

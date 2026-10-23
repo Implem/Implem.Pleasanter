@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ExportColumns",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Mục xuất dữ liệu"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Colonnes à exporter"
         }
     ]
 }

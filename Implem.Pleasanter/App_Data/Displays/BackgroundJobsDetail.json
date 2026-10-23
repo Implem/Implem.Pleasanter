@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobsDetail",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Detail" },
         { "Language": "ko", "Body": "상세" },
         { "Language": "es", "Body": "Detalle" },
-        { "Language": "vn", "Body": "Chi tiết" }
+        { "Language": "vn", "Body": "Chi tiết" },
+        {
+            "Language": "fr",
+            "Body": "Détails"
+        }
     ]
 }

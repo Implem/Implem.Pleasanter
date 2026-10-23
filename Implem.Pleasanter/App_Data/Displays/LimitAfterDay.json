@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LimitAfterDay",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "1 ngày sau"
+        },
+        {
+            "Language": "fr",
+            "Body": "Dans 1 jour"
         }
     ]
 }

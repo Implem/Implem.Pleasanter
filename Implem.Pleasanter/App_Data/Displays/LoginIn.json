@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đang đăng nhập..."
+        },
+        {
+            "Language": "fr",
+            "Body": "Connexion en cours…"
         }
     ]
 }

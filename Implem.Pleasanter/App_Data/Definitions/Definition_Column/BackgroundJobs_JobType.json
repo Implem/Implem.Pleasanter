@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobs_JobType",
     "ModelName": "BackgroundJob",
     "TableName": "BackgroundJobs",
@@ -15,5 +15,6 @@
     "LabelText_de": "Auftragstyp",
     "LabelText_ko": "작업 유형",
     "LabelText_es": "Tipo de trabajo",
-    "LabelText_vn": "Loại tác vụ"
+    "LabelText_vn": "Loại tác vụ",
+    "LabelText_fr": "Type de tâche"
 }

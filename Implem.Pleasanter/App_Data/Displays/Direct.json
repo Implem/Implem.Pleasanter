@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Trực tiếp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Direct"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AiConnectDeleteJobCompleted",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Việc xóa kết nối AI đã hoàn tất."
+        },
+        {
+            "Language": "fr",
+            "Body": "La suppression de la connexion à l’IA est terminée."
         }
     ]
 }

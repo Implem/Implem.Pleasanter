@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CsvFormatInvalidFirstColumn",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng CSV không hợp lệ: cột đầu tiên phải là 'ColumnName'."
+        },
+        {
+            "Language": "fr",
+            "Body": "Format CSV non valide : la première colonne doit être « ColumnName »."
         }
     ]
 }

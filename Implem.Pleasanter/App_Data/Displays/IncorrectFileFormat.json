@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "IncorrectFileFormat",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng tệp không chính xác."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le format du fichier est incorrect."
         }
     ]
 }

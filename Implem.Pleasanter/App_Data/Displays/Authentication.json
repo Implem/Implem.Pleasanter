@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Authentication",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tài khoản đăng nhập hoặc mật khẩu không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’identifiant de connexion ou le mot de passe est incorrect."
         }
     ]
 }

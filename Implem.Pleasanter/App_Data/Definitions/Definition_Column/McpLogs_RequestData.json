@@ -25,5 +25,6 @@
     "LabelText_de": "Anforderungsdaten",
     "LabelText_ko": "요청 데이터",
     "LabelText_es": "Datos de solicitud",
-    "LabelText_vn": "Dữ liệu yêu cầu"
+    "LabelText_vn": "Dữ liệu yêu cầu",
+    "LabelText_fr": "Données de la requête"
 }

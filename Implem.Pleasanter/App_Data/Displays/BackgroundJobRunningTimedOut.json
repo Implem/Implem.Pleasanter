@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobRunningTimedOut",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Die Standardausführungszeit des Jobs wurde überschritten. Klicken Sie bei Bedarf auf die Schaltfläche \"Nächsten Job ausführen\"." },
         { "Language": "ko", "Body": "기본 작업 실행 시간을 초과했습니다. 필요한 경우 \"다음 작업 실행\" 버튼을 클릭해 주세요." },
         { "Language": "es", "Body": "Se ha superado el tiempo de ejecución predeterminado del trabajo. Haga clic en el botón \"Ejecutar siguiente trabajo\" si es necesario." },
-        { "Language": "vn", "Body": "Đã vượt quá thời gian thực thi công việc mặc định. Vui lòng nhấp vào nút \"Chạy công việc tiếp theo\" nếu cần thiết." }
+        { "Language": "vn", "Body": "Đã vượt quá thời gian thực thi công việc mặc định. Vui lòng nhấp vào nút \"Chạy công việc tiếp theo\" nếu cần thiết." },
+        {
+            "Language": "fr",
+            "Body": "Le temps d’exécution par défaut de la tâche est dépassé. Si nécessaire, cliquez sur « Exécuter la tâche suivante »."
+        }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "JSON được nhập không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le JSON saisi n’est pas valide."
         }
     ]
 }

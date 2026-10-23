@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sau khi tạo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Après création"
         }
     ]
 }

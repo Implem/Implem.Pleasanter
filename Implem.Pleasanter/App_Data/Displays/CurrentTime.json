@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thời điểm hiện tại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Heure actuelle"
         }
     ]
 }

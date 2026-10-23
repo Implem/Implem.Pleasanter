@@ -1,0 +1,137 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassA",
+                        "Title",
+                        "ClassD",
+                        "ClassE",
+                        "ClassB",
+                        "ClassC",
+                        "ClassF",
+                        "DescriptionA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "Title",
+                          "ClassD",
+                          "ClassE",
+                          "ClassF",
+                          "ClassG",
+                          "ClassH",
+                          "ClassI",
+                          "ClassJ",
+                          "ClassK",
+                          "DescriptionA",
+                          "DateA",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ClassA",
+                        "Title",
+                        "ClassD",
+                        "ClassE",
+                        "ClassB",
+                        "ClassC",
+                        "ClassF",
+                        "DescriptionA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassB",
+                           "ClassC",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom de l’entreprise"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Nom du service"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Fonction"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom complet"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "E-mail"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Code postal"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "Adresse"
+                    },
+                    {
+                        "ColumnName":  "ClassG",
+                        "LabelText":  "Téléphone (entreprise)"
+                    },
+                    {
+                        "ColumnName":  "ClassH",
+                        "LabelText":  "Téléphone (département)"
+                    },
+                    {
+                        "ColumnName":  "ClassI",
+                        "LabelText":  "Téléphone (direct)"
+                    },
+                    {
+                        "ColumnName":  "ClassJ",
+                        "LabelText":  "FAX"
+                    },
+                    {
+                        "ColumnName":  "ClassK",
+                        "LabelText":  "Téléphone mobile"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Site web de l’entreprise"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Journée d\u0027échange de cartes de visite"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "ClassA",
+                         "Type":  0,
+                         "Target":  ""
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme"
+              },
+    "TitleSeparator":  ")"
+}

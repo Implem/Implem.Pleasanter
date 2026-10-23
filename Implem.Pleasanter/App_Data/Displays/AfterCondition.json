@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AfterCondition",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Điều kiện sau khi thay đổi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Conditions après modification"
         }
     ]
 }

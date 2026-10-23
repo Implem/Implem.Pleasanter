@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bao gồm các thông báo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Inclure les notifications"
         }
     ]
 }

@@ -24,5 +24,6 @@
     "LabelText_de": "API-Schlüssel-Präfix",
     "LabelText_ko": "API 키 접두사",
     "LabelText_es": "Prefijo de clave API",
-    "LabelText_vn": "Tiền tố khóa API"
+    "LabelText_vn": "Tiền tố khóa API",
+    "LabelText_fr": "Préfixe de la clé API"
 }

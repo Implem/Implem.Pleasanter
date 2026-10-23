@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể nhập dữ liệu cho ID người dùng \"{0}\" và ID đăng nhập \"{1}\"."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les données pour l’ID utilisateur « {0} » et l’identifiant de connexion « {1} » ne peuvent pas être importées."
         }
     ]
 }

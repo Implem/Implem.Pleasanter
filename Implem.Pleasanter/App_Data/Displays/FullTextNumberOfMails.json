@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "số lượng thư"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre d’e-mails"
         }
     ]
 }

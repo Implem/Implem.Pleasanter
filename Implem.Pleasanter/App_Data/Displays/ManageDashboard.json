@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quản lý bảng điều khiển"
+        },
+        {
+            "Language": "fr",
+            "Body": "Gérer le tableau de bord"
         }
     ]
 }

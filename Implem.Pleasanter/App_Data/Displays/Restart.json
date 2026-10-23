@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khởi động lại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Redémarrer"
         }
     ]
 }

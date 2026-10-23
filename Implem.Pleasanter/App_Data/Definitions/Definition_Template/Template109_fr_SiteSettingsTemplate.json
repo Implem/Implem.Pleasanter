@@ -1,0 +1,124 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "ClassB",
+                        "TitleBody",
+                        "Comments",
+                        "StartTime",
+                        "CompletionTime",
+                        "ProgressRate",
+                        "Status",
+                        "DescriptionA",
+                        "DescriptionB",
+                        "DescriptionC",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "ClassA",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassB",
+                          "StartTime",
+                          "CompletionTime",
+                          "ProgressRate",
+                          "Status",
+                          "Title",
+                          "Body",
+                          "DescriptionA",
+                          "DescriptionB",
+                          "DescriptionC",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "ClassB",
+                        "ClassA",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "ProgressRate",
+                        "Status",
+                        "Owner",
+                        "Gestionnaire",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "ClassB",
+                           "ClassA",
+                           "Title",
+                           "Comments",
+                           "StartTime",
+                           "CompletionTime",
+                           "ProgressRate",
+                           "Status",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "point de vue",
+                        "ChoicesText":  "apprentissage et croissance\nProcessus métier\nClient\nfinances"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Objectifs stratégiques (KGI)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Facteurs critiques de succès (CSF)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Indicateurs clés de performance (KPI)"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom de la mesure"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Description de la mesure"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Non commencé,Non commencé,status-new\n150,Préparation,Préparation,status-preparation\n200,En cours,En cours,status-inprogress\n900,Terminé,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    }
+                ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "ClassA":  0,
+                                           "ClassB":  0
+                                       },
+                  "CalendarColumn":  "StartTime",
+                  "KambanGroupByY":  "Manager"
+              },
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

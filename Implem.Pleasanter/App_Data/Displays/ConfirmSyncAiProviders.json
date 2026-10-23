@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Tùy theo số lượng bản ghi, quá trình này có thể mất thời gian. Bạn có chắc muốn thực hiện đồng bộ hóa không?"
+        },
+        {
+            "Language": "fr",
+            "Body": "Selon le nombre d’enregistrements, cette opération peut prendre du temps. Voulez-vous lancer la synchronisation ?"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SelectableMembers",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thành viên có thể chọn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Membres sélectionnables"
         }
     ]
 }

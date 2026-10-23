@@ -25,5 +25,6 @@
     "LabelText_de": "MCP-Anforderungs-ID",
     "LabelText_ko": "MCP 요청 ID",
     "LabelText_es": "ID de solicitud MCP",
-    "LabelText_vn": "ID yêu cầu MCP"
+    "LabelText_vn": "ID yêu cầu MCP",
+    "LabelText_fr": "Identifiant de requête MCP"
 }

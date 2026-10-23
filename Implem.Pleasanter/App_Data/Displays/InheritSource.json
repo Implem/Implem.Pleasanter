@@ -32,6 +32,10 @@
         {
             "Language": "vn",
             "Body": "Kế thừa từ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Hérité de"
         }
     ]
 }

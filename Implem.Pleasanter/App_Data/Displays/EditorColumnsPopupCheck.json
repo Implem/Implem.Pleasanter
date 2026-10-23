@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Mục này được sử dụng dưới dạng hộp kiểm thể hiện hai trạng thái: BẬT và TẮT. Có thể sử dụng tối đa 26 mục, từ Kiểm tra A đến Kiểm tra Z."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cet élément est une case à cocher à deux états (activé ou désactivé). Jusqu’à 26 éléments, de Case à cocher A à Case à cocher Z, sont disponibles."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobStatusRunning",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Wird ausgeführt" },
         { "Language": "ko", "Body": "실행 중" },
         { "Language": "es", "Body": "En ejecución" },
-        { "Language": "vn", "Body": "Đang chạy" }
+        { "Language": "vn", "Body": "Đang chạy" },
+        {
+            "Language": "fr",
+            "Body": "En cours"
+        }
     ]
 }

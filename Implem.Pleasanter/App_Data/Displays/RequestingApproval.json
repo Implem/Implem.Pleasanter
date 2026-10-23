@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "RequestingApproval",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đang yêu cầu phê duyệt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Demande d’approbation"
         }
     ]
 }

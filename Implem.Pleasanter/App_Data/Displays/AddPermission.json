@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AddPermission",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thêm quyền"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ajouter une permission"
         }
     ]
 }

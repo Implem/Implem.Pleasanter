@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobsResultMessage",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Ergebnismeldung" },
         { "Language": "ko", "Body": "결과 메시지" },
         { "Language": "es", "Body": "Mensaje del resultado" },
-        { "Language": "vn", "Body": "Thông điệp kết quả" }
+        { "Language": "vn", "Body": "Thông điệp kết quả" },
+        {
+            "Language": "fr",
+            "Body": "Message de résultat"
+        }
     ]
 }

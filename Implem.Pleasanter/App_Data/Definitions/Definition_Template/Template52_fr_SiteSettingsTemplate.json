@@ -1,0 +1,128 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "DateA",
+                        "NumA",
+                        "ClassB",
+                        "ClassA",
+                        "DateB",
+                        "Status",
+                        "ClassC",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "NumA",
+                          "ClassB",
+                          "Title",
+                          "ClassA",
+                          "Body",
+                          "DescriptionA",
+                          "DateB",
+                          "Status",
+                          "ClassC",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "DateA",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "DateB",
+                        "ClassC",
+                        "Status",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Status",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date et heure de la visite",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du client",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Coordonnées"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Formule de réservation",
+                        "ChoicesText":  "Formule 1\nFormule 2\nFormule 3\nFormule 4\nFormule 5"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date et heure de réception",
+                        "DefaultInput":  "0",
+                        "EditorFormat":  "Ymdhm",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Responsable de la réception",
+                        "ChoicesText":  "Responsable de la réception 1\nResponsable de la réception 2\nResponsable de la réception 3\nResponsable de la réception 4\nResponsable de la réception 5"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Demande du client"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Reçu\n900,Visite effectuée\n910,Annulé",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Nombre de personnes",
+                        "Unit":  "Personne"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassB",
+                  "KambanGroupByY":  "ClassB"
+              },
+    "TitleSeparator":  ")"
+}

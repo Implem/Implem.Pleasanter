@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OverLimitQuantity",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Số tệp có thể đính kèm tối đa là {0} tệp."
+        },
+        {
+            "Language": "fr",
+            "Body": "Vous pouvez joindre jusqu’à {0} fichiers."
         }
     ]
 }

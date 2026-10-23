@@ -1,0 +1,149 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassC",
+                        "NumC",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "NumE",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "ClassC",
+                          "NumC",
+                          "DateA",
+                          "ClassB",
+                          "NumA",
+                          "NumB",
+                          "NumE",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassC",
+                        "NumC",
+                        "ClassB",
+                        "NumA",
+                        "NumB",
+                        "NumE",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "NumE",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Pays d’origine"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Fabricant",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Lieu de production"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Poids",
+                        "DecimalPlaces":  1,
+                        "Unit":  "kg"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Capacité",
+                        "Unit":  "ml"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "dureté",
+                        "Unit":  "mg/L"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  2,
+                             "Target":  "NumE"
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "KambanAggregateType":  "Average",
+                  "KambanValue":  "NumE",
+                  "KambanAggregationView":  true
+              },
+    "TitleSeparator":  ")"
+}

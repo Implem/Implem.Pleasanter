@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đặt lại loại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type de réinitialisation"
         }
     ]
 }

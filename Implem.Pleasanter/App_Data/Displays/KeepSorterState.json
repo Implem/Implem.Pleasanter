@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giữ trạng thái sắp xếp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Conserver l’état du tri"
         }
     ]
 }

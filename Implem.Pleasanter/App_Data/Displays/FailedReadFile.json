@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "FailedReadFile",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đọc tệp tin thất bại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de lire le fichier."
         }
     ]
 }

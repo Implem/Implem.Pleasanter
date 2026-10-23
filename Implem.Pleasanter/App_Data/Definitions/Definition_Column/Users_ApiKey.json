@@ -19,5 +19,6 @@
     "LabelText_de": "API-Schlüssel",
     "LabelText_ko": "API 키",
     "LabelText_es": "Clave API",
-    "LabelText_vn": "Khóa API"
+    "LabelText_vn": "Khóa API",
+    "LabelText_fr": "Clé API"
 }

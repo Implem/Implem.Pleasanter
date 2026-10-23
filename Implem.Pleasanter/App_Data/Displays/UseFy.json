@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UseFy",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng năm tài khóa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser l’exercice fiscal"
         }
     ]
 }

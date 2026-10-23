@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Lượng sử dụng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utilisation"
         }
     ]
 }

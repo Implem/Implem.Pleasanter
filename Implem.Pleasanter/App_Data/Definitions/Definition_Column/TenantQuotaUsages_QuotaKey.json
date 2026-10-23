@@ -17,5 +17,6 @@
     "LabelText_de": "Kontingentschlüssel",
     "LabelText_ko": "할당 키",
     "LabelText_es": "Clave de cuota",
-    "LabelText_vn": "Khóa hạn ngạch"
+    "LabelText_vn": "Khóa hạn ngạch",
+    "LabelText_fr": "Clé de quota"
 }

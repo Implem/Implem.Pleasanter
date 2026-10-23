@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cố định ở cạnh trái"
+        },
+        {
+            "Language": "fr",
+            "Body": "Épingler au bord gauche"
         }
     ]
 }

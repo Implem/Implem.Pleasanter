@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BackgroundJobStatusPending",
     "Type": 110,
     "Languages": [
@@ -8,6 +8,10 @@
         { "Language": "de", "Body": "Ausstehend" },
         { "Language": "ko", "Body": "대기 중" },
         { "Language": "es", "Body": "Pendiente" },
-        { "Language": "vn", "Body": "Đang chờ" }
+        { "Language": "vn", "Body": "Đang chờ" },
+        {
+            "Language": "fr",
+            "Body": "En attente"
+        }
     ]
 }

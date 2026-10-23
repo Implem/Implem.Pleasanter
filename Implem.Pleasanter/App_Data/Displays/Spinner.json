@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Spinner"
+        },
+        {
+            "Language": "fr",
+            "Body": "Sélecteur numérique"
         }
     ]
 }

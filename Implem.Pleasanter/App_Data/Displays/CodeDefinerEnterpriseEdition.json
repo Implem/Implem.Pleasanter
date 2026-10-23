@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "This edition is \"Enterprise Edition\"."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cette édition est « Enterprise Edition »."
         }
     ]
 }

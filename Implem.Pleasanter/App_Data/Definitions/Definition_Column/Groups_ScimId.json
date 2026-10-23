@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Groups_ScimId",
     "ModelName": "Group",
     "TableName": "Groups",
@@ -16,5 +16,6 @@
     "ControlCss": " not-send",
     "EditorReadOnly": "1",
     "LabelText_en": "SCIM ID",
-    "LabelText_zh": "SCIM ID"
+    "LabelText_zh": "SCIM ID",
+    "LabelText_fr": "Identifiant SCIM"
 }

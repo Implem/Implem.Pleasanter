@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Phân loại, Mô tả, v.v."
+        },
+        {
+            "Language": "fr",
+            "Body": "Catégories, descriptions, etc."
         }
     ]
 }

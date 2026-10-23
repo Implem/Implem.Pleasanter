@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Phút"
+        },
+        {
+            "Language": "fr",
+            "Body": "Minutes"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không dùng tên hiển thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas utiliser le nom d’affichage"
         }
     ]
 }

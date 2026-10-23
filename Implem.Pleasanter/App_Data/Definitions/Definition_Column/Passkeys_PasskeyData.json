@@ -19,5 +19,6 @@
     "LabelText_de": "Passkey‑Daten",
     "LabelText_ko": "Passkey 데이터",
     "LabelText_es": "Datos de Passkey",
-    "LabelText_vn": "Dữ liệu Passkey"
+    "LabelText_vn": "Dữ liệu Passkey",
+    "LabelText_fr": "Données de la clé d’accès"
 }

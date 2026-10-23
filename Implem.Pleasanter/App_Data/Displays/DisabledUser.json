@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DisabledUser",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "(Người dùng vô hiệu hóa)"
+        },
+        {
+            "Language": "fr",
+            "Body": "(Utilisateur désactivé)"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "InvalidCsvData",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dữ liệu không hợp lệ. Dòng: {0} Cột: {1}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Données non valides. Ligne : {0}, colonne : {1}."
         }
     ]
 }

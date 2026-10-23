@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mã thông báo không được chỉ định chính xác."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le jeton n’est pas indiqué correctement."
         }
     ]
 }

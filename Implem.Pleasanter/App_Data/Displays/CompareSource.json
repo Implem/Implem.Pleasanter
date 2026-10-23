@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "So sánh văn bản gốc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Comparer le texte source"
         }
     ]
 }

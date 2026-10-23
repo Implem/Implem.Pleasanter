@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Các loại xuất tiêu chuẩn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Types d’exportation standard"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SearchSettings",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt tìm kiếm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de recherche"
         }
     ]
 }

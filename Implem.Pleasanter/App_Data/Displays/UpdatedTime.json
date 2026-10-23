@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Thời gian cập nhật"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mis à jour le"
         }
     ]
 }

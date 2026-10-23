@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Căn chỉnh văn bản"
+        },
+        {
+            "Language": "fr",
+            "Body": "Alignement du texte"
         }
     ]
 }
