@@ -19,6 +19,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
     {
         public static bool Authenticate(Context context, string loginId, string password)
         {
+            if (password.IsNullOrEmpty())
+            {
+                return false;
+            }
             foreach (var ldap in Parameters.Authentication.LdapParameters)
             {
                 try

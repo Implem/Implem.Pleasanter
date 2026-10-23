@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using System;
 namespace Implem.Pleasanter.Libraries.DataSources
@@ -7,6 +8,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
     {
         public static bool Authenticate(Context context, string loginId, string password)
         {
+            if (password.IsNullOrEmpty())
+            {
+                return false;
+            }
             switch (Platform(context: context))
             {
                 case "windows":
