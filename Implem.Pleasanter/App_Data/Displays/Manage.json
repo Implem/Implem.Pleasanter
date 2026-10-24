@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Manage",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quản lí"
+        },
+        {
+            "Language": "fr",
+            "Body": "Gérer"
         }
     ]
 }

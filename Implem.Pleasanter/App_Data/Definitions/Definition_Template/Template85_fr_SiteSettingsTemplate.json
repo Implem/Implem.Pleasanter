@@ -1,0 +1,134 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "DateA",
+                        "CheckA",
+                        "CheckB",
+                        "CheckC",
+                        "CheckD",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "DateA",
+                          "CheckA",
+                          "CheckB",
+                          "CheckC",
+                          "CheckD",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  [
+                         "ClassA",
+                         "ClassB",
+                         "ClassC"
+                     ],
+    "LinkColumns":  [
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "DateA",
+                        "CheckA",
+                        "CheckB",
+                        "CheckC",
+                        "CheckD",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "DateA",
+                           "CheckA",
+                           "CheckB",
+                           "CheckC",
+                           "CheckD",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Mois concerné",
+                        "ChoicesText":  "avril 2017\nmai 2017\njuin 2017\njuillet 2017\nAoût 2017\nseptembre 2017\nOctobre 2017\nnovembre 2017\nDécembre 2017\njanvier 2018\nFévrier 2018\nMars 2018",
+                        "ValidateRequired":  true,
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "vérifier la date",
+                        "DefaultInput":  "0",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "CheckA",
+                        "LabelText":  "Présence du numéro d\u0027employé"
+                    },
+                    {
+                        "ColumnName":  "CheckB",
+                        "LabelText":  "Présence de la carte de dépôt du client"
+                    },
+                    {
+                        "ColumnName":  "CheckC",
+                        "LabelText":  "Présence d\u0027un téléphone portable payé par l\u0027entreprise"
+                    },
+                    {
+                        "ColumnName":  "CheckD",
+                        "LabelText":  "Mesures de sécurité du PC"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Nom complet",
+                        "ChoicesText":  "Nom complet 1\nNom complet 2\nNom complet 3\nNom complet 4\nNom complet 5"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  0,
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

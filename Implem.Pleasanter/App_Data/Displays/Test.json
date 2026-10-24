@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Test",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kiểm thử"
+        },
+        {
+            "Language": "fr",
+            "Body": "Tester"
         }
     ]
 }

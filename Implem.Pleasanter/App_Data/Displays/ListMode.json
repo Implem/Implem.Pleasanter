@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ListMode",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chế độ danh sách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mode liste"
         }
     ]
 }

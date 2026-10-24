@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Reminders",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nhắc nhở"
+        },
+        {
+            "Language": "fr",
+            "Body": "Rappels"
         }
     ]
 }

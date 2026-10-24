@@ -17,5 +17,6 @@
     "LabelText_de": "Status-ID",
     "LabelText_ko": "상태 ID",
     "LabelText_es": "ID de estado",
-    "LabelText_vn": "ID Trạng thái"
+    "LabelText_vn": "ID Trạng thái",
+    "LabelText_fr": "ID de l’état"
 }

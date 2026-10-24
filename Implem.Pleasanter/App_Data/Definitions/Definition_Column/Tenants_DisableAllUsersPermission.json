@@ -14,5 +14,6 @@
     "LabelText_de": "Berechtigungen für alle Benutzer deaktivieren",
     "LabelText_ko": "모든 사용자의 권한 비활성화",
     "LabelText_es": "Desactivar permisos para todos los usuarios",
-    "LabelText_vn": "Không cho phép truy cập với mọi người dùng"
+    "LabelText_vn": "Không cho phép truy cập với mọi người dùng",
+    "LabelText_fr": "Désactiver les permissions de tous les utilisateurs"
 }

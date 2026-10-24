@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DateFilterSetModeRange",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chỉ định phạm vi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Définir une plage"
         }
     ]
 }

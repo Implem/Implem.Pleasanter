@@ -1,0 +1,12 @@
+﻿A,Administrative vocational worker
+B,Professional/technical worker
+C,Office worker
+D,Salesperson
+E,Service worker
+F,Security worker
+G,Agriculture/forestry and fishery workers
+H,Production process workers
+I,Transport/machine operation workers
+J,Construction and extraction workers
+K,Workers for transportation/cleaning/packaging/etc.
+L,Unclassifiable occupation

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "HTML mở rộng"
+        },
+        {
+            "Language": "fr",
+            "Body": "HTML étendu"
         }
     ]
 }

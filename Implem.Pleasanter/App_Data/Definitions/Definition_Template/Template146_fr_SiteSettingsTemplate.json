@@ -1,0 +1,138 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "Gestionnaire",
+                        "StartTime",
+                        "CompletionTime",
+                        "DateA",
+                        "Status",
+                        "NumA",
+                        "NumB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "ClassA",
+                          "Title",
+                          "ClassB",
+                          "Gestionnaire",
+                          "Status",
+                          "StartTime",
+                          "CompletionTime",
+                          "DateA",
+                          "NumA",
+                          "NumB",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "Gestionnaire",
+                        "StartTime",
+                        "CompletionTime",
+                        "DateA",
+                        "Status",
+                        "NumA",
+                        "NumB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "ClassA",
+                           "ClassB",
+                           "Gestionnaire",
+                           "StartTime",
+                           "CompletionTime",
+                           "DateA",
+                           "Status",
+                           "NumA",
+                           "NumB",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date de distribution"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date d’expiration",
+                        "DefaultInput":  "365"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,En cours de déploiement,Modéré,status-new\n900,Mise au rebut,Mise au rebut,status-closed\n"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Catégorie",
+                        "ChoicesText":  "économiser l\u0027eau\nnourriture\ntrousse de premiers secours\ncouverture\nproduits sanitaires\nAutre"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "base",
+                        "ChoicesText":  "Base 1\nBase 2\nBase 3\nBase 4\nBase 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Nombre de déploiements"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Frais",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Article"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de mise au rebut"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "Status",
+                         "Type":  0,
+                         "Target":  ""
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "TimeSeriesAggregateType":  "Total",
+                  "TimeSeriesValue":  "NumB",
+                  "KambanGroupByY":  "ClassB",
+                  "KambanValue":  "NumB"
+              },
+    "EnableGantt":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

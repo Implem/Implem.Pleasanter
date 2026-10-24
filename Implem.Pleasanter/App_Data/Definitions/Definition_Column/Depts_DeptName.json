@@ -26,5 +26,6 @@
     "LabelText_de": "Abteilungsname",
     "LabelText_ko": "부서명",
     "LabelText_es": "Nombre del departamento",
-    "LabelText_vn": "Tên tổ chức"
+    "LabelText_vn": "Tên tổ chức",
+    "LabelText_fr": "Nom du service"
 }

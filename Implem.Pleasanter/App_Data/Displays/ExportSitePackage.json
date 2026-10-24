@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xuất dữ liệu của gói trang web"
+        },
+        {
+            "Language": "fr",
+            "Body": "Exporter le package du site"
         }
     ]
 }

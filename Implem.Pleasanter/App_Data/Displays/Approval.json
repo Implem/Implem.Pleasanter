@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phê duyệt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Approbation"
         }
     ]
 }

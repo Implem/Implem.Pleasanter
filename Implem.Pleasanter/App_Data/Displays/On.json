@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "On",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bật"
+        },
+        {
+            "Language": "fr",
+            "Body": "Activé"
         }
     ]
 }

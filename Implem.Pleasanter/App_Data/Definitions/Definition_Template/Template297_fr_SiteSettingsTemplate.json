@@ -1,0 +1,126 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "ClassD",
+                        "ClassE",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "Title",
+                          "ClassD",
+                          "ClassE",
+                          "Body",
+                          "DescriptionA",
+                          "DescriptionB",
+                          "DescriptionC",
+                          "DescriptionD",
+                          "DateA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassD",
+                        "ClassE",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassD",
+                           "ClassE",
+                           "ClassA",
+                           "ClassB",
+                           "ClassC",
+                           "DateA",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Fichiers joints"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Entreprise concurrente",
+                        "ChoicesText":  "Entreprise concurrente 1\nEntreprise concurrente 2\nEntreprise concurrente 3\nEntreprise concurrente 4\nEntreprise concurrente 5",
+                        "Section":  "Informations sur les entreprises concurrentes"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Nom du produit ou du service"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Catégorie de produit ou service",
+                        "ChoicesText":  "Catégorie de produit ou service 1\nCatégorie de produit ou service 2\nCatégorie de produit ou service 3\nCatégorie de produit ou service 4\nCatégorie de produit ou service 5\n"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du client",
+                        "Section":  "Détails de l’opportunité commerciale"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Secteur d’activité",
+                        "ChoicesText":  "A, Agriculture, Foresterie\nB,Pêche\nC. Mines,Industries extractives, carrières et extraction de gravier\nD.Industrie de la construction\nE,Industrie manufacturière\nF, électricité, gaz, approvisionnement en chaleur, industrie de l\u0027eau\nG,Information et communication\nH, Industrie des transports, Industrie postale\nI, Commerce de gros, Commerce de détail\nJ, Industrie financière, Industrie des assurances\nK, Activité immobilière, activité de location de biens\nL, Recherche universitaire, industrie des services professionnels/techniques\nM, Industrie de l\u0027hébergement, Restauration\nN, industrie des services liés à la vie, industrie du divertissement\nO, Éducation, industrie de soutien à l\u0027apprentissage\nP, soins médicaux, bien-être\nQ,Services composites\nR,Services non classés ailleurs\nS,Services publics (hors catégories classées ailleurs)\nT,Secteur non classé ailleurs"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Service"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Présentation générale"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Problème du client"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Solution"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Effet"
+                    },
+                    {
+                        "ColumnName":  "DescriptionD",
+                        "LabelText":  "Facteur décisif de la vente"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de publication du cas"
+                    }
+                ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "TimeSeriesGroupBy":  "ClassA"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

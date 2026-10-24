@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ManageTable",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quản lí bảng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Gérer le tableau"
         }
     ]
 }

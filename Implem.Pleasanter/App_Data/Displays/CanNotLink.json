@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CanNotLink",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không có mục nào có thể kết nối."
+        },
+        {
+            "Language": "fr",
+            "Body": "Aucun élément ne peut être lié."
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sau khi nhập khẩu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Après importation"
         }
     ]
 }

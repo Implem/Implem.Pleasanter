@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Custom",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tùy chỉnh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Personnalisé"
         }
     ]
 }

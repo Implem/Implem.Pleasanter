@@ -1,0 +1,162 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassB",
+                        "ClassA",
+                        "ClassD",
+                        "ClassE",
+                        "NumA",
+                        "Status",
+                        "ClassC",
+                        "DateA",
+                        "DateB",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "DateA",
+                          "DateB",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassB",
+                          "ClassA",
+                          "ClassD",
+                          "ClassE",
+                          "NumA",
+                          "ClassC",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "DateA",
+                        "DateB",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "ClassB",
+                        "ClassA",
+                        "ClassD",
+                        "NumA",
+                        "ClassC",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "DateA",
+                           "DateB",
+                           "Status",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’achat",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date de mise au rebut",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom du modèle"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Fabricant",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Numéro de gestion de l’actif"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Utilisateur"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Lieu d’installation",
+                        "ChoicesText":  "Lieu d’installation 1\nLieu d’installation 2\nLieu d’installation 3\nLieu d’installation 4\nLieu d’installation 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix d’acquisition",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Inutilisé,Non commencé,status-new\n900,En cours d’utilisation,Utilisation,status-closed\n910,En réparation,Réparation,status-rejected\n920,Mise au rebut,Mise au rebut,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Type",
+                        "ChoicesText":  "Ordinateur portable\nOrdinateur de bureau\nTablette"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "N° de série"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassD",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassD",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassD",
+                  "TimeSeriesAggregateType":  "Total",
+                  "TimeSeriesValue":  "NumA",
+                  "KambanGroupByY":  "Owner",
+                  "KambanValue":  "NumA"
+              },
+    "EnableGantt":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

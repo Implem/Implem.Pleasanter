@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ConfirmSynchronize",
     "Type": 310,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bạn có chắc muốn đồng bộ dữ liệu không?"
+        },
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous vraiment synchroniser les données ?"
         }
     ]
 }

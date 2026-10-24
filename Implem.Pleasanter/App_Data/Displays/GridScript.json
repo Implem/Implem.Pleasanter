@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "GridScript",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bản thảo màn hình danh sách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Script de la grille"
         }
     ]
 }

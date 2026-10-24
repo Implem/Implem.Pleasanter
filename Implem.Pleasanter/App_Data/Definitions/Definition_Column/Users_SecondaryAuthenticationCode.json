@@ -17,5 +17,6 @@
     "LabelText_de": "Authentication Code",
     "LabelText_ko": "인증 코드",
     "LabelText_es": "Código de autenticación",
-    "LabelText_vn": "Mã xác thực"
+    "LabelText_vn": "Mã xác thực",
+    "LabelText_fr": "Code de vérification"
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phiên làm việc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Session"
         }
     ]
 }

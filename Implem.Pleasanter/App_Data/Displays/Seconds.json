@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Giây"
+        },
+        {
+            "Language": "fr",
+            "Body": "Secondes"
         }
     ]
 }

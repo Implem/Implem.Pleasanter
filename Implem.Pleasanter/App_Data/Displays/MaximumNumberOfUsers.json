@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Số lượng người dùng tối đa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre maximal d’utilisateurs"
         }
     ]
 }

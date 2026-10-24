@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApprovalRequestMessage",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Yêu cầu phê duyệt cho \" {0} \" đã được gửi."
+        },
+        {
+            "Language": "fr",
+            "Body": "La demande d’approbation de « {0} » a été envoyée."
         }
     ]
 }

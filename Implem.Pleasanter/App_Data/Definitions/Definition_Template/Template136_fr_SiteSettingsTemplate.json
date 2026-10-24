@@ -1,0 +1,155 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "DateA",
+                        "ClassA",
+                        "Gestionnaire",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "DateA",
+                          "ClassA",
+                          "Gestionnaire",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "NumD",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassA",
+    "LinkColumns":  [
+                        "DateA",
+                        "ClassA",
+                        "Gestionnaire",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "DateA",
+                           "ClassA",
+                           "Gestionnaire",
+                           "NumA",
+                           "NumB",
+                           "NumC",
+                           "NumD",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Bureau",
+                        "ChoicesText":  "Bureau 1\nBureau 2\nBureau 3\nBureau 4\nBureau 5",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Facture d’électricité",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "facture de gaz",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Facture d’eau",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Montant total",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Mois concerné",
+                        "ExportFormat":  "Ym"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumD"
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumB"
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumC"
+                         }
+                     ],
+    "Formulas":  {
+                     "Target":  "NumD",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "ColumnName":  "NumA",
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "ColumnName":  "NumB",
+                                                          "OperatorType":  1
+                                                      },
+                                                      {
+                                                          "ColumnName":  "NumC",
+                                                          "OperatorType":  1
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "DateA":  1
+                                       },
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "TimeSeriesAggregateType":  "Total",
+                  "TimeSeriesValue":  "NumD"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

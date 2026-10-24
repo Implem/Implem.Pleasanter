@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Type \"y\" (yes) if the license is correct, otherwise type \"n\" (no)."
+        },
+        {
+            "Language": "fr",
+            "Body": "Saisissez « y » (oui) si la licence est correcte, sinon « n » (non)."
         }
     ]
 }

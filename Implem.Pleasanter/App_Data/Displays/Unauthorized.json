@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Unauthorized",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể xác thực."
+        },
+        {
+            "Language": "fr",
+            "Body": "Autorisation impossible."
         }
     ]
 }

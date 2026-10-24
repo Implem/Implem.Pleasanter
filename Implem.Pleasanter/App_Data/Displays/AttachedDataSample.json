@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Mẫu dữ liệu đính kèm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Exemple de données jointes"
         }
     ]
 }

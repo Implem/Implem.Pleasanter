@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chú giải công cụ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Info-bulle"
         }
     ]
 }

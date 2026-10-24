@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EnterpriseEdition",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phiên bản doanh nghiệp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Édition Enterprise"
         }
     ]
 }

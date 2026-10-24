@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NumberWeekly",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tuần/Ngày trong tuần"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre d’éléments affichés par semaine"
         }
     ]
 }

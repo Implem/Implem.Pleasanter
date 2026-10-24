@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Subject",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chủ đề"
+        },
+        {
+            "Language": "fr",
+            "Body": "Objet"
         }
     ]
 }

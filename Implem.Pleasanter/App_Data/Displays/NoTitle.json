@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NoTitle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không có tiêu đề"
+        },
+        {
+            "Language": "fr",
+            "Body": "Sans titre"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng bộ lọc riêng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser le filtre personnel"
         }
     ]
 }

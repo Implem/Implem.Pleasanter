@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Xem trước các mục nhập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Aperçu de l’élément de saisie"
         }
     ]
 }

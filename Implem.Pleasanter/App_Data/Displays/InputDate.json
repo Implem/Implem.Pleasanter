@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ngày nhập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Saisir une date"
         }
     ]
 }

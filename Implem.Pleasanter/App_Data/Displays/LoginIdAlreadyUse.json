@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LoginIdAlreadyUse",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "ID đăng nhập này đã được sử dụng."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cet identifiant de connexion est déjà utilisé."
         }
     ]
 }

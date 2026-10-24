@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "RequiredPermission",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép các truy cập bắt buộc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autorisation requise"
         }
     ]
 }

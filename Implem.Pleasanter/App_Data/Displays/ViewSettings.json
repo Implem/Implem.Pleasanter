@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt hiển thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de vue"
         }
     ]
 }

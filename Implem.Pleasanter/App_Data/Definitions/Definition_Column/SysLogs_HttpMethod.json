@@ -24,5 +24,6 @@
     "LabelText_de": "HTTP-Methode",
     "LabelText_ko": "Http 방법",
     "LabelText_es": "Método Http",
-    "LabelText_vn": "Phương thức HTTP"
+    "LabelText_vn": "Phương thức HTTP",
+    "LabelText_fr": "Méthode HTTP"
 }

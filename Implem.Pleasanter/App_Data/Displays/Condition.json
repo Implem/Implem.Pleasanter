@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Condition",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Điều kiện"
+        },
+        {
+            "Language": "fr",
+            "Body": "Conditions"
         }
     ]
 }

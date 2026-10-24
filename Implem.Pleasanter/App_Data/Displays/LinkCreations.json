@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LinkCreations",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tạo mục liên kết"
+        },
+        {
+            "Language": "fr",
+            "Body": "Création d’éléments liés"
         }
     ]
 }

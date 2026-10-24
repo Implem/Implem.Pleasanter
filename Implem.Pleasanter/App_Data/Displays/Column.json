@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Column",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mục"
+        },
+        {
+            "Language": "fr",
+            "Body": "Colonne"
         }
     ]
 }

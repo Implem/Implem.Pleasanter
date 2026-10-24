@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng nút bộ lọc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser le bouton de filtre"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ConfirmSendMail",
     "Type": 310,
     "ClientScript": true,
@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Bạn có chắc muốn gửi email không?"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous vraiment envoyer cet e-mail ?"
         }
     ]
 }

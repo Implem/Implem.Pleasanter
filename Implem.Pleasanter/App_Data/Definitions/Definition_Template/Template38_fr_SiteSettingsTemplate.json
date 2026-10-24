@@ -1,0 +1,141 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "DateA",
+                        "DateB",
+                        "Status",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "Body",
+                          "DateA",
+                          "DateB",
+                          "Status",
+                          "ClassD",
+                          "ClassE",
+                          "ClassF",
+                          "ClassG",
+                          "ClassH",
+                          "ClassI",
+                          "ClassJ",
+                          "ClassK",
+                          "ClassL",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "DateA",
+                        "DateB",
+                        "Status",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Status",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom complet",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Téléphone"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "E-mail"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Lieu de travail",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Contenu professionnel"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de prise de fonction"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date de départ du poste"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "LabelText":  "État",
+                        "ChoicesText":  "100,En poste\n900,Départ du poste"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Entrepreneur"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Entrepreneur.Téléphone"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "Entrepreneur.Email"
+                    },
+                    {
+                        "ColumnName":  "ClassG",
+                        "LabelText":  "Supérieur hiérarchique"
+                    },
+                    {
+                        "ColumnName":  "ClassH",
+                        "LabelText":  "Commandant.Téléphone"
+                    },
+                    {
+                        "ColumnName":  "ClassI",
+                        "LabelText":  "E-mail du supérieur hiérarchique"
+                    },
+                    {
+                        "ColumnName":  "ClassJ",
+                        "LabelText":  "Où déposer une plainte"
+                    },
+                    {
+                        "ColumnName":  "ClassK",
+                        "LabelText":  "Adresse de traitement des réclamations : Téléphone"
+                    },
+                    {
+                        "ColumnName":  "ClassL",
+                        "LabelText":  "Adresse de traitement des réclamations : Email"
+                    }
+                ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme"
+              },
+    "TitleSeparator":  ")"
+}

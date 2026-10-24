@@ -1,0 +1,5 @@
+﻿Windows
+macOS
+Linux
+iOS
+Android

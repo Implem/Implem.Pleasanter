@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đăng lại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Publication"
         }
     ]
 }

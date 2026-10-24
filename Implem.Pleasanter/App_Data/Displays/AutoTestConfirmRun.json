@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Run the selected test case."
+        },
+        {
+            "Language": "fr",
+            "Body": "Exécuter le scénario de test sélectionné"
         }
     ]
 }

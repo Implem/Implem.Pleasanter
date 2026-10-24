@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BulkDelete",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xóa hàng loạt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Suppression groupée"
         }
     ]
 }

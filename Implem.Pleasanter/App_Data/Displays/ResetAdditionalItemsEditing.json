@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Lưu ý rằng việc chỉnh sửa mục bổ sung sẽ bị đặt lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez noter que la modification des éléments supplémentaires sera réinitialisée."
         }
     ]
 }

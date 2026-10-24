@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "New",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Tạo mới"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Nouveau"
         }
     ]
 }

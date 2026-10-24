@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sau khi xóa hàng loạt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Après suppression groupée"
         }
     ]
 }

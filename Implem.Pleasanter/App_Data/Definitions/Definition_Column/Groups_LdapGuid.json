@@ -23,5 +23,6 @@
     "LabelText_de": "LDAP GUID",
     "LabelText_ko": "LDAP GUID",
     "LabelText_es": "LDAP GUID",
-    "LabelText_vn": "LDAP GUID"
+    "LabelText_vn": "LDAP GUID",
+    "LabelText_fr": "GUID LDAP"
 }

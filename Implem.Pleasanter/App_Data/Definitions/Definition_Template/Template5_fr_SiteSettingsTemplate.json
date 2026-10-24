@@ -1,0 +1,96 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "ClassA",
+                        "ClassB",
+                        "TitleBody",
+                        "Comments",
+                        "Gestionnaire",
+                        "Owner",
+                        "StartTime",
+                        "CompletionTime",
+                        "WorkValue",
+                        "ProgressRate",
+                        "RemainingWorkValue",
+                        "Status",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "StartTime",
+                          "CompletionTime",
+                          "WorkValue",
+                          "ProgressRate",
+                          "RemainingWorkValue",
+                          "Status",
+                          "ClassC",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassA",
+                          "ClassB",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  [
+                         "ClassA",
+                         "ClassB",
+                         "Title"
+                     ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Processus de travail",
+                        "ChoicesText":  "Étape de travail 1\nÉtape de travail 2\nÉtape de travail 3\nÉtape de travail 4\nÉtape de travail 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Description du travail",
+                        "ChoicesText":  "Description du travail 1\nDescription du travail 2\nDescription du travail 3\nDescription du travail 4\nDescription du travail 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Équipe",
+                        "ChoicesText":  "Équipe 1\nÉquipe 2\nÉquipe 3\nÉquipe 4\nÉquipe 5"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "[NotGroupBy]",
+                             "Type":  1,
+                             "Target":  "WorkValue"
+                         },
+                         {
+                             "Id":  5,
+                             "GroupBy":  "[NotGroupBy]",
+                             "Type":  1,
+                             "Target":  "RemainingWorkValue"
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "Owner",
+                             "Type":  1,
+                             "Target":  "RemainingWorkValue"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassC",
+                  "TimeSeriesAggregateType":  "Total",
+                  "KambanGroupByY":  "ClassC"
+              },
+    "TitleSeparator":  "）"
+}

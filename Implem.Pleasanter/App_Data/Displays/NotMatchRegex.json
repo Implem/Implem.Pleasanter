@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NotMatchRegex",
     "Type": 240,
     "ClientScript": true,
@@ -28,6 +28,10 @@
         },
         {
             "Language": "vn",
+            "Body": "{0}"
+        },
+        {
+            "Language": "fr",
             "Body": "{0}"
         }
     ]

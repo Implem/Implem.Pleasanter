@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EditSettings",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thay đổi cài đặt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Modifier les paramètres"
         }
     ]
 }

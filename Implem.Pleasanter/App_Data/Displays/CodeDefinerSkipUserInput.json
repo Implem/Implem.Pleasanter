@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Skipped user input to determine whether to perform subsequent processing."
+        },
+        {
+            "Language": "fr",
+            "Body": "La saisie utilisateur pour déterminer si le traitement suivant doit être effectué a été ignorée."
         }
     ]
 }

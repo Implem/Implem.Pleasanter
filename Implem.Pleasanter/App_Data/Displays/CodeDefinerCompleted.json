@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CodeDefinerCompleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã hoàn thành tất cả các xử lí."
+        },
+        {
+            "Language": "fr",
+            "Body": "Tous les traitements sont terminés."
         }
     ]
 }

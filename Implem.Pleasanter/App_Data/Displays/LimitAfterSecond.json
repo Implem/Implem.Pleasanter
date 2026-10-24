@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LimitAfterSecond",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "1 giây sau"
+        },
+        {
+            "Language": "fr",
+            "Body": "Dans 1 seconde"
         }
     ]
 }

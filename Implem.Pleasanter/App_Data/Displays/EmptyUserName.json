@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EmptyUserName",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tên người dùng chưa được cài đặt."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le nom d’utilisateur n’est pas renseigné."
         }
     ]
 }

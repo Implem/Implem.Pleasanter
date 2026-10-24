@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Tháng này"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ce mois-ci"
         }
     ]
 }

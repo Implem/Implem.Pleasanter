@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép đặt lại chế độ xem"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser la réinitialisation de la vue"
         }
     ]
 }

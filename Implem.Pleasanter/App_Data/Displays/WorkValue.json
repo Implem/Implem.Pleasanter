@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Khối lượng công việc"
+        },
+        {
+            "Language": "fr",
+            "Body": "Charge de travail"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng đánh số tự động"
+        },
+        {
+            "Language": "fr",
+            "Body": "Format de numérotation automatique"
         }
     ]
 }

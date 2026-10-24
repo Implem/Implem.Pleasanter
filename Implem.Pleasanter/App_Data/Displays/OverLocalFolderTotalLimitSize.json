@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dung lượng đính kèm tối đa là {0} Mbyte."
+        },
+        {
+            "Language": "fr",
+            "Body": "La taille totale des pièces jointes ne peut pas dépasser {0} Mo."
         }
     ]
 }

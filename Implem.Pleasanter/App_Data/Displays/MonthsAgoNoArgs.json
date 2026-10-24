@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "tháng trước"
+        },
+        {
+            "Language": "fr",
+            "Body": "mois plus tôt"
         }
     ]
 }

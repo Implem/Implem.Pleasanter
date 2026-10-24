@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kiểm soát css"
+        },
+        {
+            "Language": "fr",
+            "Body": "CSS de contrôle"
         }
     ]
 }

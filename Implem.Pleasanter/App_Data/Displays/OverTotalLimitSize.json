@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OverTotalLimitSize",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dung lượng tối đa có thể đính kèm là {0}MB."
+        },
+        {
+            "Language": "fr",
+            "Body": "La taille totale des pièces jointes ne peut pas dépasser {0} Mo."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BurnDown",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Biểu đồ Burndown"
+        },
+        {
+            "Language": "fr",
+            "Body": "Graphique de burndown"
         }
     ]
 }

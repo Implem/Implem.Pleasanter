@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NoDuplication",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cấm trùng lặp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Les doublons sont interdits."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApprovalMailTitle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Email thông báo phê duyệt {0}"
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} Notification d’approbation"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Thursday",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thứ năm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Jeudi"
         }
     ]
 }

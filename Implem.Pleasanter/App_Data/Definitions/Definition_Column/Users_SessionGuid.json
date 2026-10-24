@@ -18,5 +18,6 @@
     "LabelText_de": "Sitzungs-GUID",
     "LabelText_ko": "세션 GUID",
     "LabelText_es": "GUID de sesión",
-    "LabelText_vn": "GUID Phiên làm việc"
+    "LabelText_vn": "GUID Phiên làm việc",
+    "LabelText_fr": "Identifiant de session"
 }

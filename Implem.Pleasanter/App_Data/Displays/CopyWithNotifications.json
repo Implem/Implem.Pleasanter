@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sao chép bằng thông báo"
+        },
+        {
+            "Language": "fr",
+            "Body": "Copier avec les notifications"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LimitAfterMonths",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0} tháng sau"
+        },
+        {
+            "Language": "fr",
+            "Body": "Dans {0} mois"
         }
     ]
 }

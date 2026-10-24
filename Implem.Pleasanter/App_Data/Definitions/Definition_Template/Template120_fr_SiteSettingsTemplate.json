@@ -1,0 +1,219 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassB",
+                        "ClassA",
+                        "TitleBody",
+                        "Comments",
+                        "NumE",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassB",
+                          "ClassA",
+                          "Gestionnaire",
+                          "Owner",
+                          "NumE",
+                          "Body",
+                          "NumA",
+                          "DescriptionA",
+                          "NumB",
+                          "DescriptionB",
+                          "NumC",
+                          "DescriptionC",
+                          "NumD",
+                          "DescriptionD"
+                      ],
+    "TitleColumns":  [
+                         "ClassB",
+                         "ClassA"
+                     ],
+    "LinkColumns":  [
+                        "ClassB",
+                        "ClassA",
+                        "NumE",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "NumE",
+                           "NumA",
+                           "NumB",
+                           "NumC",
+                           "NumD",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Ressources de gestion",
+                        "ChoicesText":  "Développement de produits\ncommercialisation\ngestion\nressources humaines\nfonds"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Synthèse"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Valeur économique (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Rareté (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Difficulté à imiter (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionD",
+                        "LabelText":  "Organisation (contenu)"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Valeur économique (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Rareté (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Difficulté à imiter (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Organisation (évaluation)",
+                        "ControlType":  "Spinner",
+                        "Max":  5.0
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Note totale",
+                        "EditorReadOnly":  true
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "ClassB",
+                             "Type":  1,
+                             "Target":  "NumE"
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumE"
+                         }
+                     ],
+    "Formulas":  {
+                     "Target":  "NumE",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "OperatorType":  0,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumA",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumB",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumC",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      },
+                                                      {
+                                                          "OperatorType":  1,
+                                                          "Children":  {
+                                                                           "ColumnName":  "NumD",
+                                                                           "OperatorType":  0
+                                                                       }
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "ClassB":  0,
+                                           "ClassA":  0
+                                       },
+                  "TimeSeriesGroupBy":  "ClassB",
+                  "TimeSeriesAggregateType":  "Total",
+                  "TimeSeriesValue":  "NumE"
+              },
+    "EnableCalendar":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

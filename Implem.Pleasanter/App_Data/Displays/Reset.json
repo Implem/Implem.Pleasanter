@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Reset",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài lại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Réinitialiser"
         }
     ]
 }

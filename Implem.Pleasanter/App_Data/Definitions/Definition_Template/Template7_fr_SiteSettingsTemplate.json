@@ -1,0 +1,90 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "Comments",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "ClassA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "Comments",
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassA"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime",
+                        "ClassA"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Catégorie du problème",
+                        "ChoicesText":  "Catégorie du problème 1\nCatégorie du problème 2\nCatégorie d\u0027affectation 3\nCatégorie d\u0027affectation 4\nCatégorie d\u0027affectation 5"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Non commencé,Non commencé,status-new\n150,Préparation,Préparation,status-preparation\n200,En cours,En cours,status-inprogress\n300,examen,Ré,status-review\n900,Terminé,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  0,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

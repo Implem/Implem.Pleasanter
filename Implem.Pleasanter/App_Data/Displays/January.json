@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "January",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "de",
             "Body": "Januar"
+        },
+        {
+            "Language": "fr",
+            "Body": "Janvier"
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Tên hiển thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nom affiché"
         }
     ]
 }

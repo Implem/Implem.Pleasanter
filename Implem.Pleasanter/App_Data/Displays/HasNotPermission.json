@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "HasNotPermission",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bạn không có quyền để thực hiện thao tác này."
+        },
+        {
+            "Language": "fr",
+            "Body": "Vous n’avez pas la permission d’effectuer cette opération."
         }
     ]
 }

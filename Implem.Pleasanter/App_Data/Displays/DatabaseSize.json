@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DatabaseSize",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0} lượng sử dụng cơ sở dữ liệu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utilisation de la base de données : {0}"
         }
     ]
 }

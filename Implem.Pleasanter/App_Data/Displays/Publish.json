@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Publish",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Công khai"
+        },
+        {
+            "Language": "fr",
+            "Body": "Publier"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Admin",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quản trị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Administrateur"
         }
     ]
 }

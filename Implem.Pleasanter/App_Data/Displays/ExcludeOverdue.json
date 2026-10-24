@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ExcludeOverdue",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không gửi quá hạn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Exclure les éléments en retard"
         }
     ]
 }

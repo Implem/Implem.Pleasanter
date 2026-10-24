@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Education",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giáo dục/Phát triển nguồn nhân lực"
+        },
+        {
+            "Language": "fr",
+            "Body": "Éducation / formation"
         }
     ]
 }

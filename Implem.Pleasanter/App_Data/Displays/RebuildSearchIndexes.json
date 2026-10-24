@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "RebuildSearchIndexes",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tạo lại các chỉ mục tìm kiếm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Reconstruire les index de recherche"
         }
     ]
 }

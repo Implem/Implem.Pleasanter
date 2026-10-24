@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NoWrap",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không bao ngoài"
+        },
+        {
+            "Language": "fr",
+            "Body": "Sans retour à la ligne"
         }
     ]
 }

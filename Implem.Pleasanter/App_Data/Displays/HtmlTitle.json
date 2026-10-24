@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tiêu đề HTML"
+        },
+        {
+            "Language": "fr",
+            "Body": "Titre HTML"
         }
     ]
 }

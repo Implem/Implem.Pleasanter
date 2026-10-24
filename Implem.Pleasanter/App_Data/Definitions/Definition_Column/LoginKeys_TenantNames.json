@@ -15,5 +15,6 @@
     "LabelText_de": "Mandanteninfo",
     "LabelText_ko": "테넌트 정보",
     "LabelText_es": "Información del inquilino",
-    "LabelText_vn": "Thông tin người thuê"
+    "LabelText_vn": "Thông tin người thuê",
+    "LabelText_fr": "Informations sur le tenant"
 }

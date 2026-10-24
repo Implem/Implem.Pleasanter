@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NotFound",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không tìm thấy thông tin chỉ định."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les informations indiquées sont introuvables."
         }
     ]
 }

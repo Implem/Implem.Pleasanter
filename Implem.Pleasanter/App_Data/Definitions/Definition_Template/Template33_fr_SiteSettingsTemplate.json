@@ -1,0 +1,141 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "DescriptionA",
+                        "Comments",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "DateA",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "DescriptionA",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "DateA",
+                          "Status",
+                          "Owner",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "DateA",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom du client"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date et heure de survenue",
+                        "DefaultInput":  "0",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Détails de la réponse/du traitement"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Détails de la plainte"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Nom du produit ou du service",
+                        "ChoicesText":  "Produit ou service 1\nProduit ou service 2\nProduit ou service 3\nProduit ou service 4\nProduit ou service 5"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Non commencé,Non commencé,status-new\n200,En cours de traitement,Contre,status-inprogress\n300,En attente de contact client,Ren,status-review\n900,Terminé,Terminé,status-closed\n910,En attente,En attente,status-rejected",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Responsable du traitement",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "étape",
+                        "ChoicesText":  "Avant la commande\nAprès la commande\nAprès la livraison"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Cause principale",
+                        "ChoicesText":  "Contre-soutien\nProduit\nlivraison\nFrais\nPublicité"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "Owner",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  5,
+                             "GroupBy":  "ClassD",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "DateA":  1
+                                       },
+                  "TimeSeriesGroupBy":  "ClassB",
+                  "KambanGroupByY":  "Owner"
+              },
+    "TitleSeparator":  ")"
+}

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nhiều lựa chọn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Sélections multiples"
         }
     ]
 }

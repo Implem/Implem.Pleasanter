@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "JSON"
+        },
+        {
+            "Language": "fr",
+            "Body": "JSON"
         }
     ]
 }

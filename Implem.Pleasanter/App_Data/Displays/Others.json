@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Khác"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autres"
         }
     ]
 }

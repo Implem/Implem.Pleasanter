@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "sử dụng bộ lọc tìm kiếm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser le filtre de recherche"
         }
     ]
 }

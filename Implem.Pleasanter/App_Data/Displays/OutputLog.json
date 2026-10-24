@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nhật ký đầu ra"
+        },
+        {
+            "Language": "fr",
+            "Body": "Journal d’exportation"
         }
     ]
 }

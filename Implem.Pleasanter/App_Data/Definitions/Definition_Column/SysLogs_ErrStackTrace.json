@@ -25,5 +25,6 @@
     "LabelText_de": "Fehlerstopp nachverfolgen",
     "LabelText_ko": "오류 막힘 추적",
     "LabelText_es": "Rastreo de bloqueo en error",
-    "LabelText_vn": "Dấu vết lỗi"
+    "LabelText_vn": "Dấu vết lỗi",
+    "LabelText_fr": "Trace de la pile d’appels"
 }

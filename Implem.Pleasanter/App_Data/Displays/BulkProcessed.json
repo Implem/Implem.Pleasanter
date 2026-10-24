@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0}: {1} mục đã được xử lý cùng một lúc."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} : {1} élément(s) traité(s) en une seule opération."
         }
     ]
 }

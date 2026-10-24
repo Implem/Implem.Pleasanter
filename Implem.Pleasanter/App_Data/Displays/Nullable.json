@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nullable"
+        },
+        {
+            "Language": "fr",
+            "Body": "Valeur nulle autorisée"
         }
     ]
 }

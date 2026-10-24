@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Đặc tả đường dẫn không hợp lệ. [{0}]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Chemin spécifié non valide : [{0}]."
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BroadMatchOfTitle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khớp một phần tiêu đề"
+        },
+        {
+            "Language": "fr",
+            "Body": "Correspondance étendue dans le titre"
         }
     ]
 }

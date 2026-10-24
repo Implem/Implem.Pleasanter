@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BadFormat",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng không hợp lệ.[{0}]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Format non valide. [{0}]"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApiKeyDeleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khóa API đã được xóa."
+        },
+        {
+            "Language": "fr",
+            "Body": "La clé API a été supprimée."
         }
     ]
 }

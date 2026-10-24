@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép xử lý hàng loạt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser le traitement groupé"
         }
     ]
 }

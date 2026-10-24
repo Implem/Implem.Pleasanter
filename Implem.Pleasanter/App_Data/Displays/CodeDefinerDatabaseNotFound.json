@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Database not found."
+        },
+        {
+            "Language": "fr",
+            "Body": "Base de données introuvable."
         }
     ]
 }

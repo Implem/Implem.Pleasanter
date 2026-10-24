@@ -1,0 +1,124 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "ClassA",
+                        "ClassC",
+                        "ClassB",
+                        "NumA",
+                        "ClassD",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "ClassC",
+                          "ClassB",
+                          "NumA",
+                          "ClassD",
+                          "DateA",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "ClassC",
+                        "ClassB",
+                        "NumA",
+                        "ClassD",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassA",
+                           "ClassC",
+                           "ClassB",
+                           "NumA",
+                           "ClassD",
+                           "DateA",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Catégorie de produit",
+                        "ChoicesText":  "Catégorie de produit 1\nCatégorie de produit 2\nCatégorie de produit 3\nCatégorie de produit 4\nCatégorie de produit 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Magasin",
+                        "ChoicesText":  "Magasin 1\nMagasin 2\nMagasin 3\nMagasin 4\nMagasin 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de l’enquête"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Entreprise concurrente",
+                        "ChoicesText":  "Entreprise concurrente 1\nEntreprise concurrente 2\nEntreprise concurrente 3\nEntreprise concurrente 4\nEntreprise concurrente 5"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Informations sur le stock",
+                        "ChoicesText":  "Assez\nIl n\u0027en reste que quelques-uns\nEn rupture de stock\ninconnu"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassA",
+                  "CrosstabAggregateType":  "Average",
+                  "TimeSeriesGroupBy":  "ClassA"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

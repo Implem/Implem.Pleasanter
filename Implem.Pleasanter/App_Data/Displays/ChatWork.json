@@ -1,9 +1,13 @@
-{
+﻿{
     "Id": "ChatWork",
     "Type": 110,
     "Languages": [
         {
             "Body": "ChatWork"
+        },
+        {
+            "Language": "fr",
+            "Body": "Chatwork"
         }
     ]
 }

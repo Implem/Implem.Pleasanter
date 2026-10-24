@@ -1,0 +1,117 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridColumns":  [
+                        "IssueId",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "NumA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "NumA",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Fabricant",
+                        "UseSearch":  true
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Nom du modèle"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date d’achat"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date d\u0027expiration",
+                        "DefaultInput":  "365",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Utilisateur"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Type",
+                        "ChoicesText":  "Imprimante\nbroyeur\nprojecteur\nAutre"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Lieu d’installation",
+                        "ChoicesText":  "Lieu d’installation 1\nLieu d’installation 2\nLieu d’installation 3\nLieu d’installation 4\nLieu d’installation 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix d’acquisition",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Numéro de gestion de l’actif"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "ViewLatestId":  0,
+    "EnableGantt":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

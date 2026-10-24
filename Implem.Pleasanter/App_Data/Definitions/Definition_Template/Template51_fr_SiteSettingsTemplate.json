@@ -1,0 +1,104 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassA",
+                        "DateA",
+                        "ClassC",
+                        "ClassB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "DateA",
+                          "ClassC",
+                          "ClassB",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  [
+                         "ClassA",
+                         "DateA",
+                         "ClassC",
+                         "ClassB"
+                     ],
+    "LinkColumns":  [
+                        "ClassA",
+                        "DateA",
+                        "ClassC",
+                        "ClassB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date",
+                        "ValidateRequired":  true
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Magasin",
+                        "ChoicesText":  "Magasin 1\nMagasin 2\nMagasin 3\nMagasin 4\nMagasin 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Responsable",
+                        "ChoicesText":  "Responsable 1\nResponsable 2\nResponsable 3\nResponsable 4\nResponsable 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "changement",
+                        "ChoicesText":  "matin\nAprès-midi\nquart de nuit\nbonne nuit"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassC",
+                  "TimeSeriesGroupBy":  "ClassB"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

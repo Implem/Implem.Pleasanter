@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chuyển các nút lệnh trong khi đăng lại tự động"
+        },
+        {
+            "Language": "fr",
+            "Body": "Basculer les boutons de commande lors de la publication automatique"
         }
     ]
 }

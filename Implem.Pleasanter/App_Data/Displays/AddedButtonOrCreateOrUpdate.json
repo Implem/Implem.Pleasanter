@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Nút đã thêm/Tạo/Cập nhật"
+        },
+        {
+            "Language": "fr",
+            "Body": "Bouton ajouté / créé / mis à jour"
         }
     ]
 }

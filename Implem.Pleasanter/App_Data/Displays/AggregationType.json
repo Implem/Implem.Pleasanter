@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AggregationType",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại thống kê"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type d’agrégation"
         }
     ]
 }

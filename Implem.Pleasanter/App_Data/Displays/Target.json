@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Target",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đối tượng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Cible"
         }
     ]
 }

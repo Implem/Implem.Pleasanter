@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0}: Nhóm {1} đã được thêm, {2} đã được cập nhật. Thành viên nhóm Đã thêm {3} và cập nhật {4}."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} : groupe(s) ajouté(s) : {1}, mis à jour : {2}. Membres de groupe ajoutés : {3}, mis à jour : {4}."
         }
     ]
 }

@@ -26,5 +26,6 @@
     "LabelText_de": "Erlauben Sie das Verschieben vom Anfang der Seite",
     "LabelText_ko": "사이트 상단에서 이동 허용",
     "LabelText_es": "Permitir desplazarse desde la parte superior del sitio",
-    "LabelText_vn": "Cho phép di chuyển từ đầu trang"
+    "LabelText_vn": "Cho phép di chuyển từ đầu trang",
+    "LabelText_fr": "Autoriser le déplacement depuis la racine du site"
 }

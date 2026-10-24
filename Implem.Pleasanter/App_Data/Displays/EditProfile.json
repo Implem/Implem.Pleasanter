@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EditProfile",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chỉnh sửa hồ sơ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Modifier le profil"
         }
     ]
 }

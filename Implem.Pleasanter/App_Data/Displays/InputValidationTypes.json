@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại xác thực đầu vào"
+        },
+        {
+            "Language": "fr",
+            "Body": "Types de validation de saisie"
         }
     ]
 }

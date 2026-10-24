@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "cho phép xóa lịch sử"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser la suppression définitive de l’historique"
         }
     ]
 }

@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Phủ định"
+        },
+        {
+            "Language": "fr",
+            "Body": "Négatif"
         }
     ]
 }

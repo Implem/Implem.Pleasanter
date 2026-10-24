@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Day",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ngày"
+        },
+        {
+            "Language": "fr",
+            "Body": "Jour"
         }
     ]
 }

@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Trial period has expired. You can not rerun."
+        },
+        {
+            "Language": "fr",
+            "Body": "La période d’essai a expiré. Vous ne pouvez pas la relancer."
         }
     ]
 }

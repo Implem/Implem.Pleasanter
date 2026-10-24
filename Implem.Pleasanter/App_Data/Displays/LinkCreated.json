@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LinkCreated",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Liên kết đã được tạo."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le lien a été créé."
         }
     ]
 }

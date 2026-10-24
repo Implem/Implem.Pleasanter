@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AllowedUsers",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Người dùng được phép"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utilisateurs autorisés"
         }
     ]
 }

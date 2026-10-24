@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bình luận"
+        },
+        {
+            "Language": "fr",
+            "Body": "Commentaires"
         }
     ]
 }

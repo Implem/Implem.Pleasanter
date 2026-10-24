@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Copy",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Sao chép"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Copier"
         }
     ]
 }

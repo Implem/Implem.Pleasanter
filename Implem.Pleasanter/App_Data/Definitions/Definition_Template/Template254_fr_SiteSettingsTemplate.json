@@ -1,0 +1,130 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassH",
+                        "ClassG",
+                        "ClassD",
+                        "ClassE",
+                        "ClassF",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "DateC",
+                          "ClassB",
+                          "ClassC",
+                          "ClassE",
+                          "ClassF",
+                          "ClassG",
+                          "ClassD",
+                          "ClassH",
+                          "DescriptionA",
+                          "Body",
+                          "DateA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassH",
+                        "ClassG",
+                        "ClassD",
+                        "ClassE",
+                        "ClassF",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Fichiers joints"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Phonetic"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Sex",
+                        "ChoicesText":  "Male\nFemale"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Profession"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du client",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "E-mail"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Code postal"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "Address",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassG",
+                        "LabelText":  "Telephone"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’enregistrement"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarks"
+                    },
+                    {
+                        "ColumnName":  "DateC",
+                        "LabelText":  "Birthday"
+                    },
+                    {
+                        "ColumnName":  "ClassH",
+                        "LabelText":  "Classement du client",
+                        "ChoicesText":  "A\nB\nC\nD\nE"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Historique des achats"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "ClassB",
+                         "Type":  0,
+                         "Target":  ""
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "Standard",
+                  "CrosstabGroupByX":  "DateA",
+                  "TimeSeriesGroupBy":  "ClassB"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

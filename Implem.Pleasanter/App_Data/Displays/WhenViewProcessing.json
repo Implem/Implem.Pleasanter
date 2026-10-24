@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khi xử lí hiển thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Lors du traitement de la vue"
         }
     ]
 }

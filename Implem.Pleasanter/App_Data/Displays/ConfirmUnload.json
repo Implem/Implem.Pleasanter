@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ConfirmUnload",
     "Type": 310,
     "ClientScript": true,
@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Bạn có chắc muốn rời khỏi trang web này không? Thay đổi của bạn có thể sẽ không được lưu."
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Voulez-vous vraiment quitter cette page ? Les modifications apportées risquent de ne pas être enregistrées."
         }
     ]
 }

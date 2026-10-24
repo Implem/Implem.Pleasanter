@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Thủ công"
+        },
+        {
+            "Language": "fr",
+            "Body": "Manuel"
         }
     ]
 }

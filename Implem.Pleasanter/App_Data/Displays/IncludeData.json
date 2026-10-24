@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bao gồm dữ liệu"
+        },
+        {
+            "Language": "fr",
+            "Body": "Inclure les données"
         }
     ]
 }

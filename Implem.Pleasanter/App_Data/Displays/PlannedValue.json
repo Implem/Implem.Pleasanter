@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "PlannedValue",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dự tính"
+        },
+        {
+            "Language": "fr",
+            "Body": "Valeur planifiée"
         }
     ]
 }

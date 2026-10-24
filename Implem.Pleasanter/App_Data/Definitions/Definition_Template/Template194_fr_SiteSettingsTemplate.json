@@ -1,0 +1,136 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "TitleBody",
+                        "DateA",
+                        "NumA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumB",
+                        "ClassD",
+                        "ClassE",
+                        "ClassF",
+                        "ClassG",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "DateA",
+                          "NumA",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "NumB",
+                          "ClassE",
+                          "ClassF",
+                          "ClassG",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "DateA",
+                        "NumA",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumB",
+                        "ClassD",
+                        "ClassE",
+                        "ClassF",
+                        "ClassG",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Artiste"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Genre",
+                        "ChoicesText":  "musique japonaise\nMusique occidentale\nK-POP\nmusique de danse\nenvelopper\nreggae\njazz\nclassique"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Éditeur"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Vendeur"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Nombre de morceaux",
+                        "Unit":  "chanson"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Durée d\u0027enregistrement"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "Référence fabricant"
+                    },
+                    {
+                        "ColumnName":  "ClassG",
+                        "LabelText":  "Code JAN"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Contenu"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabAggregateType":  "Count",
+                  "TimeSeriesGroupBy":  "ClassB"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

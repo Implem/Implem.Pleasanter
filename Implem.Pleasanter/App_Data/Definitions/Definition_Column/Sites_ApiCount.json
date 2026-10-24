@@ -17,5 +17,6 @@
     "LabelText_de": "API zählen",
     "LabelText_ko": "API 수",
     "LabelText_es": "Recuento de API",
-    "LabelText_vn": "Số lượng yêu cầu API"
+    "LabelText_vn": "Số lượng yêu cầu API",
+    "LabelText_fr": "Nombre d’appels API"
 }

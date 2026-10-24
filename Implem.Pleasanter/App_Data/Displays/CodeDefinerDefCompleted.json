@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CodeDefinerDefCompleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã hoàn thành xử lí tạo định nghĩa code."
+        },
+        {
+            "Language": "fr",
+            "Body": "La définition du code a été créée."
         }
     ]
 }

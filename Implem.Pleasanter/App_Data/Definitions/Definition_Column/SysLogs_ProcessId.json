@@ -17,5 +17,6 @@
     "LabelText_de": "Prozess-ID",
     "LabelText_ko": "프로세스 ID",
     "LabelText_es": "ID de proceso",
-    "LabelText_vn": "ID Xử lí"
+    "LabelText_vn": "ID Xử lí",
+    "LabelText_fr": "ID du processus"
 }

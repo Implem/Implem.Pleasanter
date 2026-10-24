@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SentMail",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Email đã gửi"
+        },
+        {
+            "Language": "fr",
+            "Body": "E-mail envoyé"
         }
     ]
 }

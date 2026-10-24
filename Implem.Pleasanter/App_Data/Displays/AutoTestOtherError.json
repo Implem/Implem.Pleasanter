@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Other errors."
+        },
+        {
+            "Language": "fr",
+            "Body": "Autres erreurs"
         }
     ]
 }

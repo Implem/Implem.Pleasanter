@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "General",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thông thường"
+        },
+        {
+            "Language": "fr",
+            "Body": "Général"
         }
     ]
 }

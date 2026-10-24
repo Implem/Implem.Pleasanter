@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DecimalPlaces",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Số chữ số sau dấu thập phân"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre de décimales"
         }
     ]
 }

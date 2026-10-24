@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ProductName",
     "Type": 110,
     "Languages": [
@@ -27,6 +27,10 @@
         },
         {
             "Language": "vn",
+            "Body": "Pleasanter"
+        },
+        {
+            "Language": "fr",
             "Body": "Pleasanter"
         }
     ]

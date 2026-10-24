@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Expected content."
+        },
+        {
+            "Language": "fr",
+            "Body": "Contenu attendu"
         }
     ]
 }

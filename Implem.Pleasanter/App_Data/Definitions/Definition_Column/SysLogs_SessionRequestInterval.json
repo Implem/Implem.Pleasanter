@@ -17,5 +17,6 @@
     "LabelText_de": "Sitzungsabrufintervall",
     "LabelText_ko": "세션 요청 간격",
     "LabelText_es": "Intervalo de solicitud de sesión",
-    "LabelText_vn": "Khoảng thời gian yêu cầu phiên làm việc"
+    "LabelText_vn": "Khoảng thời gian yêu cầu phiên làm việc",
+    "LabelText_fr": "Intervalle entre les requêtes de la session"
 }

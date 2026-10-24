@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ToDisable",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Vô hiệu hóa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Désactiver"
         }
     ]
 }

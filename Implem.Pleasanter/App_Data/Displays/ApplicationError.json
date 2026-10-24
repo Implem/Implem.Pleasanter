@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApplicationError",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đã có sự cố xảy ra trong ứng dụng."
+        },
+        {
+            "Language": "fr",
+            "Body": "Un problème est survenu dans l’application."
         }
     ]
 }

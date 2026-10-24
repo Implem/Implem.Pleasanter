@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Một tác vụ khác đang được xử lý, vui lòng thực hiện nó sau."
+        },
+        {
+            "Language": "fr",
+            "Body": "Une autre tâche est en cours d’exécution. Veuillez réessayer plus tard."
         }
     ]
 }

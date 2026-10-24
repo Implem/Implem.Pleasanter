@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Execution calue."
+        },
+        {
+            "Language": "fr",
+            "Body": "Valeur d’exécution"
         }
     ]
 }

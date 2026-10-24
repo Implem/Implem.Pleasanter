@@ -1,0 +1,133 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassC",
+                        "Title",
+                        "Status",
+                        "StartTime",
+                        "CompletionTime",
+                        "ClassB",
+                        "ClassA",
+                        "Gestionnaire",
+                        "ClassD",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "ClassC",
+                          "Title",
+                          "ClassB",
+                          "ClassA",
+                          "StartTime",
+                          "CompletionTime",
+                          "Body",
+                          "Status",
+                          "Gestionnaire",
+                          "ClassD",
+                          "DescriptionA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ClassC",
+                        "Title",
+                        "Status",
+                        "StartTime",
+                        "CompletionTime",
+                        "ClassB",
+                        "ClassA",
+                        "Gestionnaire",
+                        "ClassD",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "ClassC",
+                           "TitleBody",
+                           "Status",
+                           "StartTime",
+                           "CompletionTime",
+                           "ClassB",
+                           "ClassA",
+                           "Gestionnaire",
+                           "ClassD",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date de location"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date de retour prévue"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "200,En cours d’utilisation,Utilisation,status-inprogress\n900,Disponible,Vide,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Utilisateur",
+                        "ChoicesText":  "Utilisateur 1\nUtilisateur 2\nUtilisateur 3\nUtilisateur 4\nUtilisateur 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Affiliation des utilisateurs",
+                        "ChoicesText":  "Affiliation de l\u0027utilisateur 1\nAffiliation des utilisateurs 2\nAffiliation des utilisateurs 3\nAffiliation des utilisateurs 4\nAffiliation des utilisateurs 5"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom de l\u0027équipement"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Motif"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Numéro de gestion"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Lieu de stockage",
+                        "ChoicesText":  "Lieu de stockage 1\nLieu de stockage 2\nLieu de stockage 3\nLieu de stockage 4\nLieu de stockage 5"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "Status",
+                         "Type":  0,
+                         "Target":  ""
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "ClassC":  0
+                                       }
+              },
+    "EnableBurnDown":  false,
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

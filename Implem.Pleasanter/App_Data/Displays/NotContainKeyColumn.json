@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nó không chứa cột chính."
+        },
+        {
+            "Language": "fr",
+            "Body": "La colonne clé est manquante."
         }
     ]
 }

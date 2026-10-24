@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giá trị đầu vào"
+        },
+        {
+            "Language": "fr",
+            "Body": "Valeur saisie"
         }
     ]
 }

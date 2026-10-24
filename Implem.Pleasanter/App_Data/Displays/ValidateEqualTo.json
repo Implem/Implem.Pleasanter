@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ValidateEqualTo",
     "Type": 410,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Văn bản đã nhập không khớp."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le texte saisi ne correspond pas."
         }
     ]
 }

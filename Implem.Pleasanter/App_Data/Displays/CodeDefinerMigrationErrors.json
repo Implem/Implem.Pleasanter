@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CodeDefinerMigrationErrors",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quá trình di chuyển đã hoàn tất, nhưng một số dữ liệu gặp lỗi. Xem {0}."
+        },
+        {
+            "Language": "fr",
+            "Body": "La migration est terminée, mais certaines données ont rencontré des erreurs. Consultez {0}."
         }
     ]
 }

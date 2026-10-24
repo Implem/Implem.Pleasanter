@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SamplesDisplayed",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Màn hình ví dụ của mẫu được chọn đã hiển thị. Xin mời ấn nút \"Tạo mới\" để sử dụng mẫu này."
+        },
+        {
+            "Language": "fr",
+            "Body": "Un aperçu du modèle sélectionné est affiché. Cliquez sur Créer pour utiliser ce modèle."
         }
     ]
 }

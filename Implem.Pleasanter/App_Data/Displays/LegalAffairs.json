@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LegalAffairs",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Vấn đề pháp lí"
+        },
+        {
+            "Language": "fr",
+            "Body": "Affaires juridiques"
         }
     ]
 }

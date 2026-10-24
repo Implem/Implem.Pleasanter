@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "AuthenticationCode",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mã xác thực"
+        },
+        {
+            "Language": "fr",
+            "Body": "Code d’authentification"
         }
     ]
 }

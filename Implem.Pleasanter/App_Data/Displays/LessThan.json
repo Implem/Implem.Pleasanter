@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LessThan",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nhỏ hơn {0}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Moins de {0}"
         }
     ]
 }

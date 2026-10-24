@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sự bảo trì"
+        },
+        {
+            "Language": "fr",
+            "Body": "Maintenance"
         }
     ]
 }

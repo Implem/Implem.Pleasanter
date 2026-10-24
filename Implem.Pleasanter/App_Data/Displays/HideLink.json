@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ẩn liên kết"
+        },
+        {
+            "Language": "fr",
+            "Body": "Masquer le lien"
         }
     ]
 }

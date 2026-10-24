@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "RecordBody",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Nội dung bản ghi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Contenu de l’enregistrement"
         }
     ]
 }

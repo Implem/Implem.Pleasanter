@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Giá trị số"
+        },
+        {
+            "Language": "fr",
+            "Body": "Valeur numérique"
         }
     ]
 }

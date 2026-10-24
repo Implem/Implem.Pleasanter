@@ -1,4 +1,4 @@
-{
+﻿{
     "id": "HourMinute",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "thời gian"
+        },
+        {
+            "Language": "fr",
+            "Body": "Heure et minute"
         }
     ]
 }

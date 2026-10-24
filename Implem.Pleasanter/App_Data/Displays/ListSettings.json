@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ListSettings",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt danh sách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de liste"
         }
     ]
 }

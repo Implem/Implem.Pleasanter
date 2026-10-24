@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giữa nhãn và kiểm soát"
+        },
+        {
+            "Language": "fr",
+            "Body": "Entre le libellé et le contrôle"
         }
     ]
 }

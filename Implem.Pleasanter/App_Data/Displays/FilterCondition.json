@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sắp xếp điều kiện"
+        },
+        {
+            "Language": "fr",
+            "Body": "Condition de filtre"
         }
     ]
 }

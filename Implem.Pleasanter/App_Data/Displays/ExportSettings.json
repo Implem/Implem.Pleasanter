@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Cài đặt xuất dữ liệu"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Paramètres d’exportation"
         }
     ]
 }

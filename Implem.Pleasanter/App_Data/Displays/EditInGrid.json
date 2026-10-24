@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EditInGrid",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chỉnh sửa trong màn hình danh sách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Modifier dans la grille"
         }
     ]
 }

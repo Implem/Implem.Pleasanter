@@ -1,0 +1,224 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassD",
+                        "ClassE",
+                        "ClassC",
+                        "DateA",
+                        "NumA",
+                        "NumC",
+                        "NumD",
+                        "NumF",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "ClassB",
+                          "ClassD",
+                          "ClassE",
+                          "NumB",
+                          "NumE",
+                          "DateA",
+                          "ClassC",
+                          "DescriptionB",
+                          "DescriptionC",
+                          "DescriptionD",
+                          "NumA",
+                          "NumC",
+                          "NumD",
+                          "NumF",
+                          "DescriptionA",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassD",
+                        "ClassE",
+                        "ClassC",
+                        "DateA",
+                        "NumA",
+                        "NumC",
+                        "NumD",
+                        "NumF",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "NumA",
+                           "NumC",
+                           "NumD",
+                           "NumF",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du magasin",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "zone",
+                        "ChoicesText":  "Zone 1\nZone 2\nZone 3\nzone 4"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Adresse",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "propriétaire"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Téléphone"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Nombre d\u0027employés",
+                        "Unit":  "Personne"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Zone du site",
+                        "Unit":  "㎡"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "ouvert"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Nombre de travailleurs à temps partiel",
+                        "Unit":  "Personne"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Nombre total de personnes",
+                        "EditorReadOnly":  true,
+                        "Unit":  "Personne"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Format de magasin",
+                        "ChoicesText":  "Format de magasin 1\nFormat de magasin 2\nFormat de magasin 3\nFormat de magasin 4\nFormat de magasin 5"
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "louer",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumF",
+                        "LabelText":  "ventes annuelles",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Stratégie du magasin"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Présentation du magasin"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Conditions de localisation"
+                    },
+                    {
+                        "ColumnName":  "DescriptionD",
+                        "LabelText":  "clientèle"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumC"
+                         },
+                         {
+                             "Id":  4,
+                             "GroupBy":  "ClassA",
+                             "Type":  1,
+                             "Target":  "NumD"
+                         }
+                     ],
+    "Formulas":  {
+                     "Target":  "NumD",
+                     "Formula":  {
+                                     "OperatorType":  0,
+                                     "Children":  [
+                                                      {
+                                                          "ColumnName":  "NumA",
+                                                          "OperatorType":  0
+                                                      },
+                                                      {
+                                                          "ColumnName":  "NumC",
+                                                          "OperatorType":  1
+                                                      }
+                                                  ]
+                                 },
+                     "Id":  1
+                 },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassE",
+                  "TimeSeriesGroupBy":  "ClassE",
+                  "KambanValue":  "NumD"
+              },
+    "TitleSeparator":  ")"
+}

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BulkDeleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0}: {1} mục đã bị xóa cùng một lúc."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} : {1} élément(s) supprimé(s) en une seule opération."
         }
     ]
 }

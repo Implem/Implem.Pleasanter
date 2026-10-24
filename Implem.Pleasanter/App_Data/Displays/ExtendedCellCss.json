@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ô CSS"
+        },
+        {
+            "Language": "fr",
+            "Body": "CSS de cellule"
         }
     ]
 }

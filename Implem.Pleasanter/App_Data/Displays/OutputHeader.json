@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "OutputHeader",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xuất tiêu đề"
+        },
+        {
+            "Language": "fr",
+            "Body": "En-tête d’exportation"
         }
     ]
 }

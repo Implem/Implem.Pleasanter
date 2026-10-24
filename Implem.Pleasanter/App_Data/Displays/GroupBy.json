@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "GroupBy",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phân loại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Regrouper par"
         }
     ]
 }

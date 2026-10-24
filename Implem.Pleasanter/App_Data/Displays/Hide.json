@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Hide",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không hiển thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Masquer"
         }
     ]
 }

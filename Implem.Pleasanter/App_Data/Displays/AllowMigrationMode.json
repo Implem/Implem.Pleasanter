@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cho phép chế độ di chuyển"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser le mode migration"
         }
     ]
 }

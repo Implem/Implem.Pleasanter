@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quyền cập nhật hồ sơ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Permission de mise à jour d’enregistrements"
         }
     ]
 }

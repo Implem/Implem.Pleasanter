@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DirectUrlCopied",
     "Type": 310,
     "ClientScript": true,
@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Sao chép vào khay nhớ tạm"
+        },
+        {
+            "Language": "fr",
+            "Body": "Copié dans le presse-papiers."
         }
     ]
 }

@@ -1,0 +1,143 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassD",
+                        "ClassA",
+                        "TitleBody",
+                        "DescriptionA",
+                        "ClassE",
+                        "ClassB",
+                        "NumA",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassE",
+                          "ClassD",
+                          "ClassA",
+                          "NumA",
+                          "ClassB",
+                          "DateA",
+                          "DateB",
+                          "Body",
+                          "DescriptionA",
+                          "DescriptionB",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "nom du projet"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Responsable",
+                        "ChoicesText":  "Responsable 1\nResponsable 2\nResponsable 3\nResponsable 4\nResponsable 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Rôle",
+                        "ChoicesText":  "membre\nChef d’équipe\nchef de projet"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Montant",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Début"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Fin"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Description du travail"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Catégorie",
+                        "ChoicesText":  "Catégorie 1\nCatégorie 2\nCatégorie 3\nCatégorie 4\nCatégorie 5"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Résultat"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassD",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassE",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "KambanGroupByX":  "ClassE",
+                  "KambanGroupByY":  "ClassA"
+              },
+    "TitleSeparator":  ")"
+}

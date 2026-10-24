@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "GroupByY",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phân loại theo hàng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Regrouper par ligne"
         }
     ]
 }

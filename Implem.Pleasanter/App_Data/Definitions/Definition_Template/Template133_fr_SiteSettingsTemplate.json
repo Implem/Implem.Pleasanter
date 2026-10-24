@@ -1,0 +1,148 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridColumns":  [
+                        "ClassF",
+                        "Title",
+                        "ClassA",
+                        "NumA",
+                        "NumB",
+                        "ClassE",
+                        "DateB",
+                        "UpdatedTime",
+                        "Updator"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassF",
+                          "Title",
+                          "ClassA",
+                          "NumA",
+                          "NumB",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "ClassE",
+                          "DescriptionA",
+                          "NumD",
+                          "DateA",
+                          "NumC",
+                          "Body",
+                          "DateB",
+                          "DescriptionB",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du bâtiment"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "numéro de chambre"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "dépôt de garantie"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Dépôt de garantie"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "argent clé"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Adresse",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "Type de propriété",
+                        "ChoicesText":  "Location (appartement, immeuble ou maison)\nLocal commercial à louer\nBureau à louer\nParking de location\nImmeubles locatifs, entrepôts locatifs, etc."
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "louer",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Frais de gestion, etc.",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Zone exclusive",
+                        "Unit":  "㎡"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Année de construction"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "accès"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "équipement"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Accès depuis la gare la plus proche",
+                        "Unit":  "Minute"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date du contrat"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassF",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassF",
+                             "Type":  2,
+                             "Target":  "NumA"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassF"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

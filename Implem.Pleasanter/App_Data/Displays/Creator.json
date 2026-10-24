@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Tác giả"
+        },
+        {
+            "Language": "fr",
+            "Body": "Créateur"
         }
     ]
 }

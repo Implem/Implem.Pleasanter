@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "PublishWarning",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bảng này mở công khai và cho phép người dùng chưa đăng nhập có thể xem."
+        },
+        {
+            "Language": "fr",
+            "Body": "Ce tableau est public et consultable par les utilisateurs non connectés."
         }
     ]
 }

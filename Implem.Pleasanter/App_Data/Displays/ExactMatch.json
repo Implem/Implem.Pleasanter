@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khớp chính xác"
+        },
+        {
+            "Language": "fr",
+            "Body": "Correspondance exacte"
         }
     ]
 }

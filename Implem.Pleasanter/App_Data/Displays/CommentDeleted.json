@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CommentDeleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bình luận đã được xóa."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le commentaire a été supprimé."
         }
     ]
 }

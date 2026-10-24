@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Liên kết"
+        },
+        {
+            "Language": "fr",
+            "Body": "Liens"
         }
     ]
 }

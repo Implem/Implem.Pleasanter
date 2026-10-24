@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bắt buộc nhập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Obligatoire"
         }
     ]
 }

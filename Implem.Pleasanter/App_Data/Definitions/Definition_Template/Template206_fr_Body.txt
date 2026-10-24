@@ -1,0 +1,97 @@
+﻿1,Êtres vivants
+2,Produits bruts d’origine animale
+3,Produits bruts d’origine végétale
+4,Minerais métalliques
+5,Minerais et roches non métalliques (hors charbon et pétrole)
+6,Charbon et produits dérivés
+7,Pétrole brut et produits pétroliers
+8,Électricité, gaz et eau
+9,Autres matières premières brutes et sources d’énergie
+10,Matières premières en cuir
+11,Matières premières en caoutchouc
+12,Matières premières en bois (y compris le bambou)
+13,Pâte à papier et papier
+14,Produits textiles de base
+15,Produits chimiques
+16,Produits chimiques de base
+17,Produits minéraux non métalliques de base
+18,Fer et cuivre
+19,Métaux précieux
+20,Métaux non ferreux
+21,Produits métalliques de base
+22,Fils et câbles
+23,Joints (hors joints de roulement)
+24,Bâtiments industriels et matériaux de construction
+25,Conteneurs de transport et de distribution et matériaux d’emballage auxiliaires (hors catégories indiquées séparément)
+26,Autres matières de base transformées et produits intermédiaires
+27,Chaudières
+28,Moteurs et turbines
+29,Équipements nucléaires
+30,Équipements électriques lourds
+31,Pompes, compresseurs, pompes à vide, ventilateurs et équipements hydrauliques et pneumatiques
+32,Machines de travail des métaux
+33,Manipulateurs, robots et équipements associés
+34,Outils, moules et cylindres
+35,Équipements de transport, de levage et de manutention, et équipements associés
+36,Machines textiles et machines à coudre
+37,Machines d’imprimerie et de traitement du papier
+38,Machines pour l’industrie chimique
+39,Machines minières et de construction
+40,Équipements pour l’agriculture, la sylviculture et la pêche
+41,Équipements de sécurité et de protection de l’environnement
+42,Tracteurs
+43,Autres machines industrielles
+44,Roulements, chaînes, engrenages, dispositifs de transmission de puissance et dispositifs de lubrification
+45,Robinetterie et raccords
+46,Véhicules ferroviaires
+47,Automobiles et motocyclettes (y compris les cyclomoteurs)
+48,Vélos
+49,Autres véhicules de transport
+50,Navires
+51,Aéronefs, fusées et satellites artificiels
+52,Ordinateurs et équipements associés
+53,Logiciels
+54,Équipements de télécommunication et équipements associés
+55,Composants électroniques
+56,Équipements frigorifiques et appareils associés
+57,Équipements pour le commerce et les services
+58,Distributeurs automatiques et appareils de service automatisés
+59,Machines et équipements de bureau
+60,Appareils électriques et électroniques grand public
+61,Appareils électroniques (hors ordinateurs et équipements associés, et équipements de télécommunication)
+62,Autres appareils électriques et électroniques
+63,Instruments de pesage, d’analyse, d’essai et de mesure (hors catégories indiquées séparément)
+64,Montres et horloges
+65,Équipements de physique, de chimie et d’optique
+66,Équipements médicaux
+67,Armes
+68,Outils d’artisanat et outils à main
+69,Produits alimentaires agricoles
+70,Produits alimentaires d’origine animale
+71,Produits alimentaires de la mer
+72,Produits alimentaires agricoles transformés
+73,Produits alimentaires transformés d’origine animale
+74,Produits alimentaires transformés issus de la pêche
+75,Autres produits alimentaires
+76,Boissons, glace et tabac manufacturé
+77,Ustensiles de cuisine et vaisselle (hors argenterie et articles métalliques similaires)
+78,Vêtements (hors chaussures et accessoires personnels)
+79,Accessoires personnels
+80,Chaussures
+81,Bijoux, petits accessoires personnels et argenterie
+82,Textiles d’ameublement
+83,Meubles
+84,Appareils de chauffage, de climatisation et de cuisson (sans électricité comme source de chaleur principale), et équipements sanitaires
+85,Autres articles ménagers
+86,Fournitures médicales et produits associés
+87,Médicaments et produits associés
+88,Cosmétiques, dentifrices, savons, détergents ménagers et produits chimiques ménagers
+89,Appareils de divertissement et jouets
+90,Instruments de musique
+91,Articles de sport (hors chaussures et uniformes)
+92,Imprimés, films, disques et autres supports enregistrés (hors logiciels)
+93,Papeterie, articles en papier, fournitures de bureau et matériel photographique
+94,Œuvres d’art, objets de collection et antiquités
+95,Autres articles de la vie courante et produits culturels
+96,Ferrailles et déchets
+97,Produits non classés ailleurs

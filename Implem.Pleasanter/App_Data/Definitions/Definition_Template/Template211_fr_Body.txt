@@ -1,0 +1,14 @@
+﻿10,A4
+20,Lettre
+30,Legal
+40,A5
+50,A5 (paysage)
+60,A6
+70,B5
+80,B5
+90,Carte postale
+100,Enveloppe à ouverture latérale (n° 4)
+110,Enveloppe à ouverture latérale grand format
+120,A3
+130,B4
+140,Autre

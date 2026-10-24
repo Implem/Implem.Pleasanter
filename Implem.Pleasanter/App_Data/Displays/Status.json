@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Trạng thái"
+        },
+        {
+            "Language": "fr",
+            "Body": "État"
         }
     ]
 }

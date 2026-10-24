@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Màn hình máy tính để bàn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Affichage sur ordinateur"
         }
     ]
 }

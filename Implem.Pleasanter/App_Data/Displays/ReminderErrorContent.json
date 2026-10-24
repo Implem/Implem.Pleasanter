@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Lời nhắc sau đây đã gây ra lỗi và bị xóa khỏi lịch biểu.\nTrang web mục tiêu: {0}(id: {1})\nLời nhắc mục tiêu: {2}(id: {3})\nThông báo lỗi: {4}\nTheo dõi ngăn xếp lỗi: {5}"
+        },
+        {
+            "Language": "fr",
+            "Body": "Le rappel suivant a provoqué une erreur et a été retiré de la planification.\nSite cible : {0} (ID : {1})\nRappel cible : {2} (ID : {3})\nMessage d’erreur : {4}\nTrace de la pile d’appels : {5}"
         }
     ]
 }

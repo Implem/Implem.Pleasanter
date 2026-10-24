@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cột bắt buộc đang không được thêm vào. Cột:{0}"
+        },
+        {
+            "Language": "fr",
+            "Body": "La colonne obligatoire est manquante. Colonne : {0}"
         }
     ]
 }

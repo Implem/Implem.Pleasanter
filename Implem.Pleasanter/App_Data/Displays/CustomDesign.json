@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CustomDesign",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thiết kế tùy chỉnh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Design personnalisé"
         }
     ]
 }

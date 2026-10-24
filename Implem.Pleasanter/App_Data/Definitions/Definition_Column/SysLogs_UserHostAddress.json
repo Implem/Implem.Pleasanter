@@ -24,5 +24,6 @@
     "LabelText_de": "Benutzeradresse",
     "LabelText_ko": "사용자 주소",
     "LabelText_es": "Dirección del usuario",
-    "LabelText_vn": "Địa chỉ người dùng"
+    "LabelText_vn": "Địa chỉ người dùng",
+    "LabelText_fr": "Adresse IP de l’utilisateur"
 }

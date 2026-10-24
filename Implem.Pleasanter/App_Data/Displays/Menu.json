@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Menu",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Danh mục"
+        },
+        {
+            "Language": "fr",
+            "Body": "Menu"
         }
     ]
 }

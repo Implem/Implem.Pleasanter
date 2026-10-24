@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DashboardGuide",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hướng dẫn bảng điều khiển"
+        },
+        {
+            "Language": "fr",
+            "Body": "Guide du tableau de bord"
         }
     ]
 }

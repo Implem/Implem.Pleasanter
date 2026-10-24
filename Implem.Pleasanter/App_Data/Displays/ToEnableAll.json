@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Để kích hoạt tất cả"
+        },
+        {
+            "Language": "fr",
+            "Body": "Tout activer"
         }
     ]
 }

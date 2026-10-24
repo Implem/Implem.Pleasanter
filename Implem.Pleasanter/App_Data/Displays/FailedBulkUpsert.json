@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0}:Một lỗi đã xảy ra. Đã thêm {1} mục và cập nhật {2} mục.\nChỉ mục:{3}\nChi tiết lỗi:{4}"
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} : une erreur est survenue. {1} élément(s) ajouté(s) et {2} mis à jour.\nIndex : {3}\nDétails de l’erreur : {4}"
         }
     ]
 }

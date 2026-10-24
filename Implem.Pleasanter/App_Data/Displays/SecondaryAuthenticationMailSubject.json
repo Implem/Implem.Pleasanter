@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SecondaryAuthenticationMailSubject",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mã xác thực Pleasanter"
+        },
+        {
+            "Language": "fr",
+            "Body": "Code d’authentification Pleasanter"
         }
     ]
 }

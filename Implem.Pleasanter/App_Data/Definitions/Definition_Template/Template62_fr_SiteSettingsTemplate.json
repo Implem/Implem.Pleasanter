@@ -1,0 +1,135 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumA",
+                        "NumB",
+                        "ClassD",
+                        "DateA",
+                        "ClassE",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "NumA",
+                          "NumB",
+                          "ClassD",
+                          "DateA",
+                          "ClassE",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumA",
+                        "NumB",
+                        "ClassD",
+                        "DateA",
+                        "ClassE",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "NumB",
+                           "ClassD",
+                           "ClassE",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Numéro de véhicule"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Fabricant",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type de véhicule",
+                        "ChoicesText":  "voiture\nMoto\nAutre"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Nom du véhicule"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix d\u0027achat",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Kilométrage",
+                        "Unit":  "km"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Historique des réparations",
+                        "ChoicesText":  "Oui\nNon"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’achat"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Magasins déployés",
+                        "ChoicesText":  "Magasin 1\nMagasin 2\nMagasin 3\nMagasin 4\nMagasin 5"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassE",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "ClassE",
+                  "TimeSeriesGroupBy":  "ClassE",
+                  "KambanGroupByX":  "ClassE",
+                  "KambanGroupByY":  "ClassB"
+              },
+    "TitleSeparator":  ")"
+}

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LicenseDeadline",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Thời hạn giấy phép"
+        },
+        {
+            "Language": "fr",
+            "Body": "Date d’expiration de la licence"
         }
     ]
 }

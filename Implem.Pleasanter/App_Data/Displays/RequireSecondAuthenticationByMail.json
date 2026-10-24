@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Xác thực bằng email"
+        },
+        {
+            "Language": "fr",
+            "Body": "Authentification par e-mail requise"
         }
     ]
 }

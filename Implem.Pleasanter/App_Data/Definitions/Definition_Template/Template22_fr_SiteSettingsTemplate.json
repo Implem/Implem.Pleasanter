@@ -1,0 +1,144 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "DescriptionA",
+                        "Comments",
+                        "ClassA",
+                        "DateA",
+                        "DateB",
+                        "NumA",
+                        "ClassB",
+                        "ClassC",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "ClassA",
+                          "Owner",
+                          "DateA",
+                          "DateB",
+                          "NumA",
+                          "ClassB",
+                          "ClassC",
+                          "DescriptionA",
+                          "DescriptionB",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "DateA",
+                        "DateB",
+                        "NumA",
+                        "ClassB",
+                        "ClassC",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassA",
+                           "DateA",
+                           "DateB",
+                           "NumA",
+                           "ClassB",
+                           "ClassC",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom de l\u0027opportunité"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Détails de l’opportunité commerciale"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom du client",
+                        "ChoicesText":  "Client 1\nClient 2\nClient 3\nClient 4\nClient 5"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Début"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Fin"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Montant de la négociation",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Phase d\u0027élimination",
+                        "ChoicesText":  "100,Demande commerciale,Tirer,status-new\n150,Proposition,Soumis,status-preparation\n200,Négociation,Échange,status-inprogress\n300,Contrat,Contrat,status-review"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Motif de la perte",
+                        "ChoicesText":  "Produit ou service\nPrix\nDate de livraison\nQualité\nDétails de la proposition\nRéalisations\nrelations\nAutre"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Détails de la cause de la défaite"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Commentaire"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabGroupByY":  "ClassB",
+                  "TimeSeriesGroupBy":  "ClassC"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

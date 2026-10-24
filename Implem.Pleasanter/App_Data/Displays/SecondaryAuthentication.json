@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SecondaryAuthentication",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mã xác thực được chỉ định không hợp lệ."
+        },
+        {
+            "Language": "fr",
+            "Body": "Le code d’authentification indiqué est incorrect."
         }
     ]
 }

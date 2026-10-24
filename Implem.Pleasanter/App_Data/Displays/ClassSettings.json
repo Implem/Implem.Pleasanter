@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt phân loại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de catégorie"
         }
     ]
 }

@@ -17,5 +17,6 @@
     "LabelText_de": "VirtualMemorySize64",
     "LabelText_ko": "VirtualMemorySize64",
     "LabelText_es": "VirtualMemorySize64",
-    "LabelText_vn": "VirtualMemorySize64"
+    "LabelText_vn": "VirtualMemorySize64",
+    "LabelText_fr": "Taille de la mémoire virtuelle (64 bits)"
 }

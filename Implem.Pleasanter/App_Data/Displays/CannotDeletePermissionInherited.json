@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bạn không thể xóa trang này vì cài đặt quyền được kế thừa bởi trang {0}."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de supprimer ce site, car le site {0} hérite de ses paramètres de permission."
         }
     ]
 }

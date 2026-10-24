@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tùy chỉnh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Personnalisé"
         }
     ]
 }

@@ -1,0 +1,149 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "ClassA",
+                        "NumA",
+                        "NumB",
+                        "DateA",
+                        "DateB",
+                        "DateC",
+                        "DateD",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "DescriptionA",
+                          "DescriptionB",
+                          "ClassA",
+                          "NumA",
+                          "NumB",
+                          "DateA",
+                          "DateB",
+                          "DateC",
+                          "DateD",
+                          "Status",
+                          "Owner",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassA",
+                        "NumA",
+                        "NumB",
+                        "DateA",
+                        "DateB",
+                        "DateC",
+                        "DateD",
+                        "Status",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "ClassA",
+                           "NumA",
+                           "NumB",
+                           "DateA",
+                           "DateB",
+                           "DateC",
+                           "DateD",
+                           "Status",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Exigences de recrutement"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Contenu éducatif"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Produit ou service",
+                        "ChoicesText":  "Produit ou service 1\nProduit ou service 2\nProduit ou service 3\nProduit ou service 4\nProduit ou service 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Nombre de candidatures",
+                        "Unit":  "Personne"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Capacité d’accueil",
+                        "Unit":  "Personne"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Début du recrutement"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Fin du recrutement"
+                    },
+                    {
+                        "ColumnName":  "DateC",
+                        "LabelText":  "Date et heure de début",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "DateD",
+                        "LabelText":  "Date et heure de fin",
+                        "EditorFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Avant l’événement,Précédent,status-new\n200,En cours,En cours,status-inprogress\n900,Fin,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Lieu"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateC",
+                  "CrosstabGroupByY":  "ClassA",
+                  "TimeSeriesGroupBy":  "ClassA",
+                  "KambanGroupByY":  "ClassA"
+              },
+    "TitleSeparator":  ")"
+}

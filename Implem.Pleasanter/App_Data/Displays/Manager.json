@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Người quản lí"
+        },
+        {
+            "Language": "fr",
+            "Body": "Responsable"
         }
     ]
 }

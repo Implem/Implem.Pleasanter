@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt mô tả"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de description"
         }
     ]
 }

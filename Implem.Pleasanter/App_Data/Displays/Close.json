@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đóng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Fermer"
         }
     ]
 }

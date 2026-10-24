@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CreatedTime",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Thời gian tạo"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Créé le"
         }
     ]
 }

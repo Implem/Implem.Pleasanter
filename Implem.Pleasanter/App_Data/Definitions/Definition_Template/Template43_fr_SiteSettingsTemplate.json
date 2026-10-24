@@ -1,0 +1,121 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "ClassE",
+                        "TitleBody",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassE",
+                          "Title",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "Body",
+                          "DescriptionB",
+                          "DescriptionA",
+                          "DateA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "ClassE",
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "ClassD",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "ClassE",
+                           "Title",
+                           "ClassA",
+                           "ClassB",
+                           "ClassC",
+                           "ClassD",
+                           "DateA",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom de l’entreprise",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom du service"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Responsable"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "E-mail"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Téléphone"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Type d’activité",
+                        "ChoicesText":  "Type d’activité 1\nType d’activité 2\nType d’activité 3\nType d’activité 4\nType d’activité 5"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Méthode de demande"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date d’enregistrement"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Conditions du contrat"
+                    }
+                ],
+    "Aggregations":  {
+                         "Id":  1,
+                         "GroupBy":  "ClassE",
+                         "Type":  0,
+                         "Target":  ""
+                     },
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "TimeSeriesGroupBy":  "ClassE"
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

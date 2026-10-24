@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Từ chối nhập dữ liệu trống."
+        },
+        {
+            "Language": "fr",
+            "Body": "Refuser l’importation des données vides"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CodeDefinerInsertTestDataCompleted",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dữ liệu kiểm thử đã được thêm vào."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les données de test ont été insérées."
         }
     ]
 }

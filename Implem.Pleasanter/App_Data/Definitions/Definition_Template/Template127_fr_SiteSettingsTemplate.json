@@ -1,0 +1,103 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "TitleBody",
+                        "Comments",
+                        "ClassB",
+                        "ClassC",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "DateA",
+                          "DateB",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassA",
+    "LinkColumns":  [
+                        "ResultId",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "ClassA",
+                           "ClassB",
+                           "ClassC",
+                           "DateA",
+                           "DateB",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom complet",
+                        "ChoicesText":  "Nom complet 1\nNom complet 2\nNom complet 3\nNom complet 4\nNom complet 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Aller au travail",
+                        "DefaultInput":  "0",
+                        "GridFormat":  "Ymdahm",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdhm"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Lieu de travail",
+                        "ChoicesText":  "emplacement 1\nemplacement 2\nemplacement 3\nemplacement 4\nemplacement 5"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Quitter le travail",
+                        "DefaultInput":  "0",
+                        "GridFormat":  "Ymdahm",
+                        "EditorFormat":  "Ymdhm",
+                        "ExportFormat":  "Ymdhm"
+                    }
+                ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "DateA":  1,
+                                           "ClassC":  1,
+                                           "ClassB":  1
+                                       }
+              },
+    "EnableTimeSeries":  false,
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

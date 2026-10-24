@@ -18,5 +18,6 @@
     "LabelText_de": "Passphrase",
     "LabelText_ko": "패스프레이즈",
     "LabelText_es": "Frase de la contraseña",
-    "LabelText_vn": "Cụm mật khẩu"
+    "LabelText_vn": "Cụm mật khẩu",
+    "LabelText_fr": "Phrase secrète"
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BulkRestored",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "\" {0} \" bản ghi đã được khôi phục."
+        },
+        {
+            "Language": "fr",
+            "Body": "« {0} » a été restauré."
         }
     ]
 }

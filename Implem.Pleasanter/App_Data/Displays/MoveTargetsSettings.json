@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "MoveTargetsSettings",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt đích đến"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres de destination"
         }
     ]
 }

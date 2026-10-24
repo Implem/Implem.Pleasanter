@@ -24,5 +24,6 @@
     "LabelText_de": "Anzahl der Anmeldungen",
     "LabelText_ko": "로그인 횟수",
     "LabelText_es": "N.º de inicios de sesión",
-    "LabelText_vn": "Số lần đăng nhập"
+    "LabelText_vn": "Số lần đăng nhập",
+    "LabelText_fr": "Nombre de connexions"
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ToEnable",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Kích hoạt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Activer"
         }
     ]
 }

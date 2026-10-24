@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Cột mặc định"
+        },
+        {
+            "Language": "fr",
+            "Body": "Colonnes par défaut"
         }
     ]
 }

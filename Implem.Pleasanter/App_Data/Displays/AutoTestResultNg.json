@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "NG"
+        },
+        {
+            "Language": "fr",
+            "Body": "ÉCHEC"
         }
     ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DemoMailTitle",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Giới thiệu sử dụng môi trường giả lập Pleasanter"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utilisation de l’environnement de démonstration Pleasanter"
         }
     ]
 }

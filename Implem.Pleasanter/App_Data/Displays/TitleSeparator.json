@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TitleSeparator",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dấu phân cách tiêu đề"
+        },
+        {
+            "Language": "fr",
+            "Body": "Séparateur de titre"
         }
     ]
 }

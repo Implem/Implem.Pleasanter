@@ -22,5 +22,6 @@
     "LabelText_de": "Assembly-Version",
     "LabelText_ko": "어셈블리 버전",
     "LabelText_es": "Versión del conjunto",
-    "LabelText_vn": "Phiên bản lắp ráp"
+    "LabelText_vn": "Phiên bản lắp ráp",
+    "LabelText_fr": "Version de l’assembly"
 }

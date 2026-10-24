@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "GridFormat",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Định dạng danh sách"
+        },
+        {
+            "Language": "fr",
+            "Body": "Format de grille"
         }
     ]
 }

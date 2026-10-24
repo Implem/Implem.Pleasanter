@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BulkMove",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Di chuyển hàng loạt"
+        },
+        {
+            "Language": "fr",
+            "Body": "Déplacement groupé"
         }
     ]
 }

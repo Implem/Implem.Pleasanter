@@ -1,0 +1,148 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumA",
+                        "DateA",
+                        "DateB",
+                        "Status",
+                        "NumB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "NumA",
+                          "DateA",
+                          "DateB",
+                          "Status",
+                          "NumB",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "NumA",
+                        "DateA",
+                        "DateB",
+                        "Status",
+                        "NumB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "DateB",
+                           "Status",
+                           "NumB",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Numéro de gestion"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "LabelText":  "Statut d\u0027entretien",
+                        "ChoicesText":  "100,En maintenance,Modéré,status-new\n900,Maintenu,Terminé,status-closed"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Fabricant",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type de véhicule",
+                        "ChoicesText":  "Voiture particulière\nAutobus\nVéhicule utilitaire\nVéhicule spécial lourd\nAutre"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Nom du véhicule"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Kilométrage",
+                        "Unit":  "km"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Année de fabrication"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date du prochain contrôle technique du véhicule"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateB",
+                  "KambanGroupByX":  "ClassA",
+                  "KambanGroupByY":  "ClassB",
+                  "KambanAggregateType":  "Average",
+                  "KambanValue":  "NumB",
+                  "KambanAggregationView":  true
+              },
+    "TitleSeparator":  ")"
+}

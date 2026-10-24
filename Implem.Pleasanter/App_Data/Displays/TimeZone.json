@@ -1,4 +1,4 @@
-{
+﻿{
     "id": "TimeZone",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Múi giờ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Fuseau horaire"
         }
     ]
 }

@@ -1,0 +1,173 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ResultId",
+                        "ClassF",
+                        "Title",
+                        "ClassH",
+                        "ClassA",
+                        "ClassB",
+                        "ClassD",
+                        "DateC",
+                        "NumA",
+                        "NumB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassF",
+                          "Title",
+                          "ClassH",
+                          "ClassA",
+                          "ClassB",
+                          "ClassC",
+                          "ClassD",
+                          "ClassE",
+                          "ClassG",
+                          "Body",
+                          "DateC",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "DateA",
+                          "DateB",
+                          "DescriptionB",
+                          "DescriptionA",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "ResultId",
+                        "Title",
+                        "ClassH",
+                        "DateA",
+                        "DateB",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "ClassH",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom de l’entreprise",
+                        "FieldCss":  "field-normal"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Code postal"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Adresse",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "représentant"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Téléphone"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "FAX"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "Secteur d’activité",
+                        "ChoicesText":  "A, Agriculture, Foresterie\nB,Pêche\nC. Mines,Industries extractives, carrières et extraction de gravier\nD.Industrie de la construction\nE,Industrie manufacturière\nF, électricité, gaz, approvisionnement en chaleur, industrie de l\u0027eau\nG,Information et communication\nH, Industrie des transports, Industrie postale\nI, Commerce de gros, Commerce de détail\nJ, Industrie financière, Industrie des assurances\nK, Activité immobilière, activité de location de biens\nL, Recherche universitaire, industrie des services professionnels/techniques\nM, Industrie de l\u0027hébergement, Restauration\nN, industrie des services liés à la vie, industrie du divertissement\nO, Éducation, industrie de soutien à l\u0027apprentissage\nP, soins médicaux, bien-être\nQ,Services composites\nR,Services non classés ailleurs\nS,Services publics (hors catégories classées ailleurs)\nT,Secteur non classé ailleurs"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de début de négociation"
+                    },
+                    {
+                        "ColumnName":  "DateB",
+                        "LabelText":  "Date de réalisation de la transaction"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Remarques particulières"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Profil de l\u0027entreprise"
+                    },
+                    {
+                        "ColumnName":  "ClassG",
+                        "LabelText":  "E-mail"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "capitale",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Nombre d\u0027employés"
+                    },
+                    {
+                        "ColumnName":  "DateC",
+                        "LabelText":  "Date d\u0027établissement"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Ventes",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Site web de l’entreprise"
+                    },
+                    {
+                        "ColumnName":  "ClassH",
+                        "LabelText":  "Classement du client",
+                        "ChoicesText":  "A\nB\nC\nD"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassH",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassF",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "DateA",
+                  "CrosstabAggregateType":  "Count",
+                  "TimeSeriesGroupBy":  "ClassH",
+                  "KambanGroupByX":  "ClassH",
+                  "KambanColumns":  15
+              },
+    "TitleSeparator":  ")"
+}

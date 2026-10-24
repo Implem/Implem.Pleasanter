@@ -1,9 +1,13 @@
-{
+﻿{
     "Id": "Hyphen",
     "Type": 110,
     "Languages": [
         {
             "Body": " --- "
+        },
+        {
+            "Language": "fr",
+            "Body": "Tiret"
         }
     ]
 }

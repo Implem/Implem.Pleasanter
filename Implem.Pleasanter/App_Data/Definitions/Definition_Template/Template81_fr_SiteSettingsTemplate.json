@@ -1,0 +1,154 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "ClassB",
+                        "ClassA",
+                        "ClassC",
+                        "ClassD",
+                        "NumA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassB",
+                          "ClassA",
+                          "ClassC",
+                          "ClassD",
+                          "NumA",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Owner",
+                        "Gestionnaire",
+                        "ClassB",
+                        "ClassA",
+                        "ClassC",
+                        "ClassD",
+                        "NumA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "StartTime",
+                        "LabelText":  "Date d’achat",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Date de renouvellement du contrat",
+                        "DefaultInput":  "365",
+                        "ExportFormat":  "Ymda"
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "LabelText":  "Utilisateur"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom du modèle"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Type",
+                        "ChoicesText":  "Téléphone mobile\ntéléphone intelligent\nrouteur mobile"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "fournisseur",
+                        "ChoicesText":  "Fournisseur d’accès 1\nFournisseur d’accès 2\nFournisseur d’accès 3\nFournisseur d’accès 4\nfournisseur 5"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Numéro de gestion de l’actif"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Prix d’acquisition",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Avant le contrat,Précédent,status-new\n900,Contracté,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Numéro"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "Status",
+                             "Type":  1,
+                             "Target":  "NumA"
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassC",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "TimeSeriesGroupBy":  "ClassB",
+                  "KambanGroupByY":  "Owner",
+                  "KambanValue":  "NumA"
+              },
+    "EnableGantt":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

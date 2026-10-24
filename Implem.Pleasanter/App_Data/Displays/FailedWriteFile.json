@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể đăng ký tệp đính kèm. Vui lòng xóa tệp đính kèm và thử đăng ký lại."
+        },
+        {
+            "Language": "fr",
+            "Body": "Échec de l’ajout de la pièce jointe. Supprimez-la, puis réessayez."
         }
     ]
 }

@@ -1,0 +1,7 @@
+﻿1,Ventes
+2,Relations publiques
+3,Planification et développement
+4,Technique et recherche
+5,Services généraux et affaires juridiques
+6,Ressources humaines
+7,Comptabilité et finances

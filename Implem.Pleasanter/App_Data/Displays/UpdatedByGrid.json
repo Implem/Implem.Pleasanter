@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "{0} mục đã được cập nhật."
+        },
+        {
+            "Language": "fr",
+            "Body": "{0} a été mis à jour."
         }
     ]
 }

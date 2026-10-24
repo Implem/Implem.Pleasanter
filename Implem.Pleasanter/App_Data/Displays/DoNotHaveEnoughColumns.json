@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "💡 Tôi không có đủ cột?"
+        },
+        {
+            "Language": "fr",
+            "Body": "💡 Vous manquez de colonnes ?"
         }
     ]
 }

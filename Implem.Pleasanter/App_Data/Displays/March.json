@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "March",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "de",
             "Body": "Marsch"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mars"
         }
     ]
 }

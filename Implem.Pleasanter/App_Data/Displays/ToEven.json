@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ToEven",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Làm tròn theo ngân hàng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Arrondi au pair"
         }
     ]
 }

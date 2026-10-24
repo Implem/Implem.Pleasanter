@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "EditScript",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bản thảo màn hình biên tập"
+        },
+        {
+            "Language": "fr",
+            "Body": "Script de l’écran de modification"
         }
     ]
 }

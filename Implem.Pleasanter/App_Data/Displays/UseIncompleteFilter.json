@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng bộ lọc chưa hoàn chỉnh"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser le filtre des éléments incomplets"
         }
     ]
 }

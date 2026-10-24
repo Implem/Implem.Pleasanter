@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NearCompletionTimeAfterDays",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Số ngày qua thời hạn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nombre de jours après l’échéance"
         }
     ]
 }

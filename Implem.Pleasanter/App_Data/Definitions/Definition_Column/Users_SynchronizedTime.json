@@ -21,5 +21,6 @@
     "LabelText_de": "Synchronisierte Zeit",
     "LabelText_ko": "동기화 된 시간",
     "LabelText_es": "Tempo sincronizzato",
-    "LabelText_vn": "Thời gian đồng bộ"
+    "LabelText_vn": "Thời gian đồng bộ",
+    "LabelText_fr": "Date de synchronisation"
 }

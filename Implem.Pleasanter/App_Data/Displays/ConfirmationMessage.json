@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "thông báo xác nhận"
+        },
+        {
+            "Language": "fr",
+            "Body": "Message de confirmation"
         }
     ]
 }

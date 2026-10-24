@@ -14,5 +14,6 @@
     "LabelText_de": "API deaktivieren",
     "LabelText_ko": "API 비활성화",
     "LabelText_es": "Deshabilitar API",
-    "LabelText_vn": "Tắt api"
+    "LabelText_vn": "Tắt api",
+    "LabelText_fr": "Désactiver l’API"
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LimitBeforeMonth",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quá 1 tháng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Il y a plus d’un mois"
         }
     ]
 }

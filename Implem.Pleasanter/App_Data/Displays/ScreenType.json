@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "loại màn hình"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type d’écran"
         }
     ]
 }

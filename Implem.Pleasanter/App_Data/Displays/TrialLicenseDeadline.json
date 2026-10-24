@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Thời gian dùng thử"
+        },
+        {
+            "Language": "fr",
+            "Body": "Période d’essai"
         }
     ]
 }

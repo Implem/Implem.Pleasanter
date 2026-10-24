@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Database configuration canceled."
+        },
+        {
+            "Language": "fr",
+            "Body": "La configuration de la base de données a été annulée."
         }
     ]
 }

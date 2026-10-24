@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Số lượng ứng dụng tùy chỉnh đã đạt đến giới hạn."
+        },
+        {
+            "Language": "fr",
+            "Body": "La limite du nombre d’applications personnalisées a été atteinte."
         }
     ]
 }

@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Lọc"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Filtrer"
         }
     ]
 }

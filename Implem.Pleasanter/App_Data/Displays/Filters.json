@@ -29,6 +29,11 @@
         {
             "Language": "vn",
             "Body": "Bộ lọc"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Filtres"
         }
     ]
 }

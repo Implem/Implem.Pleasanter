@@ -22,5 +22,6 @@
     "LabelText_de": "Binär-ID",
     "LabelText_ko": "바이너리 ID",
     "LabelText_es": "ID binario",
-    "LabelText_vn": "ID Nhị phân"
+    "LabelText_vn": "ID Nhị phân",
+    "LabelText_fr": "Identifiant binaire"
 }

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Project",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dự án"
+        },
+        {
+            "Language": "fr",
+            "Body": "Projet"
         }
     ]
 }

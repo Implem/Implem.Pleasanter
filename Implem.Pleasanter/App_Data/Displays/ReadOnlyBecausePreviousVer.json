@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ReadOnlyBecausePreviousVer",
     "Type": 220,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không thể cập nhật vì đang là phiên bản cũ."
+        },
+        {
+            "Language": "fr",
+            "Body": "Impossible de modifier une version précédente."
         }
     ]
 }

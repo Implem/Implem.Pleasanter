@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SiteName",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tên trang web"
+        },
+        {
+            "Language": "fr",
+            "Body": "Nom du site"
         }
     ]
 }

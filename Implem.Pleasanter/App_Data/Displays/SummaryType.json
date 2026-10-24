@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SummaryType",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại tổng hợp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type de récapitulatif"
         }
     ]
 }

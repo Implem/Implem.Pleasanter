@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "cho phép khôi phục lịch sử"
+        },
+        {
+            "Language": "fr",
+            "Body": "Autoriser la restauration de l’historique"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sau khi sao chép"
+        },
+        {
+            "Language": "fr",
+            "Body": "Après copie"
         }
     ]
 }

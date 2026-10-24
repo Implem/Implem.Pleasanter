@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Phản ứng nhanh nhẹn"
+        },
+        {
+            "Language": "fr",
+            "Body": "Adaptatif"
         }
     ]
 }

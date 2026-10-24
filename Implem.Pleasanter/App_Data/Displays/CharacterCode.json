@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CharacterCode",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Mã kí tự"
+        },
+        {
+            "Language": "fr",
+            "Body": "Code de caractère"
         }
     ]
 }

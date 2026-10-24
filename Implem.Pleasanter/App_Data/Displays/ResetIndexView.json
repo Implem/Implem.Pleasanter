@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Đặt lại \u0022Chỉ mục\u0022 \u0022Bộ lọc\u0022 và \u0022Bộ sắp xếp\u0022 vì trang tham chiếu đã được thay đổi."
+        },
+        {
+            "Language": "fr",
+            "Body": "L’index, les filtres et les tris sont réinitialisés, car le site de référence a changé."
         }
     ]
 }

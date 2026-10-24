@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "The following \"{0}\" table columns are reduced."
+        },
+        {
+            "Language": "fr",
+            "Body": "Les colonnes de la table « {0} » suivantes ont été réduites."
         }
     ]
 }

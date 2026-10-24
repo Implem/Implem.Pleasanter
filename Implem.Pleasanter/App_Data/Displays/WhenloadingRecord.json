@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khi tải bản ghi"
+        },
+        {
+            "Language": "fr",
+            "Body": "Lors du chargement d’un enregistrement"
         }
     ]
 }

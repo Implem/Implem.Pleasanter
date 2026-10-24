@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CommentUpdated",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cập nhật"
+        },
+        {
+            "Language": "fr",
+            "Body": "Mettre à jour"
         }
     ]
 }

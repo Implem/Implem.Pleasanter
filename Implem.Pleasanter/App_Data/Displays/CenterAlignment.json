@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Căn giữa"
+        },
+        {
+            "Language": "fr",
+            "Body": "Alignement centré"
         }
     ]
 }

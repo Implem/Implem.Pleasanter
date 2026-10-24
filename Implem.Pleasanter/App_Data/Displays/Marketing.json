@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Marketing",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Tiếp thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Marketing"
         }
     ]
 }

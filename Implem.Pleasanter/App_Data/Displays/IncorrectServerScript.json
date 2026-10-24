@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bản thảo máy chủ không chính xác.[{0}]"
+        },
+        {
+            "Language": "fr",
+            "Body": "Le script serveur est incorrect. [{0}]"
         }
     ]
 }

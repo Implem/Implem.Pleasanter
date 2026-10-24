@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Horizontal",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ngang"
+        },
+        {
+            "Language": "fr",
+            "Body": "Horizontal"
         }
     ]
 }

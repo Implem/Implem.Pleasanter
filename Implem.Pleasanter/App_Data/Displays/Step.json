@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Bước"
+        },
+        {
+            "Language": "fr",
+            "Body": "Pas"
         }
     ]
 }

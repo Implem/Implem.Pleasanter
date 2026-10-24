@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "SwitchUserInfo",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đang khởi chạy với (account) người dùng được thay đổi. Bấm để quay trở lại người dùng ban đầu."
+        },
+        {
+            "Language": "fr",
+            "Body": "Vous utilisez le nouveau compte utilisateur. Cliquez pour revenir au compte d’origine."
         }
     ]
 }

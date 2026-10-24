@@ -1,4 +1,4 @@
-{
+﻿{
     "id": "LastDayOfTheMonth",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vi",
             "Body": "Ngày cuối cùng của tháng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Dernier jour du mois"
         }
     ]
 }

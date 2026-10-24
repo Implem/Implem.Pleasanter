@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Khớp tiền tố"
+        },
+        {
+            "Language": "fr",
+            "Body": "Correspondance au début"
         }
     ]
 }

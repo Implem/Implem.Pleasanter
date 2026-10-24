@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "ngay hiện tại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Date actuelle"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Có nhiều bản ghi phù hợp với các điều kiện. Tệp CSV {0} bản ghi, tên cột: {1}, giá trị: {2}."
+        },
+        {
+            "Language": "fr",
+            "Body": "Plusieurs enregistrements correspondent aux conditions. Fichier CSV {0}, enregistrement, colonne : {1}, valeur : {2}."
         }
     ]
 }

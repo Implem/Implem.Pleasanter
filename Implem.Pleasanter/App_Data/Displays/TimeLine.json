@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TimeLine",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Dòng thời gian"
+        },
+        {
+            "Language": "fr",
+            "Body": "Chronologie"
         }
     ]
 }

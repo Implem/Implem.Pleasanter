@@ -1,0 +1,200 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Issues",
+    "GridView":  1,
+    "GridColumns":  [
+                        "IssueId",
+                        "TitleBody",
+                        "DescriptionA",
+                        "Comments",
+                        "ClassB",
+                        "ClassA",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "IssueId",
+                          "Ver",
+                          "Title",
+                          "Body",
+                          "DescriptionA",
+                          "ClassB",
+                          "ClassA",
+                          "NumA",
+                          "NumB",
+                          "NumC",
+                          "NumD",
+                          "StartTime",
+                          "CompletionTime",
+                          "Status",
+                          "Gestionnaire",
+                          "Owner",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "IssueId",
+                        "Title",
+                        "ClassB",
+                        "ClassA",
+                        "NumA",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "StartTime",
+                        "CompletionTime",
+                        "Status",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Title",
+                           "Comments",
+                           "NumA",
+                           "NumB",
+                           "NumC",
+                           "NumD",
+                           "StartTime",
+                           "CompletionTime",
+                           "Status",
+                           "Owner",
+                           "Gestionnaire",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Type de campagne",
+                        "ChoicesText":  "Remise\nLot\nAutre"
+                    },
+                    {
+                        "ColumnName":  "CompletionTime",
+                        "LabelText":  "Fin",
+                        "DefaultInput":  "30"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Objectif de ventes",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Résultats des ventes",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Écart entre prévisions et résultats",
+                        "Format":  "C",
+                        "EditorReadOnly":  true
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Niveau d’atteinte",
+                        "DecimalPlaces":  1,
+                        "EditorReadOnly":  true,
+                        "Unit":  "%"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Produit ou service",
+                        "ChoicesText":  "Produit ou service 1\nProduit ou service 2\nProduit ou service 3\nProduit ou service 4\nProduit ou service 5"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  "100,Non commencé,Non commencé,status-new\n150,Préparation,Préparation,status-preparation\n200,En cours,En cours,status-inprogress\n900,Terminé,Terminé,status-closed\n910,En attente,En attente,status-rejected"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Objectif"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "Status",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassA",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  3,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "Formulas":  [
+                     {
+                         "Target":  "NumC",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumB",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumA",
+                                                              "OperatorType":  2
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  1
+                     },
+                     {
+                         "Target":  "NumD",
+                         "Formula":  {
+                                         "OperatorType":  0,
+                                         "Children":  [
+                                                          {
+                                                              "ColumnName":  "NumB",
+                                                              "OperatorType":  0
+                                                          },
+                                                          {
+                                                              "ColumnName":  "NumA",
+                                                              "OperatorType":  4
+                                                          },
+                                                          {
+                                                              "RawValue":  100.0,
+                                                              "OperatorType":  3
+                                                          }
+                                                      ]
+                                     },
+                         "Id":  2
+                     }
+                 ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CrosstabGroupByX":  "StartTime",
+                  "CrosstabValue":  "NumB",
+                  "KambanGroupByY":  "ClassB"
+              },
+    "ShowGanttProgressRate":  false,
+    "EnableBurnDown":  false,
+    "TitleSeparator":  ")"
+}

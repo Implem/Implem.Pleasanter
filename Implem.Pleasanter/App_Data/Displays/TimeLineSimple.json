@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TimeLineSimple",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Đơn giản"
+        },
+        {
+            "Language": "fr",
+            "Body": "Simple"
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ngày và giờ cơ sở"
+        },
+        {
+            "Language": "fr",
+            "Body": "Date et heure de base"
         }
     ]
 }

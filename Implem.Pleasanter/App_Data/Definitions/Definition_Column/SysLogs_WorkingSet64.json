@@ -17,5 +17,6 @@
     "LabelText_de": "WorkingSet64",
     "LabelText_ko": "WorkingSet64",
     "LabelText_es": "WorkingSet64",
-    "LabelText_vn": "WorkingSet64"
+    "LabelText_vn": "WorkingSet64",
+    "LabelText_fr": "Taille de l’ensemble de travail (64 bits)"
 }

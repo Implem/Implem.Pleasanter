@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "NotOutput",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Không xuất ra"
+        },
+        {
+            "Language": "fr",
+            "Body": "Ne pas exporter"
         }
     ]
 }

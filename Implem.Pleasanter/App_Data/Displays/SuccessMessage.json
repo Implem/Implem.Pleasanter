@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Gửi tin thành công"
+        },
+        {
+            "Language": "fr",
+            "Body": "Message de réussite"
         }
     ]
 }

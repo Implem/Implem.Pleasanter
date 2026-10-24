@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ManageSite",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Quản lí trang"
+        },
+        {
+            "Language": "fr",
+            "Body": "Gérer le site"
         }
     ]
 }

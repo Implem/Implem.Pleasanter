@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "UseHalf",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Sử dụng nửa khoảng thời gian"
+        },
+        {
+            "Language": "fr",
+            "Body": "Utiliser le semestre"
         }
     ]
 }

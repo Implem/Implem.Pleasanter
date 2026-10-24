@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "hết giờ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Délai d’expiration"
         }
     ]
 }

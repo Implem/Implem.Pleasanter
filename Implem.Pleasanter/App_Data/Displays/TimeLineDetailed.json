@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "TimeLineDetailed",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Chi tiết"
+        },
+        {
+            "Language": "fr",
+            "Body": "Détaillée"
         }
     ]
 }

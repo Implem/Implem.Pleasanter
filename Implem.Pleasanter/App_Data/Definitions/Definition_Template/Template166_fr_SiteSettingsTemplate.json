@@ -1,0 +1,178 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "CheckA",
+                        "CheckB",
+                        "CheckC",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumA",
+                        "NumE",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "Title",
+                          "ClassA",
+                          "DateA",
+                          "ClassB",
+                          "ClassC",
+                          "CheckA",
+                          "CheckB",
+                          "CheckC",
+                          "NumB",
+                          "NumC",
+                          "NumD",
+                          "NumA",
+                          "NumE",
+                          "Body",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "LinkColumns":  [
+                        "Title",
+                        "ClassA",
+                        "ClassB",
+                        "ClassC",
+                        "CheckA",
+                        "CheckB",
+                        "CheckC",
+                        "NumB",
+                        "NumC",
+                        "NumD",
+                        "NumA",
+                        "NumE",
+                        "DateA",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "Title",
+                           "NumE",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "Title",
+                        "LabelText":  "Nom du produit"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Référence du modèle"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Fabricant",
+                        "ChoicesText":  "Fabricant 1\nFabricant 2\nFabricant 3\nFabricant 4\nFabricant 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Couleur",
+                        "ChoicesText":  "Couleur 1\nCouleur 2\nCouleur 3\nCouleur 4\nCouleur 5"
+                    },
+                    {
+                        "ColumnName":  "NumA",
+                        "LabelText":  "Poids",
+                        "DecimalPlaces":  1,
+                        "Unit":  "kg"
+                    },
+                    {
+                        "ColumnName":  "NumB",
+                        "LabelText":  "Dimensions (largeur)",
+                        "Unit":  "mm"
+                    },
+                    {
+                        "ColumnName":  "NumC",
+                        "LabelText":  "Dimensions (hauteur)",
+                        "Unit":  "mm"
+                    },
+                    {
+                        "ColumnName":  "NumD",
+                        "LabelText":  "Dimensions (profondeur)",
+                        "Unit":  "mm"
+                    },
+                    {
+                        "ColumnName":  "Gestionnaire",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "Owner",
+                        "ChoicesText":  ""
+                    },
+                    {
+                        "ColumnName":  "NumE",
+                        "LabelText":  "Prix",
+                        "Format":  "C"
+                    },
+                    {
+                        "ColumnName":  "DateA",
+                        "LabelText":  "Date de sortie"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Remarques"
+                    },
+                    {
+                        "ColumnName":  "CheckA",
+                        "LabelText":  "fonction café"
+                    },
+                    {
+                        "ColumnName":  "CheckB",
+                        "LabelText":  "fonction expresso"
+                    },
+                    {
+                        "ColumnName":  "CheckC",
+                        "LabelText":  "Fonction cappuccino"
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassB",
+                             "Type":  2,
+                             "Target":  "NumE"
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "CalendarColumn":  "DateA",
+                  "CrosstabAggregateType":  "Average",
+                  "CrosstabValue":  "NumE",
+                  "TimeSeriesValue":  "NumA",
+                  "KambanGroupByY":  "ClassD",
+                  "KambanAggregateType":  "Average",
+                  "KambanValue":  "NumE",
+                  "KambanAggregationView":  true
+              },
+    "EnableKamban":  false,
+    "TitleSeparator":  ")"
+}

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ToParent",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Lên đầu (trang)"
+        },
+        {
+            "Language": "fr",
+            "Body": "Vers le parent"
         }
     ]
 }

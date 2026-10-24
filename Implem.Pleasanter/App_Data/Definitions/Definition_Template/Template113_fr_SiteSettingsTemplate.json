@@ -1,0 +1,172 @@
+﻿{
+    "Version":  1.011,
+    "ReferenceType":  "Results",
+    "GridView":  1,
+    "GridColumns":  [
+                        "ClassB",
+                        "TitleBody",
+                        "Comments",
+                        "DescriptionA",
+                        "DescriptionB",
+                        "DescriptionC",
+                        "DescriptionD",
+                        "DescriptionE",
+                        "ClassH",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "EditorColumns":  [
+                          "ResultId",
+                          "Ver",
+                          "ClassA",
+                          "ClassB",
+                          "Gestionnaire",
+                          "Owner",
+                          "ClassH",
+                          "Body",
+                          "ClassC",
+                          "DescriptionA",
+                          "ClassD",
+                          "DescriptionB",
+                          "ClassE",
+                          "DescriptionC",
+                          "ClassF",
+                          "DescriptionD",
+                          "ClassG",
+                          "DescriptionE",
+                          "AttachmentsA",
+                          "Comments"
+                      ],
+    "TitleColumns":  "ClassA",
+    "LinkColumns":  [
+                        "ClassB",
+                        "ClassA",
+                        "ClassH",
+                        "ClassC",
+                        "ClassD",
+                        "ClassE",
+                        "ClassF",
+                        "ClassG",
+                        "Gestionnaire",
+                        "Owner",
+                        "Updator",
+                        "UpdatedTime"
+                    ],
+    "HistoryColumns":  [
+                           "Ver",
+                           "Comments",
+                           "ClassH",
+                           "ClassC",
+                           "ClassD",
+                           "ClassE",
+                           "ClassF",
+                           "ClassG",
+                           "Gestionnaire",
+                           "Owner",
+                           "Updator",
+                           "UpdatedTime"
+                       ],
+    "Columns":  [
+                    {
+                        "ColumnName":  "AttachmentsA",
+                        "LabelText":  "Pièces jointes"
+                    },
+                    {
+                        "ColumnName":  "ClassA",
+                        "LabelText":  "Nom de l’activité",
+                        "ChoicesText":  "Activité 1\nActivité 2\nActivité 3\nActivité 4\nActivité 5",
+                        "FieldCss":  "field-wide"
+                    },
+                    {
+                        "ColumnName":  "ClassB",
+                        "LabelText":  "Service",
+                        "ChoicesText":  "Service 1\nService 2\nService 3\nService 4\nService 5"
+                    },
+                    {
+                        "ColumnName":  "ClassC",
+                        "LabelText":  "Menace (pression) d\u0027une nouvelle entrée",
+                        "ChoicesText":  "Faible\nModéré\nFort"
+                    },
+                    {
+                        "ColumnName":  "ClassD",
+                        "LabelText":  "Menace des produits de substitution (pression)",
+                        "ChoicesText":  "Faible\nModéré\nFort"
+                    },
+                    {
+                        "ColumnName":  "ClassE",
+                        "LabelText":  "Pouvoir de négociation (pression) avec les fournisseurs",
+                        "ChoicesText":  "Faible\nModéré\nFort"
+                    },
+                    {
+                        "ColumnName":  "ClassF",
+                        "LabelText":  "Pouvoir de négociation (pression) avec les acheteurs",
+                        "ChoicesText":  "Faible\nModéré\nFort"
+                    },
+                    {
+                        "ColumnName":  "ClassG",
+                        "LabelText":  "Concurrence (pression) avec d\u0027autres entreprises du même secteur",
+                        "ChoicesText":  "Faible\nModéré\nFort"
+                    },
+                    {
+                        "ColumnName":  "DescriptionA",
+                        "LabelText":  "Menace des nouveaux entrants (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionB",
+                        "LabelText":  "Menace des nouveaux entrants (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionC",
+                        "LabelText":  "Pouvoir de négociation avec les fournisseurs (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionD",
+                        "LabelText":  "Pouvoir de négociation avec les acheteurs (contenu)"
+                    },
+                    {
+                        "ColumnName":  "DescriptionE",
+                        "LabelText":  "Concurrence avec d\u0027autres entreprises du même secteur (contenu)"
+                    },
+                    {
+                        "ColumnName":  "Body",
+                        "LabelText":  "Synthèse"
+                    },
+                    {
+                        "ColumnName":  "ClassH",
+                        "LabelText":  "Résultat du jugement",
+                        "ChoicesText":  "entrée\nRejeté\nreconsidérer\nEn attente"
+                    },
+                    {
+                        "ColumnName":  "Status",
+                        "ChoicesText":  ""
+                    }
+                ],
+    "Aggregations":  [
+                         {
+                             "Id":  1,
+                             "GroupBy":  "ClassB",
+                             "Type":  0,
+                             "Target":  ""
+                         },
+                         {
+                             "Id":  2,
+                             "GroupBy":  "ClassH",
+                             "Type":  0,
+                             "Target":  ""
+                         }
+                     ],
+    "ViewLatestId":  1,
+    "Views":  {
+                  "Id":  1,
+                  "Name":  "norme",
+                  "ColumnSorterHash":  {
+                                           "ClassB":  0,
+                                           "ClassA":  0
+                                       },
+                  "KambanGroupByX":  "ClassH"
+              },
+    "EnableCalendar":  false,
+    "TitleSeparator":  ")"
+}

@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "DeleteConflicts",
     "Type": 240,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Bản ghi không tồn tại. Nó có thể đã bị xóa."
+        },
+        {
+            "Language": "fr",
+            "Body": "Cet élément n’existe pas. Il a peut-être été supprimé."
         }
     ]
 }

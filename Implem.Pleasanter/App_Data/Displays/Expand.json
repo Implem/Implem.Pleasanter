@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Expand",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Hiển thị mặc định"
+        },
+        {
+            "Language": "fr",
+            "Body": "Développement par défaut"
         }
     ]
 }

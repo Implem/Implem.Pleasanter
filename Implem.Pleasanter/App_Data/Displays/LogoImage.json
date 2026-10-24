@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "LogoImage",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Ảnh biểu tượng"
+        },
+        {
+            "Language": "fr",
+            "Body": "Image du logo"
         }
     ]
 }

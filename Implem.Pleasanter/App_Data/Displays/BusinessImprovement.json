@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "BusinessImprovement",
     "Type": 110,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cải tiến nghiệp vụ"
+        },
+        {
+            "Language": "fr",
+            "Body": "Amélioration des processus"
         }
     ]
 }

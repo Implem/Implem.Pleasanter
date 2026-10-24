@@ -4,6 +4,10 @@
     "Languages": [
         {
             "Body": "Please enter a half-width number."
+        },
+        {
+            "Language": "fr",
+            "Body": "Veuillez saisir un nombre en chiffres demi-chasse."
         }
     ]
 }

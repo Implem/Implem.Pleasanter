@@ -18,5 +18,6 @@
     "LabelText_de": "Verknüpfungsquellen-ID",
     "LabelText_ko": "링크 소스 ID",
     "LabelText_es": "ID de origen de enlace",
-    "LabelText_vn": "ID Liên kết nguồn"
+    "LabelText_vn": "ID Liên kết nguồn",
+    "LabelText_fr": "ID source du lien"
 }

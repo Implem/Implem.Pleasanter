@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Cài đặt cột khác"
+        },
+        {
+            "Language": "fr",
+            "Body": "Paramètres des autres colonnes"
         }
     ]
 }

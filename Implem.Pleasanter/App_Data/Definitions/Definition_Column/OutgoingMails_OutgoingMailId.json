@@ -29,5 +29,6 @@
     "LabelText_de": "E-Mail-ID gesendet",
     "LabelText_ko": "전송한 이메일 ID",
     "LabelText_es": "ID de correo electrónico enviado",
-    "LabelText_vn": "ID Email gửi"
+    "LabelText_vn": "ID Email gửi",
+    "LabelText_fr": "Identifiant de l’e-mail envoyé"
 }

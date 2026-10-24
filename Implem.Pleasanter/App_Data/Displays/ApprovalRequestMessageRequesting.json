@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "ApprovalRequestMessageRequesting",
     "Type": 210,
     "Languages": [
@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Yêu cầu phê duyệt cho \" {0} \" đang được xử lý."
+        },
+        {
+            "Language": "fr",
+            "Body": "La demande d’approbation de « {0} » est en cours de traitement."
         }
     ]
 }

@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Loại phương pháp"
+        },
+        {
+            "Language": "fr",
+            "Body": "Type de méthode"
         }
     ]
 }

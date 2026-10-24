@@ -29,6 +29,10 @@
         {
             "Language": "vn",
             "Body": "Còn lại"
+        },
+        {
+            "Language": "fr",
+            "Body": "Restant"
         }
     ]
 }

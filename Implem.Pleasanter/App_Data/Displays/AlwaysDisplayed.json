@@ -28,6 +28,10 @@
         {
             "Language": "vn",
             "Body": "Luôn hiển thị"
+        },
+        {
+            "Language": "fr",
+            "Body": "Toujours affiché"
         }
     ]
 }

@@ -28,6 +28,11 @@
         {
             "Language": "vn",
             "Body": "Tạo"
+        },
+
+        {
+            "Language": "fr",
+            "Body": "Créé"
         }
     ]
 }
