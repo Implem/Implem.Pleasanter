@@ -48,10 +48,50 @@ namespace Implem.Pleasanter.Libraries.Images
         {
             using var codec = SKCodec.Create(new MemoryStream(data))
                 ?? throw new FormatException("Unsupported or invalid image.");
-            Data = SKBitmap.Decode(codec)
+            var decoded = SKBitmap.Decode(codec)
                 ?? throw new FormatException("Unsupported or invalid image.");
+            Data = ApplyOrigin(decoded, codec.EncodedOrigin);
             ReferenceId = referenceId;
             Type = type;
+        }
+
+        private static SKBitmap ApplyOrigin(SKBitmap bitmap, SKEncodedOrigin origin)
+        {
+            if (origin == SKEncodedOrigin.TopLeft || origin == SKEncodedOrigin.Default)
+            {
+                return bitmap;
+            }
+            var swap = origin == SKEncodedOrigin.LeftTop
+                || origin == SKEncodedOrigin.RightTop
+                || origin == SKEncodedOrigin.RightBottom
+                || origin == SKEncodedOrigin.LeftBottom;
+            var w = bitmap.Width;
+            var h = bitmap.Height;
+            var info = new SKImageInfo(
+                swap ? h : w,
+                swap ? w : h,
+                bitmap.ColorType,
+                bitmap.AlphaType,
+                bitmap.ColorSpace);
+            var result = new SKBitmap(info);
+            using (var canvas = new SKCanvas(result))
+            {
+                var matrix = origin switch
+                {
+                    SKEncodedOrigin.TopRight => new SKMatrix(-1, 0, w, 0, 1, 0, 0, 0, 1),
+                    SKEncodedOrigin.BottomRight => new SKMatrix(-1, 0, w, 0, -1, h, 0, 0, 1),
+                    SKEncodedOrigin.BottomLeft => new SKMatrix(1, 0, 0, 0, -1, h, 0, 0, 1),
+                    SKEncodedOrigin.LeftTop => new SKMatrix(0, 1, 0, 1, 0, 0, 0, 0, 1),
+                    SKEncodedOrigin.RightTop => new SKMatrix(0, -1, h, 1, 0, 0, 0, 0, 1),
+                    SKEncodedOrigin.RightBottom => new SKMatrix(0, -1, h, -1, 0, w, 0, 0, 1),
+                    SKEncodedOrigin.LeftBottom => new SKMatrix(0, 1, 0, -1, 0, w, 0, 0, 1),
+                    _ => SKMatrix.Identity
+                };
+                canvas.SetMatrix(matrix);
+                canvas.DrawBitmap(bitmap, 0, 0);
+            }
+            bitmap.Dispose();
+            return result;
         }
 
         public ImageData(long referenceId, Types type)
@@ -248,7 +288,8 @@ namespace Implem.Pleasanter.Libraries.Images
                     Math.Max(width, 1),
                     Math.Max(height, 1),
                     Data.ColorType,
-                    Data.AlphaType),
+                    Data.AlphaType,
+                    Data.ColorSpace),
                 new SKSamplingOptions(SKFilterMode.Linear, SKMipmapMode.Linear));
             if (resized == null)
             {
