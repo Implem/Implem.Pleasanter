@@ -80,7 +80,8 @@
     <PackageReference Include="Quartz.AspNetCore" Version="3.19.1" />
     <PackageReference Include="Otp.NET" Version="1.4.1" />
     <PackageReference Include="Quartz.Serialization.Json" Version="3.19.1" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+    <PackageReference Include="SkiaSharp" Version="3.119.4" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.4" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
     <PackageReference Include="StackExchange.Redis" Version="2.13.1" />
     <PackageReference Include="Sustainsys.Saml2" Version="2.11.0" />

@@ -539,11 +539,7 @@ namespace Implem.Pleasanter.Models
                     ? imageData.ReSizeBytes(thumbnailLimitSize)
                     : null;
             }
-            catch (SixLabors.ImageSharp.UnknownImageFormatException)
-            {
-                return Error.Types.IncorrectFileFormat;
-            }
-            catch (SixLabors.ImageSharp.InvalidImageContentException)
+            catch (System.FormatException)
             {
                 return Error.Types.IncorrectFileFormat;
             }
