@@ -50,7 +50,11 @@ namespace Implem.Pleasanter.Models
             }
             try
             {
-                SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(new System.IO.MemoryStream(bin));
+                using var bitmap = SkiaSharp.SKBitmap.Decode(bin);
+                if (bitmap == null)
+                {
+                    return Error.Types.IncorrectFileFormat;
+                }
             }
             catch (System.Exception)
             {
@@ -76,7 +80,11 @@ namespace Implem.Pleasanter.Models
             }
             try
             {
-                SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(new System.IO.MemoryStream(bin));
+                using var bitmap = SkiaSharp.SKBitmap.Decode(bin);
+                if (bitmap == null)
+                {
+                    return Error.Types.IncorrectFileFormat;
+                }
             }
             catch (System.Exception)
             {
@@ -141,20 +149,20 @@ namespace Implem.Pleasanter.Models
             try
             {
                 using var ms = new System.IO.MemoryStream(bin);
-                var imageInfo = SixLabors.ImageSharp.Image.Identify(ms);
-                if (imageInfo == null)
+                using var codec = SkiaSharp.SKCodec.Create(ms);
+                if (codec == null)
                 {
                     return Error.Types.IncorrectFileFormat;
                 }
                 var decodedSizeLimit = Parameters.BinaryStorage.ImageDecodedSizeLimit;
                 if (decodedSizeLimit > 0)
                 {
-                    var frameCount = imageInfo.FrameMetadataCollection?.Count ?? 1;
+                    var frameCount = System.Math.Max(codec.FrameCount, 1);
                     var limitBytes = (long)decodedSizeLimit.Value * 1024 * 1024;
                     long estimatedBytes;
                     try
                     {
-                        estimatedBytes = checked((long)imageInfo.Width * imageInfo.Height * frameCount * 4);
+                        estimatedBytes = checked((long)codec.Info.Width * codec.Info.Height * frameCount * 4);
                     }
                     catch (System.OverflowException)
                     {
@@ -166,11 +174,7 @@ namespace Implem.Pleasanter.Models
                     }
                 }
             }
-            catch (SixLabors.ImageSharp.UnknownImageFormatException)
-            {
-                return Error.Types.IncorrectFileFormat;
-            }
-            catch (SixLabors.ImageSharp.InvalidImageContentException)
+            catch (System.Exception)
             {
                 return Error.Types.IncorrectFileFormat;
             }

@@ -24,14 +24,14 @@
         "@types/jquery": "^3.5.34",
         "@types/jqueryui": "^1.12.24",
         "@types/node": "^24.13.3",
-        "@vitest/browser-playwright": "^5.0.3",
-        "@vitest/coverage-v8": "^5.0.3",
+        "@vitest/browser-playwright": "^5.0.5",
+        "@vitest/coverage-v8": "^5.0.5",
         "browser-sync": "^3.0.4",
         "concurrently": "^10.0.5",
         "eslint": "^10.11.0",
         "eslint-plugin-prettier": "^5.5.6",
         "globals": "^17.13.0",
-        "happy-dom": "^20.14.5",
+        "happy-dom": "^21.0.4",
         "playwright": "^1.63.0",
         "prettier": "^3.9.9",
         "prettier-plugin-embed": "^0.5.1",
@@ -48,7 +48,7 @@
         "typescript-eslint": "^8.71.0",
         "vite": "^8.3.2",
         "vite-plugin-static-copy": "^4.1.1",
-        "vitest": "^5.0.3"
+        "vitest": "^5.0.5"
     },
     "dependencies": {
         "@codemirror/autocomplete": "^6.20.3",

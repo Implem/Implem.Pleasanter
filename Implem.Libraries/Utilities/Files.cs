@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -66,37 +64,6 @@ namespace Implem.Libraries.Utilities
                     {
                         writer.Write(self);
                     }
-                    successful = true;
-                }
-                catch
-                {
-                    errorCount++;
-                    System.Threading.Thread.Sleep(1);
-                    if (errorCount > reTryCount)
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-
-        public static void Write(
-            this Image self,
-            string filePath,
-            IImageEncoder format,
-            int reTryCount = 100)
-        {
-            var successful = false;
-            var errorCount = 0;
-            if (!new FileInfo(filePath).Directory.Exists)
-            {
-                Directory.CreateDirectory(new FileInfo(filePath).Directory.FullName);
-            }
-            while (!successful)
-            {
-                try
-                {
-                    self.Save(filePath, format);
                     successful = true;
                 }
                 catch

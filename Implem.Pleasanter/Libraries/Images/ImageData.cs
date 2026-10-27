@@ -1,17 +1,14 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources.BinaryStorages;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
+using SkiaSharp;
 using System;
 using System.IO;
 namespace Implem.Pleasanter.Libraries.Images
 {
     public class ImageData : IDisposable
     {
-        public Image Data;
+        public SKBitmap Data;
         public long ReferenceId;
         public Types Type;
         private bool disposed;
@@ -49,9 +46,52 @@ namespace Implem.Pleasanter.Libraries.Images
 
         public ImageData(byte[] data, long referenceId, Types type)
         {
-            Data = Image.Load<Rgba32>(new MemoryStream(data));
+            using var codec = SKCodec.Create(new MemoryStream(data))
+                ?? throw new FormatException("Unsupported or invalid image.");
+            var decoded = SKBitmap.Decode(codec)
+                ?? throw new FormatException("Unsupported or invalid image.");
+            Data = ApplyOrigin(decoded, codec.EncodedOrigin);
             ReferenceId = referenceId;
             Type = type;
+        }
+
+        private static SKBitmap ApplyOrigin(SKBitmap bitmap, SKEncodedOrigin origin)
+        {
+            if (origin == SKEncodedOrigin.TopLeft || origin == SKEncodedOrigin.Default)
+            {
+                return bitmap;
+            }
+            var swap = origin == SKEncodedOrigin.LeftTop
+                || origin == SKEncodedOrigin.RightTop
+                || origin == SKEncodedOrigin.RightBottom
+                || origin == SKEncodedOrigin.LeftBottom;
+            var w = bitmap.Width;
+            var h = bitmap.Height;
+            var info = new SKImageInfo(
+                swap ? h : w,
+                swap ? w : h,
+                bitmap.ColorType,
+                bitmap.AlphaType,
+                bitmap.ColorSpace);
+            var result = new SKBitmap(info);
+            using (var canvas = new SKCanvas(result))
+            {
+                var matrix = origin switch
+                {
+                    SKEncodedOrigin.TopRight => new SKMatrix(-1, 0, w, 0, 1, 0, 0, 0, 1),
+                    SKEncodedOrigin.BottomRight => new SKMatrix(-1, 0, w, 0, -1, h, 0, 0, 1),
+                    SKEncodedOrigin.BottomLeft => new SKMatrix(1, 0, 0, 0, -1, h, 0, 0, 1),
+                    SKEncodedOrigin.LeftTop => new SKMatrix(0, 1, 0, 1, 0, 0, 0, 0, 1),
+                    SKEncodedOrigin.RightTop => new SKMatrix(0, -1, h, 1, 0, 0, 0, 0, 1),
+                    SKEncodedOrigin.RightBottom => new SKMatrix(0, -1, h, -1, 0, w, 0, 0, 1),
+                    SKEncodedOrigin.LeftBottom => new SKMatrix(0, 1, 0, -1, 0, w, 0, 0, 1),
+                    _ => SKMatrix.Identity
+                };
+                canvas.SetMatrix(matrix);
+                canvas.DrawBitmap(bitmap, 0, 0);
+            }
+            bitmap.Dispose();
+            return result;
         }
 
         public ImageData(long referenceId, Types type)
@@ -118,14 +158,12 @@ namespace Implem.Pleasanter.Libraries.Images
             }
         }
 
-        private void WriteToLocal(Image image, long referenceId, Types type, SizeTypes sizeType)
+        private void WriteToLocal(SKBitmap image, long referenceId, Types type, SizeTypes sizeType)
         {
             var provider = BinaryStorageProviderFactory.Create(ProviderName());
             if (provider != null)
             {
-                using var memory = new MemoryStream();
-                image.Save(memory, new PngEncoder());
-                memory.Position = 0;
+                using var memory = new MemoryStream(EncodePng(image));
                 provider.Upload(
                     objectName: ObjectName(referenceId, type, sizeType),
                     stream: memory,
@@ -133,7 +171,7 @@ namespace Implem.Pleasanter.Libraries.Images
             }
             else
             {
-                Files.Write(image, Path(referenceId, type, sizeType), new PngEncoder());
+                Files.Write(EncodePng(image), Path(referenceId, type, sizeType));
             }
         }
 
@@ -178,15 +216,17 @@ namespace Implem.Pleasanter.Libraries.Images
 
         public byte[] ReSizeBytes(SizeTypes sizeType)
         {
-            using (var memory = new MemoryStream())
-            {
-                memory.Position = 0;
-                ReSize(sizeType).Save(memory, new PngEncoder());
-                return GetByte(memory);
-            }
+            return EncodePng(ReSize(sizeType));
         }
 
-        private Image ReSize(SizeTypes sizeType)
+        private static byte[] EncodePng(SKBitmap image)
+        {
+            using var skImage = SKImage.FromBitmap(image);
+            using var encoded = skImage.Encode(SKEncodedImageFormat.Png, 100);
+            return encoded.ToArray();
+        }
+
+        private SKBitmap ReSize(SizeTypes sizeType)
         {
             var size = (double)Size(sizeType);
             var rate = (Data.Width > Data.Height) || (sizeType == SizeTypes.Logo)
@@ -208,15 +248,10 @@ namespace Implem.Pleasanter.Libraries.Images
 
         public byte[] ReSizeBytes(decimal? size)
         {
-            using (var memory = new MemoryStream())
-            {
-                memory.Position = 0;
-                ReSize(size).Save(memory, new PngEncoder());
-                return GetByte(memory);
-            }
+            return EncodePng(ReSize(size));
         }
 
-        private Image ReSize(decimal? size)
+        private SKBitmap ReSize(decimal? size)
         {
             if (size != null && size > 0)
             {
@@ -246,23 +281,23 @@ namespace Implem.Pleasanter.Libraries.Images
             }
         }
 
-        private Image GetImage(int width, int height, int x, int y)
+        private SKBitmap GetImage(int width, int height, int x, int y)
         {
-            Data.Mutate(x =>
+            var resized = Data.Resize(
+                new SKImageInfo(
+                    Math.Max(width, 1),
+                    Math.Max(height, 1),
+                    Data.ColorType,
+                    Data.AlphaType,
+                    Data.ColorSpace),
+                new SKSamplingOptions(SKFilterMode.Linear, SKMipmapMode.Linear));
+            if (resized == null)
             {
-                x.Resize(width, height);
-            });
-
+                throw new FormatException("Failed to resize image.");
+            }
+            Data.Dispose();
+            Data = resized;
             return Data;
-        }
-
-        private static byte[] GetByte(MemoryStream memory)
-        {
-            var ret = new byte[memory.Length];
-            memory.Position = 0;
-            memory.Read(ret, 0, (int)memory.Length);
-            memory.Close();
-            return ret;
         }
 
         private int Size(SizeTypes sizeType)

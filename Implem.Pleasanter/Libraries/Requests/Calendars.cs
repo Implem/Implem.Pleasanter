@@ -3,7 +3,6 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
-using SixLabors.ImageSharp;
 using System.Linq;
 
 namespace Implem.Pleasanter.Libraries.Requests
