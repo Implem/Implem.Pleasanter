@@ -26,7 +26,7 @@ Pleasanter のメール送信を行うツール群です。
     {
         private const string ClassName = nameof(OutgoingMailsTool);
 
-        [McpServerTool(Name = "SendEmail")]
+        [McpServerTool(Name = "SendEmail", ReadOnly = false, Destructive = true, OpenWorld = true)]
         [Description("指定アイテムに関連するメールを送信します。To, Cc, Bcc, Title, Bodyを指定可能。")]
         public static async Task<CallToolResult> SendEmail(
             [Description("サイトの種類(issues, results等)")]

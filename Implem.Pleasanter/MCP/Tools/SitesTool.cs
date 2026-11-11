@@ -28,7 +28,7 @@ Pleasanter のサイト（テーブル定義）を管理するツール群です
     {
         private const string ClassName = nameof(SitesTool);
 
-        [McpServerTool(Name = "GetSiteTemplates")]
+        [McpServerTool(Name = "GetSiteTemplates", ReadOnly = true, Destructive = false, OpenWorld = true)]
         [Description(@"
 利用可能なサイトテンプレート一覧を取得します。
 全カテゴリの定義テンプレートおよびユーザーテンプレート（カスタムアプリ）を含みます。
@@ -71,7 +71,7 @@ IsUserTemplate が true のテンプレートは AddSiteByTemplate で title を
             }
         }
 
-        [McpServerTool(Name = "AddSiteByTemplate")]
+        [McpServerTool(Name = "AddSiteByTemplate", ReadOnly = false, Destructive = true, OpenWorld = true)]
         [Description(@"
 指定した親サイト配下に、テンプレートから新しいサイトを作成します。
 templateId は GetSiteTemplates で取得した ID を指定します。
@@ -127,7 +127,7 @@ templateId は GetSiteTemplates で取得した ID を指定します。
             }
         }
 
-        [McpServerTool(Name = "GetSite")]
+        [McpServerTool(Name = "GetSite", ReadOnly = true, Destructive = false, OpenWorld = true)]
         [Description(@"
 指定サイトの設定情報（SiteSettings）を取得します。
 タイトル、参照タイプ、権限情報、作成者・更新者情報等を返します。")]
@@ -148,7 +148,7 @@ templateId は GetSiteTemplates で取得した ID を指定します。
                 siteId: siteId);
         }
 
-        [McpServerTool(Name = "GetSiteIdByTitle")]
+        [McpServerTool(Name = "GetSiteIdByTitle", ReadOnly = true, Destructive = false, OpenWorld = true)]
         [Description(@"
 サイト名（タイトル）からサイト ID を検索します。
 取得した ID は GetItems や CreateViewJson 等のパラメータに使用できます。")]

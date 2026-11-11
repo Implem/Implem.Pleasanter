@@ -30,7 +30,7 @@ Pleasanter のレコード（データ）を操作するツール群です。
     {
         private const string ClassName = nameof(ItemsTool);
 
-        [McpServerTool(Name = "AddItem")]
+        [McpServerTool(Name = "AddItem", ReadOnly = false, Destructive = true, OpenWorld = true)]
         [Description(@"
 指定サイトに新しいレコードを作成します。
 itemDataJson は CreateItemJson で生成するか、直接 JSON 文字列を指定します。
@@ -59,7 +59,7 @@ itemDataJson は CreateItemJson で生成するか、直接 JSON 文字列を指
                 apiRequestJson: itemDataJson);
         }
 
-        [McpServerTool(Name = "CreateItemJson")]
+        [McpServerTool(Name = "CreateItemJson", ReadOnly = true, Destructive = false, OpenWorld = true)]
         [Description(@"
 レコード作成・更新用の JSON 文字列を生成します。
 このツールは JSON を生成するだけで、実際の作成・更新は行いません。
@@ -120,7 +120,7 @@ itemDataJson は CreateItemJson で生成するか、直接 JSON 文字列を指
             }
         }
 
-        [McpServerTool(Name = "DeleteItem")]
+        [McpServerTool(Name = "DeleteItem", ReadOnly = false, Destructive = true, OpenWorld = true)]
         [Description(@"
 指定したレコードを削除します。削除は元に戻せません。
 実行前に必ずユーザーに確認してください。")]
@@ -141,7 +141,7 @@ itemDataJson は CreateItemJson で生成するか、直接 JSON 文字列を指
                 referenceId: referenceId);
         }
 
-        [McpServerTool(Name = "GetItem")]
+        [McpServerTool(Name = "GetItem", ReadOnly = true, Destructive = false, OpenWorld = true)]
         [Description(@"指定したレコード ID の詳細情報を取得します。")]
         public static async Task<CallToolResult> GetItem(
             [Description(@"取得対象のレコード ID。")]
@@ -160,7 +160,7 @@ itemDataJson は CreateItemJson で生成するか、直接 JSON 文字列を指
                 referenceId: referenceId);
         }
 
-        [McpServerTool(Name = "GetItems")]
+        [McpServerTool(Name = "GetItems", ReadOnly = true, Destructive = false, OpenWorld = true)]
         [Description(@"
 指定サイトのレコード一覧を取得します。
 viewJson で検索条件・ソート順を指定可能（CreateViewJson で作成）。
@@ -197,7 +197,7 @@ viewJson で検索条件・ソート順を指定可能（CreateViewJson で作�
                 viewJson: viewJson);
         }
 
-        [McpServerTool(Name = "UpdateItem")]
+        [McpServerTool(Name = "UpdateItem", ReadOnly = false, Destructive = true, OpenWorld = true)]
         [Description(@"
 指定したレコードを更新します。
 itemDataJson は CreateItemJson で生成するか、直接 JSON 文字列を指定します。
