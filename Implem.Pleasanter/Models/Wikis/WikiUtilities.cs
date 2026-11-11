@@ -1187,7 +1187,8 @@ namespace Implem.Pleasanter.Models
                     links: links,
                     dataSet: dataSet,
                     methodType: wikiModel?.MethodType,
-                    tabIndex: tabIndex);
+                    tabIndex: tabIndex,
+                    statusControlHash: wikiModel?.StatusControlHash);
             }
             return hb;
         }
