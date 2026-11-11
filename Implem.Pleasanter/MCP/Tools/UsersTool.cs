@@ -26,7 +26,7 @@ Pleasanter のユーザー情報を操作するツール群です。
     {
         private const string ClassName = nameof(UsersTool);
 
-        [McpServerTool(Name = "GetUserIdByName")]
+        [McpServerTool(Name = "GetUserIdByName", ReadOnly = true, Destructive = false, OpenWorld = true)]
         [Description(@"
 ユーザー名からユーザー ID を検索します。
 取得した ID は他のツールのパラメータに使用できます。")]
@@ -50,7 +50,7 @@ Pleasanter のユーザー情報を操作するツール群です。
                 searchType: ParseSearchType(searchType));
         }
 
-        [McpServerTool(Name = "GetUsers")]
+        [McpServerTool(Name = "GetUsers", ReadOnly = true, Destructive = false, OpenWorld = true)]
         [Description(@"
 ユーザー一覧を取得します。
 viewJson で検索条件を指定可能（CreateViewJson で作成）。
