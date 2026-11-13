@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Models
                                 id: ss.SiteId)),
                         action: () => hb
                             .Div(
-                                id: "ViewSelectorField", 
+                                id: "ViewSelectorField",
                                 action: () => hb
                                     .ViewSelector(
                                         context: context,
@@ -4912,6 +4912,7 @@ namespace Implem.Pleasanter.Models
                                     id: 0)),
                             action: () => hb
                                 .StartGuide(context: context)
+                                .TitleBanner(context: context)
                                 .SiteMenu(
                                     context: context,
                                     siteModel: null,
@@ -5198,6 +5199,7 @@ namespace Implem.Pleasanter.Models
             string siteImagePrefix,
             IEnumerable<SiteCondition> siteConditions)
         {
+
             if (toParent)
             {
                 hb.SiteMenuParent(
@@ -5513,6 +5515,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+
+        private static HtmlBuilder TitleBanner(this HtmlBuilder hb, Context context)
+        {
+            if (context.ThemeVersion3_0() || context.Theme() == "skystar")
+            {
+                return hb
+                    .Label(id: "Title").Text("Hello");
+            }
+
+            return hb;
+        }
+
         private static HtmlBuilder StartGuide(this HtmlBuilder hb, Context context)
         {
             return context.UserSettings.StartGuide(context: context)
@@ -5550,7 +5564,7 @@ namespace Implem.Pleasanter.Models
         {
             var utmContent = "startguide";
             var guides = new List<AccessorParts.StartGuide>();
-            guides.Add(new AccessorParts.StartGuide { 
+            guides.Add(new AccessorParts.StartGuide {
                 Id = "SgManual",
                 Text = Displays.UserManualSg(context: context),
                 Url = string.Format("https://pleasanter.org/manual?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}", Parameters.General.PleasanterSource, "manual", utmContent),
