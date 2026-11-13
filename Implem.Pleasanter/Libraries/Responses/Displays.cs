@@ -6199,6 +6199,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string HelloSiteMenuAllResults(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HelloSiteMenuAllResults",
+                data: data);
+        }
+
+        public static string HelloSiteMenuTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HelloSiteMenuTitle",
+                data: data);
+        }
+
         public static string HelpMenu(
             Context context,
             params string[] data)
