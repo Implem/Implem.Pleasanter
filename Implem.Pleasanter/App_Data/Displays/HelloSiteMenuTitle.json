@@ -1,0 +1,33 @@
+{
+    "Id": "HelloSiteMenuTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Welcome {0}"
+        },
+        {
+            "Language": "zh",
+            "Body": "欢迎 {0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} さん、ようこそ"
+        },
+        {
+            "Language": "de",
+            "Body": "Willkommen {0}"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0} 님, 환영합니다"
+        },
+        {
+            "Language": "es",
+            "Body": "Bienvenido {0}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chào mừng {0}"
+        }
+    ]
+}
