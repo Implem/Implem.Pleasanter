@@ -5512,16 +5512,17 @@ namespace Implem.Pleasanter.Models
                     .DataMethod("put"));
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-
         private static HtmlBuilder TitleBanner(this HtmlBuilder hb, Context context)
         {
             if (context.ThemeVersion3_0() || context.Theme() == "skystar")
             {
                 return hb
-                    .Label(id: "Title").Text("Hello");
+                    .Div(id: "SiteMenuTitleSection", action: () =>
+                        {
+                            hb.P(id: "__SiteMenuTitle", action: () => hb.Text(Displays.HelloSiteMenuTitle(context, [context.User.Name])));
+                            hb.P(id: "__SiteMenuShowAll", action: () => hb.Text(Displays.HelloSiteMenuAllResults(context)));
+                        }
+                    );
             }
 
             return hb;
