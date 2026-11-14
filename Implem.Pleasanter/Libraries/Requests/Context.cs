@@ -1559,6 +1559,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             switch (Theme())
             {
+                case "skystar":
+                    return 3.0M;
                 case "cerulean":
                 case "green-tea":
                 case "mandarin":
@@ -1573,6 +1575,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             switch (Theme())
             {
+                case "skystar":
+                    return 3.0M;
                 case "cerulean":
                 case "green-tea":
                 case "mandarin":
@@ -1588,9 +1592,24 @@ namespace Implem.Pleasanter.Libraries.Requests
             return ThemeVersion() == 1.0M;
         }
 
+        public bool ThemeVersion2_0()
+        {
+            return ThemeVersion() == 2.0M;
+        }
+
+        public bool ThemeVersion3_0()
+        {
+            return ThemeVersion() == 3.0M;
+        }
+
         public bool ThemeVersionOver2_0()
         {
             return ThemeVersion() >= 2.0M;
+        }
+
+        public bool ThemeVersionOver3_0()
+        {
+            return ThemeVersion() >= 3.0M;
         }
     }
 }

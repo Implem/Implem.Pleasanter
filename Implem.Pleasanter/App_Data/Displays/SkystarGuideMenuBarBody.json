@@ -1,0 +1,33 @@
+{
+    "Id": "SkystarGuideMenuBarBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "All your editing tools are gathered in one place."
+        },
+        {
+            "Language": "zh",
+            "Body": "所有编辑工具都集中在一个地方。"
+        },
+        {
+            "Language": "ja",
+            "Body": "すべての編集用素材を一か所にまとめておけます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Alle Bearbeitungswerkzeuge sind an einem Ort gebündelt."
+        },
+        {
+            "Language": "ko",
+            "Body": "모든 편집 도구를 한곳에 모아 둘 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Todas las herramientas de edición están reunidas en un solo lugar."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tất cả công cụ chỉnh sửa được tập trung tại một nơi."
+        }
+    ]
+}

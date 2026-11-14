@@ -4,6 +4,7 @@ import type { Calendar } from '@fullcalendar/core';
 import { type Display } from '../scripts/generals/display';
 import { type HistoryDiff } from '../scripts/generals/historydiff';
 import { type Passkey } from '../scripts/generals/passkey';
+import { type SkystarStartGuide } from '../scripts/generals/skystarstartguide';
 
 // グローバルの $p の型定義。
 //
@@ -96,9 +97,13 @@ declare global {
             handleMessageFromJson: (jsonData: unknown[]) => boolean;
 
             validateImageUploadFileSize: (blob: File | Blob | null) => boolean;
+
+            // スタートガイドの表示切り替え (startguide.js)
+            setStartGuide: (disable: number | boolean, redirect?: number) => void;
         } & typeof Passkey &
             typeof Display &
-            typeof HistoryDiff;
+            typeof HistoryDiff &
+            typeof SkystarStartGuide;
     }
 
     // スクリプトからは window を挟まず $p / FullCalendar として直に参照する

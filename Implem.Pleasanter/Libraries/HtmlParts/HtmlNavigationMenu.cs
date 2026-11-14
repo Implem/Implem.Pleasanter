@@ -47,7 +47,50 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     serverScriptModelRow: serverScriptModelRow);
             }
 
-            if (context.ThemeVersionOver2_0() && context.Action != "login")
+
+            if (context.ThemeVersionOver3_0() && context.Action != "login")
+            {
+                List<NavigationMenu> filteredMenus = Parameters.NavigationMenus
+                    .Where(m => m.ContainerId != "AccountMenuContainer")
+                    .ToList();
+
+                return hb
+                    .Div(
+                        id: "MenuBar",
+                        action: () => hb
+                            .Menus(
+                                context: context,
+                                ss: ss,
+                                siteId: siteId,
+                                referenceType: referenceType,
+                                menuId: "NavigationMenu",
+                                menus: ExtendedAssembleNavigationMenu(
+                                    navigationMenus: filteredMenus,
+                                    extendedNavigationMenus: ExtendedNavigationMenu(context)),
+                                serverScriptModelRow: serverScriptModelRow)
+
+                    )
+                    .Search(
+                        context: context,
+                        _using: useSearch && !Parameters.Search.DisableCrossSearch
+                    )
+                    .Div(
+                        id: "AccountMenuActions",
+                        action: () => hb
+                            .Menus(
+                                context: context,
+                                ss: ss,
+                                siteId: siteId,
+                                referenceType: referenceType,
+                                menuId: "NavigationMenu",
+                                menus: ExtendedAssembleNavigationMenu(
+                                    navigationMenus: Parameters.NavigationMenus.FindAll((m) => m.ContainerId == "AccountMenuContainer"), null),
+                                serverScriptModelRow: serverScriptModelRow
+                            ));
+
+            }
+
+            if (context.ThemeVersion2_0() && context.Action != "login")
             {
                 return hb
                     .Label(
@@ -128,7 +171,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss,
                         siteId: siteId,
                         referenceType: referenceType,
-                        muenuId: "NavigationMenu",
+                        menuId: "NavigationMenu",
                         menus: ExtendedAssembleNavigationMenu(
                             navigationMenus: Parameters.NavigationMenus,
                             extendedNavigationMenus: ExtendedNavigationMenu(context)),
@@ -147,7 +190,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             long siteId,
             string referenceType,
-            string muenuId,
+            string menuId,
             string css = null,
             string cssUiWidget = null,
             List<NavigationMenu> menus = null,
@@ -159,7 +202,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return hb;
             }
             return hb.Ul(
-                id: muenuId,
+                id: menuId,
                 css: $"{css} {cssUiWidget}".Trim(),
                 action: () => menus
                     .ExtensionWhere<NavigationMenu>(context)
@@ -178,7 +221,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     siteId: siteId,
                                     menu: menu)))
                         {
-                            if (context.ThemeVersion1_0())
+                            if (context.ThemeVersion1_0() || context.ThemeVersion3_0())
                             {
                                 SubMenu(
                                     hb: hb,
@@ -302,7 +345,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                                 ss: ss,
                                                                                 siteId: siteId,
                                                                                 referenceType: referenceType,
-                                                                                muenuId: menu.MenuId,
+                                                                                menuId: menu.MenuId,
                                                                                 childMenu: true,
                                                                                 menus: menu.ChildMenus,
                                                                                 serverScriptModelRow: serverScriptModelRow))))
@@ -373,7 +416,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : "sub-menu",
                 attributes: new HtmlAttributes()
                     .Style(
-                        value: context.ThemeVersion1_0()
+                        value: context.ThemeVersion1_0() || context.ThemeVersion3_0()
                             ? "display:none;"
                             : string.Empty,
                         _using: serverScriptModelRow?.Elements?.Hidden(id) == true),
@@ -390,11 +433,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss,
                         siteId: siteId,
                         referenceType: referenceType,
-                        muenuId: menu.MenuId,
-                        css: context.ThemeVersion1_0()
+                        menuId: menu.MenuId,
+                        css: context.ThemeVersion1_0() ||  context.ThemeVersion3_0()
                             ? "menu"
                             : null,
-                        cssUiWidget: context.ThemeVersion1_0()
+                        cssUiWidget: context.ThemeVersion1_0()  ||  context.ThemeVersion3_0()
                             ? "ui-widget-content"
                             : null,
                         childMenu: true,
@@ -984,7 +1027,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 && Permissions.CanManageUser(context: context)
                 && !ss.Locked();
         }
-        
+
         private static HtmlBuilder ResponsiveMenu(this HtmlBuilder hb, Context context)
         {
             return Parameters.Mobile.Responsive

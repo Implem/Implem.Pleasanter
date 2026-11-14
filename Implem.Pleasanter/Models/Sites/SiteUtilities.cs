@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Models
                                 id: ss.SiteId)),
                         action: () => hb
                             .Div(
-                                id: "ViewSelectorField", 
+                                id: "ViewSelectorField",
                                 action: () => hb
                                     .ViewSelector(
                                         context: context,
@@ -4912,6 +4912,7 @@ namespace Implem.Pleasanter.Models
                                     id: 0)),
                             action: () => hb
                                 .StartGuide(context: context)
+                                .TitleBanner(context: context)
                                 .SiteMenu(
                                     context: context,
                                     siteModel: null,
@@ -5198,6 +5199,7 @@ namespace Implem.Pleasanter.Models
             string siteImagePrefix,
             IEnumerable<SiteCondition> siteConditions)
         {
+
             if (toParent)
             {
                 hb.SiteMenuParent(
@@ -5510,11 +5512,28 @@ namespace Implem.Pleasanter.Models
                     .DataMethod("put"));
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
+        private static HtmlBuilder TitleBanner(this HtmlBuilder hb, Context context)
+        {
+            if (context.ThemeVersion3_0() || context.Theme() == "skystar")
+            {
+                return hb
+                    .Div(id: "SiteMenuTitleSection", action: () =>
+                        {
+                            hb.P(id: "__SiteMenuTitle", action: () => hb.Text(Displays.HelloSiteMenuTitle(context, [context.User.Name])));
+                            hb.P(id: "__SiteMenuShowAll", action: () => hb.Text(Displays.HelloSiteMenuAllResults(context)));
+                        }
+                    );
+            }
+
+            return hb;
+        }
+
         private static HtmlBuilder StartGuide(this HtmlBuilder hb, Context context)
         {
+            if (context.Theme() == "skystar")
+            {
+                return hb.SkystarStartGuide(context: context);
+            }
             return context.UserSettings.StartGuide(context: context)
                 ? hb.Div(
                     id: "StartGuide",
@@ -5543,6 +5562,51 @@ namespace Implem.Pleasanter.Models
                 : hb;
         }
 
+        private static HtmlBuilder SkystarStartGuide(this HtmlBuilder hb, Context context)
+        {
+            if (!context.UserSettings.StartGuide(context: context))
+            {
+                return hb;
+            }
+            var steps = new List<SkystarStartGuideStep>
+            {
+                new SkystarStartGuideStep
+                {
+                    Target = "#NavigationMenu",
+                    Placement = SkystarStartGuideStep.Placements.Bottom,
+                    Title = Displays.SkystarGuideMenuBarTitle(context: context),
+                    Body = Displays.SkystarGuideMenuBarBody(context: context)
+                },
+                new SkystarStartGuideStep
+                {
+                    Target = "#SearchField",
+                    Placement = SkystarStartGuideStep.Placements.Bottom,
+                    Title = Displays.SkystarGuideSearchTitle(context: context),
+                    Body = Displays.SkystarGuideSearchBody(context: context)
+                },
+                new SkystarStartGuideStep
+                {
+                    Target = "#SiteMenu",
+                    Placement = SkystarStartGuideStep.Placements.Top,
+                    Title = Displays.SkystarGuideSiteMenuTitle(context: context),
+                    Body = Displays.SkystarGuideSiteMenuBody(context: context)
+                },
+                new SkystarStartGuideStep
+                {
+                    Target = "#AccountUserName",
+                    Placement = SkystarStartGuideStep.Placements.Bottom,
+                    Title = Displays.SkystarGuideAccountTitle(context: context),
+                    Body = Displays.SkystarGuideAccountBody(context: context)
+                }
+            };
+            return hb.Div(attributes: new HtmlAttributes()
+                .Id("SkystarStartGuide")
+                .Add("data-steps", steps.ToJson())
+                .Add("data-next", Displays.SkystarGuideNext(context: context))
+                .Add("data-done", Displays.SkystarGuideDone(context: context))
+                .Add("data-skip", Displays.SkystarGuideSkip(context: context)));
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -5550,7 +5614,7 @@ namespace Implem.Pleasanter.Models
         {
             var utmContent = "startguide";
             var guides = new List<AccessorParts.StartGuide>();
-            guides.Add(new AccessorParts.StartGuide { 
+            guides.Add(new AccessorParts.StartGuide {
                 Id = "SgManual",
                 Text = Displays.UserManualSg(context: context),
                 Url = string.Format("https://pleasanter.org/manual?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}", Parameters.General.PleasanterSource, "manual", utmContent),

@@ -1,0 +1,33 @@
+{
+    "Id": "SkystarGuideSkip",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Skip"
+        },
+        {
+            "Language": "zh",
+            "Body": "跳过"
+        },
+        {
+            "Language": "ja",
+            "Body": "スキップ"
+        },
+        {
+            "Language": "de",
+            "Body": "Überspringen"
+        },
+        {
+            "Language": "ko",
+            "Body": "건너뛰기"
+        },
+        {
+            "Language": "es",
+            "Body": "Omitir"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bỏ qua"
+        }
+    ]
+}
