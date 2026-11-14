@@ -97,6 +97,7 @@ import './sitepackage.js';
 import './sitesettings.js';
 import './sitesettingsevents.js';
 import './splittotpform.js';
+import './skystarstartguide';
 import './startguide.js';
 import './statuscontrol.js';
 import './statusevents.js';

@@ -1,0 +1,33 @@
+{
+    "Id": "SkystarGuideDone",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Done"
+        },
+        {
+            "Language": "zh",
+            "Body": "完成"
+        },
+        {
+            "Language": "ja",
+            "Body": "完了"
+        },
+        {
+            "Language": "de",
+            "Body": "Fertig"
+        },
+        {
+            "Language": "ko",
+            "Body": "완료"
+        },
+        {
+            "Language": "es",
+            "Body": "Listo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xong"
+        }
+    ]
+}

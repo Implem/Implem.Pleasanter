@@ -5530,6 +5530,10 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder StartGuide(this HtmlBuilder hb, Context context)
         {
+            if (context.Theme() == "skystar")
+            {
+                return hb.SkystarStartGuide(context: context);
+            }
             return context.UserSettings.StartGuide(context: context)
                 ? hb.Div(
                     id: "StartGuide",
@@ -5556,6 +5560,51 @@ namespace Implem.Pleasanter.Models
                             iconCss: "ui-icon ui-icon-closethick",
                             onClick: "$('#StartGuide').hide();"))
                 : hb;
+        }
+
+        private static HtmlBuilder SkystarStartGuide(this HtmlBuilder hb, Context context)
+        {
+            if (!context.UserSettings.StartGuide(context: context))
+            {
+                return hb;
+            }
+            var steps = new List<SkystarStartGuideStep>
+            {
+                new SkystarStartGuideStep
+                {
+                    Target = "#NavigationMenu",
+                    Placement = SkystarStartGuideStep.Placements.Bottom,
+                    Title = Displays.SkystarGuideMenuBarTitle(context: context),
+                    Body = Displays.SkystarGuideMenuBarBody(context: context)
+                },
+                new SkystarStartGuideStep
+                {
+                    Target = "#SearchField",
+                    Placement = SkystarStartGuideStep.Placements.Bottom,
+                    Title = Displays.SkystarGuideSearchTitle(context: context),
+                    Body = Displays.SkystarGuideSearchBody(context: context)
+                },
+                new SkystarStartGuideStep
+                {
+                    Target = "#SiteMenu",
+                    Placement = SkystarStartGuideStep.Placements.Top,
+                    Title = Displays.SkystarGuideSiteMenuTitle(context: context),
+                    Body = Displays.SkystarGuideSiteMenuBody(context: context)
+                },
+                new SkystarStartGuideStep
+                {
+                    Target = "#AccountUserName",
+                    Placement = SkystarStartGuideStep.Placements.Bottom,
+                    Title = Displays.SkystarGuideAccountTitle(context: context),
+                    Body = Displays.SkystarGuideAccountBody(context: context)
+                }
+            };
+            return hb.Div(attributes: new HtmlAttributes()
+                .Id("SkystarStartGuide")
+                .Add("data-steps", steps.ToJson())
+                .Add("data-next", Displays.SkystarGuideNext(context: context))
+                .Add("data-done", Displays.SkystarGuideDone(context: context))
+                .Add("data-skip", Displays.SkystarGuideSkip(context: context)));
         }
 
         /// <summary>

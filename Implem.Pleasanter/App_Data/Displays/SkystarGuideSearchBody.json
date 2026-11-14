@@ -1,0 +1,33 @@
+{
+    "Id": "SkystarGuideSearchBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Quickly find sites and records by keyword."
+        },
+        {
+            "Language": "zh",
+            "Body": "通过关键字快速查找站点和记录。"
+        },
+        {
+            "Language": "ja",
+            "Body": "キーワードでサイトやレコードをすばやく探せます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Finden Sie Sites und Datensätze schnell per Stichwort."
+        },
+        {
+            "Language": "ko",
+            "Body": "키워드로 사이트와 레코드를 빠르게 찾을 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Encuentre sitios y registros rápidamente por palabra clave."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tìm nhanh trang và bản ghi theo từ khóa."
+        }
+    ]
+}

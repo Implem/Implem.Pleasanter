@@ -6219,6 +6219,116 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SkystarGuideMenuBarTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SkystarGuideMenuBarTitle",
+                data: data);
+        }
+
+        public static string SkystarGuideMenuBarBody(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SkystarGuideMenuBarBody",
+                data: data);
+        }
+
+        public static string SkystarGuideSearchTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SkystarGuideSearchTitle",
+                data: data);
+        }
+
+        public static string SkystarGuideSearchBody(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SkystarGuideSearchBody",
+                data: data);
+        }
+
+        public static string SkystarGuideSiteMenuTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SkystarGuideSiteMenuTitle",
+                data: data);
+        }
+
+        public static string SkystarGuideSiteMenuBody(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SkystarGuideSiteMenuBody",
+                data: data);
+        }
+
+        public static string SkystarGuideAccountTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SkystarGuideAccountTitle",
+                data: data);
+        }
+
+        public static string SkystarGuideAccountBody(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SkystarGuideAccountBody",
+                data: data);
+        }
+
+        public static string SkystarGuideNext(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SkystarGuideNext",
+                data: data);
+        }
+
+        public static string SkystarGuideDone(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SkystarGuideDone",
+                data: data);
+        }
+
+        public static string SkystarGuideSkip(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SkystarGuideSkip",
+                data: data);
+        }
+
         public static string HelpMenu(
             Context context,
             params string[] data)
