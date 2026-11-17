@@ -1,0 +1,33 @@
+{
+"Id": "HelloSiteMenuAllResults",
+"Type": 110,
+"Languages": [
+{
+"Body": "Latest Items"
+},
+{
+"Language": "zh",
+"Body": "最新商品"
+},
+{
+"Language": "ja",
+"Body": "最新アイテム"
+},
+{
+"Language": "de",
+"Body": "Neueste Artikel"
+},
+{
+"Language": "ko",
+"Body": "최신 아이템"
+},
+{
+"Language": "es",
+"Body": "Últimos artículos"
+},
+{
+"Language": "vn",
+"Body": "Mục mới nhất"
+}
+]
+}

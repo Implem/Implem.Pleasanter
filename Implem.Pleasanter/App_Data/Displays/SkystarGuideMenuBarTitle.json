@@ -1,0 +1,33 @@
+{
+    "Id": "SkystarGuideMenuBarTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Menu bar"
+        },
+        {
+            "Language": "zh",
+            "Body": "菜单栏"
+        },
+        {
+            "Language": "ja",
+            "Body": "メニューバー"
+        },
+        {
+            "Language": "de",
+            "Body": "Menüleiste"
+        },
+        {
+            "Language": "ko",
+            "Body": "메뉴 바"
+        },
+        {
+            "Language": "es",
+            "Body": "Barra de menú"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thanh menu"
+        }
+    ]
+}

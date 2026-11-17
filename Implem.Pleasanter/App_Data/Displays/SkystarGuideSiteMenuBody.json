@@ -1,0 +1,33 @@
+{
+    "Id": "SkystarGuideSiteMenuBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Every item you create in Pleasanter can be found in the \"All\" category, and items you viewed recently in the \"Recent\" category."
+        },
+        {
+            "Language": "zh",
+            "Body": "在Pleasanter中创建的所有项目都可以在“全部”类别中查看，最近浏览的项目可以在“最近”类别中查看。"
+        },
+        {
+            "Language": "ja",
+            "Body": "Pleasanterで作成したすべてのアイテムは、「すべて」カテゴリで確認できます。また、最近閲覧したアイテムは「最近」カテゴリで確認できます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Alle in Pleasanter erstellten Einträge finden Sie in der Kategorie „Alle“, zuletzt angesehene Einträge in der Kategorie „Zuletzt“."
+        },
+        {
+            "Language": "ko",
+            "Body": "Pleasanter에서 만든 모든 항목은 \"전체\" 카테고리에서, 최근 본 항목은 \"최근\" 카테고리에서 확인할 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Todos los elementos creados en Pleasanter están en la categoría \"Todos\", y los vistos recientemente en la categoría \"Recientes\"."
+        },
+        {
+            "Language": "vn",
+            "Body": "Mọi mục bạn tạo trong Pleasanter có trong danh mục \"Tất cả\", và các mục đã xem gần đây có trong danh mục \"Gần đây\"."
+        }
+    ]
+}

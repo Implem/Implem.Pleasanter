@@ -30,22 +30,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Announcement(context: context)
                 .Header(
                     id: "Header",
-                    action: () => hb
-                        .HeaderLogo(
-                            context: context,
-                            ss: ss,
-                            _using: context.ThemeVersionOver2_0() && context.Action == "login"
-                                ? false
-                                : true)
-                        .NavigationMenu(
-                            context: context,
-                            ss: ss,
-                            siteId: siteId,
-                            referenceType: referenceType,
-                            errorType: errorType,
-                            useNavigationMenu: useNavigationMenu,
-                            useSearch: useSearch,
-                            serverScriptModelRow: serverScriptModelRow));
+                    action: () =>
+                    {
+                        hb.HeaderLogo(
+                                context: context,
+                                ss: ss,
+                                _using: !context.ThemeVersionOver2_0() || context.Action != "login");
+                        hb.NavigationMenu(
+                                context: context,
+                                ss: ss,
+                                siteId: siteId,
+                                referenceType: referenceType,
+                                errorType: errorType,
+                                useNavigationMenu: useNavigationMenu,
+                                useSearch: useSearch,
+                                serverScriptModelRow: serverScriptModelRow);
+                    });
         }
 
         public static HtmlBuilder LicenseExpiredAlert(this HtmlBuilder hb, Context context)
@@ -145,7 +145,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         id: "Logo",
                         action: () => BuildLogoContent());
             }
-            
+
             return hb
                     .H(number: 2, id: "Logo", action: () => hb
                     .A(
@@ -159,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     id: context.SiteId)
                             : Locations.Top(context: context)),
                         action: () => BuildLogoContent()));
-                        
+
             HtmlBuilder BuildLogoContent()
             {
                 return hb
@@ -181,8 +181,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     id: "CorpLogo",
                     src: Locations.Get(
                         context: context,
-                        parts: new string[]
-                        {
+                        parts:
+                        [
                             "Binaries",
                             "TenantImageLogo",
                             BinaryUtilities.TenantImageUpdatedTime(
@@ -191,7 +191,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 context.TenantId,
                                 Images.ImageData.SizeTypes.Logo)
                                 .ToString("?yyyyMMddHHmmss")
-                        }))
+                        ]))
                 : hb.Img(
                     id: "CorpLogo",
                     src: Locations.Images(

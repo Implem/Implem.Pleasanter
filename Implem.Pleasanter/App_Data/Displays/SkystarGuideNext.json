@@ -1,0 +1,33 @@
+{
+    "Id": "SkystarGuideNext",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Next"
+        },
+        {
+            "Language": "zh",
+            "Body": "下一步"
+        },
+        {
+            "Language": "ja",
+            "Body": "次へ"
+        },
+        {
+            "Language": "de",
+            "Body": "Weiter"
+        },
+        {
+            "Language": "ko",
+            "Body": "다음"
+        },
+        {
+            "Language": "es",
+            "Body": "Siguiente"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tiếp"
+        }
+    ]
+}

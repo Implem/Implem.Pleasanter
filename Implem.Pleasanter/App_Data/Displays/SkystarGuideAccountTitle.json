@@ -1,0 +1,33 @@
+{
+    "Id": "SkystarGuideAccountTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Account"
+        },
+        {
+            "Language": "zh",
+            "Body": "账户"
+        },
+        {
+            "Language": "ja",
+            "Body": "アカウント"
+        },
+        {
+            "Language": "de",
+            "Body": "Konto"
+        },
+        {
+            "Language": "ko",
+            "Body": "계정"
+        },
+        {
+            "Language": "es",
+            "Body": "Cuenta"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tài khoản"
+        }
+    ]
+}

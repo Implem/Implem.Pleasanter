@@ -1,0 +1,33 @@
+{
+    "Id": "SkystarGuideSiteMenuTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Recent items"
+        },
+        {
+            "Language": "zh",
+            "Body": "最近的项目"
+        },
+        {
+            "Language": "ja",
+            "Body": "最近の記事"
+        },
+        {
+            "Language": "de",
+            "Body": "Neueste Einträge"
+        },
+        {
+            "Language": "ko",
+            "Body": "최근 항목"
+        },
+        {
+            "Language": "es",
+            "Body": "Elementos recientes"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mục gần đây"
+        }
+    ]
+}

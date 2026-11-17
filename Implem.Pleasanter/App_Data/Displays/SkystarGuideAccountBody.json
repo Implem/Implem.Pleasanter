@@ -1,0 +1,33 @@
+{
+    "Id": "SkystarGuideAccountBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Edit your profile, change settings or log out from here."
+        },
+        {
+            "Language": "zh",
+            "Body": "可以在此编辑个人资料、更改设置或注销。"
+        },
+        {
+            "Language": "ja",
+            "Body": "プロフィールの編集や設定の変更、ログアウトはここから行えます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Hier können Sie Ihr Profil bearbeiten, Einstellungen ändern oder sich abmelden."
+        },
+        {
+            "Language": "ko",
+            "Body": "여기에서 프로필 편집, 설정 변경, 로그아웃을 할 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Desde aquí puede editar su perfil, cambiar ajustes o cerrar sesión."
+        },
+        {
+            "Language": "vn",
+            "Body": "Chỉnh sửa hồ sơ, thay đổi cài đặt hoặc đăng xuất tại đây."
+        }
+    ]
+}
