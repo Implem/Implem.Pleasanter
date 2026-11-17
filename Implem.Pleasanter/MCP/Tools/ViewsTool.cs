@@ -36,7 +36,7 @@ Pleasanter の View JSON 作成とビュー管理のツール群です。
         private const string ViewLatestId = "ViewLatestId";
         private const string Views = "Views";
 
-        [McpServerTool(Name = "AddView")]
+        [McpServerTool(Name = "AddView", ReadOnly = false, Destructive = true, OpenWorld = true)]
         [Description(@"
 指定サイトに新しいビューを追加します。
 CreateViewJson で作成した View JSON を登録できます。")]
@@ -63,7 +63,7 @@ CreateViewJson で作成した View JSON を登録できます。")]
                 viewJson: viewJson);
         }
 
-        [McpServerTool(Name = "CopyView")]
+        [McpServerTool(Name = "CopyView", ReadOnly = false, Destructive = true, OpenWorld = true)]
         [Description(@"
 指定サイトのビューをコピーして新しいビューを作成します。
 コピー後のビュー名はコピー元と同じで、新しいビュー ID が自動割当されます。")]
@@ -87,7 +87,7 @@ CreateViewJson で作成した View JSON を登録できます。")]
                 viewId: viewId);
         }
 
-        [McpServerTool(Name = "CreateViewJson")]
+        [McpServerTool(Name = "CreateViewJson", ReadOnly = true, Destructive = false, OpenWorld = true)]
         [Description(@"
 レコード検索用の View JSON を生成します。
 このツールは JSON 文字列を生成するだけで、検索の実行やサイトへのビュー登録は行いません。
@@ -181,7 +181,7 @@ columnFilterHash の詳細な値指定方法は resource://pleasanter/specs/view
             }
         }
 
-        [McpServerTool(Name = "DeleteView")]
+        [McpServerTool(Name = "DeleteView", ReadOnly = false, Destructive = true, OpenWorld = true)]
         [Description(@"
 指定サイトからビューを削除します。削除は元に戻せません。
 viewId=0 で全ビュー削除。実行前に必ずユーザーに確認してください。")]
@@ -205,7 +205,7 @@ viewId=0 で全ビュー削除。実行前に必ずユーザーに確認して�
                 viewId: viewId);
         }
 
-        [McpServerTool(Name = "GetView")]
+        [McpServerTool(Name = "GetView", ReadOnly = true, Destructive = false, OpenWorld = true)]
         [Description(@"指定サイトのビュー設定を取得します。")]
         public static async Task<CallToolResult> GetView(
             [Description(@"対象サイト ID。")]
@@ -227,7 +227,7 @@ viewId=0 で全ビュー削除。実行前に必ずユーザーに確認して�
                 viewId: viewId);
         }
 
-        [McpServerTool(Name = "GetViewIdByViewName")]
+        [McpServerTool(Name = "GetViewIdByViewName", ReadOnly = true, Destructive = false, OpenWorld = true)]
         [Description(@"
 ビュー名からビュー ID を検索します（完全一致）。
 取得した ID は UpdateView / DeleteView 等のパラメータに使用できます。")]
@@ -251,7 +251,7 @@ viewId=0 で全ビュー削除。実行前に必ずユーザーに確認して�
                 viewName: viewName);
         }
 
-        [McpServerTool(Name = "UpdateView")]
+        [McpServerTool(Name = "UpdateView", ReadOnly = false, Destructive = true, OpenWorld = true)]
         [Description(@"
 指定サイトの既存ビューを更新します。
 フィルタ条件・ソート順の変更やビュー名の変更が可能です。")]
