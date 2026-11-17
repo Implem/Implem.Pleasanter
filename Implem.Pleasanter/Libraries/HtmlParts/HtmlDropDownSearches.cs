@@ -93,14 +93,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 column?.AddToChoiceHash(
                     context: context,
                     value: value));
-            var listItemCollection = column?.EditChoices(
+            var listItemCollection = column?.EditChoicesOrTenantIdFilterOptions_SysLogs(
                 context: context,
                 addNotSet: column?.MultipleSelections != true,
                 own: filter);
             var searchText = context.Forms.Data("DropDownSearchText").IsNullOrEmpty()
                 ? string.Empty
                 : context.Forms.Data("DropDownSearchText");
-            if (column?.MultipleSelections == true || filter)
+            var isTenantIdFilter = column?.TableName() == "SysLogs" && column?.ColumnName == "TenantId";
+            if (column.IsMultipleSelectionsDropDownSearch(filter: filter))
             {
                 return hb
                     .FieldSelectable(
@@ -159,6 +160,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     controlCss: " auto-postback always-send w150",
                                     text: searchText,
                                     action: "SearchDropDown",
+                                    placeholder: isTenantIdFilter
+                                        ? Displays.SearchByTenantId(context: context)
+                                        : null,
                                     method: "post")
                                 .Button(
                                     text: Displays.Search(context: context),
@@ -170,7 +174,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 return hb.FieldSelectable(
                     controlId: "DropDownSearchResults",
-                    fieldCss: "field-vertical w600",
+                    fieldCss: isTenantIdFilter ? "field-vertical w200" : "field-vertical w600",
                     controlContainerCss: "container-selectable",
                     controlWrapperCss: " h300",
                     listItemCollection: listItemCollection,
@@ -184,6 +188,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlCss: " auto-postback always-send w200",
                                 action: "SearchDropDown",
                                 text: searchText,
+                                placeholder: isTenantIdFilter
+                                    ? Displays.SearchByTenantId(context: context)
+                                    : null,
                                 method: "post")
                             .Button(
                                 text: Displays.Search(context: context),

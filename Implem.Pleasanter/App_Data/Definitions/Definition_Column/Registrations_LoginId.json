@@ -21,6 +21,7 @@
     "EditorReadOnly": "1",
     "LabelText_en": "Login ID",
     "LabelText_zh": "登录ID",
+    "LabelText_zh_tw": "登入ID",
     "LabelText_de": "Anmelde-ID",
     "LabelText_ko": "로그인 ID",
     "LabelText_es": "Ingresar identificación",

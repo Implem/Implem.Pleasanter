@@ -17,6 +17,7 @@
     "Required": "1",
     "LabelText_en": "Email address",
     "LabelText_zh": "电子邮箱地址",
+    "LabelText_zh_tw": "電子郵件地址",
     "LabelText_de": "E-Mail-Adresse",
     "LabelText_ko": "이메일 주소",
     "LabelText_es": "Dirección de correo electrónico",

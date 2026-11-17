@@ -17,6 +17,7 @@
     "ChoicesText": "0,Pending\n1,Running\n2,Completed\n3,Failed\n4,Cancelled\n5,RunningOverdue",
     "LabelText_en": "Status",
     "LabelText_zh": "状态",
+    "LabelText_zh_tw": "狀態",
     "LabelText_de": "Status",
     "LabelText_ko": "상태",
     "LabelText_es": "Estado",

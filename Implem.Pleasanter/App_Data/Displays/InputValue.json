@@ -10,6 +10,10 @@
             "Body": "输入值"
         },
         {
+            "Language": "zh_tw",
+            "Body": "輸入值"
+        },
+        {
             "Language": "ja",
             "Body": "値の入力"
         },

@@ -10,6 +10,10 @@
             "Body": "正在登录…"
         },
         {
+            "Language": "zh_tw",
+            "Body": "正在登入…"
+        },
+        {
             "Language": "ja",
             "Body": "ログインしています …"
         },

@@ -10,6 +10,10 @@
             "Body": "当前的日期"
         },
         {
+            "Language": "zh_tw",
+            "Body": "目前的日期"
+        },
+        {
             "Language": "ja",
             "Body": "現在の日付"
         },

@@ -10,6 +10,10 @@
             "Body": "购置"
         },
         {
+            "Language": "zh_tw",
+            "Body": "購置"
+        },
+        {
             "Language": "ja",
             "Body": "購買・仕入"
         },

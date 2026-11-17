@@ -10,6 +10,10 @@
             "Body": "邀请"
         },
         {
+            "Language": "zh_tw",
+            "Body": "邀請"
+        },
+        {
             "Language": "ja",
             "Body": "招待"
         },

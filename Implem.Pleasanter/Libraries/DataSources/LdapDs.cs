@@ -76,7 +76,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         context: context,
                         result: result,
                         ldap: ldap,
-                        synchronizedTime: DateTime.Now);
+                        synchronizedTime: DateTime.Now,
+                        allowExtendedColumns: TenantUtilities.GetExtendedColumnsContractSettings(
+                            context: context,
+                            tenantId: ldap.LdapTenantId)
+                                .ExtendedColumns());
                     return true;
                 }
             }
@@ -100,7 +104,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         context: context,
                         result: result,
                         ldap: ldap,
-                        synchronizedTime: DateTime.Now);
+                        synchronizedTime: DateTime.Now,
+                        allowExtendedColumns: TenantUtilities.GetExtendedColumnsContractSettings(
+                            context: context,
+                            tenantId: ldap.LdapTenantId)
+                                .ExtendedColumns());
                 }
                 catch (DirectoryServicesCOMException e)
                 {
@@ -120,7 +128,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Context context,
             SearchResult result,
             ParameterAccessor.Parts.Ldap ldap,
-            DateTime synchronizedTime)
+            DateTime synchronizedTime,
+            bool allowExtendedColumns)
         {
             var deptCode = result.Property(
                 context: context,
@@ -179,8 +188,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .DeptId(0, _using: deptSettings && !deptExists)
                 .LdapSearchRoot(ldap.LdapSearchRoot)
                 .SynchronizedTime(synchronizedTime);
-            ldap.LdapExtendedAttributes?.ForEach(attribute =>
-                param.Add(
+            ldap.LdapExtendedAttributes
+                ?.Where(attribute => allowExtendedColumns
+                    || !ColumnUtilities.AdditionalExtendedColumn(columnName: attribute.ColumnName))
+                .ForEach(attribute => param.Add(
                     $"\"{attribute.ColumnName}\"",
                     attribute.ColumnName,
                     result.Property(
@@ -322,6 +333,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
             try
             {
+                var allowExtendedColumns = TenantUtilities.GetExtendedColumnsContractSettings(
+                    context: context,
+                    tenantId: ldap.LdapTenantId)
+                        .ExtendedColumns();
                 var directorySearcher = DirectorySearcher(
                     ldap.LdapSyncUser,
                     ldap.LdapSyncPassword,
@@ -349,7 +364,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 context: context,
                                 result: result,
                                 ldap: ldap,
-                                synchronizedTime: synchronizedTime);
+                                synchronizedTime: synchronizedTime,
+                                allowExtendedColumns: allowExtendedColumns);
                             if (!result.IsGroup(context: context) && !users.ContainsKey(result.Path))
                             {
                                 users.Add(
@@ -430,6 +446,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 var groupGraph = new Dictionary<int, int[]>();
                 var statusUpdateTimer = DateTime.Now.AddSeconds(60);
+                var allowExtendedColumnsHash = groups.Values
+                    .Select(group => group.Ldap.LdapTenantId)
+                    .Distinct()
+                    .ToDictionary(
+                        tenantId => tenantId,
+                        tenantId => TenantUtilities.GetExtendedColumnsContractSettings(
+                            context: context,
+                            tenantId: tenantId)
+                                .ExtendedColumns());
                 groups.Values
                     .ForEach(group =>
                     {
@@ -441,8 +466,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             .LdapGuid(group.LdapObjectGUID)
                             .LdapSearchRoot(group.Ldap.LdapSearchRoot)
                             .SynchronizedTime(synchronizedTime);
-                        group.ExtendedAttributes?.ForEach(v =>
-                            param.Add($"\"{v.Item1}\"", v.Item1, v.Item2));
+                        group.ExtendedAttributes
+                            ?.Where(v => allowExtendedColumnsHash[group.Ldap.LdapTenantId]
+                                || !ColumnUtilities.AdditionalExtendedColumn(columnName: v.Item1))
+                            .ForEach(v => param.Add($"\"{v.Item1}\"", v.Item1, v.Item2));
                         Repository.ExecuteNonQuery(
                             context: context,
                             transactional: true,

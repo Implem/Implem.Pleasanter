@@ -11,6 +11,10 @@
             "Body": "重置顺序"
         },
         {
+            "Language": "zh_tw",
+            "Body": "重設順序"
+        },
+        {
             "Language": "ja",
             "Body": "リセット"
         },

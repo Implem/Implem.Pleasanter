@@ -23,6 +23,7 @@
     "CheckFilterControlType": "2",
     "LabelText_en": "Allow group administration",
     "LabelText_zh": "允许组管理",
+    "LabelText_zh_tw": "允許組管理",
     "LabelText_de": "Gruppenverwaltung zulassen",
     "LabelText_ko": "그룹 관리 허용",
     "LabelText_es": "Permitir la administración de grupos",

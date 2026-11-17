@@ -10,6 +10,10 @@
             "Body": "输出日志"
         },
         {
+            "Language": "zh_tw",
+            "Body": "輸出日誌"
+        },
+        {
             "Language": "ja",
             "Body": "ログを出力する"
         },

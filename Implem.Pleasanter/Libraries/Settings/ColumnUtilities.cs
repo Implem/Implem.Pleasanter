@@ -24,6 +24,98 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
+        public static bool AdditionalExtendedColumn(string columnName)
+        {
+            return !columnName.IsNullOrEmpty()
+                && Def.ExtendedColumnTypes.ContainsKey(columnName)
+                && char.IsDigit(columnName[columnName.Length - 1]);
+        }
+
+        public static bool AllowedExtendedColumn(Context context, string columnName)
+        {
+            return context.ContractSettings.ExtendedColumns()
+                || !AdditionalExtendedColumn(columnName: columnName);
+        }
+
+        public static IEnumerable<ColumnDefinition> AllowedExtendedColumns(
+            this IEnumerable<ColumnDefinition> definitions,
+            Context context)
+        {
+            return definitions.Where(o => AllowedExtendedColumn(
+                context: context,
+                columnName: o.ColumnName));
+        }
+
+        public static Column NotAllowedExtendedColumnUpdated(
+            Context context,
+            SiteSettings ss,
+            BaseModel baseModel,
+            bool copy = false)
+        {
+            if (context.ContractSettings.ExtendedColumns()
+                || ss == null
+                || baseModel == null)
+            {
+                return null;
+            }
+            return ss.Columns
+                ?.Where(column => column.NotAllowedByContract && !column.Joined)
+                .FirstOrDefault(column => ExtendedColumnUpdated(
+                    context: context,
+                    baseModel: baseModel,
+                    column: column,
+                    copy: copy));
+        }
+
+        private static bool ExtendedColumnUpdated(
+            Context context,
+            BaseModel baseModel,
+            Column column,
+            bool copy)
+        {
+            switch (Def.ExtendedColumnTypes.Get(column.Name ?? string.Empty))
+            {
+                case "Class":
+                    return baseModel.Class_Updated(
+                        columnName: column.Name,
+                        copy: copy,
+                        context: context,
+                        column: column);
+                case "Num":
+                    return baseModel.Num_Updated(
+                        columnName: column.Name,
+                        copy: copy,
+                        context: context,
+                        column: column);
+                case "Date":
+                    return baseModel.Date_Updated(
+                        columnName: column.Name,
+                        copy: copy,
+                        context: context,
+                        column: column);
+                case "Description":
+                    return baseModel.Description_Updated(
+                        columnName: column.Name,
+                        copy: copy,
+                        context: context,
+                        column: column);
+                case "Check":
+                    return baseModel.Check_Updated(
+                        columnName: column.Name,
+                        copy: copy,
+                        context: context,
+                        column: column);
+                case "Attachments":
+                    return baseModel.Attachments_Updated(
+                        columnName: column.Name,
+                        copy: copy,
+                        context: context,
+                        column: column);
+                default:
+                    return false;
+            }
+        }
+
         public enum CheckFilterTypes : int
         {
             On = 1,
@@ -111,6 +203,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.GridEnabled || !enableOnly)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
+                .AllowedExtendedColumns(context: context)
                 .OrderBy(o => o.GridColumn);
         }
 
@@ -134,6 +227,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => !o.NotEditorSettings)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
+                .AllowedExtendedColumns(context: context)
                 .OrderBy(o => o.EditorColumn);
         }
 
@@ -156,6 +250,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.LinkEnabled || !enableOnly)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
+                .AllowedExtendedColumns(context: context)
                 .OrderBy(o => o.LinkColumn);
         }
 
@@ -169,6 +264,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.HistoryEnabled || !enableOnly)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
+                .AllowedExtendedColumns(context: context)
                 .OrderBy(o => o.HistoryColumn);
         }
 

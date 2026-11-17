@@ -136,7 +136,9 @@ namespace Implem.Pleasanter.Libraries.Security
             Types permissionType,
             bool checkPermission = true)
         {
-            if (ss.ColumnHash.ContainsKey("TenantId"))
+            if (ss.ColumnHash.ContainsKey("TenantId")
+                && (ss.ReferenceType != "SysLogs"
+                    || ApplySysLogsTenantFilter(context: context)))
             {
                 where.Add(
                     tableName: ss.ReferenceType,
@@ -167,6 +169,15 @@ namespace Implem.Pleasanter.Libraries.Security
                                 ss: ss,
                                 permissionType: permissionType ^ ((context.GetContextPermission(ss: ss).PermissionType ?? Types.NotSet) & permissionType));
                         }
+                    }
+                    else if (PublishScope(context: context))
+                    {
+                        var siteIds = ss.AllowedIntegratedSites.Join();
+                        where.Add(
+                            tableName: ss.ReferenceType,
+                            raw: ss.AllowedIntegratedSites.Any()
+                                ? $"\"{ss.ReferenceType}\".\"SiteId\" in ({siteIds})"
+                                : "1=0");
                     }
                     else
                     {
@@ -206,6 +217,10 @@ namespace Implem.Pleasanter.Libraries.Security
 
         private static bool CheckSitePermission(Context context, SiteSettings ss, Types permissionType)
         {
+            if (PublishScope(context: context) && ss.SiteId != context.SiteId)
+            {
+                return false;
+            }
             return context.Controller == "items"
                 ? context.ItemsCan(
                     ss: ss,
@@ -260,6 +275,13 @@ namespace Implem.Pleasanter.Libraries.Security
             string idColumnBracket,
             bool _using = true)
         {
+            if (_using == false && PublishScope(context: context))
+            {
+                return where.Add(raw: PublishScopeWhere(
+                    context: context,
+                    idColumnBracket: idColumnBracket,
+                    includeWikis: true));
+            }
             return _using && !context.HasPrivilege
                 ? where
                     .Sites_TenantId(context.TenantId)
@@ -283,6 +305,15 @@ namespace Implem.Pleasanter.Libraries.Security
             Types permissionType,
             List<long> siteIdList = null)
         {
+            if (PublishScope(context: context))
+            {
+                return where.Add(
+                    tableName: ss.ReferenceType,
+                    raw: PublishScopeWhere(
+                        context: context,
+                        idColumnBracket: ss.IdColumnBracket(),
+                        includeWikis: false));
+            }
             return where.Add(
                 tableName: ss.ReferenceType,
                 subLeft: CheckRecordPermission(
@@ -423,6 +454,10 @@ namespace Implem.Pleasanter.Libraries.Security
             Column column,
             List<string> mine)
         {
+            if (column.NotAllowedByContract)
+            {
+                return false;
+            }
             return columnAccessControls?
                 .FirstOrDefault(o => o.ColumnName == column.Name)?
                 .Allowed(
@@ -445,6 +480,47 @@ namespace Implem.Pleasanter.Libraries.Security
             return context.UserSettings?.AllowCreationAtTopSite(context: context) != true
                 ? Types.Read
                 : (Types)Parameters.Permissions.Manager;
+        }
+
+        public static bool PublishScope(Context context)
+        {
+            return context.Publish && context.Controller == "publishes";
+        }
+
+        public static string PublishScopeWhere(
+            Context context,
+            string idColumnBracket,
+            bool includeWikis)
+        {
+            return PublishScopeWhere(
+                idColumnBracket: idColumnBracket,
+                siteId: context.SiteId,
+                includeWikis: includeWikis);
+        }
+
+        internal static string PublishScopeWhere(
+            string idColumnBracket,
+            long siteId,
+            bool includeWikis)
+        {
+            var items = $@"select ""PublishScope_Items"".""ReferenceId""
+                from ""Items"" as ""PublishScope_Items""
+                where ""PublishScope_Items"".""SiteId""={siteId}";
+            var where = $@"({idColumnBracket} in ({items})
+                or {idColumnBracket} in (select ""PublishScope_Destinations"".""DestinationId""
+                    from ""Links"" as ""PublishScope_Destinations""
+                    where ""PublishScope_Destinations"".""SourceId"" in ({items}))
+                or {idColumnBracket} in (select ""PublishScope_Sources"".""SourceId""
+                    from ""Links"" as ""PublishScope_Sources""
+                    where ""PublishScope_Sources"".""DestinationId"" in ({items}))";
+            if (includeWikis)
+            {
+                where += $@"
+                or {idColumnBracket} in (select ""PublishScope_Wikis"".""ReferenceId""
+                    from ""Items"" as ""PublishScope_Wikis""
+                    where ""PublishScope_Wikis"".""ReferenceType""='Wikis')";
+            }
+            return where + ")";
         }
 
         public static bool CanRead(
@@ -792,6 +868,12 @@ namespace Implem.Pleasanter.Libraries.Security
                 || context.UserSettings?.EnableManageTenant == null)
                 && !context.HasPrivilege
                 && !Parameters.Service.ShowProfiles;
+        }
+
+        public static bool ApplySysLogsTenantFilter(Context context)
+        {
+            return !(context.HasPrivilege
+                && Parameters.MultiTenant.IsProtectedTenant(context.TenantId));
         }
 
         public static bool CanManageRegistrations(Context context, bool any = false)

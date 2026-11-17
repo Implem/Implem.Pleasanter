@@ -215,24 +215,21 @@ export class GridContainerElement extends HTMLElement {
 
                 style.textContent = /* css */ `
                     ${stickyIndexes
-                                            .map((cellIndex, index) => {
-                                                return /* css */ `
-                                                    .${this.hash}
-                                                        > thead
-                                                        > tr:first-child
-                                                        > th:nth-child(${cellIndex + 1}) {
-                                                        position: sticky;
-                                                        z-index: 2;
-                                                        left: ${lefts[index]}px;
-                                                    }
-                                                    .${this.hash} > tbody > tr > td:nth-child(${cellIndex + 1}) {
-                                                        position: sticky;
-                                                        z-index: 2;
-                                                        left: ${lefts[index]}px;
-                                                    }
-                                                `;
-                                            })
-                                            .join('')}
+                        .map((cellIndex, index) => {
+                            return /* css */ `
+                                .${this.hash} > thead > tr:first-child > th:nth-child(${cellIndex + 1}) {
+                                    position: sticky;
+                                    z-index: 2;
+                                    left: ${lefts[index]}px;
+                                }
+                                .${this.hash} > tbody > tr > td:nth-child(${cellIndex + 1}) {
+                                    position: sticky;
+                                    z-index: 2;
+                                    left: ${lefts[index]}px;
+                                }
+                            `;
+                        })
+                        .join('')}
                 `;
             }
         }

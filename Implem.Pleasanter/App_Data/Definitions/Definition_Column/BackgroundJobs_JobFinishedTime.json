@@ -11,6 +11,7 @@
     "Nullable": "1",
     "LabelText_en": "Job Finished Time",
     "LabelText_zh": "作业完成时间",
+    "LabelText_zh_tw": "作業完成時間",
     "LabelText_de": "Auftragsabschlusszeit",
     "LabelText_ko": "작업 종료 일시",
     "LabelText_es": "Hora de finalización del trabajo",

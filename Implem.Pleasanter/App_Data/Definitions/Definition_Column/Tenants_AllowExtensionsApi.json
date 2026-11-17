@@ -11,6 +11,7 @@
     "Nullable": "1",
     "LabelText_en": "Allow extensions API",
     "LabelText_zh": "允许扩展 API",
+    "LabelText_zh_tw": "允許擴充 API",
     "LabelText_de": "Erweiterungen-API zulassen",
     "LabelText_ko": "확장 API 허용",
     "LabelText_es": "Permitir API de extensiones",

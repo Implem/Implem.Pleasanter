@@ -11,6 +11,7 @@
     "HistoryColumn": "4",
     "LabelText_en": "Reset Time",
     "LabelText_zh": "重置时间",
+    "LabelText_zh_tw": "重設時間",
     "LabelText_de": "Zurücksetzzeit",
     "LabelText_ko": "재설정 시간",
     "LabelText_es": "Hora de reinicio",

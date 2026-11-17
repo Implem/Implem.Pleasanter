@@ -1,4 +1,4 @@
 ﻿case "#TableName#":
     return #ModelName#Utilities.BulkUpdate(
         context: context,
-        ss: Site.SiteSettings);
+        ss: ss);

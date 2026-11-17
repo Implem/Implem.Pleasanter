@@ -10,6 +10,10 @@
             "Body": "带默认值复制"
         },
         {
+            "Language": "zh_tw",
+            "Body": "帶預設值複製"
+        },
+        {
             "Language": "ja",
             "Body": "既定値でコピー"
         },

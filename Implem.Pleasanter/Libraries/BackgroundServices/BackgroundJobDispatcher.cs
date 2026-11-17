@@ -50,6 +50,9 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 jobType: BackgroundJobTypes.BulkDelete,
                 handler: new BulkDeleteJobHandler());
             RegisterHandler(
+                jobType: BackgroundJobTypes.BulkUpdate,
+                handler: new BulkUpdateJobHandler());
+            RegisterHandler(
                 jobType: BackgroundJobTypes.AiConnectSync,
                 handler: new AiConnectSyncJobHandler());
             RegisterHandler(

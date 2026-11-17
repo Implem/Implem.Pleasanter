@@ -10,6 +10,10 @@
             "Body": "小于{0}"
         },
         {
+            "Language": "zh_tw",
+            "Body": "小於{0}"
+        },
+        {
             "Language": "ja",
             "Body": "{0} 未満"
         },

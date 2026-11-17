@@ -10,6 +10,10 @@
             "Body": "JobType: {0} 没有注册处理程序。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "JobType: {0} 沒有註冊處理程序。"
+        },
+        {
             "Language": "ja",
             "Body": "JobType: {0} に対応するハンドラが登録されていません。"
         },

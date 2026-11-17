@@ -11,6 +11,10 @@
             "Body": "当前剩余工作量"
         },
         {
+            "Language": "zh_tw",
+            "Body": "目前剩餘工作量"
+        },
+        {
             "Language": "ja",
             "Body": "残作業量"
         },

@@ -583,9 +583,29 @@ namespace Implem.Pleasanter.Controllers
             }
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = UserUtilities.SyncByLdap(context: context);
-            log.Finish(context: context, responseSize: json.Length);
-            return json;
+            var originalFor = Request.Headers[
+                Microsoft.AspNetCore.HttpOverrides.ForwardedHeadersDefaults.XOriginalForHeaderName];
+            var fromLoopbackHost = IpAddresses.IsLoopback(ipAddress: context.UserHostName);
+            var fromLoopback = fromLoopbackHost
+                && (originalFor.Count == 0
+                    || IpAddresses.IsLoopback(ipAddress: originalFor.ToString()));
+            if (fromLoopback)
+            {
+                var json = UserUtilities.SyncByLdap(context: context);
+                log.Finish(
+                    context: context,
+                    responseSize: json.Length);
+                return json;
+            }
+            context.SysLogsStatus = StatusCodes.Status403Forbidden;
+            log.Finish(
+                context: context,
+                responseSize: 0,
+                message: fromLoopbackHost
+                    ? "SyncByLdap was rejected because X-Original-For is not loopback."
+                    : "SyncByLdap was rejected because the request source is not loopback.");
+            Response.StatusCode = StatusCodes.Status403Forbidden;
+            return string.Empty;
         }
 
         /// <summary>

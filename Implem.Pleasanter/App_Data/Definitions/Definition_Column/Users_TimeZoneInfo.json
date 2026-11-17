@@ -23,6 +23,7 @@
     "Calc": "TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(o => o.Id == TimeZone)",
     "LabelText_en": "Time zone info",
     "LabelText_zh": "时区信息",
+    "LabelText_zh_tw": "時區資訊",
     "LabelText_de": "Info Zeitzone",
     "LabelText_ko": "표준시간대 정보",
     "LabelText_es": "Información de zona horaria",

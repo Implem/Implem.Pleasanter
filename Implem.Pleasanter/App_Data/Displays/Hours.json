@@ -11,6 +11,10 @@
             "Body": "小时"
         },
         {
+            "Language": "zh_tw",
+            "Body": "小時"
+        },
+        {
             "Language": "ja",
             "Body": "時"
         },

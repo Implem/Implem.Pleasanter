@@ -21,6 +21,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "API Key Prefix",
     "LabelText_zh": "API密钥前缀",
+    "LabelText_zh_tw": "API金鑰字首",
     "LabelText_de": "API-Schlüssel-Präfix",
     "LabelText_ko": "API 키 접두사",
     "LabelText_es": "Prefijo de clave API",

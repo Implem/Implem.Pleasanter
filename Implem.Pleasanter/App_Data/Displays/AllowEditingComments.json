@@ -10,6 +10,10 @@
             "Body": "允许编辑评论"
         },
         {
+            "Language": "zh_tw",
+            "Body": "允許編輯留言"
+        },
+        {
             "Language": "ja",
             "Body": "コメントの編集を許可"
         },

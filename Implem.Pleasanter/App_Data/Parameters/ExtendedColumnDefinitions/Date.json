@@ -25,6 +25,7 @@
     "FullTextType": 0,
     "LabelText_en": "Date",
     "LabelText_zh": "日期",
+    "LabelText_zh_tw": "日期",
     "LabelText_de": "Datum",
     "LabelText_ko": "날짜",
     "LabelText_es": "Fecha",

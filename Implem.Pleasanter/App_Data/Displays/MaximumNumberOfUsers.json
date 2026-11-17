@@ -10,6 +10,10 @@
             "Body": "最大用户数"
         },
         {
+            "Language": "zh_tw",
+            "Body": "最大使用者數"
+        },
+        {
             "Language": "ja",
             "Body": "ユーザ数上限"
         },

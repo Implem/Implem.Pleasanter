@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Failed" },
         { "Language": "zh", "Body": "失败" },
+        {
+            "Language": "zh_tw",
+            "Body": "失敗"
+        },
         { "Language": "ja", "Body": "エラー" },
         { "Language": "de", "Body": "Fehlgeschlagen" },
         { "Language": "ko", "Body": "실패" },

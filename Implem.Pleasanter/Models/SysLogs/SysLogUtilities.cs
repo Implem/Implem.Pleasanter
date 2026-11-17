@@ -201,6 +201,9 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static GridData GetGridData(
             Context context, SiteSettings ss, View view, int offset = 0)
         {
@@ -1002,6 +1005,24 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "TenantId":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: sysLogModel.TenantId,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Creator":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -1232,6 +1253,9 @@ namespace Implem.Pleasanter.Models
                     case "AssemblyVersion": value = sysLogModel.AssemblyVersion.GridText(
                         context: context,
                         column: column); break;
+                    case "TenantId": value = sysLogModel.TenantId.GridText(
+                        context: context,
+                        column: column); break;
                     case "Creator": value = sysLogModel.Creator.GridText(
                         context: context,
                         column: column); break;
@@ -1270,6 +1294,14 @@ namespace Implem.Pleasanter.Models
                                 break;
                         }
                         break;
+                }
+                if (!column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: sysLogModel.Mine(context: context),
+                    noCache: true))
+                {
+                    value = string.Empty;
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
@@ -1695,6 +1727,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "TenantId":
+                    return sysLogModel.TenantId
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 default:
                     switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
@@ -1787,6 +1825,9 @@ namespace Implem.Pleasanter.Models
                     .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static List<long> GetSwitchTargets(Context context, SiteSettings ss, long sysLogId)
         {
             var view = Views.GetBySession(
@@ -2437,6 +2478,12 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
+            if (ss.ColumnHash.ContainsKey("TenantId")
+                && Permissions.ApplySysLogsTenantFilter(context: context)
+                && sysLogModel.TenantId != context.TenantId)
+            {
+                return Error.Types.NotFound.MessageJson(context: context);
+            }
             var hb = new HtmlBuilder();
             hb.Div(
                 css: "tabs-panel-inner",
@@ -2623,7 +2670,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 where: view.Where(
                     context: context,
-                    ss: ss),
+                    ss: ss,
+                    where: SelectedWhere(context: context, ss: ss)),
                 orderBy: view.OrderBy(
                     context: context,
                     ss: ss),

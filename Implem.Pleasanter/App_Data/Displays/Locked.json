@@ -11,6 +11,10 @@
             "Body": "已锁定"
         },
         {
+            "Language": "zh_tw",
+            "Body": "已鎖定"
+        },
+        {
             "Language": "ja",
             "Body": "ロック"
         },

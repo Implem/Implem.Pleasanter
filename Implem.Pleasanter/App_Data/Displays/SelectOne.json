@@ -10,6 +10,10 @@
             "Body": "请选择一个。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "請選擇一個。"
+        },
+        {
             "Language": "ja",
             "Body": "1つ選択してください。"
         },

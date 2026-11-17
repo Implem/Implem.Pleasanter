@@ -23,6 +23,7 @@
     "CheckFilterControlType": "2",
     "LabelText_en": "Allow creation at the top of the site",
     "LabelText_zh": "允许在网站顶部创建",
+    "LabelText_zh_tw": "允許在站點頂部建立",
     "LabelText_de": "Erlaube die Erstellung oben auf der Site",
     "LabelText_ko": "사이트 상단에서 생성 허용",
     "LabelText_es": "Permitir la creación en la parte superior del sitio",

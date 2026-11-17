@@ -56,6 +56,10 @@ namespace Implem.CodeDefiner.Functions.Rds
                     Consoles.Write($"[{generalTableName}]: {e}", Consoles.Types.Error);
                 }
             });
+            if (checkMigration)
+            {
+                return isChanged;
+            }
             try
             {
                 switch (Parameters.Rds.Dbms)
@@ -171,6 +175,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                 .Where(o => ShouldIncludeColumn(generalTableName, o))
                 .OrderBy(o => o.No)
                 .ToList();
+            ApplyLowSchemaVersionColumnSize(generalTableName, columnDefinitionCollection);
 
             if (IsPostgreSqlQuartzTable(generalTableName))
             {
@@ -211,6 +216,37 @@ namespace Implem.CodeDefiner.Functions.Rds
                 columnDefinitionCollection: columnDefinitionHistoryCollection,
                 checkMigration: checkMigration);
             return isChanged;
+        }
+
+        private static void ApplyLowSchemaVersionColumnSize(
+            string generalTableName,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection)
+        {
+            ApplyLowSchemaVersionColumnSize(
+                generalTableName: generalTableName,
+                columnDefinitionCollection: columnDefinitionCollection,
+                targetTableName: "SysLogs",
+                columnName: "UserHostAddress",
+                legacyMaxLength: Extensions.SysLogsLegacyUserHostAddressMaxLength,
+                currentSchemaVersion: Parameters.Rds.SysLogsSchemaVersion,
+                requiredSchemaVersion: Extensions.SysLogsTenantIdSchemaVersion);
+        }
+
+        private static void ApplyLowSchemaVersionColumnSize(
+            string generalTableName,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection,
+            string targetTableName,
+            string columnName,
+            int legacyMaxLength,
+            int currentSchemaVersion,
+            int requiredSchemaVersion)
+        {
+            if (generalTableName == targetTableName && currentSchemaVersion < requiredSchemaVersion)
+            {
+                columnDefinitionCollection
+                    .Where(o => o.ColumnName == columnName)
+                    .ForEach(o => o.MaxLength = legacyMaxLength);
+            }
         }
 
         private static bool ConfigureTablePart(
@@ -263,7 +299,60 @@ namespace Implem.CodeDefiner.Functions.Rds
                     isChanged = true;
                 }
             }
+            if (isChanged
+                && checkMigration == false)
+            {
+                VerifyConfiguredTable(
+                    factory: factory,
+                    generalTableName: generalTableName,
+                    sourceTableName: sourceTableName,
+                    tableType: tableType,
+                    columnDefinitionCollection: columnDefinitionCollection);
+            }
+            if (!isChanged)
+            {
+                isChanged |= QuartzIndexes.Configure(
+                    factory: factory,
+                    sourceTableName: sourceTableName,
+                    tableType: tableType,
+                    checkMigration: checkMigration);
+            }
             return isChanged;
+        }
+
+        private static void VerifyConfiguredTable(
+            ISqlObjectFactory factory,
+            string generalTableName,
+            string sourceTableName,
+            Sqls.TableTypes tableType,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection)
+        {
+            if (Tables.HasChanges(
+                factory: factory,
+                generalTableName: generalTableName,
+                sourceTableName: sourceTableName,
+                tableType: tableType,
+                columnDefinitionCollection: columnDefinitionCollection,
+                rdsColumnCollection: Columns.Get(factory, sourceTableName)) == false)
+            {
+                return;
+            }
+            var defaultDifferences = Constraints.Differences(
+                factory: factory,
+                sourceTableName: sourceTableName,
+                columnDefinitionCollection: columnDefinitionCollection);
+            var details = defaultDifferences.Any()
+                ? defaultDifferences
+                    .Select(o => $"\r\n  default {o}")
+                    .Join(string.Empty)
+                : "\r\n  The difference is not in the default values."
+                    + " Check the column types, sizes, nullability, identity and indexes.";
+            Consoles.Write(
+                text: "WARNING: Differences between the definitions and the database remain"
+                    + $" in [{sourceTableName}] after it was configured."
+                    + " The table will be recreated every time CodeDefiner runs."
+                    + details,
+                type: Consoles.Types.Info);
         }
 
         private static HashSet<string> GetBaseColumnNames()

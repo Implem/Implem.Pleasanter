@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Completed" },
         { "Language": "zh", "Body": "已完成" },
+        {
+            "Language": "zh_tw",
+            "Body": "已完成"
+        },
         { "Language": "ja", "Body": "完了" },
         { "Language": "de", "Body": "Abgeschlossen" },
         { "Language": "ko", "Body": "완료" },

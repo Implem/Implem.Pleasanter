@@ -23,6 +23,7 @@
     "CheckFilterControlType": "2",
     "LabelText_en": "Allow API",
     "LabelText_zh": "允许 API",
+    "LabelText_zh_tw": "允許 API",
     "LabelText_de": "API zulassen",
     "LabelText_ko": "API 허용",
     "LabelText_es": "Permitir API",

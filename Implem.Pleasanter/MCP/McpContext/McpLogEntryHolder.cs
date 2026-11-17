@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.MCP.McpContext
         {
             var entry = new McpLogModel
             {
-                StartTime = DateTime.UtcNow
+                StartTime = DateTime.Now
             };
             _logEntry.Value = entry;
             return entry;
@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.MCP.McpContext
             var entry = _logEntry.Value;
             if (entry != null)
             {
-                entry.EndTime = DateTime.UtcNow;
+                entry.EndTime = DateTime.Now;
                 entry.Elapsed = (entry.EndTime - entry.StartTime).TotalMilliseconds;
             }
         }

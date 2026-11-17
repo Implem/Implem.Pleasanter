@@ -11,6 +11,7 @@
     "Nullable": "1",
     "LabelText_en": "Read once",
     "LabelText_zh": "读取一次",
+    "LabelText_zh_tw": "讀取一次",
     "LabelText_de": "Einmal lesen",
     "LabelText_ko": "한 번 읽기",
     "LabelText_es": "Leer una vez",

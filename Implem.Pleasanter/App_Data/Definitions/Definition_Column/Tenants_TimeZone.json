@@ -22,6 +22,7 @@
     "ChoicesText": "[[TimeZones]]",
     "LabelText_en": "Time zone",
     "LabelText_zh": "时区",
+    "LabelText_zh_tw": "時區",
     "LabelText_de": "Zeitzone",
     "LabelText_ko": "표준시간대",
     "LabelText_es": "Zona horaria",

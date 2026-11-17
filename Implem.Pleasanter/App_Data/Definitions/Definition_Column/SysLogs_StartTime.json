@@ -17,6 +17,7 @@
     "NotUpdate": "1",
     "LabelText_en": "Started on",
     "LabelText_zh": "开始时间",
+    "LabelText_zh_tw": "開始時間",
     "LabelText_de": "Gestartet am",
     "LabelText_ko": "시작된 날짜",
     "LabelText_es": "Iniciado el",

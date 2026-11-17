@@ -15,6 +15,7 @@
     "ByDataRow": "dataRow.Bytes(\"Bin\")",
     "LabelText_en": "Icon",
     "LabelText_zh": "图标",
+    "LabelText_zh_tw": "圖示",
     "LabelText_de": "Symbol",
     "LabelText_ko": "아이콘",
     "LabelText_es": "Icono",

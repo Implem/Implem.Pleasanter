@@ -10,6 +10,10 @@
             "Body": "管理多个许可"
         },
         {
+            "Language": "zh_tw",
+            "Body": "管理多個許可"
+        },
+        {
             "Language": "ja",
             "Body": "権限の管理"
         },

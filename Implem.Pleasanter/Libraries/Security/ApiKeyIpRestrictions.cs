@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Security
@@ -35,24 +36,10 @@ namespace Implem.Pleasanter.Libraries.Security
 
         private static bool Valid(string value)
         {
-            var parts = value.Split('/');
-            if (parts.Length > 2)
-            {
-                return false;
-            }
-            if (parts.Length == 2
-                && (!int.TryParse(parts[1], out var maskbits)
-                    || maskbits < 1
-                    || maskbits > 32))
-            {
-                return false;
-            }
-            var octet = parts[0].Split('.');
-            if (octet.Length != 4)
-            {
-                return false;
-            }
-            return octet.All(o => uint.TryParse(o, out var value) && value <= 255);
+            return IpRange.TryParse(
+                cidrIpString: value,
+                network: out _,
+                strictPrefixLength: true);
         }
     }
 }

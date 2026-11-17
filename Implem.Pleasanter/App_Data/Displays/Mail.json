@@ -10,6 +10,10 @@
             "Body": "电子邮件"
         },
         {
+            "Language": "zh_tw",
+            "Body": "電子郵件"
+        },
+        {
             "Language": "ja",
             "Body": "メール"
         },

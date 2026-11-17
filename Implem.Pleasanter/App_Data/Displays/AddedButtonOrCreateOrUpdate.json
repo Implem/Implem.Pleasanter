@@ -10,6 +10,10 @@
             "Body": "添加按钮/创建/更新"
         },
         {
+            "Language": "zh_tw",
+            "Body": "新增按鈕/建立/更新"
+        },
+        {
             "Language": "ja",
             "Body": "追加したボタン／作成・更新"
         },
@@ -26,7 +30,7 @@
             "Body": "Botón agregado/Crear/Actualizar"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Nút đã thêm/Tạo/Cập nhật"
         }
     ]

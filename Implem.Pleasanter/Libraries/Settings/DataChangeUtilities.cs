@@ -74,6 +74,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ret
                 .Concat(Def.ColumnDefinitionCollection
                     .Where(o => o.TableName == ss.ReferenceType)
+                    .AllowedExtendedColumns(context: context)
                     .Where(o => o.TypeName == "datetime" || o.TypeName == "nvarchar")
                     .Where(o => o.ColumnName != "Comments")
                     .Where(o => o.ColumnName != "Timestamp")

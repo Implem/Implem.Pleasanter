@@ -20,6 +20,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "JSON-RPC Error Code",
     "LabelText_zh": "JSON-RPC错误代码",
+    "LabelText_zh_tw": "JSON-RPC錯誤程式碼",
     "LabelText_de": "JSON-RPC-Fehlercode",
     "LabelText_ko": "JSON-RPC 오류 코드",
     "LabelText_es": "Código de error JSON-RPC",

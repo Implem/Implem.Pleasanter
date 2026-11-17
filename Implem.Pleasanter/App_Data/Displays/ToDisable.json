@@ -10,6 +10,10 @@
             "Body": "禁用"
         },
         {
+            "Language": "zh_tw",
+            "Body": "停用"
+        },
+        {
             "Language": "ja",
             "Body": "無効化"
         },

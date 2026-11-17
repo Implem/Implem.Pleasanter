@@ -10,6 +10,10 @@
             "Body": "通过电子邮件通知网址"
         },
         {
+            "Language": "zh_tw",
+            "Body": "透過電子郵件通知網址"
+        },
+        {
             "Language": "ja",
             "Body": "URLを自分にメール"
         },

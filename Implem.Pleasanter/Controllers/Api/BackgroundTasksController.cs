@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Search;
@@ -41,6 +42,17 @@ namespace Implem.Pleasanter.Controllers.Api
             }
             else
             {
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: false);
+                switch (apiErrorData.Type)
+                {
+                    case Error.Types.None: break;
+                    default:
+                        return ApiResults.Error(
+                            context: context,
+                            errorData: apiErrorData);
+                }
                 if (context.QueryStrings.Bool("NoLog"))
                 {
                     Indexes.RebuildSearchIndexes(context: context);

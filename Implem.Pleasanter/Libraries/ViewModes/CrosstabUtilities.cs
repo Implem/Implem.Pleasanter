@@ -183,6 +183,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return columns?.Any() == true
                 ? columns
                     .Where(column => column != null)
+                    .Where(column => !column.NotAllowedByContract)
                     .ToList()
                 : ss.CrosstabColumnsOptions(context: context)
                     .Select(o => ss.GetColumn(

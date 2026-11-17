@@ -295,17 +295,37 @@ namespace Implem.Pleasanter.Libraries.Responses
             bool thumbnail = false,
             BinaryReadMode readMode = BinaryReadMode.Stream)
         {
-            var isThumbnail = thumbnail && dataRow["Thumbnail"] != DBNull.Value;
             var contentType = dataRow.String("ContentType");
-            if (isThumbnail)
+            if (thumbnail)
             {
-                contentType = contentType.IsNullOrEmpty()
-                    ? "image/bmp"
-                    : "image/png";
+                var dbThumbnail = dataRow.Bytes(name: "Thumbnail");
+                if (dbThumbnail?.Length > 0)
+                {
+                    return new ResponseFile(
+                        fileContent: new MemoryStream(
+                            dbThumbnail,
+                            false),
+                        fileDownloadName: dataRow.String(name: "FileName"),
+                        contentType: contentType.IsNullOrEmpty()
+                            ? "image/bmp"
+                            : "image/png");
+                }
+                var storageThumbnail = dataRow.String(name: "BinaryType") == "Images"
+                    ? StorageThumbnail(
+                        context: context,
+                        dataRow: dataRow)
+                    : null;
+                if (storageThumbnail?.Length > 0)
+                {
+                    return new ResponseFile(
+                        fileContent: new MemoryStream(
+                            storageThumbnail,
+                            false),
+                        fileDownloadName: dataRow.String(name: "FileName"),
+                        contentType: "image/png");
+                }
             }
-            var bin = isThumbnail
-                ? dataRow.Bytes("Thumbnail")
-                : dataRow.Bytes("Bin");
+            var bin = dataRow.Bytes(name: "Bin");
             if (bin != null)
             {
                 return new ResponseFile(
@@ -364,6 +384,37 @@ namespace Implem.Pleasanter.Libraries.Responses
                         sysLogType: SysLogModel.SysLogTypes.Exception);
                     return null;
                 }
+            }
+        }
+
+        private static byte[] StorageThumbnail(
+            Context context,
+            DataRow dataRow)
+        {
+            var guid = dataRow.String(name: "Guid");
+            var objectName = $"Images/{guid}_thumbnail";
+            try
+            {
+                var provider = BinaryStorageProviderFactory.Create(
+                    provider: Parameters.BinaryStorage.GetImagesProvider());
+                if (provider == null)
+                {
+                    return Files.Bytes(path: Path.Combine(
+                        Directories.BinaryStorage(),
+                        "Images",
+                        $"{guid}_thumbnail"));
+                }
+                return provider.Download(objectName: objectName);
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(StorageThumbnail),
+                    message: $"Download failed. Blob={objectName} Error={e.Message}",
+                    errStackTrace: e.StackTrace,
+                    sysLogType: SysLogModel.SysLogTypes.Exception);
+                return null;
             }
         }
 

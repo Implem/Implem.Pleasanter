@@ -36,6 +36,7 @@
     "SettingEnable": "1",
     "LabelText_en": "ID",
     "LabelText_zh": "ID",
+    "LabelText_zh_tw": "ID",
     "LabelText_de": "ID",
     "LabelText_ko": "ID",
     "LabelText_es": "Identificación",

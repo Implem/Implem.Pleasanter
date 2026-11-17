@@ -10,6 +10,10 @@
             "Body": "重新加载"
         },
         {
+            "Language": "zh_tw",
+            "Body": "重新載入"
+        },
+        {
             "Language": "ja",
             "Body": "再読込"
         },

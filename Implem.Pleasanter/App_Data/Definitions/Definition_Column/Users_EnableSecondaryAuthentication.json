@@ -23,6 +23,7 @@
     "CheckFilterControlType": "2",
     "LabelText_en": "Enable Secondary Authentication",
     "LabelText_zh": "启用辅助身份验证",
+    "LabelText_zh_tw": "啟用輔助身份驗證",
     "LabelText_de": "Sekundäre Authentifizierung aktivieren",
     "LabelText_ko": "2차 인증 활성화",
     "LabelText_es": "Habilitar autenticación secundaria",

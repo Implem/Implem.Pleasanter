@@ -14,6 +14,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "WorkingSet64",
     "LabelText_zh": "WorkingSet64",
+    "LabelText_zh_tw": "WorkingSet64",
     "LabelText_de": "WorkingSet64",
     "LabelText_ko": "WorkingSet64",
     "LabelText_es": "WorkingSet64",

@@ -14,6 +14,7 @@
     "Required": "1",
     "LabelText_en": "Passkey ID",
     "LabelText_zh": "通行密钥 ID",
+    "LabelText_zh_tw": "通行金鑰 ID",
     "LabelText_de": "Passkey‑ID",
     "LabelText_ko": "Passkey ID",
     "LabelText_es": "ID de passkey",

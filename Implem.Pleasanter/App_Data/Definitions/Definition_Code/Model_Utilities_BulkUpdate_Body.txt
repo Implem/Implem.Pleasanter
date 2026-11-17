@@ -83,76 +83,66 @@ private static HtmlBuilder BulkUpdateEditor(
 
 public static string BulkUpdate(Context context, SiteSettings ss)
 {
-    if (!context.CanUpdate(ss: ss))
-    {
-        return Messages.ResponseHasNotPermission(context: context).ToJson();
-    }
-    var param = new Rds.#TableName#ParamCollection();
-    var target = context.Forms.Data("BulkUpdateColumnName");
-    var columns = ss.GetBulkUpdateColumns(
+    var resultData = BulkUpdateCore(
         context: context,
-        target: target);
-    ss.SetBulkUpdateColumnDetail(
-        columns: columns,
-        target: target);
-    columns = columns
-        .Where(column => column.EditorReadOnly != true)
-        .ToList();
-    if (!columns.Any())
+        ss: ss);
+    switch (resultData.ErrorData?.Type)
     {
-        return Error.Types.InvalidRequest.MessageJson(context: context);
+        case null:
+        case Error.Types.None:
+            break;
+        case Error.Types.HasNotPermission:
+            return Messages.ResponseHasNotPermission(context: context).ToJson();
+        case Error.Types.SelectTargets:
+            return Messages.ResponseSelectTargets(context: context).ToJson();
+        case Error.Types.ImportLock:
+            return Error.Types.ImportLock.MessageJson(context: context);
+        default:
+            return resultData.ErrorData.MessageJson(context: context);
     }
-    if (!columns.All(column => column.CanUpdate(
+    return GridRows(
         context: context,
         ss: ss,
-        mine: null)))
+        clearCheck: true,
+        message: Messages.BulkUpdated(
+            context: context,
+            data: new string[]
+            {
+                ss.Title,
+                (resultData.SuccessCount + resultData.FailureCount).ToString()
+            }));
+}
+
+public static BulkUpdateResultData BulkUpdateCore(
+    Context context,
+    SiteSettings ss)
+{
+    var validated = ValidateBulkUpdate(
+        context: context,
+        ss: ss);
+    if (validated.ErrorData.Type != Error.Types.None)
     {
-        return Messages.ResponseHasNotPermission(context: context).ToJson();
+        return new BulkUpdateResultData
+        {
+            ErrorData = validated.ErrorData
+        };
     }
+    var columns = validated.Columns;
+    var where = validated.Where;
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
         #modelName#Id: 0,
         formData: context.Forms);
-    var selectedWhere = SelectedWhere(
-        context: context,
-        ss: ss);
-    if (selectedWhere == null)
-    {
-        return Messages.ResponseSelectTargets(context: context).ToJson();
-    }
-    var view = Views.GetBySession(
-        context: context,
-        ss: ss);
-    var where = view.Where(
-        context: context,
-        ss: ss,
-        where: selectedWhere,
-        itemJoin: false);
-    param = (Rds.#TableName#ParamCollection)view.Param(
-        context: context,
-        ss: ss,
-        param: param);
-    var invalid = ExistsLockedRecord(
-        context: context,
-        ss: ss,
-        where: where,
-        param: param,
-        orderBy: view.OrderBy(
-            context: context,
-            ss: ss),
-        lockedColumn: columns.Any(o => o.ColumnName == "Locked"));
-    switch (invalid.Type)
-    {
-        case Error.Types.None: break;
-        default: return invalid.MessageJson(context: context);
-    }
     using var exclusiveObj = new Sessions.TableExclusive(context: context);
     if (!exclusiveObj.TryLock())
     {
-        return Error.Types.ImportLock.MessageJson(context: context);
+        return new BulkUpdateResultData
+        {
+            ErrorData = new ErrorData(type: Error.Types.ImportLock)
+        };
     }
-    var count = BulkUpdate(
+    var resultData = BulkUpdate(
         context: context,
         ss: ss,
         columns: columns,
@@ -161,7 +151,7 @@ public static string BulkUpdate(Context context, SiteSettings ss)
     var data = new string[]
     {
         ss.Title,
-        count.ToString()
+        (resultData.SuccessCount + resultData.FailureCount).ToString()
     };
     ss.Notifications
         .Where(o => o.MonitorChangesColumns.Any(columnName => columns.Any(q => q.ColumnName == columnName)))
@@ -189,17 +179,10 @@ public static string BulkUpdate(Context context, SiteSettings ss)
                     body: body.ToString());
             }
         });
-    var res = GridRows(
-        context: context,
-        ss: ss,
-        clearCheck: true,
-        message: Messages.BulkUpdated(
-            context: context,
-            data: data));
-    return res;
+    return resultData;
 }
 
-private static int BulkUpdate(
+private static BulkUpdateResultData BulkUpdate(
     Context context,
     SiteSettings ss,
     List<Column> columns,
@@ -217,7 +200,8 @@ private static int BulkUpdate(
             transactional: true,
             statements: onBulkUpdatingExtendedStatements.ToArray());
     }
-    var count = 0;
+    var successCount = 0;
+    var failureCount = 0;
     var bulkUpdateFormKeys = columns
         .Select(column => $"{ss.ReferenceType}_{column.ColumnName}")
         .ToHashSet();
@@ -247,11 +231,19 @@ private static int BulkUpdate(
                 context: context,
                 ss: ss,
                 baseModel: #modelName#Model);
-            #modelName#Model.Update(
+            var errorData = #modelName#Model.Update(
                 context: context,
                 ss: ss,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 6 ) -->
                 extendedSqls: false);
-            count++;
+            if (errorData.Type == Error.Types.None)
+            {
+                successCount++;
+            }
+            else
+            {
+                failureCount++;
+            }
         });
     var onBulkUpdatedExtendedStatements = new List<SqlStatement>().OnBulkUpdatedExtendedSqls(
         context: context,
@@ -264,5 +256,123 @@ private static int BulkUpdate(
             transactional: true,
             statements: onBulkUpdatedExtendedStatements.ToArray());
     }
-    return count;
+    return new BulkUpdateResultData
+    {
+        SuccessCount = successCount,
+        FailureCount = failureCount
+    };
+}
+
+public static int BulkUpdateTargetCount(
+    Context context,
+    SiteSettings ss)
+{
+    var selectedWhere = SelectedWhere(
+        context: context,
+        ss: ss);
+    if (selectedWhere == null)
+    {
+        return 0;
+    }
+    var recordSelector = new RecordSelector(context: context);
+    if (!recordSelector.All)
+    {
+        return recordSelector.Selected.Count;
+    }
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    var where = view.Where(
+        context: context,
+        ss: ss,
+        where: selectedWhere,
+        itemJoin: false);
+    var param = view.Param(
+        context: context,
+        ss: ss);
+    return Repository.ExecuteScalar_int(
+        context: context,
+        statements: Rds.Select#TableName#(
+            column: Rds.#TableName#Column().#TableName#Count(),
+            join: ss.Join(
+                context: context,
+                join: new IJoin[]
+                {
+                    where
+                }),
+            where: where,
+            param: param));
+}
+
+public static ErrorData ValidateBeforeEnqueueBulkUpdate(
+    Context context,
+    SiteSettings ss)
+{
+    return ValidateBulkUpdate(
+        context: context,
+        ss: ss).ErrorData;
+}
+
+private static (ErrorData ErrorData, List<Column> Columns, SqlWhereCollection Where) ValidateBulkUpdate(
+    Context context,
+    SiteSettings ss)
+{
+    if (!context.CanUpdate(ss: ss))
+    {
+        return (new ErrorData(type: Error.Types.HasNotPermission), null, null);
+    }
+    var target = context.Forms.Data("BulkUpdateColumnName");
+    var columns = ss.GetBulkUpdateColumns(
+        context: context,
+        target: target);
+    ss.SetBulkUpdateColumnDetail(
+        columns: columns,
+        target: target);
+    columns = columns
+        .Where(column => column.EditorReadOnly != true)
+        .ToList();
+    if (!columns.Any())
+    {
+        return (new ErrorData(type: Error.Types.InvalidRequest), null, null);
+    }
+    if (!columns.All(column => column.CanUpdate(
+        context: context,
+        ss: ss,
+        mine: null)))
+    {
+        return (new ErrorData(type: Error.Types.HasNotPermission), null, null);
+    }
+    var selectedWhere = SelectedWhere(
+        context: context,
+        ss: ss);
+    if (selectedWhere == null)
+    {
+        return (new ErrorData(type: Error.Types.SelectTargets), null, null);
+    }
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    var where = view.Where(
+        context: context,
+        ss: ss,
+        where: selectedWhere,
+        itemJoin: false);
+    var param = view.Param(
+        context: context,
+        ss: ss,
+        param: new Rds.#TableName#ParamCollection());
+    var invalid = ExistsLockedRecord(
+        context: context,
+        ss: ss,
+        where: where,
+        param: param,
+        orderBy: view.OrderBy(
+            context: context,
+            ss: ss),
+        lockedColumn: columns.Any(o => o.ColumnName == "Locked"));
+    if (invalid.Type != Error.Types.None)
+    {
+        return (invalid, null, null);
+    }
+    return (invalid, columns, where);
 }

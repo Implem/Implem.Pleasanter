@@ -169,15 +169,31 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool test = false)
         {
             if (Disabled == true && !test) return;
+            if (ss.NotAllowedByContract(columnName: GetColumn(ss: ss)))
+            {
+                return;
+            }
+            if (ss.Views?.Get(Condition)?.FiltersNotAllowedByContractColumn(
+                context: context,
+                ss: ss) == true)
+            {
+                return;
+            }
             try
             {
                 ss.SetChoiceHash(
                     context: context,
                     withLink: true,
                     all: true);
-                var toColumns = ss.IncludedColumns(To);
-                var subjectColumns = ss.IncludedColumns(Subject);
-                var bodyColumns = ss.IncludedColumns(Body);
+                var toColumns = ss.IncludedColumns(value: To)
+                    .Where(o => !o.NotAllowedByContract)
+                    .ToList();
+                var subjectColumns = ss.IncludedColumns(value: Subject)
+                    .Where(o => !o.NotAllowedByContract)
+                    .ToList();
+                var bodyColumns = ss.IncludedColumns(value: Body)
+                    .Where(o => !o.NotAllowedByContract)
+                    .ToList();
                 var fixedTo = GetFixedTo(
                     context: context,
                     toColumns: toColumns);
@@ -541,7 +557,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Add(column: subjectColumn));
             bodyColumns.ForEach(bodyColumn =>
                 column.Add(column: bodyColumn));
-            var columns = ss.IncludedColumns(Line).ToList();
+            var columns = ss.IncludedColumns(Line)
+                .Where(o => !o.NotAllowedByContract)
+                .ToList();
             columns.ForEach(o => column.Add(column: o));
             if (columns.Any(o => o.ColumnName == "Status"))
             {

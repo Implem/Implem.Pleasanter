@@ -11,6 +11,10 @@
             "Body": "允许添加图像"
         },
         {
+            "Language": "zh_tw",
+            "Body": "允許新增影像"
+        },
+        {
             "Language": "ja",
             "Body": "画像の登録を許可"
         },

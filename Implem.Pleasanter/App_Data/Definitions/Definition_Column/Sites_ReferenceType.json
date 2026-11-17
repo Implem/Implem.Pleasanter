@@ -19,6 +19,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Site type",
     "LabelText_zh": "站点类型",
+    "LabelText_zh_tw": "站點類型",
     "LabelText_de": "Site-Typ",
     "LabelText_ko": "사이트 유형",
     "LabelText_es": "Tipo de sitio",

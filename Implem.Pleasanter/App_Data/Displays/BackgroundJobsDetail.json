@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Detail" },
         { "Language": "zh", "Body": "详细" },
+        {
+            "Language": "zh_tw",
+            "Body": "詳細"
+        },
         { "Language": "ja", "Body": "詳細" },
         { "Language": "de", "Body": "Detail" },
         { "Language": "ko", "Body": "상세" },

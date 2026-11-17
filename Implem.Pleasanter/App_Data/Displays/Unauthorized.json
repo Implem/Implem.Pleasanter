@@ -10,6 +10,10 @@
             "Body": "无法授权。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "無法授權。"
+        },
+        {
             "Language": "ja",
             "Body": "認証できませんでした。"
         },

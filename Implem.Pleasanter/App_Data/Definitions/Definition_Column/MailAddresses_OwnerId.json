@@ -17,6 +17,7 @@
     "Required": "1",
     "LabelText_en": "Owner ID",
     "LabelText_zh": "所有者ID",
+    "LabelText_zh_tw": "負責人ID",
     "LabelText_de": "Verantwortlichen-ID",
     "LabelText_ko": "소유자 ID",
     "LabelText_es": "ID del propietario",

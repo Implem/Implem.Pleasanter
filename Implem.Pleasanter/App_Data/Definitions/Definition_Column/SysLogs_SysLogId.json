@@ -30,6 +30,7 @@
     "EditorReadOnly": "1",
     "LabelText_en": "Log ID",
     "LabelText_zh": "日志ID",
+    "LabelText_zh_tw": "日誌ID",
     "LabelText_de": "Protokoll-ID",
     "LabelText_ko": "로그 ID",
     "LabelText_es": "ID de registro",

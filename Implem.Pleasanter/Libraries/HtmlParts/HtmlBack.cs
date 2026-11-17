@@ -60,10 +60,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     switch (context.Action)
                     {
                         case "new":
-                        case "edit":
                             return Strings.CoalesceEmpty(
                                 referer?.EndsWith("/new") == false
                                     && IsSelfReferer(context: context, referer: referer) == false
+                                        ? referer
+                                        : null,
+                                Locations.Get(
+                                    context: context,
+                                    parts: context.Controller));
+                        case "edit":
+                            return Strings.CoalesceEmpty(
+                                referer?.EndsWith("/new") == false
+                                    && IsRecordReferer(context: context, referer: referer) == false
                                         ? referer
                                         : null,
                                 Locations.Get(
@@ -94,11 +102,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     switch (context.Action)
                     {
                         case "new":
-                        case "edit":
                             return Strings.CoalesceEmpty(
                                 referer?.EndsWith("/new") == false
                                     ? referer
                                     : null,
+                                Locations.Get(
+                                    context: context,
+                                    parts: context.Controller));
+                        case "edit":
+                            return Strings.CoalesceEmpty(
+                                referer?.EndsWith("/new") == false
+                                    && IsRecordReferer(context: context, referer: referer) == false
+                                        ? referer
+                                        : null,
                                 Locations.Get(
                                     context: context,
                                     parts: context.Controller));
@@ -199,6 +215,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     System.Uri.UnescapeDataString(uri.AbsolutePath),
                     context.AbsolutePath,
                     System.StringComparison.OrdinalIgnoreCase);
+        }
+
+        internal static bool IsRecordReferer(
+            Context context,
+            string referer)
+        {
+            return System.Uri.TryCreate(
+                referer,
+                System.UriKind.Absolute,
+                out var uri)
+                && Regex.IsMatch(
+                    System.Uri.UnescapeDataString(uri.AbsolutePath),
+                    $"^{Regex.Escape(Locations.BaseUrl(context: context))}[0-9]+(/edit)?/?$",
+                    RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
         }
 
         private static string AdminsOrTop(Context context)

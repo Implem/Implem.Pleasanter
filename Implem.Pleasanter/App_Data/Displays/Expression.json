@@ -10,6 +10,10 @@
             "Body": "表达式"
         },
         {
+            "Language": "zh_tw",
+            "Body": "表示式"
+        },
+        {
             "Language": "ja",
             "Body": "論理式"
         },

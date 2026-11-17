@@ -5,9 +5,9 @@
         <TargetFramework>net10.0</TargetFramework>
         <Year>$([System.DateTime]::Now.Year.ToString())</Year>
         <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
-        <AssemblyVersion>1.5.9.1</AssemblyVersion>
-        <FileVersion>1.5.9.1</FileVersion>
-        <Version>1.5.9.1</Version>
+        <AssemblyVersion>1.5.10.0</AssemblyVersion>
+        <FileVersion>1.5.10.0</FileVersion>
+        <Version>1.5.10.0</Version>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
@@ -23,6 +23,7 @@
 
     <ItemGroup>
         <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
+        <PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.10.2" />
         <PackageReference Include="ClosedXML" Version="0.105.0" />
         <PackageReference Include="CsvHelper" Version="33.1.0" />
         <PackageReference Include="MailKit" Version="4.17.0" />
@@ -38,9 +39,9 @@
         <PackageReference Include="Selenium.WebDriver.IEDriver" Version="4.14.0" />
         <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="150.0.4078.65" />
         <PackageReference Include="Selenium.WebDriverBackedSelenium" Version="4.1.0" />
-        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
         <PackageReference Include="System.Drawing.Common" Version="10.0.10" />
-        <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.10" />
+        <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.10" />
+        <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.14" />
         <PackageReference Include="System.ValueTuple" Version="4.6.2" />
     </ItemGroup>
 

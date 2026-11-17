@@ -10,6 +10,10 @@
             "Body": "已删除API密钥。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "已刪除API金鑰。"
+        },
+        {
             "Language": "ja",
             "Body": "APIキーが削除されました。"
         },

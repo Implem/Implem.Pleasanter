@@ -10,6 +10,10 @@
             "Body": "验证码"
         },
         {
+            "Language": "zh_tw",
+            "Body": "驗證碼"
+        },
+        {
             "Language": "ja",
             "Body": "確認コード"
         },

@@ -15,5 +15,6 @@
     "ControlType": "Id",
     "EditorReadOnly": "1",
     "LabelText_en": "SCIM token ID",
-    "LabelText_zh": "SCIM token ID"
+    "LabelText_zh": "SCIM token ID",
+    "LabelText_zh_tw": "SCIM token ID"
 }

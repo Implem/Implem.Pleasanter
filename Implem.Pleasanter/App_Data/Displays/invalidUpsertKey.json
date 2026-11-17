@@ -10,6 +10,10 @@
             "Body": "更新插入密钥无效。{0}"
         },
         {
+            "Language": "zh_tw",
+            "Body": "更新插入金鑰無效。{0}"
+        },
+        {
             "Language": "ja",
             "Body": "UpsertのKeyが無効です。{0}"
         },

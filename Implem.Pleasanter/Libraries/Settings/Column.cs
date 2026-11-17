@@ -168,6 +168,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool LowSchemaVersion;
         [NonSerialized]
+        public bool NotAllowedByContract;
+        [NonSerialized]
         public int? No;
         [NonSerialized]
         public bool Id_Ver;
@@ -351,6 +353,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool setChoices = true)
         {
             if (setChoices) ChoiceHash = new Dictionary<string, Choice>();
+            var publishScope = setChoices
+                && Permissions.PublishScope(context: context)
+                && DirectoryChoices();
             ChoicesText.SplitReturn()
                 .Where(o => o.Trim() != string.Empty)
                 .Select((o, i) => new { Line = o.Trim(), Index = i })
@@ -363,12 +368,73 @@ namespace Implem.Pleasanter.Libraries.Settings
                         index: data.Index,
                         line: data.Line,
                         setAllChoices: setAllChoices,
-                        setChoices: setChoices));
+                        setChoices: setChoices,
+                        publishScope: publishScope));
+            if (publishScope)
+            {
+                FilterPublishChoices(
+                    context: context,
+                    searchIndexes: searchIndexes);
+            }
             if (searchIndexes?.Any() == true && setChoices)
             {
                 ChoiceHash = ChoiceHash.Take(Parameters.General.DropDownSearchPageSize)
                     .ToDictionary(o => o.Key, o => o.Value);
             }
+        }
+
+        public bool DirectoryChoices()
+        {
+            return ChoicesText?
+                .SplitReturn()
+                .Select(static o => o.Trim())
+                .Any(static o => PublishRegexes.DirectoryChoicesPattern().IsMatch(o)) == true;
+        }
+
+        public void FilterPublishChoices(
+            Context context,
+            IEnumerable<string> searchIndexes)
+        {
+            if (ChoiceHash == null || ChoiceHash.Any() == false)
+            {
+                return;
+            }
+            var referencedValues = PublishReferencedValues(
+                context: context,
+                publishScope: true);
+            ChoiceHash = ChoiceHash
+                .Where(o => PublishChoiceAllowed(
+                    value: o.Key,
+                    text: o.Value?.Text,
+                    referencedValues: referencedValues,
+                    searchIndexes: searchIndexes))
+                .ToDictionary(
+                    static o => o.Key,
+                    static o => o.Value);
+        }
+
+        private HashSet<string> PublishReferencedValues(Context context, bool publishScope)
+        {
+            return publishScope
+                ? SiteSettings?.PublishReferencedValues(
+                    context: context,
+                    column: this)
+                        ?? new HashSet<string>()
+                : null;
+        }
+
+        internal static bool PublishChoiceAllowed(
+            string value,
+            string text,
+            ICollection<string> referencedValues,
+            IEnumerable<string> searchIndexes)
+        {
+            return value != null
+                && referencedValues.Contains(value)
+                && searchIndexes?.All(word => (text ?? string.Empty)
+                    .IndexOf(
+                        word,
+                        StringComparison.OrdinalIgnoreCase) >= 0) != false;
         }
 
         private void SetChoiceHash(
@@ -379,20 +445,28 @@ namespace Implem.Pleasanter.Libraries.Settings
             int index,
             string line,
             bool setAllChoices,
-            bool setChoices)
+            bool setChoices,
+            bool publishScope)
         {
+            var lineSearchIndexes = publishScope
+                ? null
+                : searchIndexes;
             switch (line)
             {
                 case "[[Depts]]":
                     Type = Types.Dept;
                     if (setChoices)
                     {
+                        var referencedValues = PublishReferencedValues(
+                            context: context,
+                            publishScope: publishScope);
                         SiteInfo.TenantCaches.Get(context.TenantId)?
                             .DeptHash
                             .Where(o => o.Value.TenantId == context.TenantId)
                             .Where(o => !o.Value.Disabled)
-                            .Where(o => searchIndexes?.Any() != true ||
-                                searchIndexes.All(p =>
+                            .Where(o => referencedValues?.Contains(o.Key.ToString()) != false)
+                            .Where(o => lineSearchIndexes?.Any() != true ||
+                                lineSearchIndexes.All(p =>
                                     o.Key == p.ToInt() ||
                                     o.Value.Name.RegexLike(p).Any()))
                             .OrderBy(o => o.Value.Name)
@@ -405,12 +479,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Type = Types.Group;
                     if (setChoices)
                     {
+                        var referencedValues = PublishReferencedValues(
+                            context: context,
+                            publishScope: publishScope);
                         SiteInfo.SiteGroups(context: context, siteId: siteId)
+                            .Where(o => referencedValues?.Contains(o.ToString()) != false)
                             .ToDictionary(o => o, o => SiteInfo.Group(context.TenantId, o))
                             .Where(o => o.Value.TenantId == context.TenantId)
                             .Where(o => !o.Value.Disabled)
-                            .Where(o => searchIndexes?.Any() != true ||
-                                searchIndexes.All(p =>
+                            .Where(o => lineSearchIndexes?.Any() != true ||
+                                lineSearchIndexes.All(p =>
                                     o.Key == p.ToInt() ||
                                     o.Value.Name.RegexLike(p).Any()))
                             .OrderBy(o => o.Value.Name)
@@ -423,12 +501,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Type = Types.Group;
                     if (setChoices)
                     {
+                        var referencedValues = PublishReferencedValues(
+                            context: context,
+                            publishScope: publishScope);
                         SiteInfo.TenantCaches.Get(context.TenantId)?
                             .GroupHash
                             .Where(o => o.Value.TenantId == context.TenantId)
                             .Where(o => !o.Value.Disabled)
-                            .Where(o => searchIndexes?.Any() != true ||
-                                searchIndexes.All(p =>
+                            .Where(o => referencedValues?.Contains(o.Key.ToString()) != false)
+                            .Where(o => lineSearchIndexes?.Any() != true ||
+                                lineSearchIndexes.All(p =>
                                     o.Key == p.ToInt() ||
                                     o.Value.Name.RegexLike(p).Any()))
                             .OrderBy(o => o.Value.Name)
@@ -458,8 +540,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     siteId: siteId,
                                     settings: line,
-                                    searchIndexes: searchIndexes,
-                                    setAllChoices: setAllChoices);
+                                    searchIndexes: lineSearchIndexes,
+                                    setAllChoices: publishScope || setAllChoices,
+                                    referencedValues: PublishReferencedValues(
+                                        context: context,
+                                        publishScope: publishScope));
                             }
                         }
                     }
@@ -509,8 +594,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         if (setChoices)
                         {
-                            if (searchIndexes == null ||
-                                searchIndexes.All(o => line.RegexLike(o).Any()))
+                            if (lineSearchIndexes == null ||
+                                lineSearchIndexes.All(o => line.RegexLike(o).Any()))
                             {
                                 AddToChoiceHash(line);
                             }
@@ -532,7 +617,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             long siteId,
             string settings,
             IEnumerable<string> searchIndexes,
-            bool setAllChoices)
+            bool setAllChoices,
+            ICollection<string> referencedValues = null)
         {
             IEnumerable<int> users = null;
             var showDeptName = false;
@@ -565,7 +651,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? int.MaxValue
                 : Parameters.General.DropDownSearchPageSize;
             users
-                ?.Select(userId => SiteInfo.User(
+                ?.Where(userId => referencedValues?.Contains(userId.ToString()) != false)
+                .Select(userId => SiteInfo.User(
                     context: context,
                     userId: userId))
                 .Where(user => !user.Disabled)
@@ -1352,6 +1439,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> mine,
             bool noCache = false)
         {
+            if (NotAllowedByContract)
+            {
+                return false;
+            }
             if (noCache)
             {
                 var columnAccessControl = ss.CreateColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
@@ -1380,6 +1471,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> mine,
             bool noCache = false)
         {
+            if (NotAllowedByContract)
+            {
+                return false;
+            }
             if (noCache)
             {
                 var columnAccessControl = ss.ReadColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
@@ -1408,6 +1503,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> mine,
             bool noCache = false)
         {
+            if (NotAllowedByContract)
+            {
+                return false;
+            }
             if (noCache)
             {
                 var columnAccessControl = ss.UpdateColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
@@ -2171,6 +2270,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "AssemblyVersion":
                             sql.SysLogs_AssemblyVersion(tableName: path, _as: _as);
+                            break;
+                        case "TenantId":
+                            sql.SysLogs_TenantId(tableName: path, _as: _as);
                             break;
                         case "Comments":
                             sql.SysLogs_Comments(tableName: path, _as: _as);

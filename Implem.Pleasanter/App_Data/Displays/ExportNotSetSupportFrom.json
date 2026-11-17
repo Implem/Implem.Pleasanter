@@ -10,6 +10,10 @@
             "Body": "未配置发件人电子邮件地址（SupportFrom）。无法发送导出邮件通知。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "尚未設定寄件人電子郵件地址（SupportFrom）。無法傳送匯出郵件通知。"
+        },
+        {
             "Language": "ja",
             "Body": "差出人メールアドレス（SupportFrom）が設定されていません。エクスポート通知メールを送信できません。"
         },

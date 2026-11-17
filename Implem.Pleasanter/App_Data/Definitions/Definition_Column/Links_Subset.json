@@ -16,6 +16,7 @@
     "NotUpdate": "1",
     "LabelText_en": "Subset",
     "LabelText_zh": "子集",
+    "LabelText_zh_tw": "子集",
     "LabelText_de": "Teilmenge",
     "LabelText_ko": "서브세트",
     "LabelText_es": "Subgrupo",

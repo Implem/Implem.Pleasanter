@@ -14,6 +14,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Session elapsed time",
     "LabelText_zh": "会话耗时",
+    "LabelText_zh_tw": "會話耗時",
     "LabelText_de": "Verstrichene Sitzungszeit",
     "LabelText_ko": "세션 경과 시간",
     "LabelText_es": "Tiempo transcurrido en la sesión",

@@ -10,6 +10,10 @@
             "Body": "聚合类型"
         },
         {
+            "Language": "zh_tw",
+            "Body": "彙總類型"
+        },
+        {
             "Language": "ja",
             "Body": "集計種別"
         },

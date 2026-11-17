@@ -11,6 +11,10 @@
             "Body": "分钟步"
         },
         {
+            "Language": "zh_tw",
+            "Body": "分鐘步"
+        },
+        {
             "Language": "ja",
             "Body": "時刻間隔(分)"
         },

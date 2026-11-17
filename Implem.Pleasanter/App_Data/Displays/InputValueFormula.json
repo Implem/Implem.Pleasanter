@@ -10,8 +10,12 @@
             "Body": "値の関数操作"
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "对值的函数运算"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "對值的函式運算"
         },
         {
             "Language": "de",
@@ -26,7 +30,7 @@
             "Body": "Operaciones funcionales sobre valores."
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Các phép toán hàm trên giá trị"
         }
     ]

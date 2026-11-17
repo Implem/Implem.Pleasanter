@@ -10,6 +10,10 @@
             "Body": "发送"
         },
         {
+            "Language": "zh_tw",
+            "Body": "傳送"
+        },
+        {
             "Language": "ja",
             "Body": "送信"
         },

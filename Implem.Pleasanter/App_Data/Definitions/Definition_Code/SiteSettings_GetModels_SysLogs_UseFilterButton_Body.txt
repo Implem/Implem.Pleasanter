@@ -1,2 +1,3 @@
 ﻿ss.UseFilterButton = true;
 ss.AlwaysRequestSearchCondition = true;
+ss.UseIncompleteFilter = false;

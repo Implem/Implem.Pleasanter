@@ -14,6 +14,7 @@
     "Required": "1",
     "LabelText_en": "Status ID",
     "LabelText_zh": "状态ID",
+    "LabelText_zh_tw": "狀態ID",
     "LabelText_de": "Status-ID",
     "LabelText_ko": "상태 ID",
     "LabelText_es": "ID de estado",

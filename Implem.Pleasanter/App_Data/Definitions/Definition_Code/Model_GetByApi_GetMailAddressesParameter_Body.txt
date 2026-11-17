@@ -1,1 +1,1 @@
-﻿, bool? getMailAddresses
+﻿bool? getMailAddresses,

@@ -10,6 +10,10 @@
             "Body": "异步加载"
         },
         {
+            "Language": "zh_tw",
+            "Body": "非同步載入"
+        },
+        {
             "Language": "ja",
             "Body": "非同期読み込み"
         },

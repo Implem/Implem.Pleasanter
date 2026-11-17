@@ -10,6 +10,10 @@
             "Body": "聚合详情"
         },
         {
+            "Language": "zh_tw",
+            "Body": "彙總詳細資料"
+        },
+        {
             "Language": "ja",
             "Body": "集計の詳細設定"
         },

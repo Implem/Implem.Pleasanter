@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Total" },
         { "Language": "zh", "Body": "总数" },
+        {
+            "Language": "zh_tw",
+            "Body": "總數"
+        },
         { "Language": "ja", "Body": "件数" },
         { "Language": "de", "Body": "Anzahl" },
         { "Language": "ko", "Body": "건수" },

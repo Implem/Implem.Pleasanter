@@ -11,6 +11,10 @@
             "Body": "富文本编辑器"
         },
         {
+            "Language": "zh_tw",
+            "Body": "富文字編輯器"
+        },
+        {
             "Language": "ja",
             "Body": "リッチテキストエディタ"
         },

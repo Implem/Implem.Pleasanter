@@ -165,7 +165,11 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private static bool SsCache(Context context, SiteModel siteModel)
         {
-            if (context.Api)
+            if (Permissions.PublishScope(context: context))
+            {
+                return false;
+            }
+            else if (context.Api)
             {
                 return context.ApiSsCache;
             }
@@ -503,6 +507,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 type: Permissions.Admins(context: context));
             ss.UseFilterButton = true;
             ss.AlwaysRequestSearchCondition = true;
+            ss.UseIncompleteFilter = false;
             ss.TableType = tableTypes;
             return ss;
         }

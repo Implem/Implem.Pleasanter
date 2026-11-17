@@ -23,6 +23,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Reference type",
     "LabelText_zh": "参考类型",
+    "LabelText_zh_tw": "參考類型",
     "LabelText_de": "Referenztyp",
     "LabelText_ko": "참조 유형",
     "LabelText_es": "Tipo de referencia",

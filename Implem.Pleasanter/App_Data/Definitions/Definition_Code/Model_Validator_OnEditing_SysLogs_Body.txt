@@ -1,0 +1,11 @@
+﻿if (ss.ColumnHash.ContainsKey("TenantId")
+    && Permissions.ApplySysLogsTenantFilter(context: context)
+    && #modelName#Model.TenantId != context.TenantId)
+{
+    return new ErrorData(
+        context: context,
+        type: Error.Types.NotFound,
+        api: api,
+        sysLogsStatus: 403,
+        sysLogsDescription: Debugs.GetSysLogsDescription());
+}

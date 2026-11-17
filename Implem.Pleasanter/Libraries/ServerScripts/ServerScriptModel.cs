@@ -153,7 +153,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Notification = new ServerScriptModelNotification(
                 context: context,
                 ss: ss);
-            HttpClient = new ServerScriptModelHttpClient();
+            HttpClient = new ServerScriptModelHttpClient(context: context);
             Utilities = new ServerScriptModelUtilities(
                 context: context,
                 ss: ss);

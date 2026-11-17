@@ -10,6 +10,10 @@
             "Body": "删除变更历史"
         },
         {
+            "Language": "zh_tw",
+            "Body": "刪除變更歷史"
+        },
+        {
             "Language": "ja",
             "Body": "変更履歴を削除"
         },

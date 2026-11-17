@@ -11,6 +11,10 @@
             "Body": "默认值"
         },
         {
+            "Language": "zh_tw",
+            "Body": "預設值"
+        },
+        {
             "Language": "ja",
             "Body": "既定値"
         },

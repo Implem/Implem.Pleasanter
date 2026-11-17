@@ -10,6 +10,10 @@
             "Body": "存储容量"
         },
         {
+            "Language": "zh_tw",
+            "Body": "儲存容量"
+        },
+        {
             "Language": "ja",
             "Body": "契約容量"
         },

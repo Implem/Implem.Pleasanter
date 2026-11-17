@@ -39,6 +39,17 @@ public string SynchronizeSummaries(Context context)
 public ContentResultInheritance SynchronizeSummariesByApi(Context context)
 {
     SetSite(context: context);
+    var apiErrorData = Validators.ValidateApi(
+        context: context,
+        serverScript: false);
+    switch (apiErrorData.Type)
+    {
+        case Error.Types.None: break;
+        default:
+            return ApiResults.Error(
+                context: context,
+                errorData: apiErrorData);
+    }
     var selected = context.RequestDataString.Deserialize<SiteApiModel>()?.SummaryId;
     if (selected == null)
     {

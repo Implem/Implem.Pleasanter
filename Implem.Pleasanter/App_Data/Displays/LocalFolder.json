@@ -10,6 +10,10 @@
             "Body": "本地文件夹"
         },
         {
+            "Language": "zh_tw",
+            "Body": "本地資料夾"
+        },
+        {
             "Language": "ja",
             "Body": "ローカルフォルダ"
         },

@@ -22,6 +22,7 @@
     "EditorReadOnly": "1",
     "LabelText_en": "Email address ID",
     "LabelText_zh": "电子邮箱地址ID",
+    "LabelText_zh_tw": "電子郵件地址ID",
     "LabelText_de": "E-Mail-Adress-ID",
     "LabelText_ko": "이메일 주소 ID",
     "LabelText_es": "ID de la dirección de correo electrónico",

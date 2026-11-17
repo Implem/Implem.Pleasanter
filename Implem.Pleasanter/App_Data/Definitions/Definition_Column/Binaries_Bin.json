@@ -16,6 +16,7 @@
     "ByDataRow": "dataRow.Bytes(\"Bin\")",
     "LabelText_en": "Binary",
     "LabelText_zh": "二进制",
+    "LabelText_zh_tw": "二進位制",
     "LabelText_de": "Binär",
     "LabelText_ko": "바이너리",
     "LabelText_es": "Binario",

@@ -139,16 +139,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return submitted;
             }
-            JObject connectionSetting;
-            try
-            {
-                connectionSetting = JToken.Parse(submitted) as JObject;
-            }
-            catch (JsonReaderException)
-            {
-                return submitted;
-            }
-            if (connectionSetting == null)
+            if (!TryParseConnectionSetting(
+                submitted: submitted,
+                connectionSetting: out var connectionSetting))
             {
                 return submitted;
             }
@@ -165,6 +158,60 @@ namespace Implem.Pleasanter.Libraries.Settings
                 storedConnectionSetting: storedConnectionSetting,
                 providerType: providerType);
             return SerializeConnectionSetting(connectionSetting: connectionSetting);
+        }
+
+        public static void MaskConnectionSettings(SiteSettings ss)
+        {
+            ss?.AiProviders?.ForEach(aiProvider => aiProvider.ConnectionSetting =
+                MaskedConnectionSetting(aiProvider: aiProvider));
+        }
+
+        public static void ResolveMaskedConnectionSettings(SiteSettings ss, SiteSettings storedSs)
+        {
+            ss?.AiProviders?.ForEach(aiProvider => aiProvider.ConnectionSetting =
+                ResolveMaskedConnectionSetting(
+                    providerType: aiProvider.ProviderType,
+                    submitted: aiProvider.ConnectionSetting,
+                    stored: storedSs?.AiProviders?.Get(aiProvider.Id)));
+        }
+
+        private static string ResolveMaskedConnectionSetting(
+            string providerType,
+            string submitted,
+            AiProvider stored)
+        {
+            if (submitted?.Contains(ConnectionSettingMask) != true)
+            {
+                return submitted;
+            }
+            if (!TryParseConnectionSetting(
+                submitted: submitted,
+                connectionSetting: out var connectionSetting))
+            {
+                return submitted;
+            }
+            ResolveConnectionSettingValues(
+                connectionSetting: connectionSetting,
+                storedConnectionSetting: StoredConnectionSetting(
+                    providerType: providerType,
+                    stored: stored),
+                secretKeys: SecretConnectionSettingKeys(),
+                restoreEmpty: false);
+            return SerializeConnectionSetting(connectionSetting: connectionSetting);
+        }
+
+        private static bool TryParseConnectionSetting(string submitted, out JObject connectionSetting)
+        {
+            try
+            {
+                connectionSetting = JToken.Parse(submitted) as JObject;
+            }
+            catch (JsonReaderException)
+            {
+                connectionSetting = null;
+                return false;
+            }
+            return connectionSetting != null;
         }
 
         private static JToken StoredConnectionSetting(string providerType, AiProvider stored)
@@ -222,7 +269,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         private static void ResolveConnectionSettingValues(
             JToken connectionSetting,
             JToken storedConnectionSetting,
-            List<string> secretKeys)
+            List<string> secretKeys,
+            bool restoreEmpty = true)
         {
             if (connectionSetting is JObject connectionSettingObject)
             {
@@ -237,7 +285,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         key: property.Name,
                         caseInsensitive: isSecret);
                     if (isSecret
-                        && (IsEmptyConnectionSettingValue(value: property.Value)
+                        && ((restoreEmpty && IsEmptyConnectionSettingValue(value: property.Value))
                             || IsConnectionSettingMask(value: property.Value)))
                     {
                         property.Value = StoredConnectionSettingStringValue(
@@ -248,7 +296,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ResolveConnectionSettingValues(
                             connectionSetting: property.Value,
                             storedConnectionSetting: storedProperty?.Value,
-                            secretKeys: secretKeys);
+                            secretKeys: secretKeys,
+                            restoreEmpty: restoreEmpty);
                     }
                 }
             }
@@ -264,7 +313,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ResolveConnectionSettingValues(
                         connectionSetting: connectionSettingArray[index],
                         storedConnectionSetting: storedValue,
-                        secretKeys: secretKeys);
+                        secretKeys: secretKeys,
+                        restoreEmpty: restoreEmpty);
                 }
             }
         }

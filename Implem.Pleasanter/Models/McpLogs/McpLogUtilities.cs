@@ -389,6 +389,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             columns: columns,
                             view: view,
+                            sort: false,
                             checkRow: checkRow,
                             checkAll: checkAll,
                             action: action,
@@ -1095,6 +1096,14 @@ namespace Implem.Pleasanter.Models
                                 break;
                         }
                         break;
+                }
+                if (!column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: mcpLogModel.Mine(context: context),
+                    noCache: true))
+                {
+                    value = string.Empty;
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });

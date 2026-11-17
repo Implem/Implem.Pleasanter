@@ -10,6 +10,10 @@
             "Body": "确认信息"
         },
         {
+            "Language": "zh_tw",
+            "Body": "確認資訊"
+        },
+        {
             "Language": "ja",
             "Body": "確認メッセージ"
         },

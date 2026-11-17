@@ -3,15 +3,24 @@ using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelDepts
     {
         private readonly Context Context;
+        private HashSet<string> ReadableColumnNames;
 
         public ServerScriptModelDepts(Context context)
         {
             Context = context;
+        }
+
+        private HashSet<string> GetReadableColumnNames()
+        {
+            return ReadableColumnNames ??= ServerScriptUtilities.ReadableColumnNames(
+                context: Context,
+                ss: SiteSettingsUtilities.DeptsSiteSettings(context: Context));
         }
 
         public ServerScriptModelDeptModel Get(object id)
@@ -21,17 +30,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 tenantId: Context.TenantId,
                 deptId: id.ToInt());
 
-            var deptModel = dept.Id > 0
-                ? new ServerScriptModelDeptModel(
-                    context: Context,
-                    tenantId: dept.TenantId,
-                    deptId: dept.Id,
-                    deptCode: dept.Code,
-                    deptName: dept.Name,
-                    body: dept.Body,
-                    disabled: dept.Disabled,
-                    extras: dept.Extras)
-                : null;
+            if (dept.Id <= 0)
+            {
+                return null;
+            }
+            var readableColumnNames = GetReadableColumnNames();
+            var deptModel = new ServerScriptModelDeptModel(
+                context: Context,
+                tenantId: dept.TenantId,
+                deptId: dept.Id,
+                deptCode: dept.Code,
+                deptName: dept.Name,
+                body: dept.Body,
+                disabled: dept.Disabled,
+                extras: dept.Extras,
+                readableColumnNames: readableColumnNames);
             return deptModel;
         }
 

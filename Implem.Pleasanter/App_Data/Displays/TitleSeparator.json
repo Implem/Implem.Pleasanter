@@ -10,6 +10,10 @@
             "Body": "标题分隔符"
         },
         {
+            "Language": "zh_tw",
+            "Body": "標題分隔符"
+        },
+        {
             "Language": "ja",
             "Body": "タイトル区切り文字"
         },

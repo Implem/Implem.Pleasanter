@@ -21,6 +21,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Target Name",
     "LabelText_zh": "目标名称",
+    "LabelText_zh_tw": "目標名稱",
     "LabelText_de": "Zielname",
     "LabelText_ko": "대상 이름",
     "LabelText_es": "Nombre de destino",

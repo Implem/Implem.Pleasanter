@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Settings;
 
 namespace Implem.Pleasanter.Libraries.Scim
@@ -102,9 +103,7 @@ namespace Implem.Pleasanter.Libraries.Scim
             {
                 return null;
             }
-            var reverse = LanguageAliases.FirstOrDefault(kv =>
-                kv.Value.Equals(pleasanterLanguage, StringComparison.OrdinalIgnoreCase));
-            return reverse.Key ?? pleasanterLanguage;
+            return LanguageUtilities.LanguageTag(language: pleasanterLanguage);
         }
 
         private static string MapLanguageCode(string raw)
@@ -124,6 +123,10 @@ namespace Implem.Pleasanter.Libraries.Scim
             if (LanguageAliases.TryGetValue(trimmed, out var aliased))
             {
                 return aliased;
+            }
+            if (trimmed.StartsWith("zh-", StringComparison.OrdinalIgnoreCase))
+            {
+                return LanguageUtilities.AcceptLanguageToLanguage(acceptLanguage: trimmed);
             }
             var separatorIndex = trimmed.IndexOf('-');
             if (separatorIndex > 0)

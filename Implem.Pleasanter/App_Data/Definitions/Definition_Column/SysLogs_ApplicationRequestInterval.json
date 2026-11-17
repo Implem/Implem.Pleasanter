@@ -14,6 +14,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Application request interval",
     "LabelText_zh": "应用请求间隔",
+    "LabelText_zh_tw": "應用請求間隔",
     "LabelText_de": "Anwendungsabrufintervall",
     "LabelText_ko": "애플리케이션 요청 간격",
     "LabelText_es": "Intervalo de solicitud de la aplicación",

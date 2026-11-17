@@ -10,6 +10,10 @@
             "Body": "禁用异步加载"
         },
         {
+            "Language": "zh_tw",
+            "Body": "停用非同步載入"
+        },
+        {
             "Language": "ja",
             "Body": "非同期読み込みしない"
         },

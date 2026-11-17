@@ -38,6 +38,39 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
+        internal static string TempFilePath(string guid, string name)
+        {
+            if (!TryGetTempFilePath(guid, name, out var path))
+            {
+                throw new AttachmentPathTraversalException(guid, name);
+            }
+            return path;
+        }
+
+        internal static bool TryGetTempFilePath(string guid, string name, out string path)
+        {
+            path = null;
+            if (!Validators.IsValidGuid(guid))
+            {
+                return false;
+            }
+            if (name.IsNullOrEmpty()
+                || !Files.ValidateFileName(name)
+                || Path.GetFileName(name) != name)
+            {
+                return false;
+            }
+            var tempRoot = Path.GetFullPath(Path.Combine(Directories.Temp(), guid))
+                + Path.DirectorySeparatorChar;
+            var fullPath = Path.GetFullPath(Path.Combine(tempRoot, name));
+            if (!fullPath.StartsWith(tempRoot, StringComparison.Ordinal))
+            {
+                return false;
+            }
+            path = fullPath;
+            return true;
+        }
+
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
@@ -53,9 +86,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Extension = Path.GetExtension(Name ?? FileName);
             ContentType = Strings.CoalesceEmpty(ContentType, "text/plain");
             Added = true;
-            if (Files.ValidateFileName(Name ?? FileName))
+            if (TryGetTempFilePath(Guid, Name ?? FileName, out var tempPath))
             {
-                Files.Write(bin, Path.Combine(Directories.Temp(), Guid, Name ?? FileName));
+                Files.Write(bin, tempPath);
             }
             else
             {
@@ -103,7 +136,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 size: Size.GetValueOrDefault());
             var provider = BinaryStorageProviderFactory.Create(providerName);
             if (provider == null) return;  // DB 保存経路（ファイル I/O 不要）
-            var tempPath = Path.Combine(Directories.Temp(), Guid, Name ?? FileName);
+            var tempPath = TempFilePath(Guid, Name ?? FileName);
             try
             {
                 using var stream = System.IO.File.OpenRead(tempPath);
@@ -397,12 +430,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             var provider = BinaryStorageProviderFactory.Create(providerName);
             if (provider != null)
             {
-                var tempFile = Path.Combine(
-                    Directories.Temp(),
-                    Guid,
-                    Name ?? FileName);
                 using var sha = System.Security.Cryptography.SHA256.Create();
-                if (System.IO.File.Exists(tempFile))
+                if (TryGetTempFilePath(Guid, Name ?? FileName, out var tempFile)
+                    && System.IO.File.Exists(tempFile))
                 {
                     using var stream = new FileStream(tempFile, FileMode.Open, FileAccess.Read);
                     HashCode = System.Convert.ToBase64String(sha.ComputeHash(stream));
@@ -430,7 +460,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 }
                 else
                 {
-                    var bytes = GetBin(context) ?? bin;
+                    var bytes = GetBinOrDefault() ?? bin;
                     var sha = System.Security.Cryptography.SHA256.Create();
                     HashCode = System.Convert.ToBase64String(sha.ComputeHash(bytes));
                 }
@@ -441,8 +471,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             var bin = Base64 ?? Base64Binary;
             if(bin is null)
-                return Files.Bytes(Path.Combine(Directories.Temp(), Guid, Name ?? FileName));
+                return Files.Bytes(TempFilePath(Guid, Name ?? FileName));
             return System.Convert.FromBase64String(bin);
+        }
+
+        private byte[] GetBinOrDefault()
+        {
+            var bin = Base64 ?? Base64Binary;
+            if (bin is not null)
+                return System.Convert.FromBase64String(bin);
+            return TryGetTempFilePath(Guid, Name ?? FileName, out var tempFile)
+                ? Files.Bytes(tempFile)
+                : null;
         }
 
         public bool IsStoreLocalFolder(Column column)
@@ -453,14 +493,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public bool Exists(Context context)
         {
             var localPath = Path.Combine(Directories.BinaryStorage(), "Attachments", Guid);
-            var temp = Path.Combine(Directories.Temp(), Guid, Name);
             var providerName = BinaryUtilities.BinaryStorageProvider(
                 column: null,
                 size: Size.GetValueOrDefault());
             var provider = BinaryStorageProviderFactory.Create(providerName);
             if ((provider != null && provider.Exists($"Attachments/{Guid}"))
                 || Files.Exists(localPath)
-                || Files.Exists(temp))
+                || (TryGetTempFilePath(Guid, Name, out var temp) && Files.Exists(temp)))
             {
                 return true;
             }

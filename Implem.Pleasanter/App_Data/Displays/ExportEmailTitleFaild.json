@@ -7,7 +7,11 @@
         },
         {
             "Language": "zh",
-            "Body": "出口失败。"
+            "Body": "导出失败。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "匯出失敗。"
         },
         {
             "Language": "ja",

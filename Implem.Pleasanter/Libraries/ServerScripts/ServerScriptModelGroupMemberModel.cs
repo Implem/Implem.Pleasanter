@@ -16,8 +16,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly string LoginId;
         public readonly string Name;
         public readonly string UserCode;
-        public readonly bool TenantManager;
-        public readonly bool Disabled;
+        public readonly bool? TenantManager;
+        public readonly bool? Disabled;
         public readonly bool Admin;
         private readonly Dictionary<string, object> Extras;
 
@@ -32,25 +32,33 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             string loginId,
             string name,
             string userCode,
-            bool tenantManager,
-            bool disabled,
+            bool? tenantManager,
+            bool? disabled,
             bool admin,
-            Dictionary<string, object> extras)
+            Dictionary<string, object> extras,
+            HashSet<string> usersReadableColumnNames,
+            HashSet<string> deptsReadableColumnNames,
+            HashSet<string> groupsReadableColumnNames)
         {
             Context = context;
             GroupId = groupId;
-            GroupName = groupName;
+            GroupName = CanRead(groupsReadableColumnNames, "GroupName") ? groupName : null;
             DeptId = deptId;
-            DeptName = deptName;
-            DeptCode = deptCode;
+            DeptName = CanRead(deptsReadableColumnNames, "DeptName") ? deptName : null;
+            DeptCode = CanRead(deptsReadableColumnNames, "DeptCode") ? deptCode : null;
             UserId = userId;
-            LoginId = loginId;
-            Name = name;
-            UserCode = userCode;
-            TenantManager = tenantManager;
-            Disabled = disabled;
+            LoginId = CanRead(usersReadableColumnNames, "LoginId") ? loginId : null;
+            Name = CanRead(usersReadableColumnNames, "Name") ? name : null;
+            UserCode = CanRead(usersReadableColumnNames, "UserCode") ? userCode : null;
+            TenantManager = CanRead(usersReadableColumnNames, "TenantManager") ? tenantManager : null;
+            Disabled = CanRead(usersReadableColumnNames, "Disabled") ? disabled : null;
             Admin = admin;
             Extras = extras;
+        }
+
+        private static bool CanRead(HashSet<string> readableColumnNames, string columnName)
+        {
+            return readableColumnNames?.Contains(columnName) == true;
         }
 
         public object ToJson()

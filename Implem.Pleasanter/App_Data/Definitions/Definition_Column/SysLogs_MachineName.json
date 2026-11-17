@@ -22,6 +22,7 @@
     "FieldCss": "field-wide",
     "LabelText_en": "Machine name",
     "LabelText_zh": "机器名称",
+    "LabelText_zh_tw": "機器名稱",
     "LabelText_de": "Maschinenname",
     "LabelText_ko": "기기 이름",
     "LabelText_es": "Nombre de la máquina",

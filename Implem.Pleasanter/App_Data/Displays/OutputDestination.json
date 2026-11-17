@@ -10,6 +10,10 @@
             "Body": "输出至"
         },
         {
+            "Language": "zh_tw",
+            "Body": "輸出至"
+        },
+        {
             "Language": "ja",
             "Body": "出力先"
         },

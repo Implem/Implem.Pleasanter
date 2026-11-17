@@ -951,6 +951,14 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                 }
+                if (!column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: siteModel.Mine(context: context),
+                    noCache: true))
+                {
+                    value = string.Empty;
+                }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
             return hb.Td(
@@ -1936,6 +1944,8 @@ namespace Implem.Pleasanter.Models
                 default:
                     return null;
             }
+            siteModel.SiteSettings = siteModel.SiteSettings?.ForServerScript(
+                canManageSite: siteModel.CanManageSiteSettings(context: context));
             return siteModel;
         }
 
@@ -1985,6 +1995,17 @@ namespace Implem.Pleasanter.Models
             long parentId,
             long inheritPermission)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             var siteApiModel = context.RequestDataString.Deserialize<SiteApiModel>();
             if (siteApiModel == null)
             {
@@ -1994,6 +2015,9 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
+            AiProviderUtilities.ResolveMaskedConnectionSettings(
+                ss: siteApiModel.SiteSettings,
+                storedSs: null);
             var siteModel = new SiteModel(
                 context: context,
                 parentId: parentId,
@@ -2063,6 +2087,13 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if (siteApiModel?.SiteSettings == null)
+            {
+                return false;
+            }
+            AiProviderUtilities.ResolveMaskedConnectionSettings(
+                ss: siteApiModel.SiteSettings,
+                storedSs: null);
             var siteModel = new SiteModel(
                 context: context,
                 parentId: ss.SiteId,
@@ -2116,6 +2147,17 @@ namespace Implem.Pleasanter.Models
             SiteModel siteModel,
             long siteId)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
@@ -2125,6 +2167,12 @@ namespace Implem.Pleasanter.Models
             if (siteApiModel == null)
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            if (siteApiModel?.SiteSettings != null)
+            {
+                AiProviderUtilities.ResolveMaskedConnectionSettings(
+                    ss: siteApiModel.SiteSettings,
+                    storedSs: siteModel.SiteSettings);
             }
             siteModel.SetByApi(
                 context: context,
@@ -2215,6 +2263,12 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if (siteApiModel?.SiteSettings != null)
+            {
+                AiProviderUtilities.ResolveMaskedConnectionSettings(
+                    ss: siteApiModel.SiteSettings,
+                    storedSs: siteModel.SiteSettings);
+            }
             siteModel.SetByApi(
                 context: context,
                 ss: ss,
@@ -2267,6 +2321,8 @@ namespace Implem.Pleasanter.Models
                         if (serverScriptModelApiModel.Model is SiteModel data)
                         {
                             data.SetByModel(siteModel: siteModel);
+                            data.SiteSettings = siteModel.SiteSettings?.ForServerScript(
+                                canManageSite: siteModel.CanManageSiteSettings(context: context));
                         }
                     }
                     return true;
@@ -2396,6 +2452,17 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             SiteModel siteModel)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
@@ -5571,13 +5638,21 @@ namespace Implem.Pleasanter.Models
                 ImgNameLight = "sg-materials.svg",
                 ImgNameDark = "sg-materials-d.svg"
             });
-            guides.Add(new AccessorParts.StartGuide {
-                Id = "SgExtensions",
-                Text = Displays.EnterpriseEditionSg(context: context),
-                Url = string.Format("https://pleasanter.org/enterprise-edition?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}", Parameters.General.PleasanterSource, "enterprise", utmContent),
-                ImgNameLight = "sg-extensions.svg",
-                ImgNameDark = "sg-extensions-d.svg"
-            });
+            guides.Add(Implem.Pleasanter.Libraries.License.LicenseUtilities.ShowSupportCustomersGuide(context: context)
+                ? new AccessorParts.StartGuide {
+                    Id = "SgExtensions",
+                    Text = Displays.SupportCustomersSg(context: context),
+                    Url = string.Format(Implem.Pleasanter.Libraries.License.LicenseUtilities.SupportCustomersUrl, Parameters.General.PleasanterSource, utmContent),
+                    ImgNameLight = "sg-extensions.svg",
+                    ImgNameDark = "sg-extensions-d.svg"
+                }
+                : new AccessorParts.StartGuide {
+                    Id = "SgExtensions",
+                    Text = Displays.EnterpriseEditionSg(context: context),
+                    Url = string.Format("https://pleasanter.org/enterprise-edition?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}", Parameters.General.PleasanterSource, "enterprise", utmContent),
+                    ImgNameLight = "sg-extensions.svg",
+                    ImgNameDark = "sg-extensions-d.svg"
+                });
             guides.Add(new AccessorParts.StartGuide {
                 Id = "SgSupport",
                 Text = Displays.SolutionSupportSg(context: context),
@@ -7549,6 +7624,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.AggregationTarget(context: context),
                         optionCollection: Def.ColumnDefinitionCollection
                             .Where(o => o.TableName == ss.ReferenceType)
+                            .AllowedExtendedColumns(context: context)
                             .Where(o => o.Computable)
                             .Where(o => o.TypeName != "datetime")
                             .ToDictionary(
@@ -20307,6 +20383,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContentResultInheritance GetClosestSiteIdByApi(Context context, long id)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             var findSiteNames = context.RequestDataString.Deserialize<SiteApiModel>()?.FindSiteNames;
             if (findSiteNames == null)
             {

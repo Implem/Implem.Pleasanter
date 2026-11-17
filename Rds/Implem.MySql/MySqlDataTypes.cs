@@ -49,20 +49,14 @@ namespace Implem.MySql
             }
         }
 
-        public string DefaultDefinition(DataRow dataRow)
+        public string DefaultValue(DataRow dataRow)
         {
-            switch (dataRow["data_type"].ToString())
-            {
-                case "char":
-                case "varchar":
-                case "text":
-                case "longtext":
-                    return "'" + dataRow["column_default"].ToString() + "'";
-                case "decimal":
-                    return dataRow["column_default"].ToString().TrimEnd('0').TrimEnd('.'); ;
-                default:
-                    return dataRow["column_default"].ToString();
-            }
+            return dataRow["column_default"].ToString();
+        }
+
+        public string StringLiteral(string value)
+        {
+            return $"'{value.Replace("\\", "\\\\").Replace("'", "''")}'";
         }
     }
 }

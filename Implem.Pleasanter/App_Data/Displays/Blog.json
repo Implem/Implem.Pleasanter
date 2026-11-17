@@ -10,6 +10,10 @@
             "Body": "博客"
         },
         {
+            "Language": "zh_tw",
+            "Body": "部落格"
+        },
+        {
             "Language": "ja",
             "Body": "ブログ"
         },

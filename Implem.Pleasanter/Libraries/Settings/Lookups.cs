@@ -56,6 +56,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     id: id);
             }
             var lookups = link.Lookups
+                .Where(lookup => !ss.NotAllowedByContract(columnName: lookup.To))
                 .Where(lookup => copyByDefaultOnly == false
                     || ss.GetColumn(
                         context: context,

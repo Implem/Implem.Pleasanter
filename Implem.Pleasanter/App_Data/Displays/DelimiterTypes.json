@@ -7,7 +7,11 @@
         },
         {
             "Language": "zh",
-            "Body": "구분자 유형"
+            "Body": "分隔符类型"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "分隔符類型"
         },
         {
             "Language": "ja",

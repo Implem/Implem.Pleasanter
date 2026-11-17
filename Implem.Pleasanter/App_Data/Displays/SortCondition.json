@@ -10,6 +10,10 @@
             "Body": "過濾條件"
         },
         {
+            "Language": "zh_tw",
+            "Body": "篩選條件"
+        },
+        {
             "Language": "ja",
             "Body": "フィルタ条件"
         },

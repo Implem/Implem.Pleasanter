@@ -716,6 +716,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContentResultInheritance SendByApi(Context context, string reference, long id)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);

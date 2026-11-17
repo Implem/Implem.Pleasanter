@@ -15,6 +15,7 @@
     "Required": "1",
     "LabelText_en": "Pass phrase",
     "LabelText_zh": "通行短语",
+    "LabelText_zh_tw": "通行短語",
     "LabelText_de": "Passphrase",
     "LabelText_ko": "패스프레이즈",
     "LabelText_es": "Frase de la contraseña",

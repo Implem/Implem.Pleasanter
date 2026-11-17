@@ -64,14 +64,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return mapped;
         }
 
-        public static Dictionary<string, object> BuildExtras(DataRow dataRow, string tableName)
+        public static Dictionary<string, object> BuildExtras(
+            DataRow dataRow,
+            string tableName,
+            HashSet<string> readableColumnNames = null)
         {
             var rawExtras = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
             Def.GetExtendedColumnDefinitions(tableName)
                 .ForEach(columnDefinition =>
                 {
                     var name = columnDefinition.ColumnName;
-                    if (dataRow.Table.Columns.Contains(name))
+                    if (dataRow.Table.Columns.Contains(name)
+                        && (readableColumnNames == null || readableColumnNames.Contains(name)))
                     {
                         var val = dataRow[name];
                         if (val != DBNull.Value)
@@ -85,7 +89,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public static void MergeExtras(
             IDictionary<string, object> target,
-            IDictionary<string, object> extras)
+            IDictionary<string, object> extras,
+            HashSet<string> readableColumnNames = null)
         {
             if (extras == null)
             {
@@ -93,8 +98,33 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             foreach (var kv in extras)
             {
-                target[kv.Key] = ToJsonValue(kv.Value);
+                if (readableColumnNames != null && kv.Value is IDictionary<string, object> hash)
+                {
+                    var readableHash = hash
+                        .Where(o => readableColumnNames.Contains(o.Key))
+                        .ToDictionary(o => o.Key, o => o.Value);
+                    if (readableHash.Count == 0)
+                    {
+                        continue;
+                    }
+                    target[kv.Key] = ToJsonValue(readableHash);
+                }
+                else
+                {
+                    target[kv.Key] = ToJsonValue(kv.Value);
+                }
             }
+        }
+
+        public static HashSet<string> ReadableColumnNames(
+            Context context,
+            SiteSettings ss)
+        {
+            return ss.ReadableColumns(
+                context: context,
+                noJoined: true)
+                    .Select(o => o.ColumnName)
+                    .ToHashSet();
         }
 
         public static object ToJsonValue(object value)
@@ -1429,6 +1459,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 createdContext.BackgroundServerScript = context.BackgroundServerScript;
                 createdContext.TimeZoneInfo = context.TimeZoneInfo;
+                createdContext.ContractSettings.SetExtendedColumns(
+                    contractSettings: context.ContractSettings);
                 createdContext.SetPermissions();
             }
             return createdContext;
@@ -1461,15 +1493,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 action: "Get",
                 id: id,
                 apiRequestBody: view);
-            var itemModels = new ItemModel(
+            var itemModel = new ItemModel(
                 context: apiContext,
-                referenceId: id)
-                    .GetByServerScript(context: apiContext)
-                        ?? new BaseItemModel[0];
+                referenceId: id);
+            var itemModels = itemModel
+                .GetByServerScript(context: apiContext)
+                    ?? new BaseItemModel[0];
             var items = itemModels.Select(model => new ServerScriptModelApiModel(
                 context: apiContext,
                 model: model,
-                onTesting: onTesting)).ToArray();
+                onTesting: onTesting,
+                ss: itemModel.Site?.SiteSettings)).ToArray();
             return items;
         }
 

@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "{0} has been cancelled." },
         { "Language": "zh", "Body": "{0}已取消。" },
+        {
+            "Language": "zh_tw",
+            "Body": "{0}已取消。"
+        },
         { "Language": "ja", "Body": "{0}をキャンセルしました。" },
         { "Language": "de", "Body": "{0} wurde abgebrochen." },
         { "Language": "ko", "Body": "{0}를 취소했습니다." },

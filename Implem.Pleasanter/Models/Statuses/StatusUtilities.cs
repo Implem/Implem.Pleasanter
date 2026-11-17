@@ -179,7 +179,9 @@ namespace Implem.Pleasanter.Models
                 param: Rds.StatusesParam()
                     .TenantId(tenantId)
                     .StatusId(type)
-                    .Value(value));
+                    .Value(value.IsNullOrEmpty()
+                        ? Strings.NewGuid()
+                        : value));
         }
     }
 }

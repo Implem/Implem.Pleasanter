@@ -22,6 +22,7 @@
     "FieldCss": "field-wide",
     "LabelText_en": "Error message",
     "LabelText_zh": "错误消息",
+    "LabelText_zh_tw": "錯誤訊息",
     "LabelText_de": "Fehlermeldung",
     "LabelText_ko": "오류 메시지",
     "LabelText_es": "Mensaje de error",

@@ -20,6 +20,7 @@
         public bool DemoApi { get; set; }
         public int DemoUsagePeriod { get; set; }
         public bool RestrictNewFeatures { get; set; }
+        public bool RestrictExtendedColumns { get; set; }
         public bool? DisableHtmlCache { get; set; } = null;
     }
 }

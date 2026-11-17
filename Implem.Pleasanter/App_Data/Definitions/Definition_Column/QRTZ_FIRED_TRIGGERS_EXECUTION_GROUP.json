@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_FIRED_TRIGGERS_EXECUTION_GROUP",
+    "ModelName": "QuartzFiredTrigger",
+    "TableName": "QRTZ_FIRED_TRIGGERS",
+    "Label": "Quartz Fired Trigger",
+    "ColumnName": "EXECUTION_GROUP",
+    "No": "14",
+    "LabelText": "Execution Group",
+    "TypeName": "nvarchar",
+    "MaxLength": "200",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

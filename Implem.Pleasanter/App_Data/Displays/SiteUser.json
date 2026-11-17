@@ -10,6 +10,10 @@
             "Body": "站点用户"
         },
         {
+            "Language": "zh_tw",
+            "Body": "站點使用者"
+        },
+        {
             "Language": "ja",
             "Body": "サイトユーザ"
         },

@@ -15,6 +15,7 @@
     "Nullable": "1",
     "LabelText_en": "Site group name",
     "LabelText_zh": "站点组名称",
+    "LabelText_zh_tw": "站點群組名稱",
     "LabelText_de": "Name der Site-Gruppe",
     "LabelText_ko": "사이트 그룹 이름",
     "LabelText_es": "Nombre del grupo de sitios",

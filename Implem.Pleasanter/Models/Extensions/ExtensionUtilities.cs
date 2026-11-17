@@ -32,6 +32,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContentResultInheritance Sql(Context context)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);

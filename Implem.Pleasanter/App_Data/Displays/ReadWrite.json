@@ -10,6 +10,10 @@
             "Body": "写入"
         },
         {
+            "Language": "zh_tw",
+            "Body": "寫入"
+        },
+        {
             "Language": "ja",
             "Body": "書き込み"
         },

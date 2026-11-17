@@ -3,27 +3,31 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "An error occurred during export processing."
+            "Body": "An error occurred during export processing.\nExport Name: {0}\nError Message: {1}"
         },
         {
             "Language": "zh",
-            "Body": "导出处理期间发生错误。"
+            "Body": "导出处理期间发生错误。\n导出名称：{0}\n错误信息：{1}"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "匯出處理期間發生錯誤。\n匯出名稱：{0}\n錯誤訊息：{1}"
         },
         {
             "Language": "ja",
-            "Body": "エクスポート処理中にエラーが発生しました。\nExport Name: {0}\nError Message: {1}"
+            "Body": "エクスポート処理中にエラーが発生しました。\nエクスポート名: {0}\nエラーメッセージ: {1}"
         },
         {
             "Language": "de",
-            "Body": "Während der Exportverarbeitung ist ein Fehler aufgetreten."
+            "Body": "Während der Exportverarbeitung ist ein Fehler aufgetreten.\nExportname: {0}\nFehlermeldung: {1}"
         },
         {
             "Language": "ko",
-            "Body": "내보내기 처리 중 오류가 발생했습니다."
+            "Body": "내보내기 처리 중 오류가 발생했습니다.\n내보내기 이름: {0}\n오류 메시지: {1}"
         },
         {
             "Language": "es",
-            "Body": "Se produjo un error durante el proceso de exportación."
+            "Body": "Se produjo un error durante el proceso de exportación.\nNombre de la exportación: {0}\nMensaje de error: {1}"
         },
         {
             "Language": "vn",

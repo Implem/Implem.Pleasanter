@@ -11,6 +11,10 @@
             "Body": "显示附件状态"
         },
         {
+            "Language": "zh_tw",
+            "Body": "顯示附件狀態"
+        },
+        {
             "Language": "ja",
             "Body": "添付有り状態を表示"
         },

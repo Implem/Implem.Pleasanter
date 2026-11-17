@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Libraries.Scim
                 schemas: user.Schemas,
                 extensionData: ExtensionData(user),
                 model: model,
-                attributes: ScimExtendedAttributeUtilities.UserAttributes(),
+                attributes: ScimExtendedAttributeUtilities.AllowedUserAttributes(context: context),
                 tableName: ScimExtendedAttributeUtilities.UsersTableName);
             return user;
         }
@@ -163,7 +163,7 @@ namespace Implem.Pleasanter.Libraries.Scim
                 schemas: group.Schemas,
                 extensionData: ExtensionData(group),
                 model: model,
-                attributes: ScimExtendedAttributeUtilities.GroupAttributes(),
+                attributes: ScimExtendedAttributeUtilities.AllowedGroupAttributes(context: context),
                 tableName: ScimExtendedAttributeUtilities.GroupsTableName);
             return group;
         }

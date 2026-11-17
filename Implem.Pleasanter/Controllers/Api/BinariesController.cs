@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Controllers.Api
         }
 
         [HttpPost("{guid}/getstream")]
-        public FileStreamResult GetStream(string guid)
+        public IActionResult GetStream(string guid)
         {
             var body = default(string);
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
@@ -59,6 +59,18 @@ namespace Implem.Pleasanter.Controllers.Api
             {
                 log.Finish(context: context);
                 return null;
+            }
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    log.Finish(context: context);
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
             }
             var file = BinaryUtilities.Download(
                 context: context,
@@ -106,6 +118,18 @@ namespace Implem.Pleasanter.Controllers.Api
             {
                 log.Finish(context: context);
                 return ApiResults.Unauthorized(context: context);
+            }
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    log.Finish(context: context);
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
             }
             if (context.PostedFiles == null || context.PostedFiles.Count == 0)
             {

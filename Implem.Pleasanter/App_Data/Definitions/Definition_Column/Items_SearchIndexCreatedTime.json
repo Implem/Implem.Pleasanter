@@ -14,6 +14,7 @@
     "Nullable": "1",
     "LabelText_en": "Search index created on",
     "LabelText_zh": "根据创建时间搜索索引",
+    "LabelText_zh_tw": "根據建立時間搜尋索引",
     "LabelText_de": "Suchindex erstellt am",
     "LabelText_ko": "검색 색인 생성 날짜",
     "LabelText_es": "Índice de búsqueda creado el",

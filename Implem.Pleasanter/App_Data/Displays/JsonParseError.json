@@ -10,6 +10,10 @@
             "Body": "输入的JSON无效。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "輸入的JSON無效。"
+        },
+        {
             "Language": "ja",
             "Body": "入力されたJSONが正しくありません。"
         },

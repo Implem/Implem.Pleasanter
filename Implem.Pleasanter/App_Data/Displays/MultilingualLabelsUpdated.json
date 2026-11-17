@@ -14,6 +14,10 @@
             "Body": "已更新 {0} 个列。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "已更新 {0} 個欄位。"
+        },
+        {
             "Language": "de",
             "Body": "{0} Spalte(n) wurden aktualisiert."
         },

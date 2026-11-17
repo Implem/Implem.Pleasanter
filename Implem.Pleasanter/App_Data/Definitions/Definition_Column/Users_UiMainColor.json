@@ -12,6 +12,7 @@
     "Nullable": "1",
     "LabelText_en": "Main Color",
     "LabelText_zh": "主颜色",
+    "LabelText_zh_tw": "主顏色",
     "LabelText_de": "Hauptfarbe",
     "LabelText_ko": "메인 색상",
     "LabelText_es": "Color principal",

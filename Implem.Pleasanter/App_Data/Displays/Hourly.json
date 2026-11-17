@@ -10,6 +10,10 @@
             "Body": "每小时"
         },
         {
+            "Language": "zh_tw",
+            "Body": "每小時"
+        },
+        {
             "Language": "ja",
             "Body": "毎時"
         },
@@ -26,7 +30,7 @@
             "Body": "cada hora"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "hàng giờ"
         }
     ]

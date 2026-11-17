@@ -15,6 +15,7 @@
     "NotForm": "1",
     "LabelText_en": "Binary type",
     "LabelText_zh": "二进制类型",
+    "LabelText_zh_tw": "二進位制類型",
     "LabelText_de": "Binärtyp",
     "LabelText_ko": "바이너리 유형",
     "LabelText_es": "Tipo binario",

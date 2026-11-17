@@ -10,6 +10,10 @@
             "Body": "自动版本升级"
         },
         {
+            "Language": "zh_tw",
+            "Body": "自動版本升級"
+        },
+        {
             "Language": "ja",
             "Body": "自動バージョンアップ"
         },

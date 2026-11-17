@@ -10,6 +10,10 @@
             "Body": "允许批量处理"
         },
         {
+            "Language": "zh_tw",
+            "Body": "允許批次處理"
+        },
+        {
             "Language": "ja",
             "Body": "一括処理を許可"
         },

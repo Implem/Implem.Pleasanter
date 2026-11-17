@@ -10,6 +10,10 @@
             "Body": "导入"
         },
         {
+            "Language": "zh_tw",
+            "Body": "匯入"
+        },
+        {
             "Language": "ja",
             "Body": "インポート"
         },

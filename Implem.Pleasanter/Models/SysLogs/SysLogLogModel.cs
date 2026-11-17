@@ -20,6 +20,7 @@ public readonly record struct SysLogLogModel(
     string ReferenceType,
     long? Status,
     string Description,
+    int? TenantId,
     string RequestData,
     string HttpMethod,
     int? RequestSize,

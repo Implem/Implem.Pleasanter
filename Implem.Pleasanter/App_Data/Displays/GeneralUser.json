@@ -10,6 +10,10 @@
             "Body": "一般用户"
         },
         {
+            "Language": "zh_tw",
+            "Body": "一般使用者"
+        },
+        {
             "Language": "ja",
             "Body": "一般ユーザ"
         },

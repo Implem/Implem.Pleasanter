@@ -3,5 +3,14 @@
         context: context,
         ss: ss,
         dataRow: dataRows.First(),
-        tableAlias: tableAlias);
+        tableAlias: tableAlias,
+        mine: allColumns
+            ? null
+            : new #ModelName#Model(
+                context: context,
+                ss: ss,
+                dataRow: dataRows.First(),
+                tableAlias: tableAlias)
+                    .Mine(context: context),
+        allColumns: allColumns);
     break;

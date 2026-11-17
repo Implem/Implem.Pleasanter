@@ -18,6 +18,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Request size",
     "LabelText_zh": "请求大小",
+    "LabelText_zh_tw": "請求大小",
     "LabelText_de": "Anforderungsgröße",
     "LabelText_ko": "요청 크기",
     "LabelText_es": "Tamaño de solicitud",

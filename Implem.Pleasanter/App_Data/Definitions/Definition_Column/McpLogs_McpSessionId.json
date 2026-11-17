@@ -23,6 +23,7 @@
     "FieldCss": "field-wide",
     "LabelText_en": "MCP Session ID",
     "LabelText_zh": "MCP会话ID",
+    "LabelText_zh_tw": "MCP會話ID",
     "LabelText_de": "MCP-Sitzungs-ID",
     "LabelText_ko": "MCP 세션 ID",
     "LabelText_es": "ID de sesión MCP",

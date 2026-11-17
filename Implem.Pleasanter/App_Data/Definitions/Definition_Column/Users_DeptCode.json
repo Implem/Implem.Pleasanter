@@ -19,6 +19,7 @@
     "NotUpdate": "1",
     "LabelText_en": "Department code",
     "LabelText_zh": "部门代码",
+    "LabelText_zh_tw": "部門程式碼",
     "LabelText_de": "Abteilungscode",
     "LabelText_ko": "부서 코드",
     "LabelText_es": "Código de departamento",

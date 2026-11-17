@@ -35,6 +35,9 @@
             .Select(columnName => ss.GetColumn(
                 context: context,
                 columnName: columnName))
+            .Where(column => !ss.ReadColumnAccessControlEnabled(
+                columnName: column.ColumnName)
+                    && !column.NotAllowedByContract)
             .ForEach(column =>
             {
                 switch (column.ColumnName)
@@ -50,30 +53,42 @@
                         break;
                 }
             });
-    Creator.FullText(
-        context,
-        column: ss.GetColumn(
-            context: context,
-            columnName: "Creator"),
-        fullText);
-    Updator.FullText(
-        context,
-        column: ss.GetColumn(
-            context: context,
-            columnName: "Updator"),
-        fullText);
-    CreatedTime.FullText(
-        context,
-        column: ss.GetColumn(
-            context: context,
-            columnName: "CreatedTime"),
-        fullText);
-    UpdatedTime.FullText(
-        context,
-        column: ss.GetColumn(
-            context: context,
-            columnName: "UpdatedTime"),
-        fullText);
+    if (!ss.ReadColumnAccessControlEnabled(columnName: "Creator"))
+    {
+        Creator.FullText(
+            context,
+            column: ss.GetColumn(
+                context: context,
+                columnName: "Creator"),
+            fullText);
+    }
+    if (!ss.ReadColumnAccessControlEnabled(columnName: "Updator"))
+    {
+        Updator.FullText(
+            context,
+            column: ss.GetColumn(
+                context: context,
+                columnName: "Updator"),
+            fullText);
+    }
+    if (!ss.ReadColumnAccessControlEnabled(columnName: "CreatedTime"))
+    {
+        CreatedTime.FullText(
+            context,
+            column: ss.GetColumn(
+                context: context,
+                columnName: "CreatedTime"),
+            fullText);
+    }
+    if (!ss.ReadColumnAccessControlEnabled(columnName: "UpdatedTime"))
+    {
+        UpdatedTime.FullText(
+            context,
+            column: ss.GetColumn(
+                context: context,
+                columnName: "UpdatedTime"),
+            fullText);
+    }
     if (!onCreating)
     {
         FullTextExtensions.OutgoingMailsFullText(

@@ -9,6 +9,10 @@
             "Body": "Passkey 操作已超时，请重试。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "Passkey 操作已超時，請重試。"
+        },
+        {
             "Language": "ja",
             "Body": "パスキーの操作が制限時間をオーバーしました。もう一度お試しください。"
         },

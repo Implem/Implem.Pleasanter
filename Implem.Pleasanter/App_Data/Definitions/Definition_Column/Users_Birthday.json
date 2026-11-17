@@ -25,6 +25,7 @@
     "ExportFormat": "Ymd",
     "LabelText_en": "Birthday",
     "LabelText_zh": "生日",
+    "LabelText_zh_tw": "生日",
     "LabelText_de": "Geburtstag",
     "LabelText_ko": "생년월일",
     "LabelText_es": "Fecha de nacimiento",

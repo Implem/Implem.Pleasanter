@@ -48,11 +48,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.SelectFile;
             }
-            try
-            {
-                SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(new System.IO.MemoryStream(bin));
-            }
-            catch (System.Exception)
+            if (!CanDecodeImage(bin: bin))
             {
                 return Error.Types.IncorrectFileFormat;
             }
@@ -74,15 +70,32 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.SelectFile;
             }
-            try
-            {
-                SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(new System.IO.MemoryStream(bin));
-            }
-            catch (System.Exception)
+            if (!CanDecodeImage(bin: bin))
             {
                 return Error.Types.IncorrectFileFormat;
             }
             return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool CanDecodeImage(byte[] bin)
+        {
+            try
+            {
+                using var codec = Libraries.Images.ImageData.CreateCodec(bin);
+                if (codec == null)
+                {
+                    return false;
+                }
+                using var bitmap = SkiaSharp.SKBitmap.Decode(codec);
+                return bitmap != null;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -138,23 +151,21 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.InvalidRequest;
             }
-            try
+            using (var codec = Libraries.Images.ImageData.CreateCodec(bin))
             {
-                using var ms = new System.IO.MemoryStream(bin);
-                var imageInfo = SixLabors.ImageSharp.Image.Identify(ms);
-                if (imageInfo == null)
+                if (codec == null)
                 {
                     return Error.Types.IncorrectFileFormat;
                 }
                 var decodedSizeLimit = Parameters.BinaryStorage.ImageDecodedSizeLimit;
                 if (decodedSizeLimit > 0)
                 {
-                    var frameCount = imageInfo.FrameMetadataCollection?.Count ?? 1;
+                    var frameCount = System.Math.Max(codec.FrameCount, 1);
                     var limitBytes = (long)decodedSizeLimit.Value * 1024 * 1024;
                     long estimatedBytes;
                     try
                     {
-                        estimatedBytes = checked((long)imageInfo.Width * imageInfo.Height * frameCount * 4);
+                        estimatedBytes = checked((long)codec.Info.Width * codec.Info.Height * frameCount * 4);
                     }
                     catch (System.OverflowException)
                     {
@@ -165,14 +176,6 @@ namespace Implem.Pleasanter.Models
                         return Error.Types.TooLargeFile;
                     }
                 }
-            }
-            catch (SixLabors.ImageSharp.UnknownImageFormatException)
-            {
-                return Error.Types.IncorrectFileFormat;
-            }
-            catch (SixLabors.ImageSharp.InvalidImageContentException)
-            {
-                return Error.Types.IncorrectFileFormat;
             }
             var newTotalFileSize = context.PostedFiles.Sum(x => x.Size);
             if (OverTenantStorageSize(
@@ -272,6 +275,12 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.BadRequest;
             }
+            if (attachmentsHash.Values.Any(attachments => InvalidTempReference(
+                context: context,
+                attachments: attachments)))
+            {
+                return Error.Types.InvalidRequest;
+            }
             foreach (var keyValue in attachmentsHash)
             {
                 var column = ss.GetColumn(
@@ -320,11 +329,45 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static bool InvalidTempReference(
+            Context context,
+            Attachments attachments)
+        {
+            if (!Attachments.UsesLocalTemporaryStorage(api: context.Api))
+            {
+                return false;
+            }
+            var invalidReference = attachments?.FirstOrDefault(o =>
+                o.Added == true
+                && o.Base64 == null
+                && o.Base64Binary == null
+                && !Attachment.TryGetTempFilePath(o.Guid, o.Name ?? o.FileName, out _));
+            if (invalidReference == null)
+            {
+                return false;
+            }
+            new SysLogModel(
+                context: context,
+                method: $"{nameof(BinaryValidators)}.{nameof(OnUploading)}",
+                message: $"Invalid attachment temp reference. Guid='{invalidReference.Guid}' Name='{invalidReference.Name ?? invalidReference.FileName}'",
+                sysLogType: SysLogModel.SysLogTypes.Info);
+            return true;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types OnUploading(
             Context context,
             Attachments attachments)
         {
             if (!context.ContractSettings.Attachments())
+            {
+                return Error.Types.BadRequest;
+            }
+            if (InvalidTempReference(
+                context: context,
+                attachments: attachments))
             {
                 return Error.Types.BadRequest;
             }

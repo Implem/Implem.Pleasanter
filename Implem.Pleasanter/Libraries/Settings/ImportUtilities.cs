@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ForEach(header =>
                 {
                     var column = ss.Columns
+                        .Where(o => !o.NotAllowedByContract)
                         .Where(o => o.LabelText == header.LabelText
                             || o.LabelText == header.LabelTextParts?.LabelText
                                 && o.ChoiceHash?.Any(p =>

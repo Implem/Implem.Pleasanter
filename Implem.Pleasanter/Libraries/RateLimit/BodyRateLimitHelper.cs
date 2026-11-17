@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.RateLimiting;
@@ -414,27 +415,11 @@ namespace Implem.Pleasanter.Libraries.RateLimit
             {
                 return query;
             }
-            var acceptLanguage = ctx.Request.Headers["Accept-Language"].ToString();
+            var acceptLanguage = ctx.Request.Headers.AcceptLanguage.ToString();
             if (!string.IsNullOrEmpty(acceptLanguage))
             {
-                var lang = acceptLanguage
-                    .Split(',')[0]
-                    .Split(';')[0]
-                    .Split('-')[0]
-                    .Trim()
-                    .ToLowerInvariant();
-                switch (lang)
-                {
-                    case "en":
-                    case "zh":
-                    case "ja":
-                    case "de":
-                    case "ko":
-                    case "es":
-                        return lang;
-                    case "vi":
-                        return "vn";
-                }
+                return LanguageUtilities.AcceptLanguageToLanguage(acceptLanguage)
+                    ?? defaultLanguage;
             }
             return defaultLanguage;
         }

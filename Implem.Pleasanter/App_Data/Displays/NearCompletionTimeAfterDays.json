@@ -10,6 +10,10 @@
             "Body": "完成后天数"
         },
         {
+            "Language": "zh_tw",
+            "Body": "完成後天數"
+        },
+        {
             "Language": "ja",
             "Body": "「期限が近い」の日数（後）"
         },

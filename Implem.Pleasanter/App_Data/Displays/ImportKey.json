@@ -10,6 +10,10 @@
             "Body": "导入密钥"
         },
         {
+            "Language": "zh_tw",
+            "Body": "匯入金鑰"
+        },
+        {
             "Language": "ja",
             "Body": "インポートのキー"
         },

@@ -31,10 +31,22 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             var paramScripts = dataMap.GetString("scripts")?.Deserialize<BackgroundServerScripts>();
             await Task.Run(() =>
             {
-                var sqlContext = CreateContext(tenantId: tenatId, userId: userId);
+                Context sqlContext = null;
                 SysLogModel log = null;
                 try
                 {
+                    sqlContext = CreateContext(
+                        tenantId: tenatId,
+                        userId: userId);
+                    if (SiteInfo.ApplicationLifetime?.ApplicationStopping.IsCancellationRequested == true)
+                    {
+                        log = new SysLogModel(
+                            context: sqlContext,
+                            method: nameof(BackgroundServerScriptJob) + ":" + nameof(Execute),
+                            message: $"Skip BGServerScript (application stopping) TenantId={tenatId},ScriptId={scriptId},ScheduleId={scheduleId},UserId={userId}",
+                            sysLogType: SysLogModel.SysLogTypes.Warning);
+                        return;
+                    }
                     var ss = SiteSettingsUtilities.TenantsSiteSettings(context: sqlContext);
                     var inScripts = paramScripts ?? GetScriptsFromDB(
                         tenantId: tenatId,
@@ -80,7 +92,9 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 catch (Exception e)
                 {
                     new SysLogModel(
-                        context: sqlContext,
+                        context: sqlContext ?? new Context(
+                            tenantId: tenatId,
+                            request: false),
                         e: e);
                 }
                 finally
@@ -111,8 +125,12 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             int tenantId,
             int userId)
         {
+            var tenantContext = new Context(
+                tenantId: tenantId,
+                request: false);
+            SiteInfo.Refresh(context: tenantContext);
             var user = SiteInfo.User(
-                context: new Context(tenantId: tenantId, request: false),
+                context: tenantContext,
                 userId: userId);
             var context = new Context(
                 tenantId: tenantId,

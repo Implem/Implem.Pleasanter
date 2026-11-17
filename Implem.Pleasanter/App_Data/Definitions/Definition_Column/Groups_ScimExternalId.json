@@ -16,5 +16,6 @@
     "ControlCss": " not-send",
     "EditorReadOnly": "1",
     "LabelText_en": "SCIM externalId",
-    "LabelText_zh": "SCIM externalId"
+    "LabelText_zh": "SCIM externalId",
+    "LabelText_zh_tw": "SCIM external ID"
 }

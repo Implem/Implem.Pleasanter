@@ -2,6 +2,7 @@
     "Enabled": false,
     "ReadOnlyMode": false,
     "LogExportLimit": 10000,
+    "LogPartialMatchDefaultStartTimeRangeDays": 31,
     "RateLimit": {
         "FixedWindow": {
             "Enabled": false,

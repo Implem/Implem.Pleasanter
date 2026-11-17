@@ -10,6 +10,10 @@
             "Body": "已创建站点。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "已建立站點。"
+        },
+        {
             "Language": "ja",
             "Body": "サイトを作成しました。"
         },

@@ -215,13 +215,24 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public ParameterApiModel GetByApi(Context context, SiteSettings ss)
+        public ParameterApiModel GetByApi(
+            Context context,
+            SiteSettings ss,
+            bool checkRecordUsers = true)
         {
             var data = new ParameterApiModel()
             {
                 ApiVersion = context.ApiVersion
             };
-            ss.ReadableColumns(context: context, noJoined: true).ForEach(column =>
+            var columns = checkRecordUsers
+                ? ss.ReadableColumns(
+                    context: context,
+                    mine: Mine(context: context),
+                    noJoined: true)
+                : ss.ReadableColumns(
+                    context: context,
+                    noJoined: true);
+            columns.ForEach(column =>
             {
                 switch (column.ColumnName)
                 {

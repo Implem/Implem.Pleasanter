@@ -11,6 +11,10 @@
             "Body": "只读"
         },
         {
+            "Language": "zh_tw",
+            "Body": "只讀"
+        },
+        {
             "Language": "ja",
             "Body": "読取専用"
         },

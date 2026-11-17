@@ -6,8 +6,12 @@
             "Body": "Classification, Description, etc."
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "分类、描述等"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "分類、描述等"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "Clasificación, descripción, etc."
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Phân loại, Mô tả, v.v."
         }
     ]

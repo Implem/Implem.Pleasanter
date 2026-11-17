@@ -10,6 +10,10 @@
             "Body": "禁止复制"
         },
         {
+            "Language": "zh_tw",
+            "Body": "禁止複製"
+        },
+        {
             "Language": "ja",
             "Body": "重複禁止"
         },

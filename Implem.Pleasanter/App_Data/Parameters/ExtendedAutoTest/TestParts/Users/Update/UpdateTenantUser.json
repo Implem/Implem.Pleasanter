@@ -20,7 +20,7 @@
                 {
                     "CheckType": "SelectOptions",
                     "ElementId": "Users_Language",
-                    "ExpectedValue": "English,Japanese,Chinese,German,Korean,Spanish,Vietnamese",
+                    "ExpectedValue": "English,Japanese,Chinese,German,Korean,Spanish,Vietnamese,Traditional Chinese",
                     "Description": "Optionの選択肢が想定どおりであること。"
                 }
             ]

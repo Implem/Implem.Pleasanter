@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Models
         {
             get
             {
-                return new TitleBody(IssueId, Ver, VerType == Versions.VerTypes.History, Title.Value, Title.DisplayValue, Body);
+                return new TitleBody(IssueId, Ver, VerType == Versions.VerTypes.History, Title.Value, Title.DisplayValue, Body, this);
             }
         }
 
@@ -914,13 +914,24 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public IssueApiModel GetByApi(Context context, SiteSettings ss)
+        public IssueApiModel GetByApi(
+            Context context,
+            SiteSettings ss,
+            bool checkRecordUsers = true)
         {
             var data = new IssueApiModel()
             {
                 ApiVersion = context.ApiVersion
             };
-            ss.ReadableColumns(context: context, noJoined: true).ForEach(column =>
+            var columns = checkRecordUsers
+                ? ss.ReadableColumns(
+                    context: context,
+                    mine: Mine(context: context),
+                    noJoined: true)
+                : ss.ReadableColumns(
+                    context: context,
+                    noJoined: true);
+            columns.ForEach(column =>
             {
                 switch (column.ColumnName)
                 {
@@ -1496,6 +1507,9 @@ namespace Implem.Pleasanter.Models
                     .Select(columnName => ss.GetColumn(
                         context: context,
                         columnName: columnName))
+                    .Where(column => !ss.ReadColumnAccessControlEnabled(
+                        columnName: column.ColumnName)
+                            && !column.NotAllowedByContract)
                     .ForEach(column =>
                     {
                         switch (column.ColumnName)
@@ -1574,30 +1588,42 @@ namespace Implem.Pleasanter.Models
                                 break;
                         }
                     });
-            Creator.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "Creator"),
-                fullText);
-            Updator.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "Updator"),
-                fullText);
-            CreatedTime.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "CreatedTime"),
-                fullText);
-            UpdatedTime.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "UpdatedTime"),
-                fullText);
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "Creator"))
+            {
+                Creator.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "Creator"),
+                    fullText);
+            }
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "Updator"))
+            {
+                Updator.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "Updator"),
+                    fullText);
+            }
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "CreatedTime"))
+            {
+                CreatedTime.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime"),
+                    fullText);
+            }
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "UpdatedTime"))
+            {
+                UpdatedTime.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime"),
+                    fullText);
+            }
             if (!onCreating)
             {
                 FullTextExtensions.OutgoingMailsFullText(
@@ -1633,7 +1659,8 @@ namespace Implem.Pleasanter.Models
             bool migrationMode = false,
             string noticeType = "Created",
             bool otherInitValue = false,
-            bool get = true)
+            bool get = true,
+            bool synchronizeAiConnect = true)
         {
             SetByBeforeCreateServerScript(
                 context: context,
@@ -1803,16 +1830,19 @@ namespace Implem.Pleasanter.Models
             SetByAfterCreateServerScript(
                 context: context,
                 ss: ss);
-            Implem.Pleasanter.Libraries.AiConnect.AiConnectUtilities.Sync(
-                context: context,
-                ss: ss,
-                referenceType: "Issues",
-                referenceId: IssueId,
-                replacedDisplayValues: value => ReplacedDisplayValues(
+            if (synchronizeAiConnect)
+            {
+                Implem.Pleasanter.Libraries.AiConnect.AiConnectUtilities.Sync(
                     context: context,
                     ss: ss,
-                    value: value),
-                operation: Implem.Pleasanter.Libraries.AiConnect.AiConnectSyncOperation.Create);
+                    referenceType: "Issues",
+                    referenceId: IssueId,
+                    replacedDisplayValues: value => ReplacedDisplayValues(
+                        context: context,
+                        ss: ss,
+                        value: value),
+                    operation: Implem.Pleasanter.Libraries.AiConnect.AiConnectSyncOperation.Create);
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1918,7 +1948,7 @@ namespace Implem.Pleasanter.Models
             var column = ss.GetColumn(
                 context: context,
                 columnName: autoNumbering.ColumnName);
-            if (column == null)
+            if (column == null || column.NotAllowedByContract)
             {
                 return;
             }
@@ -1970,7 +2000,8 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool setBySession = true,
             bool get = true,
-            bool checkConflict = true)
+            bool checkConflict = true,
+            bool synchronizeAiConnect = true)
         {
             SetByBeforeUpdateServerScript(
                 context: context,
@@ -2115,16 +2146,19 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 force: true);
-            Implem.Pleasanter.Libraries.AiConnect.AiConnectUtilities.Sync(
-                context: context,
-                ss: ss,
-                referenceType: "Issues",
-                referenceId: IssueId,
-                replacedDisplayValues: value => ReplacedDisplayValues(
+            if (synchronizeAiConnect)
+            {
+                Implem.Pleasanter.Libraries.AiConnect.AiConnectUtilities.Sync(
                     context: context,
                     ss: ss,
-                    value: value),
-                operation: Implem.Pleasanter.Libraries.AiConnect.AiConnectSyncOperation.Update);
+                    referenceType: "Issues",
+                    referenceId: IssueId,
+                    replacedDisplayValues: value => ReplacedDisplayValues(
+                        context: context,
+                        ss: ss,
+                        value: value),
+                    operation: Implem.Pleasanter.Libraries.AiConnect.AiConnectSyncOperation.Update);
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -3478,6 +3512,10 @@ namespace Implem.Pleasanter.Models
             }
             process.DataChanges?.ForEach(dataChange =>
             {
+                if (ss.NotAllowedByContract(columnName: dataChange.ColumnName))
+                {
+                    return;
+                }
                 var key = $"Issues_{dataChange.ColumnName}";
                 var formData = new Dictionary<string, string>();
                 switch (dataChange.Type)
@@ -4442,7 +4480,7 @@ namespace Implem.Pleasanter.Models
             bool update = false)
         {
             var body = new System.Text.StringBuilder();
-            notification.GetFormat(
+            notification.GetNoticeFormat(
                 context: context,
                 ss: ss)
                     .Split('\n')

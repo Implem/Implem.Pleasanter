@@ -10,6 +10,10 @@
             "Body": "显示进展率"
         },
         {
+            "Language": "zh_tw",
+            "Body": "顯示進展率"
+        },
+        {
             "Language": "ja",
             "Body": "進捗率を表示"
         },

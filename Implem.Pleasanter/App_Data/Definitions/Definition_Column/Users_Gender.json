@@ -26,6 +26,7 @@
     "OldColumnName": "Sex",
     "LabelText_en": "Gender",
     "LabelText_zh": "性别",
+    "LabelText_zh_tw": "性別",
     "LabelText_de": "Geschlecht",
     "LabelText_ko": "성별",
     "LabelText_es": "Sexo",

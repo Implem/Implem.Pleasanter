@@ -10,6 +10,10 @@
             "Body": "输入日期时间"
         },
         {
+            "Language": "zh_tw",
+            "Body": "輸入日期時間"
+        },
+        {
             "Language": "ja",
             "Body": "日時の入力"
         },

@@ -11,6 +11,10 @@
             "Body": "草稿时不输出"
         },
         {
+            "Language": "zh_tw",
+            "Body": "草稿時不輸出"
+        },
+        {
             "Language": "ja",
             "Body": "ドラフト時は出力しない"
         },

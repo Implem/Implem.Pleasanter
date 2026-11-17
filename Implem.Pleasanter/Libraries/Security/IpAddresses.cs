@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace Implem.Pleasanter.Libraries.Security
 {
@@ -43,6 +44,24 @@ namespace Implem.Pleasanter.Libraries.Security
             return allowIpAddresses
                 .Select(IpRange.FromCidr)
                 .Any(range => range.InRange(ipAddress));
+        }
+
+        public static bool IsLoopback(string ipAddress)
+        {
+            if (ipAddress.IsNullOrEmpty())
+            {
+                return false;
+            }
+            if (IPEndPoint.TryParse(
+                ipAddress,
+                out var endPoint))
+            {
+                var address = endPoint.Address.IsIPv4MappedToIPv6
+                    ? endPoint.Address.MapToIPv4()
+                    : endPoint.Address;
+                return IPAddress.IsLoopback(address);
+            }
+            return false;
         }
 
         private static bool IpRestrictionExcludeDept(Context context, IList<string> ipRestrictionExcludeMembers)

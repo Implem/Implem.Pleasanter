@@ -11,6 +11,10 @@
             "Body": "字符"
         },
         {
+            "Language": "zh_tw",
+            "Body": "字元"
+        },
+        {
             "Language": "ja",
             "Body": "文字"
         },

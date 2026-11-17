@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Model_CloseParenthesis_NotAiConnectSync",
+    "Indent": "0",
+    "NoSpace": "0",
+    "Exclude": "Issues,Results"
+}

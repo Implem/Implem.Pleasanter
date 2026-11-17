@@ -10,6 +10,10 @@
             "Body": "禁用指定的登录ID。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "停用指定的登入ID。"
+        },
+        {
             "Language": "ja",
             "Body": "指定したログインIDは無効です。"
         },

@@ -13,6 +13,7 @@
     "Required": "1",
     "LabelText_en": "Key",
     "LabelText_zh": "密钥",
+    "LabelText_zh_tw": "金鑰",
     "LabelText_de": "Schlüssel",
     "LabelText_ko": "키",
     "LabelText_es": "Llave",

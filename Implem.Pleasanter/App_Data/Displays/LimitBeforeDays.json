@@ -10,6 +10,10 @@
             "Body": "已超出{0}天"
         },
         {
+            "Language": "zh_tw",
+            "Body": "已超出{0}天"
+        },
+        {
             "Language": "ja",
             "Body": "{0} 日超過"
         },

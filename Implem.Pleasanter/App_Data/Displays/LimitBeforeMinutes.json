@@ -10,6 +10,10 @@
             "Body": "已超出{0}分钟"
         },
         {
+            "Language": "zh_tw",
+            "Body": "已超出{0}分鐘"
+        },
+        {
             "Language": "ja",
             "Body": "{0} 分超過"
         },

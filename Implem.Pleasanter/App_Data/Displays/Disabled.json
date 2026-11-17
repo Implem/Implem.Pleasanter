@@ -11,6 +11,10 @@
             "Body": "已禁用"
         },
         {
+            "Language": "zh_tw",
+            "Body": "已停用"
+        },
+        {
             "Language": "ja",
             "Body": "無効"
         },

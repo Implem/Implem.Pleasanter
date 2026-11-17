@@ -7,7 +7,11 @@
         },
         {
             "Language": "zh",
-            "Body": "接受出口。"
+            "Body": "接受导出。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "接受匯出。"
         },
         {
             "Language": "ja",

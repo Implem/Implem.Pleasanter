@@ -11,6 +11,10 @@
             "Body": "单选按钮"
         },
         {
+            "Language": "zh_tw",
+            "Body": "單選按鈕"
+        },
+        {
             "Language": "ja",
             "Body": "ラジオボタン"
         },

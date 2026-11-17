@@ -10,6 +10,10 @@
             "Body": "多语言显示"
         },
         {
+            "Language": "zh_tw",
+            "Body": "多語言顯示"
+        },
+        {
             "Language": "ja",
             "Body": "多言語表示"
         },

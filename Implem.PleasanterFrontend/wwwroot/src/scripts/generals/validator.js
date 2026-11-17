@@ -128,6 +128,8 @@
         let format;
         switch (lang) {
             case 'en':
+            case 'zh_tw':
+                // en-US / zh-TW: -$1,000,000.00 または $1,000,000.00
                 format = {
                     currencyRegex: /\$/,
                     mainPattern: /^-?\s?(\$\s?)?[0-9][0-9,]*(\.[0-9]+)?$/,

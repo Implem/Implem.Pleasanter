@@ -11,6 +11,7 @@
     "Default": "0",
     "LabelText_en": "Disabled",
     "LabelText_zh": "已禁用",
+    "LabelText_zh_tw": "已停用",
     "LabelText_de": "Deaktiviert",
     "LabelText_ko": "비활성화됨",
     "LabelText_es": "Desactivado",

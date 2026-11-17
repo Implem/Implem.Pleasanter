@@ -35,6 +35,7 @@
     "SettingEnable": "1",
     "LabelText_en": "Manager",
     "LabelText_zh": "经理",
+    "LabelText_zh_tw": "經理",
     "LabelText_de": "Manager",
     "LabelText_ko": "관리자",
     "LabelText_es": "Gestor",

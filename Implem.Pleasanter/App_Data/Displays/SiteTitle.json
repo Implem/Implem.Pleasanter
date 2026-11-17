@@ -10,6 +10,10 @@
             "Body": "站点标题"
         },
         {
+            "Language": "zh_tw",
+            "Body": "站點標題"
+        },
+        {
             "Language": "ja",
             "Body": "サイトのタイトル"
         },

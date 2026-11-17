@@ -10,6 +10,10 @@
             "Body": "读取权限控制"
         },
         {
+            "Language": "zh_tw",
+            "Body": "讀取權限控制"
+        },
+        {
             "Language": "ja",
             "Body": "読取り時のアクセス制御"
         },

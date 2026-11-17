@@ -17,6 +17,7 @@
     "ByForm": "Forms.List(controlId).Join(\";\")",
     "LabelText_en": "To",
     "LabelText_zh": "收件人",
+    "LabelText_zh_tw": "收件人",
     "LabelText_de": "An",
     "LabelText_ko": "수신인",
     "LabelText_es": "Para",

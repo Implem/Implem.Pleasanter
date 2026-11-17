@@ -6,8 +6,12 @@
             "Body": "An unexpected error occurred while loading data."
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "加载数据时发生了意外错误。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "載入資料時發生了意外錯誤。"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "Se produjo un error inesperado al cargar los datos."
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Đã xảy ra lỗi không mong muốn khi tải dữ liệu."
         }
     ]

@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Rds_AggregationTableCasesSysLogs",
+    "RepeatType": "Table",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "GenericUi": "1",
+    "Include": "SysLogs"
+}

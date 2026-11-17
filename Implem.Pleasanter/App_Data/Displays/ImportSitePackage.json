@@ -7,7 +7,11 @@
         },
         {
             "Language": "zh",
-            "Body": "导入网站包"
+            "Body": "导入站点包"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "匯入站點套件"
         },
         {
             "Language": "ja",

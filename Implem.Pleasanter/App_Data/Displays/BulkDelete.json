@@ -10,6 +10,10 @@
             "Body": "批量删除"
         },
         {
+            "Language": "zh_tw",
+            "Body": "批次刪除"
+        },
+        {
             "Language": "ja",
             "Body": "一括削除"
         },

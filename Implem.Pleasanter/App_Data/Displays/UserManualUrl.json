@@ -8,7 +8,11 @@
         },
         {
             "Language": "zh",
-            "Body": ""
+            "Body": "https://pleasanter.org/en/manual/table-management-"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "https://pleasanter.org/en/manual/table-management-"
         },
         {
             "Language": "ja",
@@ -16,19 +20,19 @@
         },
         {
             "Language": "de",
-            "Body": ""
+            "Body": "https://pleasanter.org/en/manual/table-management-"
         },
         {
             "Language": "ko",
-            "Body": ""
+            "Body": "https://pleasanter.org/en/manual/table-management-"
         },
         {
             "Language": "es",
-            "Body": ""
+            "Body": "https://pleasanter.org/en/manual/table-management-"
         },
         {
             "Language": "vn",
-            "Body": ""
+            "Body": "https://pleasanter.org/en/manual/table-management-"
         }
     ]
 }

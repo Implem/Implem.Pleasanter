@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
@@ -366,6 +367,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool onGridHeader = false,
             Process process = null)
         {
+            if (column.TableName() == "SysLogs"
+                && column.ColumnName == "TenantId"
+                && Permissions.ApplySysLogsTenantFilter(context: context))
+            {
+                return;
+            }
             var idPrefix = onGridHeader ? "ViewFiltersOnGridHeader__" : "ViewFilters__";
             var action = onGridHeader ? "GridRows" : null;
             var controlOnly = onGridHeader;
@@ -411,6 +418,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelTitle: ss.LabelTitle(column),
                                 labelIcon: labelIcon,
                                 controlOnly: controlOnly,
+                                action: action,
+                                text: view.ColumnFilter(column.ColumnName),
                                 disabled: disabled,
                                 method: "post");
                         }
@@ -444,7 +453,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         addNotSet: true,
                                         own: true,
                                         limit: Parameters.General.DropDownSearchPageSize)
-                                : column.NumFilterOptions(context: context),
+                                : column.TableName() == "SysLogs" && column.ColumnName == "TenantId"
+                                    ? []
+                                    : column.NumFilterOptions(context: context),
                             idPrefix: idPrefix,
                             controlOnly: controlOnly,
                             action: action,
@@ -695,10 +706,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool disabled = false)
         {
             var selectedValue = view.ColumnFilter(column.ColumnName);
+            var isDefaultTenantIdValue = selectedValue.IsNullOrEmpty()
+                && column.TableName() == "SysLogs"
+                && column.ColumnName == "TenantId";
+            if (isDefaultTenantIdValue)
+            {
+                selectedValue = new List<string> { "\t", context.TenantId.ToString() }.ToJson();
+            }
             if (column.UseSearch == true
                  || column.ChoiceHash?.Count == Parameters.General.DropDownSearchPageSize)
             {
-                selectedValue?.Deserialize<List<string>>()?.ForEach(value =>
+                var deserializedValues = selectedValue?.Deserialize<List<string>>();
+                var isTenantIdFilterColumn = column.TableName() == "SysLogs" && column.ColumnName == "TenantId";
+                var tenantDisplayNameHash = isTenantIdFilterColumn
+                    ? TenantIdFilterOptions.TenantDisplayNameHash(
+                        context: context,
+                        tenantIds: deserializedValues
+                            ?.Select(value => value.ToInt())
+                            .Where(tenantId => tenantId > 0)
+                            .ToList())
+                    : new Dictionary<int, string>();
+                deserializedValues?.ForEach(value =>
                 {
                     if (column.Type != Settings.Column.Types.Normal)
                     {
@@ -712,6 +740,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     context: context,
                                     id: id,
                                     type: column.Type)));
+                        }
+                    }
+                    else if (isTenantIdFilterColumn)
+                    {
+                        if (value == "\t")
+                        {
+                            optionCollection.AddIfNotConainsKey(
+                                "\t", new ControlData(Displays.NotSet(context: context)));
+                        }
+                        else
+                        {
+                            var tenantId = value.ToInt();
+                            if (tenantId > 0)
+                            {
+                                optionCollection.AddIfNotConainsKey(
+                                    tenantId.ToString(),
+                                    new ControlData(TenantIdFilterOptions.TenantIdFilterOptionText(
+                                        tenantId: tenantId,
+                                        displayName: tenantDisplayNameHash.Get(tenantId))));
+                            }
                         }
                     }
                     else
@@ -751,6 +799,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 multiple: true,
                 addSelectedValue: false,
                 disabled: disabled,
+                alwaysSend: isDefaultTenantIdValue,
                 method: "post",
                 column: column);
         }

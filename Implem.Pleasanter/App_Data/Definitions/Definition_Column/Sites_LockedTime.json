@@ -23,6 +23,7 @@
     "ExportFormat": "Ymdahms",
     "LabelText_en": "Locked time",
     "LabelText_zh": "锁定时间",
+    "LabelText_zh_tw": "鎖定時間",
     "LabelText_de": "Gesperrte Zeit",
     "LabelText_ko": "잠긴 시간",
     "LabelText_es": "Tiempo bloqueado",

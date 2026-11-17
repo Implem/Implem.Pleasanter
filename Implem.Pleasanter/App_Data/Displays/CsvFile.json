@@ -10,6 +10,10 @@
             "Body": "CSV文件"
         },
         {
+            "Language": "zh_tw",
+            "Body": "CSV檔案"
+        },
+        {
             "Language": "ja",
             "Body": "CSVファイル"
         },

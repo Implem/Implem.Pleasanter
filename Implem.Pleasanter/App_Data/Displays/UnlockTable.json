@@ -10,6 +10,10 @@
             "Body": "解锁表格"
         },
         {
+            "Language": "zh_tw",
+            "Body": "解鎖表格"
+        },
+        {
             "Language": "ja",
             "Body": "テーブルのロックを解除"
         },

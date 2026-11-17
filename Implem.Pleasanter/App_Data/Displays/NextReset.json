@@ -10,6 +10,10 @@
             "Body": "下次重置"
         },
         {
+            "Language": "zh_tw",
+            "Body": "下次重設"
+        },
+        {
             "Language": "ja",
             "Body": "次回リセット"
         },

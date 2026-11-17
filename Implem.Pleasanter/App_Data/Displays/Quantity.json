@@ -10,6 +10,10 @@
             "Body": "数量"
         },
         {
+            "Language": "zh_tw",
+            "Body": "數量"
+        },
+        {
             "Language": "ja",
             "Body": "件数"
         },

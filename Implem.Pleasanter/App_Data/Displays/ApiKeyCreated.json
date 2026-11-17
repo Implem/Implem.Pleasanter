@@ -10,6 +10,10 @@
             "Body": "已创建API密钥。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "已建立API金鑰。"
+        },
+        {
             "Language": "ja",
             "Body": "APIキーが作成されました。"
         },

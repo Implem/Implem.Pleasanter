@@ -15,6 +15,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Protocol Version",
     "LabelText_zh": "协议版本",
+    "LabelText_zh_tw": "協議版本",
     "LabelText_de": "Protokollversion",
     "LabelText_ko": "프로토콜 버전",
     "LabelText_es": "Versión del protocolo",

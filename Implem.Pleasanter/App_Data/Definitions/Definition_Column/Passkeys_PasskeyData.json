@@ -16,6 +16,7 @@
     "ByDataRow": "dataRow[column.ColumnName].ToString().Deserialize<PasskeyData>() ?? new PasskeyData()",
     "LabelText_en": "Passkey data",
     "LabelText_zh": "通行密钥数据",
+    "LabelText_zh_tw": "通行金鑰資料",
     "LabelText_de": "Passkey‑Daten",
     "LabelText_ko": "Passkey 데이터",
     "LabelText_es": "Datos de Passkey",

@@ -10,6 +10,10 @@
             "Body": "返回列表页面"
         },
         {
+            "Language": "zh_tw",
+            "Body": "返回清單頁面"
+        },
+        {
             "Language": "ja",
             "Body": "一覧画面に戻る"
         },

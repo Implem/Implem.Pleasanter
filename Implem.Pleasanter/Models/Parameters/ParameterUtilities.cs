@@ -356,6 +356,14 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                 }
+                if (!column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: parameterModel.Mine(context: context),
+                    noCache: true))
+                {
+                    value = string.Empty;
+                }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
             return hb.Td(

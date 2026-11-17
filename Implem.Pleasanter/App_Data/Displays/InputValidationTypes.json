@@ -10,6 +10,10 @@
             "Body": "输入验证类型"
         },
         {
+            "Language": "zh_tw",
+            "Body": "輸入驗證類型"
+        },
+        {
             "Language": "ja",
             "Body": "入力検証種別"
         },

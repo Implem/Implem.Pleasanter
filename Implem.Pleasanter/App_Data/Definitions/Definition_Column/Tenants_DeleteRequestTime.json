@@ -11,6 +11,7 @@
     "Nullable": "1",
     "LabelText_en": "Delete Request Time",
     "LabelText_zh": "删除申请时间",
+    "LabelText_zh_tw": "刪除申請時間",
     "LabelText_de": "Löschanfragezeitpunkt",
     "LabelText_ko": "삭제 요청 시간",
     "LabelText_es": "Hora de solicitud de eliminación",

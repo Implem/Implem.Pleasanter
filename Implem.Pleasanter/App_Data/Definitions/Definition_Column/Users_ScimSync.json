@@ -14,5 +14,6 @@
     "ControlCss": " not-send",
     "EditorReadOnly": "1",
     "LabelText_en": "SCIM synchronization",
-    "LabelText_zh": "SCIM同步"
+    "LabelText_zh": "SCIM同步",
+    "LabelText_zh_tw": "SCIM同步"
 }

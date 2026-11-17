@@ -10,6 +10,10 @@
             "Body": "请求批准"
         },
         {
+            "Language": "zh_tw",
+            "Body": "申請核准"
+        },
+        {
             "Language": "ja",
             "Body": "承認依頼中"
         },

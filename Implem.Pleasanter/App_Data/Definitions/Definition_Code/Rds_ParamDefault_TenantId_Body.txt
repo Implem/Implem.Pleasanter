@@ -1,1 +1,1 @@
-﻿.#ColumnName#(#modelName#Model.TenantId)
+﻿.#ColumnName#(#modelName#Model.TenantId, _using: "#TableName#" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "#TableName#" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())

@@ -48,6 +48,7 @@ namespace Implem.Pleasanter.Models
         public string ErrStackTrace { get; set; }
         public bool? InDebug { get; set; }
         public string AssemblyVersion { get; set; }
+        public int? TenantId { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }
@@ -103,6 +104,7 @@ namespace Implem.Pleasanter.Models
                 case "ErrStackTrace": return ErrStackTrace;
                 case "InDebug": return InDebug;
                 case "AssemblyVersion": return AssemblyVersion;
+                case "TenantId": return TenantId;
                 case "Comments": return Comments;
                 case "Creator": return Creator;
                 case "Updator": return Updator;

@@ -25,6 +25,7 @@
     "ControlType": "ChoicesText",
     "LabelText_en": "Site",
     "LabelText_zh": "站点",
+    "LabelText_zh_tw": "站點",
     "LabelText_de": "Site",
     "LabelText_ko": "사이트",
     "LabelText_es": "Sitio",

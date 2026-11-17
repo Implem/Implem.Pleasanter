@@ -10,6 +10,10 @@
             "Body": "后台作业"
         },
         {
+            "Language": "zh_tw",
+            "Body": "背景作業"
+        },
+        {
             "Language": "ja",
             "Body": "バックグラウンドジョブ"
         },

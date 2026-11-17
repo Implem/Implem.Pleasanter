@@ -45,7 +45,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 context: context,
                                 entry: entry,
                                 ldap: ldap,
-                                synchronizedTime: DateTime.Now);
+                                synchronizedTime: DateTime.Now,
+                                allowExtendedColumns: TenantUtilities.GetExtendedColumnsContractSettings(
+                                    context: context,
+                                    tenantId: ldap.LdapTenantId)
+                                        .ExtendedColumns());
                             return true;
                         }
                     }
@@ -86,7 +90,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         loginId: loginId,
                         entry: entry,
                         ldap: ldap,
-                        synchronizedTime: DateTime.Now);
+                        synchronizedTime: DateTime.Now,
+                        allowExtendedColumns: TenantUtilities.GetExtendedColumnsContractSettings(
+                            context: context,
+                            tenantId: ldap.LdapTenantId)
+                                .ExtendedColumns());
                 }
                 catch (LdapException e)
                 {
@@ -107,7 +115,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string loginId,
             DirectoryEntry entry,
             ParameterAccessor.Parts.Ldap ldap,
-            DateTime synchronizedTime)
+            DateTime synchronizedTime,
+            bool allowExtendedColumns)
         {
             var deptCode = entry.Property(
                 context: context,
@@ -149,14 +158,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 mailAddress: mailAddress,
                 attributes: attributes,
                 ldap: ldap,
-                synchronizedTime: synchronizedTime);
+                synchronizedTime: synchronizedTime,
+                allowExtendedColumns: allowExtendedColumns);
         }
 
         private static void UpdateOrInsert(
             Context context,
             LdapEntry entry,
             ParameterAccessor.Parts.Ldap ldap,
-            DateTime synchronizedTime)
+            DateTime synchronizedTime,
+            bool allowExtendedColumns)
         {
             var deptCode = entry.Property(
                 context: context,
@@ -202,7 +213,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 mailAddress: mailAddress,
                 attributes: attributes,
                 ldap: ldap,
-                synchronizedTime: synchronizedTime);
+                synchronizedTime: synchronizedTime,
+                allowExtendedColumns: allowExtendedColumns);
         }
 
         private static void UpdateOrInsert(
@@ -215,7 +227,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string mailAddress,
             List<KeyValuePair<LdapExtendedAttribute, string>> attributes,
             ParameterAccessor.Parts.Ldap ldap,
-            DateTime synchronizedTime)
+            DateTime synchronizedTime,
+            bool allowExtendedColumns)
         {
             var deptExists = !deptCode.IsNullOrEmpty() && !deptName.IsNullOrEmpty();
             var deptSettings = !ldap.LdapDeptCode.IsNullOrEmpty() && !ldap.LdapDeptName.IsNullOrEmpty();
@@ -249,7 +262,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .DeptId(0, _using: deptSettings && !deptExists)
                 .LdapSearchRoot(ldap.LdapSearchRoot)
                 .SynchronizedTime(synchronizedTime);
-            attributes?.ForEach(attributeAndName =>
+            attributes
+                ?.Where(attributeAndName => allowExtendedColumns
+                    || !ColumnUtilities.AdditionalExtendedColumn(
+                        columnName: attributeAndName.Key.ColumnName))
+                .ForEach(attributeAndName =>
                 param.Add(
                     $"\"{attributeAndName.Key.ColumnName}\"",
                     attributeAndName.Key.ColumnName,
@@ -349,6 +366,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
             try
             {
+                var allowExtendedColumns = TenantUtilities.GetExtendedColumnsContractSettings(
+                    context: context,
+                    tenantId: ldap.LdapTenantId)
+                        .ExtendedColumns();
                 using (var con = LdapConnection(
                     ldap.LdapSyncUser,
                     ldap.LdapSyncPassword,
@@ -372,7 +393,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 context: context,
                                 entry: entry,
                                 ldap: ldap,
-                                synchronizedTime: synchronizedTime);
+                                synchronizedTime: synchronizedTime,
+                                allowExtendedColumns: allowExtendedColumns);
                         }
                     }
                 }

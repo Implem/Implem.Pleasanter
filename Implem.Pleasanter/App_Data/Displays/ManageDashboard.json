@@ -10,6 +10,10 @@
             "Body": "仪表盘管理"
         },
         {
+            "Language": "zh_tw",
+            "Body": "儀表盤管理"
+        },
+        {
             "Language": "ja",
             "Body": "ダッシュボードの管理"
         },

@@ -22,6 +22,7 @@
     "FieldCss": "field-markdown",
     "LabelText_en": "Request data",
     "LabelText_zh": "请求数据",
+    "LabelText_zh_tw": "請求資料",
     "LabelText_de": "Anforderungsdaten",
     "LabelText_ko": "요청 데이터",
     "LabelText_es": "Datos de solicitud",

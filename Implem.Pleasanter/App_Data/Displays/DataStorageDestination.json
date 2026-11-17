@@ -10,6 +10,10 @@
             "Body": "保存数据至"
         },
         {
+            "Language": "zh_tw",
+            "Body": "儲存資料至"
+        },
+        {
             "Language": "ja",
             "Body": "データ保存先"
         },

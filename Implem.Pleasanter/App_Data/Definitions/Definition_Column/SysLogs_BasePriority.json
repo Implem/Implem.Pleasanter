@@ -14,6 +14,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Base priority",
     "LabelText_zh": "基础优先级",
+    "LabelText_zh_tw": "基礎優先順序",
     "LabelText_de": "Basispriorität",
     "LabelText_ko": "기본 우선순위",
     "LabelText_es": "Prioridad base",

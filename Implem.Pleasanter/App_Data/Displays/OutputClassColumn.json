@@ -10,6 +10,10 @@
             "Body": "将分类输出到列"
         },
         {
+            "Language": "zh_tw",
+            "Body": "將分類輸出到欄位"
+        },
+        {
             "Language": "ja",
             "Body": "分類を列に出力"
         },

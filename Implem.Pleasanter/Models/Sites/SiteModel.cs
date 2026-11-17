@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Models
         {
             get
             {
-                return new TitleBody(SiteId, Ver, VerType == Versions.VerTypes.History, Title.Value, Title.DisplayValue, Body);
+                return new TitleBody(SiteId, Ver, VerType == Versions.VerTypes.History, Title.Value, Title.DisplayValue, Body, this);
             }
         }
 
@@ -1220,6 +1220,9 @@ namespace Implem.Pleasanter.Models
                     .Select(columnName => ss.GetColumn(
                         context: context,
                         columnName: columnName))
+                    .Where(column => !ss.ReadColumnAccessControlEnabled(
+                        columnName: column.ColumnName)
+                            && !column.NotAllowedByContract)
                     .ForEach(column =>
                     {
                         switch (column.ColumnName)
@@ -1250,30 +1253,42 @@ namespace Implem.Pleasanter.Models
                                 break;
                         }
                     });
-            Creator.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "Creator"),
-                fullText);
-            Updator.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "Updator"),
-                fullText);
-            CreatedTime.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "CreatedTime"),
-                fullText);
-            UpdatedTime.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "UpdatedTime"),
-                fullText);
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "Creator"))
+            {
+                Creator.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "Creator"),
+                    fullText);
+            }
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "Updator"))
+            {
+                Updator.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "Updator"),
+                    fullText);
+            }
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "CreatedTime"))
+            {
+                CreatedTime.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime"),
+                    fullText);
+            }
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "UpdatedTime"))
+            {
+                UpdatedTime.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime"),
+                    fullText);
+            }
             if (!onCreating)
             {
                 FullTextExtensions.OutgoingMailsFullText(
@@ -2292,7 +2307,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public SiteApiModel GetByApi(Context context)
+        public bool CanManageSiteSettings(Context context)
+        {
+            return context.CanManageSite(
+                ss: SiteSettings,
+                site: true);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public SiteApiModel GetByApi(Context context, bool rawSiteSettings = false)
         {
             var data = new SiteApiModel();
             data.ApiVersion = context.ApiVersion;
@@ -2317,7 +2342,7 @@ namespace Implem.Pleasanter.Models
             data.ReferenceType = ReferenceType;
             data.ParentId = ParentId;
             data.InheritPermission = InheritPermission;
-            if (context.CanManagePermission(ss: SiteSettings))
+            if (SiteSettings != null && context.CanManagePermission(ss: SiteSettings))
             {
                 data.Permissions = PermissionUtilities.CurrentCollection(
                     context: context,
@@ -2325,7 +2350,13 @@ namespace Implem.Pleasanter.Models
                         .Select(permission => $"{permission.Name},{permission.Id},{(long)permission.Type}")
                         .ToList();
             }
-            data.SiteSettings = SiteSettings.RecordingData(context: context);
+            data.SiteSettings = SiteSettings == null
+                ? null
+                : rawSiteSettings
+                    ? SiteSettings.RecordingData(context: context)
+                    : SiteSettings.RecordingDataForApi(
+                        context: context,
+                        canManageSite: CanManageSiteSettings(context: context));
             data.Publish = Publish;
             data.DisableCrossSearch = DisableCrossSearch;
             data.LockedTime = LockedTime.Value.ToLocal(context: context);

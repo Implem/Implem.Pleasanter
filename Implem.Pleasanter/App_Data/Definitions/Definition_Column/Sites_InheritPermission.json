@@ -15,6 +15,7 @@
     "Required": "1",
     "LabelText_en": "Inherit permission from",
     "LabelText_zh": "继承许可来源",
+    "LabelText_zh_tw": "繼承許可來源",
     "LabelText_de": "Berechtigung erben von",
     "LabelText_ko": "권한 계승 대상",
     "LabelText_es": "Heredar permiso de",

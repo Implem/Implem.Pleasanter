@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Running" },
         { "Language": "zh", "Body": "运行中" },
+        {
+            "Language": "zh_tw",
+            "Body": "執行中"
+        },
         { "Language": "ja", "Body": "実行中" },
         { "Language": "de", "Body": "Wird ausgeführt" },
         { "Language": "ko", "Body": "실행 중" },

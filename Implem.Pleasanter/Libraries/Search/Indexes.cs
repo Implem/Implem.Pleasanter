@@ -408,7 +408,7 @@ namespace Implem.Pleasanter.Libraries.Search
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Results(
+        internal static HtmlBuilder Results(
             this HtmlBuilder hb,
             Context context,
             string text,
@@ -418,6 +418,7 @@ namespace Implem.Pleasanter.Libraries.Search
             if (dataRows?.Any() == true)
             {
                 var dataSet = ResultContents(context: context, dataRows: dataRows);
+                var bodyReadRestrictedHash = new Dictionary<long, bool>();
                 dataRows.ForEach(result =>
                 {
                     var referenceType = result.String("ReferenceType");
@@ -429,7 +430,13 @@ namespace Implem.Pleasanter.Libraries.Search
                     {
                         var href = string.Empty;
                         var title = dataRow.String("Title");
-                        var body = dataRow.String("Body");
+                        var body = referenceType != "Sites"
+                            && BodyReadRestricted(
+                                context: context,
+                                siteId: dataRow.Long("SiteId"),
+                                hash: bodyReadRestrictedHash)
+                                    ? string.Empty
+                                    : dataRow.String("Body");
                         switch (referenceType)
                         {
                             case "Sites":
@@ -464,6 +471,21 @@ namespace Implem.Pleasanter.Libraries.Search
                 });
             }
             return hb;
+        }
+
+        private static bool BodyReadRestricted(
+            Context context,
+            long siteId,
+            Dictionary<long, bool> hash)
+        {
+            if (!hash.ContainsKey(siteId))
+            {
+                hash.Add(siteId, SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: siteId)
+                        ?.ReadColumnAccessControlEnabled(columnName: "Body") == true);
+            }
+            return hash[siteId];
         }
 
         public static SqlWhereCollection SearchTextWhere(

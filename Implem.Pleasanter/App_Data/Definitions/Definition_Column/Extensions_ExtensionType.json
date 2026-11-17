@@ -11,6 +11,7 @@
     "MaxLength": "128",
     "LabelText_en": "Extension type",
     "LabelText_zh": "扩展类型",
+    "LabelText_zh_tw": "擴充類型",
     "LabelText_de": "Erweiterungstyp",
     "LabelText_ko": "확장 타입",
     "LabelText_es": "Tipo de extensión",

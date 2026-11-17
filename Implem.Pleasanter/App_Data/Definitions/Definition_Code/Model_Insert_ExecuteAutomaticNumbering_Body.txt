@@ -31,7 +31,7 @@ private void ExecuteAutomaticNumbering(
     var column = ss.GetColumn(
         context: context,
         columnName: autoNumbering.ColumnName);
-    if (column == null)
+    if (column == null || column.NotAllowedByContract)
     {
         return;
     }

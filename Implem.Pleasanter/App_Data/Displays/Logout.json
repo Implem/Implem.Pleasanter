@@ -10,6 +10,10 @@
             "Body": "注销"
         },
         {
+            "Language": "zh_tw",
+            "Body": "登出"
+        },
+        {
             "Language": "ja",
             "Body": "ログアウト"
         },

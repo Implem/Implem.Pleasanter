@@ -10,6 +10,10 @@
             "Body": "未配置输出路径(OutputFilePath)。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "尚未設定輸出路徑(OutputFilePath)。"
+        },
+        {
             "Language": "ja",
             "Body": "出力先パス(OutputFilePath)が設定されていません。"
         },

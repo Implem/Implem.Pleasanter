@@ -10,6 +10,10 @@
             "Body": "允许标准导出"
         },
         {
+            "Language": "zh_tw",
+            "Body": "允許標準匯出"
+        },
+        {
             "Language": "ja",
             "Body": "標準エクスポートを許可"
         },

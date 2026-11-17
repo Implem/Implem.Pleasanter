@@ -10,6 +10,10 @@
             "Body": "不显示 0 行"
         },
         {
+            "Language": "zh_tw",
+            "Body": "不顯示值為 0 的列"
+        },
+        {
             "Language": "ja",
             "Body": "0の行を表示しない"
         },

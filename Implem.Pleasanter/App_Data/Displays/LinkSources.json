@@ -11,6 +11,10 @@
             "Body": "链接源"
         },
         {
+            "Language": "zh_tw",
+            "Body": "連結源"
+        },
+        {
             "Language": "ja",
             "Body": "リンク元"
         },

@@ -10,6 +10,10 @@
             "Body": "按行分组"
         },
         {
+            "Language": "zh_tw",
+            "Body": "按列分組"
+        },
+        {
             "Language": "ja",
             "Body": "行の分類"
         },

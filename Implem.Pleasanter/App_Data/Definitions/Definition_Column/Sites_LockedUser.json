@@ -22,6 +22,7 @@
     "ChoicesText": "[[Users]]",
     "LabelText_en": "Locked user",
     "LabelText_zh": "锁定的用户",
+    "LabelText_zh_tw": "鎖定的使用者",
     "LabelText_de": "Gesperrter Benutzer",
     "LabelText_ko": "잠긴 사용자",
     "LabelText_es": "Usuario bloqueado",

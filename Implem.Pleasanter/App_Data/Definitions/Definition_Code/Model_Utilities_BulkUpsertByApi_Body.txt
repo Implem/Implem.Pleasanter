@@ -2,6 +2,17 @@
     Context context,
     SiteSettings ss)
 {
+    var apiErrorData = Validators.ValidateApi(
+        context: context,
+        serverScript: false);
+    switch (apiErrorData.Type)
+    {
+        case Error.Types.None: break;
+        default:
+            return ApiResults.Error(
+                context: context,
+                errorData: apiErrorData);
+    }
     if (!Mime.ValidateOnApi(contentType: context.ContentType))
     {
         return ApiResults.BadRequest(context: context);
@@ -127,6 +138,7 @@
                     processes: processes,
                     previousTitle: null,
                     #modelName#ApiModel: #modelName#ApiModel,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 7 ) -->
                     synchronizeSummary: false);
                 if (error.Type != Error.Types.None) return error;
                 targets.CollectAfterSave(
@@ -143,6 +155,7 @@
                     ss: ss,
                     #modelName#Model: #modelName#Model,
                     processes: processes,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 7 ) -->
                     synchronizeSummary: false);
                 if (error.Type != Error.Types.None) return error;
                 targets.CollectAfterSave(

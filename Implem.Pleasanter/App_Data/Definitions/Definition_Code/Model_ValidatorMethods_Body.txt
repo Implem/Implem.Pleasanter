@@ -74,6 +74,7 @@ public static ErrorData OnEditing(
 
 <!--Model_Validator_Api-->
 <!--Model_Validator_ShowProfilesAndHasPrivilegeAndEnableManageTenant-->
+<!--Model_Validator_OnEditing_SysLogs-->
 
     if (ss.GetNoDisplayIfReadOnly(context: context))
     {
@@ -161,6 +162,22 @@ public static ErrorData OnCreating(
                 api: api,
                 sysLogsStatus: 403,
                 sysLogsDescription: Debugs.GetSysLogsDescription());
+    }
+    var notAllowedExtendedColumn = ColumnUtilities.NotAllowedExtendedColumnUpdated(
+        context: context,
+        ss: ss,
+        baseModel: #modelName#Model,
+        copy: copy);
+    if (notAllowedExtendedColumn != null)
+    {
+        return new ErrorData(
+            context: context,
+            type: Error.Types.ExtendedColumnsNotAllowed,
+            api: api,
+            sysLogsStatus: 400,
+            sysLogsDescription: Debugs.GetSysLogsDescription(),
+            columnName: notAllowedExtendedColumn.ColumnName,
+            data: notAllowedExtendedColumn.LabelText);
     }
 <!--Model_Validator_OnCreating_Groups-->
     foreach (var column in ss.Columns
@@ -334,6 +351,21 @@ public static ErrorData OnUpdating(
                 api: api,
                 sysLogsStatus: 403,
                 sysLogsDescription: Debugs.GetSysLogsDescription());
+    }
+    var notAllowedExtendedColumn = ColumnUtilities.NotAllowedExtendedColumnUpdated(
+        context: context,
+        ss: ss,
+        baseModel: #modelName#Model);
+    if (notAllowedExtendedColumn != null)
+    {
+        return new ErrorData(
+            context: context,
+            type: Error.Types.ExtendedColumnsNotAllowed,
+            api: api,
+            sysLogsStatus: 400,
+            sysLogsDescription: Debugs.GetSysLogsDescription(),
+            columnName: notAllowedExtendedColumn.ColumnName,
+            data: notAllowedExtendedColumn.LabelText);
     }
 <!--Model_Validator_OnUpdating_Groups-->
     foreach (var column in ss.Columns

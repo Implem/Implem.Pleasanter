@@ -10,6 +10,10 @@
             "Body": "目的地设置"
         },
         {
+            "Language": "zh_tw",
+            "Body": "目的地設定"
+        },
+        {
             "Language": "ja",
             "Body": "移動先の設定"
         },

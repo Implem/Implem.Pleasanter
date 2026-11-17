@@ -10,6 +10,10 @@
             "Body": "标题"
         },
         {
+            "Language": "zh_tw",
+            "Body": "標題"
+        },
+        {
             "Language": "ja",
             "Body": "今すぐ実行"
         },

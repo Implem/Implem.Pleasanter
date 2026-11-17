@@ -10,8 +10,12 @@
             "Body": "時刻"
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "时间"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "時間"
         },
         {
             "Language": "de",
@@ -26,7 +30,7 @@
             "Body": "tiempo"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "thời gian"
         }
     ]

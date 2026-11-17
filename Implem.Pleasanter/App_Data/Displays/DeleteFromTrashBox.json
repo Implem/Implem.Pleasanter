@@ -10,6 +10,10 @@
             "Body": "从回收站中删除"
         },
         {
+            "Language": "zh_tw",
+            "Body": "從回收筒中刪除"
+        },
+        {
             "Language": "ja",
             "Body": "ごみ箱から削除"
         },

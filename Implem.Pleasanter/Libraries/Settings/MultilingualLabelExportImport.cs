@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.Settings
     {
         public static readonly List<string> SupportedLanguages = new List<string>
         {
-            "ja", "en", "zh", "de", "ko", "es", "vn"
+            "ja", "en", "zh", "zh_tw", "de", "ko", "es", "vn"
         };
 
         public static string ExportMultilingualLabels(Context context, SiteSettings ss)

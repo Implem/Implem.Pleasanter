@@ -21,6 +21,7 @@
     "Calc": "SiteInfo.Dept(tenantId: TenantId, deptId: DeptId)",
     "LabelText_en": "Department",
     "LabelText_zh": "部门",
+    "LabelText_zh_tw": "部門",
     "LabelText_de": "Abteilung",
     "LabelText_ko": "부서",
     "LabelText_es": "Departamento",

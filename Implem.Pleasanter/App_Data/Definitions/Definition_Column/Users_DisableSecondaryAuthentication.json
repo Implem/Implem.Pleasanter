@@ -23,6 +23,7 @@
     "CheckFilterControlType": "2",
     "LabelText_en": "Disable Secondary Authentication",
     "LabelText_zh": "禁用辅助身份验证",
+    "LabelText_zh_tw": "停用輔助身份驗證",
     "LabelText_de": "Sekundäre Authentifizierung deaktivieren",
     "LabelText_ko": "2차 인증 비활성화",
     "LabelText_es": "Deshabilitar autenticación secundaria",

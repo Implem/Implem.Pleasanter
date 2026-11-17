@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Models
         {
             get
             {
-                return new TitleBody(DashboardId, Ver, VerType == Versions.VerTypes.History, Title.Value, Title.DisplayValue, Body);
+                return new TitleBody(DashboardId, Ver, VerType == Versions.VerTypes.History, Title.Value, Title.DisplayValue, Body, this);
             }
         }
 
@@ -341,13 +341,24 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public DashboardApiModel GetByApi(Context context, SiteSettings ss)
+        public DashboardApiModel GetByApi(
+            Context context,
+            SiteSettings ss,
+            bool checkRecordUsers = true)
         {
             var data = new DashboardApiModel()
             {
                 ApiVersion = context.ApiVersion
             };
-            ss.ReadableColumns(context: context, noJoined: true).ForEach(column =>
+            var columns = checkRecordUsers
+                ? ss.ReadableColumns(
+                    context: context,
+                    mine: Mine(context: context),
+                    noJoined: true)
+                : ss.ReadableColumns(
+                    context: context,
+                    noJoined: true);
+            columns.ForEach(column =>
             {
                 switch (column.ColumnName)
                 {
@@ -779,6 +790,9 @@ namespace Implem.Pleasanter.Models
                     .Select(columnName => ss.GetColumn(
                         context: context,
                         columnName: columnName))
+                    .Where(column => !ss.ReadColumnAccessControlEnabled(
+                        columnName: column.ColumnName)
+                            && !column.NotAllowedByContract)
                     .ForEach(column =>
                     {
                         switch (column.ColumnName)
@@ -815,30 +829,42 @@ namespace Implem.Pleasanter.Models
                                 break;
                         }
                     });
-            Creator.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "Creator"),
-                fullText);
-            Updator.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "Updator"),
-                fullText);
-            CreatedTime.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "CreatedTime"),
-                fullText);
-            UpdatedTime.FullText(
-                context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "UpdatedTime"),
-                fullText);
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "Creator"))
+            {
+                Creator.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "Creator"),
+                    fullText);
+            }
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "Updator"))
+            {
+                Updator.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "Updator"),
+                    fullText);
+            }
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "CreatedTime"))
+            {
+                CreatedTime.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime"),
+                    fullText);
+            }
+            if (!ss.ReadColumnAccessControlEnabled(columnName: "UpdatedTime"))
+            {
+                UpdatedTime.FullText(
+                    context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime"),
+                    fullText);
+            }
             if (!onCreating)
             {
                 FullTextExtensions.OutgoingMailsFullText(
@@ -2205,7 +2231,7 @@ namespace Implem.Pleasanter.Models
             bool update = false)
         {
             var body = new System.Text.StringBuilder();
-            notification.GetFormat(
+            notification.GetNoticeFormat(
                 context: context,
                 ss: ss)
                     .Split('\n')

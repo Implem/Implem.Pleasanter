@@ -11,6 +11,10 @@
             "Body": "取消全选"
         },
         {
+            "Language": "zh_tw",
+            "Body": "取消全選"
+        },
+        {
             "Language": "ja",
             "Body": "全て解除"
         },

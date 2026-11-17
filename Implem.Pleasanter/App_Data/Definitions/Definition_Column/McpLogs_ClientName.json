@@ -15,6 +15,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Client Name",
     "LabelText_zh": "客户端名称",
+    "LabelText_zh_tw": "客戶端名稱",
     "LabelText_de": "Clientname",
     "LabelText_ko": "클라이언트 이름",
     "LabelText_es": "Nombre del cliente",

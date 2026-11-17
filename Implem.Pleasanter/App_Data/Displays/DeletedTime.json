@@ -10,6 +10,10 @@
             "Body": "删除时间"
         },
         {
+            "Language": "zh_tw",
+            "Body": "刪除時間"
+        },
+        {
             "Language": "ja",
             "Body": "削除日時"
         },

@@ -21,6 +21,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "User language",
     "LabelText_zh": "用户语言",
+    "LabelText_zh_tw": "使用者語言",
     "LabelText_de": "Benutzersprache",
     "LabelText_ko": "사용자 언어",
     "LabelText_es": "Idioma del usuario",

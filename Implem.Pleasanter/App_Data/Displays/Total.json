@@ -11,6 +11,10 @@
             "Body": "总数"
         },
         {
+            "Language": "zh_tw",
+            "Body": "總數"
+        },
+        {
             "Language": "ja",
             "Body": "合計"
         },

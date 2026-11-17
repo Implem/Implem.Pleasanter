@@ -10,6 +10,10 @@
             "Body": "搜索"
         },
         {
+            "Language": "zh_tw",
+            "Body": "搜尋"
+        },
+        {
             "Language": "ja",
             "Body": "検索"
         },

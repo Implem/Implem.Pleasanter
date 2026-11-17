@@ -15,6 +15,7 @@
     "Required": "1",
     "LabelText_en": "Child group user",
     "LabelText_zh": "子组用户",
+    "LabelText_zh_tw": "子組使用者",
     "LabelText_de": "Benutzer der untergeordneten Gruppe",
     "LabelText_ko": "하위 그룹의 사용자",
     "LabelText_es": "Usuario del grupo infantil",

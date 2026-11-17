@@ -12,6 +12,7 @@ namespace Implem.CodeDefiner.Functions.Rds
         internal string Name;
         internal IEnumerable<Column> ColumnCollection;
         private ISqlObjectFactory factory;
+        private readonly string fixedName;
 
         internal class Column
         {
@@ -45,17 +46,20 @@ namespace Implem.CodeDefiner.Functions.Rds
             string tableName,
             Types type,
             string name,
-            IEnumerable<Column> columnCollection)
+            IEnumerable<Column> columnCollection,
+            string fixedName = null)
         {
             this.factory = factory;
             TableName = tableName;
             Type = type;
             Name = name;
             ColumnCollection = columnCollection;
+            this.fixedName = fixedName;
         }
 
         internal string IndexName()
         {
+            if (!fixedName.IsNullOrEmpty()) return fixedName;
             return Name + "_" + ColumnCollection.Where(o => o.No > 0).Select(o =>
                 Name +
                 TableName +

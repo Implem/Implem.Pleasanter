@@ -23,6 +23,7 @@
     "ValidateRequired": "1",
     "LabelText_en": "Department name",
     "LabelText_zh": "部门名称",
+    "LabelText_zh_tw": "部門名稱",
     "LabelText_de": "Abteilungsname",
     "LabelText_ko": "부서명",
     "LabelText_es": "Nombre del departamento",

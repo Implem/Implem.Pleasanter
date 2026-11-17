@@ -10,6 +10,10 @@
             "Body": "yyyy/MM/dd"
         },
         {
+            "Language": "zh_tw",
+            "Body": "yyyy/MM/dd"
+        },
+        {
             "Language": "ja",
             "Body": "yyyy/MM/dd"
         },

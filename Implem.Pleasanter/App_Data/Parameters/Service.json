@@ -15,5 +15,6 @@
     "ShowStartGuide": true,
     "Demo": false,
     "DemoUsagePeriod": 60,
+    "RestrictExtendedColumns": false,
     "DisableHtmlCache": null
 }

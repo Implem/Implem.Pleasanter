@@ -11,7 +11,7 @@
 
     string noticeType = "Created",
     bool otherInitValue = false,
-    bool get = true)
+    bool get = true<!--Model_AiConnectSyncParam--><!--Model_CloseParenthesis_NotAiConnectSync-->
 {
 <!--Model_OnCreating_ServerScript-->
 <!--Model_OnApiCreatingMailAddress_Users-->

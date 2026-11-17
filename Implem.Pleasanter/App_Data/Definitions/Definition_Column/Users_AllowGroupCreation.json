@@ -23,6 +23,7 @@
     "CheckFilterControlType": "2",
     "LabelText_en": "Allow group creation",
     "LabelText_zh": "允许组创建",
+    "LabelText_zh_tw": "允許組建立",
     "LabelText_de": "Gruppenerstellung zulassen",
     "LabelText_ko": "그룹 생성 허용",
     "LabelText_es": "Permitir la creación de grupos",

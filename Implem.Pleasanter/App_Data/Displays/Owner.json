@@ -11,6 +11,10 @@
             "Body": "所有者"
         },
         {
+            "Language": "zh_tw",
+            "Body": "負責人"
+        },
+        {
             "Language": "ja",
             "Body": "担当者"
         },

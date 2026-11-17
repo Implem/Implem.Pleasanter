@@ -16,6 +16,7 @@
     "NotUpdate": "1",
     "LabelText_en": "Ended on",
     "LabelText_zh": "结束时间",
+    "LabelText_zh_tw": "結束時間",
     "LabelText_de": "Beendet am",
     "LabelText_ko": "종료날짜",
     "LabelText_es": "Finalizado el",

@@ -9,6 +9,7 @@
     "ServerScriptHttpClientTimeOut": 100000,
     "ServerScriptHttpClientTimeOutMin": 0,
     "ServerScriptHttpClientTimeOutMax": 86400000,
+    "ServerScriptHttpClientMaxRedirectCount": 50,
     "ServerScriptIncludeDepthLimit": 10,
     "DisableServerScriptFile": true,
     "ServerScriptFileSizeMax": 1,

@@ -10,6 +10,10 @@
             "Body": "银行家四舍五入"
         },
         {
+            "Language": "zh_tw",
+            "Body": "銀行家四捨五入"
+        },
+        {
             "Language": "ja",
             "Body": "銀行家の丸め"
         },

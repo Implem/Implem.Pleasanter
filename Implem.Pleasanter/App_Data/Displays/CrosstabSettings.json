@@ -10,6 +10,10 @@
             "Body": "交叉表设置"
         },
         {
+            "Language": "zh_tw",
+            "Body": "交叉表設定"
+        },
+        {
             "Language": "ja",
             "Body": "クロス集計の設定"
         },

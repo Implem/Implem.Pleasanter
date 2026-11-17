@@ -6,8 +6,12 @@
             "Body": "Column Name"
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "項目名"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "欄位名稱"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "Nombre de la columna"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Tên cột"
         }
     ]

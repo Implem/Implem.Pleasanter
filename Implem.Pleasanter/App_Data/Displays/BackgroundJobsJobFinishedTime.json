@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Job Finished Time" },
         { "Language": "zh", "Body": "作业完成时间" },
+        {
+            "Language": "zh_tw",
+            "Body": "作業完成時間"
+        },
         { "Language": "ja", "Body": "ジョブ終了日時" },
         { "Language": "de", "Body": "Auftragsabschlusszeit" },
         { "Language": "ko", "Body": "작업 종료 일시" },

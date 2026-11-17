@@ -207,6 +207,14 @@ private static HtmlBuilder TdCustomValue(
                 }
                 break;
         }
+        if (!column.CanRead(
+            context: context,
+            ss: ss,
+            mine: #modelName#Model.Mine(context: context),
+            noCache: true))
+        {
+            value = string.Empty;
+        }
         gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
     });
     return hb.Td(

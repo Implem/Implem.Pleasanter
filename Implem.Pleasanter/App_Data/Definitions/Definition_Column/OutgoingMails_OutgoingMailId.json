@@ -26,6 +26,7 @@
     "EditorReadOnly": "1",
     "LabelText_en": "Sent email ID",
     "LabelText_zh": "已发送的电子邮件ID",
+    "LabelText_zh_tw": "已傳送的電子郵件ID",
     "LabelText_de": "E-Mail-ID gesendet",
     "LabelText_ko": "전송한 이메일 ID",
     "LabelText_es": "ID de correo electrónico enviado",

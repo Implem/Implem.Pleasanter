@@ -10,6 +10,10 @@
             "Body": "SSO登录"
         },
         {
+            "Language": "zh_tw",
+            "Body": "SSO登入"
+        },
+        {
             "Language": "ja",
             "Body": "SSO ログイン"
         },

@@ -10,6 +10,10 @@
             "Body": "站点访问控制"
         },
         {
+            "Language": "zh_tw",
+            "Body": "站點存取控制"
+        },
+        {
             "Language": "ja",
             "Body": "サイトのアクセス制御"
         },

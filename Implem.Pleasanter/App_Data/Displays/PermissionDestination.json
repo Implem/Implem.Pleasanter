@@ -10,6 +10,10 @@
             "Body": "当前许可设置"
         },
         {
+            "Language": "zh_tw",
+            "Body": "目前許可設定"
+        },
+        {
             "Language": "ja",
             "Body": "現在の権限設定"
         },

@@ -22,6 +22,7 @@ namespace Implem.CodeDefiner.Functions.Rds
             bool showLicenseInfo = true,
             bool checkMigration = false)
         {
+            DefaultValidator.Validate(columnDefinitionCollection: Def.ColumnDefinitionCollection);
             if (checkMigration == false)
             {
                 if (Environments.RdsProvider == "Local")

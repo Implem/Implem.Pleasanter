@@ -18,6 +18,7 @@
     "Required": "1",
     "LabelText_en": "Owner type",
     "LabelText_zh": "所有者类型",
+    "LabelText_zh_tw": "負責人類型",
     "LabelText_de": "Verantwortlichentyp",
     "LabelText_ko": "소유자 유형",
     "LabelText_es": "Tipo de propietario",

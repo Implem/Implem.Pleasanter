@@ -23,6 +23,7 @@
     "ControlCss": " focus",
     "LabelText_en": "Group name",
     "LabelText_zh": "组名称",
+    "LabelText_zh_tw": "群組名稱",
     "LabelText_de": "Gruppenname",
     "LabelText_ko": "그룹명",
     "LabelText_es": "Nombre del grupo",

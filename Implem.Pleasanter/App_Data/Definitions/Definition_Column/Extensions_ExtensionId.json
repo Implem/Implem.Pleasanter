@@ -15,6 +15,7 @@
     "Required": "1",
     "LabelText_en": "Extension ID",
     "LabelText_zh": "分机号",
+    "LabelText_zh_tw": "分機號",
     "LabelText_de": "Nebenstellen-ID",
     "LabelText_ko": "내선 ID",
     "LabelText_es": "ID de extensión",

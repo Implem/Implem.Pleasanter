@@ -10,6 +10,10 @@
             "Body": "小数位"
         },
         {
+            "Language": "zh_tw",
+            "Body": "小數位"
+        },
+        {
             "Language": "ja",
             "Body": "小数点以下桁数"
         },

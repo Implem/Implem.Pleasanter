@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.MCP.Resources
             return """
 サイト設定(SiteSettings)の読み取り仕様
 ※MCPツールでのサイト設定更新は非対応。更新が必要な場合は画面操作を案内してください。
+※SiteSettingsはサイト管理権限がある場合のみ返ります。権限が無い場合、応答にSiteSettingsは含まれません。
 
 主なプロパティ: Title(string,サイト名), ReferenceType(string,Issues/Results等), ParentId(long,親サイトID), InheritPermission(long,権限継承元サイトID), SiteSettings(object,サイト設定)
 

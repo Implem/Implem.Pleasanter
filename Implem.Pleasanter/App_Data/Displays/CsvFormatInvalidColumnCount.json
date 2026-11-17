@@ -14,6 +14,10 @@
             "Body": "CSV格式无效：列数不足。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "CSV格式無效：欄數不足。"
+        },
+        {
             "Language": "de",
             "Body": "Ungültiges CSV-Format: Spalten fehlen."
         },

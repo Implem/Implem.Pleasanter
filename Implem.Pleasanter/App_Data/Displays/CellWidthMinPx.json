@@ -10,6 +10,10 @@
             "Body": "大于等于 {0}px"
         },
         {
+            "Language": "zh_tw",
+            "Body": "大於等於 {0}px"
+        },
+        {
             "Language": "ja",
             "Body": "{0}px以上"
         },

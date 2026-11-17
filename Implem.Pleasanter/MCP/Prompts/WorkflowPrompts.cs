@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.MCP.Prompts
 リクエスト: {{request}}
 
 ## 手順
-1. ビューID特定: ビュー名既知 → GetViewIdByViewName / ビューID不明 → GetSite でビュー一覧確認
+1. ビューID特定: ビュー名既知 → GetViewIdByViewName / ビューID不明 → GetSite でビュー一覧確認（サイト管理権限が無い場合は SiteSettings が返らないため、ユーザーにビュー名を確認）
 2. 操作実行:
    - 更新: GetView で現在の設定を確認 → 変更箇所を反映した View JSON を CreateViewJson で生成 → UpdateView で上書き（名前変更時は viewName も指定）
    - 削除: 対象情報を提示 → ユーザー確認後 DeleteView（viewId=0は全削除、特に慎重に）
@@ -92,7 +92,7 @@ namespace Implem.Pleasanter.MCP.Prompts
 リクエスト: {{request}}
 
 ## 手順
-1. GetSite で選択肢定義を確認
+1. GetSite で選択肢定義を確認（サイト管理権限が無い場合は SiteSettings が返らないため、ユーザーに保存値を確認）
 2. パターン識別:
    - 単純文字列（例: "新規"）→ そのまま使用
    - "保存値,表示値" 形式（例: "100,新規"）→ 保存値 "100" を使用
@@ -127,7 +127,7 @@ namespace Implem.Pleasanter.MCP.Prompts
 ## 注意
 - CreateItemJson単独で終わりにしない（必ずAddItemまで実行）
 - 一括作成時は対象件数と内容を提示しユーザーの確認を得る
-- 項目名が不明な場合はGetSiteで項目定義を確認
+- 項目名が不明な場合はGetSiteで項目定義を確認（サイト管理権限が無い場合は SiteSettings が返らないため、ユーザーに確認）
 """);
         }
 

@@ -95,6 +95,7 @@
                     context: context,
                     ss: destinationSs,
                     synchronizeSummary: false,
+                    synchronizeAiConnect: false,
                     get: false);
             }
             chunkDelay?.Invoke();

@@ -58,7 +58,7 @@ private static ErrorData ApplyUpdateByApi(
     List<Process> processes,
     string previousTitle,
     #ModelName#ApiModel #modelName#ApiModel,
-    bool synchronizeSummary = true)
+    bool synchronizeSummary = true<!--Model_AiConnectSyncParam--><!--Model_CloseParenthesis_NotAiConnectSync-->
 {
     var invalid = #ModelName#Validators.OnUpdating(
         context: context,
@@ -66,6 +66,11 @@ private static ErrorData ApplyUpdateByApi(
         #modelName#Model: #modelName#Model,
         api: true);
     if (invalid.Type != Error.Types.None) return invalid;
+    var imageErrorData = BinaryUtilities.ValidateImagesByApi(
+        context: context,
+        ss: ss,
+        postedFileHash: #modelName#Model.PostedImageHash);
+    if (imageErrorData.Type != Error.Types.None) return imageErrorData;
 
     #modelName#Model.SiteId = ss.SiteId;
     #modelName#Model.SetTitle(
@@ -84,6 +89,7 @@ private static ErrorData ApplyUpdateByApi(
         processes: processes,
         notice: true,
         synchronizeSummary: synchronizeSummary,
+<!--Model_Utilities_AiConnectSyncArgument ( Indent = 4 ) -->
         previousTitle: previousTitle);
     BinaryUtilities.UploadImage(
         context: context,

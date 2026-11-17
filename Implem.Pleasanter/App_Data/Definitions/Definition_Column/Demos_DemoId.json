@@ -16,6 +16,7 @@
     "Required": "1",
     "LabelText_en": "Demo ID",
     "LabelText_zh": "演示ID",
+    "LabelText_zh_tw": "示範ID",
     "LabelText_de": "Demo-ID",
     "LabelText_ko": "데모 ID",
     "LabelText_es": "ID de demostración",

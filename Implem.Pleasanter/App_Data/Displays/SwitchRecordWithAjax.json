@@ -10,6 +10,10 @@
             "Body": "带Ajax的切换记录"
         },
         {
+            "Language": "zh_tw",
+            "Body": "帶Ajax的切換記錄"
+        },
+        {
             "Language": "ja",
             "Body": "レコードの遷移にAjaxを使用"
         },

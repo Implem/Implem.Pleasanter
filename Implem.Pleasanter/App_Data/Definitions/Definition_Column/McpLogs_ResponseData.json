@@ -22,6 +22,7 @@
     "FieldCss": "field-markdown",
     "LabelText_en": "Response data",
     "LabelText_zh": "响应数据",
+    "LabelText_zh_tw": "響應資料",
     "LabelText_de": "Antwortdaten",
     "LabelText_ko": "응답 데이터",
     "LabelText_es": "Datos de respuesta",

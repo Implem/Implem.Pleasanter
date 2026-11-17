@@ -71,6 +71,7 @@ namespace Implem.Pleasanter.Models
         public string ErrStackTrace = string.Empty;
         public bool InDebug = false;
         public string AssemblyVersion = string.Empty;
+        public int TenantId = 0;
 
         public Title Title
         {
@@ -122,6 +123,7 @@ namespace Implem.Pleasanter.Models
         public string SavedErrStackTrace = string.Empty;
         public bool SavedInDebug = false;
         public string SavedAssemblyVersion = string.Empty;
+        public int SavedTenantId = 0;
 
         public bool SysLogId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -601,6 +603,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != AssemblyVersion);
+        }
+
+        public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != TenantId;
+            }
+            return TenantId != SavedTenantId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
         public string CsvData(
@@ -1118,6 +1132,18 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "TenantId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? TenantId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "Comments":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -1265,6 +1291,7 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
+            TenantId = context.TenantId;
             if (formData != null)
             {
                 SetByForm(
@@ -1292,6 +1319,7 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
+            TenantId = context.TenantId;
             SysLogId = sysLogId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
@@ -1336,6 +1364,7 @@ namespace Implem.Pleasanter.Models
             string tableAlias = null)
         {
             OnConstructing(context: context);
+            TenantId = context.TenantId;
             if (dataRow != null)
             {
                 Set(
@@ -1397,13 +1426,24 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public SysLogApiModel GetByApi(Context context, SiteSettings ss)
+        public SysLogApiModel GetByApi(
+            Context context,
+            SiteSettings ss,
+            bool checkRecordUsers = true)
         {
             var data = new SysLogApiModel()
             {
                 ApiVersion = context.ApiVersion
             };
-            ss.ReadableColumns(context: context, noJoined: true).ForEach(column =>
+            var columns = checkRecordUsers
+                ? ss.ReadableColumns(
+                    context: context,
+                    mine: Mine(context: context),
+                    noJoined: true)
+                : ss.ReadableColumns(
+                    context: context,
+                    noJoined: true);
+            columns.ForEach(column =>
             {
                 switch (column.ColumnName)
                 {
@@ -1449,6 +1489,7 @@ namespace Implem.Pleasanter.Models
                     case "ErrStackTrace": data.ErrStackTrace = ErrStackTrace; break;
                     case "InDebug": data.InDebug = InDebug; break;
                     case "AssemblyVersion": data.AssemblyVersion = AssemblyVersion; break;
+                    case "TenantId": data.TenantId = TenantId; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context); break;
@@ -1975,6 +2016,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "TenantId":
+                    return TenantId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Comments":
                     return Comments.ToApiDisplayValue(
                         context: context,
@@ -2281,6 +2327,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "TenantId":
+                    return TenantId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Comments":
                     return Comments.ToApiValue(
                         context: context,
@@ -2359,6 +2410,7 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool get = true)
         {
+            TenantId = context.TenantId;
             var statements = new List<SqlStatement>();
             statements.AddRange(CreateStatements(
                 context: context,
@@ -3007,6 +3059,10 @@ namespace Implem.Pleasanter.Models
                             AssemblyVersion = dataRow[column.ColumnName].ToString();
                             SavedAssemblyVersion = AssemblyVersion;
                             break;
+                        case "TenantId":
+                            TenantId = dataRow[column.ColumnName].ToInt();
+                            SavedTenantId = TenantId;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -3132,6 +3188,7 @@ namespace Implem.Pleasanter.Models
                 || ErrStackTrace_Updated(context: context)
                 || InDebug_Updated(context: context)
                 || AssemblyVersion_Updated(context: context)
+                || TenantId_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -3214,6 +3271,7 @@ namespace Implem.Pleasanter.Models
                 || ErrStackTrace_Updated(context: context)
                 || InDebug_Updated(context: context)
                 || AssemblyVersion_Updated(context: context)
+                || TenantId_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -3237,7 +3295,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void Update(Context context, bool writeSqlToDebugLog)
         {
-            if (NotLoggingIp(UserHostAddress))
+            if (NotLoggingIp(context.Url == null
+                ? string.Empty
+                : context.UserHostAddress))
             {
                 return;
             }
@@ -3355,11 +3415,13 @@ namespace Implem.Pleasanter.Models
             Context context,
             SysLogTypes sysLogType)
         {
-            if (NotLoggingIp(UserHostAddress))
+            StartTime = DateTime.Now;
+            if (NotLoggingIp(context.Url == null
+                ? string.Empty
+                : context.UserHostAddress))
             {
                 return;
             }
-            StartTime = DateTime.Now;
             SetProperties(
                 context: context,
                 sysLogType: sysLogType);
@@ -3456,6 +3518,7 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             }
+            TenantId = context.TenantId;
             InDebug = Debugs.InDebug();
             AssemblyVersion = Environments.AssemblyVersion;
         }
@@ -3540,6 +3603,7 @@ namespace Implem.Pleasanter.Models
                 Status = context.SysLogsStatus;
                 Description = context.SysLogsDescription;
             }
+            TenantId = context.TenantId;
             if (responseSize > 0) { ResponseSize = responseSize; }
             EndTime = DateTime.Now;
             Elapsed = (EndTime - StartTime).TotalMilliseconds;
@@ -3561,7 +3625,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private bool NotLoggingIp(string ipAddress)
         {
-            if (Parameters.SysLog.NotLoggingIp?.Any() != true)
+            if (ipAddress.IsNullOrEmpty()
+                || Parameters.SysLog.NotLoggingIp?.Any() != true)
             {
                 return false;
             }
@@ -3594,6 +3659,7 @@ namespace Implem.Pleasanter.Models
                 ReferenceType = sysLogModel.ReferenceType,
                 Status = sysLogModel.Status,
                 Description = sysLogModel.Description,
+                TenantId = sysLogModel.TenantId,
                 RequestData = sysLogModel.RequestData,
                 HttpMethod = sysLogModel.HttpMethod,
                 RequestSize = sysLogModel.RequestSize,

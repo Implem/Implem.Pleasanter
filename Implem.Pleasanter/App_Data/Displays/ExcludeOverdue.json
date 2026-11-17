@@ -10,6 +10,10 @@
             "Body": "排除逾期"
         },
         {
+            "Language": "zh_tw",
+            "Body": "排除逾期"
+        },
+        {
             "Language": "ja",
             "Body": "期限切れを送信しない"
         },

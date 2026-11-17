@@ -10,6 +10,10 @@
             "Body": "保存为新版本"
         },
         {
+            "Language": "zh_tw",
+            "Body": "儲存為新版本"
+        },
+        {
             "Language": "ja",
             "Body": "新バージョンとして保存"
         },

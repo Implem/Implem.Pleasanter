@@ -21,6 +21,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "User host name",
     "LabelText_zh": "用户主机名称",
+    "LabelText_zh_tw": "使用者主機名稱",
     "LabelText_de": "Benutzer-Hostname",
     "LabelText_ko": "사용자 호스트 이름",
     "LabelText_es": "Nombre de host del usuario",

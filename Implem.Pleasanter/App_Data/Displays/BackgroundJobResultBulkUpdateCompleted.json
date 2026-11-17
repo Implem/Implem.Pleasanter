@@ -1,0 +1,37 @@
+﻿{
+    "Id": "BackgroundJobResultBulkUpdateCompleted",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} has been completed. {1} entries have been updated, {2} entries have failed."
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}已完成。已更新{1}条目，{2}条目失败。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "{0}已完成。已更新{1}個項目，{2}個項目失敗。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}が完了しました。{1} 件更新し、{2} 件失敗しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} wurde abgeschlossen. {1} Einträge wurden aktualisiert, {2} Einträge sind fehlgeschlagen."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}가 완료되었습니다. {1}개의 항목이 업데이트되었고, {2}개의 항목이 실패했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha completado {0}. Se han actualizado {1} entradas, {2} entradas han fallado."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} đã hoàn tất. {1} bản ghi đã được cập nhật, {2} bản ghi đã thất bại."
+        }
+    ]
+}

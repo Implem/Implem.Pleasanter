@@ -10,6 +10,10 @@
             "Body": "待创建副本"
         },
         {
+            "Language": "zh_tw",
+            "Body": "待建立副本"
+        },
+        {
             "Language": "ja",
             "Body": "コピーして作成"
         },

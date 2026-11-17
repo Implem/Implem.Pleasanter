@@ -55,7 +55,8 @@ enabling integration with existing enterprise systems.
 * Internationalization (Supported languages)
   * English
   * Japanese
-  * Chinese
+  * Chinese (Simplified)
+  * Chinese (Traditional)
   * German
   * Korean
   * Spanish

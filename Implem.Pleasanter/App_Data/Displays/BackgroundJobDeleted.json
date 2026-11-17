@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "The background job was deleted." },
         { "Language": "zh", "Body": "后台作业已删除。" },
+        {
+            "Language": "zh_tw",
+            "Body": "背景作業已刪除。"
+        },
         { "Language": "ja", "Body": "バックグラウンドジョブを削除しました。" },
         { "Language": "de", "Body": "Der Hintergrundauftrag wurde gelöscht." },
         { "Language": "ko", "Body": "백그라운드 작업이 삭제되었습니다." },

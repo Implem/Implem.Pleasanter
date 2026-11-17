@@ -19,6 +19,7 @@
     "ByDataRow": "MimeKit.MailboxAddress.Parse(dataRow[column.ColumnName].ToString())",
     "LabelText_en": "From",
     "LabelText_zh": "寄件人",
+    "LabelText_zh_tw": "寄件人",
     "LabelText_de": "Von",
     "LabelText_ko": "발신인",
     "LabelText_es": "De",

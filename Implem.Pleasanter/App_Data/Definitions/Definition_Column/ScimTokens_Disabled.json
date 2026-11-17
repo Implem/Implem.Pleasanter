@@ -9,5 +9,6 @@
     "TypeName": "bit",
     "Default": "0",
     "LabelText_en": "Disabled",
-    "LabelText_zh": "禁用"
+    "LabelText_zh": "禁用",
+    "LabelText_zh_tw": "停用"
 }

@@ -10,6 +10,10 @@
             "Body": "Y/m/d H:i"
         },
         {
+            "Language": "zh_tw",
+            "Body": "Y/m/d H:i"
+        },
+        {
             "Language": "ja",
             "Body": "Y/m/d H:i"
         },

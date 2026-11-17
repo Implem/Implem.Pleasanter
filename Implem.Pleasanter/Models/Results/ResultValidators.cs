@@ -221,6 +221,22 @@ namespace Implem.Pleasanter.Models
                         sysLogsStatus: 403,
                         sysLogsDescription: Debugs.GetSysLogsDescription());
             }
+            var notAllowedExtendedColumn = ColumnUtilities.NotAllowedExtendedColumnUpdated(
+                context: context,
+                ss: ss,
+                baseModel: resultModel,
+                copy: copy);
+            if (notAllowedExtendedColumn != null)
+            {
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.ExtendedColumnsNotAllowed,
+                    api: api,
+                    sysLogsStatus: 400,
+                    sysLogsDescription: Debugs.GetSysLogsDescription(),
+                    columnName: notAllowedExtendedColumn.ColumnName,
+                    data: notAllowedExtendedColumn.LabelText);
+            }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanCreate(
                     context: context,
@@ -528,6 +544,21 @@ namespace Implem.Pleasanter.Models
                         api: api,
                         sysLogsStatus: 403,
                         sysLogsDescription: Debugs.GetSysLogsDescription());
+            }
+            var notAllowedExtendedColumn = ColumnUtilities.NotAllowedExtendedColumnUpdated(
+                context: context,
+                ss: ss,
+                baseModel: resultModel);
+            if (notAllowedExtendedColumn != null)
+            {
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.ExtendedColumnsNotAllowed,
+                    api: api,
+                    sysLogsStatus: 400,
+                    sysLogsDescription: Debugs.GetSysLogsDescription(),
+                    columnName: notAllowedExtendedColumn.ColumnName,
+                    data: notAllowedExtendedColumn.LabelText);
             }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanUpdate(
@@ -1164,6 +1195,12 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 type: Error.Types.OverTenantStorageSize,
                                 data: context.ContractSettings.StorageSize.ToString(),
+                                sysLogsStatus: 400,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        case Error.Types.InvalidRequest:
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.BadRequest,
                                 sysLogsStatus: 400,
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                     }

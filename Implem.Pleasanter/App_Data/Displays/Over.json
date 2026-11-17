@@ -10,6 +10,10 @@
             "Body": "超出{0}"
         },
         {
+            "Language": "zh_tw",
+            "Body": "超出{0}"
+        },
+        {
             "Language": "ja",
             "Body": "{0} ～"
         },

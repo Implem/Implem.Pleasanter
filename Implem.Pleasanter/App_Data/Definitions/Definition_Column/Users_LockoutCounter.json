@@ -25,6 +25,7 @@
     "Step": "1",
     "LabelText_en": "Lockout counter",
     "LabelText_zh": "锁定计数器",
+    "LabelText_zh_tw": "鎖定計數器",
     "LabelText_de": "Sperrungszähler",
     "LabelText_ko": "잠김 카운터",
     "LabelText_es": "Contador de bloqueos",

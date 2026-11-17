@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Run Next Job" },
         { "Language": "zh", "Body": "运行下一个作业" },
+        {
+            "Language": "zh_tw",
+            "Body": "執行下一個作業"
+        },
         { "Language": "ja", "Body": "次のジョブを実行" },
         { "Language": "de", "Body": "Nächsten Job ausführen" },
         { "Language": "ko", "Body": "다음 작업 실행" },

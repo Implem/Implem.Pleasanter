@@ -21,6 +21,7 @@
     "ValidateRequired": "1",
     "LabelText_en": "Subject",
     "LabelText_zh": "主题",
+    "LabelText_zh_tw": "主題",
     "LabelText_de": "Betreff",
     "LabelText_ko": "제목",
     "LabelText_es": "Asunto",

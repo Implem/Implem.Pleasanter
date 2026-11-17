@@ -14,6 +14,10 @@
             "Body": "\"{0}\"的配额限制（{1} 次/{2}）已超过。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "\"{0}\"的配額限制（{1} 次/{2}）已超過。"
+        },
+        {
             "Language": "de",
             "Body": "Das Kontingentlimit für \"{0}\" ({1} Anfragen/{2}) wurde überschritten."
         },

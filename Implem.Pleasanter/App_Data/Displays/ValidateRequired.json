@@ -11,6 +11,10 @@
             "Body": "必填字段。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "必填欄位。"
+        },
+        {
             "Language": "ja",
             "Body": "入力必須項目です。"
         },

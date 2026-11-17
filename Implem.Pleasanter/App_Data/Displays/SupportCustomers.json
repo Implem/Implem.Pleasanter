@@ -1,0 +1,13 @@
+{
+    "Id": "SupportCustomers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "For contracted customers"
+        },
+        {
+            "Language": "ja",
+            "Body": "ご契約中の方へ"
+        }
+    ]
+}

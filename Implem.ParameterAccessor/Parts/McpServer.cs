@@ -13,6 +13,8 @@ namespace Implem.ParameterAccessor.Parts
 
         public int LogExportLimit { get; set; } = 10000;
 
+        public int LogPartialMatchDefaultStartTimeRangeDays { get; set; } = 31;
+
         public McpLoggingSettings Logging;
     }
 

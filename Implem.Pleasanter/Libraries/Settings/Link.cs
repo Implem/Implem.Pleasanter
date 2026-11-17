@@ -4,6 +4,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -209,6 +210,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool setAllChoices,
             bool setChoices)
         {
+            var publishScope = setChoices
+                && Permissions.PublishScope(context: context)
+                && (TableName == "Depts"
+                    || TableName == "Groups"
+                    || TableName == "Users");
+            var directorySearchText = publishScope
+                ? null
+                : searchText;
+            var directorySetAllChoices = publishScope || setAllChoices;
             switch (TableName)
             {
                 case "Depts":
@@ -226,9 +236,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     ss: currentSs,
                                     inheritPermission: ss.InheritPermission,
-                                    searchText: searchText,
-                                    setAllChoices: setAllChoices,
-                                    offset: offset),
+                                    searchText: directorySearchText,
+                                    setAllChoices: directorySetAllChoices,
+                                    offset: offset,
+                                    referencedIds: PublishReferencedIds(
+                                        context: context,
+                                        column: column,
+                                        publishScope: publishScope)),
                                 searchFormat: searchFormat);
                         }
                     }
@@ -248,9 +262,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     ss: currentSs,
                                     inheritPermission: ss.InheritPermission,
-                                    searchText: searchText,
-                                    setAllChoices: setAllChoices,
-                                    offset: offset),
+                                    searchText: directorySearchText,
+                                    setAllChoices: directorySetAllChoices,
+                                    offset: offset,
+                                    referencedIds: PublishReferencedIds(
+                                        context: context,
+                                        column: column,
+                                        publishScope: publishScope)),
                                 searchFormat: searchFormat);
                         }
                     }
@@ -270,9 +288,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     ss: currentSs,
                                     inheritPermission: ss.InheritPermission,
-                                    searchText: searchText,
-                                    setAllChoices: setAllChoices,
-                                    offset: offset),
+                                    searchText: directorySearchText,
+                                    setAllChoices: directorySetAllChoices,
+                                    offset: offset,
+                                    referencedIds: PublishReferencedIds(
+                                        context: context,
+                                        column: column,
+                                        publishScope: publishScope)),
                                 searchFormat: searchFormat);
                         }
                     }
@@ -320,6 +342,47 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                     break;
             }
+            if (publishScope)
+            {
+                var searchIndexes = searchText.SearchIndexes();
+                column.FilterPublishChoices(
+                    context: context,
+                    searchIndexes: searchIndexes);
+                if (searchIndexes?.Any() == true && column.ChoiceHash != null)
+                {
+                    column.ChoiceHash = column.ChoiceHash
+                        .Take(Parameters.General.DropDownSearchPageSize)
+                        .ToDictionary(
+                            static o => o.Key,
+                            static o => o.Value);
+                }
+            }
+        }
+
+        private static List<int> PublishReferencedIds(
+            Context context,
+            Column column,
+            bool publishScope)
+        {
+            if (publishScope == false)
+            {
+                return null;
+            }
+            var referencedValues = column.SiteSettings?.PublishReferencedValues(
+                context: context,
+                column: column)
+                    ?? new HashSet<string>();
+            var ids = new List<int>();
+            foreach (var value in referencedValues)
+            {
+                if (int.TryParse(
+                    value,
+                    out var id))
+                {
+                    ids.Add(id);
+                }
+            }
+            return ids;
         }
 
         private void Set(
@@ -463,7 +526,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             long inheritPermission,
             string searchText,
             bool setAllChoices,
-            int offset)
+            int offset,
+            IEnumerable<int> referencedIds)
         {
             var view = GetView(
                 context: context,
@@ -482,6 +546,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ss: ss,
                         where: Rds.DeptsWhere()
                             .TenantId(context.TenantId)
+                            .DeptId_In(
+                                value: referencedIds,
+                                _using: referencedIds != null)
                             .DeptId(
                                 value: context.DeptId,
                                 _operator: "<>",
@@ -520,7 +587,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             long inheritPermission,
             string searchText,
             bool setAllChoices,
-            int offset)
+            int offset,
+            IEnumerable<int> referencedIds)
         {
             var view = GetView(
                 context: context,
@@ -539,6 +607,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ss: ss,
                         where: Rds.GroupsWhere()
                             .TenantId(context.TenantId)
+                            .GroupId_In(
+                                value: referencedIds,
+                                _using: referencedIds != null)
                             .SiteGroupWhere(
                                 context: context,
                                 siteId: inheritPermission,
@@ -573,7 +644,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             long inheritPermission,
             string searchText,
             bool setAllChoices,
-            int offset)
+            int offset,
+            IEnumerable<int> referencedIds)
         {
             var view = GetView(
                 context: context,
@@ -597,6 +669,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ss: ss,
                         where: Rds.UsersWhere()
                             .TenantId(context.TenantId)
+                            .UserId_In(
+                                value: referencedIds,
+                                _using: referencedIds != null)
                             .UserId(
                                 value: context.UserId,
                                 _operator: "<>",

@@ -15,6 +15,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Process name",
     "LabelText_zh": "进程名称",
+    "LabelText_zh_tw": "程序名稱",
     "LabelText_de": "Prozessname",
     "LabelText_ko": "프로세스 이름",
     "LabelText_es": "Nombre del proceso",

@@ -11,6 +11,10 @@
             "Body": "最长字数"
         },
         {
+            "Language": "zh_tw",
+            "Body": "最長字數"
+        },
+        {
             "Language": "ja",
             "Body": "最大文字数"
         },

@@ -12,6 +12,7 @@
     "TypeName": "bit",
     "LabelText_en": "Initialized",
     "LabelText_zh": "已初始化",
+    "LabelText_zh_tw": "已初始化",
     "LabelText_de": "Initialisiert",
     "LabelText_ko": "초기화됨",
     "LabelText_es": "Inicializado",

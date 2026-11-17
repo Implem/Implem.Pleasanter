@@ -10,6 +10,10 @@
             "Body": "输入格式为 00:00(24小时)。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "輸入格式為 00:00(24小時)。"
+        },
+        {
             "Language": "ja",
             "Body": "00:00(24時間)の形式で入力"
         },
@@ -26,7 +30,7 @@
             "Body": "Ingrese en el formato 00:00(24horas)."
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Nhập ở định dạng 00:00(24 giờ)."
         }
     ]

@@ -11,6 +11,10 @@
             "Body": "CAPTCHA库未加载。请重新加载页面。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "CAPTCHA庫未載入。請重新載入頁面。"
+        },
+        {
             "Language": "ja",
             "Body": "CAPTCHAライブラリが読み込まれていません。ページを再読み込みしてください。"
         },

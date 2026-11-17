@@ -14,6 +14,10 @@
             "Body": "CSV格式无效：第一列必须是'ColumnName'。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "CSV格式無效：第一欄必須是'ColumnName'。"
+        },
+        {
             "Language": "de",
             "Body": "Ungültiges CSV-Format: Die erste Spalte muss 'ColumnName' sein."
         },

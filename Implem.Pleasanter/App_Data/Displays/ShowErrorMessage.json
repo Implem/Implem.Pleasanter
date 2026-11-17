@@ -11,6 +11,10 @@
             "Body": "显示错误信息"
         },
         {
+            "Language": "zh_tw",
+            "Body": "顯示錯誤資訊"
+        },
+        {
             "Language": "ja",
             "Body": "エラーメッセージを表示"
         },

@@ -11,6 +11,10 @@
             "Body": "附加数据样本"
         },
         {
+            "Language": "zh_tw",
+            "Body": "附加資料樣本"
+        },
+        {
             "Language": "ja",
             "Body": "添付データサンプル"
         },

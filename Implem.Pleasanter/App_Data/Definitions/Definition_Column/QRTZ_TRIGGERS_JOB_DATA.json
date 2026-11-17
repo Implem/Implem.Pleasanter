@@ -4,7 +4,7 @@
     "TableName": "QRTZ_TRIGGERS",
     "Label": "Quartz Trigger",
     "ColumnName": "JOB_DATA",
-    "No": "16",
+    "No": "20",
     "LabelText": "Job Data",
     "TypeName": "varbinary",
     "MaxLength": "-1",

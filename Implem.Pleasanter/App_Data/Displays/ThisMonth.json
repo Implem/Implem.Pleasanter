@@ -11,6 +11,10 @@
             "Body": "本月"
         },
         {
+            "Language": "zh_tw",
+            "Body": "本月"
+        },
+        {
             "Language": "ja",
             "Body": "今月"
         },

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_PREFERRED_NODE_AUTO",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "PREFERRED_NODE_AUTO",
+    "No": "19",
+    "LabelText": "Preferred Node Auto",
+    "TypeName": "bit",
+    "NotNull": "1",
+    "Default": "0",
+    "ExcludeBaseColumns": "1"
+}

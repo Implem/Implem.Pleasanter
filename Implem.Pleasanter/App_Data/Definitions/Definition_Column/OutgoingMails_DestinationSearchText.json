@@ -18,6 +18,7 @@
     "NotUpdate": "1",
     "LabelText_en": "Recipient search text",
     "LabelText_zh": "收件人搜索文本",
+    "LabelText_zh_tw": "收件人搜尋文字",
     "LabelText_de": "Empfänger-Suchtext",
     "LabelText_ko": "수신인 검색 텍스트",
     "LabelText_es": "Texto de búsqueda de destinatarios",

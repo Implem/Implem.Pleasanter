@@ -1315,6 +1315,14 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                 }
+                if (!column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: resultModel.Mine(context: context),
+                    noCache: true))
+                {
+                    value = string.Empty;
+                }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
             return hb.Td(
@@ -1441,7 +1449,15 @@ namespace Implem.Pleasanter.Models
                     parentId: ss.ParentId,
                     referenceType: "Results",
                     title: displayTitle,
-                    body: resultModel.Body,
+                    body: ss.GetColumn(
+                        context: context,
+                        columnName: "Body")?.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: resultModel.Mine(context: context),
+                            noCache: true) != false
+                                ? resultModel.Body
+                                : null,
                     useTitle: ss.TitleColumns?.Any(o => ss
                         .GetEditorColumnNames()
                         .Contains(o)) == true,
@@ -3484,7 +3500,8 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             List<Process> processes,
             bool migrationMode = false,
-            bool synchronizeSummary = true)
+            bool synchronizeSummary = true,
+            bool synchronizeAiConnect = true)
         {
             var invalid = ResultValidators.OnCreating(
                 context: context,
@@ -3492,6 +3509,11 @@ namespace Implem.Pleasanter.Models
                 resultModel: resultModel,
                 api: true);
             if (invalid.Type != Error.Types.None) return invalid;
+            var imageErrorData = BinaryUtilities.ValidateImagesByApi(
+                context: context,
+                ss: ss,
+                postedFileHash: resultModel.PostedImageHash);
+            if (imageErrorData.Type != Error.Types.None) return imageErrorData;
             resultModel.SiteId = ss.SiteId;
             resultModel.SetTitle(
                 context: context,
@@ -3522,6 +3544,7 @@ namespace Implem.Pleasanter.Models
                 processes: processes,
                 notice: true,
                 synchronizeSummary: synchronizeSummary,
+                synchronizeAiConnect: synchronizeAiConnect,
                 migrationMode: migrationMode);
             BinaryUtilities.UploadImage(
                 context: context,
@@ -3998,76 +4021,66 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkUpdate(Context context, SiteSettings ss)
         {
-            if (!context.CanUpdate(ss: ss))
-            {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
-            }
-            var param = new Rds.ResultsParamCollection();
-            var target = context.Forms.Data("BulkUpdateColumnName");
-            var columns = ss.GetBulkUpdateColumns(
+            var resultData = BulkUpdateCore(
                 context: context,
-                target: target);
-            ss.SetBulkUpdateColumnDetail(
-                columns: columns,
-                target: target);
-            columns = columns
-                .Where(column => column.EditorReadOnly != true)
-                .ToList();
-            if (!columns.Any())
+                ss: ss);
+            switch (resultData.ErrorData?.Type)
             {
-                return Error.Types.InvalidRequest.MessageJson(context: context);
+                case null:
+                case Error.Types.None:
+                    break;
+                case Error.Types.HasNotPermission:
+                    return Messages.ResponseHasNotPermission(context: context).ToJson();
+                case Error.Types.SelectTargets:
+                    return Messages.ResponseSelectTargets(context: context).ToJson();
+                case Error.Types.ImportLock:
+                    return Error.Types.ImportLock.MessageJson(context: context);
+                default:
+                    return resultData.ErrorData.MessageJson(context: context);
             }
-            if (!columns.All(column => column.CanUpdate(
+            return GridRows(
                 context: context,
                 ss: ss,
-                mine: null)))
+                clearCheck: true,
+                message: Messages.BulkUpdated(
+                    context: context,
+                    data: new string[]
+                    {
+                        ss.Title,
+                        (resultData.SuccessCount + resultData.FailureCount).ToString()
+                    }));
+        }
+
+        public static BulkUpdateResultData BulkUpdateCore(
+            Context context,
+            SiteSettings ss)
+        {
+            var validated = ValidateBulkUpdate(
+                context: context,
+                ss: ss);
+            if (validated.ErrorData.Type != Error.Types.None)
             {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
+                return new BulkUpdateResultData
+                {
+                    ErrorData = validated.ErrorData
+                };
             }
+            var columns = validated.Columns;
+            var where = validated.Where;
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
                 resultId: 0,
                 formData: context.Forms);
-            var selectedWhere = SelectedWhere(
-                context: context,
-                ss: ss);
-            if (selectedWhere == null)
-            {
-                return Messages.ResponseSelectTargets(context: context).ToJson();
-            }
-            var view = Views.GetBySession(
-                context: context,
-                ss: ss);
-            var where = view.Where(
-                context: context,
-                ss: ss,
-                where: selectedWhere,
-                itemJoin: false);
-            param = (Rds.ResultsParamCollection)view.Param(
-                context: context,
-                ss: ss,
-                param: param);
-            var invalid = ExistsLockedRecord(
-                context: context,
-                ss: ss,
-                where: where,
-                param: param,
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss),
-                lockedColumn: columns.Any(o => o.ColumnName == "Locked"));
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
-            }
             using var exclusiveObj = new Sessions.TableExclusive(context: context);
             if (!exclusiveObj.TryLock())
             {
-                return Error.Types.ImportLock.MessageJson(context: context);
+                return new BulkUpdateResultData
+                {
+                    ErrorData = new ErrorData(type: Error.Types.ImportLock)
+                };
             }
-            var count = BulkUpdate(
+            var resultData = BulkUpdate(
                 context: context,
                 ss: ss,
                 columns: columns,
@@ -4076,7 +4089,7 @@ namespace Implem.Pleasanter.Models
             var data = new string[]
             {
                 ss.Title,
-                count.ToString()
+                (resultData.SuccessCount + resultData.FailureCount).ToString()
             };
             ss.Notifications
                 .Where(o => o.MonitorChangesColumns.Any(columnName => columns.Any(q => q.ColumnName == columnName)))
@@ -4104,17 +4117,10 @@ namespace Implem.Pleasanter.Models
                             body: body.ToString());
                     }
                 });
-            var res = GridRows(
-                context: context,
-                ss: ss,
-                clearCheck: true,
-                message: Messages.BulkUpdated(
-                    context: context,
-                    data: data));
-            return res;
+            return resultData;
         }
 
-        private static int BulkUpdate(
+        private static BulkUpdateResultData BulkUpdate(
             Context context,
             SiteSettings ss,
             List<Column> columns,
@@ -4132,7 +4138,8 @@ namespace Implem.Pleasanter.Models
                     transactional: true,
                     statements: onBulkUpdatingExtendedStatements.ToArray());
             }
-            var count = 0;
+            var successCount = 0;
+            var failureCount = 0;
             var bulkUpdateFormKeys = columns
                 .Select(column => $"{ss.ReferenceType}_{column.ColumnName}")
                 .ToHashSet();
@@ -4162,11 +4169,19 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         baseModel: resultModel);
-                    resultModel.Update(
+                    var errorData = resultModel.Update(
                         context: context,
                         ss: ss,
+                        synchronizeAiConnect: false,
                         extendedSqls: false);
-                    count++;
+                    if (errorData.Type == Error.Types.None)
+                    {
+                        successCount++;
+                    }
+                    else
+                    {
+                        failureCount++;
+                    }
                 });
             var onBulkUpdatedExtendedStatements = new List<SqlStatement>().OnBulkUpdatedExtendedSqls(
                 context: context,
@@ -4179,7 +4194,125 @@ namespace Implem.Pleasanter.Models
                     transactional: true,
                     statements: onBulkUpdatedExtendedStatements.ToArray());
             }
-            return count;
+            return new BulkUpdateResultData
+            {
+                SuccessCount = successCount,
+                FailureCount = failureCount
+            };
+        }
+
+        public static int BulkUpdateTargetCount(
+            Context context,
+            SiteSettings ss)
+        {
+            var selectedWhere = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (selectedWhere == null)
+            {
+                return 0;
+            }
+            var recordSelector = new RecordSelector(context: context);
+            if (!recordSelector.All)
+            {
+                return recordSelector.Selected.Count;
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var where = view.Where(
+                context: context,
+                ss: ss,
+                where: selectedWhere,
+                itemJoin: false);
+            var param = view.Param(
+                context: context,
+                ss: ss);
+            return Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectResults(
+                    column: Rds.ResultsColumn().ResultsCount(),
+                    join: ss.Join(
+                        context: context,
+                        join: new IJoin[]
+                        {
+                            where
+                        }),
+                    where: where,
+                    param: param));
+        }
+
+        public static ErrorData ValidateBeforeEnqueueBulkUpdate(
+            Context context,
+            SiteSettings ss)
+        {
+            return ValidateBulkUpdate(
+                context: context,
+                ss: ss).ErrorData;
+        }
+
+        private static (ErrorData ErrorData, List<Column> Columns, SqlWhereCollection Where) ValidateBulkUpdate(
+            Context context,
+            SiteSettings ss)
+        {
+            if (!context.CanUpdate(ss: ss))
+            {
+                return (new ErrorData(type: Error.Types.HasNotPermission), null, null);
+            }
+            var target = context.Forms.Data("BulkUpdateColumnName");
+            var columns = ss.GetBulkUpdateColumns(
+                context: context,
+                target: target);
+            ss.SetBulkUpdateColumnDetail(
+                columns: columns,
+                target: target);
+            columns = columns
+                .Where(column => column.EditorReadOnly != true)
+                .ToList();
+            if (!columns.Any())
+            {
+                return (new ErrorData(type: Error.Types.InvalidRequest), null, null);
+            }
+            if (!columns.All(column => column.CanUpdate(
+                context: context,
+                ss: ss,
+                mine: null)))
+            {
+                return (new ErrorData(type: Error.Types.HasNotPermission), null, null);
+            }
+            var selectedWhere = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (selectedWhere == null)
+            {
+                return (new ErrorData(type: Error.Types.SelectTargets), null, null);
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var where = view.Where(
+                context: context,
+                ss: ss,
+                where: selectedWhere,
+                itemJoin: false);
+            var param = view.Param(
+                context: context,
+                ss: ss,
+                param: new Rds.ResultsParamCollection());
+            var invalid = ExistsLockedRecord(
+                context: context,
+                ss: ss,
+                where: where,
+                param: param,
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss),
+                lockedColumn: columns.Any(o => o.ColumnName == "Locked"));
+            if (invalid.Type != Error.Types.None)
+            {
+                return (invalid, null, null);
+            }
+            return (invalid, columns, where);
         }
 
         public static string UpdateByGrid(Context context, SiteSettings ss)
@@ -4625,6 +4758,7 @@ namespace Implem.Pleasanter.Models
                     var errorData = resultModel.Update(
                         context: context,
                         ss: ss,
+                        synchronizeAiConnect: false,
                         processes: processes,
                         notice: true,
                         previousTitle: previousTitle);
@@ -4763,7 +4897,8 @@ namespace Implem.Pleasanter.Models
             List<Process> processes,
             string previousTitle,
             ResultApiModel resultApiModel,
-            bool synchronizeSummary = true)
+            bool synchronizeSummary = true,
+            bool synchronizeAiConnect = true)
         {
             var invalid = ResultValidators.OnUpdating(
                 context: context,
@@ -4771,6 +4906,11 @@ namespace Implem.Pleasanter.Models
                 resultModel: resultModel,
                 api: true);
             if (invalid.Type != Error.Types.None) return invalid;
+            var imageErrorData = BinaryUtilities.ValidateImagesByApi(
+                context: context,
+                ss: ss,
+                postedFileHash: resultModel.PostedImageHash);
+            if (imageErrorData.Type != Error.Types.None) return imageErrorData;
             resultModel.SiteId = ss.SiteId;
             resultModel.SetTitle(
                 context: context,
@@ -4805,6 +4945,7 @@ namespace Implem.Pleasanter.Models
                 processes: processes,
                 notice: true,
                 synchronizeSummary: synchronizeSummary,
+                synchronizeAiConnect: synchronizeAiConnect,
                 previousTitle: previousTitle);
             BinaryUtilities.UploadImage(
                 context: context,
@@ -5243,6 +5384,17 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
@@ -5365,6 +5517,7 @@ namespace Implem.Pleasanter.Models
                             processes: processes,
                             previousTitle: null,
                             resultApiModel: resultApiModel,
+                            synchronizeAiConnect: false,
                             synchronizeSummary: false);
                         if (error.Type != Error.Types.None) return error;
                         targets.CollectAfterSave(
@@ -5381,6 +5534,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             resultModel: resultModel,
                             processes: processes,
+                            synchronizeAiConnect: false,
                             synchronizeSummary: false);
                         if (error.Type != Error.Types.None) return error;
                         targets.CollectAfterSave(
@@ -6737,6 +6891,17 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
@@ -7142,6 +7307,17 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
@@ -7617,6 +7793,7 @@ namespace Implem.Pleasanter.Models
                                                     ss: ss,
                                                     extendedSqls: false,
                                                     synchronizeSummary: false,
+                                                    synchronizeAiConnect: false,
                                                     previousTitle: previousTitle,
                                                     get: false);
                                                 updateCount++;
@@ -7634,6 +7811,7 @@ namespace Implem.Pleasanter.Models
                                                 ss: ss,
                                                 extendedSqls: false,
                                                 synchronizeSummary: false,
+                                                synchronizeAiConnect: false,
                                                 migrationMode: migrationMode);
                                             insertCount++;
                                             break;
@@ -7665,6 +7843,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             extendedSqls: false,
                             synchronizeSummary: false,
+                            synchronizeAiConnect: false,
                             migrationMode: migrationMode);
                         switch (errorData.Type)
                         {
@@ -8011,6 +8190,7 @@ namespace Implem.Pleasanter.Models
                                                     ss: ss,
                                                     extendedSqls: false,
                                                     synchronizeSummary: false,
+                                                    synchronizeAiConnect: false,
                                                     previousTitle: previousTitle,
                                                     get: false);
                                                 updateCount++;
@@ -8028,6 +8208,7 @@ namespace Implem.Pleasanter.Models
                                                 ss: ss,
                                                 extendedSqls: false,
                                                 synchronizeSummary: false,
+                                                synchronizeAiConnect: false,
                                                 migrationMode: migrationMode);
                                             insertCount++;
                                             break;
@@ -8058,6 +8239,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             extendedSqls: false,
                             synchronizeSummary: false,
+                            synchronizeAiConnect: false,
                             migrationMode: migrationMode);
                         switch (errorData.Type)
                         {
@@ -8353,6 +8535,7 @@ namespace Implem.Pleasanter.Models
                                                     ss: ss,
                                                     extendedSqls: false,
                                                     synchronizeSummary: false,
+                                                    synchronizeAiConnect: false,
                                                     previousTitle: previousTitle,
                                                     get: false);
                                                 updateCount++;
@@ -8370,6 +8553,7 @@ namespace Implem.Pleasanter.Models
                                                 ss: ss,
                                                 extendedSqls: false,
                                                 synchronizeSummary: false,
+                                                synchronizeAiConnect: false,
                                                 migrationMode: migrationMode);
                                             insertCount++;
                                             break;
@@ -8395,6 +8579,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             extendedSqls: false,
                             synchronizeSummary: false,
+                            synchronizeAiConnect: false,
                             migrationMode: migrationMode);
                         switch (errorData.Type)
                         {
@@ -8862,7 +9047,7 @@ namespace Implem.Pleasanter.Models
             var date = view.GetCalendarDate();
             var groupBy = ss.GetColumn(
                 context: context,
-                columnName: view.GetCalendarGroupBy());
+                columnName: view.GetCalendarGroupBy(ss: ss));
             var choices = groupBy?.EditChoices(
                 context: context,
                 insertBlank: true,
@@ -9036,7 +9221,7 @@ namespace Implem.Pleasanter.Models
             var date = view.GetCalendarDate();
             var groupBy = ss.GetColumn(
                 context: context,
-                columnName: view.GetCalendarGroupBy());
+                columnName: view.GetCalendarGroupBy(ss: ss));
             var choices = groupBy?.EditChoices(
                 context: context,
                 insertBlank: true,
@@ -10889,12 +11074,13 @@ namespace Implem.Pleasanter.Models
         {
             foreach (var column in ss.IncludedColumns(line))
             {
-                var allowed = checkColumnAccessControl == false
-                    || ss.ReadColumnAccessControls.Allowed(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        mine: resultModel.Mine(context: context));
+                var allowed = !column.NotAllowedByContract
+                    && (checkColumnAccessControl == false
+                        || ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: resultModel.Mine(context: context)));
                 if (!allowed)
                 {
                     line = line.Replace($"[{column.Name}]", string.Empty);

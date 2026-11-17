@@ -17,6 +17,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Last name",
     "LabelText_zh": "姓氏",
+    "LabelText_zh_tw": "姓氏",
     "LabelText_de": "Nachname",
     "LabelText_ko": "성",
     "LabelText_es": "Apellido(s)",

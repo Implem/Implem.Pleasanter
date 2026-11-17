@@ -270,6 +270,16 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string SessionTakeString(Context context, string key)
+        {
+            return SessionUtilities.Take(
+                context: context,
+                key: $"Passkeys_{key}") ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string SessionGetString(Context context, string key)
         {
             var dic = SessionUtilities.Get(context: context);
@@ -278,17 +288,6 @@ namespace Implem.Pleasanter.Models
                 return json;
             }
             return string.Empty;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static void SessionRemove(Context context, string key)
-        {
-            SessionUtilities.Remove(
-                context: context,
-                key: $"Passkeys_{key}",
-                page: false);
         }
     }
 }

@@ -10,6 +10,10 @@
             "Body": "邮件数"
         },
         {
+            "Language": "zh_tw",
+            "Body": "郵件數"
+        },
+        {
             "Language": "ja",
             "Body": "メールの件数"
         },

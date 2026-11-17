@@ -33,6 +33,7 @@
     "Unit": "h",
     "LabelText_en": "Remaining work volume",
     "LabelText_zh": "当前剩余工作量",
+    "LabelText_zh_tw": "目前剩餘工作量",
     "LabelText_de": "Verbleibender Arbeitsaufwand",
     "LabelText_ko": "남은 작업 볼륨",
     "LabelText_es": "Volumen de trabajo restante",

@@ -30,19 +30,49 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         {
             try
             {
-                if (await scheduler.CheckExists(trigger.Key))
-                {
-                    await scheduler.RescheduleJob(trigger.Key, trigger);
-                }
-                else
-                {
-                    await scheduler.ScheduleJob(trigger);
-                }
+                await ReconcileTriggerAsync(scheduler: scheduler, trigger: trigger);
             }
             catch (ObjectAlreadyExistsException)
             {
+                await ReconcileTriggerAsync(scheduler: scheduler, trigger: trigger);
+            }
+        }
+
+        private static async Task ReconcileTriggerAsync(
+            IScheduler scheduler,
+            ITrigger trigger)
+        {
+            var existing = await scheduler.GetTrigger(trigger.Key);
+            if (existing == null)
+            {
+                await scheduler.ScheduleJob(trigger);
+            }
+            else if (!TriggersEquivalent(existing, trigger))
+            {
                 await scheduler.RescheduleJob(trigger.Key, trigger);
             }
+            else if (await scheduler.GetTriggerState(trigger.Key) == TriggerState.Error)
+            {
+                await scheduler.ResetTriggerFromErrorState(trigger.Key);
+            }
+        }
+
+        private static bool TriggersEquivalent(ITrigger existing, ITrigger incoming)
+        {
+            if (!existing.JobKey.Equals(incoming.JobKey)) return false;
+            if (existing is ISimpleTrigger existingSimple
+                && incoming is ISimpleTrigger incomingSimple)
+            {
+                return existingSimple.RepeatInterval == incomingSimple.RepeatInterval
+                    && existingSimple.RepeatCount == incomingSimple.RepeatCount;
+            }
+            if (existing is ICronTrigger existingCron
+                && incoming is ICronTrigger incomingCron)
+            {
+                return existingCron.CronExpressionString == incomingCron.CronExpressionString
+                    && Equals(existingCron.TimeZone, incomingCron.TimeZone);
+            }
+            return false;
         }
 
         internal static async Task CleanupUnexpectedTriggersAsync(

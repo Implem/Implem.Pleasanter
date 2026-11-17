@@ -10,6 +10,10 @@
             "Body": "时间数列图"
         },
         {
+            "Language": "zh_tw",
+            "Body": "時間序列圖"
+        },
+        {
             "Language": "ja",
             "Body": "時系列チャート"
         },

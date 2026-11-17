@@ -10,6 +10,10 @@
             "Body": "允许视图重置"
         },
         {
+            "Language": "zh_tw",
+            "Body": "允許檢視重設"
+        },
+        {
             "Language": "ja",
             "Body": "ビューのリセットを許可"
         },

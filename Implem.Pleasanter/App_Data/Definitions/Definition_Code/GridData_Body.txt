@@ -125,8 +125,13 @@
             SiteSettings ss,
             string idColumn,
             List<DataRow> dataRows,
-            string tableAlias = null)
+            string tableAlias = null,
+            bool sitePackage = false)
         {
+            var allColumns = sitePackage
+                && context.CanManageSite(
+                    ss: ss,
+                    site: true);
             IExportModel exportModel = null;
             switch (ss.ReferenceType)
             {
@@ -138,12 +143,14 @@
                 context: context,
                 ss: ss,
                 exportModel: exportModel,
-                dataRows: dataRows);
+                dataRows: dataRows,
+                sitePackage: sitePackage);
             SetSources(
                 context: context,
                 ss: ss,
                 exportModel: exportModel,
-                dataRows: dataRows);
+                dataRows: dataRows,
+                sitePackage: sitePackage);
             return exportModel;
         }
     }

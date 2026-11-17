@@ -1106,6 +1106,7 @@ namespace Implem.DefinitionAccessor
                     o.Id,
                     En = o.LabelText_en,
                     Zh = o.LabelText_zh,
+                    ZhTw = o.LabelText_zh_tw,
                     Ja = o.LabelText,
                     De = o.LabelText_de,
                     Ko = o.LabelText_ko,
@@ -1119,6 +1120,7 @@ namespace Implem.DefinitionAccessor
                         Id = o.TableName,
                         En = o.TableName,
                         Zh = o.TableName,
+                        ZhTw = o.TableName,
                         Ja = o.Label,
                         De = o.TableName,
                         Ko = o.TableName,
@@ -1141,6 +1143,11 @@ namespace Implem.DefinitionAccessor
                             {
                                 Language = "zh",
                                 Body = o.Zh
+                            },
+                            new DisplayElement
+                            {
+                                Language = "zh_tw",
+                                Body = o.ZhTw
                             },
                             new DisplayElement
                             {

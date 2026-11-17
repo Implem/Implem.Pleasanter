@@ -16,6 +16,7 @@
     "ControlType": "MarkDown",
     "LabelText_en": "Grid guide",
     "LabelText_zh": "网格定向",
+    "LabelText_zh_tw": "清單指南",
     "LabelText_de": "Rasterleitfaden",
     "LabelText_ko": "그리드 가이드",
     "LabelText_es": "Guía de la cuadrícula",

@@ -10,6 +10,10 @@
             "Body": "锁定表格"
         },
         {
+            "Language": "zh_tw",
+            "Body": "鎖定表格"
+        },
+        {
             "Language": "ja",
             "Body": "テーブルをロック"
         },

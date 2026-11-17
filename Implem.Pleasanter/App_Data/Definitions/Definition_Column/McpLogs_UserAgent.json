@@ -22,6 +22,7 @@
     "FieldCss": "field-wide",
     "LabelText_en": "User Agent",
     "LabelText_zh": "用户代理",
+    "LabelText_zh_tw": "使用者代理",
     "LabelText_de": "Benutzer-Agent",
     "LabelText_ko": "사용자 에이전트",
     "LabelText_es": "Agente de usuario",

@@ -11,6 +11,10 @@
             "Body": "删除"
         },
         {
+            "Language": "zh_tw",
+            "Body": "刪除"
+        },
+        {
             "Language": "ja",
             "Body": "削除"
         },

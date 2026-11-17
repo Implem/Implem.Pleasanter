@@ -16,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         IHostApplicationLifetime hostApplicationLifetime) : BackgroundService
     {
         private static readonly IScheduler scheduler;
+        private readonly QuartzSchedulerErrorListener errorListener = new(logger);
 
         static CustomQuartzHostedService()
         {
@@ -36,13 +37,17 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             {
                 return;
             }
+            scheduler.ListenerManager.AddSchedulerListener(errorListener);
             try
             {
                 await new TimerBackground().InitAsync();
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Timer Schedule Registration Failed");
+                errorListener.TryWriteSysLog(
+                    method: nameof(TimerBackground) + ":" + nameof(TimerBackground.InitAsync),
+                    message: "Timer Schedule Registration Failed",
+                    exception: ex);
             }
             try
             {
@@ -50,7 +55,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Background Server Script Schedule Registration Failed");
+                errorListener.TryWriteSysLog(
+                    method: nameof(BackgroundServerScriptUtilities)
+                        + ":" + nameof(BackgroundServerScriptUtilities.InitScheduleAsync),
+                    message: "Background Server Script Schedule Registration Failed",
+                    exception: ex);
             }
             try
             {
@@ -62,7 +71,10 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             }
             catch (Exception ex)
             {
-                logger.LogCritical(ex, "Quartz Scheduler Failed To Start");
+                errorListener.TryWriteSysLog(
+                    method: nameof(IScheduler.Start),
+                    message: "Quartz Scheduler Failed To Start",
+                    exception: ex);
                 hostApplicationLifetime.StopApplication();
             }
         }

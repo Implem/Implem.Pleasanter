@@ -26,9 +26,16 @@ namespace Implem.Pleasanter.Libraries.Models
             var param = view.Param(
                 context: context,
                 ss: ss);
+            var aggregations = ss.ReferenceType == "SysLogs"
+                ? ss.Aggregations
+                    ?.Where(o => o.GroupBy == "[NotGroupBy]"
+                        || (o.GroupBy != null && ss.ColumnHash.ContainsKey(o.GroupBy)))
+                    .ToList()
+                : ss.Aggregations;
             Set(
                 context: context,
                 ss: ss,
+                aggregations: aggregations,
                 dataSet: Repository.ExecuteDataSet(
                     context: context,
                     statements: Rds.Aggregations(
@@ -46,9 +53,10 @@ namespace Implem.Pleasanter.Libraries.Models
         private void Set(
             Context context,
             SiteSettings ss,
+            List<Aggregation> aggregations,
             DataSet dataSet)
         {
-            AggregationCollection = ss.Aggregations;
+            AggregationCollection = aggregations;
             TotalCount = Rds.Count(dataSet);
             if (dataSet.Tables.Contains("OverdueCount") &&
                 dataSet.Tables["OverdueCount"].Rows.Count == 1)

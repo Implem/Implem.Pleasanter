@@ -26,6 +26,7 @@
     "ChoicesText": "ロック\n－",
     "LabelText_en": "Locked out",
     "LabelText_zh": "已被锁定",
+    "LabelText_zh_tw": "已被鎖定",
     "LabelText_de": "Gesperrt",
     "LabelText_ko": "잠김",
     "LabelText_es": "Bloqueado",

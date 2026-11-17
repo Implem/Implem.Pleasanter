@@ -8162,6 +8162,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                             elementDict.TryGetValue("ko", out var ko);
                             elementDict.TryGetValue("es", out var es);
                             elementDict.TryGetValue("vn", out var vn);
+                            elementDict.TryGetValue("zh_tw", out var zhTw);
                             if (elements.Any(elem => !elem.LabelText.IsNullOrEmpty()))
                             {
                                 var body = new ListColumn();
@@ -8176,6 +8177,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                     ko: ko,
                                     es: es,
                                     vn: vn,
+                                    zhTw: zhTw,
                                     valueSelector: (elem) => elem?.LabelText,
                                     defaultValueSelector: (col) => col.LabelText);
                                 table.Columns.Add(body);
@@ -8194,6 +8196,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                     ko: ko,
                                     es: es,
                                     vn: vn,
+                                    zhTw: zhTw,
                                     valueSelector: (elem) => elem?.Description,
                                     defaultValueSelector: (col) => col.Description);
                                 table.Columns.Add(description);
@@ -8212,6 +8215,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                     ko: ko,
                                     es: es,
                                     vn: vn,
+                                    zhTw: zhTw,
                                     valueSelector: (elem) => elem?.InputGuide,
                                     defaultValueSelector: (col) => col.InputGuide);
                                 table.Columns.Add(inputGuide);
@@ -8233,6 +8237,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     public string Ko;
                     public string Es;
                     public string Vn;
+                    public string ZhTw;
 
                     internal static void SetData(
                         ListColumn dst,
@@ -8245,6 +8250,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                         DisplayAccessor.DisplayElement ko,
                         DisplayAccessor.DisplayElement es,
                         DisplayAccessor.DisplayElement vn,
+                        DisplayAccessor.DisplayElement zhTw,
                         Func<DisplayAccessor.DisplayElement, string> valueSelector,
                         Func<Column, string> defaultValueSelector)
                     {
@@ -8258,6 +8264,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                         dst.Ko = valueSelector(ko);
                         dst.Es = valueSelector(es);
                         dst.Vn = valueSelector(vn);
+                        dst.ZhTw = valueSelector(zhTw);
                     }
 
                     internal static List2TableHeader CreateHeaderModel(Context context)
@@ -8276,6 +8283,7 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                                 new (){Key="Ko",Text="Korean"},
                                 new (){Key="Es",Text="Spanish"},
                                 new (){Key="Vn",Text="Vietnamese"},
+                                new (){Key="ZhTw",Text="Traditional Chinese"},
                             }
                         };
                     }

@@ -1,0 +1,37 @@
+﻿{
+    "Id": "SearchByTenantId",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Search by Tenant ID"
+        },
+        {
+            "Language": "zh",
+            "Body": "按租户ID搜索"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "按租戶ID搜尋"
+        },
+        {
+            "Language": "ja",
+            "Body": "テナントIDで検索"
+        },
+        {
+            "Language": "de",
+            "Body": "Suche nach Mandanten-ID"
+        },
+        {
+            "Language": "ko",
+            "Body": "테넌트 ID로 검색"
+        },
+        {
+            "Language": "es",
+            "Body": "Buscar por ID de arrendatario"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tìm kiếm theo ID Người thuê"
+        }
+    ]
+}

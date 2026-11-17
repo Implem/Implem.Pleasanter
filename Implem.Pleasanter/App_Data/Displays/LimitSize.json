@@ -10,6 +10,10 @@
             "Body": "大小限制(MB)"
         },
         {
+            "Language": "zh_tw",
+            "Body": "大小限制(MB)"
+        },
+        {
             "Language": "ja",
             "Body": "容量制限(MB)"
         },

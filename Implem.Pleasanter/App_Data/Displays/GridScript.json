@@ -10,6 +10,10 @@
             "Body": "网格脚本"
         },
         {
+            "Language": "zh_tw",
+            "Body": "清單指令碼"
+        },
+        {
             "Language": "ja",
             "Body": "一覧画面スクリプト"
         },

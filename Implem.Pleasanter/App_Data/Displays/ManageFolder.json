@@ -10,6 +10,10 @@
             "Body": "管理文件夹"
         },
         {
+            "Language": "zh_tw",
+            "Body": "管理資料夾"
+        },
+        {
             "Language": "ja",
             "Body": "フォルダの管理"
         },

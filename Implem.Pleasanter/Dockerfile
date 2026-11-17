@@ -25,11 +25,15 @@ COPY Rds/Implem.PostgreSql/Implem.PostgreSql.csproj Rds/Implem.PostgreSql/
 COPY Rds/Implem.SqlServer/Implem.SqlServer.csproj Rds/Implem.SqlServer/
 COPY Rds/Implem.MySql/Implem.MySql.csproj Rds/Implem.MySql/
 COPY Implem.PleasanterFrontend/Implem.PleasanterFrontend.csproj Implem.PleasanterFrontend/
-RUN dotnet restore "Implem.Pleasanter/Implem.Pleasanter.csproj"
+# コンテナの RID (linux-x64 / linux-arm64) だけを対象に restore / build / publish する。
+# RID を指定しないと、NuGet パッケージのネイティブ資産 (SkiaSharp など) が全 RID 分 runtimes/ に出力される。
+# ベースイメージの .NET ランタイムを使う framework-dependent のままにする (SelfContained=false)。
+# dotnet restore には --self-contained がないため -p:SelfContained=false で指定する。
+RUN dotnet restore "Implem.Pleasanter/Implem.Pleasanter.csproj" --use-current-runtime -p:SelfContained=false
 COPY . .
 WORKDIR "/src/Implem.Pleasanter"
-RUN dotnet build "Implem.Pleasanter.csproj" -c Release -o /app/build  -p:SkipBuildTask=true \
- && dotnet publish "Implem.Pleasanter.csproj" -c Release -o /app/publish -p:SkipBuildTask=true
+RUN dotnet build "Implem.Pleasanter.csproj" -c Release -o /app/build  -p:SkipBuildTask=true --use-current-runtime --self-contained false \
+ && dotnet publish "Implem.Pleasanter.csproj" -c Release -o /app/publish -p:SkipBuildTask=true --use-current-runtime --self-contained false
 
 FROM build AS publish
 RUN apt-get update && apt-get install -y \

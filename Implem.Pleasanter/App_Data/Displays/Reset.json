@@ -10,6 +10,10 @@
             "Body": "重置"
         },
         {
+            "Language": "zh_tw",
+            "Body": "重設"
+        },
+        {
             "Language": "ja",
             "Body": "リセット"
         },

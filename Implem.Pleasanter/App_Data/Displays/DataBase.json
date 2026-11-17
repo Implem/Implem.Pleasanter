@@ -10,6 +10,10 @@
             "Body": "数据库"
         },
         {
+            "Language": "zh_tw",
+            "Body": "資料庫"
+        },
+        {
             "Language": "ja",
             "Body": "データベース"
         },

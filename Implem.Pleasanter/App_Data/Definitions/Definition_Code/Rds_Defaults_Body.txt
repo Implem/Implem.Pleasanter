@@ -34,6 +34,7 @@ public static #TableName#WhereCollection #TableName#WhereDefault(
     return #TableName#Where()
 
 <!--Rds_Where_TenantId-->
+<!--Rds_Where_McpLogsTenantId-->
 <!--Rds_WherePk--><!--Rds_WherePkSemicolon-->
 <!--Rds_Where_SiteId-->
 <!--Rds_Where_ItemId-->
@@ -49,6 +50,7 @@ public static #TableName#ParamCollection #TableName#ParamDefault(
     var param = #TableName#Param()
 
 <!--Rds_ParamDefault_TenantId-->
+<!--Rds_ParamDefault_UserHostAddress-->
 <!--Rds_ParamItemId-->
 <!--Rds_ParamDefault-->;
 

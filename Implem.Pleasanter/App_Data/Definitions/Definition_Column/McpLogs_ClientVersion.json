@@ -15,6 +15,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Client Version",
     "LabelText_zh": "客户端版本",
+    "LabelText_zh_tw": "客戶端版本",
     "LabelText_de": "Clientversion",
     "LabelText_ko": "클라이언트 버전",
     "LabelText_es": "Versión del cliente",

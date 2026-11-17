@@ -75,8 +75,8 @@ markdown-field {
         outline: none;
         &.control-markdown,
         &.control-textarea {
-            resize: none;
             field-sizing: content;
+            resize: none;
 
             &[data-viewer-type='disabled'] {
                 resize: vertical;

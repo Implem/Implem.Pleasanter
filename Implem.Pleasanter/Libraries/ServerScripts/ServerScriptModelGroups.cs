@@ -3,16 +3,25 @@ using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Collections.Generic;
 
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelGroups
     {
         private readonly Context Context;
+        private HashSet<string> ReadableColumnNames;
 
         public ServerScriptModelGroups(Context context)
         {
             Context = context;
+        }
+
+        private HashSet<string> GetReadableColumnNames()
+        {
+            return ReadableColumnNames ??= ServerScriptUtilities.ReadableColumnNames(
+                context: Context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: Context));
         }
 
         public ServerScriptModelGroupModel Get(object id)
@@ -21,16 +30,20 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: Context,
                 tenantId: Context.TenantId,
                 groupId: id.ToInt());
-            var groupModel = group.Id > 0
-                ? new ServerScriptModelGroupModel(
-                    context: Context,
-                    tenantId: group.TenantId,
-                    groupId: group.Id,
-                    groupName: group.Name,
-                    body: group.Body,
-                    disabled: group.Disabled,
-                    extras: group.Extras)
-                : null;
+            if (group.Id <= 0)
+            {
+                return null;
+            }
+            var readableColumnNames = GetReadableColumnNames();
+            var groupModel = new ServerScriptModelGroupModel(
+                context: Context,
+                tenantId: group.TenantId,
+                groupId: group.Id,
+                groupName: group.Name,
+                body: group.Body,
+                disabled: group.Disabled,
+                extras: group.Extras,
+                readableColumnNames: readableColumnNames);
             return groupModel;
         }
 

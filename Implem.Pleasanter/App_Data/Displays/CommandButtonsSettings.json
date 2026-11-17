@@ -10,6 +10,10 @@
             "Body": "命令按钮设置"
         },
         {
+            "Language": "zh_tw",
+            "Body": "命令按鈕設定"
+        },
+        {
             "Language": "ja",
             "Body": "コマンドボタンの設定"
         },

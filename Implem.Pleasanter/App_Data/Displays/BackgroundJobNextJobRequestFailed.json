@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Failed to request next job execution for {0} item(s)." },
         { "Language": "zh", "Body": "无法请求执行 {0} 个项目的下一个作业。" },
+        {
+            "Language": "zh_tw",
+            "Body": "無法請求執行 {0} 個項目的下一個作業。"
+        },
         { "Language": "ja", "Body": "{0} 件 次のジョブの実行要求に失敗しました。" },
         { "Language": "de", "Body": "Anforderung zur Ausführung des nächsten Jobs für {0} Element(e) fehlgeschlagen." },
         { "Language": "ko", "Body": "{0}개 항목의 다음 작업 실행 요청에 실패했습니다." },

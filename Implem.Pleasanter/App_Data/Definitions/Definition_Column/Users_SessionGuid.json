@@ -15,6 +15,7 @@
     "NotUpdate": "1",
     "LabelText_en": "Session GUID",
     "LabelText_zh": "会话GUID",
+    "LabelText_zh_tw": "會話GUID",
     "LabelText_de": "Sitzungs-GUID",
     "LabelText_ko": "세션 GUID",
     "LabelText_es": "GUID de sesión",

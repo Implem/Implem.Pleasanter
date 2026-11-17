@@ -62,6 +62,10 @@ namespace Implem.Pleasanter.Filters
             }
             context.TenantId = validation.TenantId;
             context.UserId = validation.UserId;
+            context.ContractSettings.SetExtendedColumns(
+                contractSettings: TenantUtilities.GetExtendedColumnsContractSettings(
+                    context: context,
+                    tenantId: validation.TenantId));
             if (!SiteInfo.TenantCaches.ContainsKey(validation.TenantId))
             {
                 SiteInfo.TenantCaches.TryAdd(

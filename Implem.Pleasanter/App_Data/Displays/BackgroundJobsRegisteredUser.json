@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Registered User" },
         { "Language": "zh", "Body": "注册用户" },
+        {
+            "Language": "zh_tw",
+            "Body": "註冊使用者"
+        },
         { "Language": "ja", "Body": "登録ユーザ" },
         { "Language": "de", "Body": "Registrierter Benutzer" },
         { "Language": "ko", "Body": "등록 사용자" },

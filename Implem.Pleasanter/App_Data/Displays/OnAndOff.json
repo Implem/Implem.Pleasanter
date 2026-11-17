@@ -10,6 +10,10 @@
             "Body": "开启和关闭"
         },
         {
+            "Language": "zh_tw",
+            "Body": "開啟和關閉"
+        },
+        {
             "Language": "ja",
             "Body": "オンとオフ"
         },

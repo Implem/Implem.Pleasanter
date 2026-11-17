@@ -73,6 +73,10 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     }
                     break;
             }
+            tableIndexCollection.AddRange(QuartzIndexes.Definitions(
+                factory: factory,
+                sourceTableName: sourceTableName,
+                tableType: tableType));
             return tableIndexCollection;
         }
 
@@ -98,7 +102,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                             o.ColumnName, o.Pk, o.PkOrderBy))
                         .ToList()));
             }
-            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix1 > 0))
+            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix1 > 0 && !o.LowSchemaVersion()))
             {
                 tableIndexCollection.Add(new IndexInfo(
                     factory: factory,
@@ -108,11 +112,12 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
                         .Where(o => o.Ix1 > 0)
+                        .Where(o => !o.LowSchemaVersion())
                         .OrderBy(o => o.Ix1)
                         .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix1, o.Ix1OrderBy, o.Unique))
                         .ToList()));
             }
-            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix2 > 0))
+            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix2 > 0 && !o.LowSchemaVersion()))
             {
                 tableIndexCollection.Add(new IndexInfo(
                     factory: factory,
@@ -122,11 +127,12 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
                         .Where(o => o.Ix2 > 0)
+                        .Where(o => !o.LowSchemaVersion())
                         .OrderBy(o => o.Ix2)
                         .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix2, o.Ix2OrderBy, o.Unique))
                         .ToList()));
             }
-            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix3 > 0))
+            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix3 > 0 && !o.LowSchemaVersion()))
             {
                 tableIndexCollection.Add(new IndexInfo(
                     factory: factory,
@@ -136,11 +142,12 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
                         .Where(o => o.Ix3 > 0)
+                        .Where(o => !o.LowSchemaVersion())
                         .OrderBy(o => o.Ix3)
                         .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix3, o.Ix3OrderBy, o.Unique))
                         .ToList()));
             }
-            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix4 > 0))
+            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix4 > 0 && !o.LowSchemaVersion()))
             {
                 tableIndexCollection.Add(new IndexInfo(
                     factory: factory,
@@ -150,11 +157,12 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
                         .Where(o => o.Ix4 > 0)
+                        .Where(o => !o.LowSchemaVersion())
                         .OrderBy(o => o.Ix4)
                         .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix4, o.Ix4OrderBy, o.Unique))
                         .ToList()));
             }
-            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix5 > 0))
+            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix5 > 0 && !o.LowSchemaVersion()))
             {
                 tableIndexCollection.Add(new IndexInfo(
                     factory: factory,
@@ -164,6 +172,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
                         .Where(o => o.Ix5 > 0)
+                        .Where(o => !o.LowSchemaVersion())
                         .OrderBy(o => o.Ix5)
                         .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix5, o.Ix5OrderBy, o.Unique))
                         .ToList()));
@@ -230,6 +239,14 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string sourceTableName,
             Sqls.TableTypes tableType)
         {
+            if (QuartzIndexes.HasChangesPrimaryKey(
+                factory: factory,
+                generalTableName: generalTableName,
+                sourceTableName: sourceTableName,
+                tableType: tableType))
+            {
+                return true;
+            }
             switch (Parameters.Rds.Dbms)
             {
                 case "SQLServer":
@@ -275,7 +292,14 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 dbIndexColumnCollection = dbIndexColumnCollection.Where(o => !Check_FullTextIndex(o));
             }
-            return defIndexInfoCollection.Join(",") != dbIndexColumnCollection.Join(",");
+            var missingQuartzIndexNames = QuartzIndexes.MissingIndexNames(
+                factory: factory,
+                sourceTableName: sourceTableName,
+                tableType: tableType,
+                existingNames: dbIndexColumnCollection);
+            return defIndexInfoCollection
+                .Where(name => !missingQuartzIndexNames.Contains(name))
+                .Join(",") != dbIndexColumnCollection.Join(",");
         }
 
         private static bool Check_FullTextIndex(string indexName)
@@ -350,9 +374,15 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
             IndexInfo tableIndex)
         {
-            sqlStatement.CommandText += Def.Sql.CreateIx
+            sqlStatement.CommandText += CreateIxSql(tableIndex);
+        }
+
+        internal static string CreateIxSql(IndexInfo tableIndex)
+        {
+            return Def.Sql.CreateIx
                 .Replace("#IxName#", tableIndex.IndexName())
-                .Replace("#IxColumns#", Sql_CreateIx(sourceTableName, tableIndex, columnDefinitionCollection))
+                .Replace("#IxColumns#", Sql_CreateIx(
+                    tableIndex.TableName, tableIndex, new List<ColumnDefinition>()))
                 .Replace("#Unique#", Sql_CreateIxUnique(tableIndex));
         }
 

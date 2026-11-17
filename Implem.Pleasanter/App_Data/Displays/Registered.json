@@ -6,8 +6,12 @@
             "Body": "\" {0} \" has been registered."
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "\" {0} \"已注册。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "\" {0} \"已註冊。"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "\" {0} \" ha sido registrado."
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "\" {0} \" đã được đăng ký."
         }
     ]

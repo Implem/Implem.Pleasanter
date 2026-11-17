@@ -13,6 +13,7 @@
     "EditorFormat": "Ymdhms",
     "LabelText_en": "Job Enqueued Time",
     "LabelText_zh": "作业入队时间",
+    "LabelText_zh_tw": "作業入隊時間",
     "LabelText_de": "Auftragseinreihungszeit",
     "LabelText_ko": "작업 등록 일시",
     "LabelText_es": "Hora de registro del trabajo",

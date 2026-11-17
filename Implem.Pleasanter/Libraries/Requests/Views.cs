@@ -19,6 +19,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                 : null;
             if (view != null)
             {
+                McpLogGridPolicy.ApplyDefaultStartTimeRange(
+                    context: context,
+                    ss: ss,
+                    view: view);
                 SetSession(
                     context: context,
                     ss: ss,
@@ -66,6 +70,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                         view.ColumnSorterHash = prevView.ColumnSorterHash;
                     }
                 }
+                McpLogGridPolicy.ApplyDefaultStartTimeRange(
+                    context: context,
+                    ss: ss,
+                    view: view);
                 SetSession(
                     context: context,
                     ss: ss,
@@ -84,6 +92,10 @@ namespace Implem.Pleasanter.Libraries.Requests
             view.SetByForm(
                 context: context,
                 ss: ss);
+            McpLogGridPolicy.ApplyDefaultStartTimeRange(
+                context: context,
+                ss: ss,
+                view: view);
             SetSession(
                 context: context,
                 ss: ss,
@@ -208,7 +220,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             string key = "View",
             bool useUsersView = false)
         {
-            if (setSession)
+            if (setSession && !context.IsBackgroundJob)
             {
                 SessionUtilities.Set(
                     context: context,

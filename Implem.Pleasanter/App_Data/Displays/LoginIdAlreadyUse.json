@@ -10,6 +10,10 @@
             "Body": "此登录ID正在被使用。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "此登入ID正在被使用。"
+        },
+        {
             "Language": "ja",
             "Body": "このログインIDは既に使用中です"
         },

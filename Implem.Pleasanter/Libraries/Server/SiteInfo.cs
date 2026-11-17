@@ -688,7 +688,8 @@ namespace Implem.Pleasanter.Libraries.Server
         }
 
         private static string SsCacheKey(Context context, bool setAllChoices, long? siteId = null)
-            => $"{siteId ?? context.SiteId}_{context.UserId}_setAllChoices:{setAllChoices}";
+            => $"{siteId ?? context.SiteId}_{context.UserId}_setAllChoices:{setAllChoices}"
+                + $"_extendedColumns:{context.ContractSettings.ExtendedColumns()}";
 
         public static SiteSettings GetSsCache(Context context, SiteModel siteModel, bool ssCache, bool setAllChoices = false)
         {

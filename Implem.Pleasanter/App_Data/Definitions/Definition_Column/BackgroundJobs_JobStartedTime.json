@@ -11,6 +11,7 @@
     "Nullable": "1",
     "LabelText_en": "Job Started Time",
     "LabelText_zh": "作业开始时间",
+    "LabelText_zh_tw": "作業開始時間",
     "LabelText_de": "Auftragsstartzeitpunkt",
     "LabelText_ko": "작업 시작 일시",
     "LabelText_es": "Hora de inicio del trabajo",

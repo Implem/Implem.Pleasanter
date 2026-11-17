@@ -10,6 +10,10 @@
             "Body": "图像和文本"
         },
         {
+            "Language": "zh_tw",
+            "Body": "影像和文字"
+        },
+        {
             "Language": "ja",
             "Body": "画像とテキスト"
         },

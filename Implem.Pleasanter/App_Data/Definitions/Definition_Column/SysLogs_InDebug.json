@@ -15,6 +15,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Debug flag",
     "LabelText_zh": "调试标记",
+    "LabelText_zh_tw": "除錯標記",
     "LabelText_de": "Debug-Flag",
     "LabelText_ko": "디버그 플래그",
     "LabelText_es": "Indicador de depuración",

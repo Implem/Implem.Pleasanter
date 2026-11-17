@@ -10,6 +10,10 @@
             "Body": "文件数量限制"
         },
         {
+            "Language": "zh_tw",
+            "Body": "檔案數量限制"
+        },
+        {
             "Language": "ja",
             "Body": "ファイル数制限"
         },

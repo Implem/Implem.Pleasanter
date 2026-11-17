@@ -10,6 +10,10 @@
             "Body": "{0}个月后"
         },
         {
+            "Language": "zh_tw",
+            "Body": "{0}個月後"
+        },
+        {
             "Language": "ja",
             "Body": "{0} ヶ月後"
         },

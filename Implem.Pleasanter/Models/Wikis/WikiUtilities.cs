@@ -479,6 +479,14 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                 }
+                if (!column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: wikiModel.Mine(context: context),
+                    noCache: true))
+                {
+                    value = string.Empty;
+                }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
             return hb.Td(
@@ -575,7 +583,15 @@ namespace Implem.Pleasanter.Models
                     parentId: ss.ParentId,
                     referenceType: "Wikis",
                     title: displayTitle,
-                    body: wikiModel.Body,
+                    body: ss.GetColumn(
+                        context: context,
+                        columnName: "Body")?.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: wikiModel.Mine(context: context),
+                            noCache: true) != false
+                                ? wikiModel.Body
+                                : null,
                     useTitle: ss.TitleColumns?.Any(o => ss
                         .GetEditorColumnNames()
                         .Contains(o)) == true,
@@ -1943,6 +1959,11 @@ namespace Implem.Pleasanter.Models
                 wikiModel: wikiModel,
                 api: true);
             if (invalid.Type != Error.Types.None) return invalid;
+            var imageErrorData = BinaryUtilities.ValidateImagesByApi(
+                context: context,
+                ss: ss,
+                postedFileHash: wikiModel.PostedImageHash);
+            if (imageErrorData.Type != Error.Types.None) return imageErrorData;
             wikiModel.SiteId = ss.SiteId;
             wikiModel.SetTitle(
                 context: context,
@@ -2285,6 +2306,11 @@ namespace Implem.Pleasanter.Models
                 wikiModel: wikiModel,
                 api: true);
             if (invalid.Type != Error.Types.None) return invalid;
+            var imageErrorData = BinaryUtilities.ValidateImagesByApi(
+                context: context,
+                ss: ss,
+                postedFileHash: wikiModel.PostedImageHash);
+            if (imageErrorData.Type != Error.Types.None) return imageErrorData;
             wikiModel.SiteId = ss.SiteId;
             wikiModel.SetTitle(
                 context: context,

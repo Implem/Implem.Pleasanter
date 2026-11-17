@@ -10,6 +10,10 @@
             "Body": "以 JSON 格式导出注释"
         },
         {
+            "Language": "zh_tw",
+            "Body": "以 JSON 格式匯出註釋"
+        },
+        {
             "Language": "ja",
             "Body": "コメントをJSON形式でエクスポートする"
         },

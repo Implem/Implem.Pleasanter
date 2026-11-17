@@ -20,6 +20,7 @@
     "Calc": "new Title(McpLogId, McpLogId.ToString())",
     "LabelText_en": "Title",
     "LabelText_zh": "标题",
+    "LabelText_zh_tw": "標題",
     "LabelText_de": "Titel",
     "LabelText_ko": "제목",
     "LabelText_es": "Título",

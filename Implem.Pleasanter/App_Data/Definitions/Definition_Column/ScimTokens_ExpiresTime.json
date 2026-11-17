@@ -9,5 +9,6 @@
     "TypeName": "datetime",
     "Nullable": "1",
     "LabelText_en": "Expires time",
-    "LabelText_zh": "过期时间"
+    "LabelText_zh": "过期时间",
+    "LabelText_zh_tw": "過期時間"
 }

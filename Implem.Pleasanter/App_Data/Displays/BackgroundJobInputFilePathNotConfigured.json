@@ -10,6 +10,10 @@
             "Body": "未配置输入路径(InputFilePath)。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "尚未設定輸入路徑(InputFilePath)。"
+        },
+        {
             "Language": "ja",
             "Body": "入力パス(InputFilePath)が設定されていません。"
         },

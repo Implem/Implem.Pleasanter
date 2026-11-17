@@ -10,6 +10,10 @@
             "Body": "请勿继承许可"
         },
         {
+            "Language": "zh_tw",
+            "Body": "請勿繼承許可"
+        },
+        {
             "Language": "ja",
             "Body": "アクセス権を継承しない"
         },

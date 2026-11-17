@@ -10,6 +10,10 @@
             "Body": "最多可以附加{0}MB文件。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "最多可以附加{0}MB檔案。"
+        },
+        {
             "Language": "ja",
             "Body": "添付可能な容量は{0}Mbyteまでです。"
         },

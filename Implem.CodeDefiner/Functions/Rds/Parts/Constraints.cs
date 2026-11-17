@@ -3,14 +3,18 @@ using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 namespace Implem.CodeDefiner.Functions.Rds.Parts
 {
     internal static class Constraints
     {
+        internal const string DecimalFormat = "0.############################";
+
         internal static EnumerableRowCollection<DataRow> Get(ISqlObjectFactory factory, string sourceTableName)
         {
             return Def.SqlIoByAdmin(factory).ExecuteTable(
@@ -26,18 +30,81 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string sourceTableName,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            return
-                columnDefinitionCollection
-                    .Where(o => !o.Default.IsNullOrEmpty())
-                    .Where(o => !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver"))
-                    .OrderBy(o => o.ColumnName)
-                    .Select(o => o.ColumnName + "," + DefaultDefinition(factory: factory, columnDefinition: o))
-                    .JoinReturn() !=
-                Get(factory: factory, sourceTableName: sourceTableName)
-                    .Where(o => !(sourceTableName.EndsWith("_history") && o["column_name"].ToString() == "Ver"))
-                    .OrderBy(o => o["column_name"])
-                    .Select(o => o["column_name"] + "," + factory.SqlDataType.DefaultDefinition(o))
-                    .JoinReturn();
+            return Differences(
+                factory: factory,
+                sourceTableName: sourceTableName,
+                columnDefinitionCollection: columnDefinitionCollection)
+                    .Any();
+        }
+
+        internal static IEnumerable<string> Differences(
+            ISqlObjectFactory factory,
+            string sourceTableName,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection)
+        {
+            var definitionDefaults = columnDefinitionCollection
+                .Where(o => !o.Default.IsNullOrEmpty())
+                .Where(o => !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver"))
+                .Select(o => o.ColumnName + "," + NormalizedDefault(
+                    factory: factory,
+                    typeName: o.TypeName,
+                    value: o.Default))
+                .ToList();
+            var rdsDefaults = Get(factory: factory, sourceTableName: sourceTableName)
+                .Where(o => !(sourceTableName.EndsWith("_history") && o["column_name"].ToString() == "Ver"))
+                .Select(o => o["column_name"] + "," + NormalizedDefault(
+                    factory: factory,
+                    typeName: columnDefinitionCollection
+                        .FirstOrDefault(columnDefinition =>
+                            columnDefinition.ColumnName == o["column_name"].ToString())
+                        ?.TypeName,
+                    value: factory.SqlDataType.DefaultValue(o)))
+                .ToList();
+            return definitionDefaults
+                .Except(rdsDefaults)
+                .Select(o => $"definition: {o}")
+                .Concat(rdsDefaults
+                    .Except(definitionDefaults)
+                    .Select(o => $"database: {o}"))
+                .OrderBy(o => o, StringComparer.Ordinal)
+                .ToList();
+        }
+
+        internal static string NormalizedDefault(
+            ISqlObjectFactory factory,
+            string typeName,
+            string value)
+        {
+            switch (typeName?.CsTypeSummary())
+            {
+                case Types.CsNumeric:
+                    return decimal.TryParse(
+                        value,
+                        NumberStyles.Float,
+                        CultureInfo.InvariantCulture,
+                        out var number)
+                            ? number.ToString(DecimalFormat, CultureInfo.InvariantCulture)
+                            : value;
+                case Types.CsBool:
+                    switch (value.ToLower())
+                    {
+                        case "1":
+                        case "true":
+                            return "1";
+                        case "0":
+                        case "false":
+                            return "0";
+                        default:
+                            return value;
+                    }
+                case Types.CsDateTime:
+                    return value.ToLower() == "now"
+                        || value.ToLower() == factory.Sqls.CurrentDateTime.Trim().ToLower()
+                            ? "now"
+                            : value;
+                default:
+                    return value;
+            }
         }
 
         internal static void CreateDefault(
@@ -97,7 +164,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             switch (columnDefinition.TypeName.CsTypeSummary())
             {
                 case Types.CsString:
-                    return $"'{columnDefinition.Default}'";
+                    return factory.SqlDataType.StringLiteral(columnDefinition.Default);
                 case Types.CsDateTime:
                     if (columnDefinition.Default?.ToLower() == "now")
                     {

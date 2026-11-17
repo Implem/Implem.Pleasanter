@@ -10,6 +10,10 @@
             "Body": "过期"
         },
         {
+            "Language": "zh_tw",
+            "Body": "過期"
+        },
+        {
             "Language": "ja",
             "Body": "期限超過"
         },

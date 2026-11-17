@@ -11,6 +11,10 @@
             "Body": "单元格宽度"
         },
         {
+            "Language": "zh_tw",
+            "Body": "單元格寬度"
+        },
+        {
             "Language": "ja",
             "Body": "セルの横幅"
         },

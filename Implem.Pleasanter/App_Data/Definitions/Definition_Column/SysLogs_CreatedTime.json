@@ -30,6 +30,7 @@
     "DateFilterSetMode": "2",
     "LabelText_en": "Created on",
     "LabelText_zh": "创建时间",
+    "LabelText_zh_tw": "建立時間",
     "LabelText_de": "Erstellt am",
     "LabelText_ko": "생성날짜",
     "LabelText_es": "Creado el",

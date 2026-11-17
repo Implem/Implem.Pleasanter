@@ -19,6 +19,7 @@
     "ControlCss": " not-send",
     "LabelText_en": "Tenant ID",
     "LabelText_zh": "租户ID",
+    "LabelText_zh_tw": "租戶ID",
     "LabelText_de": "Mandanten-ID",
     "LabelText_ko": "테넌트 ID",
     "LabelText_es": "ID del inquilino",

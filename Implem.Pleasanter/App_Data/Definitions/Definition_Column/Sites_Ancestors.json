@@ -18,6 +18,7 @@
     "NotUpdate": "1",
     "LabelText_en": "Host site",
     "LabelText_zh": "主机站点",
+    "LabelText_zh_tw": "上層站點",
     "LabelText_de": "Host-Site",
     "LabelText_ko": "호스트 사이트",
     "LabelText_es": "Sitio de acogida",

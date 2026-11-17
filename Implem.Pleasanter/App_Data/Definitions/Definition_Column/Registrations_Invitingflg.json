@@ -22,6 +22,7 @@
     "ChoicesText": "0,招待中\n1,承認依頼\n2,招待済み",
     "LabelText_en": "Inviting",
     "LabelText_zh": "邀请",
+    "LabelText_zh_tw": "邀請",
     "LabelText_de": "Einladend",
     "LabelText_ko": "초대",
     "LabelText_es": "Atractivo",

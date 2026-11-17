@@ -10,6 +10,10 @@
             "Body": "聚合目标"
         },
         {
+            "Language": "zh_tw",
+            "Body": "彙總目標"
+        },
+        {
             "Language": "ja",
             "Body": "集計対象"
         },

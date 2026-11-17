@@ -11,6 +11,7 @@
     "Nullable": "1",
     "LabelText_en": "Disable permissions for all users",
     "LabelText_zh": "禁用所有用户的许可",
+    "LabelText_zh_tw": "停用所有使用者的許可",
     "LabelText_de": "Berechtigungen für alle Benutzer deaktivieren",
     "LabelText_ko": "모든 사용자의 권한 비활성화",
     "LabelText_es": "Desactivar permisos para todos los usuarios",

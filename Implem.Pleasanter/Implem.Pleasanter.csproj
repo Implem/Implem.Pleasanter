@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.5.9.1</AssemblyVersion>
-    <FileVersion>1.5.9.1</FileVersion>
-    <Version>1.5.9.1</Version>
+    <AssemblyVersion>1.5.10.0</AssemblyVersion>
+    <FileVersion>1.5.10.0</FileVersion>
+    <Version>1.5.10.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -43,6 +43,7 @@
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.5.3" />
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.6.3" />
     <PackageReference Include="Azure.Identity" Version="1.21.0" />
+    <PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.10.2" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.29.1" />
     <PackageReference Include="ClosedXML" Version="0.97.0" />
     <PackageReference Include="DiffMatchPatch" Version="5.0.0" />
@@ -80,13 +81,16 @@
     <PackageReference Include="Quartz.AspNetCore" Version="3.19.1" />
     <PackageReference Include="Otp.NET" Version="1.4.1" />
     <PackageReference Include="Quartz.Serialization.Json" Version="3.19.1" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+    <PackageReference Include="SkiaSharp" Version="4.153.1" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="4.153.1" />
     <PackageReference Include="StackExchange.Redis" Version="2.13.1" />
     <PackageReference Include="Sustainsys.Saml2" Version="2.11.0" />
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.11.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.7" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="10.0.10" />
     <PackageReference Include="System.DirectoryServices" Version="10.0.10" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -212,26 +216,17 @@
     </None>
   </ItemGroup>
 
-  <Target Name="RefreshFrontendStaticWebAssets"
-          Condition="Exists('$(MSBuildProjectDirectory)/wwwroot/assets')"
-          BeforeTargets="ResolveProjectStaticWebAssets"
-          DependsOnTargets="ResolveProjectReferences">
+  <Target Name="RefreshFrontendStaticWebAssets" Condition="Exists('$(MSBuildProjectDirectory)/wwwroot/assets')" BeforeTargets="ResolveProjectStaticWebAssets" DependsOnTargets="ResolveProjectReferences">
     <PropertyGroup>
       <_FrontendAssetDir>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/wwwroot/assets'))</_FrontendAssetDir>
     </PropertyGroup>
     <ItemGroup>
-      <_AssetContent Include="@(Content)"
-                     Condition="$([System.String]::Copy('%(FullPath)').StartsWith('$(_FrontendAssetDir)'))" />
+      <_AssetContent Include="@(Content)" Condition="$([System.String]::Copy('%(FullPath)').StartsWith('$(_FrontendAssetDir)'))" />
       <_DroppedAssetContent Include="@(_AssetContent)" Condition="!Exists('%(FullPath)')" />
       <Content Remove="@(_DroppedAssetContent)" />
-      <Content Include="wwwroot/assets/**"
-               Exclude="@(Content);$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"
-               ExcludeFromSingleFile="true"
-               CopyToPublishDirectory="PreserveNewest" />
+      <Content Include="wwwroot/assets/**" Exclude="@(Content);$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" ExcludeFromSingleFile="true" CopyToPublishDirectory="PreserveNewest" />
     </ItemGroup>
-    <Message Text="[frontend] refreshed static web assets (dropped @(_DroppedAssetContent->Count()))"
-             Importance="high"
-             Condition="'@(_DroppedAssetContent)' != ''" />
+    <Message Text="[frontend] refreshed static web assets (dropped @(_DroppedAssetContent-&gt;Count()))" Importance="high" Condition="'@(_DroppedAssetContent)' != ''" />
   </Target>
 
 </Project>

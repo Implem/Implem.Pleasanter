@@ -1,0 +1,37 @@
+﻿{
+    "Id": "ExtendedColumnsNotAllowed",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "{0} cannot be updated because extended columns are not allowed by your contract."
+        },
+        {
+            "Language": "zh",
+            "Body": "由于合同不允许使用扩展项目，因此无法更新{0}。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "由於合約不允許使用擴充項目，因此無法更新{0}。"
+        },
+        {
+            "Language": "ja",
+            "Body": "項目拡張は契約で許可されていないため、{0} を更新できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} kann nicht aktualisiert werden, da erweiterte Spalten laut Vertrag nicht zulässig sind."
+        },
+        {
+            "Language": "ko",
+            "Body": "확장 항목이 계약에서 허용되지 않으므로 {0}을(를) 업데이트할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se puede actualizar {0} porque las columnas extendidas no están permitidas por su contrato."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể cập nhật {0} vì hợp đồng không cho phép sử dụng cột mở rộng."
+        }
+    ]
+}

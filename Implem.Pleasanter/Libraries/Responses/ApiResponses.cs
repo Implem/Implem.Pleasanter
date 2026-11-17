@@ -34,6 +34,12 @@ namespace Implem.Pleasanter.Libraries.Responses
                 case General.Error.Types.InvalidRequest:
                 case General.Error.Types.HasNotPermission:
                     return Forbidden(context: context);
+                case General.Error.Types.IncorrectFileFormat:
+                case General.Error.Types.TooLargeFile:
+                    return new ApiResponse(
+                        id: context.Id,
+                        statusCode: 400,
+                        message: Displays.Get(context: context, id: errorData.Type.ToString()));
                 case General.Error.Types.OverLimitQuantity:
                     return OverLimitQuantity(
                         context: context,
@@ -67,6 +73,10 @@ namespace Implem.Pleasanter.Libraries.Responses
                     return InvalidUpsertKey(
                         context: context,
                         errorData: errorData);
+                case General.Error.Types.ExtendedColumnsNotAllowed:
+                    return ExtendedColumnsNotAllowed(
+                        context: context,
+                        errorData: errorData);
                 case General.Error.Types.PleaseInputData:
                     return PleaseInputData(
                         context: context,
@@ -98,8 +108,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                 case General.Error.Types.InvalidJsonData:
                 case General.Error.Types.Overlap:
                 case General.Error.Types.InvalidUpsertKey:
+                case General.Error.Types.ExtendedColumnsNotAllowed:
                 case General.Error.Types.PleaseInputData:
                 case General.Error.Types.LoginIdAlreadyUse:
+                case General.Error.Types.IncorrectFileFormat:
+                case General.Error.Types.TooLargeFile:
                     return 400;
                 case General.Error.Types.Unauthorized:
                     return 401;
@@ -325,6 +338,18 @@ namespace Implem.Pleasanter.Libraries.Responses
                 context: context,
                 data: errorData.Data);
             return new ApiResponse(id: context.Id, statusCode: statusCode, message: message);
+        }
+
+        private static ApiResponse ExtendedColumnsNotAllowed(Context context, ErrorData errorData)
+        {
+            var statusCode = StatusCode(errorData.Type);
+            var message = Displays.ExtendedColumnsNotAllowed(
+                context: context,
+                data: errorData.Data);
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: statusCode,
+                message: message);
         }
     }
 }

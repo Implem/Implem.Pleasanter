@@ -4,5 +4,5 @@
     "Indent": "4",
     "Separator": "\\r\\n",
     "GenericUi": "1",
-    "Exclude": "Parameters,Tenants"
+    "Exclude": "Parameters,Tenants,SysLogs"
 }

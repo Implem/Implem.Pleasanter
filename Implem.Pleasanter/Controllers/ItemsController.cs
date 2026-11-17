@@ -819,14 +819,55 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = new ItemModel(
+            var itemModel = new ItemModel(
                 context: context,
-                referenceId: id)
-                    .BulkUpdate(context: context);
+                referenceId: id);
+            if (BackgroundJobQueue.BackgroundQueueEnabled() == false)
+            {
+                var json = itemModel.BulkUpdate(context: context);
+                log.Finish(
+                    context: context,
+                    responseSize: json.Length);
+                return json;
+            }
+            itemModel.SetSite(
+                context: context,
+                initSiteSettings: true);
+            var ss = itemModel.Site.SiteSettings;
+            if (BackgroundJobQueue.ShouldQueueBulkUpdate(
+                context: context,
+                ss: ss))
+            {
+                var invalid = BackgroundJobQueue.ValidateBeforeEnqueueBulkUpdate(
+                    context: context,
+                    ss: ss);
+                if (invalid.Type != Error.Types.None)
+                {
+                    var invalidJson = invalid.MessageJson(context: context);
+                    log.Finish(
+                        context: context,
+                        responseSize: invalidJson?.Length ?? 0);
+                    return invalidJson;
+                }
+                var backgroundJobId = BackgroundJobQueue.EnqueueBulkUpdate(
+                    context: context,
+                    siteId: ss.SiteId);
+                var enqueuedJson = BackgroundJobQueue.EnqueuedJson(
+                    context: context,
+                    backgroundJobId: backgroundJobId,
+                    closeDialog: true);
+                log.Finish(
+                    context: context,
+                    responseSize: enqueuedJson.Length);
+                return enqueuedJson;
+            }
+            var syncJson = itemModel.BulkUpdate(
+                context: context,
+                ss: ss);
             log.Finish(
                 context: context,
-                responseSize: json.Length);
-            return json;
+                responseSize: syncJson.Length);
+            return syncJson;
         }
 
         [HttpPost]

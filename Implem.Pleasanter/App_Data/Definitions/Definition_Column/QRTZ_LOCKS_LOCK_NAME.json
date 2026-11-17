@@ -9,6 +9,6 @@
     "TypeName": "nvarchar",
     "MaxLength": "40",
     "NotNull": "1",
-    "Pk": "1",
+    "Pk": "2",
     "ExcludeBaseColumns": "1"
 }

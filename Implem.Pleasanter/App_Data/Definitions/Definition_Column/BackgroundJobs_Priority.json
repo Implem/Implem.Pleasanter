@@ -13,6 +13,7 @@
     "Required": "1",
     "LabelText_en": "Priority",
     "LabelText_zh": "优先级",
+    "LabelText_zh_tw": "優先順序",
     "LabelText_de": "Priorität",
     "LabelText_ko": "우선순위",
     "LabelText_es": "Prioridad",

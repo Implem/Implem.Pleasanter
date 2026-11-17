@@ -14,6 +14,7 @@
     "NotForm": "1",
     "LabelText_en": "Api count date",
     "LabelText_zh": "api计数日期",
+    "LabelText_zh_tw": "api計數日期",
     "LabelText_de": "API-Zähldatum",
     "LabelText_ko": "API 카운트 날짜",
     "LabelText_es": "Fecha de recuento de API",

@@ -127,7 +127,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (!context.Ajax)
             {
                 return hb.Html(
-                    lang: context.Language,
+                    lang: context.LanguageTag(),
                     action: () => hb.Head(action: () => hb
                         .Raw(HtmlHtmls.ExtendedHtmls(
                             context: context,

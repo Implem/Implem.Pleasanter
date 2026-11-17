@@ -10,5 +10,5 @@
     "Select": "1",
     "Update": "1",
     "NotJoin": "1",
-    "Exclude": "Creator,Updator,DeleterId,CreatedTime,UpdatedTime,DeletedTime,Dept,TenantId"
+    "Exclude": "Creator,Updator,DeleterId,CreatedTime,UpdatedTime,DeletedTime,Dept,TenantId,UserHostAddress"
 }

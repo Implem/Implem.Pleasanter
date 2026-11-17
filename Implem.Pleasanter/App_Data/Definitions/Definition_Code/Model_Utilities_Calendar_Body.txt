@@ -21,7 +21,7 @@
     var date = view.GetCalendarDate();
     var groupBy = ss.GetColumn(
         context: context,
-        columnName: view.GetCalendarGroupBy());
+        columnName: view.GetCalendarGroupBy(ss: ss));
     var choices = groupBy?.EditChoices(
         context: context,
         insertBlank: true,
@@ -195,7 +195,7 @@ public static string CalendarJson(
     var date = view.GetCalendarDate();
     var groupBy = ss.GetColumn(
         context: context,
-        columnName: view.GetCalendarGroupBy());
+        columnName: view.GetCalendarGroupBy(ss: ss));
     var choices = groupBy?.EditChoices(
         context: context,
         insertBlank: true,

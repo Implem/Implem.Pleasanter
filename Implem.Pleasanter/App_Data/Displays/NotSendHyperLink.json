@@ -10,6 +10,10 @@
             "Body": "不发送网址"
         },
         {
+            "Language": "zh_tw",
+            "Body": "不傳送網址"
+        },
+        {
             "Language": "ja",
             "Body": "URLを送信しない"
         },

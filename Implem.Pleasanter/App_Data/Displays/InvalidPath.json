@@ -6,8 +6,12 @@
             "Body": "Invalid path specification. [{0}]"
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "路径规范无效。 [{0}]"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "路徑規範無效。 [{0}]"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "Especificación de ruta no válida. [{0}]"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Đặc tả đường dẫn không hợp lệ. [{0}]"
         }
     ]

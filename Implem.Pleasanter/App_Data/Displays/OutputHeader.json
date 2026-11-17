@@ -10,6 +10,10 @@
             "Body": "输出标题"
         },
         {
+            "Language": "zh_tw",
+            "Body": "輸出標題"
+        },
+        {
             "Language": "ja",
             "Body": "ヘッダを出力する"
         },

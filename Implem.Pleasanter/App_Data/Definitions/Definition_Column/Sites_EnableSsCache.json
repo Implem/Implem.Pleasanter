@@ -13,6 +13,7 @@
     "Nullable": "1",
     "LabelText_en": "Enable site settings cache",
     "LabelText_zh": "启用站点设置缓存",
+    "LabelText_zh_tw": "啟用站點設定快取",
     "LabelText_de": "Site-Settings-Cache aktivieren",
     "LabelText_ko": "사이트 설정 캐시 활성화",
     "LabelText_es": "Habilitar la caché de configuración del sitio",

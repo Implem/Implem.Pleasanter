@@ -499,9 +499,11 @@ $p.moveCalendar = (type: string, calendarSuffix: string | number) => {
 
 const setFullCalendar = (calendarSuffix: string, calendarEl: HTMLElement) => {
     let language = String($('#Language').val());
-    const supportedLanguages = ['en', 'zh', 'ja', 'de', 'ko', 'es', 'vi'];
+    const supportedLanguages = ['en', 'zh', 'zh-tw', 'ja', 'de', 'ko', 'es', 'vi'];
     if (language === 'vn') {
         language = 'vi';
+    } else if (language === 'zh_tw') {
+        language = 'zh-tw';
     }
     const firstDay = calendarFirstDayOfWeek(calendarSuffix);
     $(`#FullCalendar${calendarSuffix}`).css('clear', 'both');

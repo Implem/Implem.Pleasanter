@@ -11,8 +11,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
             ColumnDefinition columnDefinition)
         {
             string dataTypeSize;
-            if (columnDefinition.TypeName == "nvarchar" &&
-                columnDefinition.MaxLength >= 1024)
+            if (IsLargeNvarchar(columnDefinition: columnDefinition))
             {
                 dataTypeSize = NeedReduceByDefault(columnDefinition: columnDefinition) ||
                     NeedReduceByIndex(factory: factory, columnDefinition: columnDefinition)
@@ -52,6 +51,12 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                 commandText += " not null";
             }
             return factory.SqlDataType.Convert(commandText);
+        }
+
+        internal static bool IsLargeNvarchar(ColumnDefinition columnDefinition)
+        {
+            return columnDefinition.TypeName == "nvarchar"
+                && columnDefinition.MaxLength >= 1024;
         }
 
         internal static bool NeedReduceByDefault(

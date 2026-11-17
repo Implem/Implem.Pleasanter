@@ -10,6 +10,10 @@
             "Body": "回复"
         },
         {
+            "Language": "zh_tw",
+            "Body": "回覆"
+        },
+        {
             "Language": "ja",
             "Body": "返信"
         },

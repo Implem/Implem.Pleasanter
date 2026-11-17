@@ -1,0 +1,13 @@
+{
+    "Id": "SupportCustomersSg",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "For Contracted Customers\n[Annual Support]"
+        },
+        {
+            "Language": "ja",
+            "Body": "ご契約中の方へ\n【年間サポート】"
+        }
+    ]
+}

@@ -15,6 +15,7 @@
     "NotEditorSettings": "1",
     "LabelText_en": "Save as a new version",
     "LabelText_zh": "保存为新版本",
+    "LabelText_zh_tw": "儲存為新版本",
     "LabelText_de": "Versionsupgrade",
     "LabelText_ko": "새 버전으로 저장",
     "LabelText_es": "Guardar como versión nueva",

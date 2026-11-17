@@ -83,8 +83,8 @@
             &:is(textarea) {
                 height: auto !important;
                 min-height: 6lh;
-                resize: none;
                 field-sizing: content;
+                resize: none;
             }
         }
     }

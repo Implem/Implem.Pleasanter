@@ -10,6 +10,10 @@
             "Body": "JSON文件"
         },
         {
+            "Language": "zh_tw",
+            "Body": "JSON檔案"
+        },
+        {
             "Language": "ja",
             "Body": "JSONファイル"
         },

@@ -145,6 +145,7 @@
             font-size: 13px;
             line-height: 1.5em;
             color: var(--control-text);
+            field-sizing: content;
             resize: none;
             outline: none;
             background-color: var(--control-bg);
@@ -154,7 +155,6 @@
                 color 150ms ease-out,
                 background 150ms ease-out,
                 border 150ms ease-out;
-            field-sizing: content;
             &:focus {
                 background-color: var(--control-bg-focus);
                 border-color: var(--control-border-focus);

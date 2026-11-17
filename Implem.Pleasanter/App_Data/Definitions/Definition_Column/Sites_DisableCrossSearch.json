@@ -13,6 +13,7 @@
     "Nullable": "1",
     "LabelText_en": "Disable cross-search",
     "LabelText_zh": "禁用交叉搜索",
+    "LabelText_zh_tw": "停用交叉搜尋",
     "LabelText_de": "Kreuzsuche deaktivieren",
     "LabelText_ko": "교차 검색 비활성화",
     "LabelText_es": "Deshabilitar la búsqueda cruzada",

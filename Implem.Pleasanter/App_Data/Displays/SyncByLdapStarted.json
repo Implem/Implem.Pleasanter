@@ -10,6 +10,10 @@
             "Body": "LDAP 同步已启动。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "LDAP 同步已啟動。"
+        },
+        {
             "Language": "ja",
             "Body": "LDAP同期を開始しました。"
         },

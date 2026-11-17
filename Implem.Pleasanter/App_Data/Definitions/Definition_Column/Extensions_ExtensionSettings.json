@@ -11,6 +11,7 @@
     "MaxLength": "-1",
     "LabelText_en": "Extension settings",
     "LabelText_zh": "扩展程序设置",
+    "LabelText_zh_tw": "擴充程式設定",
     "LabelText_de": "Erweiterungseinstellungen",
     "LabelText_ko": "확장 설정",
     "LabelText_es": "Configuraciones de extensión",

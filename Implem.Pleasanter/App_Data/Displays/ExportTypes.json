@@ -10,6 +10,10 @@
             "Body": "导出类型"
         },
         {
+            "Language": "zh_tw",
+            "Body": "匯出類型"
+        },
+        {
             "Language": "ja",
             "Body": "エクスポートの種類"
         },

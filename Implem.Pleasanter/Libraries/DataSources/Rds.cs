@@ -1733,6 +1733,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "ErrStackTrace": return "\"ErrStackTrace\"";
                         case "InDebug": return "\"InDebug\"";
                         case "AssemblyVersion": return "\"AssemblyVersion\"";
+                        case "TenantId": return "\"TenantId\"";
                         case "Comments": return "\"Comments\"";
                         case "Creator": return "\"Creator\"";
                         case "Updator": return "\"Updator\"";
@@ -4695,6 +4696,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "AssemblyVersion":
                             return self.SysLogs_AssemblyVersion(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                isNullValue: isNullValue,
+                                function: function);
+                        case "TenantId":
+                            return self.SysLogs_TenantId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 isNullValue: isNullValue,
@@ -14853,6 +14860,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.ErrStackTrace(function: Sqls.Functions.SingleColumn); param.ErrStackTrace();
             column.InDebug(function: Sqls.Functions.SingleColumn); param.InDebug();
             column.AssemblyVersion(function: Sqls.Functions.SingleColumn); param.AssemblyVersion();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
             column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
@@ -15231,18 +15239,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 join: join,
                                 where: where)),
                         param: param);
-                case "SysLogs":
-                    return SysLogsAggregations(
-                        context: context,
-                        aggregations: ss.Aggregations,
-                        tableType: tableType,
-                        where: SysLogsWhere()
-                            .SysLogId_In(sub: SelectSysLogs(
-                                tableType: tableType,
-                                column: SysLogsColumn().SysLogId(),
-                                join: join,
-                                where: where)),
-                        param: param);
                 case "Users":
                     return UsersAggregations(
                         context: context,
@@ -15301,6 +15297,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             .WikiId_In(sub: SelectWikis(
                                 tableType: tableType,
                                 column: WikisColumn().WikiId(),
+                                join: join,
+                                where: where)),
+                        param: param);
+                case "SysLogs":
+                    return SysLogsAggregations(
+                        context: context,
+                        aggregations: ss.Aggregations
+                            ?.Where(o => o.GroupBy == "[NotGroupBy]"
+                                || (o.GroupBy != null && ss.ColumnHash.ContainsKey(o.GroupBy))),
+                        tableType: tableType,
+                        where: SysLogsWhere()
+                            .TenantId(
+                                context.TenantId,
+                                _using: Implem.Pleasanter.Libraries.Security.Permissions.ApplySysLogsTenantFilter(context: context)
+                                    && !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "SysLogs" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
+                            .SysLogId_In(sub: SelectSysLogs(
+                                tableType: tableType,
+                                column: SysLogsColumn().SysLogId(),
                                 join: join,
                                 where: where)),
                         param: param);
@@ -19653,6 +19667,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""ErrStackTrace"",
                     ""InDebug"",
                     ""AssemblyVersion"",
+                    ""TenantId"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -19703,6 +19718,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""SysLogs"".""ErrStackTrace"",
                     ""SysLogs"".""InDebug"",
                     ""SysLogs"".""AssemblyVersion"",
+                    ""SysLogs"".""TenantId"",
                     ""SysLogs"".""Comments"",
                     ""SysLogs"".""Creator"",
                     ""SysLogs"".""Updator"",
@@ -21448,6 +21464,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""ErrStackTrace"",
                     ""InDebug"",
                     ""AssemblyVersion"",
+                    ""TenantId"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -21498,6 +21515,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""SysLogs_deleted"".""ErrStackTrace"",
                     ""SysLogs_deleted"".""InDebug"",
                     ""SysLogs_deleted"".""AssemblyVersion"",
+                    ""SysLogs_deleted"".""TenantId"",
                     ""SysLogs_deleted"".""Comments"",
                     ""SysLogs_deleted"".""Creator"",
                     ""SysLogs_deleted"".""Updator"",
@@ -104694,6 +104712,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.InDebug(_as: _as, function: function);
                 case "AssemblyVersion":
                     return self.AssemblyVersion(_as: _as, function: function);
+                case "TenantId":
+                    return self.TenantId(_as: _as, function: function);
                 case "Comments":
                     return self.Comments(_as: _as, function: function);
                 case "Creator":
@@ -106385,6 +106405,46 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return _using
                 ? self.Add(
                     columnBracket: "\"AssemblyVersion\"",
+                    tableName: tableName,
+                    columnName: columnName,
+                    _as: _as,
+                    function: function,
+                    sub: sub)
+                : self;
+        }
+
+        public static SysLogsColumnCollection TenantId(
+            this SysLogsColumnCollection self,
+            string tableName = "SysLogs",
+            string columnName = "TenantId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"TenantId\"",
+                    tableName: tableName,
+                    columnName: columnName,
+                    _as: _as,
+                    function: function,
+                    sub: sub)
+                : self;
+        }
+
+        public static SqlColumnCollection SysLogs_TenantId(
+            this SqlColumnCollection self,
+            string tableName = "SysLogs",
+            string columnName = "TenantId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"TenantId\"",
                     tableName: tableName,
                     columnName: columnName,
                     _as: _as,
@@ -109000,6 +109060,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static SysLogsWhereCollection TenantId(
+            this SysLogsWhereCollection self,
+            object value = null,
+            string tableName = "SysLogs",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection SysLogs_TenantId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "SysLogs",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
         public static SysLogsWhereCollection Comments(
             this SysLogsWhereCollection self,
             object value = null,
@@ -109688,6 +109806,44 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
+        public static SysLogsWhereCollection TenantId_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "SysLogs",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static SysLogsWhereCollection Creator_In(
             this SysLogsWhereCollection self,
             IEnumerable<int> value = null,
@@ -110172,6 +110328,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static SysLogsWhereCollection TenantId_Between(
+            this SysLogsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "SysLogs",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection SysLogs_TenantId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "SysLogs",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
         public static SysLogsWhereCollection Creator_Between(
             this SysLogsWhereCollection self,
             int begin,
@@ -110370,6 +110560,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "ErrStackTrace": return self.ErrStackTrace();
                     case "InDebug": return self.InDebug();
                     case "AssemblyVersion": return self.AssemblyVersion();
+                    case "TenantId": return self.TenantId();
                     case "Comments": return self.Comments();
                     case "Creator": return self.Creator();
                     case "Updator": return self.Updator();
@@ -110888,6 +111079,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "SysLogs")
         {
             return self.Add(columnBracket: "\"AssemblyVersion\"", tableName: tableName);
+        }
+
+        public static SysLogsGroupByCollection TenantId(
+            this SysLogsGroupByCollection self, string tableName = "SysLogs")
+        {
+            return self.Add(columnBracket: "\"TenantId\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection SysLogs_TenantId(
+            this SqlGroupByCollection self, string tableName = "SysLogs")
+        {
+            return self.Add(columnBracket: "\"TenantId\"", tableName: tableName);
         }
 
         public static SysLogsGroupByCollection Comments(
@@ -111681,6 +111884,23 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static SysLogsOrderByCollection TenantId(
+            this SysLogsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "SysLogs",
+            string isNullValue = null,
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    isNullValue: isNullValue,
+                    function: function));
+            return self;
+        }
+
         public static SysLogsOrderByCollection Comments(
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -112454,6 +112674,23 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"AssemblyVersion\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    isNullValue: isNullValue,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection SysLogs_TenantId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "SysLogs",
+            string isNullValue = null,
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -113963,6 +114200,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "\"AssemblyVersion\"",
                     name: "AssemblyVersion",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SysLogsParamCollection TenantId(
+            this SysLogsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"TenantId\"",
+                    name: "TenantId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection SysLogs_TenantId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"TenantId\"",
+                    name: "TenantId",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -155879,7 +156150,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = AutoNumberingsParam()
-                .TenantId(autoNumberingModel.TenantId)
+                .TenantId(autoNumberingModel.TenantId, _using: "AutoNumberings" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "AutoNumberings" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .ReferenceId(autoNumberingModel.ReferenceId, _using: autoNumberingModel.ReferenceId_Updated(context) || setDefault || (otherInitValue && !autoNumberingModel.ReferenceId.InitialValue(context)))
                 .ColumnName(autoNumberingModel.ColumnName.MaxLength(16), _using: autoNumberingModel.ColumnName_Updated(context) || setDefault || (otherInitValue && !autoNumberingModel.ColumnName.InitialValue(context)))
                 .Key(autoNumberingModel.Key.MaxLength(32), _using: autoNumberingModel.Key_Updated(context) || setDefault || (otherInitValue && !autoNumberingModel.Key.InitialValue(context)))
@@ -156022,7 +156293,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = BackgroundJobsParam()
-                .TenantId(backgroundJobModel.TenantId)
+                .TenantId(backgroundJobModel.TenantId, _using: "BackgroundJobs" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "BackgroundJobs" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .Ver(backgroundJobModel.Ver, _using: backgroundJobModel.Ver_Updated(context) || setDefault || (otherInitValue && !backgroundJobModel.Ver.InitialValue(context)))
                 .SiteId(backgroundJobModel.SiteId, _using: backgroundJobModel.SiteId_Updated(context) || setDefault || (otherInitValue && !backgroundJobModel.SiteId.InitialValue(context)))
                 .UserId(backgroundJobModel.UserId, _using: backgroundJobModel.UserId_Updated(context) || setDefault || (otherInitValue && !backgroundJobModel.UserId.InitialValue(context)))
@@ -156174,7 +156445,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = BinariesParam()
-                .TenantId(binaryModel.TenantId)
+                .TenantId(binaryModel.TenantId, _using: "Binaries" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "Binaries" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .ReferenceId(binaryModel.ReferenceId, _using: binaryModel.ReferenceId_Updated(context) || setDefault || (otherInitValue && !binaryModel.ReferenceId.InitialValue(context)))
                 .Guid(binaryModel.Guid.MaxLength(32), _using: binaryModel.Guid_Updated(context) || (otherInitValue && !binaryModel.Guid.InitialValue(context)))
                 .Ver(binaryModel.Ver, _using: binaryModel.Ver_Updated(context) || setDefault || (otherInitValue && !binaryModel.Ver.InitialValue(context)))
@@ -156320,7 +156591,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = DemosParam()
-                .TenantId(demoModel.TenantId)
+                .TenantId(demoModel.TenantId, _using: "Demos" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "Demos" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .Ver(demoModel.Ver, _using: demoModel.Ver_Updated(context) || setDefault || (otherInitValue && !demoModel.Ver.InitialValue(context)))
                 .Title(demoModel.Title.Value.MaxLength(1024), _using: demoModel.Title_Updated(context) || (otherInitValue && !demoModel.Title.InitialValue(context)))
                 .LoginId(demoModel.LoginId.MaxLength(256), _using: demoModel.LoginId_Updated(context) || (otherInitValue && !demoModel.LoginId.InitialValue(context)))
@@ -156459,7 +156730,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = DeptsParam()
-                .TenantId(deptModel.TenantId)
+                .TenantId(deptModel.TenantId, _using: "Depts" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "Depts" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .Ver(deptModel.Ver, _using: deptModel.Ver_Updated(context) || setDefault || (otherInitValue && !deptModel.Ver.InitialValue(context)))
                 .DeptCode(deptModel.DeptCode.MaxLength(1024), _using: deptModel.DeptCode_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptCode.InitialValue(context)))
                 .DeptName(deptModel.DeptName.MaxLength(1024), _using: deptModel.DeptName_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptName.InitialValue(context)))
@@ -156617,7 +156888,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = ExtensionsParam()
-                .TenantId(extensionModel.TenantId)
+                .TenantId(extensionModel.TenantId, _using: "Extensions" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "Extensions" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .Ver(extensionModel.Ver, _using: extensionModel.Ver_Updated(context) || setDefault || (otherInitValue && !extensionModel.Ver.InitialValue(context)))
                 .ExtensionType(extensionModel.ExtensionType.MaxLength(128), _using: extensionModel.ExtensionType_Updated(context) || setDefault || (otherInitValue && !extensionModel.ExtensionType.InitialValue(context)))
                 .ExtensionName(extensionModel.ExtensionName.MaxLength(256), _using: extensionModel.ExtensionName_Updated(context) || setDefault || (otherInitValue && !extensionModel.ExtensionName.InitialValue(context)))
@@ -157026,7 +157297,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = GroupsParam()
-                .TenantId(groupModel.TenantId)
+                .TenantId(groupModel.TenantId, _using: "Groups" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "Groups" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .Ver(groupModel.Ver, _using: groupModel.Ver_Updated(context) || setDefault || (otherInitValue && !groupModel.Ver.InitialValue(context)))
                 .GroupName(groupModel.GroupName.MaxLength(256), _using: groupModel.GroupName_Updated(context) || setDefault || (otherInitValue && !groupModel.GroupName.InitialValue(context)))
                 .Body(groupModel.Body, _using: groupModel.Body_Updated(context) || (otherInitValue && !groupModel.Body.InitialValue(context)))
@@ -157467,7 +157738,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = LoginKeysParam()
-                .TenantId(loginKeyModel.TenantId)
+                .TenantId(loginKeyModel.TenantId, _using: "LoginKeys" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "LoginKeys" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .LoginId(loginKeyModel.LoginId.MaxLength(256), _using: loginKeyModel.LoginId_Updated(context) || setDefault || (otherInitValue && !loginKeyModel.LoginId.InitialValue(context)))
                 .Key(loginKeyModel.Key.MaxLength(36), _using: loginKeyModel.Key_Updated(context) || setDefault || (otherInitValue && !loginKeyModel.Key.InitialValue(context)))
                 .Ver(loginKeyModel.Ver, _using: loginKeyModel.Ver_Updated(context) || setDefault || (otherInitValue && !loginKeyModel.Ver.InitialValue(context)))
@@ -157741,6 +158012,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Context context, McpLogModel mcpLogModel)
         {
             return McpLogsWhere()
+                .TenantId(context.TenantId)
                 .McpLogId(mcpLogModel.McpLogId);
         }
 
@@ -157752,7 +158024,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = McpLogsParam()
-                .TenantId(mcpLogModel.TenantId)
+                .TenantId(mcpLogModel.TenantId, _using: "McpLogs" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "McpLogs" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
+                .UserHostAddress("McpLogs" == "SysLogs" && Parameters.Rds.SysLogsSchemaVersion < Implem.DefinitionAccessor.Extensions.SysLogsTenantIdSchemaVersion ? mcpLogModel.UserHostAddress.MaxLength(Implem.DefinitionAccessor.Extensions.SysLogsLegacyUserHostAddressMaxLength) : mcpLogModel.UserHostAddress.MaxLength(50), _using: mcpLogModel.UserHostAddress_Updated(context) || (otherInitValue && !mcpLogModel.UserHostAddress.InitialValue(context)))
                 .StartTime(mcpLogModel.StartTime, _using: mcpLogModel.StartTime_Updated(context) || setDefault || (otherInitValue && !mcpLogModel.StartTime.InitialValue(context)))
                 .EndTime(mcpLogModel.EndTime, _using: mcpLogModel.EndTime_Updated(context) || setDefault || (otherInitValue && !mcpLogModel.EndTime.InitialValue(context)))
                 .McpRequestId(mcpLogModel.McpRequestId.MaxLength(100), _using: mcpLogModel.McpRequestId_Updated(context) || (otherInitValue && !mcpLogModel.McpRequestId.InitialValue(context)))
@@ -157770,7 +158043,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .ErrMessage(mcpLogModel.ErrMessage, _using: mcpLogModel.ErrMessage_Updated(context) || (otherInitValue && !mcpLogModel.ErrMessage.InitialValue(context)))
                 .RequestData(mcpLogModel.RequestData, _using: mcpLogModel.RequestData_Updated(context) || (otherInitValue && !mcpLogModel.RequestData.InitialValue(context)))
                 .ResponseData(mcpLogModel.ResponseData, _using: mcpLogModel.ResponseData_Updated(context) || (otherInitValue && !mcpLogModel.ResponseData.InitialValue(context)))
-                .UserHostAddress(mcpLogModel.UserHostAddress.MaxLength(50), _using: mcpLogModel.UserHostAddress_Updated(context) || (otherInitValue && !mcpLogModel.UserHostAddress.InitialValue(context)))
                 .UserAgent(mcpLogModel.UserAgent.MaxLength(500), _using: mcpLogModel.UserAgent_Updated(context) || (otherInitValue && !mcpLogModel.UserAgent.InitialValue(context)))
                 .Ver(mcpLogModel.Ver, _using: mcpLogModel.Ver_Updated(context) || setDefault || (otherInitValue && !mcpLogModel.Ver.InitialValue(context)))
                 .Comments(mcpLogModel.Comments.ToJson(), _using: mcpLogModel.Comments_Updated(context) || (otherInitValue && !mcpLogModel.Comments.InitialValue(context)));
@@ -158484,7 +158756,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = RegistrationsParam()
-                .TenantId(registrationModel.TenantId)
+                .TenantId(registrationModel.TenantId, _using: "Registrations" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "Registrations" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .Ver(registrationModel.Ver, _using: registrationModel.Ver_Updated(context) || setDefault || (otherInitValue && !registrationModel.Ver.InitialValue(context)))
                 .MailAddress(registrationModel.MailAddress.MaxLength(2048), _using: registrationModel.MailAddress_Updated(context) || setDefault || (otherInitValue && !registrationModel.MailAddress.InitialValue(context)))
                 .Invitee(registrationModel.Invitee, _using: registrationModel.Invitee_Updated(context) || setDefault || (otherInitValue && !registrationModel.Invitee.InitialValue(context)))
@@ -158782,7 +159054,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = ScimTokensParam()
-                .TenantId(scimTokenModel.TenantId)
+                .TenantId(scimTokenModel.TenantId, _using: "ScimTokens" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "ScimTokens" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .UserId(scimTokenModel.UserId, _using: scimTokenModel.UserId_Updated(context) || setDefault || (otherInitValue && !scimTokenModel.UserId.InitialValue(context)))
                 .Ver(scimTokenModel.Ver, _using: scimTokenModel.Ver_Updated(context) || setDefault || (otherInitValue && !scimTokenModel.Ver.InitialValue(context)))
                 .TokenHash(scimTokenModel.TokenHash.MaxLength(128), _using: scimTokenModel.TokenHash_Updated(context) || setDefault || (otherInitValue && !scimTokenModel.TokenHash.InitialValue(context)))
@@ -159083,7 +159355,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = SitesParam()
-                .TenantId(siteModel.TenantId)
+                .TenantId(siteModel.TenantId, _using: "Sites" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "Sites" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .ItemId(siteModel.SiteId)
                 .Ver(siteModel.Ver, _using: siteModel.Ver_Updated(context) || setDefault || (otherInitValue && !siteModel.Ver.InitialValue(context)))
                 .Title(siteModel.Title.Value.MaxLength(1024), _using: siteModel.Title_Updated(context) || setDefault || (otherInitValue && !siteModel.Title.InitialValue(context)))
@@ -159240,7 +159512,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = StatusesParam()
-                .TenantId(statusModel.TenantId)
+                .TenantId(statusModel.TenantId, _using: "Statuses" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "Statuses" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .StatusId(statusModel.StatusId, _using: statusModel.StatusId_Updated(context) || setDefault || (otherInitValue && !statusModel.StatusId.InitialValue(context)))
                 .Ver(statusModel.Ver, _using: statusModel.Ver_Updated(context) || setDefault || (otherInitValue && !statusModel.Ver.InitialValue(context)))
                 .Value(statusModel.Value.MaxLength(2048), _using: statusModel.Value_Updated(context) || (otherInitValue && !statusModel.Value.InitialValue(context)))
@@ -159375,6 +159647,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .ErrStackTrace(_using: targets.Contains("ErrStackTrace"))
                 .InDebug(_using: targets.Contains("InDebug"))
                 .AssemblyVersion(_using: targets.Contains("AssemblyVersion"))
+                .TenantId(_using: targets.Contains("TenantId"))
                 .Comments(_using: targets.Contains("Comments"))
                 .Creator(_using: targets.Contains("Creator"))
                 .Updator(_using: targets.Contains("Updator"))
@@ -159408,6 +159681,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = SysLogsParam()
+                .TenantId(sysLogModel.TenantId, _using: "SysLogs" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "SysLogs" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
+                .UserHostAddress("SysLogs" == "SysLogs" && Parameters.Rds.SysLogsSchemaVersion < Implem.DefinitionAccessor.Extensions.SysLogsTenantIdSchemaVersion ? sysLogModel.UserHostAddress.MaxLength(Implem.DefinitionAccessor.Extensions.SysLogsLegacyUserHostAddressMaxLength) : sysLogModel.UserHostAddress.MaxLength(50), _using: sysLogModel.UserHostAddress_Updated(context) || (otherInitValue && !sysLogModel.UserHostAddress.InitialValue(context)))
                 .Ver(sysLogModel.Ver, _using: sysLogModel.Ver_Updated(context) || setDefault || (otherInitValue && !sysLogModel.Ver.InitialValue(context)))
                 .SysLogType(sysLogModel.SysLogType.ToInt(), _using: sysLogModel.SysLogType_Updated(context) || setDefault || (otherInitValue && !sysLogModel.SysLogType.InitialValue(context)))
                 .OnAzure(sysLogModel.OnAzure, _using: sysLogModel.OnAzure_Updated(context) || (otherInitValue && !sysLogModel.OnAzure.InitialValue(context)))
@@ -159440,7 +159715,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Url(sysLogModel.Url, _using: sysLogModel.Url_Updated(context) || (otherInitValue && !sysLogModel.Url.InitialValue(context)))
                 .UrlReferer(sysLogModel.UrlReferer, _using: sysLogModel.UrlReferer_Updated(context) || (otherInitValue && !sysLogModel.UrlReferer.InitialValue(context)))
                 .UserHostName(sysLogModel.UserHostName.MaxLength(32), _using: sysLogModel.UserHostName_Updated(context) || (otherInitValue && !sysLogModel.UserHostName.InitialValue(context)))
-                .UserHostAddress(sysLogModel.UserHostAddress.MaxLength(16), _using: sysLogModel.UserHostAddress_Updated(context) || (otherInitValue && !sysLogModel.UserHostAddress.InitialValue(context)))
                 .UserLanguage(sysLogModel.UserLanguage.MaxLength(32), _using: sysLogModel.UserLanguage_Updated(context) || (otherInitValue && !sysLogModel.UserLanguage.InitialValue(context)))
                 .UserAgent(sysLogModel.UserAgent, _using: sysLogModel.UserAgent_Updated(context) || (otherInitValue && !sysLogModel.UserAgent.InitialValue(context)))
                 .SessionGuid(sysLogModel.SessionGuid.MaxLength(34), _using: sysLogModel.SessionGuid_Updated(context) || (otherInitValue && !sysLogModel.SessionGuid.InitialValue(context)))
@@ -159597,7 +159871,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = TenantQuotaUsagesParam()
-                .TenantId(tenantQuotaUsagesModel.TenantId)
+                .TenantId(tenantQuotaUsagesModel.TenantId, _using: "TenantQuotaUsages" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "TenantQuotaUsages" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .QuotaKey(tenantQuotaUsagesModel.QuotaKey.MaxLength(32), _using: tenantQuotaUsagesModel.QuotaKey_Updated(context) || setDefault || (otherInitValue && !tenantQuotaUsagesModel.QuotaKey.InitialValue(context)))
                 .Usage(tenantQuotaUsagesModel.Usage, _using: tenantQuotaUsagesModel.Usage_Updated(context) || setDefault || (otherInitValue && !tenantQuotaUsagesModel.Usage.InitialValue(context)))
                 .ResetTime(tenantQuotaUsagesModel.ResetTime, _using: tenantQuotaUsagesModel.ResetTime_Updated(context) || setDefault || (otherInitValue && !tenantQuotaUsagesModel.ResetTime.InitialValue(context)))
@@ -159976,7 +160250,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool otherInitValue = false)
         {
             var param = UsersParam()
-                .TenantId(userModel.TenantId)
+                .TenantId(userModel.TenantId, _using: "Users" != "SysLogs" || !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "Users" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
                 .Ver(userModel.Ver, _using: userModel.Ver_Updated(context) || setDefault || (otherInitValue && !userModel.Ver.InitialValue(context)))
                 .LoginId(userModel.LoginId.MaxLength(256), _using: userModel.LoginId_Updated(context) || setDefault || (otherInitValue && !userModel.LoginId.InitialValue(context)))
                 .GlobalId(userModel.GlobalId.MaxLength(36), _using: userModel.GlobalId_Updated(context) || (otherInitValue && !userModel.GlobalId.InitialValue(context)))

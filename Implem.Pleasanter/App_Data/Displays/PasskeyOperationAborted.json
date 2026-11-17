@@ -10,6 +10,10 @@
             "Body": "Passkey 操作已被中断，请重试。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "Passkey 操作已被中斷，請重試。"
+        },
+        {
             "Language": "ja",
             "Body": "パスキーの操作が中断されました。もう一度お試しください。"
         },

@@ -1886,26 +1886,32 @@ declare global {
         readonly TenantId: number;
         /** ユーザIDです。 */
         readonly UserId: number;
-        /** 組織IDです。 */
-        readonly DeptId: number;
-        /** ログインIDです。 */
-        readonly LoginId: string;
-        /** ユーザ名です。 */
-        readonly Name: string;
-        /** ユーザコードです。 */
-        readonly UserCode: string;
-        /** テナント管理者の場合はtrueです。 */
-        readonly TenantManager: boolean;
-        /** 無効なユーザの場合はtrueです。 */
-        readonly Disabled: boolean;
+        /** 組織IDです。列の読み取り権限が無い場合はnullです。 */
+        readonly DeptId: number | null;
+        /** ログインIDです。列の読み取り権限が無い場合はnullです。 */
+        readonly LoginId: string | null;
+        /** ユーザ名です。列の読み取り権限が無い場合はnullです。 */
+        readonly Name: string | null;
+        /** ユーザコードです。列の読み取り権限が無い場合はnullです。 */
+        readonly UserCode: string | null;
+        /** テナント管理者の場合はtrueです。列の読み取り権限が無い場合はnullです。 */
+        readonly TenantManager: boolean | null;
+        /** サービス管理者の場合はtrueです。列の読み取り権限が無い場合はnullです。 */
+        readonly ServiceManager: boolean | null;
+        /** 無効なユーザの場合はtrueです。列の読み取り権限が無い場合はnullです。 */
+        readonly Disabled: boolean | null;
     }
     interface PleasanterServerScriptDept {
         /** 組織IDです。 */
         readonly DeptId: number;
-        /** 組織コードです。 */
-        readonly DeptCode: string;
-        /** 組織名です。 */
-        readonly DeptName: string;
+        /** 組織コードです。列の読み取り権限が無い場合はnullです。 */
+        readonly DeptCode: string | null;
+        /** 組織名です。列の読み取り権限が無い場合はnullです。 */
+        readonly DeptName: string | null;
+        /** 組織の内容です。列の読み取り権限が無い場合はnullです。 */
+        readonly Body: string | null;
+        /** 無効な組織の場合はtrueです。列の読み取り権限が無い場合はnullです。 */
+        readonly Disabled: boolean | null;
         /**
          * 組織に所属するuserオブジェクトの一覧を取得します。
          *
@@ -1924,12 +1930,12 @@ declare global {
     interface PleasanterServerScriptGroup {
         /** グループIDです。 */
         readonly GroupId: number;
-        /** グループ名です。 */
-        readonly GroupName: string;
-        /** グループの内容です。 */
-        readonly Body: string;
-        /** 無効なグループの場合はtrueです。 */
-        readonly Disabled: boolean;
+        /** グループ名です。列の読み取り権限が無い場合はnullです。 */
+        readonly GroupName: string | null;
+        /** グループの内容です。列の読み取り権限が無い場合はnullです。 */
+        readonly Body: string | null;
+        /** 無効なグループの場合はtrueです。列の読み取り権限が無い場合はnullです。 */
+        readonly Disabled: boolean | null;
         /**
          * グループに所属するgroupMemberオブジェクトの一覧を取得します。
          *
@@ -1984,57 +1990,57 @@ declare global {
         /** 子グループのグループIDです。 */
         readonly GroupId: number;
         /**
-         * 子グループのグループ名です。
+         * 子グループのグループ名です。グループの列の読み取り権限が無い場合はnullです。
          *
          * @since 1.5.2.0
          */
-        readonly GroupName: string;
+        readonly GroupName: string | null;
         /** 組織メンバーの組織IDです。 */
         readonly DeptId: number;
         /**
-         * 組織メンバーの組織名です。
+         * 組織メンバーの組織名です。組織の列の読み取り権限が無い場合はnullです。
          *
          * @since 1.5.2.0
          */
-        readonly DeptName: string;
+        readonly DeptName: string | null;
         /**
-         * 組織メンバーの組織コードです。
+         * 組織メンバーの組織コードです。組織の列の読み取り権限が無い場合はnullです。
          *
          * @since 1.5.2.0
          */
-        readonly DeptCode: string;
+        readonly DeptCode: string | null;
         /** ユーザメンバーのユーザIDです。 */
         readonly UserId: number;
         /**
-         * ユーザメンバーのログインIDです。
+         * ユーザメンバーのログインIDです。ユーザの列の読み取り権限が無い場合はnullです。
          *
          * @since 1.5.2.0
          */
-        readonly LoginId: string;
+        readonly LoginId: string | null;
         /**
-         * ユーザメンバーのユーザ名です。
+         * ユーザメンバーのユーザ名です。ユーザの列の読み取り権限が無い場合はnullです。
          *
          * @since 1.5.2.0
          */
-        readonly Name: string;
+        readonly Name: string | null;
         /**
-         * ユーザメンバーのユーザコードです。
+         * ユーザメンバーのユーザコードです。ユーザの列の読み取り権限が無い場合はnullです。
          *
          * @since 1.5.2.0
          */
-        readonly UserCode: string;
+        readonly UserCode: string | null;
         /**
-         * ユーザメンバーがテナント管理者の場合はtrueです。
+         * ユーザメンバーがテナント管理者の場合はtrueです。列の読み取り権限が無い場合はnullです。
          *
          * @since 1.5.2.0
          */
-        readonly TenantManager: boolean;
+        readonly TenantManager: boolean | null;
         /**
-         * メンバーが無効な場合はtrueです。
+         * メンバーが無効な場合はtrueです。列の読み取り権限が無い場合はnullです。
          *
          * @since 1.5.2.0
          */
-        readonly Disabled: boolean;
+        readonly Disabled: boolean | null;
         /** グループの管理権限を持つ場合はtrueです。 */
         readonly Admin: boolean;
     }

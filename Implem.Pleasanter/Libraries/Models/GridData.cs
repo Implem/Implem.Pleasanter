@@ -716,7 +716,8 @@ namespace Implem.Pleasanter.Libraries.Models
                         context: context,
                         ss: ss,
                         idColumn: idColumn,
-                        dataRows: dataRows));
+                        dataRows: dataRows,
+                        sitePackage: true));
                 });
             return data;
         }
@@ -726,8 +727,13 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss,
             string idColumn,
             List<DataRow> dataRows,
-            string tableAlias = null)
+            string tableAlias = null,
+            bool sitePackage = false)
         {
+            var allColumns = sitePackage
+                && context.CanManageSite(
+                    ss: ss,
+                    site: true);
             IExportModel exportModel = null;
             switch (ss.ReferenceType)
             {
@@ -736,26 +742,46 @@ namespace Implem.Pleasanter.Libraries.Models
                         context: context,
                         ss: ss,
                         dataRow: dataRows.First(),
-                        tableAlias: tableAlias);
+                        tableAlias: tableAlias,
+                        mine: allColumns
+                            ? null
+                            : new IssueModel(
+                                context: context,
+                                ss: ss,
+                                dataRow: dataRows.First(),
+                                tableAlias: tableAlias)
+                                    .Mine(context: context),
+                        allColumns: allColumns);
                     break;
                 case "Results":
                     exportModel = new ResultExportModel(
                         context: context,
                         ss: ss,
                         dataRow: dataRows.First(),
-                        tableAlias: tableAlias);
+                        tableAlias: tableAlias,
+                        mine: allColumns
+                            ? null
+                            : new ResultModel(
+                                context: context,
+                                ss: ss,
+                                dataRow: dataRows.First(),
+                                tableAlias: tableAlias)
+                                    .Mine(context: context),
+                        allColumns: allColumns);
                     break;
             }
             SetDestinations(
                 context: context,
                 ss: ss,
                 exportModel: exportModel,
-                dataRows: dataRows);
+                dataRows: dataRows,
+                sitePackage: sitePackage);
             SetSources(
                 context: context,
                 ss: ss,
                 exportModel: exportModel,
-                dataRows: dataRows);
+                dataRows: dataRows,
+                sitePackage: sitePackage);
             return exportModel;
         }
 
@@ -763,7 +789,8 @@ namespace Implem.Pleasanter.Libraries.Models
             Context context,
             SiteSettings ss,
             IExportModel exportModel,
-            List<DataRow> dataRows)
+            List<DataRow> dataRows,
+            bool sitePackage)
         {
             ss.Destinations?.Values.ForEach(currentSs =>
             {
@@ -783,7 +810,8 @@ namespace Implem.Pleasanter.Libraries.Models
                                     ss: currentSs,
                                     idColumn: idColumn,
                                     dataRows: groupedDataRows,
-                                    tableAlias: tableAlias),
+                                    tableAlias: tableAlias,
+                                    sitePackage: sitePackage),
                                 columnName: joinStack.ColumnName);
                         });
                 });
@@ -794,7 +822,8 @@ namespace Implem.Pleasanter.Libraries.Models
             Context context,
             SiteSettings ss,
             IExportModel exportModel,
-            List<DataRow> dataRows)
+            List<DataRow> dataRows,
+            bool sitePackage)
         {
             ss.Sources?.Values.ForEach(currentSs =>
             {
@@ -813,7 +842,8 @@ namespace Implem.Pleasanter.Libraries.Models
                                     ss: currentSs,
                                     idColumn: idColumn,
                                     dataRows: groupedDataRows,
-                                    tableAlias: tableAlias)));
+                                    tableAlias: tableAlias,
+                                    sitePackage: sitePackage)));
                 }
             });
         }

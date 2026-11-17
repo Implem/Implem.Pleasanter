@@ -9,6 +9,10 @@
     }
     process.DataChanges?.ForEach(dataChange =>
     {
+        if (ss.NotAllowedByContract(columnName: dataChange.ColumnName))
+        {
+            return;
+        }
         var key = $"#TableName#_{dataChange.ColumnName}";
         var formData = new Dictionary<string, string>();
         switch (dataChange.Type)

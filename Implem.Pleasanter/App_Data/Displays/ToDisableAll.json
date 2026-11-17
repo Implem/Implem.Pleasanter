@@ -10,6 +10,10 @@
             "Body": "要禁用所有功能"
         },
         {
+            "Language": "zh_tw",
+            "Body": "要停用所有功能"
+        },
+        {
             "Language": "ja",
             "Body": "全て無効"
         },

@@ -56,6 +56,12 @@
                         data: context.ContractSettings.StorageSize.ToString(),
                         sysLogsStatus: 400,
                         sysLogsDescription: Debugs.GetSysLogsDescription());
+                case Error.Types.InvalidRequest:
+                    return new ErrorData(
+                        context: context,
+                        type: Error.Types.BadRequest,
+                        sysLogsStatus: 400,
+                        sysLogsDescription: Debugs.GetSysLogsDescription());
             }
         }
     }

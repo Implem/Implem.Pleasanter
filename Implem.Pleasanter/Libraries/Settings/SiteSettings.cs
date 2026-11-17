@@ -16,6 +16,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -145,6 +146,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, Column> ColumnAccessControlCaches = new Dictionary<string, Column>();
         [NonSerialized]
         public Dictionary<string, ColumnDefinition> ColumnDefinitionHash;
+        [NonSerialized]
+        private bool? hasNotAllowedByContractColumns;
+        [NonSerialized]
+        private ConcurrentDictionary<FormulaSet, (FormulaColumnsKey Key, bool Referring)> notAllowedByContractFormulas;
         [NonSerialized]
         public List<JoinStack> JoinStacks = new List<JoinStack>();
         [NonSerialized]
@@ -281,6 +286,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<ColumnAccessControl> ReadColumnAccessControls;
         public List<ColumnAccessControl> UpdateColumnAccessControls;
         private ServerScriptModelRow ServerScriptModelRowCache;
+        private HashSet<string> initialPublishColumnNames;
         public Dictionary<string, long> LinkColumnSiteIdHash;
         public List<string> GridColumnsOrder;
         public List<string> FilterColumnsOrder;
@@ -359,6 +365,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateHistoryColumns(context: context);
             UpdateColumns(context: context);
             UpdateColumnHash();
+            hasNotAllowedByContractColumns = null;
+            notAllowedByContractFormulas = null;
             if (context.TrashboxActions())
             {
                 GridColumns.RemoveAll(o => o.Contains("~~"));
@@ -444,6 +452,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             AiProvidersAllDisabled = AiProvidersAllDisabled ?? false;
             ServerScriptsGetErrorDetails = ServerScriptsGetErrorDetails ?? false;
             FormulasGetErrorDetails = FormulasGetErrorDetails ?? false;
+            if (Permissions.PublishScope(context: context))
+            {
+                initialPublishColumnNames ??= CollectPublishColumnNames(context: context);
+            }
         }
 
         public void SetLinkedSiteSettings(
@@ -783,6 +795,28 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string RecordingJson(Context context)
         {
             return RecordingData(context: context).ToJson();
+        }
+
+        public SiteSettings RecordingDataForApi(Context context, bool canManageSite)
+        {
+            if (!canManageSite)
+            {
+                return null;
+            }
+            var ss = RecordingData(context: context);
+            AiProviderUtilities.MaskConnectionSettings(ss: ss);
+            return ss;
+        }
+
+        public SiteSettings ForServerScript(bool canManageSite)
+        {
+            if (!canManageSite)
+            {
+                return null;
+            }
+            var ss = SiteSettingsUtilities.CopySiteSettings(this);
+            AiProviderUtilities.MaskConnectionSettings(ss: ss);
+            return ss;
         }
 
         public SiteSettings RecordingData(Context context)
@@ -2144,6 +2178,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 column.Id = column.Id ?? columnDefinition.Id;
                 column.LowSchemaVersion = columnDefinition.LowSchemaVersion();
+                column.NotAllowedByContract = !ColumnUtilities.AllowedExtendedColumn(
+                    context: context,
+                    columnName: columnDefinition.ColumnName);
                 column.No = columnDefinition.No;
                 column.Id_Ver =
                     ((columnDefinition.Unique || columnDefinition.Pk > 0)
@@ -2590,7 +2627,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool checkPermission = false,
             bool includedColumns = false)
         {
+            var publishGridColumnNames = PublishGridColumnNames(
+                context: context,
+                view: view);
             var columns = (view?.GridColumns ?? GridColumns)
+                .Where(columnName => publishGridColumnNames?.Contains(columnName) != false)
                 .Select(columnName => GetColumn(
                     context: context,
                     columnName: columnName))
@@ -2601,6 +2642,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     checkPermission: checkPermission)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
+                .Where(o => !o.NotAllowedByContract)
                 .ToList();
             if (view?.ShowHistory == true
                 && !columns.Any(o => o.ColumnName == "Ver"))
@@ -2634,6 +2676,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     checkPermission: checkPermission)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
+                .Where(o => !o.NotAllowedByContract)
                 .ToList();
         }
 
@@ -2647,6 +2690,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     columnName: columnName))
                 .Where(column => column != null)
+                .Where(column => !column.NotAllowedByContract)
                 .Where(column =>
                     GridColumns.Contains(column.ColumnName)
                     || GetEditorColumnNames().Contains(column.ColumnName)
@@ -2712,6 +2756,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Where(column => column != null)
                     .Where(o => context.ContractSettings.Attachments()
                         || o.ControlType != "Attachments")
+                    .Where(o => !o.NotAllowedByContract)
                     .ToList();
         }
 
@@ -2815,6 +2860,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return TitleColumns?
                 .Select(columnName => GetColumn(context: context, columnName: columnName))
                 .Where(column => column != null)
+                .Where(column => !column.NotAllowedByContract)
                 .ToList();
         }
 
@@ -2829,6 +2875,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     checkPermission: checkPermission)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
+                .Where(o => !o.NotAllowedByContract)
                 .ToList();
         }
 
@@ -2845,6 +2892,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     checkPermission: checkPermission)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
+                .Where(o => !o.NotAllowedByContract)
                 .ToList();
         }
 
@@ -3340,6 +3388,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss: this,
                     columns: ColumnDefinitionHash.TitleDefinitions()
                         .Where(o => !titleColumns.Contains(o.ColumnName))
+                        .AllowedExtendedColumns(context: context)
                         .OrderBy(o => o.TitleColumn)
                         .Select(o => o.ColumnName),
                     order: ColumnDefinitionHash?.TitleDefinitions()?
@@ -3558,7 +3607,99 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public IEnumerable<FormulaSet> GetFormulas()
         {
-            return Formulas?.Where(formulaSet => formulaSet.Disabled != true);
+            var formulas = Formulas?.Where(formulaSet => formulaSet.Disabled != true);
+            return HasNotAllowedByContractColumns()
+                ? formulas?.Where(formulaSet => !ReferringNotAllowedByContractColumn(
+                    formulaSet: formulaSet))
+                : formulas;
+        }
+
+        private bool HasNotAllowedByContractColumns()
+        {
+            return hasNotAllowedByContractColumns ??= Columns?.Any(column =>
+                column.NotAllowedByContract && !column.Joined) == true;
+        }
+
+        private readonly record struct FormulaColumnsKey(
+            string Target,
+            string CalculationMethod,
+            Formula Formula,
+            Formula OutOfCondition,
+            string FormulaMapping,
+            string FormulaScript,
+            string FormulaScriptOutOfCondition);
+
+        private bool ReferringNotAllowedByContractColumn(FormulaSet formulaSet)
+        {
+            var key = new FormulaColumnsKey(
+                Target: formulaSet.Target,
+                CalculationMethod: formulaSet.CalculationMethod,
+                Formula: formulaSet.Formula,
+                OutOfCondition: formulaSet.OutOfCondition,
+                FormulaMapping: formulaSet.FormulaMapping,
+                FormulaScript: formulaSet.FormulaScript,
+                FormulaScriptOutOfCondition: formulaSet.FormulaScriptOutOfCondition);
+            notAllowedByContractFormulas ??=
+                new ConcurrentDictionary<FormulaSet, (FormulaColumnsKey Key, bool Referring)>(
+                    ReferenceEqualityComparer.Instance);
+            if (notAllowedByContractFormulas.TryGetValue(formulaSet, out var cache)
+                && cache.Key.Equals(key))
+            {
+                return cache.Referring;
+            }
+            var referring = FormulaColumnNames(formulaSet: formulaSet)
+                .Any(columnName => NotAllowedByContract(columnName: columnName));
+            notAllowedByContractFormulas[formulaSet] = (key, referring);
+            return referring;
+        }
+
+        public bool NotAllowedByContract(string columnName)
+        {
+            return ColumnHash.Get(columnName)?.NotAllowedByContract == true;
+        }
+
+        private static IEnumerable<string> FormulaColumnNames(FormulaSet formulaSet)
+        {
+            yield return formulaSet.Target;
+            foreach (var columnName in FormulaColumnNames(children: formulaSet.Formula?.Children)
+                .Concat(FormulaColumnNames(children: formulaSet.OutOfCondition?.Children)))
+            {
+                yield return columnName;
+            }
+            if (formulaSet.CalculationMethod != FormulaSet.CalculationMethods.Extended.ToString())
+            {
+                yield break;
+            }
+            var mapping = formulaSet.FormulaMapping?.Deserialize<Dictionary<string, string>>();
+            foreach (var columnName in mapping?.Keys ?? Enumerable.Empty<string>())
+            {
+                yield return columnName;
+            }
+            var scripts = new[]
+            {
+                formulaSet.FormulaScript,
+                formulaSet.FormulaScriptOutOfCondition
+            };
+            foreach (var script in scripts)
+            {
+                foreach (var columnName in script?.RegexValues(@"(?<=\[)[^\]]*(?=\])")
+                    ?? Enumerable.Empty<string>())
+                {
+                    yield return columnName;
+                }
+            }
+        }
+
+        private static IEnumerable<string> FormulaColumnNames(List<Formula> children)
+        {
+            foreach (var formula in children ?? new List<Formula>())
+            {
+                yield return formula.ColumnName;
+                foreach (var columnName in FormulaColumnNames(children: formula.Children))
+                {
+                    yield return columnName;
+                }
+            }
         }
 
         public bool FormulaTarget(string columnName)
@@ -3761,6 +3902,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
             return aggregationSource.AddRange(Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)
+                .AllowedExtendedColumns(context: context)
                 .Where(o => o.Aggregatable)
                 .ToDictionary(
                     o => o.ColumnName,
@@ -4184,6 +4326,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss: this,
                     mine: null))
                 .ToList();
+        }
+
+        public List<Column> ReadableColumns(Context context, List<string> mine, bool noJoined = false)
+        {
+            return Columns
+                .Where(o => GetEditorColumnNames().Contains(o.ColumnName)
+                    || GridColumns.Contains(o.ColumnName)
+                    || !Def.ExtendedColumnTypes.ContainsKey(o.ColumnName))
+                .Where(o => !noJoined || !o.Joined)
+                .Where(o => o.CanRead(
+                    context: context,
+                    ss: this,
+                    mine: mine,
+                    noCache: true))
+                .ToList();
+        }
+
+        public bool ReadColumnAccessControlEnabled(string columnName)
+        {
+            return ReadColumnAccessControls?
+                .Where(o => o.ColumnName == columnName)
+                .Any(o => !o.IsDefault(
+                    ss: this,
+                    type: "Read")) == true;
         }
 
         public int GridNextOffset(int offset, int count, int totalCount)
@@ -4931,6 +5097,110 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
         }
 
+        public HashSet<string> PublishReferencedValues(Context context, Column column)
+        {
+            if (Permissions.PublishScope(context: context) == false
+                || column == null
+                || SiteId != context.SiteId
+                || (ReferenceType != "Results"
+                    && ReferenceType != "Issues"
+                    && ReferenceType != "Wikis"))
+            {
+                return new HashSet<string>();
+            }
+            var publishColumnNames = PublishColumnNames(context: context);
+            var choicesText = column.ChoicesText?.Trim();
+            var columnNames = Columns
+                .Where(o => o == column
+                    || (choicesText.IsNullOrEmpty() == false
+                        && o.ChoicesText?.Trim() == choicesText))
+                .Where(static o => o.Joined == false)
+                .Where(o => publishColumnNames.Contains(o.ColumnName))
+                .Where(o => o.CanRead(
+                    context: context,
+                    ss: this,
+                    mine: new List<string>(),
+                    noCache: true))
+                .Select(static o => o.ColumnName)
+                .Where(static o => o != null && PublishRegexes.ColumnNamePattern().IsMatch(o))
+                .Distinct()
+                .OrderBy(static o => o)
+                .ToList();
+            if (columnNames.Any() == false)
+            {
+                return new HashSet<string>();
+            }
+            var key = $"{SiteId},{columnNames.Join()}";
+            if (context.PublishReferencedValuesHash.TryGetValue(
+                key,
+                out var values))
+            {
+                return values;
+            }
+            var dataSet = Repository.ExecuteDataSet(
+                context: context,
+                statements: columnNames
+                    .Select(columnName => Rds.Select(
+                        tableName: ReferenceType,
+                        dataTableName: columnName,
+                        column: new SqlColumnCollection().Add(
+                            columnBracket: $"\"{columnName}\"",
+                            tableName: ReferenceType,
+                            columnName: columnName),
+                        where: new SqlWhereCollection().Add(
+                            columnBrackets: new string[] { "\"SiteId\"" },
+                            tableName: ReferenceType,
+                            name: "SiteId",
+                            value: SiteId),
+                        distinct: true))
+                    .ToArray());
+            values = PublishReferencedValues(values: columnNames
+                .SelectMany(columnName => dataSet.Tables[columnName]
+                    .AsEnumerable()
+                    .Select(dataRow => dataRow.String(columnName))));
+            context.PublishReferencedValuesHash[key] = values;
+            return values;
+        }
+
+        private HashSet<string> PublishColumnNames(Context context)
+        {
+            return initialPublishColumnNames ?? CollectPublishColumnNames(context: context);
+        }
+
+        private HashSet<string> CollectPublishColumnNames(Context context)
+        {
+            var views = Views ?? new List<View>();
+            return (GridColumns ?? new List<string>())
+                .Concat(views
+                    .Where(view => view.Accessable(context: context))
+                    .SelectMany(static view => view.GridColumns ?? new List<string>()))
+                .Concat(GetEditorColumnNames())
+                .Concat(new string[] { "Creator", "Updator" })
+                .ToHashSet();
+        }
+
+        private HashSet<string> PublishGridColumnNames(Context context, View view)
+        {
+            return view?.GridColumns != null
+                && SiteId == context.SiteId
+                && Permissions.PublishScope(context: context)
+                    ? PublishColumnNames(context: context)
+                    : null;
+        }
+
+        internal static HashSet<string> PublishReferencedValues(IEnumerable<string> values)
+        {
+            return values
+                .Where(static value => value.IsNullOrEmpty() == false)
+                .Select(static value => value.Trim())
+                .SelectMany(static value => value.StartsWith("[")
+                    ? value.Deserialize<List<string>>() ?? new List<string> { value }
+                    : new List<string> { value })
+                .Where(static value => value.IsNullOrEmpty() == false)
+                .Select(static value => value.Trim())
+                .ToHashSet();
+        }
+
         private Dictionary<string, List<string>> LinkHash(
             Context context,
             List<long> siteIdList,
@@ -5466,11 +5736,32 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             AllowedIntegratedSites = new List<long>();
             var sites = GetIntegratedSites(context: context);
-            var allows = Permissions.AllowSites(
-                context: context,
-                sites: sites,
-                referenceType: ReferenceType);
+            var allows = Permissions.PublishScope(context: context)
+                ? PublishAllowedIntegratedSites(
+                    context: context,
+                    sites: sites)
+                : Permissions.AllowSites(
+                    context: context,
+                    sites: sites,
+                    referenceType: ReferenceType);
             AllowedIntegratedSites.AddRange(allows);
+        }
+
+        private IEnumerable<long> PublishAllowedIntegratedSites(Context context, List<long> sites)
+        {
+            return Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectSites(
+                    column: Rds.SitesColumn().SiteId(),
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId)
+                        .SiteId_In(sites)
+                        .ReferenceType(ReferenceType)
+                        .Or(or: Rds.SitesWhere()
+                            .SiteId(context.SiteId)
+                            .Publish(true))))
+                                .AsEnumerable()
+                                .Select(static dataRow => dataRow.Long("SiteId"));
         }
 
         public List<long> GetIntegratedSites(Context context)
@@ -5969,7 +6260,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string target)
         {
             var columnNames = target.StartsWith("BulkUpdate_")
-                ? BulkUpdateColumns.Get(target.Split_2nd('_').ToInt())?.Columns
+                ? BulkUpdateColumns.Get(target.Split_2nd('_').ToInt())?.Columns ?? new List<string>()
                 : target.ToSingleList();
             var allowBulkUpdateColumnNames = GetAllowBulkUpdateColumns(context: context)
                 .Select(column => column.ColumnName)

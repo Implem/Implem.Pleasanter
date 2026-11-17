@@ -506,6 +506,47 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ErrorData ValidateImagesByApi(
+            Context context,
+            SiteSettings ss,
+            Dictionary<string, PostedFile> postedFileHash)
+        {
+            foreach (var file in postedFileHash ?? new Dictionary<string, PostedFile>())
+            {
+                var bin = file.Value.Byte();
+                var invalid = BinaryValidators.OnUploadingImage(
+                    context: context,
+                    ss: ss,
+                    columnName: file.Key,
+                    bin: bin,
+                    contentType: file.Value.ContentType);
+                if (invalid == Error.Types.InvalidRequest)
+                {
+                    invalid = Error.Types.IncorrectFileFormat;
+                }
+                if (invalid == Error.Types.None
+                    && !BinaryValidators.CanDecodeImage(bin: bin))
+                {
+                    invalid = Error.Types.IncorrectFileFormat;
+                }
+                switch (invalid)
+                {
+                    case Error.Types.None:
+                        break;
+                    case Error.Types.OverTenantStorageSize:
+                        return new ErrorData(
+                            type: invalid,
+                            data: context.ContractSettings.StorageSize.ToString());
+                    default:
+                        return new ErrorData(type: invalid);
+                }
+            }
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types UploadImage(
             Context context,
             long id,
@@ -539,11 +580,7 @@ namespace Implem.Pleasanter.Models
                     ? imageData.ReSizeBytes(thumbnailLimitSize)
                     : null;
             }
-            catch (SixLabors.ImageSharp.UnknownImageFormatException)
-            {
-                return Error.Types.IncorrectFileFormat;
-            }
-            catch (SixLabors.ImageSharp.InvalidImageContentException)
+            catch (System.IO.InvalidDataException)
             {
                 return Error.Types.IncorrectFileFormat;
             }
@@ -646,6 +683,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContentResultInheritance ApiDownload(Context context, string guid)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);

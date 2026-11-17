@@ -40,6 +40,7 @@
     "NumFilterStep": "25",
     "LabelText_en": "Work volume",
     "LabelText_zh": "工作量",
+    "LabelText_zh_tw": "工作量",
     "LabelText_de": "Arbeitsaufwand",
     "LabelText_ko": "작업 볼륨",
     "LabelText_es": "Volumen de trabajo",

@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public Stream InputStream;
         public byte[] Byte()
         {
-            return Files.Bytes(Path.Combine(Directories.Temp(), Guid, FileName));
+            return Files.Bytes(Path.Combine(Directories.Temp(), Guid, Path.GetFileName(FileName)));
         }
     }
 }

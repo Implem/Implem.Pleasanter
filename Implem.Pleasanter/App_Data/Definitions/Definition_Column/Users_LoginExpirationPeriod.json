@@ -21,6 +21,7 @@
     "UpdateAccessControl": "ManageTenant",
     "LabelText_en": "Number of days to invalidation",
     "LabelText_zh": "停用天数",
+    "LabelText_zh_tw": "停用天數",
     "LabelText_de": "Anzahl der Tage bis zur Deaktivierung",
     "LabelText_ko": "비활성화까지의 일수",
     "LabelText_es": "Número de días hasta la desactivación",

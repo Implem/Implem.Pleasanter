@@ -10,6 +10,10 @@
             "Body": "报错信息"
         },
         {
+            "Language": "zh_tw",
+            "Body": "報錯資訊"
+        },
+        {
             "Language": "ja",
             "Body": "エラーメッセージ"
         },

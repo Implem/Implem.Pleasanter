@@ -6,6 +6,9 @@ namespace Implem.IRds
     {
         string Convert(string name);
         string ConvertBack(string name, string definitionTypeName, bool isQrtzTable);
-        string DefaultDefinition(DataRow dataRow);
+
+        string DefaultValue(DataRow dataRow);
+
+        string StringLiteral(string value);
     }
 }

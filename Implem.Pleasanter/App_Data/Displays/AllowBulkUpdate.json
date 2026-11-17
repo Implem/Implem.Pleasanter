@@ -10,6 +10,10 @@
             "Body": "允许批量更新"
         },
         {
+            "Language": "zh_tw",
+            "Body": "允許批次更新"
+        },
+        {
             "Language": "ja",
             "Body": "一括更新を許可"
         },

@@ -6,8 +6,12 @@
             "Body": "The number of CustomApps has reached its limit."
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "自定义应用程序的数量已达到极限。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "自定義應用程式的數量已達到極限。"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "El número de aplicaciones personalizadas ha llegado a su límite."
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Số lượng ứng dụng tùy chỉnh đã đạt đến giới hạn."
         }
     ]

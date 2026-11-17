@@ -35,6 +35,7 @@ namespace Implem.Pleasanter.Models
             { BackgroundJobTypes.Export, "Export" },
             { BackgroundJobTypes.Import, "Import" },
             { BackgroundJobTypes.BulkDelete, "BulkDelete" },
+            { BackgroundJobTypes.BulkUpdate, "BulkUpdate" },
             { BackgroundJobTypes.AiConnectSync, "BackgroundJobTypeAiConnect" },
             { BackgroundJobTypes.AiConnectResync, "BackgroundJobTypeAiConnectResync" },
             { BackgroundJobTypes.AiConnectIndexCheck, "BackgroundJobTypeAiConnect" },
@@ -65,6 +66,14 @@ namespace Implem.Pleasanter.Models
                 {
                     DisplayId = "BulkDelete",
                     JobTypes = new[] { BackgroundJobTypes.BulkDelete }
+                }
+            },
+            {
+                BackgroundJobTypes.BulkUpdate,
+                new JobTypeFilterGroup
+                {
+                    DisplayId = "BulkUpdate",
+                    JobTypes = new[] { BackgroundJobTypes.BulkUpdate }
                 }
             },
             {
@@ -776,6 +785,79 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 siteId: siteId,
                 jobType: BackgroundJobTypes.BulkDelete,
+                jobParameters: jobParameters.ToJson());
+        }
+
+        public static bool ShouldQueueBulkUpdate(Context context, SiteSettings ss)
+        {
+            if (ShouldQueue(
+                jobType: BackgroundJobTypes.BulkUpdate,
+                canQueueReferenceType: CanQueueBulkUpdateReferenceType(
+                    referenceType: ss?.ReferenceType)) == false)
+            {
+                return false;
+            }
+            var threshold = Parameters.BackgroundJobs?.BulkQueueThreshold ?? 0;
+            if (threshold == 0)
+            {
+                return true;
+            }
+            if (context.CanUpdate(ss: ss) == false)
+            {
+                return false;
+            }
+            return BulkUpdateTargetCount(
+                context: context,
+                ss: ss) >= threshold;
+        }
+
+        private static bool CanQueueBulkUpdateReferenceType(string referenceType)
+        {
+            return referenceType == "Issues"
+                || referenceType == "Results";
+        }
+
+        public static int BulkUpdateTargetCount(Context context, SiteSettings ss)
+        {
+            switch (ss?.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.BulkUpdateTargetCount(
+                        context: context,
+                        ss: ss);
+                case "Results":
+                    return ResultUtilities.BulkUpdateTargetCount(
+                        context: context,
+                        ss: ss);
+                default:
+                    return 0;
+            }
+        }
+
+        public static ErrorData ValidateBeforeEnqueueBulkUpdate(Context context, SiteSettings ss)
+        {
+            switch (ss?.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.ValidateBeforeEnqueueBulkUpdate(
+                        context: context,
+                        ss: ss);
+                case "Results":
+                    return ResultUtilities.ValidateBeforeEnqueueBulkUpdate(
+                        context: context,
+                        ss: ss);
+                default:
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+        }
+
+        public static long EnqueueBulkUpdate(Context context, long siteId)
+        {
+            var jobParameters = BulkUpdateJobParameters.FromContext(context: context);
+            return Enqueue(
+                context: context,
+                siteId: siteId,
+                jobType: BackgroundJobTypes.BulkUpdate,
                 jobParameters: jobParameters.ToJson());
         }
 

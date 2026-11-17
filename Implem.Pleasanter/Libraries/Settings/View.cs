@@ -194,7 +194,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 CalendarFromTo = Definition(ss, "Calendar")?.Option2;
             }
-            return CalendarFromTo;
+            return ss.NotAllowedByContract(columnName: CalendarFromTo?.Split_1st('-'))
+                || ss.NotAllowedByContract(columnName: CalendarFromTo?.Split_2nd('-'))
+                    ? Definition(
+                        ss: ss,
+                        name: "Calendar")?.Option2
+                    : CalendarFromTo;
         }
 
         public string GetCalendarFromColumn(SiteSettings ss)
@@ -266,11 +271,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             return CalendarShowStatus ?? false;
         }
 
-        public string GetCalendarGroupBy()
+        public string GetCalendarGroupBy(SiteSettings ss = null)
         {
             return !CalendarGroupBy.IsNullOrEmpty()
-                ? CalendarGroupBy
-                : string.Empty;
+                && ss?.NotAllowedByContract(columnName: CalendarGroupBy) != true
+                    ? CalendarGroupBy
+                    : string.Empty;
         }
 
         public string GetIndexSuffix()
@@ -281,25 +287,37 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetCrosstabGroupByX(Context context, SiteSettings ss)
         {
             var options = ss.CrosstabGroupByXOptions(context: context);
+            var defaultValue = DefaultOption(
+                options: options,
+                definitionValue: Definition(
+                    ss: ss,
+                    name: "Crosstab")?.Option1);
             if (CrosstabGroupByX.IsNullOrEmpty())
             {
-                CrosstabGroupByX = options.ContainsKey(Definition(ss, "Crosstab")?.Option1)
-                    ? Definition(ss, "Crosstab")?.Option1
-                    : options.FirstOrDefault().Key;
+                CrosstabGroupByX = defaultValue;
             }
-            return CrosstabGroupByX;
+            return AllowedByContractOrDefault(
+                ss: ss,
+                columnName: CrosstabGroupByX,
+                defaultValue: defaultValue);
         }
 
         public string GetCrosstabGroupByY(Context context, SiteSettings ss)
         {
             var options = ss.CrosstabGroupByYOptions(context: context);
+            var defaultValue = DefaultOption(
+                options: options,
+                definitionValue: Definition(
+                    ss: ss,
+                    name: "Crosstab")?.Option2);
             if (CrosstabGroupByY.IsNullOrEmpty())
             {
-                CrosstabGroupByY = options.ContainsKey(Definition(ss, "Crosstab")?.Option2)
-                    ? Definition(ss, "Crosstab")?.Option2
-                    : options.FirstOrDefault().Key;
+                CrosstabGroupByY = defaultValue;
             }
-            return CrosstabGroupByY;
+            return AllowedByContractOrDefault(
+                ss: ss,
+                columnName: CrosstabGroupByY,
+                defaultValue: defaultValue);
         }
 
         public string GetCrosstabAggregateType(SiteSettings ss)
@@ -314,13 +332,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetCrosstabValue(Context context, SiteSettings ss)
         {
             var options = ss.CrosstabColumnsOptions(context: context);
+            var defaultValue = DefaultOption(
+                options: options,
+                definitionValue: Definition(
+                    ss: ss,
+                    name: "Crosstab")?.Option4);
             if (CrosstabValue.IsNullOrEmpty())
             {
-                CrosstabValue = options.ContainsKey(Definition(ss, "Crosstab")?.Option4)
-                    ? Definition(ss, "Crosstab")?.Option4
-                    : options.FirstOrDefault().Key;
+                CrosstabValue = defaultValue;
             }
-            return CrosstabValue;
+            return AllowedByContractOrDefault(
+                ss: ss,
+                columnName: CrosstabValue,
+                defaultValue: defaultValue);
         }
 
         public string GetCrosstabTimePeriod(SiteSettings ss)
@@ -347,30 +371,38 @@ namespace Implem.Pleasanter.Libraries.Settings
             return new DateTime(now.Year, now.Month, 1);
         }
 
-        public string GetGanttGroupBy()
+        public string GetGanttGroupBy(SiteSettings ss = null)
         {
             return !GanttGroupBy.IsNullOrEmpty()
-                ? GanttGroupBy
-                : string.Empty;
+                && ss?.NotAllowedByContract(columnName: GanttGroupBy) != true
+                    ? GanttGroupBy
+                    : string.Empty;
         }
 
-        public string GetGanttSortBy()
+        public string GetGanttSortBy(SiteSettings ss = null)
         {
             return !GanttSortBy.IsNullOrEmpty()
-                ? GanttSortBy
-                : string.Empty;
+                && ss?.NotAllowedByContract(columnName: GanttSortBy) != true
+                    ? GanttSortBy
+                    : string.Empty;
         }
 
         public string GetTimeSeriesGroupBy(Context context, SiteSettings ss)
         {
             var options = ss.TimeSeriesGroupByOptions(context: context);
+            var defaultValue = DefaultOption(
+                options: options,
+                definitionValue: Definition(
+                    ss: ss,
+                    name: "TimeSeries")?.Option1);
             if (TimeSeriesGroupBy.IsNullOrEmpty())
             {
-                TimeSeriesGroupBy = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
-                    ? Definition(ss, "TimeSeries")?.Option1
-                    : options.FirstOrDefault().Key;
+                TimeSeriesGroupBy = defaultValue;
             }
-            return TimeSeriesGroupBy;
+            return AllowedByContractOrDefault(
+                ss: ss,
+                columnName: TimeSeriesGroupBy,
+                defaultValue: defaultValue);
         }
 
         public string GetTimeSeriesAggregationType(Context context, SiteSettings ss)
@@ -388,13 +420,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetTimeSeriesValue(Context context, SiteSettings ss)
         {
             var options = ss.TimeSeriesValueOptions(context: context);
+            var defaultValue = DefaultOption(
+                options: options,
+                definitionValue: Definition(
+                    ss: ss,
+                    name: "TimeSeries")?.Option3);
             if (TimeSeriesValue.IsNullOrEmpty())
             {
-                TimeSeriesValue = options.ContainsKey(Definition(ss, "TimeSeries")?.Option3)
-                    ? Definition(ss, "TimeSeries")?.Option3
-                    : options.FirstOrDefault().Key;
+                TimeSeriesValue = defaultValue;
             }
-            return TimeSeriesValue;
+            return AllowedByContractOrDefault(
+                ss: ss,
+                columnName: TimeSeriesValue,
+                defaultValue: defaultValue);
         }
 
         public string GetTimeSeriesChartType(Context context, SiteSettings ss)
@@ -412,20 +450,27 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetTimeSeriesHorizontalAxis(Context context, SiteSettings ss)
         {
             var options = ss.TimeSeriesHorizontalAxisOptions(context: context);
+            var defaultValue = DefaultOption(
+                options: options,
+                definitionValue: Definition(
+                    ss: ss,
+                    name: "TimeSeries")?.Option5);
             if (TimeSeriesHorizontalAxis.IsNullOrEmpty())
             {
-                TimeSeriesHorizontalAxis = options.ContainsKey(Definition(ss, "TimeSeries")?.Option5)
-                    ? Definition(ss, "TimeSeries")?.Option5
-                    : options.FirstOrDefault().Key;
+                TimeSeriesHorizontalAxis = defaultValue;
             }
-            switch (TimeSeriesHorizontalAxis)
+            var horizontalAxis = AllowedByContractOrDefault(
+                ss: ss,
+                columnName: TimeSeriesHorizontalAxis,
+                defaultValue: defaultValue);
+            switch (horizontalAxis)
             {
                 case "Histories":
-                    return TimeSeriesHorizontalAxis;
+                    return horizontalAxis;
                 default:
                     return ss.GetColumn(
                         context: context,
-                        columnName: TimeSeriesHorizontalAxis)?.ColumnName;
+                        columnName: horizontalAxis)?.ColumnName;
             }
         }
 
@@ -433,7 +478,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var options = ss.AnalyGroupByOptions(context: context);
             var ret = value;
-            if (value.IsNullOrEmpty())
+            if (value.IsNullOrEmpty()
+                || ss.NotAllowedByContract(columnName: value))
             {
                 ret = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
                     ? Definition(ss, "TimeSeries")?.Option1
@@ -446,7 +492,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var options = ss.AnalyAggregationTargetOptions(context: context);
             var ret = value;
-            if (value.IsNullOrEmpty())
+            if (value.IsNullOrEmpty()
+                || ss.NotAllowedByContract(columnName: value))
             {
                 ret = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
                     ? Definition(ss, "TimeSeries")?.Option1
@@ -458,25 +505,37 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetKambanGroupByX(Context context, SiteSettings ss)
         {
             var options = ss.KambanGroupByOptions(context: context);
+            var defaultValue = DefaultOption(
+                options: options,
+                definitionValue: Definition(
+                    ss: ss,
+                    name: "Kamban")?.Option1);
             if (KambanGroupByX.IsNullOrEmpty())
             {
-                KambanGroupByX = options.ContainsKey(Definition(ss, "Kamban")?.Option1)
-                    ? Definition(ss, "Kamban")?.Option1
-                    : options.FirstOrDefault().Key;
+                KambanGroupByX = defaultValue;
             }
-            return KambanGroupByX;
+            return AllowedByContractOrDefault(
+                ss: ss,
+                columnName: KambanGroupByX,
+                defaultValue: defaultValue);
         }
 
         public string GetKambanGroupByY(Context context, SiteSettings ss)
         {
             var options = ss.KambanGroupByOptions(context: context);
+            var defaultValue = DefaultOption(
+                options: options,
+                definitionValue: Definition(
+                    ss: ss,
+                    name: "Kamban")?.Option2);
             if (KambanGroupByY.IsNullOrEmpty())
             {
-                KambanGroupByY = options.ContainsKey(Definition(ss, "Kamban")?.Option2)
-                    ? Definition(ss, "Kamban")?.Option2
-                    : options.FirstOrDefault().Key;
+                KambanGroupByY = defaultValue;
             }
-            return KambanGroupByY;
+            return AllowedByContractOrDefault(
+                ss: ss,
+                columnName: KambanGroupByY,
+                defaultValue: defaultValue);
         }
 
         public string GetKambanAggregationType(Context context, SiteSettings ss)
@@ -494,13 +553,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetKambanValue(Context context, SiteSettings ss)
         {
             var options = ss.KambanValueOptions(context: context);
+            var defaultValue = DefaultOption(
+                options: options,
+                definitionValue: Definition(
+                    ss: ss,
+                    name: "Kamban")?.Option4);
             if (KambanValue.IsNullOrEmpty())
             {
-                KambanValue = options.ContainsKey(Definition(ss, "Kamban")?.Option4)
-                    ? Definition(ss, "Kamban")?.Option4
-                    : options.FirstOrDefault().Key;
+                KambanValue = defaultValue;
             }
-            return KambanValue;
+            return AllowedByContractOrDefault(
+                ss: ss,
+                columnName: KambanValue,
+                defaultValue: defaultValue);
         }
 
         public int GetKambanColumns()
@@ -511,6 +576,25 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetKambanSuffix()
         {
             return KambanSuffix;
+        }
+
+        private static string DefaultOption(
+            Dictionary<string, string> options,
+            string definitionValue)
+        {
+            return definitionValue != null && options.ContainsKey(definitionValue)
+                ? definitionValue
+                : options.FirstOrDefault().Key;
+        }
+
+        private static string AllowedByContractOrDefault(
+            SiteSettings ss,
+            string columnName,
+            string defaultValue)
+        {
+            return ss.NotAllowedByContract(columnName: columnName)
+                ? defaultValue
+                : columnName;
         }
 
         private ViewModeDefinition Definition(SiteSettings ss, string name)
@@ -2142,6 +2226,56 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
         }
 
+        public bool FiltersNotAllowedByContractColumn(Context context, SiteSettings ss)
+        {
+            return FiltersNotAllowedByContractColumn(
+                context: context,
+                ss: ss,
+                columnFilterHash: ColumnFilterHash);
+        }
+
+        private static bool FiltersNotAllowedByContractColumn(
+            Context context,
+            SiteSettings ss,
+            Dictionary<string, string> columnFilterHash)
+        {
+            return columnFilterHash?.Any(data =>
+            {
+                if (data.Key.StartsWith("or_") || data.Key.StartsWith("and_"))
+                {
+                    return FiltersNotAllowedByContractColumn(
+                        context: context,
+                        ss: ss,
+                        columnFilterHash: data.Value.Deserialize<Dictionary<string, string>>());
+                }
+                if (data.Key.StartsWith("eq_") || data.Key.StartsWith("notEq_"))
+                {
+                    return NotAllowedByContract(
+                            context: context,
+                            ss: ss,
+                            columnName: data.Value.Split_1st('|'))
+                        || NotAllowedByContract(
+                            context: context,
+                            ss: ss,
+                            columnName: data.Value.Split_2nd('|'));
+                }
+                return NotAllowedByContract(
+                    context: context,
+                    ss: ss,
+                    columnName: data.Key);
+            }) == true;
+        }
+
+        private static bool NotAllowedByContract(
+            Context context,
+            SiteSettings ss,
+            string columnName)
+        {
+            return ss.GetColumn(
+                context: context,
+                columnName: columnName)?.NotAllowedByContract == true;
+        }
+
         public void SetColumnsWhere(
             Context context,
             SiteSettings ss,
@@ -2206,7 +2340,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     GroupMembers = data.Key == "GroupMembers",
                     OnSelectingWhere = data.Key == "OnSelectingWhere",
                 })
-                .Where(o => (o.Column != null && !o.Column.NotSelect)
+                .Where(o => (o.Column != null
+                        && !o.Column.NotSelect
+                        && !o.Column.NotAllowedByContract)
                     || o.Or
                     || o.And
                     || o.Eq
@@ -2265,7 +2401,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                             columnName: data.Value.Split_2nd('|'));
                         var csType1 = column1?.TypeName.CsTypeSummary();
                         var csType2 = column2?.TypeName.CsTypeSummary();
-                        if (column1 != null && column2 != null && csType1 == csType2)
+                        if (column1 != null
+                            && column2 != null
+                            && !column1.NotAllowedByContract
+                            && !column2.NotAllowedByContract
+                            && csType1 == csType2)
                         {
                             AddEqWhere(
                                 context: context,
@@ -3351,7 +3491,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var column = ss.GetColumn(
                         context: context,
                         columnName: data.Key);
-                    if (column != null)
+                    if (column != null && !column.NotAllowedByContract)
                     {
                         OrderBy(
                             context: context,

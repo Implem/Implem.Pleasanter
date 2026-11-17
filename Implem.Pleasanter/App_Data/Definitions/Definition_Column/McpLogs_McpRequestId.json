@@ -22,6 +22,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "MCP Request ID",
     "LabelText_zh": "MCP请求ID",
+    "LabelText_zh_tw": "MCP請求ID",
     "LabelText_de": "MCP-Anforderungs-ID",
     "LabelText_ko": "MCP 요청 ID",
     "LabelText_es": "ID de solicitud MCP",

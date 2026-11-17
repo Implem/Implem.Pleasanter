@@ -65,7 +65,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 SessionData = jobParameters.SessionData ?? new Dictionary<string, string>(),
                 UserSessionData = jobParameters.UserSessionData
                     ?? new Dictionary<string, string>(),
-                AbsoluteUri = Parameters.Service.AbsoluteUri
+                AbsoluteUri = Parameters.Service.AbsoluteUri,
+                Page = jobParameters.Page.IsNullOrEmpty()
+                    ? $"items/{backgroundJobModel.SiteId}"
+                    : jobParameters.Page,
+                IsBackgroundJob = true
             };
             foreach (var item in jobParameters.Forms ?? new Dictionary<string, string>())
             {
@@ -134,6 +138,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         public Dictionary<string, string> Forms { get; set; }
         public Dictionary<string, string> SessionData { get; set; }
         public Dictionary<string, string> UserSessionData { get; set; }
+        public string Page { get; set; }
 
         public static ExportJobParameters FromContext(Context context)
         {
@@ -144,7 +149,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 TimeZoneId = context.TimeZoneInfo?.Id,
                 Forms = new Dictionary<string, string>(context.Forms),
                 SessionData = new Dictionary<string, string>(context.SessionData),
-                UserSessionData = new Dictionary<string, string>(context.UserSessionData)
+                UserSessionData = new Dictionary<string, string>(context.UserSessionData),
+                Page = context.Page
             };
         }
     }

@@ -22,6 +22,7 @@
     "ValidateRequired": "1",
     "LabelText_en": "Name",
     "LabelText_zh": "名称",
+    "LabelText_zh_tw": "名稱",
     "LabelText_de": "Name",
     "LabelText_ko": "이름",
     "LabelText_es": "Nombre",

@@ -10,6 +10,10 @@
             "Body": "显示标题"
         },
         {
+            "Language": "zh_tw",
+            "Body": "顯示標題"
+        },
+        {
             "Language": "ja",
             "Body": "タイトルを表示する"
         },

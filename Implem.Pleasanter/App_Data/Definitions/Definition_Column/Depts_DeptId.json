@@ -27,6 +27,7 @@
     "EditorReadOnly": "1",
     "LabelText_en": "Department ID",
     "LabelText_zh": "部门ID",
+    "LabelText_zh_tw": "部門ID",
     "LabelText_de": "Abteilungs-ID",
     "LabelText_ko": "부서 ID",
     "LabelText_es": "ID de departamento",

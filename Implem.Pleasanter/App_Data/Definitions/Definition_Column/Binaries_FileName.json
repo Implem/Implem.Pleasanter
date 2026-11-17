@@ -15,6 +15,7 @@
     "NotForm": "1",
     "LabelText_en": "File name",
     "LabelText_zh": "文件名称",
+    "LabelText_zh_tw": "檔案名稱",
     "LabelText_de": "Dateiname",
     "LabelText_ko": "파일명",
     "LabelText_es": "Nombre de archivo",

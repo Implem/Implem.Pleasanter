@@ -10,6 +10,10 @@
             "Body": "创建记录许可"
         },
         {
+            "Language": "zh_tw",
+            "Body": "建立記錄許可"
+        },
+        {
             "Language": "ja",
             "Body": "レコード作成時の許可"
         },

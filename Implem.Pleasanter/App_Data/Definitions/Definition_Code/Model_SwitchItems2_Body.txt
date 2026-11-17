@@ -431,7 +431,14 @@ public string BulkUpdate(Context context)
     SetSite(
         context: context,
         initSiteSettings: true);
-    switch (Site.SiteSettings.ReferenceType)
+    return BulkUpdate(
+        context: context,
+        ss: Site.SiteSettings);
+}
+
+public string BulkUpdate(Context context, SiteSettings ss)
+{
+    switch (ss.ReferenceType)
     {
 
 <!--Model_BulkUpdateCases-->
@@ -1194,6 +1201,17 @@ public ContentResultInheritance CopySitePackageByApi(Context context)
             context: context,
             siteId: Site.SiteId,
             limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    var apiErrorData = Validators.ValidateApi(
+        context: context,
+        serverScript: false);
+    switch (apiErrorData.Type)
+    {
+        case Error.Types.None: break;
+        default:
+            return ApiResults.Error(
+                context: context,
+                errorData: apiErrorData);
     }
     switch (Site.ReferenceType)
     {

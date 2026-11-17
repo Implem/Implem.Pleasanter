@@ -10,6 +10,10 @@
             "Body": "仅图像"
         },
         {
+            "Language": "zh_tw",
+            "Body": "僅影像"
+        },
+        {
             "Language": "ja",
             "Body": "画像のみ"
         },

@@ -37,6 +37,7 @@
     "SettingEnable": "1",
     "LabelText_en": "Owner",
     "LabelText_zh": "所有者",
+    "LabelText_zh_tw": "負責人",
     "LabelText_de": "Verantwortlicher",
     "LabelText_ko": "소유자",
     "LabelText_es": "Propietario",

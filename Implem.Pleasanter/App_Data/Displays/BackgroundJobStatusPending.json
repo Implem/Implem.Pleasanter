@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Pending" },
         { "Language": "zh", "Body": "待处理" },
+        {
+            "Language": "zh_tw",
+            "Body": "待處理"
+        },
         { "Language": "ja", "Body": "待機" },
         { "Language": "de", "Body": "Ausstehend" },
         { "Language": "ko", "Body": "대기 중" },

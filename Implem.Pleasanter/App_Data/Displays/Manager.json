@@ -11,6 +11,10 @@
             "Body": "经理"
         },
         {
+            "Language": "zh_tw",
+            "Body": "經理"
+        },
+        {
             "Language": "ja",
             "Body": "管理者"
         },

@@ -18,6 +18,7 @@
     "NotLookup": "1",
     "LabelText_en": "Synchronized time",
     "LabelText_zh": "同步时间",
+    "LabelText_zh_tw": "同步時間",
     "LabelText_de": "Synchronisierte Zeit",
     "LabelText_ko": "동기화 된 시간",
     "LabelText_es": "Tempo sincronizzato",

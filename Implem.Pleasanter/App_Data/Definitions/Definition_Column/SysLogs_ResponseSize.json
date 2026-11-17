@@ -18,6 +18,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Response size",
     "LabelText_zh": "响应大小",
+    "LabelText_zh_tw": "響應大小",
     "LabelText_de": "Antwortgröße",
     "LabelText_ko": "응답 크기",
     "LabelText_es": "Tamaño de respuesta",

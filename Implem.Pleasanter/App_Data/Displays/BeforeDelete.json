@@ -10,6 +10,10 @@
             "Body": "删除前"
         },
         {
+            "Language": "zh_tw",
+            "Body": "刪除前"
+        },
+        {
             "Language": "ja",
             "Body": "削除前"
         },

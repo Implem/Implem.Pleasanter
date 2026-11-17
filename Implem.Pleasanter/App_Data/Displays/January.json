@@ -14,12 +14,16 @@
             "Body": "1月"
         },
         {
+            "Language": "zh_tw",
+            "Body": "1月"
+        },
+        {
             "Language": "ko",
             "Body": "1월"
         },
         {
-            "Language": "vi",
-            "Body": "Tháng Một"
+            "Language": "vn",
+            "Body": "Tháng một"
         },
         {
             "Language": "es",

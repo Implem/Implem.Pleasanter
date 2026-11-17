@@ -9,5 +9,6 @@
     "TypeName": "int",
     "Default": "0",
     "LabelText_en": "User ID",
-    "LabelText_zh": "用户ID"
+    "LabelText_zh": "用户ID",
+    "LabelText_zh_tw": "使用者ID"
 }

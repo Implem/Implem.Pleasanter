@@ -6,8 +6,12 @@
             "Body": "Setting items"
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "设置项目"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "設定項目"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "Elementos de configuración"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Thiết lập các mục"
         }
     ]

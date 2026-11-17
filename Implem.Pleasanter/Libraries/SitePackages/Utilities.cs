@@ -215,6 +215,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         permissionIdList: sitePackage.PermissionIdList,
                         includeNotifications: includeNotifications,
                         includeReminders: includeReminders);
+                    AiProviderUtilities.ResolveMaskedConnectionSettings(
+                        ss: packageSiteModel.SiteSettings,
+                        storedSs: null);
                     conv.SiteSettings = packageSiteModel.SiteSettings;
                     Repository.ExecuteScalar_response(
                         context: context,
@@ -714,6 +717,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .Comments(model.Comments?.ToJson(), _using: model.Comments?.Any() == true);
             model.ClassHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => !ss.NotAllowedByContract(columnName: o.Key))
                 .Where(o => o.Value != null)
                 .ForEach(o =>
                     param.Add(
@@ -727,6 +731,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             value: o.Value.ToString()).MaxLength(1024)));
             model.NumHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => !ss.NotAllowedByContract(columnName: o.Key))
                 .ForEach(o =>
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
@@ -734,6 +739,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         value: (object)o.Value ?? DBNull.Value));
             model.DateHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => !ss.NotAllowedByContract(columnName: o.Key))
                 .ForEach(o =>
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
@@ -741,6 +747,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         value: o.Value));
             model.DescriptionHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => !ss.NotAllowedByContract(columnName: o.Key))
                 .ForEach(o =>
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
@@ -748,6 +755,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         value: o.Value));
             model.CheckHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => !ss.NotAllowedByContract(columnName: o.Key))
                 .ForEach(o =>
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
@@ -796,6 +804,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .Comments(model.Comments?.ToJson(), _using: model.Comments?.Any() == true);
             model.ClassHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => !ss.NotAllowedByContract(columnName: o.Key))
                 .Where(o => o.Value != null)
                 .ForEach(o =>
                     param.Add(
@@ -809,6 +818,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             value: o.Value.ToString()).MaxLength(1024)));
             model.NumHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => !ss.NotAllowedByContract(columnName: o.Key))
                 .ForEach(o =>
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
@@ -816,6 +826,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         value: (object)o.Value ?? DBNull.Value));
             model.DateHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => !ss.NotAllowedByContract(columnName: o.Key))
                 .ForEach(o =>
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
@@ -823,6 +834,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         value: o.Value));
             model.DescriptionHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => !ss.NotAllowedByContract(columnName: o.Key))
                 .ForEach(o =>
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
@@ -830,6 +842,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         value: o.Value));
             model.CheckHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => !ss.NotAllowedByContract(columnName: o.Key))
                 .ForEach(o =>
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",

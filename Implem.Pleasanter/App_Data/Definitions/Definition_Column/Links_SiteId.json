@@ -15,6 +15,7 @@
     "NotUpdate": "1",
     "LabelText_en": "Site ID",
     "LabelText_zh": "站点ID",
+    "LabelText_zh_tw": "站點ID",
     "LabelText_de": "Site-ID",
     "LabelText_ko": "사이트 ID",
     "LabelText_es": "ID del sitio",

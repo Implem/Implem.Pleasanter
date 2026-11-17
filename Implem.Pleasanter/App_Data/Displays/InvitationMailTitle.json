@@ -10,6 +10,10 @@
             "Body": "{0}邀请邮件"
         },
         {
+            "Language": "zh_tw",
+            "Body": "{0}邀請郵件"
+        },
+        {
             "Language": "ja",
             "Body": "{0}招待メール"
         },

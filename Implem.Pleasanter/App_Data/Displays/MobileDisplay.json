@@ -10,16 +10,20 @@
             "Body": "手机展示架"
         },
         {
+            "Language": "zh_tw",
+            "Body": "手機展示架"
+        },
+        {
             "Language": "ja",
             "Body": "モバイル表示"
         },
         {
             "Language": "de",
-            "Body": "모바일 표시"
+            "Body": "Mobile-Anzeige"
         },
         {
             "Language": "ko",
-            "Body": "바탕 화면 표시"
+            "Body": "모바일 표시"
         },
         {
             "Language": "es",

@@ -1,0 +1,6 @@
+﻿if (ss.ColumnHash.ContainsKey("TenantId")
+    && Permissions.ApplySysLogsTenantFilter(context: context)
+    && #modelName#Model.TenantId != context.TenantId)
+{
+    return Error.Types.NotFound.MessageJson(context: context);
+}

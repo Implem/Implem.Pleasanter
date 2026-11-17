@@ -10,6 +10,10 @@
             "Body": "{0}天前"
         },
         {
+            "Language": "zh_tw",
+            "Body": "{0}天前"
+        },
+        {
             "Language": "ja",
             "Body": "{0} 日前"
         },

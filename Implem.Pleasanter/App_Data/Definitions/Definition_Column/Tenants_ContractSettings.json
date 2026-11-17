@@ -16,6 +16,7 @@
     "ByDataRow": "GetContractSettings(dataRow)",
     "LabelText_en": "Contract settings",
     "LabelText_zh": "合同设置",
+    "LabelText_zh_tw": "合同設定",
     "LabelText_de": "Vertragseinstellungen",
     "LabelText_ko": "계약 설정",
     "LabelText_es": "Ajustes del contrato",

@@ -18,6 +18,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Elapsed time",
     "LabelText_zh": "耗时",
+    "LabelText_zh_tw": "耗時",
     "LabelText_de": "Verstrichene Zeit",
     "LabelText_ko": "경과 시간",
     "LabelText_es": "Tiempo transcurrido",

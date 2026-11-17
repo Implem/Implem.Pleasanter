@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.MCP.Infrastructure
 
             var httpSessionId = context.Request.Headers[McpSessionIdHeader].ToString();
 
-            var startTime = DateTime.UtcNow;
+            var startTime = DateTime.Now;
             var stopwatch = Stopwatch.StartNew();
             string requestBody = null;
             string responseBody = null;
@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.MCP.Infrastructure
 
                 if (loggingEnabled && context.Request.Method == "POST" && mcpRequestInfo != null)
                 {
-                    var endTime = DateTime.UtcNow;
+                    var endTime = DateTime.Now;
                     var elapsed = stopwatch.Elapsed.TotalMilliseconds;
 
                     var statusCode = context.Response.StatusCode;
@@ -260,26 +260,9 @@ namespace Implem.Pleasanter.MCP.Infrastructure
             return mcpRequestInfo.Method switch
             {
                 "tools/call" => mcpRequestInfo.ToolName,
-                "prompts/get" => ExtractPromptName(mcpRequestInfo.Arguments),
+                "prompts/get" => mcpRequestInfo.PromptName,
                 _ => null
             };
-        }
-
-        private static string ExtractPromptName(string arguments)
-        {
-            if (string.IsNullOrEmpty(arguments)) return null;
-
-            try
-            {
-                using var doc = JsonDocument.Parse(arguments);
-                if (doc.RootElement.TryGetProperty("name", out var nameElement))
-                {
-                    return nameElement.GetString();
-                }
-            }
-            catch { }
-
-            return null;
         }
 
         private static string GetApiKeyPrefix(string apiKey)
@@ -467,7 +450,7 @@ namespace Implem.Pleasanter.MCP.Infrastructure
             }
         }
 
-        private static string TruncateResponseData(string responseBody)
+        internal static string TruncateResponseData(string responseBody)
         {
             if (string.IsNullOrEmpty(responseBody)) return null;
 
@@ -622,6 +605,7 @@ namespace Implem.Pleasanter.MCP.Infrastructure
                     : null;
 
                 string toolName = null;
+                string promptName = null;
                 string arguments = null;
 
                 if (method == "tools/call" && root.TryGetProperty("params", out var paramsElement))
@@ -637,6 +621,15 @@ namespace Implem.Pleasanter.MCP.Infrastructure
                     }
                 }
 
+                if (method == "prompts/get"
+                    && root.TryGetProperty("params", out var promptParams)
+                    && promptParams.ValueKind == JsonValueKind.Object
+                    && promptParams.TryGetProperty("name", out var promptNameElement)
+                    && promptNameElement.ValueKind == JsonValueKind.String)
+                {
+                    promptName = promptNameElement.GetString();
+                }
+
                 if (method == "initialize" && root.TryGetProperty("params", out var initParams))
                 {
                     ExtractAndSetClientInfo(httpContext, initParams);
@@ -647,6 +640,7 @@ namespace Implem.Pleasanter.MCP.Infrastructure
                     RequestId = requestId,
                     Method = method,
                     ToolName = toolName,
+                    PromptName = promptName,
                     Arguments = arguments,
                     RawRequestBody = requestBody,
                     ReceivedAt = DateTime.UtcNow

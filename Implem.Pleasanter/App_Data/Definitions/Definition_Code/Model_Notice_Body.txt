@@ -192,7 +192,7 @@ private string NoticeBody(
     bool update = false)
 {
     var body = new System.Text.StringBuilder();
-    notification.GetFormat(
+    notification.GetNoticeFormat(
         context: context,
         ss: ss)
             .Split('\n')

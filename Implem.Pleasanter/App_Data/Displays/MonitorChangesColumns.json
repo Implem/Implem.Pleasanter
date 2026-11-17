@@ -10,6 +10,10 @@
             "Body": "变更监控列"
         },
         {
+            "Language": "zh_tw",
+            "Body": "監控變更的欄位"
+        },
+        {
             "Language": "ja",
             "Body": "変更を監視する項目"
         },

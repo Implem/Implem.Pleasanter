@@ -25,6 +25,8 @@ namespace Implem.Pleasanter.MCP.McpContext
 
         public string ToolName { get; init; }
 
+        public string PromptName { get; init; }
+
         public string Arguments { get; init; }
 
         public string Method { get; init; }

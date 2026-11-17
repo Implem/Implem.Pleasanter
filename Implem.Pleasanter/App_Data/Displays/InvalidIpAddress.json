@@ -10,6 +10,10 @@
             "Body": "无效IP地址。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "無效IP地址。"
+        },
+        {
             "Language": "ja",
             "Body": "IPアドレスが不正です。"
         },

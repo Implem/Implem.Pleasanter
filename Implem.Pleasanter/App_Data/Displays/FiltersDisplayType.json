@@ -10,6 +10,10 @@
             "Body": "过滤器显示类型"
         },
         {
+            "Language": "zh_tw",
+            "Body": "篩選器顯示類型"
+        },
+        {
             "Language": "ja",
             "Body": "フィルタの表示種別"
         },

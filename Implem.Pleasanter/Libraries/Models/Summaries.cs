@@ -182,6 +182,12 @@ namespace Implem.Pleasanter.Libraries.Models
             IEnumerable<long> destinationIds,
             Action watchdog = null)
         {
+            if (destinationSs.NotAllowedByContract(columnName: destinationColumn)
+                || ss.NotAllowedByContract(columnName: sourceColumn)
+                || ss.NotAllowedByContract(columnName: linkColumn))
+            {
+                return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
+            }
             switch (destinationSs.ReferenceType)
             {
                 case "Issues":
@@ -323,6 +329,7 @@ namespace Implem.Pleasanter.Libraries.Models
                             context: context,
                             ss: destinationSs,
                             synchronizeSummary: false,
+                            synchronizeAiConnect: false,
                             get: false);
                     }
                     chunkDelay?.Invoke();
@@ -495,6 +502,7 @@ namespace Implem.Pleasanter.Libraries.Models
                             context: context,
                             ss: destinationSs,
                             synchronizeSummary: false,
+                            synchronizeAiConnect: false,
                             get: false);
                     }
                     chunkDelay?.Invoke();

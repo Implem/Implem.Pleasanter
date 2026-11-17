@@ -19,6 +19,7 @@
     "SettingEnable": "1",
     "LabelText_en": "Parameter name",
     "LabelText_zh": "参数名称",
+    "LabelText_zh_tw": "參數名稱",
     "LabelText_de": "Parametername",
     "LabelText_ko": "매개변수 이름",
     "LabelText_es": "Nombre del parámetro",

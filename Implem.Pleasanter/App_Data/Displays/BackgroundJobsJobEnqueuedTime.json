@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Job Enqueued Time" },
         { "Language": "zh", "Body": "作业入队时间" },
+        {
+            "Language": "zh_tw",
+            "Body": "作業入隊時間"
+        },
         { "Language": "ja", "Body": "ジョブ登録日時" },
         { "Language": "de", "Body": "Auftragseinreihungszeit" },
         { "Language": "ko", "Body": "작업 등록 일시" },

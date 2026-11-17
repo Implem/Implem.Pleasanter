@@ -9970,6 +9970,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#SysLogs_AssemblyVersion", value);
         }
 
+        public static SysLogsResponseCollection TenantId(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_TenantId",
+                res.SysLogModel.TenantId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "TenantId")));
+        }
+
+        public static SysLogsResponseCollection TenantId(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_TenantId", value);
+        }
+
+        public static SysLogsResponseCollection TenantId_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_TenantId",
+                res.SysLogModel.TenantId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "TenantId")));
+        }
+
+        public static SysLogsResponseCollection TenantId_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_TenantId", value);
+        }
+
         public static SysLogsResponseCollection Timestamp(
             this SysLogsResponseCollection res,
             Context context,

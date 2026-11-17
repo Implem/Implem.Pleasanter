@@ -15,6 +15,7 @@
     "NotForm": "1",
     "LabelText_en": "Parent site ID",
     "LabelText_zh": "父系站点ID",
+    "LabelText_zh_tw": "上層站點ID",
     "LabelText_de": "ID der übergeordneten Site",
     "LabelText_ko": "상위 사이트 ID",
     "LabelText_es": "ID de sitio principal",

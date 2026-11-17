@@ -32,8 +32,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Remind(Context context)
         {
-            var now = DateTime.Now;
-            while ((DateTime.Now - now).Seconds <= Parameters.Reminder.Span)
+            var endTime = DateTime.Now.AddSeconds(Parameters.Reminder.Span);
+            while (DateTime.Now <= endTime)
             {
                 var targets = Repository.ExecuteTable(
                     context: context,
@@ -45,7 +45,8 @@ namespace Implem.Pleasanter.Models
                             .Sites_Updator()
                             .Sites_TenantId()
                             .Users_DeptId()
-                            .Tenants_ContractDeadline(),
+                            .Tenants_ContractDeadline()
+                            .Tenants_ContractSettings(),
                         join: Rds.ReminderSchedulesJoin()
                             .Add(
                                 tableName: "\"Sites\"",
@@ -104,6 +105,10 @@ namespace Implem.Pleasanter.Models
                     request: false,
                     setAuthenticated: true);
                 context.AbsoluteUri = Parameters.Service.AbsoluteUri;
+                context.ContractSettings.SetExtendedColumns(
+                    contractSettings: dataRow
+                        .String("ContractSettings")
+                        .Deserialize<ContractSettings>());
             }
             else
             {

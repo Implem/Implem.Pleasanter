@@ -1,10 +1,24 @@
-﻿public #ModelName#ApiModel GetByApi(Context context, SiteSettings ss<!--Model_GetByApi_GetMailAddressesParameter-->)
+﻿public #ModelName#ApiModel GetByApi(
+    Context context,
+    SiteSettings ss,
+
+    <!--Model_GetByApi_GetMailAddressesParameter-->
+
+    bool checkRecordUsers = true)
 {
     var data = new #ModelName#ApiModel()
     {
         ApiVersion = context.ApiVersion
     };
-    ss.ReadableColumns(context: context, noJoined: true).ForEach(column =>
+    var columns = checkRecordUsers
+        ? ss.ReadableColumns(
+            context: context,
+            mine: Mine(context: context),
+            noJoined: true)
+        : ss.ReadableColumns(
+            context: context,
+            noJoined: true);
+    columns.ForEach(column =>
     {
         switch (column.ColumnName)
         {

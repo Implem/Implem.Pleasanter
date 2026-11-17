@@ -10,6 +10,10 @@
             "Body": "显示状态"
         },
         {
+            "Language": "zh_tw",
+            "Body": "顯示狀態"
+        },
+        {
             "Language": "ja",
             "Body": "状況を表示"
         },

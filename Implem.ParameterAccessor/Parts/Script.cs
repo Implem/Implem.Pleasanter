@@ -21,6 +21,8 @@ namespace Implem.ParameterAccessor.Parts
         public int ServerScriptHttpClientTimeOutMin { get; set; } = 0;
         [DefaultValue(1000 * 60 * 60 * 24)]
         public int ServerScriptHttpClientTimeOutMax { get; set; } = 1000 * 60 * 60 * 24;
+        [DefaultValue(50)]
+        public int ServerScriptHttpClientMaxRedirectCount { get; set; } = 50;
         [DefaultValue(10)]
         public int ServerScriptIncludeDepthLimit { get; set; } = 10;
         [DefaultValue(true)]

@@ -10,6 +10,10 @@
             "Body": "(已禁用的组)"
         },
         {
+            "Language": "zh_tw",
+            "Body": "(已停用的組)"
+        },
+        {
             "Language": "ja",
             "Body": "(削除済グループ)"
         },

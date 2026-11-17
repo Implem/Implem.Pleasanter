@@ -11,6 +11,10 @@
             "Body": "包含数据"
         },
         {
+            "Language": "zh_tw",
+            "Body": "包含資料"
+        },
+        {
             "Language": "ja",
             "Body": "データを含める"
         },

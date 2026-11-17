@@ -6,8 +6,12 @@
             "Body": "Minute"
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "分钟"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "分鐘"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "Minuto"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Phút"
         }
     ]

@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Job Type" },
         { "Language": "zh", "Body": "作业类型" },
+        {
+            "Language": "zh_tw",
+            "Body": "作業類型"
+        },
         { "Language": "ja", "Body": "ジョブ種別" },
         { "Language": "de", "Body": "Auftragstyp" },
         { "Language": "ko", "Body": "작업 유형" },

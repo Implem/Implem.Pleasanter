@@ -10,6 +10,10 @@
             "Body": "每周显示的条目数"
         },
         {
+            "Language": "zh_tw",
+            "Body": "每週顯示的項目數"
+        },
+        {
             "Language": "ja",
             "Body": "週/曜日"
         },

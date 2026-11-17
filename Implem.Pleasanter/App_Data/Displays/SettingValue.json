@@ -6,8 +6,12 @@
             "Body": "Setting value"
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "设定值"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "設定值"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "Valor de ajuste"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Giá trị thiết lập"
         }
     ]

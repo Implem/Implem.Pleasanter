@@ -51,13 +51,25 @@ namespace Implem.Pleasanter.Libraries.General
             {
                 try
                 {
-                    if (!Regex.IsMatch(value, serverRegexValidation))
+                    var isMatch = Regex.IsMatch(
+                        value,
+                        serverRegexValidation,
+                        RegexOptions.None,
+                        ServerRegexValidationTimeout());
+                    if (isMatch == false)
                     {
                         errors.Add(new ErrorData(
                             type: Error.Types.NotMatchRegex,
                             columnName: columnName,
                             data: regexValidationMessage));
                     }
+                }
+                catch (RegexMatchTimeoutException)
+                {
+                    errors.Add(new ErrorData(
+                        type: Error.Types.NotMatchRegex,
+                        columnName: columnName,
+                        data: regexValidationMessage));
                 }
                 catch (ArgumentException)
                 {
@@ -67,6 +79,18 @@ namespace Implem.Pleasanter.Libraries.General
                         data: regexValidationMessage));
                 }
             }
+        }
+
+        private static TimeSpan ServerRegexValidationTimeout()
+        {
+            var timeout = Parameters.Validation.ServerRegexValidationTimeout;
+            if (timeout <= 0)
+            {
+                timeout = ParameterAccessor.Parts.Validation.DefaultServerRegexValidationTimeout;
+            }
+            return TimeSpan.FromMilliseconds(Math.Min(
+                timeout,
+                int.MaxValue - 1));
         }
 
         public static ErrorData ValidateApi(

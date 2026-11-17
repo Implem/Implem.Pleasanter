@@ -8,7 +8,11 @@
         },
         {
             "Language": "zh",
-            "Body": "下拉列表"
+            "Body": "数字输入框"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "數值輸入框"
         },
         {
             "Language": "ja",

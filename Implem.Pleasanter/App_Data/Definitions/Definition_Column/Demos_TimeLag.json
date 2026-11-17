@@ -15,6 +15,7 @@
     "NotUpdate": "1",
     "LabelText_en": "Time lag",
     "LabelText_zh": "延时",
+    "LabelText_zh_tw": "延時",
     "LabelText_de": "Verzögerung",
     "LabelText_ko": "시차",
     "LabelText_es": "Desfase temporal",

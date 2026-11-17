@@ -17,6 +17,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "First name",
     "LabelText_zh": "名字",
+    "LabelText_zh_tw": "名字",
     "LabelText_de": "Vorname",
     "LabelText_ko": "이름",
     "LabelText_es": "Nombre",

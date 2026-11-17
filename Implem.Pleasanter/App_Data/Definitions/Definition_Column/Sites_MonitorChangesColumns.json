@@ -19,6 +19,7 @@
     "Session": "1",
     "LabelText_en": "Notification columns",
     "LabelText_zh": "通知列",
+    "LabelText_zh_tw": "通知欄位",
     "LabelText_de": "Benachrichtigungsspalten",
     "LabelText_ko": "알림 열",
     "LabelText_es": "Columnas de notificación",

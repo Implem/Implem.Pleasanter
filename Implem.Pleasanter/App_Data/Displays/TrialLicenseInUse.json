@@ -14,6 +14,10 @@
             "Body": "Pleasanter Extensions 试用正在进行中"
         },
         {
+            "Language": "zh_tw",
+            "Body": "Pleasanter Extensions 試用正在進行中"
+        },
+        {
             "Language": "de",
             "Body": "Pleasanter Extensions-Testversion läuft"
         },
@@ -26,7 +30,7 @@
             "Body": "Prueba de Pleasanter Extensions en curso"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Đang tiến hành thử nghiệm Tiện ích mở rộng Pleasanter"
         }
     ]

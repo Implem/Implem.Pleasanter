@@ -39,6 +39,7 @@
     "NumFilterStep": "25",
     "LabelText_en": "Progression rate",
     "LabelText_zh": "进展率",
+    "LabelText_zh_tw": "進展率",
     "LabelText_de": "Fortschritt",
     "LabelText_ko": "진행률",
     "LabelText_es": "Índice de progresión",

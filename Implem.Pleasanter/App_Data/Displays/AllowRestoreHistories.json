@@ -10,6 +10,10 @@
             "Body": "允许恢复历史"
         },
         {
+            "Language": "zh_tw",
+            "Body": "允許還原歷史記錄"
+        },
+        {
             "Language": "ja",
             "Body": "履歴の復元を許可"
         },

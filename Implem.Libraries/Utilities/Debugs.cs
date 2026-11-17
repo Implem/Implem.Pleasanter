@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Implem.Libraries.Utilities
 {
-    public static class Debugs
+    public static partial class Debugs
     {
         public static bool InDebug()
         {
@@ -16,12 +17,16 @@ namespace Implem.Libraries.Utilities
         }
 
         public static string GetSysLogsDescription(
-            [CallerLineNumber] int lineNumber = 0)
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string callerMemberName = "",
+            [CallerFilePath] string callerFilePath = "")
         {
-            StackFrame caller = new StackFrame(1);
-            string className = caller.GetMethod().ReflectedType.Name;
-            string methodName = caller.GetMethod().Name;
-            return $"{className}.{methodName}:line {lineNumber}";
+            var match = GetFileNameRegex().Match(callerFilePath ?? string.Empty);
+            var className = match.Success ? match.Value : string.Empty;
+            return $"{className}.{callerMemberName}:line {lineNumber}";
         }
+
+        [GeneratedRegex(@"[^\\/]+(?=\.[^\\/]+$)")]
+        private static partial Regex GetFileNameRegex();
     }
 }

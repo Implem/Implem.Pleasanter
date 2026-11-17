@@ -22,6 +22,7 @@
     "FullTextType": 1,
     "LabelText_en": "Class",
     "LabelText_zh": "类别",
+    "LabelText_zh_tw": "類別",
     "LabelText_de": "Klasse",
     "LabelText_ko": "클래스",
     "LabelText_es": "Clase",

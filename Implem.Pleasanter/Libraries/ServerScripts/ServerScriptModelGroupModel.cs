@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -13,11 +14,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
     public class ServerScriptModelGroupModel
     {
         private readonly Context Context;
+        private readonly HashSet<string> ReadableColumnNames;
         private readonly int TenantId;
         public readonly int GroupId;
         public readonly string GroupName;
         public readonly string Body;
-        public readonly bool Disabled;
+        public readonly bool? Disabled;
         private readonly Dictionary<string, object> Extras;
 
         public ServerScriptModelGroupModel(
@@ -26,16 +28,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             int groupId,
             string groupName,
             string body,
-            bool disabled,
-            Dictionary<string, object> extras)
+            bool? disabled,
+            Dictionary<string, object> extras,
+            HashSet<string> readableColumnNames)
         {
             Context = context;
+            ReadableColumnNames = readableColumnNames;
             TenantId = tenantId;
             GroupId = groupId;
-            GroupName = groupName;
-            Body = body;
-            Disabled = disabled;
+            GroupName = CanRead("GroupName") ? groupName : null;
+            Body = CanRead("Body") ? body : null;
+            Disabled = CanRead("Disabled") ? disabled : null;
             Extras = extras;
+        }
+
+        private bool CanRead(string columnName)
+        {
+            return ReadableColumnNames?.Contains(columnName) == true;
         }
 
         public object ToJson()
@@ -47,7 +56,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             dict["GroupName"] = GroupName;
             dict["Body"] = Body;
             dict["Disabled"] = Disabled;
-            ServerScriptUtilities.MergeExtras(dict, Extras);
+            ServerScriptUtilities.MergeExtras(
+                target: dict,
+                extras: Extras,
+                readableColumnNames: ReadableColumnNames);
             return d;
         }
 
@@ -61,6 +73,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var detail = GroupUtilities.GroupMembersDetail(
                 context: Context,
                 groupId: GroupId).ToList();
+            if (!detail.Any())
+            {
+                return new List<ServerScriptModelGroupMemberModel>();
+            }
             var userIds = detail
                 .Select(dataRow => dataRow.Int("UserId"))
                 .Where(id => id > 0)
@@ -76,6 +92,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Where(id => id > 0)
                 .Distinct()
                 .ToList();
+            var usersReadableColumnNames = userIds.Any()
+                ? ServerScriptUtilities.ReadableColumnNames(
+                    context: Context,
+                    ss: SiteSettingsUtilities.UsersSiteSettings(context: Context))
+                : null;
+            var deptsReadableColumnNames = deptIds.Any()
+                ? ServerScriptUtilities.ReadableColumnNames(
+                    context: Context,
+                    ss: SiteSettingsUtilities.DeptsSiteSettings(context: Context))
+                : null;
+            var groupsReadableColumnNames = childGroupIds.Any()
+                ? ServerScriptUtilities.ReadableColumnNames(
+                    context: Context,
+                    ss: SiteSettingsUtilities.GroupsSiteSettings(context: Context))
+                : null;
             var userExtrasHash = userIds.Any()
                 ? Repository.ExecuteTable(
                     context: Context,
@@ -87,7 +118,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         .AsEnumerable()
                         .ToDictionary(
                             dataRow => dataRow.Int("UserId"),
-                            dataRow => ServerScriptUtilities.BuildExtras(dataRow, "Users"))
+                            dataRow => ServerScriptUtilities.BuildExtras(
+                                dataRow: dataRow,
+                                tableName: "Users",
+                                readableColumnNames: usersReadableColumnNames))
                 : new Dictionary<int, Dictionary<string, object>>();
             var deptExtrasHash = deptIds.Any()
                 ? Repository.ExecuteTable(
@@ -100,7 +134,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         .AsEnumerable()
                         .ToDictionary(
                             dataRow => dataRow.Int("DeptId"),
-                            dataRow => ServerScriptUtilities.BuildExtras(dataRow, "Depts"))
+                            dataRow => ServerScriptUtilities.BuildExtras(
+                                dataRow: dataRow,
+                                tableName: "Depts",
+                                readableColumnNames: deptsReadableColumnNames))
                 : new Dictionary<int, Dictionary<string, object>>();
             var groupExtrasHash = childGroupIds.Any()
                 ? Repository.ExecuteTable(
@@ -113,7 +150,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         .AsEnumerable()
                         .ToDictionary(
                             dataRow => dataRow.Int("GroupId"),
-                            dataRow => ServerScriptUtilities.BuildExtras(dataRow, "Groups"))
+                            dataRow => ServerScriptUtilities.BuildExtras(
+                                dataRow: dataRow,
+                                tableName: "Groups",
+                                readableColumnNames: groupsReadableColumnNames))
                 : new Dictionary<int, Dictionary<string, object>>();
             var groupMembers = new List<ServerScriptModelGroupMemberModel>();
             detail.ForEach(dataRow =>
@@ -152,7 +192,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     tenantManager: dataRow.Bool("TenantManager"),
                     disabled: dataRow.Bool("Disabled"),
                     admin: dataRow.Bool("Admin"),
-                    extras: extras));
+                    extras: extras,
+                    usersReadableColumnNames: usersReadableColumnNames,
+                    deptsReadableColumnNames: deptsReadableColumnNames,
+                    groupsReadableColumnNames: groupsReadableColumnNames));
             });
             return groupMembers;
         }
@@ -216,6 +259,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         .TenantId(Context.TenantId)
                         .GroupId_In(childIds),
                     orderBy: Rds.GroupsOrderBy().GroupId()));
+            var readableColumnNames = ServerScriptUtilities.ReadableColumnNames(
+                context: Context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: Context));
             return dataTable.AsEnumerable()
                 .Select(dataRow => new DataTypes.Group(dataRow: dataRow))
                 .Select(g => new ServerScriptModelGroupModel(
@@ -225,7 +271,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     groupName: g.Name,
                     body: g.Body,
                     disabled: g.Disabled,
-                    extras: g.Extras))
+                    extras: g.Extras,
+                    readableColumnNames: readableColumnNames))
                 .ToList();
         }
 

@@ -10,6 +10,10 @@
             "Body": "删除许可"
         },
         {
+            "Language": "zh_tw",
+            "Body": "刪除許可"
+        },
+        {
             "Language": "ja",
             "Body": "権限削除"
         },

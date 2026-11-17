@@ -21,6 +21,7 @@
     "OldColumnName": "ServiceAdmin",
     "LabelText_en": "Service manager",
     "LabelText_zh": "维护经理",
+    "LabelText_zh_tw": "維護經理",
     "LabelText_de": "Dienstmanager",
     "LabelText_ko": "서비스 관리자",
     "LabelText_es": "Gestor de servicios",

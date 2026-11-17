@@ -17,6 +17,7 @@
     "Required": "1",
     "LabelText_en": "Child group ID",
     "LabelText_zh": "子组ID",
+    "LabelText_zh_tw": "子組ID",
     "LabelText_de": "ID der untergeordneten Gruppe",
     "LabelText_ko": "하위 그룹 ID",
     "LabelText_es": "ID de grupo infantil",

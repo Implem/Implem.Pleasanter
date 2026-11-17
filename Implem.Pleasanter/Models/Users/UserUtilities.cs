@@ -1530,6 +1530,14 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                 }
+                if (!column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: userModel.Mine(context: context),
+                    noCache: true))
+                {
+                    value = string.Empty;
+                }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
             return hb.Td(
@@ -3625,6 +3633,7 @@ namespace Implem.Pleasanter.Models
                 csv.Headers.Select((o, i) => new { Header = o, Index = i }).ForEach(data =>
                 {
                     var column = ss.Columns
+                        .Where(o => !o.NotAllowedByContract)
                         .Where(o => o.LabelText == data.Header)
                         .Where(o => o.ColumnName != "DemoMailAddress")
                         .Where(o => o.TypeCs != "Attachments")
@@ -3839,6 +3848,7 @@ namespace Implem.Pleasanter.Models
                 csv.Headers.Select((o, i) => new { Header = o, Index = i }).ForEach(data =>
                 {
                     var column = ss.Columns
+                        .Where(o => !o.NotAllowedByContract)
                         .Where(o => o.LabelText == data.Header)
                         .Where(o => o.ColumnName != "DemoMailAddress")
                         .Where(o => o.TypeCs != "Attachments")
@@ -4872,7 +4882,9 @@ namespace Implem.Pleasanter.Models
                                             href: Parameters.General.HtmlTrialLicenseUrl.Params(
                                                 Parameters.General.PleasanterSource,
                                                 "manual-extensions-trial",
-                                                "trial-login"),
+                                                Parameters.GetLicenseType() == 0x08
+                                                    ? "trial-login-active"
+                                                    : "trial-login-expired"),
                                             action: () => hb
                                                 .Text(text: Displays.TrialLicenseInUse(context: context)))))
                             .Div(

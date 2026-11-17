@@ -10,6 +10,10 @@
             "Body": "开始时间"
         },
         {
+            "Language": "zh_tw",
+            "Body": "開始時間"
+        },
+        {
             "Language": "ja",
             "Body": "開始日時"
         },

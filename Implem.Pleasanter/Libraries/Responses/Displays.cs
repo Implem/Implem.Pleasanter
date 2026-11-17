@@ -1669,6 +1669,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BackgroundJobResultBulkUpdateCompleted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BackgroundJobResultBulkUpdateCompleted",
+                data: data);
+        }
+
         public static string BackgroundJobResultCancelled(
             Context context,
             params string[] data)
@@ -3276,16 +3286,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ConfirmRebuildSearchIndex",
-                data: data);
-        }
-
-        public static string ConfirmReload(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ConfirmReload",
                 data: data);
         }
 
@@ -5356,6 +5356,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ExtendedCellCss",
+                data: data);
+        }
+
+        public static string ExtendedColumnsNotAllowed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExtendedColumnsNotAllowed",
                 data: data);
         }
 
@@ -11169,6 +11179,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SearchByTenantId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SearchByTenantId",
+                data: data);
+        }
+
         public static string SearchSettings(
             Context context,
             params string[] data)
@@ -12156,6 +12176,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Support",
+                data: data);
+        }
+
+        public static string SupportCustomers(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SupportCustomers",
+                data: data);
+        }
+
+        public static string SupportCustomersSg(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SupportCustomersSg",
                 data: data);
         }
 
@@ -15919,6 +15959,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string QRTZ_FIRED_TRIGGERS_EXECUTION_GROUP(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "QRTZ_FIRED_TRIGGERS_EXECUTION_GROUP",
+                data: data);
+        }
+
         public static string QRTZ_FIRED_TRIGGERS_FIRED_TIME(
             Context context,
             params string[] data)
@@ -16459,6 +16509,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string QRTZ_TRIGGERS_EXECUTION_GROUP(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "QRTZ_TRIGGERS_EXECUTION_GROUP",
+                data: data);
+        }
+
         public static string QRTZ_TRIGGERS_JOB_DATA(
             Context context,
             params string[] data)
@@ -16499,6 +16559,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string QRTZ_TRIGGERS_MISFIRE_ORIG_FIRE_TIME(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "QRTZ_TRIGGERS_MISFIRE_ORIG_FIRE_TIME",
+                data: data);
+        }
+
         public static string QRTZ_TRIGGERS_NEXT_FIRE_TIME(
             Context context,
             params string[] data)
@@ -16506,6 +16576,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "QRTZ_TRIGGERS_NEXT_FIRE_TIME",
+                data: data);
+        }
+
+        public static string QRTZ_TRIGGERS_PREFERRED_NODE(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "QRTZ_TRIGGERS_PREFERRED_NODE",
+                data: data);
+        }
+
+        public static string QRTZ_TRIGGERS_PREFERRED_NODE_AUTO(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "QRTZ_TRIGGERS_PREFERRED_NODE_AUTO",
                 data: data);
         }
 
@@ -17696,6 +17786,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SysLogs_SysLogType",
+                data: data);
+        }
+
+        public static string SysLogs_TenantId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogs_TenantId",
                 data: data);
         }
 

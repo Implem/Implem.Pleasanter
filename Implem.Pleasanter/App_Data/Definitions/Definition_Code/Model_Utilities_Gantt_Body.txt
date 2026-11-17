@@ -13,10 +13,10 @@
         siteId: ss.SiteId);
     var groupBy = ss.GetColumn(
         context: context,
-        columnName: view.GetGanttGroupBy());
+        columnName: view.GetGanttGroupBy(ss: ss));
     var sortBy = ss.GetColumn(
         context: context,
-        columnName: view.GetGanttSortBy());
+        columnName: view.GetGanttSortBy(ss: ss));
     var range = new Libraries.ViewModes.GanttRange(
         context: context,
         ss: ss,
@@ -74,10 +74,10 @@ public static string GanttJson(Context context, SiteSettings ss)
         view: view);
     var groupBy = ss.GetColumn(
         context: context,
-        columnName: view.GetGanttGroupBy());
+        columnName: view.GetGanttGroupBy(ss: ss));
     var sortBy = ss.GetColumn(
         context: context,
-        columnName: view.GetGanttSortBy());
+        columnName: view.GetGanttSortBy(ss: ss));
     var period = view.GanttPeriod.ToInt();
     var startDate = view.GanttStartDate.ToDateTime();
     var dataRows = GanttDataRows(

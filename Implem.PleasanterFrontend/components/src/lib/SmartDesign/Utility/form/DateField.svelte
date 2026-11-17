@@ -31,6 +31,7 @@
 
     switch (clientLang) {
         case 'zh':
+        case 'zh_tw':
         case 'ja':
         case 'es':
         case 'vn':

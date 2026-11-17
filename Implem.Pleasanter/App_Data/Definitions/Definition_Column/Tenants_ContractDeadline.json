@@ -11,6 +11,7 @@
     "Nullable": "1",
     "LabelText_en": "End of contract",
     "LabelText_zh": "合同终止",
+    "LabelText_zh_tw": "合同終止",
     "LabelText_de": "Vertragsende",
     "LabelText_ko": "계약 종료",
     "LabelText_es": "Fin del contrato",

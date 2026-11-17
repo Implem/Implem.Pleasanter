@@ -10,6 +10,10 @@
             "Body": "不换行"
         },
         {
+            "Language": "zh_tw",
+            "Body": "不換行"
+        },
+        {
             "Language": "ja",
             "Body": "回り込みしない"
         },

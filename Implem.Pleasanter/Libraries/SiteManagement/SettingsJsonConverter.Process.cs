@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.SitePackages;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
+using AiProviderUtilities = Implem.Pleasanter.Libraries.Settings.AiProviderUtilities;
 
 namespace Implem.Pleasanter.Libraries.SiteManagement
 {
@@ -127,6 +128,9 @@ namespace Implem.Pleasanter.Libraries.SiteManagement
                     includeNotifications: true,
                     includeReminders: true);
                 if (sitePackage.HeaderInfo.Convertors.Count == 0) return null;
+                sitePackage.Sites.ForEach(packageSiteModel =>
+                    AiProviderUtilities.MaskConnectionSettings(
+                        ss: packageSiteModel.SiteSettings));
                 var p = new Process
                 {
                     SiteId = siteId,

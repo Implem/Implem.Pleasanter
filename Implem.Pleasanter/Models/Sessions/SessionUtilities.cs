@@ -27,6 +27,75 @@ namespace Implem.Pleasanter.Models
 {
     public static class SessionUtilities
     {
+        public static string Take(Context context, string key, bool page = false, string sessionGuid = null)
+        {
+            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (string.IsNullOrEmpty(key)) throw new ArgumentException("A session key is required.", nameof(key));
+            var target = sessionGuid ?? context.SessionGuid;
+            if (string.IsNullOrEmpty(target)) throw new ArgumentException("A session GUID is required.", nameof(sessionGuid));
+            var pageName = page ? context.Page ?? string.Empty : string.Empty;
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                var field = pageName.Length == 0 ? key : $"{key}_{pageName}";
+                var result = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection
+                    .GetDatabase().ScriptEvaluate(
+                        script: "local value = redis.call('HGET', KEYS[1], ARGV[1]); "
+                            + "if value then redis.call('HDEL', KEYS[1], ARGV[1]); return value end; return false",
+                        keys: new StackExchange.Redis.RedisKey[] { target },
+                        values: new StackExchange.Redis.RedisValue[] { field });
+                return (string)result;
+            }
+            var predicate = "\"SessionGuid\" = @TakeSessionGuid and \"Key\" = @TakeKey and \"Page\" = @TakePage"
+                + $" and (\"ReadOnce\" is null or \"ReadOnce\" {context.Sqls.IsNotTrue})"
+                + $" and (\"UserArea\" is null or \"UserArea\" {context.Sqls.IsNotTrue})";
+            SqlStatement Statement(string sql)
+            {
+                return new SqlStatement(sql)
+                {
+                    AdditionalParams = new[]
+                    {
+                        new SqlParam { Name = "@TakeSessionGuid", Value = target },
+                        new SqlParam { Name = "@TakeKey", Value = key },
+                        new SqlParam { Name = "@TakePage", Value = pageName }
+                    }
+                };
+            }
+            var dbms = Parameters.Rds.Dbms;
+            if (dbms != "SQLServer" && dbms != "PostgreSQL" && dbms != "MySQL")
+                throw new NotSupportedException("Atomic session consumption is not supported by this DBMS.");
+            return Rds.ExecuteScalar<string>(
+                context: context,
+                transactional: true,
+                func: (transaction, connection) =>
+                {
+                    if (dbms == "MySQL")
+                    {
+                        var selected = Rds.ExecuteTable(context: context,
+                            dbTransaction: transaction, dbConnection: connection,
+                            writeSqlToDebugLog: false,
+                            statements: Statement($"select \"Value\" from \"Sessions\" where {predicate} for update;"));
+                        if (selected.Rows.Count != 1) return (false, null);
+                        var deleted = Rds.ExecuteNonQuery(context: context,
+                            dbTransaction: transaction, dbConnection: connection,
+                            writeSqlToDebugLog: false,
+                            statements: Statement($"delete from \"Sessions\" where {predicate};"));
+                        return deleted == 1
+                            ? (true, selected.Rows[0].String("Value"))
+                            : (false, null);
+                    }
+                    var sql = dbms == "SQLServer"
+                        ? $"delete from \"Sessions\" output deleted.\"Value\" where {predicate};"
+                        : $"delete from \"Sessions\" where {predicate} returning \"Value\";";
+                    var deletedRows = Rds.ExecuteTable(context: context,
+                        dbTransaction: transaction, dbConnection: connection,
+                        writeSqlToDebugLog: false,
+                        statements: Statement(sql));
+                    return deletedRows.Rows.Count == 1
+                        ? (true, deletedRows.Rows[0].String("Value"))
+                        : (false, null);
+                });
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -319,6 +388,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContentResultInheritance GetByApi(Context context)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
@@ -353,6 +433,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContentResultInheritance SetByApi(Context context)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
@@ -392,6 +483,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContentResultInheritance DeleteByApi(Context context)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);

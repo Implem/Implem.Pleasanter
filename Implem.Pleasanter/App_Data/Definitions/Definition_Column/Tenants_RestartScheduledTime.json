@@ -11,6 +11,7 @@
     "Nullable": "1",
     "LabelText_en": "Restart Scheduled Time",
     "LabelText_zh": "重启预定时间",
+    "LabelText_zh_tw": "重啟預定時間",
     "LabelText_de": "Neustart-Zeitplan",
     "LabelText_ko": "재시작 예약 시간",
     "LabelText_es": "Hora programada de reinicio",

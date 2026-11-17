@@ -10,6 +10,10 @@
             "Body": "已用存储容量"
         },
         {
+            "Language": "zh_tw",
+            "Body": "已用儲存容量"
+        },
+        {
             "Language": "ja",
             "Body": "使用量"
         },

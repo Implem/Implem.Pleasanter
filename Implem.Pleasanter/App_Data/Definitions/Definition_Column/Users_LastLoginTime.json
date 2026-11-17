@@ -25,6 +25,7 @@
     "ExportFormat": "Ymdahms",
     "LabelText_en": "Last login on",
     "LabelText_zh": "上一次登录时间",
+    "LabelText_zh_tw": "上一次登入時間",
     "LabelText_de": "Letzte Anmeldung am",
     "LabelText_ko": "마지막 로그인 날짜",
     "LabelText_es": "Último cierre de sesión",

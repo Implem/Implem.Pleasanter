@@ -6,8 +6,12 @@
             "Body": "This item cannot be sorted"
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "该商品无法排序"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "該商品無法排序"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "Este artículo no se puede ordenar"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Không thể sắp xếp mục này"
         }
     ]

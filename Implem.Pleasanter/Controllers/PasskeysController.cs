@@ -131,8 +131,7 @@ namespace Implem.Pleasanter.Controllers
 
             try
             {
-                var bodyData = JsonSerializer.Deserialize<AuthenticatorAttestationRawResponse>(context.Forms.Data("data"));
-                var optionsJson = PasskeyUtilities.SessionGetString(
+                var optionsJson = PasskeyUtilities.SessionTakeString(
                     context: context,
                     key: Fido2AttestationOptions);
                 if (optionsJson.IsNullOrWhiteSpace())
@@ -140,8 +139,15 @@ namespace Implem.Pleasanter.Controllers
                     return Messages.ResponsePasskeyResponseInvalid(context: context)
                         .ToJson();
                 }
-                PasskeyUtilities.SessionRemove(context: context, key: Fido2AttestationOptions);
+                var bodyData = JsonSerializer.Deserialize<AuthenticatorAttestationRawResponse>(context.Forms.Data("data"));
                 var options = CredentialCreateOptions.FromJson(optionsJson);
+                if (context.UserId <= 0
+                    || options.User?.Id == null
+                    || !options.User.Id.SequenceEqual(System.Text.Encoding.UTF8.GetBytes(context.UserId.ToString())))
+                {
+                    return Messages.ResponsePasskeyResponseInvalid(context: context)
+                        .ToJson();
+                }
                 var passkeys = new PasskeyCollection(
                     context: context,
                     column: Rds.PasskeysDefaultColumns(),
@@ -276,8 +282,7 @@ namespace Implem.Pleasanter.Controllers
             try
             {
                 var ss = SiteSettingsUtilities.UsersSiteSettings(context: context);
-                var clientResponse = JsonSerializer.Deserialize<AuthenticatorAssertionRawResponse>(context.Forms.Data("data"));
-                var jsonOptions = PasskeyUtilities.SessionGetString(
+                var jsonOptions = PasskeyUtilities.SessionTakeString(
                     context: context,
                     key: Fido2AssertionOptions);
                 if (jsonOptions.IsNullOrWhiteSpace())
@@ -285,7 +290,7 @@ namespace Implem.Pleasanter.Controllers
                     return Messages.ResponsePasskeyResponseInvalid(context: context)
                         .ToJson();
                 }
-                PasskeyUtilities.SessionRemove(context: context, key: Fido2AssertionOptions);
+                var clientResponse = JsonSerializer.Deserialize<AuthenticatorAssertionRawResponse>(context.Forms.Data("data"));
                 var options = AssertionOptions.FromJson(jsonOptions);
                 var passkeys = new PasskeyCollection(
                     context: context,

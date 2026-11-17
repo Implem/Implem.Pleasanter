@@ -131,6 +131,7 @@
     "ExtendedColumnType": "string",
     "LabelText_en": "string",
     "LabelText_zh": "string",
+    "LabelText_zh_tw": "string",
     "LabelText_de": "string",
     "LabelText_ko": "string",
     "LabelText_es": "string",

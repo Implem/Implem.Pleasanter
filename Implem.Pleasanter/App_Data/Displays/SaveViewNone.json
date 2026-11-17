@@ -10,6 +10,10 @@
             "Body": "没有保存"
         },
         {
+            "Language": "zh_tw",
+            "Body": "沒有儲存"
+        },
+        {
             "Language": "ja",
             "Body": "保存しない"
         },

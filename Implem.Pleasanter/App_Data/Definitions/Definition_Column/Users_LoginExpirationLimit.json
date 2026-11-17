@@ -25,6 +25,7 @@
     "ExportFormat": "Ymdahms",
     "LabelText_en": "Login expiration Date",
     "LabelText_zh": "登录有效期",
+    "LabelText_zh_tw": "登入有效期",
     "LabelText_de": "Ablaufdatum der Anmeldung",
     "LabelText_ko": "로그인 유효기간",
     "LabelText_es": "Fecha de caducidad de inicio de sesión",

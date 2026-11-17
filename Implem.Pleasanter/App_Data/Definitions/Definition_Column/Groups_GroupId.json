@@ -25,6 +25,7 @@
     "EditorReadOnly": "1",
     "LabelText_en": "Group ID",
     "LabelText_zh": "组ID",
+    "LabelText_zh_tw": "組ID",
     "LabelText_de": "Gruppen-ID",
     "LabelText_ko": "그룹 ID",
     "LabelText_es": "ID del grupo",

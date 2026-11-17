@@ -11,6 +11,7 @@
     "Nullable": "1",
     "LabelText_en": "Disable start guide",
     "LabelText_zh": "禁用入门指南",
+    "LabelText_zh_tw": "停用入門指南",
     "LabelText_de": "Starthilfe deaktivieren",
     "LabelText_ko": "시작 안내서 비활성화",
     "LabelText_es": "Deshabilitar guía de inicio",

@@ -10,6 +10,10 @@
             "Body": "当前时间"
         },
         {
+            "Language": "zh_tw",
+            "Body": "目前時間"
+        },
+        {
             "Language": "ja",
             "Body": "現在の時刻"
         },

@@ -10,6 +10,10 @@
             "Body": "租户管理"
         },
         {
+            "Language": "zh_tw",
+            "Body": "租戶管理"
+        },
+        {
             "Language": "ja",
             "Body": "テナントの管理"
         },

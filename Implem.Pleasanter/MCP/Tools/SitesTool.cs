@@ -22,7 +22,7 @@ Pleasanter のサイト（テーブル定義）を管理するツール群です
 【検索】GetSiteIdByTitle でサイト名からサイト ID を特定
 【テンプレート一覧】GetSiteTemplates でサイトテンプレート一覧を取得（全カテゴリ＋ユーザーテンプレート）
 【テンプレート作成】AddSiteByTemplate でテンプレートからサイトを作成
-【取得】GetSite でサイトの設定情報を取得
+【取得】GetSite でサイトの設定情報を取得（SiteSettings はサイト管理権限がある場合のみ）
 【更新】UpdateSite でサイトの設定を更新")]
     public class SitesTool
     {
@@ -130,7 +130,8 @@ templateId は GetSiteTemplates で取得した ID を指定します。
         [McpServerTool(Name = "GetSite")]
         [Description(@"
 指定サイトの設定情報（SiteSettings）を取得します。
-タイトル、参照タイプ、権限情報、作成者・更新者情報等を返します。")]
+タイトル、参照タイプ、権限情報、作成者・更新者情報等を返します。
+SiteSettings はサイト管理権限がある場合のみ返します。")]
         public static async Task<CallToolResult> GetSite(
             [Description(@"取得対象のサイト ID。")]
                 long siteId)

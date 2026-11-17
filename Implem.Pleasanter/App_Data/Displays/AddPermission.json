@@ -10,6 +10,10 @@
             "Body": "添加许可"
         },
         {
+            "Language": "zh_tw",
+            "Body": "新增許可"
+        },
+        {
             "Language": "ja",
             "Body": "権限追加"
         },

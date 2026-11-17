@@ -14,6 +14,10 @@
             "Body": "试用期"
         },
         {
+            "Language": "zh_tw",
+            "Body": "試用期"
+        },
+        {
             "Language": "de",
             "Body": "Probezeit"
         },
@@ -26,7 +30,7 @@
             "Body": "Período de prueba"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Thời gian dùng thử"
         }
     ]

@@ -11,6 +11,10 @@
             "Body": "必填"
         },
         {
+            "Language": "zh_tw",
+            "Body": "必填"
+        },
+        {
             "Language": "ja",
             "Body": "入力必須"
         },

@@ -21,6 +21,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "API",
     "LabelText_zh": "API",
+    "LabelText_zh_tw": "API",
     "LabelText_de": "API",
     "LabelText_ko": "API",
     "LabelText_es": "API",

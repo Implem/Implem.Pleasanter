@@ -15,6 +15,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Application",
     "LabelText_zh": "应用",
+    "LabelText_zh_tw": "應用",
     "LabelText_de": "Anwendung",
     "LabelText_ko": "애플리케이션",
     "LabelText_es": "Aplicación",

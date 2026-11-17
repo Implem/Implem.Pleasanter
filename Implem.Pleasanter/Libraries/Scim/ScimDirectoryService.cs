@@ -493,7 +493,7 @@ namespace Implem.Pleasanter.Libraries.Scim
             AddExtendedAttributeParams(
                 param: param,
                 extensionData: ExtensionData(user),
-                attributes: ScimExtendedAttributeUtilities.UserAttributes(),
+                attributes: ScimExtendedAttributeUtilities.AllowedUserAttributes(context: context),
                 tableName: ScimExtendedAttributeUtilities.UsersTableName);
             var statements = new List<SqlStatement>();
             if (setDepartment)
@@ -557,7 +557,7 @@ namespace Implem.Pleasanter.Libraries.Scim
             AddExtendedAttributeParams(
                 param: param,
                 extensionData: ExtensionData(group),
-                attributes: ScimExtendedAttributeUtilities.GroupAttributes(),
+                attributes: ScimExtendedAttributeUtilities.AllowedGroupAttributes(context: context),
                 tableName: ScimExtendedAttributeUtilities.GroupsTableName);
             Repository.ExecuteNonQuery(
                 context: context,

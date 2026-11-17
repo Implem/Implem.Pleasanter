@@ -585,7 +585,10 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         public string RecordingJson(Context context, Formatting formatting = Formatting.None)
         {
             Sites.ForEach(siteModel =>
-                siteModel.SiteSettings = siteModel.SiteSettings.RecordingData(context: context));
+            {
+                siteModel.SiteSettings = siteModel.SiteSettings.RecordingData(context: context);
+                AiProviderUtilities.MaskConnectionSettings(ss: siteModel.SiteSettings);
+            });
             return this.ToJson(formatting: formatting);
         }
 

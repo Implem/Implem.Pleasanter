@@ -383,6 +383,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             string value,
             bool create)
         {
+            if (column.NotAllowedByContract)
+            {
+                return string.Empty;
+            }
             switch (column.ColumnName)
             {
                 case "Creator":
@@ -410,6 +414,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         columnName: columnName))
                     .Where(o => o != null)
+                    .Where(o => !o.NotAllowedByContract)
                     .ToList();
         }
 
@@ -568,6 +573,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Strings.CoalesceEmpty(Format, GetDefaultFormat(
                 context: context,
                 ss: ss));
+        }
+
+        public string GetNoticeFormat(Context context, SiteSettings ss)
+        {
+            return GetFormat(
+                context: context,
+                ss: ss)
+                    .Split('\n')
+                    .Where(line => ss
+                        .IncludedColumns(value: line
+                            .Trim()
+                            .Deserialize<NotificationColumnFormat>()
+                            ?.Name)
+                        ?.FirstOrDefault()
+                        ?.NotAllowedByContract != true)
+                    .Join("\n");
         }
 
         public string GetDefaultFormat(Context context, SiteSettings ss)

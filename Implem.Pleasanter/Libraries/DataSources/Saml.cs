@@ -30,9 +30,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
         private static Saml2Options Options;
 
         private static Rds.UsersWhereCollection SamlExtendedAttributes(
-            this Rds.UsersWhereCollection where, SamlAttributes attributes)
+            this Rds.UsersWhereCollection where,
+            SamlAttributes attributes,
+            ContractSettings contractSettings)
         {
-            foreach (var e in ExtendedAttributeValues(attributes))
+            foreach (var e in ExtendedAttributeValues(
+                attributes: attributes,
+                contractSettings: contractSettings))
             {
                 where.Add(
                     columnBrackets: new[] { e.ColumnBracket },
@@ -43,9 +47,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         private static Rds.UsersParamCollection SamlExtendedAttributes(
-            this Rds.UsersParamCollection param, SamlAttributes attributes)
+            this Rds.UsersParamCollection param,
+            SamlAttributes attributes,
+            ContractSettings contractSettings)
         {
-            foreach (var e in ExtendedAttributeValues(attributes))
+            foreach (var e in ExtendedAttributeValues(
+                attributes: attributes,
+                contractSettings: contractSettings))
             {
                 param.Add(
                     columnBracket: e.ColumnBracket,
@@ -56,7 +64,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         private static IEnumerable<(string ColumnBracket, string Name, object Value)> ExtendedAttributeValues(
-            SamlAttributes attributes)
+            SamlAttributes attributes,
+            ContractSettings contractSettings)
         {
             if (!Parameters.AllowSamlExtendedAttributes())
             {
@@ -71,6 +80,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     continue;
                 }
                 if (!Def.ExtendedColumnTypes.TryGetValue(key, out var columnType))
+                {
+                    continue;
+                }
+                if (contractSettings?.ExtendedColumns() == false
+                    && ColumnUtilities.AdditionalExtendedColumn(columnName: key))
                 {
                     continue;
                 }
@@ -163,7 +177,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
              string name,
              string mailAddress,
              DateTime synchronizedTime,
-             SamlAttributes attributes)
+             SamlAttributes attributes,
+             ContractSettings contractSettings)
         {
             var deptCode = attributes[nameof(UserModel.DeptCode)];
             var deptName = attributes[nameof(UserModel.Dept)];
@@ -222,7 +237,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .Body(
                             attributes[nameof(UserModel.Body)],
                             _using: attributes[nameof(UserModel.Body)] != null)
-                        .SamlExtendedAttributes(attributes));
+                        .SamlExtendedAttributes(
+                            attributes: attributes,
+                            contractSettings: contractSettings));
                 if (!isEmptyDeptCode
                     && user.AccessStatus == Databases.AccessStatuses.Selected)
                 {
@@ -309,7 +326,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .ScimSync(
                     true,
                     _using: attributes[nameof(UserModel.ScimExternalId)] != null)
-                .SamlExtendedAttributes(attributes);
+                .SamlExtendedAttributes(
+                    attributes: attributes,
+                    contractSettings: contractSettings);
             statements.Add(Rds.UpdateOrInsertUsers(
                 param: param,
                 where: Rds.UsersWhere().TenantId(tenantId).LoginId(loginId),
@@ -728,7 +747,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         : name,
                     mailAddress: attributes["MailAddress"],
                     synchronizedTime: System.DateTime.Now,
-                    attributes: attributes);
+                    attributes: attributes,
+                    contractSettings: TenantUtilities.GetExtendedColumnsContractSettings(
+                        context: context,
+                        tenantId: tenant.TenantId));
             }
             catch (DbException e)
             {

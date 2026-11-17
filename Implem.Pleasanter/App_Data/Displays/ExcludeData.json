@@ -10,6 +10,10 @@
             "Body": "排除资料"
         },
         {
+            "Language": "zh_tw",
+            "Body": "排除資料"
+        },
+        {
             "Language": "ja",
             "Body": "データを含めない"
         },

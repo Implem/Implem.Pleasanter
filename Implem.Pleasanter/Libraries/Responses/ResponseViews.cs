@@ -38,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 case "ReduceViewFilters":
                 case "ExpandViewFilters":
                 case "BulkProcessingItems":
+                case "FilterButton" when ss.ReferenceType == "McpLogs":
                     return res
                         .ReplaceAll("#ViewFilters",
                             new HtmlBuilder().ViewFilters(

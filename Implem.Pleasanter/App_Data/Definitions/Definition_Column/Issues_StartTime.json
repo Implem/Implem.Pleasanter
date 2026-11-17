@@ -33,6 +33,7 @@
     "Width": "50",
     "LabelText_en": "Start time",
     "LabelText_zh": "开始时间",
+    "LabelText_zh_tw": "開始時間",
     "LabelText_de": "Startzeit",
     "LabelText_ko": "시작 시간",
     "LabelText_es": "Hora de inicio",

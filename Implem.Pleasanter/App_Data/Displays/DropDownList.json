@@ -11,6 +11,10 @@
             "Body": "下拉列表"
         },
         {
+            "Language": "zh_tw",
+            "Body": "下拉式清單"
+        },
+        {
             "Language": "ja",
             "Body": "ドロップダウンリスト"
         },

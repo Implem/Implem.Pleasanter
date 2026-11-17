@@ -322,6 +322,7 @@ public static ImportResultData ImportCore(
                                             ss: ss,
                                             extendedSqls: false,
                                             synchronizeSummary: false,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 13 ) -->
                                             previousTitle: previousTitle,
                                             get: false);
                                         updateCount++;
@@ -339,6 +340,7 @@ public static ImportResultData ImportCore(
                                         ss: ss,
                                         extendedSqls: false,
                                         synchronizeSummary: false,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 12 ) -->
                                         migrationMode: migrationMode);
                                     insertCount++;
                                     break;
@@ -370,6 +372,7 @@ public static ImportResultData ImportCore(
                     ss: ss,
                     extendedSqls: false,
                     synchronizeSummary: false,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 7 ) -->
                     migrationMode: migrationMode);
                 switch (errorData.Type)
                 {
@@ -716,6 +719,7 @@ public static ContentResultInheritance ImportByApi(
                                             ss: ss,
                                             extendedSqls: false,
                                             synchronizeSummary: false,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 13 ) -->
                                             previousTitle: previousTitle,
                                             get: false);
                                         updateCount++;
@@ -733,6 +737,7 @@ public static ContentResultInheritance ImportByApi(
                                         ss: ss,
                                         extendedSqls: false,
                                         synchronizeSummary: false,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 12 ) -->
                                         migrationMode: migrationMode);
                                     insertCount++;
                                     break;
@@ -763,6 +768,7 @@ public static ContentResultInheritance ImportByApi(
                     ss: ss,
                     extendedSqls: false,
                     synchronizeSummary: false,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 7 ) -->
                     migrationMode: migrationMode);
                 switch (errorData.Type)
                 {
@@ -1058,6 +1064,7 @@ public static string ImportByServerScript(
                                             ss: ss,
                                             extendedSqls: false,
                                             synchronizeSummary: false,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 13 ) -->
                                             previousTitle: previousTitle,
                                             get: false);
                                         updateCount++;
@@ -1075,6 +1082,7 @@ public static string ImportByServerScript(
                                         ss: ss,
                                         extendedSqls: false,
                                         synchronizeSummary: false,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 12 ) -->
                                         migrationMode: migrationMode);
                                     insertCount++;
                                     break;
@@ -1100,6 +1108,7 @@ public static string ImportByServerScript(
                     ss: ss,
                     extendedSqls: false,
                     synchronizeSummary: false,
+<!--Model_Utilities_AiConnectSyncSuppression ( Indent = 7 ) -->
                     migrationMode: migrationMode);
                 switch (errorData.Type)
                 {

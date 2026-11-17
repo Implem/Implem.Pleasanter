@@ -194,7 +194,9 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             DataRow dataRow,
-            string tableAlias = null)
+            string tableAlias = null,
+            List<string> mine = null,
+            bool allColumns = false)
         {
             if (dataRow != null)
             {
@@ -202,7 +204,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     dataRow: dataRow,
-                    tableAlias: tableAlias);
+                    tableAlias: tableAlias,
+                    mine: mine,
+                    allColumns: allColumns);
             }
         }
 
@@ -210,12 +214,22 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             DataRow dataRow,
-            string tableAlias)
+            string tableAlias,
+            List<string> mine,
+            bool allColumns)
         {
             foreach (DataColumn dataColumn in dataRow.Table.Columns)
             {
                 var column = new ColumnNameInfo(dataColumn.ColumnName);
-                if (column.TableAlias == tableAlias)
+                if (column.TableAlias == tableAlias
+                    && (allColumns
+                        || ss.GetColumn(
+                            context: context,
+                            columnName: column.Name)?.CanRead(
+                                context: context,
+                                ss: ss,
+                                mine: mine,
+                                noCache: true) != false))
                 {
                     switch (column.Name)
                     {

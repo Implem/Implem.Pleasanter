@@ -6,8 +6,12 @@
             "Body": "Authority"
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "权威"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "權限"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "Autoridad"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Thẩm quyền"
         }
     ]

@@ -10,6 +10,10 @@
             "Body": "导出"
         },
         {
+            "Language": "zh_tw",
+            "Body": "匯出"
+        },
+        {
             "Language": "ja",
             "Body": "エクスポート"
         },

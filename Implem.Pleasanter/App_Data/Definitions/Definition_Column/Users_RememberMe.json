@@ -18,6 +18,7 @@
     "NotUpdate": "1",
     "LabelText_en": "Remember login information",
     "LabelText_zh": "记住登录信息",
+    "LabelText_zh_tw": "記住登入資訊",
     "LabelText_de": "Anmeldedaten speichern",
     "LabelText_ko": "로그인 정보 기억",
     "LabelText_es": "Recordar información de inicio de sesión",

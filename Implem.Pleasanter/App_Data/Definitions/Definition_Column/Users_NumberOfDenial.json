@@ -21,6 +21,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "No. of failed logins",
     "LabelText_zh": "登录失败次数",
+    "LabelText_zh_tw": "登入失敗次數",
     "LabelText_de": "Anzahl der fehlgeschlagenen Anmeldungen",
     "LabelText_ko": "실패한 로그인 횟수",
     "LabelText_es": "N.º de inicios de sesión fallidos",

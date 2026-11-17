@@ -6,7 +6,11 @@
             "Body": "only once"
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
+            "Body": "只有一次"
+        },
+        {
+            "Language": "zh_tw",
             "Body": "只有一次"
         },
         {
@@ -26,7 +30,7 @@
             "Body": "sólo una vez"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "chỉ một lần"
         }
     ]

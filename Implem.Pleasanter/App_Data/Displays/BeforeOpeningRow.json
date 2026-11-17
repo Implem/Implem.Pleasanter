@@ -10,6 +10,10 @@
             "Body": "在打开行之前"
         },
         {
+            "Language": "zh_tw",
+            "Body": "在顯示資料列之前"
+        },
+        {
             "Language": "ja",
             "Body": "行表示の前"
         },

@@ -17,6 +17,7 @@
     "ByForm": "Forms.List(controlId).Join(\";\")",
     "LabelText_en": "Bcc",
     "LabelText_zh": "密送",
+    "LabelText_zh_tw": "密送",
     "LabelText_de": "Bcc",
     "LabelText_ko": "숨은 참조",
     "LabelText_es": "CCO",

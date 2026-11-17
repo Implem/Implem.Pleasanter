@@ -82,8 +82,12 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 SiteId = backgroundJobModel.SiteId,
                 Controller = jobParameters.Controller,
                 Action = jobParameters.Action,
+                Page = jobParameters.Page.IsNullOrEmpty()
+                    ? $"items/{backgroundJobModel.SiteId}"
+                    : jobParameters.Page,
                 Id = backgroundJobModel.SiteId,
-                LoginId = user.LoginId
+                LoginId = user.LoginId,
+                IsBackgroundJob = true
 
             };
             foreach (var item in jobParameters.Forms ?? new Dictionary<string, string>())
@@ -151,6 +155,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         public string AbsolutePath { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
+        public string Page { get; set; }
 
         public static BulkDeleteJobParameters FromContext(Context context)
         {
@@ -166,7 +171,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 AbsoluteUri = context.AbsoluteUri,
                 AbsolutePath = context.AbsolutePath,
                 Controller = context.Controller,
-                Action = context.Action
+                Action = context.Action,
+                Page = context.Page
             };
         }
     }

@@ -90,6 +90,17 @@ namespace Implem.Pleasanter.Models
                     return apiErrorData;
                 }
             }
+            if (ss.ColumnHash.ContainsKey("TenantId")
+                && Permissions.ApplySysLogsTenantFilter(context: context)
+                && sysLogModel.TenantId != context.TenantId)
+            {
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.NotFound,
+                    api: api,
+                    sysLogsStatus: 403,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
+            }
             if (ss.GetNoDisplayIfReadOnly(context: context))
             {
                 return new ErrorData(
@@ -181,6 +192,22 @@ namespace Implem.Pleasanter.Models
                         api: api,
                         sysLogsStatus: 403,
                         sysLogsDescription: Debugs.GetSysLogsDescription());
+            }
+            var notAllowedExtendedColumn = ColumnUtilities.NotAllowedExtendedColumnUpdated(
+                context: context,
+                ss: ss,
+                baseModel: sysLogModel,
+                copy: copy);
+            if (notAllowedExtendedColumn != null)
+            {
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.ExtendedColumnsNotAllowed,
+                    api: api,
+                    sysLogsStatus: 400,
+                    sysLogsDescription: Debugs.GetSysLogsDescription(),
+                    columnName: notAllowedExtendedColumn.ColumnName,
+                    data: notAllowedExtendedColumn.LabelText);
             }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanCreate(
@@ -857,6 +884,21 @@ namespace Implem.Pleasanter.Models
                         api: api,
                         sysLogsStatus: 403,
                         sysLogsDescription: Debugs.GetSysLogsDescription());
+            }
+            var notAllowedExtendedColumn = ColumnUtilities.NotAllowedExtendedColumnUpdated(
+                context: context,
+                ss: ss,
+                baseModel: sysLogModel);
+            if (notAllowedExtendedColumn != null)
+            {
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.ExtendedColumnsNotAllowed,
+                    api: api,
+                    sysLogsStatus: 400,
+                    sysLogsDescription: Debugs.GetSysLogsDescription(),
+                    columnName: notAllowedExtendedColumn.ColumnName,
+                    data: notAllowedExtendedColumn.LabelText);
             }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanUpdate(

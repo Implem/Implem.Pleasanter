@@ -5,6 +5,9 @@
     {
         return Error.Types.HasNotPermission.MessageJson(context: context);
     }
+
+<!--Model_Utilities_Histories_SysLogs-->
+
     var hb = new HtmlBuilder();
     hb.Div(
         css: "tabs-panel-inner",

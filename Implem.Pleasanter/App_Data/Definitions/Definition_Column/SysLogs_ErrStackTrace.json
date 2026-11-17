@@ -20,10 +20,11 @@
     "Nullable": "1",
     "UpdateAccessControl": "ManageService",
     "FieldCss": "field-markdown",
-    "LabelText_en": "Error stuck trace",
-    "LabelText_zh": "错误卡滞跟踪",
-    "LabelText_de": "Fehlerstopp nachverfolgen",
-    "LabelText_ko": "오류 막힘 추적",
-    "LabelText_es": "Rastreo de bloqueo en error",
-    "LabelText_vn": "Dấu vết lỗi"
+    "LabelText_en": "Error stack trace",
+    "LabelText_zh": "错误堆栈跟踪",
+    "LabelText_zh_tw": "錯誤堆疊追蹤",
+    "LabelText_de": "Fehler-Stacktrace",
+    "LabelText_ko": "오류 스택 추적",
+    "LabelText_es": "Rastreo de la pila de errores",
+    "LabelText_vn": "Dấu vết ngăn xếp lỗi"
 }

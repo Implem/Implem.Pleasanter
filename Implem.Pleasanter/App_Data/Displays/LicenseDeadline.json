@@ -10,6 +10,10 @@
             "Body": "许可截止日期"
         },
         {
+            "Language": "zh_tw",
+            "Body": "授權期限"
+        },
+        {
             "Language": "ja",
             "Body": "ライセンス期限"
         },

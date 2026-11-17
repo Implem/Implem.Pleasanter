@@ -16,6 +16,7 @@
     "ValidateRequired": "1",
     "LabelText_en": "Record",
     "LabelText_zh": "记录",
+    "LabelText_zh_tw": "記錄",
     "LabelText_de": "Datensatz",
     "LabelText_ko": "레코드",
     "LabelText_es": "Registro",

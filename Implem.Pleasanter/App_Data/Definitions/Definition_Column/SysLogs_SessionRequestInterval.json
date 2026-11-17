@@ -14,6 +14,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Session request interval",
     "LabelText_zh": "会话请求间隔",
+    "LabelText_zh_tw": "會話請求間隔",
     "LabelText_de": "Sitzungsabrufintervall",
     "LabelText_ko": "세션 요청 간격",
     "LabelText_es": "Intervalo de solicitud de sesión",

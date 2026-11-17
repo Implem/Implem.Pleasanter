@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Settings;
 using ParameterScimExtendedAttribute = Implem.ParameterAccessor.Parts.ScimExtendedAttribute;
 
 namespace Implem.Pleasanter.Libraries.Scim
@@ -33,6 +35,36 @@ namespace Implem.Pleasanter.Libraries.Scim
             return Attributes(
                 attributes: Parameters.Scim?.ExtendedAttributes?.Groups,
                 tableName: GroupsTableName);
+        }
+
+        internal static IEnumerable<ParameterScimExtendedAttribute> AllowedUserAttributes(
+            Context context)
+        {
+            return AllowedAttributes(
+                context: context,
+                attributes: UserAttributes(),
+                tableName: UsersTableName);
+        }
+
+        internal static IEnumerable<ParameterScimExtendedAttribute> AllowedGroupAttributes(
+            Context context)
+        {
+            return AllowedAttributes(
+                context: context,
+                attributes: GroupAttributes(),
+                tableName: GroupsTableName);
+        }
+
+        private static IEnumerable<ParameterScimExtendedAttribute> AllowedAttributes(
+            Context context,
+            IEnumerable<ParameterScimExtendedAttribute> attributes,
+            string tableName)
+        {
+            return attributes.Where(attribute => ColumnUtilities.AllowedExtendedColumn(
+                context: context,
+                columnName: ColumnName(
+                    attribute: attribute,
+                    tableName: tableName)));
         }
 
         internal static IEnumerable<string> Schemas(

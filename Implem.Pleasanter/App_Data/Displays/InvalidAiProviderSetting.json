@@ -10,6 +10,10 @@
             "Body": "AI集成设置无效。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "AI整合設定無效。"
+        },
+        {
             "Language": "ja",
             "Body": "AI連携設定が不正です。"
         },

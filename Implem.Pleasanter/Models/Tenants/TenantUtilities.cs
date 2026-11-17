@@ -419,6 +419,14 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                 }
+                if (!column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: tenantModel.Mine(context: context),
+                    noCache: true))
+                {
+                    value = string.Empty;
+                }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
             return hb.Td(
@@ -1992,6 +2000,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ContractSettings GetExtendedColumnsContractSettings(Context context, int tenantId)
+        {
+            return Parameters.Service.RestrictExtendedColumns
+                ? GetContractSettings(
+                    context: context,
+                    tenantId: tenantId)
+                : new ContractSettings();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string SetBGServerScript(Context context, SiteSettings ss, long tenantId)
         {
             var tenantModel = new TenantModel(
@@ -2838,6 +2858,17 @@ namespace Implem.Pleasanter.Models
         public static ContentResultInheritance DeleteByApi(
             Context context, SiteSettings ss, int tenantId)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
@@ -2918,6 +2949,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContentResultInheritance GetByApi(Context context, SiteSettings ss)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
@@ -2995,6 +3037,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
@@ -3158,6 +3211,17 @@ namespace Implem.Pleasanter.Models
         public static ContentResultInheritance SuspendByApi(
             Context context, SiteSettings ss, int tenantId)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
@@ -3236,6 +3300,17 @@ namespace Implem.Pleasanter.Models
         public static ContentResultInheritance ResumeByApi(
             Context context, SiteSettings ss, int tenantId)
         {
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);

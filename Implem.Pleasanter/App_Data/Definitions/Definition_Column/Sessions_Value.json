@@ -11,6 +11,7 @@
     "MaxLength": "-1",
     "LabelText_en": "Value",
     "LabelText_zh": "数值",
+    "LabelText_zh_tw": "數值",
     "LabelText_de": "Wert",
     "LabelText_ko": "값",
     "LabelText_es": "Valor",

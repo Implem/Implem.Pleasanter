@@ -1,0 +1,12 @@
+﻿{
+    "Id": "QRTZ_TRIGGERS_MISFIRE_ORIG_FIRE_TIME",
+    "ModelName": "QuartzTrigger",
+    "TableName": "QRTZ_TRIGGERS",
+    "Label": "Quartz Trigger",
+    "ColumnName": "MISFIRE_ORIG_FIRE_TIME",
+    "No": "16",
+    "LabelText": "Misfire Original Fire Time",
+    "TypeName": "bigint",
+    "Nullable": "1",
+    "ExcludeBaseColumns": "1"
+}

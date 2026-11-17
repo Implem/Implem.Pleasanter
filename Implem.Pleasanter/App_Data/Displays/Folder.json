@@ -10,6 +10,10 @@
             "Body": "文件夹"
         },
         {
+            "Language": "zh_tw",
+            "Body": "資料夾"
+        },
+        {
             "Language": "ja",
             "Body": "フォルダ"
         },

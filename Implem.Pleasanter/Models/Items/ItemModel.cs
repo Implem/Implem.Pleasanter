@@ -2111,16 +2111,23 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true);
-            switch (Site.SiteSettings.ReferenceType)
+            return BulkUpdate(
+                context: context,
+                ss: Site.SiteSettings);
+        }
+
+        public string BulkUpdate(Context context, SiteSettings ss)
+        {
+            switch (ss.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.BulkUpdate(
                         context: context,
-                        ss: Site.SiteSettings);
+                        ss: ss);
                 case "Results":
                     return ResultUtilities.BulkUpdate(
                         context: context,
-                        ss: Site.SiteSettings);
+                        ss: ss);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -3271,6 +3278,17 @@ namespace Implem.Pleasanter.Models
                     siteId: Site.SiteId,
                     limitPerSite: context.ContractSettings.ApiLimit()));
             }
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             switch (Site.ReferenceType)
             {
                 case "Sites":
@@ -3576,6 +3594,17 @@ namespace Implem.Pleasanter.Models
         public ContentResultInheritance SynchronizeSummariesByApi(Context context)
         {
             SetSite(context: context);
+            var apiErrorData = Validators.ValidateApi(
+                context: context,
+                serverScript: false);
+            switch (apiErrorData.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: apiErrorData);
+            }
             var selected = context.RequestDataString.Deserialize<SiteApiModel>()?.SummaryId;
             if (selected == null)
             {

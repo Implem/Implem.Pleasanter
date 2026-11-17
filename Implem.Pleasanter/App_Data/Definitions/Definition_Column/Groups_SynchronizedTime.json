@@ -19,6 +19,7 @@
     "EditorReadOnly": "1",
     "LabelText_en": "LDAP sync time",
     "LabelText_zh": "LDAP 同步时间",
+    "LabelText_zh_tw": "LDAP 同步時間",
     "LabelText_de": "LDAP-Synchronisierungszeit",
     "LabelText_ko": "LDAP 동기화 시간",
     "LabelText_es": "Tiempo de sincronización LDAP",

@@ -10,6 +10,10 @@
             "Body": "部分匹配"
         },
         {
+            "Language": "zh_tw",
+            "Body": "部分相符"
+        },
+        {
             "Language": "ja",
             "Body": "部分一致"
         },

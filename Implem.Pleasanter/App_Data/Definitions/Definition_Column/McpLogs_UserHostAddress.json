@@ -21,6 +21,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Client IP",
     "LabelText_zh": "客户端IP",
+    "LabelText_zh_tw": "客戶端IP",
     "LabelText_de": "Client-IP",
     "LabelText_ko": "클라이언트 IP",
     "LabelText_es": "IP del cliente",

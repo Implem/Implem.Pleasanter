@@ -10,6 +10,10 @@
             "Body": "每周"
         },
         {
+            "Language": "zh_tw",
+            "Body": "每週"
+        },
+        {
             "Language": "ja",
             "Body": "毎週"
         },

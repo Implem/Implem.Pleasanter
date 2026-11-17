@@ -22,6 +22,7 @@
     "ValidateEmail": "1",
     "LabelText_en": "Demo email address",
     "LabelText_zh": "演示电子邮箱地址",
+    "LabelText_zh_tw": "示範電子郵件地址",
     "LabelText_de": "Demo-E-Mail-Adresse",
     "LabelText_ko": "데모 이메일 주소",
     "LabelText_es": "Dirección de correo electrónico de demostración",

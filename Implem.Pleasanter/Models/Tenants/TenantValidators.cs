@@ -199,6 +199,22 @@ namespace Implem.Pleasanter.Models
                         sysLogsStatus: 403,
                         sysLogsDescription: Debugs.GetSysLogsDescription());
             }
+            var notAllowedExtendedColumn = ColumnUtilities.NotAllowedExtendedColumnUpdated(
+                context: context,
+                ss: ss,
+                baseModel: tenantModel,
+                copy: copy);
+            if (notAllowedExtendedColumn != null)
+            {
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.ExtendedColumnsNotAllowed,
+                    api: api,
+                    sysLogsStatus: 400,
+                    sysLogsDescription: Debugs.GetSysLogsDescription(),
+                    columnName: notAllowedExtendedColumn.ColumnName,
+                    data: notAllowedExtendedColumn.LabelText);
+            }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanCreate(
                     context: context,
@@ -754,6 +770,21 @@ namespace Implem.Pleasanter.Models
                         api: api,
                         sysLogsStatus: 403,
                         sysLogsDescription: Debugs.GetSysLogsDescription());
+            }
+            var notAllowedExtendedColumn = ColumnUtilities.NotAllowedExtendedColumnUpdated(
+                context: context,
+                ss: ss,
+                baseModel: tenantModel);
+            if (notAllowedExtendedColumn != null)
+            {
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.ExtendedColumnsNotAllowed,
+                    api: api,
+                    sysLogsStatus: 400,
+                    sysLogsDescription: Debugs.GetSysLogsDescription(),
+                    columnName: notAllowedExtendedColumn.ColumnName,
+                    data: notAllowedExtendedColumn.LabelText);
             }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanUpdate(

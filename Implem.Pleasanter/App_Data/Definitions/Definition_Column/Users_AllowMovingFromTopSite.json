@@ -23,6 +23,7 @@
     "CheckFilterControlType": "2",
     "LabelText_en": "Allow moving from the top of the site",
     "LabelText_zh": "允许从网站顶部移动",
+    "LabelText_zh_tw": "允許從站點頂部移動",
     "LabelText_de": "Erlauben Sie das Verschieben vom Anfang der Seite",
     "LabelText_ko": "사이트 상단에서 이동 허용",
     "LabelText_es": "Permitir desplazarse desde la parte superior del sitio",

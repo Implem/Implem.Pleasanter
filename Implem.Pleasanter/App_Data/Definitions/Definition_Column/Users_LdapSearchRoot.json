@@ -19,6 +19,7 @@
     "NotLookup": "1",
     "LabelText_en": "Ldap search root",
     "LabelText_zh": "LDAP搜索根",
+    "LabelText_zh_tw": "LDAP搜尋根",
     "LabelText_de": "Ldap-Suchwurzel",
     "LabelText_ko": "Ldap 검색 루트",
     "LabelText_es": "Radice di ricerca Ldap",

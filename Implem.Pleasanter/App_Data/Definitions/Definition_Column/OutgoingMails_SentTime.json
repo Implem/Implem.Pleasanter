@@ -21,6 +21,7 @@
     "ExportFormat": "Ymdahms",
     "LabelText_en": "Sent on",
     "LabelText_zh": "发送时间",
+    "LabelText_zh_tw": "傳送時間",
     "LabelText_de": "Gesendet am",
     "LabelText_ko": "전송 날짜",
     "LabelText_es": "Enviado el",

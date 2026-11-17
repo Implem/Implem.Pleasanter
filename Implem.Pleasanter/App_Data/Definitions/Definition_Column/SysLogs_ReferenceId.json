@@ -22,6 +22,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Reference ID",
     "LabelText_zh": "参考ID",
+    "LabelText_zh_tw": "參考ID",
     "LabelText_de": "Referenz-ID",
     "LabelText_ko": "참조 ID",
     "LabelText_es": "ID de referencia",

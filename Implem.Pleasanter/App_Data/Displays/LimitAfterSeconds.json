@@ -10,6 +10,10 @@
             "Body": "{0}秒后"
         },
         {
+            "Language": "zh_tw",
+            "Body": "{0}秒後"
+        },
+        {
             "Language": "ja",
             "Body": "{0} 秒後"
         },

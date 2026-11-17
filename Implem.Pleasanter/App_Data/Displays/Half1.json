@@ -10,6 +10,10 @@
             "Body": "FY {0} H1"
         },
         {
+            "Language": "zh_tw",
+            "Body": "FY {0} H1"
+        },
+        {
             "Language": "ja",
             "Body": "{0}年度上半期"
         },

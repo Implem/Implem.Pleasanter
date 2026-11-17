@@ -6,8 +6,12 @@
             "Body": "The request has timed out. Please narrow down your search criteria or try again later."
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "请求已超时。请缩小搜索条件或稍后再试。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "請求已超時。請縮小搜尋條件或稍後再試。"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "La solicitud ha excedido el tiempo de espera. Reduzca los criterios de búsqueda o inténtelo de nuevo más tarde."
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Yêu cầu đã hết thời gian chờ. Vui lòng thu hẹp tiêu chí tìm kiếm hoặc thử lại sau."
         }
     ]

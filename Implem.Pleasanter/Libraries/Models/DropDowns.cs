@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -233,16 +234,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 offset: 0,
                 totalCount: column.TotalCount,
                 pageSize: Parameters.General.DropDownSearchPageSize);
-            var selectedValues = (column?.MultipleSelections == true || filter)
+            var selectedValues = column.IsMultipleSelectionsDropDownSearch(filter: filter)
                 ? context.Forms.List("DropDownSearchResultsAll")
                 : new List<string>();
             return new ResponseCollection(context: context)
                 .Html(
-                    (column?.MultipleSelections == true || filter)
+                    column.IsMultipleSelectionsDropDownSearch(filter: filter)
                         ? "#DropDownSearchSourceResults"
                         : "#DropDownSearchResults",
                     new HtmlBuilder().SelectableItems(
-                        listItemCollection: column?.EditChoices(
+                        listItemCollection: column?.EditChoicesOrTenantIdFilterOptions_SysLogs(
                             context: context,
                             addNotSet: true,
                             own: filter)
@@ -338,7 +339,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 .Append(
                     "#" + context.Forms.ControlId(),
                     new HtmlBuilder().SelectableItems(
-                        listItemCollection: column?.EditChoices(
+                        listItemCollection: column?.EditChoicesOrTenantIdFilterOptions_SysLogs(
                             context: context,
                             addNotSet: offset == 0,
                             own: filter)
@@ -582,6 +583,14 @@ namespace Implem.Pleasanter.Libraries.Models
                         setTotalCount: true),
                     searchIndexes: searchIndexes);
             }
+            else if (column?.TableName() == "SysLogs" && column?.ColumnName == "TenantId")
+            {
+                column.SetChoiceHash_TenantIdFilterOptions_SysLogs(
+                    context: context,
+                    searchText: searchText,
+                    selectedValues: selectedValues,
+                    offset: offset);
+            }
             else
             {
                 ss.SetChoiceHash(
@@ -601,6 +610,18 @@ namespace Implem.Pleasanter.Libraries.Models
             bool filter,
             bool multiple)
         {
+            if (Permissions.PublishScope(context: context)
+                && column != null
+                && column.Type != Column.Types.Normal)
+            {
+                var referencedValues = column.SiteSettings?.PublishReferencedValues(
+                    context: context,
+                    column: column)
+                        ?? new HashSet<string>();
+                selected.RemoveAll(o => o != "Own"
+                    && o != "\t"
+                    && referencedValues.Contains(o) == false);
+            }
             if (selected.Any()
                 && column.UseSearch == true
                 && column.Type != Column.Types.Normal
@@ -652,7 +673,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     columnName: column.ColumnName,
                     selectedValues: selected);
             }
-            var optionCollection = column?.EditChoices(
+            var optionCollection = column?.EditChoicesOrTenantIdFilterOptions_SysLogs(
                 context: context,
                 addNotSet: true,
                 own: filter)
@@ -738,6 +759,10 @@ namespace Implem.Pleasanter.Libraries.Models
 
         private static SiteSettings ResolveDashboardSiteSettings(Context context, SiteSettings ss)
         {
+            if (Permissions.PublishScope(context: context))
+            {
+                return ss;
+            }
             var baseSiteId = 0L;
             switch ((DashboardPartType)context.Forms.Long("DashboardPartType"))
             {

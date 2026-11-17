@@ -10,6 +10,10 @@
             "Body": "默认收件人"
         },
         {
+            "Language": "zh_tw",
+            "Body": "預設收件人"
+        },
+        {
             "Language": "ja",
             "Body": "既定の宛先"
         },

@@ -24,14 +24,35 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private readonly Context Context;
         public BaseItemModel Model;
         private readonly bool OnTesting;
+        private readonly SiteSettings SiteSettings;
         public int? ProcessId { get; set; }
         public int?[] ProcessIds { get; set; }
 
-        public ServerScriptModelApiModel(Context context, BaseItemModel model, bool onTesting)
+        public ServerScriptModelApiModel(
+            Context context,
+            BaseItemModel model,
+            bool onTesting,
+            SiteSettings ss = null)
         {
             Context = context;
             Model = model ?? new BaseItemModel();
             OnTesting = onTesting;
+            SiteSettings = ss;
+        }
+
+        private bool CanRead(string columnName)
+        {
+            if (SiteSettings == null)
+            {
+                return true;
+            }
+            return SiteSettings.GetColumn(
+                context: Context,
+                columnName: columnName)?.CanRead(
+                    context: Context,
+                    ss: SiteSettings,
+                    mine: Model.Mine(context: Context),
+                    noCache: true) != false;
         }
 
         public override bool TryGetIndex(
@@ -46,6 +67,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     result = null;
                     return false;
+                }
+                if (!ColumnUtilities.AllowedExtendedColumn(
+                    context: Context,
+                    columnName: name)
+                        || !CanRead(columnName: name))
+                {
+                    result = null;
+                    return true;
                 }
                 switch (Def.ExtendedColumnTypes.Get(name ?? string.Empty))
                 {
@@ -432,7 +461,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return value.ToDateTime().ToUniversal(context: Context);
         }
 
-        public string ToJsonString(Context context, SiteSettings ss)
+        internal string ToJsonString(Context context, SiteSettings ss)
         {
             if (Model.CreatedTime == null)
             {
@@ -444,7 +473,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             if (Model is SiteModel siteModel)
             {
-                var apiModel = siteModel.GetByApi(context: context);
+                var apiModel = siteModel.GetByApi(
+                    context: context,
+                    rawSiteSettings: true);
                 apiModel.Comments = null;
                 return apiModel.ToJson();
             }
@@ -452,7 +483,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 var apiModel = issueModel.GetByApi(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    checkRecordUsers: false);
                 apiModel.Comments = null;
                 apiModel.ProcessId = ProcessId;
                 apiModel.ProcessIds = ProcessIds;
@@ -462,7 +494,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 var apiModel = resultModel.GetByApi(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    checkRecordUsers: false);
                 apiModel.Comments = null;
                 apiModel.ProcessId = ProcessId;
                 apiModel.ProcessIds = ProcessIds;
@@ -472,7 +505,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 var apiModel = wikiModel.GetByApi(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    checkRecordUsers: false);
                 apiModel.Comments = null;
                 return apiModel.ToJson();
             }

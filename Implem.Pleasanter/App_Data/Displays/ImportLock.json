@@ -6,8 +6,12 @@
             "Body": "Another task is being processed, please execute it later."
         },
         {
-            "Language": "zh-CN",
+            "Language": "zh",
             "Body": "另一个任务正在处理中，请稍后执行。"
+        },
+        {
+            "Language": "zh_tw",
+            "Body": "另一個任務正在處理中，請稍後執行。"
         },
         {
             "Language": "ja",
@@ -26,7 +30,7 @@
             "Body": "Se está procesando otra tarea; ejecútela más tarde."
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Một tác vụ khác đang được xử lý, vui lòng thực hiện nó sau."
         }
     ]

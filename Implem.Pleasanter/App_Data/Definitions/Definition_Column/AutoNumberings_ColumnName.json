@@ -12,6 +12,7 @@
     "Pk": "3",
     "LabelText_en": "Column name",
     "LabelText_zh": "列名",
+    "LabelText_zh_tw": "欄位名稱",
     "LabelText_de": "Spaltenname",
     "LabelText_ko": "열 이름",
     "LabelText_es": "Nombre de la columna",

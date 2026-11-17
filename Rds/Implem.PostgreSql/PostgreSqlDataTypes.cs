@@ -54,11 +54,20 @@ namespace Implem.PostgreSql
             }
         }
 
-        public string DefaultDefinition(DataRow dataRow)
+        public string DefaultValue(DataRow dataRow)
         {
-            string s = dataRow["column_default"].ToString();
-            s = Regex.Replace(s, @"^(?<str>'.+')::.+$", "${str}");
-            return s;
+            var columnDefault = dataRow["column_default"].ToString();
+            var match = Regex.Match(
+                columnDefault,
+                @"^'(?<value>(?:[^']|'')*)'::[^']+$");
+            return match.Success
+                ? match.Groups["value"].Value.Replace("''", "'")
+                : columnDefault;
+        }
+
+        public string StringLiteral(string value)
+        {
+            return $"'{value.Replace("'", "''")}'";
         }
     }
 }

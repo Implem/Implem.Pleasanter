@@ -4,6 +4,10 @@
     "Languages": [
         { "Body": "Site title" },
         { "Language": "zh", "Body": "站点标题" },
+        {
+            "Language": "zh_tw",
+            "Body": "站點標題"
+        },
         { "Language": "ja", "Body": "サイトタイトル" },
         { "Language": "de", "Body": "Standorttitel" },
         { "Language": "ko", "Body": "사이트 제목" },

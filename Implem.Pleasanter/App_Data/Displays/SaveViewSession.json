@@ -10,6 +10,10 @@
             "Body": "届会"
         },
         {
+            "Language": "zh_tw",
+            "Body": "屆會"
+        },
+        {
             "Language": "ja",
             "Body": "セッション"
         },

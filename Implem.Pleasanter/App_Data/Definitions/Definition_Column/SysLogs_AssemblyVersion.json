@@ -19,6 +19,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Assembly version",
     "LabelText_zh": "组件版本",
+    "LabelText_zh_tw": "元件版本",
     "LabelText_de": "Assembly-Version",
     "LabelText_ko": "어셈블리 버전",
     "LabelText_es": "Versión del conjunto",

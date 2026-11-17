@@ -10,6 +10,10 @@
             "Body": "待导出列"
         },
         {
+            "Language": "zh_tw",
+            "Body": "待匯出欄位"
+        },
+        {
             "Language": "ja",
             "Body": "エクスポートする項目"
         },

@@ -10,6 +10,10 @@
             "Body": "删除时删除图像"
         },
         {
+            "Language": "zh_tw",
+            "Body": "刪除時刪除影像"
+        },
+        {
             "Language": "ja",
             "Body":"削除時に画像を削除"
         },

@@ -10,6 +10,10 @@
             "Body": "已发行SCIM令牌。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "已發行SCIM令牌。"
+        },
+        {
             "Language": "ja",
             "Body": "SCIMトークンを発行しました。"
         },

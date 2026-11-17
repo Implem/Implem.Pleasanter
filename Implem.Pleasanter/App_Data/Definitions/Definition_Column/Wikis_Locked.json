@@ -21,6 +21,7 @@
     "SettingEnable": "1",
     "LabelText_en": "Locked",
     "LabelText_zh": "已锁定",
+    "LabelText_zh_tw": "已鎖定",
     "LabelText_de": "Gesperrt",
     "LabelText_ko": "잠김",
     "LabelText_es": "Bloqueado",

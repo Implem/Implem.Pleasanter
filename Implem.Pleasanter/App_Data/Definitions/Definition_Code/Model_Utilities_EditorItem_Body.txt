@@ -107,7 +107,15 @@ public static string Editor(
             parentId: ss.ParentId,
             referenceType: "#TableName#",
             title: displayTitle,
-            body: #modelName#Model.Body,
+            body: ss.GetColumn(
+                context: context,
+                columnName: "Body")?.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: #modelName#Model.Mine(context: context),
+                    noCache: true) != false
+                        ? #modelName#Model.Body
+                        : null,
             useTitle: ss.TitleColumns?.Any(o => ss
                 .GetEditorColumnNames()
                 .Contains(o)) == true,

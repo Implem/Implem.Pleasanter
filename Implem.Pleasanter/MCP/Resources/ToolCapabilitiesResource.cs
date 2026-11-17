@@ -27,7 +27,7 @@ Pleasanter MCP ツール概要
   GetSiteIdByTitle: サイト名→サイトID検索
   GetSiteTemplates: サイトテンプレート一覧取得(全カテゴリ＋ユーザーテンプレート)
   AddSiteByTemplate: テンプレートからサイト作成(定義テンプレート/ユーザーテンプレート両対応。ユーザーテンプレートはtitle無視)
-  GetSite: サイト設定取得(項目定義・選択肢等の確認)
+  GetSite: サイト設定取得(項目定義・選択肢等の確認。SiteSettingsはサイト管理権限がある場合のみ返る)
 
 ■ ユーザー操作(UsersTool)
   GetUserIdByName: ユーザー名→ユーザーID検索

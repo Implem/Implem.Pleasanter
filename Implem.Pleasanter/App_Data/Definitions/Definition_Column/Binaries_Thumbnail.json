@@ -15,6 +15,7 @@
     "ByDataRow": "dataRow.Bytes(\"Bin\")",
     "LabelText_en": "Thumbnail",
     "LabelText_zh": "缩图",
+    "LabelText_zh_tw": "縮圖",
     "LabelText_de": "Miniaturansicht",
     "LabelText_ko": "썸네일",
     "LabelText_es": "Miniatura",

@@ -819,6 +819,24 @@ describe('セキュリティ: 編集モードの属性除去 (実 SunEditor / �
         expect(textarea.value).not.toContain('onerror');
         expect(textarea.value).not.toContain('onclick');
     });
+
+    it('リンクの URL 欄で # を入力したとき、見出しの文字はタグとして解釈されない', async () => {
+        const { wysiwyg, toolbar } = await mountRealEditor();
+        wysiwyg.innerHTML = '<h2>&lt;img src="x" onerror="window.__xss=1"&gt;</h2><p>hello</p>';
+        selectAllText(wysiwyg);
+        pressButton(toolbar.querySelector('button[data-command="link"]')!);
+
+        // URL 欄が # で始まると、本文の見出しを候補として並べる。
+        const urlInput = (await waitVisible('.se-input-url')) as HTMLInputElement;
+        urlInput.value = '#';
+        urlInput.dispatchEvent(new Event('input', { bubbles: true }));
+
+        // 見出しの文字は、文字のまま候補に出る。要素として解釈されると、この文字は消えて img ができる。
+        const menu = await waitVisible('.se-select-menu');
+        await vi.waitFor(() => expect(menu.textContent).toContain('<img src="x"'));
+        expect(menu.querySelector('img')).toBeNull();
+        expect((window as unknown as { __xss?: number }).__xss).toBeUndefined();
+    });
 });
 
 describe('テーマ: CSS カスタムプロパティ (実 / ブラウザ)', () => {

@@ -15,6 +15,7 @@
     "Required": "1",
     "LabelText_en": "Link source ID",
     "LabelText_zh": "链接源ID",
+    "LabelText_zh_tw": "連結源ID",
     "LabelText_de": "Verknüpfungsquellen-ID",
     "LabelText_ko": "링크 소스 ID",
     "LabelText_es": "ID de origen de enlace",

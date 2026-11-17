@@ -3,16 +3,25 @@ using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelUsers
     {
         private readonly Context Context;
+        private HashSet<string> ReadableColumnNames;
 
         public ServerScriptModelUsers(Context context)
         {
             Context = context;
+        }
+
+        private HashSet<string> GetReadableColumnNames(SiteSettings ss = null)
+        {
+            return ReadableColumnNames ??= ServerScriptUtilities.ReadableColumnNames(
+                context: Context,
+                ss: ss ?? SiteSettingsUtilities.UsersSiteSettings(context: Context));
         }
 
         public ServerScriptModelUserModel Get(object id)
@@ -24,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ServerScriptModelUserModel userModel = null;
             if (!user.Anonymous())
             {
+                var readableColumnNames = GetReadableColumnNames();
                 userModel = new ServerScriptModelUserModel(
                     context: Context,
                     tenantId: user.TenantId,
@@ -35,16 +45,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     tenantManager: user.TenantManager,
                     serviceManager: user.ServiceManager,
                     disabled: user.Disabled,
-                    extras: user.Extras);
+                    extras: user.Extras,
+                    readableColumnNames: readableColumnNames);
             }
             return userModel;
         }
 
         public ServerScriptModelUserModel[] GetList(string view = null, int offset = 0, int pageSize = 0)
         {
+            var ss = SiteSettingsUtilities.UsersSiteSettings(context: Context);
+            var readableColumnNames = GetReadableColumnNames(ss: ss);
             return UserUtilities.GetListByServerScript(
                 context: Context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: Context),
+                ss: ss,
                 view: view,
                 offset: offset,
                 pageSize: pageSize)
@@ -59,7 +72,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         tenantManager: user.TenantManager,
                         serviceManager: user.ServiceManager,
                         disabled: user.Disabled,
-                        extras: user.Extras))
+                        extras: user.Extras,
+                        readableColumnNames: readableColumnNames))
                     .ToArray();
         }
 

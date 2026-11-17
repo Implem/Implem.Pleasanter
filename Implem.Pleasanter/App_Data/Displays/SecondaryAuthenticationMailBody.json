@@ -10,6 +10,10 @@
             "Body": "使用以下代码作为Pleasanter身份验证代码。 \n验证码：[AuthenticationCode] \n感谢您使用Pleasanter。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "使用以下程式碼作為Pleasanter身份驗證程式碼。 \n驗證碼：[AuthenticationCode] \n感謝您使用Pleasanter。"
+        },
+        {
             "Language": "ja",
             "Body": "Pleasanterの確認コードには、次のコードをお使いください。\ncode: [AuthenticationCode]\nPleasanterのご利用ありがとうございます。"
         },

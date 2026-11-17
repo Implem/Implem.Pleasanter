@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.License;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -130,6 +131,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         referenceType: referenceType,
                         muenuId: "NavigationMenu",
                         menus: ExtendedAssembleNavigationMenu(
+                            context: context,
                             navigationMenus: Parameters.NavigationMenus,
                             extendedNavigationMenus: ExtendedNavigationMenu(context)),
                         serverScriptModelRow: serverScriptModelRow)
@@ -1035,7 +1037,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return extendedNavigationMenus.ToList();
         }
 
+        internal const string DefaultEnterpriseEditionUrl = "https://pleasanter.org/enterprise?utm_source={0}&utm_medium=app&utm_campaign=enterprise&utm_content=nav-menu";
+
         private static List<NavigationMenu> ExtendedAssembleNavigationMenu(
+            Context context,
             List<NavigationMenu> navigationMenus,
             List<ParameterAccessor.Parts.ExtendedNavigationMenu> extendedNavigationMenus)
         {
@@ -1049,6 +1054,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Where(child => child != null
                     && child.Url != null))
                 {
+                    if (childMenu.MenuId == "HelpMenu_EnterpriseEdition"
+                        && childMenu.Url == DefaultEnterpriseEditionUrl
+                        && LicenseUtilities.ShowSupportCustomersGuide(context: context))
+                    {
+                        childMenu.Name = "SupportCustomers";
+                        childMenu.Url = LicenseUtilities.SupportCustomersUrl.Params(
+                            Parameters.General.PleasanterSource,
+                            "nav-menu");
+                        continue;
+                    }
                     childMenu.Url = childMenu.Url.Params(Parameters.General.PleasanterSource);
                 }
             }

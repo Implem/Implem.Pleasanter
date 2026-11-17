@@ -15,6 +15,10 @@
             "Body": "此标签中使用的输入项将被删除。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "此標籤中使用的輸入項將被刪除。"
+        },
+        {
             "Language": "de",
             "Body": "Die im Tab verwendeten Eingabefelder werden gelöscht."
         },

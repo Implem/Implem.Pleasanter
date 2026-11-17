@@ -16,6 +16,7 @@
     "Required": "1",
     "LabelText_en": "Background Job ID",
     "LabelText_zh": "后台作业ID",
+    "LabelText_zh_tw": "背景作業ID",
     "LabelText_de": "Hintergrundauftrag-ID",
     "LabelText_ko": "백그라운드 작업 ID",
     "LabelText_es": "ID de trabajo en segundo plano",

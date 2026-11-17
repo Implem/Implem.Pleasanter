@@ -137,6 +137,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             return AllowNewFeatures == true || !Parameters.Service.RestrictNewFeatures;
         }
 
+        public bool ExtendedColumns()
+        {
+            return Extensions.Get("ExtendedColumns")
+                || !Parameters.Service.RestrictExtendedColumns;
+        }
+
+        public void SetExtendedColumns(ContractSettings contractSettings)
+        {
+            Extensions ??= new Dictionary<string, bool>();
+            Extensions["ExtendedColumns"] = contractSettings?.Extensions
+                .Get("ExtendedColumns") == true;
+        }
+
         public int ApiLimit()
         {
             return (ApiLimitPerSite != null)

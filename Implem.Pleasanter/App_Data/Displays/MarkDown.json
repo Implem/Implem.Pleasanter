@@ -11,6 +11,10 @@
             "Body": "减价"
         },
         {
+            "Language": "zh_tw",
+            "Body": "減價"
+        },
+        {
             "Language": "ja",
             "Body": "マークダウン"
         },

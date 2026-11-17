@@ -108,7 +108,11 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private static bool SsCache(Context context, SiteModel siteModel)
         {
-            if (context.Api)
+            if (Permissions.PublishScope(context: context))
+            {
+                return false;
+            }
+            else if (context.Api)
             {
                 return context.ApiSsCache;
             }

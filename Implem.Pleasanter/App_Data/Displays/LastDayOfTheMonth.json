@@ -10,6 +10,10 @@
             "Body": "该月的最后一天"
         },
         {
+            "Language": "zh_tw",
+            "Body": "該月的最後一天"
+        },
+        {
             "Language": "ja",
             "Body": "月末日"
         },
@@ -26,7 +30,7 @@
             "Body": "Último día del mes"
         },
         {
-            "Language": "vi",
+            "Language": "vn",
             "Body": "Ngày cuối cùng của tháng"
         }
     ]

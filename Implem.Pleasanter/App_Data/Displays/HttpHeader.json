@@ -10,6 +10,10 @@
             "Body": "Http 标头"
         },
         {
+            "Language": "zh_tw",
+            "Body": "Http 標頭"
+        },
+        {
             "Language": "ja",
             "Body": "HTTPヘッダ"
         },

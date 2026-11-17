@@ -15,6 +15,7 @@
     "UpdateAccessControl": "ManageService",
     "LabelText_en": "Service name",
     "LabelText_zh": "服务名称",
+    "LabelText_zh_tw": "服務名稱",
     "LabelText_de": "Dienstname",
     "LabelText_ko": "서비스 이름",
     "LabelText_es": "Nombre del servicio",

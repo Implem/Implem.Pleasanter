@@ -1,10 +1,13 @@
-﻿Implem.Pleasanter.Libraries.AiConnect.AiConnectUtilities.Sync(
-    context: context,
-    ss: ss,
-    referenceType: "#TableName#",
-    referenceId: #ModelName#Id,
-    replacedDisplayValues: value => ReplacedDisplayValues(
+﻿if (synchronizeAiConnect)
+{
+    Implem.Pleasanter.Libraries.AiConnect.AiConnectUtilities.Sync(
         context: context,
         ss: ss,
-        value: value),
-    operation: Implem.Pleasanter.Libraries.AiConnect.AiConnectSyncOperation.Create);
+        referenceType: "#TableName#",
+        referenceId: #ModelName#Id,
+        replacedDisplayValues: value => ReplacedDisplayValues(
+            context: context,
+            ss: ss,
+            value: value),
+        operation: Implem.Pleasanter.Libraries.AiConnect.AiConnectSyncOperation.Create);
+}

@@ -10,6 +10,10 @@
             "Body": "数字分组"
         },
         {
+            "Language": "zh_tw",
+            "Body": "數字分組"
+        },
+        {
             "Language": "ja",
             "Body": "桁区切り"
         },

@@ -1,0 +1,18 @@
+﻿case "#TableName#":
+    return #TableName#Aggregations(
+        context: context,
+        aggregations: ss.Aggregations
+            ?.Where(o => o.GroupBy == "[NotGroupBy]"
+                || (o.GroupBy != null && ss.ColumnHash.ContainsKey(o.GroupBy))),
+        tableType: tableType,
+        where: #TableName#Where()
+            .TenantId(
+                context.TenantId,
+                _using: Implem.Pleasanter.Libraries.Security.Permissions.ApplySysLogsTenantFilter(context: context)
+                    && !Def.ColumnDefinitionCollection.FirstOrDefault(columnDefinition => columnDefinition.TableName == "#TableName#" && columnDefinition.ColumnName == "TenantId").LowSchemaVersion())
+            .#ModelName#Id_In(sub: Select#TableName#(
+                tableType: tableType,
+                column: #TableName#Column().#ModelName#Id(),
+                join: join,
+                where: where)),
+        param: param);

@@ -10,6 +10,10 @@
             "Body": "无法使用指定的SSO代码。"
         },
         {
+            "Language": "zh_tw",
+            "Body": "無法使用指定的SSO程式碼。"
+        },
+        {
             "Language": "ja",
             "Body": "指定されたssocodeは使用できません。"
         },

@@ -43,6 +43,7 @@
     "SettingEnable": "1",
     "LabelText_en": "Completion",
     "LabelText_zh": "完成",
+    "LabelText_zh_tw": "完成",
     "LabelText_de": "Abschluss",
     "LabelText_ko": "완료",
     "LabelText_es": "Finalización",

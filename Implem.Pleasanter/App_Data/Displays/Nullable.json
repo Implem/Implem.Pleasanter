@@ -10,6 +10,10 @@
             "Body": "可空"
         },
         {
+            "Language": "zh_tw",
+            "Body": "可空"
+        },
+        {
             "Language": "ja",
             "Body": "NULL許容"
         },

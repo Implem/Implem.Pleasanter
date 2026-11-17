@@ -10,6 +10,10 @@
             "Body": "结束时间"
         },
         {
+            "Language": "zh_tw",
+            "Body": "結束時間"
+        },
+        {
             "Language": "ja",
             "Body": "終了日時"
         },

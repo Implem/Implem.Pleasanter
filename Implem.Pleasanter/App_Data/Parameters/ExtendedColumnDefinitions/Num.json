@@ -26,6 +26,7 @@
     "FullTextType": 0,
     "LabelText_en": "Numeric value",
     "LabelText_zh": "数字值",
+    "LabelText_zh_tw": "數值",
     "LabelText_de": "Numerischer Wert",
     "LabelText_ko": "수치값",
     "LabelText_es": "Valor numérico",

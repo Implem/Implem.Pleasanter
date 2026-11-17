@@ -10,6 +10,10 @@
             "Body": "显示开始指南"
         },
         {
+            "Language": "zh_tw",
+            "Body": "顯示開始指南"
+        },
+        {
             "Language": "ja",
             "Body": "スタートガイドを表示"
         },

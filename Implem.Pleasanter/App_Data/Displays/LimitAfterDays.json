@@ -10,6 +10,10 @@
             "Body": "{0}天后"
         },
         {
+            "Language": "zh_tw",
+            "Body": "{0}天后"
+        },
+        {
             "Language": "ja",
             "Body": "{0} 日後"
         },

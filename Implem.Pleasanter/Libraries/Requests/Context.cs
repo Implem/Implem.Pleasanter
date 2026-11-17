@@ -4,6 +4,7 @@ using System.Data;
 using System.Dynamic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -97,6 +98,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public Dictionary<long, Permissions.Types> PermissionHash { get; set; }
         public Dictionary<string, ContextPermission> ContextPermissions { get; set; } = [];
         public Dictionary<long, List<string>> ReservedJobTypeLabelHash { get; set; } = [];
+        public Dictionary<string, HashSet<string>> PublishReferencedValuesHash { get; set; } = [];
         public List<int> Groups { get; set; }
         public string Guid { get; set; }
         public TenantModel.LogoTypes LogoType { get; set; }
@@ -147,6 +149,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string IdentityType { get; set; }
         public bool Request { get; set; }
         public bool BackgroundServerScript { get; set; }
+        public bool IsBackgroundJob { get; set; }
+        public System.Net.CookieContainer ServerScriptCookieContainer { get; set; }
         public string Nonce { get; set; }
         public AntiforgeryTokenSet Tokens { get; set; } = null; // CSRF対策用の処理をHtmlPartsで行うための情報を保持
 
@@ -709,11 +713,12 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public CultureInfo CultureInfo()
         {
-            if (Language == "vn")
-            {
-                return new CultureInfo("vi");
-            }
-            return new CultureInfo(Language);
+            return new CultureInfo(LanguageTag());
+        }
+
+        public string LanguageTag()
+        {
+            return LanguageUtilities.LanguageTag(language: Language);
         }
 
         public Message Message()
@@ -889,24 +894,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                 }
                 else
                 {
-                    var lang = HttpAcceptLanguage()?.Split_1st('-');
-                    switch (lang)
-                    {
-                        case "en":
-                        case "zh":
-                        case "ja":
-                        case "de":
-                        case "ko":
-                        case "es":
-                            language = lang;
-                            break;
-                        case "vi":
-                            language = "vn";
-                            break;
-                        default:
-                            language = Parameters.Service?.DefaultLanguage;
-                            break;
-                    }
+                    language = LanguageUtilities.AcceptLanguageToLanguage(HttpAcceptLanguage())
+                        ?? Parameters.Service?.DefaultLanguage;
                 }
                 language = SessionData.Get("Language") ?? language;
             }
@@ -1013,18 +1002,41 @@ namespace Implem.Pleasanter.Libraries.Requests
             var address = AspNetCoreHttpContext.Current?.Request?.Headers?.TryGetValue("X-Forwarded-For", out xFoForwardedFor) == true
                 ? xFoForwardedFor.FirstOrDefault()
                 : null;
+            return ParseUserHostAddress(
+                xForwardedFor: address,
+                remoteIpAddress: AspNetCoreHttpContext.Current?.Connection?.RemoteIpAddress?.ToString());
+        }
+
+        internal static string ParseUserHostAddress(string xForwardedFor, string remoteIpAddress)
+        {
+            if (xForwardedFor == null)
+            {
+                return remoteIpAddress;
+            }
+            var address = xForwardedFor
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .FirstOrDefault();
             if (address == null)
             {
-                return AspNetCoreHttpContext.Current?.Connection?.RemoteIpAddress?.ToString();
+                return remoteIpAddress;
             }
             var sn = address.IndexOf("[");
             var en = address.IndexOf("]");
-            if (sn >= 0 && en > sn)
+            if (sn == 0 && en > sn + 1)
             {
-                return address.Substring(sn + 1, en - 1);
+                return address.Substring(sn + 1, en - sn - 1);
+            }
+            if (address.Count(c => c == ':') > 1)
+            {
+                return address;
             }
             var n = address.IndexOf(":");
-            return (n > 0) ? address.Substring(0, n) : address;
+            if (n <= 0)
+            {
+                return address;
+            }
+            var host = address.Substring(0, n);
+            return IPAddress.TryParse(host, out _) ? host : address;
         }
 
         public string RequestData(string name, bool either = false)
@@ -1422,6 +1434,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                     return new CultureInfo("en-US");
                 case "zh":
                     return new CultureInfo("zh-CN");
+                case "zh_tw":
+                    return new CultureInfo("zh-TW");
                 case "ja":
                     return new CultureInfo("ja-JP");
                 case "de":
