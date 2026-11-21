@@ -1,0 +1,10 @@
+﻿var linkRequiredErrorData = StatusControlLinks.OnUpdating(
+    context: context,
+    ss: ss,
+    id: #modelName#Model.#ModelName#Id,
+    statusControlHash: #modelName#Model.StatusControlHash,
+    api: api);
+if (linkRequiredErrorData.Type != Error.Types.None)
+{
+    return linkRequiredErrorData;
+}

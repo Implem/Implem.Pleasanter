@@ -25,7 +25,14 @@
                 context: context,
                 ss: ss,
                 id: #modelName#Model.#ModelName#Id,
-                methodType: #modelName#Model.MethodType)
+                methodType: #modelName#Model.MethodType,
+                statusControlHash: #modelName#Model.StatusControlHash)
+            .LinkCreations(
+                context: context,
+                ss: ss,
+                linkId: #modelName#Model.#ModelName#Id,
+                methodType: #modelName#Model.MethodType,
+                statusControlHash: #modelName#Model.StatusControlHash)
             .SetMemory("formChanged", false)
             .Message(message: UpdatedMessage(
                 context: context,

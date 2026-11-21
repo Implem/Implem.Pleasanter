@@ -797,7 +797,8 @@ private static HtmlBuilder Field(
             links: links,
             dataSet: dataSet,
             methodType: #modelName#Model?.MethodType,
-            tabIndex: tabIndex);
+            tabIndex: tabIndex,
+            statusControlHash: #modelName#Model?.StatusControlHash);
     }
     return hb;
 }
